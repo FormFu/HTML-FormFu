@@ -43,12 +43,12 @@ sub message {
     return $self->{message} if defined $self->{message};
     
     my %string = (
-        f => defined $self->form->id     ? $self->form->id     : '',
-        n => defined $self->parent->name ? $self->parent->name : '',
-        t => defined $self->type         ? lc( $self->type )   : '',
+        f => defined $self->form->id    ? $self->form->id    : '',
+        n => defined $self->field->name ? $self->field->name : '',
+        t => defined $self->type        ? lc( $self->type )  : '',
     );
     
-    my $message = $self->parent->auto_error_message;
+    my $message = $self->field->auto_error_message;
     
     $message =~ s/%([fnt])/$string{$1}/ge;;
     
@@ -77,16 +77,25 @@ sub class {
     return $self->{class} if defined $self->{class};
     
     my %string = (
-        f => defined $self->form->id     ? $self->form->id     : '',
-        n => defined $self->parent->name ? $self->parent->name : '',
-        t => defined $self->type         ? lc( $self->type )   : '',
+        f => defined $self->form->id    ? $self->form->id    : '',
+        n => defined $self->field->name ? $self->field->name : '',
+        t => defined $self->type        ? lc( $self->type )  : '',
     );
     
-    my $class = $self->parent->auto_error_class;
+    my $class = $self->field->auto_error_class;
     
     $class =~ s/%([fnt])/$string{$1}/ge;
     
     return $self->{class} = $class;
+}
+
+sub field {
+    my $self = shift;
+    
+    # errors are a child of a constraint
+    # constraints are a child of a field
+    
+    return $self->parent->parent;
 }
 
 1;

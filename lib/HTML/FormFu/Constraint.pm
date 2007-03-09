@@ -83,7 +83,7 @@ sub error {
 
     my $error = HTML::FormFu::Error->new($args);
     
-    $error->parent( $self->parent );
+    $error->parent( $self );
     weaken( $error->{parent} );
     
     return $error;
