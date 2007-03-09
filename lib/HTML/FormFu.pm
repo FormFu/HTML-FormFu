@@ -515,52 +515,13 @@ HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
     use HTML::FormFu;
 
-    # Create a form
     my $form = HTML::FormFu->new;
     
-    # Load some default settings from a config file
-    $form->load_config_file('form_defaults.yml');
+    $form->load_config_file('form.yml');
 
-    # Add a fieldset to contain the elements
-    my $fs = $form->element('Fieldset')
-        ->legend('User Details');
+    $form->process( $cgi_query );
 
-    # Add some elements to the fieldset
-    $fs->element( Hidden => 'id' )
-        ->value( $person->id )
-        ->constraint('Integer');
-    
-    $fs->element( Text => 'age' )
-        ->label('Age')
-        ->size(3)
-        ->comment('(Required)')
-        ->value( $person->age )
-        ->constraint('Integer')
-        ->filter('Whitespace');
-    
-    # Using an alternative syntax
-    $fs->element(
-        Text => 'name',
-        {
-            label      => 'Name',
-            size       => 60,
-            comment    => '(Required)',
-            value      => $person->name,
-        });
-    
-    $fs->element('Submit');
-
-    # Add some constraints to the current fields
-    $form->constrain_all('Required');
-    $form->constrain_all('SingleValue');
-
-    # Field indicating the form's been submitted
-    $form->indicator('id');
-
-    # Create a result object
-    my $result = $form->result( CGI->new );
-
-    if ( $result->submitted && ! $result->has_errors ) {
+    if ( $form->submitted_and_valid ) {
         my $params = $result->params;
         my $person = $people->find( $params->{id} );
         
@@ -569,22 +530,65 @@ HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
             name => $params->{name},
         );
         
-        redirect('updated!');
+        $template->param( updated => 1 );
+    }
+    else {
+        $template->param( form => $form );
     }
 
+You can use any templating system, or none, the L</render> method is 
+automatically called when the <code>$form</code> is used as a string.
 
-    # Render the form in a TT template
-    [% result %]
+Here's an example of a config file to set up a basic login form (all examples 
+here are L<YAML>, but you can use any format supported by L<Config::Any>).
 
+    ---
+    action: /login
+    auto_fieldset: 1
+    elements:
+      - type: text
+        name: email
+        label: Email
+        constraints: [Required, Email]
+      - type: password
+        name: pass
+        label: Password
+        constraints:
+          - type: Length
+            min: 6
+      - type: submit
+        name: submit
+
+And here's what the rendered xhtml would look like (with indentation added 
+manually).
+
+    <form action="/login" method="post">
+      <fieldset>
+        <span class="text label">
+          <label>Email</label>
+          <input name="email" type="text" />
+        </span>
+        <span class="password label">
+          <label>Password</label>
+          <input name="pass" type="password" />
+        </span>
+        <span class="submit">
+          <input name="submit" type="submit" />
+        </span>
+      </fieldset>
+    </form>
 
 =head1 DESCRIPTION
 
-Create reusable HTML forms. Optionally, just use the validation 
-capabilities, or just the form rendering.
+L<HTML::FormFu> is a HTML form framework which aims to be as easy as 
+possible to use for basic web forms, but with the power and flexibility to 
+do anything else you want to do, as long as it involves forms.
 
-The design is based on L<HTML::Widget>, and draws from 
-L<Data::FormValidator> and L<FormValidator::Simple>.
-Functionality similar to that of L<HTML::FillInForm> is built-in.
+You can configure almost any part of L<HTML::FormFu's|HTML::FormFu> 
+behaviour and output. By default L<HTML::FormFu> renders XHTML 1.0 
+strict-complient markup, with no unnecessary tags, but with sufficient CSS 
+class attributes to allow for a wide-range of output styles to be generated 
+by changing only the CSS.
 
 This documentation follows the convention that method arguments surrounded 
 by square brackets C<[]> are I<optional>, and all other arguments are 
@@ -601,110 +605,113 @@ Return Value: $form
 Create a new HTML::FormFu object.
 
 Any method which can be called on the <HTML::FormFu> object may instead be 
-passed as an argument to L</new>. This includes all L<"ATTRIBUTES">, 
-L<"ATTRIBUTE SHORTCUTS"> and L</"OPTIONS"> methods.
+passed as an argument to L</new>.
 
     my $form = HTML::FormFu->new({
-        action     => 'program.cgi',
-        method     => 'GET',
-        attributes => \%attrs,
+        action        => '/search',
+        method        => 'GET',
+        auto_fieldset => 1,
     });
 
-All options passed in this way will be called as methods on the 
-L<HTML::FormFu> object. Unknown options will throw an exception.
+All of the following methods can either be called on your <code>$form</code> 
+object, or as an option in your config file. Argument lists are appropriate 
+to both, but examples will mainly be shown in L<YAML> config syntax.
 
-=head1 BUILDING THE FORM
+=head1 VISUAL ELEMENTS
 
 =head2 element
 
-Arguments: $type, [$name], [\%options]
+=head2 elements
+
+Arguments: $type
+
+Arguments: \%options
 
 Return Value: $element
 
-Add a new element to the form. 
-The returned element object can be used to set further attributes, see the 
-individual element classes for the methods specific to each.
+Arguments: \@arrayref_of_type_values_or_option_hashrefs
+
+Return Value: @elements
+
+Adds a new element to the form. See L<HTML::FormFu::Element> for a list of 
+core elements.
 
 If you want to load an element from a namespace other than 
 C<HTML::FormFu::Element::>, you can use a fully qualified package-name by 
-prefixing it with a unary plus (C<+>).
+prefixing it with C<+>.
 
-    $form->element( "+Fully::Qualified::PackageName", $name );
+    ---
+    elements:
+      - type: +MyApp::CustomElement
+        name: foo
 
-See L<HTML::FormFu::Element> for a list of core elements.
+If a C<type> is not provided in the C<\%options>, the default C<text> will 
+be used.
+
+L</element> is an alias for L</elements>.
 
 =head2 constraint
 
-Arguments: $type, @field_names
+=head2 constraints
+
+Arguments: $type
+
+Arguments: \%options
 
 Return Value: $constraint
 
-    $form->constraint( Integer => 'age' );
-    
-    $form->constraint( Required => map {$_->name} $form->get_fields );
+Arguments: \@arrayref_of_type_values_or_option_hashrefs
 
-Associate a constraint with one or more elements. 
-When process() is called on the FormFu object, with a $query object, 
-the parameters of the query are checked against the specified constraints. 
-The L<HTML::FormFu::Constraint> object is returned to allow setting of 
-further attributes to be set. The string 'Not_' can be prepended to each 
-type name to negate the effects. Thus checking for a non-integer becomes 
-'Not_Integer'.
+Return Value: @constraint
 
-If you want to load a constraint in a namespace other than 
-C<HTML::FormFu::Constraint::>, you can use a fully qualified package-name 
-by prefixing it with a unary plus (C<+>).
+B<!!!> L</constraints()> will soon be changed, see 
+L<http://lists.rawmode.org/pipermail/html-widget/2007-March/000479.html>
 
-    $form->constraint( "+Fully::Qualified::PackageName", @names );
+See L<HTML::FormFu::Constraint> for a list of core constraints.
 
-Constraint checking is done after all L<filters|HTML::FormFu::Filter> have 
-been applied.
-
-See L<HTML::FormFu::Constraint> for a list of available constraints.
+L</constraint> is an alias for L</constraints>.
 
 =head2 filter
 
-Arguments: $type, @field_names
+=head2 filters
+
+Arguments: $type
+
+Arguments: \%options
 
 Return Value: $filter
 
-    $form->filter( WhiteSpace => 'postcode' );
-    
-    $form->filter( TrimEdges => map {$_->name} $form->get_fields );
+Arguments: \@arrayref_of_type_values_or_option_hashrefs
 
-Add a filter. Like constraints, filters can be applied to one or more elements.
-These are applied to actually change the contents of the fields, supplied by
-the user before checking the constraints. It only makes sense to apply filters
-to fields that can contain text - Password, Textfield, Textarea, Upload.
+Return Value: @filter
+
+B<!!!> L</filters()> will soon be changed to run I<before> constraints, see 
+L<http://lists.rawmode.org/pipermail/html-widget/2007-March/000479.html>
+
+If you provide a C<name> or C<names> value, the filter will be added to 
+just that named field.
+If you do not provide a C<name> or C<names> value, the filter will be added 
+to all L<fields|HTML::FormFu::Element::field> already attached to the form. 
 
 If you want to load a filter in a namespace other than 
 C<HTML::FormFu::Filter::>, you can use a fully qualified package-name by 
-prefixing it with a unary plus (C<+>).
+prefixing it with C<+>.
 
-    $form->filter( "+Fully::Qualified::PackageName", @names );
+    ---
+    elements:
+      - foo
+      - bar
+    filters:
+      - type: +MyApp::CustomFilter
+        name: foo
 
-See L<HTML::FormFu::Filter> for a list of available filters.
+See L<HTML::FormFu::Filter> for a list of core filters.
 
-=head1 RENDERING AND VALIDATION
-
-=head2 result
-
-Arguments: [$query]
-
-Return Value: $result
-
-    my $result = $form( $query );
-
-Returns a L<HTML::FormFu::Result::Form> object. If passed a C<$query> it will 
-run filters and validation on the parameters.
-
-The L<$result> object can then be used to check valid input or output the 
-form in XHTML
+L</filter> is an alias for L</filters>.
 
 =head1 ATTRIBUTES
 
-All attributes are passed to L<HTML::FormFu::Result>, and added to the 
-rendered form's start tag.
+All attributes are added to the rendered form's start tag.
 
 =head2 attributes
 
@@ -716,19 +723,21 @@ Arguments: [\%attributes]
 
 Return Value: $form
 
-Return Value: \%attributes
-
 Accepts either a list of key/value pairs, or a hash-ref.
 
-    $form->attributes( $key => $value );
-    $form->attributes( { $key => $value } );
+    ---
+    attributes:
+      id: form
+      class: fancy_form
 
-Returns the C<$form> object, to allow method chaining.
+As a special case, if no arguments are passed, the attributes hash-ref is 
+returned. This allows the following idioms.
 
-If no arguments are passed, the attributes hash-ref is returned.
-
-This allows the entire attributes hash to be deleted with the following 
-idiom: C<< %{ $form->attributes } = (); >>
+    # set a value
+    $form->attributes->{id} = 'form';
+    
+    # delete all attributes
+    %{ $form->attributes } = ();
 
 L</attrs> is an alias for L</attributes>.
 
@@ -736,11 +745,8 @@ L</attrs> is an alias for L</attributes>.
 
 =head2 attrs_xml
 
-Arguments and Return Value: same as L<"/attributes">
-
-Provides the same functionality as L<"/attributes">, but values are 
-automatically passed as L<HTML::FormFu::Literal> objects, to ensure that 
-special XHTML characters are not encoded in the rendered output.
+Provides the same functionality as L<"/attributes">, but values won't be 
+XML-escaped.
 
 L</attrs_xml> is an alias for L</attributes_xml>.
 
@@ -759,10 +765,14 @@ Accepts either a list of key/value pairs, or a hash-ref.
     $form->add_attributes( $key => $value );
     $form->add_attributes( { $key => $value } );
 
-Returns the C<$form> object, to allow method chaining.
+All values are appended to existing values, with a preceeding space 
+character. This is primarily to allow the easy addition of new class names.
 
-All values are appended to existing values, using 
-L<HTML::FormFu::Util/append_xml_attribute>.
+    $form->attributes({ class => 'foo' });
+    
+    $form->add_attributes({ class => 'bar' });
+    
+    # class is now 'foo bar'
 
 L</add_attrs> is an alias for L</add_attributes>.
 
@@ -770,11 +780,8 @@ L</add_attrs> is an alias for L</add_attributes>.
 
 =head2 add_attrs_xml
 
-Arguments and Return Value: same as L<"/add_attributes">
-
-Provides the same functionality as L<"/add_attributes">, but values are 
-automatically passed as L<HTML::FormFu::Literal> objects, to ensure that 
-special XHTML characters are not encoded in the rendered output.
+Provides the same functionality as L<"/add_attributes">, but values won't be 
+XML-escaped.
 
 L</add_attrs_xml> is an alias for L</add_attributes_xml>.
 
@@ -798,7 +805,7 @@ Arguments: [$uri]
 
 Return Value: $uri
 
-Get/Set the action associated with the form. The default is no action, 
+Get or set the action associated with the form. The default is no action,  
 which causes most browsers to submit to the current URI.
 
 Default Value: ""
@@ -809,7 +816,7 @@ Arguments: [$enctype]
 
 Return Value: $enctype
 
-Set/Get the encoding type of the form. Valid values are 
+Get or set the encoding type of the form. Valid values are 
 C<application/x-www-form-urlencoded> and C<multipart/form-data>.
 
 If the form contains a File element, the enctype is automatically set to
@@ -821,15 +828,108 @@ Arguments: [$method]
 
 Return Value: $method
 
-Set/Get the method used to submit the form. Can be set to either "post" or
-"get".
+Get or set the method used to submit the form. Can be set to either "post" 
+or "get".
 
 Default Value: "post"
 
 =head1 OPTIONS
 
-These options affect the behaviour of the C<$form|HTML::FormFu> and 
-C<$result|HTML::FormFu::Result::Form> objects.
+These options affect the behaviour of L<HTML::FormFu>.
+
+=head2 auto_fieldset
+
+Arguments: 1
+
+Arguments: \%options
+
+Return Value: $fieldset
+
+This setting is suitable for most basic forms, and means you can generally
+ignore adding fieldsets yourself.
+
+Calling C<$form->auto_fieldset(1)> immediately adds a fieldset element to 
+the form. Thereafter, C<$form->elements()> will add all elements (except 
+fieldsets) to that fieldset, rather than directly to the form.
+
+To be specific, the elements are added to the L<last> fieldset on the form, 
+so if you add another fieldset, any further elements will be added to that 
+fieldset.
+
+Also, you may pass a hashref to auto_fieldset(), and this will be used
+to set defaults for the first fieldset created.
+
+A few examples and their output, to demonstrate.
+
+2 elements with no fieldset.
+
+    ---
+    elements:
+      - type: text
+        name: foo
+      - type: text
+        name: bar
+
+    <form action="" method="post">
+      <span class="text">
+        <input name="foo" type="text" />
+      </span>
+      <span class="text">
+        <input name="bar" type="text" />
+      </span>
+    </form>
+
+2 elements with an L</auto_fieldset>.
+
+    ---
+    auto_fieldset: 1
+    elements:
+      - type: text
+        name: foo
+      - type: text
+        name: bar
+
+    <form action="" method="post">
+      <fieldset>
+        <span class="text">
+          <input name="foo" type="text" />
+        </span>
+        <span class="text">
+          <input name="bar" type="text" />
+        </span>
+      </fieldset>
+    </form>
+
+The 3rd element is within a new fieldset
+
+    ---
+    auto_fieldset: 1
+    elements:
+      - type: text
+        name: foo
+      - type: text
+        name: bar
+      - type: fieldset
+      - type: text
+        name: baz
+
+    <form action="" method="post">
+      <fieldset>
+        <span class="text">
+          <input name="foo" type="text" />
+        </span>
+        <span class="text">
+          <input name="bar" type="text" />
+        </span>
+      </fieldset>
+      <fieldset>
+        <span class="text">
+          <input name="baz" type="text" />
+        </span>
+      </fieldset>
+    </form>
+
+=head1 *** ALL DOCUMENTATION BELOW IS OUT OF DATE ***
 
 =head2 indicator
 
@@ -966,26 +1066,6 @@ Change the template filename used for the form.
 
 Default Value: "form"
 
-=head2 result_class
-
-Set the classname used to create a form result object. If set, the values of 
-L</result_class_prefix> and L</result_class_suffix> are ignored.
-
-Default Value: none
-
-=head2 result_class_prefix
-
-Set the prefix used to generate the classname of the form result object and 
-all Element result objects.
-
-Default Value: "HTML::FormFu::Result"
-
-=head2 result_class_suffix
-
-Set the suffix used to generate the classname of the form result object.
-
-Default Value: "Form"
-
 =head2 render_class
 
 Set the classname used to create a form render object. If set, the values of 
@@ -1065,12 +1145,9 @@ L<http://lists.rawmode.org/cgi-bin/mailman/listinfo/html-widget>
 =head1 SUBVERSION REPOSITORY
 
 The publicly viewable subversion code repository is at 
-L<TODO>.
+L<https://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>.
 
 =head1 SEE ALSO
-
-L<HTML::FormFu::Element>, L<HTML::FormFu::Constraint>, 
-L<HTML::FormFu::Filter>, L<HTML::FormFu::Result::Form>.
 
 =head1 AUTHOR
 
