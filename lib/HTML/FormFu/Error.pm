@@ -13,7 +13,7 @@ use Carp qw/ croak /;
 __PACKAGE__->Class::Data::Accessor::mk_classaccessor(
     default_type => 'Custom' );
 
-__PACKAGE__->mk_accessors(qw/ name type class parent /);
+__PACKAGE__->mk_accessors(qw/ name type parent /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
@@ -33,10 +33,29 @@ sub new {
     $self->type( $self->default_type )
         if !defined $self->type;
 
-    $self->class( lc( $self->type ) . "_error" )
-        if !defined $self->class;
-
     return $self;
+}
+
+sub class {
+    my $self = shift;
+    
+    if (@_) {
+        return $self->{class} = shift;
+    }
+    
+    return $self->{class} if exists $self->{class};
+    
+    my %string = (
+        f => defined $self->form->id     ? $self->form->id     : '',
+        n => defined $self->parent->name ? $self->parent->name : '',
+        t => defined $self->type         ? lc( $self->type )   : '',
+    );
+    
+    my $class = $self->parent->auto_error_class;
+    
+    $class =~ s/%([fnt])/$string{$1}/ge;
+    
+    return $self->{class} = $class;
 }
 
 1;

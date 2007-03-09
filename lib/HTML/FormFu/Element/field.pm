@@ -26,7 +26,9 @@ __PACKAGE__->mk_accessors(qw/
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
-__PACKAGE__->mk_inherited_accessors(qw/ auto_id auto_label /);
+__PACKAGE__->mk_inherited_accessors(
+    qw/ auto_id auto_label auto_error_class /
+);
 
 *constraints = \&constraint;
 *filters     = \&filter;
@@ -347,39 +349,13 @@ sub render {
         @_ ? %{$_[0]} : ()
         });
 
-    $self->_render_auto_label($render);
+    $self->_render_label($render);
 
-    my $input = exists $self->form->input->{ $self->name } 
-              ? $self->form->input->{ $self->name } 
-              : undef;
-              
-    my $value = $self->process_value($input);
+    $self->_render_value($render);
     
-    for my $deflator ( @{ $self->_deflators } ) {
-        $value = $deflator->process($value);
-    }
-    $render->{value} = xml_escape $value;
-    
-    {
-        my $type = $self->element_type;
-        $type =~ s/:://g;
+    $self->_render_container_class($render);
 
-        append_xml_attribute( $render->{container_attributes},
-            'class', lc($type), );
-    }
-
-    my $errors = $self->form->errors( defined $self->name ? $self->name : () );
-    
-    if ($errors) {
-        $render->{errors} = $errors;
-
-        append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
-
-        for my $error (@$errors) {
-            append_xml_attribute( $render->{container_attributes},
-                'class', $error->class );
-        }
-    }
+    $self->_render_error_class($render);
 
     if ( defined $render->{comment} ) {
         append_xml_attribute( $render->{comment_attributes}, 'class', 'comment' );
@@ -402,7 +378,7 @@ sub render {
     return $render;
 }
 
-sub _render_auto_label {
+sub _render_label {
     my ( $self, $render ) = @_;
     
     if ( !defined $render->{label}
@@ -418,6 +394,55 @@ sub _render_auto_label {
         $label =~ s/%([fn])/$string{$1}/ge;
 
         $render->{label} = $self->localize( $label );
+    }
+    
+    return;
+}
+
+sub _render_value {
+    my ( $self, $render ) = @_;
+    
+    my $input = exists $self->form->input->{ $self->name } 
+              ? $self->form->input->{ $self->name } 
+              : undef;
+              
+    my $value = $self->process_value($input);
+    
+    for my $deflator ( @{ $self->_deflators } ) {
+        $value = $deflator->process($value);
+    }
+    
+    $render->{value} = xml_escape $value;
+    
+    return;
+}
+
+sub _render_container_class {
+    my ( $self, $render ) = @_;
+    
+    my $type = $self->element_type;
+    $type =~ s/:://g;
+
+    append_xml_attribute( $render->{container_attributes},
+        'class', lc($type) );
+    
+    return;
+}
+
+sub _render_error_class {
+    my ( $self, $render ) = @_;
+    
+    my $errors = $self->form->errors( defined $self->name ? $self->name : () );
+    
+    if ($errors) {
+        $render->{errors} = $errors;
+
+        append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
+
+        for my $error (@$errors) {
+            append_xml_attribute( $render->{container_attributes},
+                'class', $error->class );
+        }
     }
     
     return;

@@ -42,7 +42,9 @@ __PACKAGE__->mk_accessors(
         _elements _errors _processed_params _valid_names /
 );
 
-__PACKAGE__->mk_inherited_accessors(qw/ auto_id auto_label /);
+__PACKAGE__->mk_inherited_accessors(
+    qw/ auto_id auto_label auto_error_class /
+);
 
 *elements    = \&element;
 *constraints = \&constraint;
@@ -80,6 +82,7 @@ sub new {
         query_type          => 'CGI',
         languages           => ['en'],
         localize_class      => 'HTML::FormFu::I18N',
+        auto_error_class    => '%t_error',
     );
 
     $self->populate( \%defaults );
