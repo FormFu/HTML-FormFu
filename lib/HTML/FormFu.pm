@@ -353,6 +353,12 @@ sub _build_file_headers {
     return;
 }
 
+sub submitted_and_valid {
+    my ($self) = @_;
+    
+    return $self->submitted && !$self->has_errors;
+}
+
 sub params {
     my ($self) = @_;
 
