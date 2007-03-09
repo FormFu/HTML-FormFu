@@ -1,0 +1,1 @@
+<input name="[% self.name %]" type="[% self.type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attrs) %] />

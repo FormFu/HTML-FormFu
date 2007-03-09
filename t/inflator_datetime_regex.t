@@ -1,0 +1,23 @@
+use strict;
+use warnings;
+
+use Test::More tests => 3;
+
+use HTML::FormFu;
+
+my $form = HTML::FormFu->new;
+
+$form->element('text')->name('foo');
+
+$form->inflator('DateTime')->parser( {
+        regex  => qr/^ (\d{2}) \/ (\d{2}) \/ (\d{4}) $/x,
+        params => [qw/ month day year /],
+    } );
+
+$form->process( { foo => '12/31/2006' } );
+
+my $value = $form->params->{foo};
+
+is( $value->day,   31 );
+is( $value->month, 12 );
+is( $value->year,  2006 );

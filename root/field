@@ -1,0 +1,11 @@
+<span[% process_attrs(self.container_attributes) %]>[% IF self.errors %][% FOREACH error = self.errors %]
+<span class="error_message [% error.class %]">[% error.message %]</span>[% END %][% END %][% IF self.label.defined %]
+[% INCLUDE $self.label_filename %][% END %]
+[% content %][% IF self.comment.defined %]
+<span[% process_attrs(self.comment_attributes) %]>
+[% self.comment %]
+</span>[% END %]
+</span>[% IF self.javascript.defined %]
+<script type="text/javascript">
+[% self.javascript %]
+</script>[% END %]

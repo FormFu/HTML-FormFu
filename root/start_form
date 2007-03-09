@@ -1,0 +1,1 @@
+<form[% process_attrs(self.attrs) %]>

@@ -1,0 +1,24 @@
+---
+action: /foo/bar
+id: form
+auto_id: %n
+elements:
+  - type: fieldset
+    legend: Jimi
+    elements:
+    - name: age
+      type: text
+      comment: x
+      label: Age
+      constraints: [Integer, Required]
+    - name: name
+      type: text
+      label: Name
+    - name: ok
+      type: hidden
+      value: OK
+constraints:
+  type: Required
+  name: name
+filters:
+  - HTMLEscape

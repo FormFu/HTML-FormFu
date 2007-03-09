@@ -1,0 +1,21 @@
+use strict;
+use warnings;
+
+use Test::More tests => 3;
+
+use HTML::FormFu;
+
+my $form = HTML::FormFu->new;
+
+my $e1 = $form->element('text')->name('foo');
+my $e2 = $form->element('hidden')->name('foo');
+
+my $e3 = $e1->clone;
+
+$form->insert_after( $e3, $e1 );
+
+my $elems = $form->get_elements;
+
+is( $elems->[0], $e1 );
+is( $elems->[1], $e3 );
+is( $elems->[2], $e2 );

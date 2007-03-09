@@ -1,0 +1,90 @@
+use strict;
+use warnings;
+
+use Test::More tests => 4;
+
+use HTML::FormFu;
+
+my $form = HTML::FormFu->new;
+
+my $field = $form->element('radiogroup')->name('foo')->value(2)
+        ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
+
+# add more elements to test accessor output
+$form->element('radiogroup')->name('foo2')->options( [
+        { label => 'Ein',  value => 1 },
+        { label => 'Zwei', value => 2, attributes => { class => 'foobar' } },
+    ] );
+$form->element('radiogroup')->name('bar')->values( [qw/ one two three /] )
+    ->value('two')->label('My Bar');
+
+my $field_xhtml = qq{<fieldset class="radiogroup">
+<span>
+<input name="foo" type="radio" value="1" />
+<label>One</label>
+<input name="foo" type="radio" value="2" checked="checked" />
+<label>Two</label>
+</span>
+</fieldset>};
+
+is( "$field", $field_xhtml );
+
+my $form_xhtml = <<EOF;
+<form action="" method="post">
+$field_xhtml
+<fieldset class="radiogroup">
+<span>
+<input name="foo2" type="radio" value="1" />
+<label>Ein</label>
+<input name="foo2" type="radio" value="2" class="foobar" />
+<label>Zwei</label>
+</span>
+</fieldset>
+<fieldset class="radiogroup">
+<legend>My Bar</legend>
+<span>
+<input name="bar" type="radio" value="one" />
+<label>One</label>
+<input name="bar" type="radio" value="two" checked="checked" />
+<label>Two</label>
+<input name="bar" type="radio" value="three" />
+<label>Three</label>
+</span>
+</fieldset>
+</form>
+EOF
+
+is( "$form", $form_xhtml );
+
+# With mocked basic query
+{
+    $form->process( {
+            foo => 1,
+            bar => 'three',
+        } );
+
+    my $foo_xhtml = qq{<fieldset class="radiogroup">
+<span>
+<input name="foo" type="radio" value="1" checked="checked" />
+<label>One</label>
+<input name="foo" type="radio" value="2" />
+<label>Two</label>
+</span>
+</fieldset>};
+
+    is( $form->get_field('foo'), $foo_xhtml );
+
+    my $bar_xhtml = qq{<fieldset class="radiogroup">
+<legend>My Bar</legend>
+<span>
+<input name="bar" type="radio" value="one" />
+<label>One</label>
+<input name="bar" type="radio" value="two" />
+<label>Two</label>
+<input name="bar" type="radio" value="three" checked="checked" />
+<label>Three</label>
+</span>
+</fieldset>};
+
+    is( $form->get_field('bar'), $bar_xhtml );
+}

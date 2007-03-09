@@ -1,0 +1,6 @@
+<span>
+[% FOREACH option = self.options %][% IF option.group %]<span[% process_attrs(option.attributes) %]>
+[% FOREACH item = option.group %][% INCLUDE $self.subgroup_filename %]
+[% END %]</span>
+[% ELSE %][% INCLUDE $self.subgroup_filename item = option %]
+[% END %][% END %]</span>

@@ -1,0 +1,2 @@
+<input name="[% self.name %]" type="radio" value="[% item.value %]"[% process_attrs(item.attributes) %] />
+<label[% process_attrs(item.label_attributes) %]>[% item.label %]</label>

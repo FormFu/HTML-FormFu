@@ -1,0 +1,117 @@
+---
+id: form
+auto_id: %n
+element_defaults:
+  radiogroup:
+    auto_id: %n_%c
+auto_fieldset:
+  legend: A fieldset
+elements:
+  - type: hidden
+    name: h1
+  - type: text
+    name: t1
+    label: a Text element
+  - type: text
+    name: t2
+    label: another, with a comment
+    comment: comment here!
+  - type: text
+    name: t3
+    comment: another with no label
+  - type: password
+    name: p1
+    label: a Password element
+  - type: file
+    name: f1
+    label: a File element
+  - type: textarea
+    name: ta1
+    label: a Textarea element
+    rows: 3
+  - type: textarea
+    name: ta2
+    label: another, styled fullwidth
+    container_attrs:
+      class: fullwidth
+  - type: select
+    name: s1
+    label: a Select element
+    values: [one, two, three]
+  - type: select
+    name: opt1
+    label: a Select with optgroups
+    options:
+      - group: [[1, one], [2, two]]
+        label: opt1
+      - [3, non-optgroup]
+      - group: [[4, four], [5, five]]
+        label: opt2
+# 2nd fieldset
+  - fieldset
+  - type: radiogroup
+    name: rg1
+    label: a RadioGroup element
+    values: [one, two]
+  - type: radiogroup
+    name: rg2
+    label: another styled vertically
+    values: [one, two]
+    attrs:
+      class: vertical
+  - type: radiogroup
+    name: rg3
+    label: another, styled vertically, with sub-groups
+    attrs:
+      class: vertical
+    options:
+      - group: [[1, one], [2, two]]
+        label: opt1
+      - group: [[3, three], [4, four]]
+        label: opt2
+  - type: multi
+    label: a Multi element containing 3 Radio elements
+    elements:
+      - type: radio
+        name: r1
+        label: One
+      - type: radio
+        name: r2
+        label: Two
+      - type: radio
+        name: r3
+        label: Three
+  - type: multi
+    container_attrs:
+      class: vertical
+    label: a Multi element with a vertical style
+    elements:
+      - type: select
+        name: s2
+        values: [one, two]
+      - type: select
+        name: s3
+        values: [one, two]
+      - type: select
+        name: s4
+        values: [one, two]
+# 3rd fieldset
+  - fieldset
+  - type: radio
+    name: r1
+    label: a Radio element
+  - type: checkbox
+    name: cb1
+    label: a Checkbox element
+# 4th fieldset
+  - fieldset
+  - type: image
+    name: i1
+    src: test.jpg
+    label: an Image element
+  - type: content_button
+    name: cnb1
+    label: a ContentButton
+    content: <i>some</i> <b>markup</b>
+  - type: submit
+    name: submit

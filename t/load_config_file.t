@@ -1,0 +1,63 @@
+use strict;
+use warnings;
+
+use Test::More tests => 2;
+
+use HTML::FormFu;
+
+my $form = HTML::FormFu->new->action('/foo/bar')->id('form');
+
+my $fs = $form->element('fieldset')->legend('Jimi');
+
+$fs->element('text')->name('age')->label('Age')->comment('x')->constraints( [
+    {
+        type => 'Integer',
+        message => 'No integer.',
+    },
+    {
+        type => 'Integer',
+        message => 'This too!',
+    },
+    ] );
+
+$fs->element('text')->name('name')->label('Name');
+$fs->element('hidden')->name('ok')->value('OK');
+
+$fs->constraint({
+    type => 'Required',
+    names => [qw/ age name /],
+    message => 'Missing value.',
+    });
+
+$fs->filter('HTMLEscape');
+
+# load_config_file
+
+my $alt_form
+    = HTML::FormFu->new->load_config_file('t/load_config_file_form.yml');
+
+is_deeply( $alt_form, $form );
+
+# xhtml output
+
+my $xhtml = <<EOF;
+<form action="/foo/bar" id="form" method="post">
+<fieldset>
+<legend>Jimi</legend>
+<span class="text comment label">
+<label>Age</label>
+<input name="age" type="text" />
+<span class="comment">
+x
+</span>
+</span>
+<span class="text label">
+<label>Name</label>
+<input name="name" type="text" />
+</span>
+<input name="ok" type="hidden" value="OK" />
+</fieldset>
+</form>
+EOF
+
+is( "$form", $xhtml );
