@@ -14,8 +14,6 @@ __PACKAGE__->mk_accessors(qw/ parent constraint_type not /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
-*loc = \&localize;
-
 sub new {
     my $class = shift;
 
@@ -76,18 +74,12 @@ sub validate_value {
 }
 
 sub error {
-    my ( $self, $args, @loc_args ) = @_;
+    my ( $self, $args ) = @_;
 
     croak "name attribute required" if !exists $args->{name};
 
-    $args->{type}   = $self->constraint_type if !exists $args->{type};
-
-    if ( !exists $args->{message} ) {
-        $args->{message} =
-            defined $self->message
-            ? $self->message
-            : $self->mk_message(@loc_args);
-    }
+    $args->{type}    = $self->constraint_type if !exists $args->{type};
+    $args->{message} = $self->message         if !exists $args->{message};
 
     my $error = HTML::FormFu::Error->new($args);
     
@@ -95,17 +87,6 @@ sub error {
     weaken( $error->{parent} );
     
     return $error;
-}
-
-sub mk_message {
-    my ( $self, @args ) = @_;
-
-    my $string = $self->message;
-
-    $string = 'form_' . lc $self->constraint_type . '_error'
-        if !defined $string;
-
-    return $self->localize( $string, @args );
 }
 
 sub clone {

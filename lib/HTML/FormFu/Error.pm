@@ -7,6 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw( localize form );
+use HTML::FormFu::Util qw( literal );
 use Class::Data::Accessor;
 use Carp qw/ croak /;
 
@@ -14,10 +15,6 @@ __PACKAGE__->Class::Data::Accessor::mk_classaccessor(
     default_type => 'Custom' );
 
 __PACKAGE__->mk_accessors(qw/ name type parent /);
-
-__PACKAGE__->mk_output_accessors(qw/ message /);
-
-*loc = \&localize;
 
 sub new {
     my ( $class, $attrs ) = @_;
@@ -36,6 +33,40 @@ sub new {
     return $self;
 }
 
+sub message {
+    my $self = shift;
+    
+    if (@_) {
+        return $self->{message} = shift;
+    }
+    
+    return $self->{message} if defined $self->{message};
+    
+    my %string = (
+        f => defined $self->form->id     ? $self->form->id     : '',
+        n => defined $self->parent->name ? $self->parent->name : '',
+        t => defined $self->type         ? lc( $self->type )   : '',
+    );
+    
+    my $message = $self->parent->auto_error_message;
+    
+    $message =~ s/%([fnt])/$string{$1}/ge;;
+    
+    return $self->{message} = $self->parent->localize( $message );
+}
+
+sub message_xml {
+    my $self = shift;
+    
+    return $self->message(@_);
+}
+
+sub message_loc {
+    my ( $self, $mess, @args ) = @_;
+    
+    return $self->message( literal( $self->parent->localize( $mess, @args ) ) );
+}
+
 sub class {
     my $self = shift;
     
@@ -43,7 +74,7 @@ sub class {
         return $self->{class} = shift;
     }
     
-    return $self->{class} if exists $self->{class};
+    return $self->{class} if defined $self->{class};
     
     my %string = (
         f => defined $self->form->id     ? $self->form->id     : '',

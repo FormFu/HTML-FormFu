@@ -48,9 +48,9 @@ sub mk_output_accessors {
             return $self->{$name};
         };
         my $xml_sub = sub {
-            my ( $self, @args ) = @_;
+            my ( $self, $arg ) = @_;
 
-            return $self->$name( map { literal($_) } @args );
+            return $self->$name( literal($arg) );
         };
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;

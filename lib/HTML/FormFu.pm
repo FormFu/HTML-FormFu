@@ -43,7 +43,7 @@ __PACKAGE__->mk_accessors(
 );
 
 __PACKAGE__->mk_inherited_accessors(
-    qw/ auto_id auto_label auto_error_class /
+    qw/ auto_id auto_label auto_error_class auto_error_message /
 );
 
 *elements    = \&element;
@@ -83,6 +83,7 @@ sub new {
         languages           => ['en'],
         localize_class      => 'HTML::FormFu::I18N',
         auto_error_class    => '%t_error',
+        auto_error_message  => 'form_%t_error',
     );
 
     $self->populate( \%defaults );
