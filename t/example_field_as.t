@@ -57,7 +57,7 @@ is( $output, $xhtml );
 <html>
 <body>
 <form action="" method="post">
-<span class="password error required_error comment label">
+<span class="password comment label error required_error">
 <span class="error_message required_error">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" value="" />
@@ -65,7 +65,7 @@ is( $output, $xhtml );
 Comment
 </span>
 </span>
-<span class="text error required_error comment label">
+<span class="text comment label error required_error">
 <span class="error_message required_error">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" value="" disabled="disabled" />

@@ -350,33 +350,17 @@ sub render {
         @_ ? %{$_[0]} : ()
         });
 
+    $self->_render_container_class($render);
+    
+    $self->_render_comment_class($render);
+    
     $self->_render_label($render);
 
     $self->_render_value($render);
     
-    $self->_render_container_class($render);
-
     $self->_render_constraint_class($render);
 
     $self->_render_error_class($render);
-
-    if ( defined $render->{comment} ) {
-        append_xml_attribute( $render->{comment_attributes}, 'class', 'comment' );
-        append_xml_attribute( $render->{container_attributes},
-            'class', 'comment' );
-    }
-
-    if ( defined $render->{label} ) {
-        append_xml_attribute( $render->{container_attributes}, 'class', 'label' );
-    }
-    
-    # label "for" attribute
-    if (   defined $render->{label}
-        && defined $render->{attributes}{id}
-        && !exists $render->{label_attributes}{for} )
-    {
-        $render->{label_attributes}{for} = $render->{attributes}{id};
-    }
 
     return $render;
 }
@@ -397,6 +381,30 @@ sub _render_label {
         $label =~ s/%([fn])/$string{$1}/ge;
 
         $render->{label} = $self->form->localize( $label );
+    }
+    
+    if ( defined $render->{label} ) {
+        append_xml_attribute( $render->{container_attributes}, 'class', 'label' );
+    }
+    
+    # label "for" attribute
+    if (   defined $render->{label}
+        && defined $render->{attributes}{id}
+        && !exists $render->{label_attributes}{for} )
+    {
+        $render->{label_attributes}{for} = $render->{attributes}{id};
+    }
+    
+    return;
+}
+
+sub _render_comment_class {
+    my ( $self, $render ) = @_;
+    
+    if ( defined $render->{comment} ) {
+        append_xml_attribute( $render->{comment_attributes}, 'class', 'comment' );
+        append_xml_attribute( $render->{container_attributes},
+            'class', 'comment' );
     }
     
     return;

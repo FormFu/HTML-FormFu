@@ -33,7 +33,7 @@ is( "$bar", $bar_xhtml );
 
     $form->add_error('foo');
 
-    my $foo_xhtml = qq{<span class="text error number_error custom_error label">
+    my $foo_xhtml = qq{<span class="text label error number_error custom_error">
 <span class="error_message number_error">This field must be a number</span>
 <span class="error_message custom_error">Invalid input</span>
 <label>My Foo</label>
