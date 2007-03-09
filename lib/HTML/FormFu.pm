@@ -15,7 +15,7 @@ use HTML::FormFu::ObjectUtil
     get_elements get_element get_all_elements get_fields get_field 
     get_constraints get_constraint get_filters get_filter  
     get_deflators get_deflator get_inflators get_inflator
-    populate localize load_config_file insert_after form
+    populate load_config_file insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
 use List::MoreUtils qw/ uniq /;
@@ -127,6 +127,12 @@ sub localize_object {
     }
 
     return $self->{localize_object};
+}
+
+sub localize {
+    my $self = shift;
+
+    return $self->localize_object->localize(@_);
 }
 
 sub process {

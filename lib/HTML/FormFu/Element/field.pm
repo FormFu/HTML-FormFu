@@ -393,7 +393,7 @@ sub _render_label {
         my $label = $self->auto_label;
         $label =~ s/%([fn])/$string{$1}/ge;
 
-        $render->{label} = $self->localize( $label );
+        $render->{label} = $self->form->localize( $label );
     }
     
     return;

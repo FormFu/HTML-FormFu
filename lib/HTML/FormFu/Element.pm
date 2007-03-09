@@ -7,7 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::Accessor qw( mk_output_accessors mk_inherited_accessors );
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
-    populate localize form stash /;
+    populate form stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class xml_escape /;
 use Storable qw( dclone );
 use Carp qw/ croak /;
@@ -25,8 +25,6 @@ __PACKAGE__->mk_accessors(qw/
     render_class_args name element_type render_class_prefix render_class_suffix
     filename render_class 
     multi_filename render_method is_field /);
-
-*loc = \&localize;
 
 sub new {
     my $class = shift;

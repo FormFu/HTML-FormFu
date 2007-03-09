@@ -55,7 +55,7 @@ sub mk_output_accessors {
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;
 
-            return $self->$name( literal( $self->localize( $mess, @args ) ) );
+            return $self->$name( literal( $self->form->localize( $mess, @args ) ) );
         };
         no strict 'refs';
         *{"$class\::$name"}       = $sub;

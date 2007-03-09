@@ -6,7 +6,7 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
-use HTML::FormFu::ObjectUtil qw( localize form );
+use HTML::FormFu::ObjectUtil qw( form );
 use HTML::FormFu::Util qw( literal );
 use Class::Data::Accessor;
 use Carp qw/ croak /;
@@ -52,7 +52,7 @@ sub message {
     
     $message =~ s/%([fnt])/$string{$1}/ge;;
     
-    return $self->{message} = $self->parent->localize( $message );
+    return $self->{message} = $self->form->localize( $message );
 }
 
 sub message_xml {
@@ -64,7 +64,7 @@ sub message_xml {
 sub message_loc {
     my ( $self, $mess, @args ) = @_;
     
-    return $self->message( literal( $self->parent->localize( $mess, @args ) ) );
+    return $self->message( literal( $self->form->localize( $mess, @args ) ) );
 }
 
 sub class {

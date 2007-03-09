@@ -14,7 +14,7 @@ use Carp qw/ croak /;
 our @EXPORT_OK = qw/ element constraint filter inflator load_config_file
     _render_class _coerce populate
     _require_constraint _require_filter _require_inflator _require_deflator
-    localize deflator get_fields get_field get_constraints
+    deflator get_fields get_field get_constraints
     get_constraint get_filters get_filter get_elements get_element
     get_deflators get_deflator get_inflators get_inflator get_all_elements
     form insert_after clone name stash /;
@@ -627,12 +627,6 @@ sub load_config_file {
     $self->populate( \%config );
 
     return $self;
-}
-
-sub localize {
-    my $self = shift;
-
-    return $self->form->localize_object->localize(@_);
 }
 
 sub _render_class {
