@@ -461,38 +461,6 @@ sub add_valid {
     return $value;
 }
 
-sub add_error {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    croak "name required" unless defined $args{name};
-
-    my %new;
-    for (qw/ name type class /) {
-        $new{$_} = delete $args{$_} if exists $args{$_};
-    }
-
-    my $error = HTML::FormFu::Error->new( \%new );
-
-    $error->parent( $self->get_field( $error->name ) );
-    weaken( $error->{parent} );
-
-    {
-        my ( $method, $value ) = %args;
-        if ( !defined $value ) {
-            $method = 'message_loc';
-            $value  = 'form_default_error';
-        }
-        $error->$method($value);
-    }
-    
-    push @{ $self->_errors->{ $error->name } }, $error;
-
-    $self->_re_process_input;
-
-    return $error;
-}
-
 sub render {
     my ($self) = @_;
 
