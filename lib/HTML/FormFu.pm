@@ -43,7 +43,8 @@ __PACKAGE__->mk_accessors(
 );
 
 __PACKAGE__->mk_inherited_accessors(
-    qw/ auto_id auto_label auto_error_class auto_error_message /
+    qw/ auto_id auto_label auto_error_class auto_error_message
+    auto_constraint_class /
 );
 
 *elements    = \&element;

@@ -27,7 +27,8 @@ __PACKAGE__->mk_accessors(qw/
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
-    qw/ auto_id auto_label auto_error_class auto_error_message /
+    qw/ auto_id auto_label auto_error_class auto_error_message
+    auto_constraint_class /
 );
 
 *constraints = \&constraint;
@@ -355,6 +356,8 @@ sub render {
     
     $self->_render_container_class($render);
 
+    $self->_render_constraint_class($render);
+
     $self->_render_error_class($render);
 
     if ( defined $render->{comment} ) {
@@ -425,6 +428,31 @@ sub _render_container_class {
 
     append_xml_attribute( $render->{container_attributes},
         'class', lc($type) );
+    
+    return;
+}
+
+sub _render_constraint_class {
+    my ( $self, $render ) = @_;
+    
+    my $auto_class = $self->auto_constraint_class;
+    
+    return if !defined $auto_class;
+    
+    for my $c ( @{ $self->_constraints } ) {
+        my %string = (
+            f => defined $self->form->id     ? $self->form->id           : '',
+            n => defined $render->{name}     ? $render->{name}           : '',
+            t => defined $c->constraint_type ? lc( $c->constraint_type ) : '',
+        );
+        
+        my $class = $auto_class;
+        
+        $class =~ s/%([fnt])/$string{$1}/ge;
+        
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class );
+    }
     
     return;
 }
