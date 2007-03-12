@@ -37,18 +37,6 @@ sub process_value {
     return $new;
 }
 
-sub result {
-    my $self = shift;
-
-    my $result = $self->SUPER::result(@_);
-
-    $result->value(undef) if !$self->render_value;
-
-    $result->render_value( $self->render_value );
-
-    return $result;
-}
-
 1;
 
 __END__

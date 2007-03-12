@@ -25,16 +25,6 @@ sub render {
     return $render;
 }
 
-sub result {
-    my $self = shift;
-
-    my $result = $self->SUPER::result(@_);
-
-    $result->legend( $self->legend );
-
-    return $result;
-}
-
 1;
 
 __END__
