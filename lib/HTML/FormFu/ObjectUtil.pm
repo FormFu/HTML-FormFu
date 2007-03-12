@@ -252,8 +252,15 @@ sub _require_constraint {
 
 sub get_constraints {
     my $self = shift;
+    my %args = _parse_args(@_);
 
-    return [ map { @{ $_->get_constraints(@_) } } @{ $self->_elements } ];
+    my @c = map { @{ $_->get_constraints(@_) } } @{ $self->_elements };
+    
+    if ( exists $args{type} ) {
+        @c = grep { $_->constraint_type eq $args{type} } @c;
+    }
+    
+    return \@c;
 }
 
 sub get_constraint {
@@ -266,8 +273,15 @@ sub get_constraint {
 
 sub get_filters {
     my $self = shift;
+    my %args = _parse_args(@_);
 
-    return [ map { @{ $_->get_filters(@_) } } @{ $self->_elements } ];
+    my @f = map { @{ $_->get_filters(@_) } } @{ $self->_elements };
+    
+    if ( exists $args{type} ) {
+        @f = grep { $_->filter_type eq $args{type} } @f;
+    }
+    
+    return \@f;
 }
 
 sub get_filter {
@@ -280,8 +294,15 @@ sub get_filter {
 
 sub get_deflators {
     my $self = shift;
+    my %args = _parse_args(@_);
 
-    return [ map { @{ $_->get_deflators(@_) } } @{ $self->_elements } ];
+    my @d = map { @{ $_->get_deflators(@_) } } @{ $self->_elements };
+    
+    if ( exists $args{type} ) {
+        @d = grep { $_->deflator_type eq $args{type} } @d;
+    }
+    
+    return \@d;
 }
 
 sub get_deflator {
@@ -294,8 +315,15 @@ sub get_deflator {
 
 sub get_inflators {
     my $self = shift;
+    my %args = _parse_args(@_);
 
-    return [ map { @{ $_->get_inflators(@_) } } @{ $self->_elements } ];
+    my @i = map { @{ $_->get_inflators(@_) } } @{ $self->_elements };
+    
+    if ( exists $args{type} ) {
+        @i = grep { $_->inflator_type eq $args{type} } @i;
+    }
+    
+    return \@i;
 }
 
 sub get_inflator {
