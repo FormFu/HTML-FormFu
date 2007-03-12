@@ -224,16 +224,22 @@ sub _submitted {
 sub _process_input {
     my ($self) = @_;
 
+    $self->_build_params;
+    
+    $self->_filter_input;
+    
     $self->_constrain_input;
     
-    $self->_re_process_input;
+    $self->_inflate_input;
+
+    $self->_build_valid_names;
     
     $self->_build_file_headers;
 
     return;
 }
 
-sub _re_process_input {
+sub _build_params {
     my ($self) = @_;
 
     my $input  = $self->input;
@@ -253,11 +259,6 @@ sub _re_process_input {
     }
 
     $self->_processed_params( \%params );
-
-    $self->_filter_input;
-    $self->_inflate_input;
-
-    $self->_build_valid_names;
     
     return;
 }
@@ -265,7 +266,7 @@ sub _re_process_input {
 sub _constrain_input {
     my ($self) = @_;
     
-    my $params = $self->input;
+    my $params = $self->_processed_params;
 
     my %errors;
     for my $constraint ( map { @{ $_->get_constraints } } @{ $self->_elements } )
@@ -462,7 +463,10 @@ sub add_valid {
 
     $self->input->{$key} = $value;
 
-    $self->_re_process_input;
+    $self->_processed_params->{$key} = $value;
+    
+    push @{ $self->_valid_names }, $key
+        if !grep { $_ eq $key } @{ $self->_valid_names };
 
     return $value;
 }

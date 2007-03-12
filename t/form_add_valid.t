@@ -22,9 +22,5 @@ is_deeply(
         bar => 'b',
     } );
 
-my $bar_xhtml = qq{<span class="text">
-<input name="bar" type="text" value="b" />
-</span>};
-
-is( $form->get_field('bar'), $bar_xhtml );
+like( $form->get_field('bar'), qr/value="b"/ );
 

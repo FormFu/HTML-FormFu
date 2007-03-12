@@ -4,8 +4,6 @@ use warnings;
 use Test::More tests => 6;
 
 use HTML::FormFu;
-use lib 't/lib';
-use HTMLFormFu::TestLib;
 
 my $form = HTML::FormFu->new;
 
@@ -16,12 +14,6 @@ $form->element('text')->name('bif')->constraint('Number');
 $form->filter({
     type => 'HTMLEscape',
     names => [qw/ bar bif /],
-    });
-
-# bif is invalid, so the filter shouldn't get called
-$form->filter({
-    type => '+HTMLFormFu::MyTestFilterThatDies',
-    name => 'bif',
     });
 
 my $original_foo = qq{escape "this"};
