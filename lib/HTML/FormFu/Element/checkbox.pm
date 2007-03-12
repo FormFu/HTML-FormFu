@@ -36,7 +36,11 @@ sub prepare_attrs {
     my $original  = $self->value;
     my $value     = $self->form->input->{ $self->name };
 
-    if ( $submitted && defined $value && $value eq $original ) {
+    if ( $submitted
+         && defined $value
+         && defined $original
+         && $value eq $original )
+    {
         $render->attributes( 'checked', 'checked' );
     }
     elsif ($submitted

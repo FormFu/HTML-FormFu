@@ -419,8 +419,22 @@ sub _render_value {
               
     my $value = $self->process_value($input);
     
-    for my $deflator ( @{ $self->_deflators } ) {
-        $value = $deflator->process($value);
+    if ( !$self->form->submitted ) {
+        for my $deflator ( @{ $self->_deflators } ) {
+            $value = $deflator->process($value);
+        }
+    }
+    
+    if ( ref $value eq 'ARRAY' && defined $self->name ) {
+        my $max = $#$value;
+        my $fields = $self->form->get_fields( name => $self->name );
+        
+        for (0..$max) {
+            if ( $fields->[$_] eq $self ) {
+                $value = $value->[$_];
+                last;
+            }
+        }
     }
     
     $render->{value} = xml_escape $value;

@@ -6,6 +6,8 @@ use base 'HTML::FormFu::Element::group';
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 
+__PACKAGE__->mk_attr_accessors(qw/ multiple /);
+
 sub new {
     my $self = shift->SUPER::new(@_);
 
@@ -20,7 +22,12 @@ sub new {
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;
 
-    if ( $submitted && defined $value && $value eq $option->{value} ) {
+    if ( $submitted
+         && defined $value
+         && ( ref $value eq 'ARRAY'
+            ? grep { $_ eq $option->{value} } @$value
+            : $value eq $option->{value} ) )
+    {
         $option->{attributes}{selected} = 'selected';
     }
     elsif ($submitted

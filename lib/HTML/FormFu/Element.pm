@@ -9,11 +9,13 @@ use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
     populate form stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class xml_escape /;
+use Scalar::Util qw/ refaddr /;
 use Storable qw( dclone );
 use Carp qw/ croak /;
 
 use overload
     '""' => sub { return shift->render },
+    'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     bool => sub {1};
 
 __PACKAGE__->mk_attrs(qw/ attributes /);

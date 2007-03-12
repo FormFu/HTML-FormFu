@@ -70,7 +70,12 @@ sub _prepare_id {
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;
 
-    if ( $submitted && defined $value && $value eq $option->{value} ) {
+    if ( $submitted
+         && defined $value
+         && ( ref $value eq 'ARRAY'
+            ? grep { $_ eq $option->{value} } @$value
+            : $value eq $option->{value} ) )
+    {
         $option->{attributes}{checked} = 'checked';
     }
     elsif ($submitted
