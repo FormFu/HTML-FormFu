@@ -848,8 +848,8 @@ Return Value: $fieldset
 This setting is suitable for most basic forms, and means you can generally
 ignore adding fieldsets yourself.
 
-Calling C<$form->auto_fieldset(1)> immediately adds a fieldset element to 
-the form. Thereafter, C<$form->elements()> will add all elements (except 
+Calling C<< $form->auto_fieldset(1) >> immediately adds a fieldset element to 
+the form. Thereafter, C<< $form->elements() >> will add all elements (except 
 fieldsets) to that fieldset, rather than directly to the form.
 
 To be specific, the elements are added to the L<last> fieldset on the form, 
@@ -859,7 +859,7 @@ fieldset.
 Also, you may pass a hashref to auto_fieldset(), and this will be used
 to set defaults for the first fieldset created.
 
-A few examples and their output, to demonstrate.
+A few examples and their output, to demonstrate:
 
 2 elements with no fieldset.
 
@@ -903,7 +903,7 @@ A few examples and their output, to demonstrate.
 The 3rd element is within a new fieldset
 
     ---
-    auto_fieldset: 1
+    auto_fieldset: { id: fs }
     elements:
       - type: text
         name: foo
@@ -914,7 +914,7 @@ The 3rd element is within a new fieldset
         name: baz
 
     <form action="" method="post">
-      <fieldset>
+      <fieldset id="fs">
         <span class="text">
           <input name="foo" type="text" />
         </span>
@@ -929,134 +929,152 @@ The 3rd element is within a new fieldset
       </fieldset>
     </form>
 
-=head1 *** ALL DOCUMENTATION BELOW IS OUT OF DATE ***
-
 =head2 indicator
 
-Arguments: [$field_name]
+Arguments: $field_name
 
-Arguments: [\&coderef]
+Arguments: \&coderef
 
-The indicator is used by L<HTML::FormFu::Result::Form/submitted> to determine 
-whether the form has been submitted.
+If L</indicator> is set to a fieldname, L</submitted> will return true if 
+a value for that fieldname was submitted.
+
+If L</indicator> is set to a code-ref, it will be called as a subroutine 
+with the two arguments C<$form> and C<$query>, and it's return value will be 
+used as the return value for L</submitted>.
+
+If L</indicator> is not set, </submitted> will return true if a value for 
+any known fieldname was submitted.
 
 =head1 QUERYING THE FORM
 
 =head2 get_fields
 
-Arguments: [%options]
+Arguments: %options
 
-Return Value: @elements
+Arguments: \%options
 
-    my @fields = $form->get_fields;
+Return Value: \@elements
 
-Similar to L<get_elements>, but only returns elements which inherit from 
-L<HTML::FormFu::Element::FormField>.
+    my $fields = $form->get_fields;
 
-Exactly equivalent to:
+Returns all form-field type elements in the form (specifically, all elements 
+which have a true L<HTML::FormFu::Element/is_field> value.
 
-    my @fields = $form->get_elements( type => 'FormField' );
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_fields({
+        name => 'foo',
+        type => 'radio',
+    });
 
 =head2 get_field
 
-Arguments: [%options]
+Arguments: %options
+
+Arguments: \%options
 
 Return Value: $element
 
     my $field = $form->get_field;
 
-Accepts the same arguments as L<get_fields>, but only returns a single 
-element if there are multiple elements with the same name.
+Accepts the same arguments as L</get_fields>, but only returns the first 
+form-field found.
 
 =head2 get_elements
 
-Arguments: [%options]
+Arguments: %options
 
-Return Value: @elements
+Arguments: \%options
 
-    my @elements = $form->get_elements;
-    
-    my @elements = $form->get_elements( type => 'Textfield' );
-    
-    my @elements = $form->get_elements( name => 'username' );
+Return Value: \@elements
 
-Returns a list of all elements added to the form.
+    my $elements = $form->get_elements;
 
-If a 'type' argument is given, only returns the elements of that type.
+Returns all top-level (not recursive) elements in the form.
 
-If a 'name' argument is given, only returns the elements with that name.
+Accepts both C<name> and C<type> arguments to narrow the returned results.
 
-Note: To reflect the different typical usage between a C<$form> object and 
-a C<$result> object, C<< $form->get_elements >> always returns a list, 
-whereas C<< $result->elements >> always returns an array-ref so that it 
-may be more easily used in html templates.
+    $form->get_elements({
+        name => 'foo',
+        type => 'radio',
+    });
+
+See L</get_all_elements> for a recursive version.
 
 =head2 get_element
 
-Arguments: [%options]
+Arguments: %options
+
+Arguments: \%options
 
 Return Value: $element
 
     my $element = $form->get_element;
 
-Accepts the same arguments as L<get_elements>, but only returns the first 
-element in the list of results.
+Accepts the same arguments as L</get_elements>, but only returns the first 
+element found.
 
 =head2 get_filters
 
-Arguments: [%options]
+Arguments: %options
 
-Return Value: @filters
+Arguments: \%options
 
-    my @filters = $form->get_filters;
-    
-    my @filters = $form->get_filters( type => 'Integer' );
+Return Value: \@filters
 
-Returns a list of all filters added to the FormFu.
+    my $filters = $form->get_filters;
 
-If a 'type' argument is given, only returns the filters of that type.
+Returns all filters from all form-fields.
+
+Accepts a C<type> argument to narrow the returned results.
+
+    $form->get_filters({
+        type => 'callback',
+    });
 
 =head2 get_filter
 
 Arguments: %options
 
+Arguments: \%options
+
 Return Value: $filter
 
-    my @filters = $form->get_filter;
-    
-    my @filters = $form->get_filter( type => 'Integer' );
+    my $filter = $form->get_filter;
 
 Accepts the same arguments as L</get_filters>, but only returns the first 
-element in the list of results.
-
-Accepts the same arguments as L</get_filters>.
+filter found.
 
 =head2 get_constraints
 
-Arguments: [%options]
+Arguments: %options
 
-Return Value: @constraints
+Arguments: \%options
 
-    my @constraints = $form->get_constraints;
-    
-    my @constraints = $form->get_constraints( type => 'Integer' );
+Return Value: \@constraints
 
-Returns a list of all constraints added to the FormFu.
+    my $constraints = $form->get_constraints;
 
-If a 'type' argument is given, only returns the constraints of that type.
+Returns all constraints from all form-fields.
+
+Accepts a C<type> argument to narrow the returned results.
+
+    $form->get_constraints({
+        type => 'callback',
+    });
 
 =head2 get_constraint
 
-Arguments: [%options]
+Arguments: %options
+
+Arguments: \%options
 
 Return Value: $constraint
 
     my $constraint = $form->get_constraint;
-    
-    my $constraint = $form->get_constraint( type => 'Integer' );
 
-Accepts the same arguments as L</get_constraints>, but only returns a single 
-element if there are multiple elements with the same name.
+Accepts the same arguments as L</get_constraints>, but only returns the 
+first constraint found.
 
 =head1 CUSTOMISATION
 
@@ -1107,13 +1125,17 @@ your local system.
 
 =head2 How do I add an onSubmit handler to the form?
 
-    $form->attributes_xml( onsubmit => $javascript );
+    ---
+    attributes_xml: { onsubmit: $javascript }
 
 See L<HTML::FormFu/attributes>.
 
 =head2 How do I add an onChange handler to a form field?
 
-    $element->attributes_xml( onchange => $javascript );
+    ---
+    elements:
+      - type: text
+        attributes_xml: { onchange: $javascript }
 
 See L<HTML::FormFu::Element/attributes>.
 
@@ -1125,16 +1147,13 @@ L<HTML::FormFu::Element/attributes>.
 =head2 How can I add a tag which isn't included?
 
 You can use the L<HTML::FormFu::Element::Block> element, and set
-the L<type|HTML::FormFu::Element::Block/type> to the tag type you want.
+the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
 
-    $fieldset->element('Block')
-        ->type('span')
-        ->class('my_message')
-        ->element('Src')
-            ->content('Hi!');
-    
-    # will render as
-    <span class="my_message">Hi!</span>
+    ---
+    auto_fieldset: 1
+    elements:
+      - type: block
+        tag: span
 
 =head1 SUPPORT
 
