@@ -356,7 +356,7 @@ sub populate {
     };
     croak $@ if $@;
 
-    return;
+    return $self;
 }
 
 sub filter {
@@ -636,8 +636,16 @@ sub insert_after {
 }
 
 sub load_config_file {
-    my ( $self, @filenames ) = @_;
-
+    my $self = shift;
+    my @filenames;
+    
+    if ( @_ == 1 && ref $_[0] eq 'ARRAY' ) {
+        push @filenames, @{ $_[0] };
+    }
+    else {
+        push @filenames, @_;
+    }
+    
     for (@filenames) {
         croak "file not found: '$_'" if !-f $_;
     }
