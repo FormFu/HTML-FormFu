@@ -430,7 +430,7 @@ sub _render_value {
         my $fields = $self->form->get_fields( name => $self->name );
         
         for (0..$max) {
-            if ( $fields->[$_] eq $self ) {
+            if ( defined $fields->[$_] && $fields->[$_] eq $self ) {
                 $value = $value->[$_];
                 last;
             }
