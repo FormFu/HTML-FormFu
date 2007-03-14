@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Element::group';
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 
-__PACKAGE__->mk_attr_accessors(qw/ multiple /);
+__PACKAGE__->mk_attr_accessors(qw/ multiple size /);
 
 sub new {
     my $self = shift->SUPER::new(@_);
