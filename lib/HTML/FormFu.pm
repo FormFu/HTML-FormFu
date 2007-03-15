@@ -226,6 +226,8 @@ sub _process_input {
 
     $self->_build_params;
     
+    $self->_build_file_headers;
+    
     $self->_filter_input;
     
     $self->_constrain_input;
@@ -235,8 +237,6 @@ sub _process_input {
     
     $self->_build_valid_names;
     
-    $self->_build_file_headers;
-
     return;
 }
 
