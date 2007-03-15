@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use HTML::FormFu;
 
@@ -15,6 +15,8 @@ $form->inflator('DateTime')->parser( {
     } );
 
 $form->process( { foo => '12/31/2006' } );
+
+ok( !$form->has_errors );
 
 my $value = $form->params->{foo};
 

@@ -4,8 +4,10 @@ use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
+use HTML::FormFu::Exception::Inflator;
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
+use Scalar::Util qw/ blessed /;
 
 __PACKAGE__->mk_accessors(qw/ parent inflator_type /);
 
@@ -26,14 +28,42 @@ sub new {
 sub process {
     my ( $self, $values ) = @_;
 
+    my $return;
+    my @errors;
+
     if ( ref $values eq 'ARRAY' ) {
-        return [ map { $self->inflator($_); } @$values ];
+        my @return;
+        for my $value ( @$values ) {
+            my ( $return ) = eval {
+                $self->inflator($value);
+                };
+            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
+                push @errors, $@;
+                push @return, undef;
+            }
+            elsif ( $@ ) {
+                push @errors, HTML::FormFu::Exception::Inflator->new;
+                push @return, undef;
+            }
+            else {
+                push @return, $value;
+            }
+        }
+        $return = \@return;
     }
     else {
-        return $self->inflator($values);
+        ( $return ) = eval {
+            $self->inflator($values);
+            };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ ) {
+            push @errors, HTML::FormFu::Exception::Inflator->new;
+        }
     }
 
-    return;
+    return ( $return, @errors );
 }
 
 sub clone {

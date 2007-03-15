@@ -230,7 +230,8 @@ sub _process_input {
     
     $self->_constrain_input;
     
-    $self->_inflate_input;
+    $self->_inflate_input
+        if !@{ $self->get_errors };
     
     $self->_build_valid_names;
     
@@ -263,25 +264,6 @@ sub _build_params {
     return;
 }
 
-sub _constrain_input {
-    my ($self) = @_;
-    
-    my $params = $self->_processed_params;
-
-    for my $constraint ( map { @{ $_->get_constraints } } @{ $self->_elements } )
-    {
-        my @results = $constraint->process( $params );
-        for my $result (@results) {
-            $result->parent( $constraint->parent ) if !$result->parent;
-            $result->constraint( $constraint )     if !$result->constraint;
-            
-            $result->parent->add_error( $result );
-        }
-    }
-    
-    return;
-}
-
 sub _filter_input {
     my ($self) = @_;
 
@@ -292,20 +274,65 @@ sub _filter_input {
     return;
 }
 
+sub _constrain_input {
+    my ($self) = @_;
+    
+    my $params = $self->_processed_params;
+
+    for my $constraint ( map { @{ $_->get_constraints } } @{ $self->_elements } )
+    {
+        my @errors = eval {
+            $constraint->process( $params );
+            };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ ) {
+            push @errors, HTML::FormFu::Exception::Constraint->new;
+        }
+        
+        for my $error (@errors) {
+            $error->parent( $constraint->parent ) if !$error->parent;
+            $error->constraint( $constraint )     if !$error->constraint;
+            
+            $error->parent->add_error( $error );
+        }
+    }
+    
+    return;
+}
+
 sub _inflate_input {
     my ($self) = @_;
 
     for my $name ( keys %{ $self->_processed_params } ) {
-        next if $self->has_errors($name);
-
         my $value = $self->_processed_params->{$name};
 
         for my $inflator ( map { @{ $_->get_inflators( { name => $name } ) } }
             @{ $self->_elements } )
         {
-            $value = $inflator->process($value);
+            my @errors;
+            
+            ( $value, @errors ) = eval {
+                $inflator->process($value);
+                };
+            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
+                push @errors, $@;
+            }
+            elsif ( $@ ) {
+                push @errors, HTML::FormFu::Exception::Inflator->new;
+            }
+            
+            for my $error (@errors) {
+                $error->parent( $inflator->parent ) if !$error->parent;
+                $error->inflator( $inflator )       if !$error->inflator;
+                
+                $error->parent->add_error( $error );
+            }
         }
-        $self->_processed_params->{$name} = $value;
+        
+        $self->_processed_params->{$name} = $value
+            if !@{ $self->get_errors({ name => $name }) };
     }
 
     return;
