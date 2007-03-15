@@ -71,6 +71,8 @@ sub get_inflators { [] }
 
 sub get_inflator { }
 
+sub get_errors { [] }
+
 sub prepare { }
 
 sub prepare_id { }

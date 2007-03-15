@@ -20,13 +20,13 @@ $form->process( {
     } );
 
 {
-    my $errors = $form->errors;
+    my $errors = $form->get_errors;
 
     is( @$errors, 2 );
 }
 
 {
-    my $errors = $form->errors('bar');
+    my $errors = $form->get_errors('bar');
 
     is( @$errors, 1 );
 
@@ -35,7 +35,7 @@ $form->process( {
 }
 
 {
-    my $errors = $form->errors( { name => 'string' } );
+    my $errors = $form->get_errors( { name => 'string' } );
 
     is( @$errors, 1 );
 
@@ -43,7 +43,7 @@ $form->process( {
 }
 
 {
-    my $errors = $form->errors( { type => 'Number' } );
+    my $errors = $form->get_errors( { type => 'Number' } );
 
     is( @$errors, 2 );
 
@@ -52,7 +52,7 @@ $form->process( {
 }
 
 {
-    my $errors = $form->errors( {
+    my $errors = $form->get_errors( {
             name => 'bar',
             type => 'Number',
         } );

@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Element';
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil 
-    qw/  get_constraint get_filter get_deflator get_inflator
+    qw/  get_constraint get_filter get_deflator get_inflator get_error
     _require_constraint _require_filter _require_inflator _require_deflator /;
 use HTML::FormFu::Util qw/ _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
@@ -21,7 +21,7 @@ __PACKAGE__->mk_attrs(
 );
 
 __PACKAGE__->mk_accessors(qw/ 
-    _constraints _filters _inflators _deflators
+    _constraints _filters _inflators _deflators _errors
     field_filename label_filename errors retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -47,6 +47,7 @@ sub new {
     $self->_filters(     [] );
     $self->_deflators(   [] );
     $self->_inflators(   [] );
+    $self->_errors(      [] );
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
@@ -293,6 +294,39 @@ sub get_inflators {
     return \@i;
 }
 
+sub get_errors {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @e = @{ $self->_errors };
+
+    if ( exists $args{name} ) {
+        @e = grep { $_->name eq $args{name} } @e;
+    }
+
+    if ( exists $args{type} ) {
+        @e = grep { $_->type eq $args{type} } @e;
+    }
+
+    return \@e;
+}
+
+sub add_error {
+    my ( $self, @errors ) = @_;
+    
+    push @{ $self->_errors }, @errors;
+    
+    return;
+}
+
+sub delete_errors {
+    my ($self) = @_;
+    
+    $self->_errors([]);
+    
+    return;
+}
+
 sub prepare_id {
     my ( $self, $render ) = @_;
 
@@ -482,7 +516,7 @@ sub _render_constraint_class {
 sub _render_error_class {
     my ( $self, $render ) = @_;
     
-    my @errors = grep { $_->parent eq $self } @{ $self->form->errors || [] };
+    my @errors = @{ $self->get_errors };
     
     if (@errors) {
         $render->{errors} = \@errors;

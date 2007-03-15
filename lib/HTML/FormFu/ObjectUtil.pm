@@ -17,6 +17,7 @@ our @EXPORT_OK = qw/ element constraint filter inflator load_config_file
     deflator get_fields get_field get_constraints
     get_constraint get_filters get_filter get_elements get_element
     get_deflators get_deflator get_inflators get_inflator get_all_elements
+    get_errors get_error delete_errors
     form insert_after clone name stash /;
 
 sub element {
@@ -332,6 +333,35 @@ sub get_inflator {
     my $i = $self->get_inflators(@_);
 
     return @$i ? $i->[0] : ();
+}
+
+sub get_errors {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @c = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
+    
+    if ( exists $args{type} ) {
+        @c = grep { $_->type eq $args{type} } @c;
+    }
+    
+    return \@c;
+}
+
+sub get_error {
+    my $self = shift;
+
+    my $c = $self->get_errors(@_);
+
+    return @$c ? $c->[0] : ();
+}
+
+sub delete_errors {
+    my ($self) = @_;
+    
+    map { $_->delete_errors } @{ $self->_elements };
+    
+    return;
 }
 
 sub populate {

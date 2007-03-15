@@ -7,6 +7,7 @@ use base 'HTML::FormFu::Element';
 use HTML::FormFu::ObjectUtil qw/ element constraint filter inflator deflator
     get_fields get_field get_constraints get_constraint get_filters get_filter
     get_deflators get_deflator get_inflators get_inflator
+    get_errors get_error delete_errors
     get_elements get_element get_all_elements insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;
 use Storable qw( dclone );

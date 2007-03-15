@@ -97,7 +97,7 @@ is( "$yml_form", $xhtml );
     ok( $form->valid('name'), 'name is valid' );
     ok( !$form->valid('age'), 'age is not valid' );
 
-    my $errors = $form->errors;
+    my $errors = $form->get_errors;
 
     is( @$errors, 1 );
 }

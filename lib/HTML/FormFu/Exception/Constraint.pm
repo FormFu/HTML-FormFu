@@ -28,10 +28,9 @@ sub class {
     return $self->{class} if defined $self->{class};
     
     my %string = (
-        f => defined $self->form->id     ? $self->form->id     : '',
-        n => defined $self->parent->name ? $self->parent->name : '',
-        t => defined $self->constraint->constraint_type 
-            ? lc( $self->constraint->constraint_type ) : '',
+        f => defined $self->form->id ? $self->form->id   : '',
+        n => defined $self->name     ? $self->name       : '',
+        t => defined $self->type     ? lc( $self->type ) : '',
     );
     
     my $class = $self->parent->auto_error_class;
@@ -52,10 +51,9 @@ sub message {
     return $self->constraint->message if defined $self->constraint->message;
     
     my %string = (
-        f => defined $self->form->id     ? $self->form->id     : '',
-        n => defined $self->parent->name ? $self->parent->name : '',
-        t => defined $self->constraint->constraint_type 
-            ? lc( $self->constraint->constraint_type )  : '',
+        f => defined $self->form->id ? $self->form->id   : '',
+        n => defined $self->name     ? $self->name       : '',
+        t => defined $self->type     ? lc( $self->type ) : '',
     );
     
     my $message = $self->parent->auto_error_message;

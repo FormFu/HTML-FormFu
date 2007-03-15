@@ -15,6 +15,7 @@ use HTML::FormFu::ObjectUtil
     get_elements get_element get_all_elements get_fields get_field 
     get_constraints get_constraint get_filters get_filter  
     get_deflators get_deflator get_inflators get_inflator
+    get_errors get_error delete_errors
     populate load_config_file insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
@@ -39,7 +40,7 @@ __PACKAGE__->mk_accessors(
         indicator filename
         element_defaults query_type languages
         localize_class submitted query input _auto_fieldset
-        _elements _errors _processed_params _valid_names /
+        _elements _processed_params _valid_names /
 );
 
 __PACKAGE__->mk_inherited_accessors(
@@ -68,7 +69,6 @@ sub new {
     my %defaults = (
         _elements           => [],
         _valid_names        => [],
-        _errors             => {},
         _processed_params   => {},
         input               => {},
         stash               => {},
@@ -141,8 +141,8 @@ sub process {
 
     $self->input(             {} );
     $self->_processed_params( {} );
-    $self->_errors(           {} );
     $self->_valid_names(      [] );
+    $self->delete_errors;
 
     my $query;
     if (@_) {
@@ -268,7 +268,6 @@ sub _constrain_input {
     
     my $params = $self->_processed_params;
 
-    my %errors;
     for my $constraint ( map { @{ $_->get_constraints } } @{ $self->_elements } )
     {
         my @results = $constraint->process( $params );
@@ -276,10 +275,9 @@ sub _constrain_input {
             $result->parent( $constraint->parent ) if !$result->parent;
             $result->constraint( $constraint )     if !$result->constraint;
             
-            push @{ $errors{ $result->parent->name } }, $result;
+            $result->parent->add_error( $result );
         }
     }
-    $self->_errors( \%errors );
     
     return;
 }
@@ -427,7 +425,10 @@ sub valid {
 sub has_errors {
     my $self = shift;
 
-    my @names = keys %{ $self->_errors };
+    my @names = map { $_->name }
+        grep { @{ $_->get_errors } }
+        grep { defined $_->name }
+        @{ $self->get_fields };
 
     if (@_) {
         my $name = shift;
@@ -437,26 +438,6 @@ sub has_errors {
 
     # return list of names with errors, if no $name arg
     return @names;
-}
-
-sub errors {
-    my $self   = shift;
-    my %args   = _parse_args(@_);
-    my %errors = %{ $self->_errors };
-
-    return if exists $args{name} && !exists $errors{ $args{name} };
-
-    my @names = exists $args{name} ? $args{name} : keys %errors;
-    my @errors;
-    for my $n (@names) {
-        for my $error ( @{ $errors{$n} } ) {
-            next if exists $args{type} && $error->type ne $args{type};
-            push @errors, $error;
-        }
-    }
-
-    # empty list because a ref to an empty array is not false!
-    return @errors ? \@errors : ();
 }
 
 sub add_valid {

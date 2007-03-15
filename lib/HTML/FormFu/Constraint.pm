@@ -91,22 +91,6 @@ sub validate_value {
     croak "validate() should be overridden";
 }
 
-#sub error {
-#    my ( $self, $args ) = @_;
-#
-#    croak "name attribute required" if !exists $args->{name};
-#
-#    $args->{type}    = $self->constraint_type if !exists $args->{type};
-#    $args->{message} = $self->message         if !exists $args->{message};
-#
-#    my $error = HTML::FormFu::Error->new($args);
-#    
-#    $error->parent( $self );
-#    weaken( $error->{parent} );
-#    
-#    return $error;
-#}
-
 sub clone {
     my ( $self ) = @_;
     
