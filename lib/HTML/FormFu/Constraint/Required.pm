@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     return defined $value && length $value;

@@ -26,13 +26,13 @@ sub process {
             croak $@ if $@;
 
             my @errors = eval {
-                $self->validate_values( $value, $params );
+                $self->constrain_values( $value, $params );
                 };
             $seen = 1 if !@errors && !$@;
         }
         else {
             my $ok = eval {
-                $self->validate_value($value);
+                $self->constrain_value($value);
                 };
             $seen = 1 if $ok && !$@;
         }
@@ -52,7 +52,7 @@ sub process {
         : @errors;
 }
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 0 if !defined $value || $value eq '';

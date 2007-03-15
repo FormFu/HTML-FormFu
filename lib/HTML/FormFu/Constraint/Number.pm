@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Constraint';
 
 use Scalar::Util qw/ looks_like_number /;
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 1 if !defined $value || $value eq '';

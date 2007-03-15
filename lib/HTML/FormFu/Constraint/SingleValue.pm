@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
 
-sub validate_values {
+sub constrain_values {
     my ( $self, $values ) = @_;
 
     return HTML::FormFu::Exception::Constraint->new;
 }
 
-sub validate_value {
+sub constrain_value {
     return 1;
 }
 

@@ -18,7 +18,7 @@ sub process {
     my @names = ref $others ? @{$others} : ($others);
     my @errors;
 
-    return if !$self->validate_value( $params->{$first} );
+    return if !$self->constrain_value( $params->{$first} );
 
     for my $name (@names) {
         my $ok = 0;
@@ -28,13 +28,13 @@ sub process {
             croak $@ if $@;
 
             my @err = eval {
-                $self->validate_values( $value, $params );
+                $self->constrain_values( $value, $params );
                 };
             $ok = 1 if !@err && !$@;
         }
         else {
             $ok = eval {
-                $self->validate_value($value);
+                $self->constrain_value($value);
                 };
             $ok = 0 if $@;
         }
@@ -52,7 +52,7 @@ sub process {
     return @errors;
 }
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 0 if !defined $value || $value eq '';

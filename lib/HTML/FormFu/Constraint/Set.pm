@@ -8,7 +8,7 @@ use Storable qw/ dclone /;
 
 __PACKAGE__->mk_accessors(qw/ set /);
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 1 if !defined $value || $value eq '';

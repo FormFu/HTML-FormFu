@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Constraint';
 
 __PACKAGE__->mk_accessors(qw/ callback /);
 
-sub validate_value {
+sub constrain_value {
     my ( $self, $value ) = @_;
 
     my $callback = $self->callback || sub {1};
