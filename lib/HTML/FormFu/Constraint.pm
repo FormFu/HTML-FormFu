@@ -5,9 +5,8 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
-use HTML::FormFu::Error;
 use HTML::FormFu::ObjectUtil qw( populate form name );
-use Scalar::Util qw/ weaken /;
+use Scalar::Util qw/ blessed weaken /;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(qw/ parent constraint_type not /);
@@ -33,61 +32,80 @@ sub new {
 }
 
 sub process {
-    my ( $self, $form_result, $params ) = @_;
+    my ( $self, $params ) = @_;
 
     my $name  = $self->name;
     my $value = $params->{$name};
-    my @pass;
+    my @errors;
 
     if ( ref $value ) {
         eval { my @x = @$value };
         croak $@ if $@;
 
-        push @pass, $self->validate_values( $value, $params );
+        push @errors, eval {
+            $self->validate_values( $value, $params );
+        };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ ) {
+            push @errors, HTML::FormFu::Exception::Constraint->new;
+        }
     }
     else {
-        push @pass, $self->validate_value( $value, $params ) ? 1 : 0;
+        my $ok = eval {
+            $self->validate_value( $value, $params ) ? 1 : 0;
+        };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ or !$ok ) {
+            push @errors, HTML::FormFu::Exception::Constraint->new;
+        }
     }
 
-    my @errors;
-
-    push @errors, $self->error( { name => $name } )
-        if grep { !$_ } @pass;
-
-    return \@errors;
+    return @errors;
 }
 
 sub validate_values {
     my ( $self, $values, $params ) = @_;
 
-    my @results;
+    my @errors;
 
     for my $value (@$values) {
-        push @results, $self->validate_value( $value, $params ) ? 1 : 0;
+        my $ok = eval {
+            $self->validate_value( $value, $params ) ? 1 : 0;
+        };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ or !$ok ) {
+            push @errors, HTML::FormFu::Exception::Constraint->new;
+        }
     }
 
-    return @results;
+    return @errors;
 }
 
 sub validate_value {
     croak "validate() should be overridden";
 }
 
-sub error {
-    my ( $self, $args ) = @_;
-
-    croak "name attribute required" if !exists $args->{name};
-
-    $args->{type}    = $self->constraint_type if !exists $args->{type};
-    $args->{message} = $self->message         if !exists $args->{message};
-
-    my $error = HTML::FormFu::Error->new($args);
-    
-    $error->parent( $self );
-    weaken( $error->{parent} );
-    
-    return $error;
-}
+#sub error {
+#    my ( $self, $args ) = @_;
+#
+#    croak "name attribute required" if !exists $args->{name};
+#
+#    $args->{type}    = $self->constraint_type if !exists $args->{type};
+#    $args->{message} = $self->message         if !exists $args->{message};
+#
+#    my $error = HTML::FormFu::Error->new($args);
+#    
+#    $error->parent( $self );
+#    weaken( $error->{parent} );
+#    
+#    return $error;
+#}
 
 sub clone {
     my ( $self ) = @_;

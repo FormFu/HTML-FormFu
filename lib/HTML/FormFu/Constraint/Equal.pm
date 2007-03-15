@@ -12,7 +12,7 @@ our @EXPORT_OK = qw/ _values_eq /;
 __PACKAGE__->mk_accessors(qw/ others /);
 
 sub process {
-    my ( $self, $form_result, $params ) = @_;
+    my ( $self, $params ) = @_;
 
     my $others = $self->others;
     return if !defined $others;
@@ -27,11 +27,16 @@ sub process {
         my $ok = _values_eq( $value, $params->{$eq_name} );
 
         if ( $self->not ? $ok : !$ok ) {
-            push @errors, $self->error( { name => $eq_name } );
+            my $field = $self->form->get_field({ name => $eq_name })
+                or die "Equal->others() field not found: '$eq_name'";
+            
+            push @errors, HTML::FormFu::Exception::Constraint->new({
+                parent => $field,
+                });
         }
     }
 
-    return \@errors;
+    return @errors;
 }
 
 sub _values_eq {

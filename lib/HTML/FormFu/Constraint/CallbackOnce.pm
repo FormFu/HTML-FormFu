@@ -4,27 +4,32 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
 
+use Scalar::Util qw/ blessed /;
+
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub process {
-    my ( $self, $form_result, $params ) = @_;
+    my ( $self, $params ) = @_;
 
     my $name = $self->name;
 
     my $value = $params->{$name};
 
     my $callback = $self->callback || sub {1};
-
-    my $ok = $callback->( $value, $params );
-
-    $ok = $self->not ? !$ok : $ok;
-
     my @errors;
+    
+    my $ok = eval {
+        $callback->( $value, $params );
+        };
 
-    push @errors, $self->error( { name => $name } )
-        if !$ok;
+    if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
+        push @errors, $@;
+    }
+    elsif ( $@ or !$ok ) {
+        push @errors, HTML::FormFu::Exception::Constraint->new;
+    }
 
-    return \@errors;
+    return @errors;
 }
 
 1;
@@ -51,7 +56,11 @@ called once for each named field, regardless of how many values are
 submitted.
 
 The argument passed to the callback is a hashref of name/value pairs, 
-containing only the applicable named fields. 
+containing only the applicable named fields.
+
+This constraint doesn't honour the C<not()> value.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

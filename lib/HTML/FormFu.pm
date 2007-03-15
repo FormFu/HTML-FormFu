@@ -6,7 +6,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::Accessor qw( mk_inherited_accessors );
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::Constraint;
-use HTML::FormFu::Error;
+use HTML::FormFu::Exception;
 use HTML::FormFu::FakeQuery;
 use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
@@ -231,7 +231,7 @@ sub _process_input {
     $self->_constrain_input;
     
     $self->_inflate_input;
-
+    
     $self->_build_valid_names;
     
     $self->_build_file_headers;
@@ -271,9 +271,12 @@ sub _constrain_input {
     my %errors;
     for my $constraint ( map { @{ $_->get_constraints } } @{ $self->_elements } )
     {
-        my $results = $constraint->process( $self, $params ) || [];
-        for my $result (@$results) {
-            push @{ $errors{ $result->name } }, $result;
+        my @results = $constraint->process( $params );
+        for my $result (@results) {
+            $result->parent( $constraint->parent ) if !$result->parent;
+            $result->constraint( $constraint )     if !$result->constraint;
+            
+            push @{ $errors{ $result->parent->name } }, $result;
         }
     }
     $self->_errors( \%errors );

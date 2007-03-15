@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Constraint';
 sub validate_values {
     my ( $self, $values ) = @_;
 
-    return 0;
+    return HTML::FormFu::Exception::Constraint->new;
 }
 
 sub validate_value {

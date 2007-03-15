@@ -9,7 +9,7 @@ use Storable qw/ dclone /;
 __PACKAGE__->mk_accessors(qw/ others /);
 
 sub process {
-    my ( $self, $form_result, $params ) = @_;
+    my ( $self, $params ) = @_;
 
     my $others = $self->others;
     return if !defined $others;
@@ -21,23 +21,35 @@ sub process {
     return if !$self->validate_value( $params->{$first} );
 
     for my $name (@names) {
-        my $ok;
+        my $ok = 0;
         my $value = $params->{$name};
         if ( ref $value ) {
             eval { my @x = @$value };
             croak $@ if $@;
 
-            $ok = 1 if grep {$_} $self->validate_values($value);
+            my @err = eval {
+                $self->validate_values( $value, $params );
+                };
+            $ok = 1 if !@err && !$@;
         }
         else {
-            $ok = $self->validate_value($value);
+            $ok = eval {
+                $self->validate_value($value);
+                };
+            $ok = 0 if $@;
         }
 
-        push @errors, $self->error( { name => $name } )
-            if !$ok;
+        if ( !$ok ) {
+            my $field = $self->form->get_field({ name => $name })
+                or die "DependOn->others() field not found: '$name'";
+            
+            push @errors, HTML::FormFu::Exception::Constraint->new({
+                parent => $field,
+                });
+        }
     }
 
-    return \@errors;
+    return @errors;
 }
 
 sub validate_value {

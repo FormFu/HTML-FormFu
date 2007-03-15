@@ -482,14 +482,14 @@ sub _render_constraint_class {
 sub _render_error_class {
     my ( $self, $render ) = @_;
     
-    my $errors = $self->form->errors( defined $self->name ? $self->name : () );
+    my @errors = grep { $_->parent eq $self } @{ $self->form->errors || [] };
     
-    if ($errors) {
-        $render->{errors} = $errors;
+    if (@errors) {
+        $render->{errors} = \@errors;
 
         append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
 
-        for my $error (@$errors) {
+        for my $error (@errors) {
             append_xml_attribute( $render->{container_attributes},
                 'class', $error->class );
         }

@@ -13,7 +13,7 @@ sub validate_value {
 
     my $ok = $callback->($value);
 
-    return $self->not ? !$ok : $ok;
+    return $ok;
 }
 
 1;
@@ -36,6 +36,10 @@ HTML::FormFu::Constraint::Callback - Callback constraint
 =head1 DESCRIPTION
 
 Callback constraint.
+
+This constraint doesn't honour the C<not()> value.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
