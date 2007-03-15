@@ -339,13 +339,21 @@ sub get_errors {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my @c = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
+    my @e = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
     
-    if ( exists $args{type} ) {
-        @c = grep { $_->type eq $args{type} } @c;
+    if ( exists $args{name} ) {
+        @e = grep { $_->name eq $args{name} } @e;
     }
     
-    return \@c;
+    if ( exists $args{type} ) {
+        @e = grep { $_->type eq $args{type} } @e;
+    }
+    
+    if ( exists $args{stage} ) {
+        @e = grep { $_->stage eq $args{stage} } @e;
+    }
+    
+    return \@e;
 }
 
 sub get_error {

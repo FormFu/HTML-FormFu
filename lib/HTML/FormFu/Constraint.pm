@@ -5,6 +5,7 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
+use HTML::FormFu::Exception::Constraint;
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ blessed weaken /;
 use Carp qw/ croak /;

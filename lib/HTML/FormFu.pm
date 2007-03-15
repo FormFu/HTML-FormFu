@@ -83,7 +83,7 @@ sub new {
         query_type          => 'CGI',
         languages           => ['en'],
         localize_class      => 'HTML::FormFu::I18N',
-        auto_error_class    => '%t_error',
+        auto_error_class    => 'error_%s_%t',
         auto_error_message  => 'form_%t_error',
     );
 

@@ -307,6 +307,10 @@ sub get_errors {
     if ( exists $args{type} ) {
         @e = grep { $_->type eq $args{type} } @e;
     }
+    
+    if ( exists $args{stage} ) {
+        @e = grep { $_->stage eq $args{stage} } @e;
+    }
 
     return \@e;
 }

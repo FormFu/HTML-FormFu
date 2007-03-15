@@ -53,7 +53,7 @@ $ec_element->constraint('Regex')->regex( qr/^\d+$/ );
             bar => 2,
             ec  => 3,
         } );
-#use Data::Dumper; die Dumper($form);
+
     ok( $form->valid('foo'), 'foo valid' );
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('ec'),  'ec valid' );
@@ -70,7 +70,7 @@ $ec_element->constraint('Regex')->regex( qr/^\d+$/ );
             bar => 'baz',
             ec  => 'a',
         } );
-#use Data::Dumper; die Dumper( $form );
+
     ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
     ok( !$form->valid('ec'),  'ec not valid' );
