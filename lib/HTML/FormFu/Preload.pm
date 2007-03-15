@@ -2,6 +2,7 @@ package HTML::FormFu::Preload;
 
 use strict;
 use warnings;
+use HTML::FormFu;
 
 use Module::Pluggable::Fast (
     search => [
@@ -11,7 +12,6 @@ use Module::Pluggable::Fast (
             HTML::FormFu::Deflator
             HTML::FormFu::Filter
             HTML::FormFu::Inflator
-            HTML::FormFu::Result
             HTML::FormFu::Render
             /
     ],
