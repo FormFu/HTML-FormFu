@@ -9,7 +9,7 @@ use base 'HTML::FormFu::Validator';
 sub validate_value {
     my ( $self, $value, $params ) = @_;
     
-    die HTML::FormFu::Exeption::Validator->new
+    die HTML::FormFu::Exception::Validator->new
         if $value eq 'foo';
     
     return 1;
