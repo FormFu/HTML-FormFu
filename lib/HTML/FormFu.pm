@@ -3,19 +3,19 @@ use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
-use HTML::FormFu::Accessor qw( mk_inherited_accessors );
-use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
+use HTML::FormFu::Accessor qw/ mk_inherited_accessors /;
+use HTML::FormFu::Attribute qw/ 
+    mk_attrs mk_attr_accessors mk_add_methods mk_single_methods 
+    mk_require_methods mk_get_methods mk_get_one_methods /;
 use HTML::FormFu::Constraint;
 use HTML::FormFu::Exception;
 use HTML::FormFu::FakeQuery;
 use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
-use HTML::FormFu::ObjectUtil
-    qw/ element constraint filter deflator inflator validator
+use HTML::FormFu::ObjectUtil qw/ 
+    _single_element _require_constraint 
     get_elements get_element get_all_elements get_fields get_field 
-    get_constraints get_constraint get_filters get_filter  
-    get_deflators get_deflator get_inflators get_inflator
-    get_validators get_validator get_errors get_error delete_errors
+    get_errors get_error delete_errors
     populate load_config_file insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
@@ -47,6 +47,19 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_validator_class /
 );
+
+__PACKAGE__->mk_add_methods(qw/ 
+    element deflator filter constraint inflator validator /);
+
+__PACKAGE__->mk_single_methods(qw/ 
+    deflator filter constraint inflator validator /);
+
+__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+
+__PACKAGE__->mk_get_methods(qw/ deflator filter constraint inflator validator /);
+
+__PACKAGE__->mk_get_one_methods(qw/ 
+    deflator filter constraint inflator validator /);
 
 *elements    = \&element;
 *constraints = \&constraint;

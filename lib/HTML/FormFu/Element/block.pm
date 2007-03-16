@@ -4,11 +4,12 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
 
-use HTML::FormFu::ObjectUtil qw/ element constraint filter inflator deflator
-    validator
-    get_fields get_field get_constraints get_constraint get_filters get_filter
-    get_deflators get_deflator get_inflators get_inflator
-    get_validators get_validator get_errors get_error delete_errors
+use HTML::FormFu::Attribute qw/ 
+    mk_add_methods mk_single_methods mk_require_methods mk_get_methods 
+    mk_get_one_methods /;
+use HTML::FormFu::ObjectUtil qw/ 
+    _single_element _require_constraint 
+    get_fields get_field get_errors get_error delete_errors
     get_elements get_element get_all_elements insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;
 use Storable qw( dclone );
@@ -21,6 +22,19 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_validator_class /
 );
+
+__PACKAGE__->mk_add_methods(qw/ 
+    element deflator filter constraint inflator validator /);
+
+__PACKAGE__->mk_single_methods(qw/ 
+    deflator constraint filter inflator validator /);
+
+__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+
+__PACKAGE__->mk_get_methods(qw/ deflator filter constraint inflator validator /);
+
+__PACKAGE__->mk_get_one_methods(qw/ 
+    deflator filter constraint inflator validator /);
 
 *elements    = \&element;
 *constraints = \&constraint;

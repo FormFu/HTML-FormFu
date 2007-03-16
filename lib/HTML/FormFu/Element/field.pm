@@ -4,12 +4,9 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
 
-use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::ObjectUtil 
-    qw/  get_constraint get_filter get_deflator get_inflator get_validator 
-    get_error
-    _require_constraint _require_filter _require_inflator _require_deflator
-    _require_validator /;
+use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods mk_get_one_methods /;
+use HTML::FormFu::ObjectUtil qw/   
+    get_error _require_constraint /;
 use HTML::FormFu::Util qw/ _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
@@ -32,6 +29,11 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_validator_class /
 );
+
+__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+
+__PACKAGE__->mk_get_one_methods(qw/ 
+    deflator filter constraint inflator validator /);
 
 # build _single_X methods
 
