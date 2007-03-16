@@ -61,10 +61,10 @@ sub _require_element {
 
     my $type = delete $arg->{type};
     my $class = $type;
-    if ( $class !~ /^\+/ ) {
+    if ( not $class =~ s/^\+// ) {
         $class = "HTML::FormFu::Element::$class";
     }
-    
+
     $type =~ s/^\+//;
 
     require_class($class);
