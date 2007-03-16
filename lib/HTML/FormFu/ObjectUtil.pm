@@ -235,9 +235,9 @@ sub _require_constraint {
     require_class($class);
 
     my $constraint = $class->new( {
-            constraint_type => $type,
-            not             => $not,
-            parent          => $self,
+            type   => $type,
+            not    => $not,
+            parent => $self,
         } );
 
     weaken( $constraint->{parent} );
@@ -258,7 +258,7 @@ sub get_constraints {
     my @c = map { @{ $_->get_constraints(@_) } } @{ $self->_elements };
     
     if ( exists $args{type} ) {
-        @c = grep { $_->constraint_type eq $args{type} } @c;
+        @c = grep { $_->type eq $args{type} } @c;
     }
     
     return \@c;
