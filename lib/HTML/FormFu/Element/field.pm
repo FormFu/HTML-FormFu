@@ -6,8 +6,10 @@ use base 'HTML::FormFu::Element';
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil 
-    qw/  get_constraint get_filter get_deflator get_inflator get_error
-    _require_constraint _require_filter _require_inflator _require_deflator /;
+    qw/  get_constraint get_filter get_deflator get_inflator get_validator 
+    get_error
+    _require_constraint _require_filter _require_inflator _require_deflator
+    _require_validator /;
 use HTML::FormFu::Util qw/ _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
@@ -21,15 +23,85 @@ __PACKAGE__->mk_attrs(
 );
 
 __PACKAGE__->mk_accessors(qw/ 
-    _constraints _filters _inflators _deflators _errors
+    _constraints _filters _inflators _deflators _validators _errors
     field_filename label_filename errors retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class /
+    auto_constraint_class auto_validator_class /
 );
+
+# build _single_X methods
+
+for my $method (qw/ deflator filter constraint inflator validator /) {
+    no strict 'refs';
+    
+    my $sub = sub {
+        my ( $self, $arg ) = @_;
+        my @items;
+    
+        if ( ref $arg eq 'HASH' ) {
+            push @items, $arg;
+        }
+        elsif ( !ref $arg ) {
+            push @items, { type => $arg };
+        }
+        else {
+            croak 'invalid args';
+        }
+    
+        my @return;
+    
+        for my $item (@items) {
+            my $type = delete $item->{type};
+            my $require_method = "_require_$method";
+            my $array_method = "_${method}s";
+            
+            my $new = $self->$require_method( $type, $item );
+            
+            push @{ $self->$array_method }, $new;
+            push @return, $new;
+        }
+    
+        return @return;
+        };
+    
+    my $name = __PACKAGE__ . "::_single_$method";
+    
+    *{$name} = $sub;
+}
+
+# build get_Xs methods
+
+for my $method (qw/ deflator filter constraint inflator validator /) {
+    no strict 'refs';
+    
+    my $sub = sub {
+        my $self = shift;
+        my %args = _parse_args(@_);
+        my $array_method = "_${method}s";
+        
+        my @x = @{ $self->$array_method };
+    
+        if ( exists $args{name} ) {
+            @x = grep { $_->name eq $args{name} } @x;
+        }
+    
+        if ( exists $args{type} ) {
+            my $type_method = "${method}_type";
+            
+            @x = grep { $_->$type_method eq $args{type} } @x;
+        }
+    
+        return \@x;
+        };
+    
+    my $name = __PACKAGE__ . "::get_${method}s";
+        
+    *{$name} = $sub;
+}
 
 *constraints = \&constraint;
 *filters     = \&filter;
@@ -47,6 +119,7 @@ sub new {
     $self->_filters(     [] );
     $self->_deflators(   [] );
     $self->_inflators(   [] );
+    $self->_validators(  [] );
     $self->_errors(      [] );
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
@@ -72,51 +145,6 @@ sub constraint {
     return @return == 1 ? $return[0] : @return;
 }
 
-sub _single_constraint {
-    my ( $self, $constraint ) = @_;
-    my @constraints;
-
-    if ( ref $constraint eq 'HASH' ) {
-        push @constraints, $constraint;
-    }
-    elsif ( !ref $constraint ) {
-        push @constraints, { type => $constraint };
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    for my $c (@constraints) {
-        my $type = delete $c->{type};
-        
-        my $new = $self->_require_constraint( $type, $c );
-        
-        push @{ $self->_constraints }, $new;
-        push @return, $new;
-    }
-
-    return @return;
-}
-
-sub get_constraints {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    my @c = @{ $self->_constraints };
-
-    if ( exists $args{name} ) {
-        @c = grep { $_->name eq $args{name} } @c;
-    }
-
-    if ( exists $args{type} ) {
-        @c = grep { $_->constraint_type eq $args{type} } @c;
-    }
-
-    return \@c;
-}
-
 sub filter {
     my ( $self, $arg ) = @_;
     my @return;
@@ -129,51 +157,6 @@ sub filter {
     }
 
     return @return == 1 ? $return[0] : @return;
-}
-
-sub _single_filter {
-    my ( $self, $filter ) = @_;
-    my @filters;
-
-    if ( ref $filter eq 'HASH' ) {
-        push @filters, $filter;
-    }
-    elsif ( !ref $filter ) {
-        push @filters, { type => $filter };
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    for my $f (@filters) {
-        my $type = delete $f->{type};
-        
-        my $new = $self->_require_filter( $type, $f );
-        
-        push @{ $self->_filters }, $new;
-        push @return, $new;
-    }
-
-    return @return;
-}
-
-sub get_filters {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    my @f = @{ $self->_filters };
-
-    if ( exists $args{name} ) {
-        @f = grep { $_->name eq $args{name} } @f;
-    }
-
-    if ( exists $args{type} ) {
-        @f = grep { $_->filter_type eq $args{type} } @f;
-    }
-
-    return \@f;
 }
 
 sub deflator {
@@ -190,51 +173,6 @@ sub deflator {
     return @return == 1 ? $return[0] : @return;
 }
 
-sub _single_deflator {
-    my ( $self, $deflator ) = @_;
-    my @deflators;
-
-    if ( ref $deflator eq 'HASH' ) {
-        push @deflators, $deflator;
-    }
-    elsif ( !ref $deflator ) {
-        push @deflators, { type => $deflator };
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    for my $f (@deflators) {
-        my $type = delete $f->{type};
-        
-        my $new = $self->_require_deflator( $type, $f );
-        
-        push @{ $self->_deflators }, $new;
-        push @return, $new;
-    }
-
-    return @return;
-}
-
-sub get_deflators {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    my @d = @{ $self->_deflators };
-
-    if ( exists $args{name} ) {
-        @d = grep { $_->name eq $args{name} } @d;
-    }
-
-    if ( exists $args{type} ) {
-        @d = grep { $_->deflator_type eq $args{type} } @d;
-    }
-
-    return \@d;
-}
-
 sub inflator {
     my ( $self, $arg ) = @_;
     my @return;
@@ -249,49 +187,18 @@ sub inflator {
     return @return == 1 ? $return[0] : @return;
 }
 
-sub _single_inflator {
-    my ( $self, $inflator ) = @_;
-    my @inflators;
-
-    if ( ref $inflator eq 'HASH' ) {
-        push @inflators, $inflator;
-    }
-    elsif ( !ref $inflator ) {
-        push @inflators, { type => $inflator };
-    }
-    else {
-        croak 'invalid args';
-    }
-
+sub validator {
+    my ( $self, $arg ) = @_;
     my @return;
 
-    for my $i (@inflators) {
-        my $type = delete $i->{type};
-        
-        my $new = $self->_require_inflator( $type, $i );
-        
-        push @{ $self->_inflators }, $new;
-        push @return, $new;
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { _single_validator( $self, $_ ) } @$arg;
+    }
+    else {
+        push @return, _single_validator( $self, $arg );
     }
 
-    return @return;
-}
-
-sub get_inflators {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    my @i = @{ $self->_inflators };
-
-    if ( exists $args{name} ) {
-        @i = grep { $_->name eq $args{name} } @i;
-    }
-
-    if ( exists $args{type} ) {
-        @i = grep { $_->inflator_type eq $args{type} } @i;
-    }
-
-    return \@i;
+    return @return == 1 ? $return[0] : @return;
 }
 
 sub get_errors {
@@ -397,6 +304,10 @@ sub render {
     $self->_render_value($render);
     
     $self->_render_constraint_class($render);
+    
+#    $self->_render_inflator_class($render);
+    
+    $self->_render_validator_class($render);
 
     $self->_render_error_class($render);
 
@@ -505,6 +416,34 @@ sub _render_constraint_class {
             n => defined $render->{name}     ? $render->{name}           : '',
             t => defined $c->constraint_type ? lc( $c->constraint_type ) : '',
         );
+        
+        my $class = $auto_class;
+        
+        $class =~ s/%([fnt])/$string{$1}/ge;
+        
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class );
+    }
+    
+    return;
+}
+
+sub _render_validator_class {
+    my ( $self, $render ) = @_;
+    
+    my $auto_class = $self->auto_validator_class;
+    
+    return if !defined $auto_class;
+    
+    for my $c ( @{ $self->_validators } ) {
+        my %string = (
+            f => defined $self->form->id    ? $self->form->id           : '',
+            n => defined $render->{name}    ? $render->{name}           : '',
+            t => defined $c->validator_type ? lc( $c->validator_type ) : '',
+        );
+        
+        $string{t} =~ s/::/_/g;
+        $string{t} =~ s/\+//;
         
         my $class = $auto_class;
         

@@ -11,11 +11,11 @@ use HTML::FormFu::FakeQuery;
 use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
 use HTML::FormFu::ObjectUtil
-    qw/ element constraint filter deflator inflator
+    qw/ element constraint filter deflator inflator validator
     get_elements get_element get_all_elements get_fields get_field 
     get_constraints get_constraint get_filters get_filter  
     get_deflators get_deflator get_inflators get_inflator
-    get_errors get_error delete_errors
+    get_validators get_validator get_errors get_error delete_errors
     populate load_config_file insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
@@ -45,7 +45,7 @@ __PACKAGE__->mk_accessors(
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class /
+    auto_constraint_class auto_validator_class /
 );
 
 *elements    = \&element;
@@ -235,6 +235,9 @@ sub _process_input {
     $self->_inflate_input
         if !@{ $self->get_errors };
     
+    $self->_validate_input
+        if !@{ $self->get_errors };
+    
     $self->_build_valid_names;
     
     return;
@@ -335,6 +338,34 @@ sub _inflate_input {
             if !@{ $self->get_errors({ name => $name }) };
     }
 
+    return;
+}
+
+sub _validate_input {
+    my ($self) = @_;
+    
+    my $params = $self->_processed_params;
+
+    for my $validator ( map { @{ $_->get_validators } } @{ $self->_elements } )
+    {
+        my @errors = eval {
+            $validator->process( $params );
+            };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ ) {
+            push @errors, HTML::FormFu::Exception::Validator->new;
+        }
+        
+        for my $error (@errors) {
+            $error->parent( $validator->parent ) if !$error->parent;
+            $error->validator( $validator )     if !$error->validator;
+            
+            $error->parent->add_error( $error );
+        }
+    }
+    
     return;
 }
 

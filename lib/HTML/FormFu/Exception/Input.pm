@@ -28,6 +28,9 @@ sub class {
         s => $self->stage,
     );
     
+    $string{t} =~ s/::/_/g;
+    $string{t} =~ s/\+//;
+    
     my $class = $self->parent->auto_error_class;
     
     $class =~ s/%([fnts])/$string{$1}/ge;
@@ -52,6 +55,9 @@ sub message {
         n => defined $self->name     ? $self->name       : '',
         t => defined $self->type     ? lc( $self->type ) : '',
     );
+    
+    $string{t} =~ s/::/_/g;
+    $string{t} =~ s/\+//;
     
     my $message = $self->parent->auto_error_message;
     

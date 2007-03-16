@@ -5,9 +5,10 @@ use warnings;
 use base 'HTML::FormFu::Element';
 
 use HTML::FormFu::ObjectUtil qw/ element constraint filter inflator deflator
+    validator
     get_fields get_field get_constraints get_constraint get_filters get_filter
     get_deflators get_deflator get_inflators get_inflator
-    get_errors get_error delete_errors
+    get_validators get_validator get_errors get_error delete_errors
     get_elements get_element get_all_elements insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;
 use Storable qw( dclone );
@@ -18,7 +19,7 @@ __PACKAGE__->mk_accessors(
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class /
+    auto_constraint_class auto_validator_class /
 );
 
 *elements    = \&element;
