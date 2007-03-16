@@ -23,10 +23,10 @@ $form->constraint( Required => 'name', 'age' );
     is( $constraints->[2]->name, 'age' );
     is( $constraints->[3]->name, 'age' );
 
-    is( $constraints->[0]->type, 'Word' );
-    is( $constraints->[1]->type, 'Required' );
-    is( $constraints->[2]->type, 'Number' );
-    is( $constraints->[3]->type, 'Required' );
+    is( $constraints->[0]->constraint_type, 'Word' );
+    is( $constraints->[1]->constraint_type, 'Required' );
+    is( $constraints->[2]->constraint_type, 'Number' );
+    is( $constraints->[3]->constraint_type, 'Required' );
 }
 
 {
@@ -34,8 +34,8 @@ $form->constraint( Required => 'name', 'age' );
 
     is( @$constraints, 2 );
 
-    is( $constraints->[0]->type, 'Word' );
-    is( $constraints->[1]->type, 'Required' );
+    is( $constraints->[0]->constraint_type, 'Word' );
+    is( $constraints->[1]->constraint_type, 'Required' );
 }
 
 {
@@ -43,8 +43,8 @@ $form->constraint( Required => 'name', 'age' );
 
     is( @$constraints, 2 );
 
-    is( $constraints->[0]->type, 'Number' );
-    is( $constraints->[1]->type, 'Required' );
+    is( $constraints->[0]->constraint_type, 'Number' );
+    is( $constraints->[1]->constraint_type, 'Required' );
 }
 
 {

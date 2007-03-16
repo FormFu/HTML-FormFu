@@ -111,7 +111,7 @@ sub get_constraints {
     }
 
     if ( exists $args{type} ) {
-        @c = grep { $_->type eq $args{type} } @c;
+        @c = grep { $_->constraint_type eq $args{type} } @c;
     }
 
     return \@c;
@@ -501,9 +501,9 @@ sub _render_constraint_class {
     
     for my $c ( @{ $self->_constraints } ) {
         my %string = (
-            f => defined $self->form->id ? $self->form->id : '',
-            n => defined $render->{name} ? $render->{name} : '',
-            t => defined $c->type        ? lc( $c->type )  : '',
+            f => defined $self->form->id     ? $self->form->id           : '',
+            n => defined $render->{name}     ? $render->{name}           : '',
+            t => defined $c->constraint_type ? lc( $c->constraint_type ) : '',
         );
         
         my $class = $auto_class;

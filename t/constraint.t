@@ -16,10 +16,10 @@ my @c1 = $form->constraint({
     });
 
 is( $c1[0]->name,            'foo' );
-is( $c1[0]->type, 'Number' );
+is( $c1[0]->constraint_type, 'Number' );
 
 is( $c1[1]->name,            'bar' );
-is( $c1[1]->type, 'Number' );
+is( $c1[1]->constraint_type, 'Number' );
 
 {
     my @a = $form->constraint( [
@@ -32,13 +32,13 @@ is( $c1[1]->type, 'Number' );
         ] );
 
     is( $a[0]->name,            'foo' );
-    is( $a[0]->type, 'Regex' );
+    is( $a[0]->constraint_type, 'Regex' );
 
     is( $a[1]->name,            'bar' );
-    is( $a[1]->type, 'Regex' );
+    is( $a[1]->constraint_type, 'Regex' );
 
     is( $a[2]->name,            'bar' );
-    is( $a[2]->type, 'Required' );
+    is( $a[2]->constraint_type, 'Required' );
 }
 
 # $element->constraint

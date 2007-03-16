@@ -10,7 +10,7 @@ use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ parent type not /);
+__PACKAGE__->mk_accessors(qw/ parent constraint_type not /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
@@ -23,7 +23,7 @@ sub new {
 
     my $self = bless {}, $class;
 
-    for (qw/ type /) {
+    for (qw/ constraint_type /) {
         croak "$_ attribute required" if !exists $attrs{$_};
     }
 
