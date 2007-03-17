@@ -288,7 +288,7 @@ sub mk_require_methods {
             if ( not $class =~ s/^\+// ) {
                 $class = "HTML::FormFu::" . ucfirst($name) . "::$class";
             }
-            
+
             $type =~ s/^\+//;
             
             require_class($class);

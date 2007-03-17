@@ -12,6 +12,7 @@ use HTML::FormFu::Exception;
 use HTML::FormFu::FakeQuery;
 use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
+use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/ 
     _single_element _require_constraint 
     get_elements get_element get_all_elements get_fields get_field 
@@ -121,32 +122,6 @@ sub auto_fieldset {
     $self->_auto_fieldset(1);
     
     return $self;
-}
-
-sub localize_object {
-    my $self = shift;
-
-    if (@_) {
-        $self->{localize_object} = shift;
-
-        return $self;
-    }
-
-    if ( !defined $self->{localize_object} ) {
-        my $class = $self->localize_class;
-
-        require_class($class);
-
-        $self->{localize_object} = $class->get_handle( @{ $self->languages } );
-    }
-
-    return $self->{localize_object};
-}
-
-sub localize {
-    my $self = shift;
-
-    return $self->localize_object->localize(@_);
 }
 
 sub process {
@@ -314,7 +289,7 @@ sub _constrain_input {
             $error->parent->add_error( $error );
         }
     }
-    
+
     return;
 }
 
