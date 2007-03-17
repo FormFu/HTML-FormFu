@@ -6,6 +6,8 @@ use base 'HTML::FormFu::Filter';
 
 sub filter {
    my ( $self, $value ) = @_;
+
+   return unless defined $value;
    
    $value =~ s/^\s+//;
    $value =~ s/\s+\z//;
