@@ -67,6 +67,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *filters     = \&filter;
 *deflators   = \&deflator;
 *inflators   = \&inflator;
+*validators  = \&validator;
 *loc         = \&localize;
 
 our $VERSION = '0.00_01';
