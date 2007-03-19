@@ -20,27 +20,31 @@ __PACKAGE__->mk_accessors(
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_validator_class /
+    auto_constraint_class auto_validator_class auto_transformer_class /
 );
 
 __PACKAGE__->mk_add_methods(qw/ 
-    element deflator filter constraint inflator validator /);
+    element deflator filter constraint inflator validator transformer /);
 
 __PACKAGE__->mk_single_methods(qw/ 
-    deflator constraint filter inflator validator /);
+    deflator constraint filter inflator validator transformer /);
 
-__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+__PACKAGE__->mk_require_methods(qw/ 
+    deflator filter inflator validator transformer /);
 
-__PACKAGE__->mk_get_methods(qw/ deflator filter constraint inflator validator /);
+__PACKAGE__->mk_get_methods(qw/ 
+    deflator filter constraint inflator validator transformer /);
 
 __PACKAGE__->mk_get_one_methods(qw/ 
-    deflator filter constraint inflator validator /);
+    deflator filter constraint inflator validator transformer /);
 
-*elements    = \&element;
-*constraints = \&constraint;
-*filters     = \&filters;
-*deflators   = \&deflator;
-*inflators   = \&inflator;
+*elements     = \&element;
+*constraints  = \&constraint;
+*deflators    = \&deflator;
+*filters      = \&filters;
+*inflators    = \&inflator;
+*validators   = \&validator;
+*transformers = \&transformer;
 
 sub new {
     my $self = shift->SUPER::new(@_);

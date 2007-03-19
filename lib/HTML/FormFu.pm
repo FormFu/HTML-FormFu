@@ -46,29 +46,32 @@ __PACKAGE__->mk_accessors(
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_validator_class /
+    auto_constraint_class auto_validator_class auto_transformer_class /
 );
 
 __PACKAGE__->mk_add_methods(qw/ 
-    element deflator filter constraint inflator validator /);
+    element deflator filter constraint inflator validator transformer /);
 
 __PACKAGE__->mk_single_methods(qw/ 
-    deflator filter constraint inflator validator /);
+    deflator filter constraint inflator validator transformer /);
 
-__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+__PACKAGE__->mk_require_methods(qw/ 
+    deflator filter inflator validator transformer /);
 
-__PACKAGE__->mk_get_methods(qw/ deflator filter constraint inflator validator /);
+__PACKAGE__->mk_get_methods(qw/ 
+    deflator filter constraint inflator validator transformer /);
 
 __PACKAGE__->mk_get_one_methods(qw/ 
-    deflator filter constraint inflator validator /);
+    deflator filter constraint inflator validator tranformer /);
 
-*elements    = \&element;
-*constraints = \&constraint;
-*filters     = \&filter;
-*deflators   = \&deflator;
-*inflators   = \&inflator;
-*validators  = \&validator;
-*loc         = \&localize;
+*elements     = \&element;
+*constraints  = \&constraint;
+*filters      = \&filter;
+*deflators    = \&deflator;
+*inflators    = \&inflator;
+*validators   = \&validator;
+*transformers = \&transformer;
+*loc          = \&localize;
 
 our $VERSION = '0.00_01';
 
@@ -227,6 +230,9 @@ sub _process_input {
     $self->_validate_input
         if !@{ $self->get_errors };
     
+    $self->_transform_input
+        if !@{ $self->get_errors };
+    
     $self->_build_valid_names;
     
     return;
@@ -350,6 +356,34 @@ sub _validate_input {
         for my $error (@errors) {
             $error->parent( $validator->parent ) if !$error->parent;
             $error->validator( $validator )     if !$error->validator;
+            
+            $error->parent->add_error( $error );
+        }
+    }
+    
+    return;
+}
+
+sub _transform_input {
+    my ($self) = @_;
+    
+    my $params = $self->_processed_params;
+
+    for my $transformer ( map { @{ $_->get_transformers } } @{ $self->_elements } )
+    {
+        my @errors = eval {
+            $transformer->process( $params );
+            };
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
+            push @errors, $@;
+        }
+        elsif ( $@ ) {
+            push @errors, HTML::FormFu::Exception::Transformer->new;
+        }
+        
+        for my $error (@errors) {
+            $error->parent( $transformer->parent ) if !$error->parent;
+            $error->transformer( $transformer )    if !$error->transformer;
             
             $error->parent->add_error( $error );
         }

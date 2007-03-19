@@ -20,24 +20,28 @@ __PACKAGE__->mk_attrs(
 );
 
 __PACKAGE__->mk_accessors(qw/ 
-    _constraints _filters _inflators _deflators _validators _errors
+    _constraints _filters _inflators _deflators _validators _transformers 
+    _errors
     field_filename label_filename errors retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_validator_class /
+    auto_constraint_class auto_validator_class auto_transformer_class /
 );
 
-__PACKAGE__->mk_require_methods(qw/ deflator filter inflator validator /);
+__PACKAGE__->mk_require_methods(qw/ 
+    deflator filter inflator validator transformer /);
 
 __PACKAGE__->mk_get_one_methods(qw/ 
-    deflator filter constraint inflator validator /);
+    deflator filter constraint inflator validator transformer /);
 
 # build _single_X methods
 
-for my $method (qw/ deflator filter constraint inflator validator /) {
+for my $method (qw/ 
+    deflator filter constraint inflator validator transformer /)
+{
     no strict 'refs';
     
     my $sub = sub {
@@ -77,7 +81,9 @@ for my $method (qw/ deflator filter constraint inflator validator /) {
 
 # build get_Xs methods
 
-for my $method (qw/ deflator filter constraint inflator validator /) {
+for my $method (qw/ 
+    deflator filter constraint inflator validator transformer /)
+{
     no strict 'refs';
     
     my $sub = sub {
@@ -117,12 +123,13 @@ for my $method (qw/ deflator filter constraint inflator validator /) {
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->_constraints( [] );
-    $self->_filters(     [] );
-    $self->_deflators(   [] );
-    $self->_inflators(   [] );
-    $self->_validators(  [] );
-    $self->_errors(      [] );
+    $self->_constraints(  [] );
+    $self->_filters(      [] );
+    $self->_deflators(    [] );
+    $self->_inflators(    [] );
+    $self->_validators(   [] );
+    $self->_transformers( [] );
+    $self->_errors(       [] );
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
@@ -198,6 +205,20 @@ sub validator {
     }
     else {
         push @return, _single_validator( $self, $arg );
+    }
+
+    return @return == 1 ? $return[0] : @return;
+}
+
+sub transformer {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { _single_transformer( $self, $_ ) } @$arg;
+    }
+    else {
+        push @return, _single_transformer( $self, $arg );
     }
 
     return @return == 1 ? $return[0] : @return;
@@ -310,6 +331,8 @@ sub render {
 #    $self->_render_inflator_class($render);
     
     $self->_render_validator_class($render);
+    
+    $self->_render_transformer_class($render);
 
     $self->_render_error_class($render);
 
@@ -442,6 +465,34 @@ sub _render_validator_class {
             f => defined $self->form->id    ? $self->form->id           : '',
             n => defined $render->{name}    ? $render->{name}           : '',
             t => defined $c->validator_type ? lc( $c->validator_type ) : '',
+        );
+        
+        $string{t} =~ s/::/_/g;
+        $string{t} =~ s/\+//;
+        
+        my $class = $auto_class;
+        
+        $class =~ s/%([fnt])/$string{$1}/ge;
+        
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class );
+    }
+    
+    return;
+}
+
+sub _render_transformer_class {
+    my ( $self, $render ) = @_;
+    
+    my $auto_class = $self->auto_transformer_class;
+    
+    return if !defined $auto_class;
+    
+    for my $c ( @{ $self->_transformers } ) {
+        my %string = (
+            f => defined $self->form->id      ? $self->form->id            : '',
+            n => defined $render->{name}      ? $render->{name}            : '',
+            t => defined $c->transformer_type ? lc( $c->transformer_type ) : '',
         );
         
         $string{t} =~ s/::/_/g;

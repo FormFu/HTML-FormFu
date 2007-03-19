@@ -10,7 +10,7 @@ use Scalar::Util qw/ refaddr weaken /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 
-our @EXPORT_OK = qw/ element constraint filter inflator validator 
+our @EXPORT_OK = qw/  
     _render_class _coerce populate
     _require_constraint
     _single_element 
@@ -226,7 +226,7 @@ sub populate {
     my @keys = qw(
         element_defaults auto_fieldset load_config_file element elements 
         filter filters constraint constraints inflator inflators 
-        deflator deflators query validator validators
+        deflator deflators query validator validators transformer transformers
     );
 
     my %defer;
