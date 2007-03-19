@@ -254,8 +254,7 @@ sub _build_params {
         if ( ref $input eq 'ARRAY' ) {
             # can't clone upload filehandles
             # so create new arrayref of values
-            $input = [];
-            push @$input, $_ for @$input;
+            $input = [@$input];
         }
         
         $params{$name} = $input;
