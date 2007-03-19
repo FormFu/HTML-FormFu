@@ -4,28 +4,47 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element::input';
 
-__PACKAGE__->mk_accessors(qw/ headers /);
+__PACKAGE__->mk_accessors(qw/ uploads /);
 
 sub new {
     my $self = shift->SUPER::new(@_);
 
     $self->type('file');
+    $self->uploads([]);
     
     $self->form->enctype('multipart/form-data');
 
     return $self;
 }
 
-sub header {
+sub headers {
     my ($self) = @_;
+    
+    my $uploads = $self->uploads;
+    
+    return if ! @$uploads;
+    
+    return $uploads->[0]->headers;
+}
 
-    my $h = $self->headers;
+sub fh {
+    my ($self) = @_;
+    
+    my $uploads = $self->uploads;
+    
+    return if ! @$uploads;
+    
+    return $uploads->[0]->fh;
+}
 
-    if ( $h && @$h ) {
-        return $h->[0];
-    }
-
-    return {};
+sub slurp {
+    my ($self) = @_;
+    
+    my $uploads = $self->uploads;
+    
+    return if ! @$uploads;
+    
+    return $uploads->[0]->slurp;
 }
 
 1;

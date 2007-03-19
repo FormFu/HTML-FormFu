@@ -251,8 +251,12 @@ sub _build_params {
 
         my $input = exists $input->{$name} ? $input->{$name} : undef;
         
-        $input = dclone( $input )
-            if ref $input eq 'ARRAY';
+        if ( ref $input eq 'ARRAY' ) {
+            # can't clone upload filehandles
+            # so create new arrayref of values
+            $input = [];
+            push @$input, $_ for @$input;
+        }
         
         $params{$name} = $input;
     }
@@ -417,19 +421,17 @@ sub _build_file_headers {
 
     my $files = $self->get_fields( { type => 'file' } );
 
-    if ($files) {
-        my $class = $self->query_type;
-        if ( $class !~ /^\+/ ) {
-            $class = "HTML::FormFu::QueryType::$class";
+    if (@$files) {
+        my $query_class = $self->query_type;
+        if ( $query_class !~ /^\+/ ) {
+            $query_class = "HTML::FormFu::QueryType::$query_class";
         }
-        require_class($class);
+        require_class($query_class);
 
         for my $file (@$files) {
-            my $header = $class->new( {
-                    query => $self->query,
-                    name  => $file->name,
-                } );
-            $file->headers( $header->headers );
+            my $uploads = $query_class->parse_uploads( $self, $file );
+            
+            $file->uploads( $uploads );
         }
     }
 

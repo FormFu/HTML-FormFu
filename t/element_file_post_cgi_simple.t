@@ -4,9 +4,9 @@ use warnings;
 use Test::More;
 use HTML::FormFu;
 
-eval "use CGI";
+eval "use CGI::Simple";
 if ($@) {
-    plan skip_all => 'CGI required';
+    plan skip_all => 'CGI::Simple required';
     exit;
 }
 
@@ -49,7 +49,11 @@ my $q;
     open STDIN, "<", $file
         or die "missing test file $file";
     binmode STDIN;
-    $q = CGI->new;
+    
+    no warnings;
+    $CGI::Simple::DISABLE_UPLOADS = 0;
+    
+    $q = CGI::Simple->new;
 }
 
 my $form = HTML::FormFu->new( {
@@ -61,6 +65,7 @@ my $form = HTML::FormFu->new( {
             { type => 'file', name => '300x300_gif' },
             { type => 'file', name => 'multiple' },
         ],
+        query_type => 'CGI::Simple',
     } );
 
 $form->process($q);

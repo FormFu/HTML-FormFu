@@ -387,7 +387,8 @@ sub _render_comment_class {
 sub _render_value {
     my ( $self, $render ) = @_;
     
-    my $input = exists $self->form->input->{ $self->name } 
+    my $input = (defined $self->name 
+                 && exists $self->form->input->{ $self->name } ) 
               ? $self->form->input->{ $self->name } 
               : undef;
               

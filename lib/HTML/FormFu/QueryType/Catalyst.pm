@@ -2,31 +2,49 @@ package HTML::FormFu::QueryType::Catalyst;
 
 use strict;
 use warnings;
-use base 'Class::Accessor::Chained::Fast';
+use base 'HTML::FormFu::QueryType::CGI';
 
-use Carp qw( croak );
-
-__PACKAGE__->mk_accessors(qw/ query name /);
+sub parse_uploads {
+    my ( $class, $form, $field ) = @_;
+    
+    my @filenames = $form->query->upload( $field->name );
+    my @objects;
+    
+    for my $file (@filenames) {
+        my $obj = $class->new({
+            parent => $field,
+            _file  => $file,
+            });
+        
+        push @objects, $obj;
+    }
+    
+    return \@objects;
+}
 
 sub headers {
     my ($self) = @_;
 
-    my @uploads = $self->query->upload( $self->name );
-    my @headers;
-
-    if (@uploads) {
-        for my $upload (@uploads) {
-            my $http = $upload->headers;
-            my %header;
-            for my $key ( $http->header_field_names ) {
-                $header{$key} = $http->header($key);
-            }
-            push @headers, \%header;
-        }
-        return \@headers;
+    my $http = $self->_file->headers;
+    my %header;
+    
+    for my $key ( $http->header_field_names ) {
+        $header{$key} = $http->header($key);
     }
+    
+    return \%header;
+}
 
-    return;
+sub fh {
+    my ($self) = @_;
+    
+    return $self->_file->fh;
+}
+
+sub slurp {
+    my ($self) = @_;
+    
+    return $self->_file->slurp;
 }
 
 1;
