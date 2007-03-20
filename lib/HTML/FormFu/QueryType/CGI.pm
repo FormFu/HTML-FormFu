@@ -2,40 +2,44 @@ package HTML::FormFu::QueryType::CGI;
 
 use strict;
 use warnings;
-use base 'Class::Accessor::Chained::Fast';
-
-use HTML::FormFu::ObjectUtil qw/ form /;
-
-__PACKAGE__->mk_accessors(qw/ _file parent /);
+use base 'HTML::FormFu::Upload';
 
 sub parse_uploads {
-    my ( $class, $form, $field ) = @_;
+    my ( $class, $form, $name ) = @_;
     
-    my @filenames = $form->query->param( $field->name );
-    my @objects;
+    my @params = $form->query->param($name);
+    my @new;
     
-    for my $file (@filenames) {
-        my $obj = $class->new({
-            parent => $field,
-            _file  => $file,
-            });
+    for my $param (@params) {
+        if ( ref $param ) {
+            $param = $class->new({
+                _param => $param,
+                parent => $form,
+                });
+        }
         
-        push @objects, $obj;
+        push @new, $param;
     }
     
-    return \@objects;
+    return @new == 1 ? $new[0] : \@new;
 }
 
 sub headers {
     my ($self) = @_;
 
-    return $self->form->query->uploadInfo( $self->_file );
+    return $self->form->query->uploadInfo( $self->_param );
+}
+
+sub filename {
+    my ($self) = @_;
+    
+    return $self->_param;
 }
 
 sub fh {
     my ($self) = @_;
     
-    return $self->_file;
+    return $self->_param;
 }
 
 sub slurp {

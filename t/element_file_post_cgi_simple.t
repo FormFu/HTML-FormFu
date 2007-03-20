@@ -10,7 +10,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 8;
+plan tests => 18;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -21,7 +21,7 @@ plan tests => 8;
     'HTTP_CONNECTION'   => 'TE, close',
     'REQUEST_METHOD'    => 'POST',
     'SCRIPT_URI'        => 'http://www.perl.org/test.cgi',
-    'CONTENT_LENGTH'    => 3392,
+    'CONTENT_LENGTH'    => 3458,
     'SCRIPT_FILENAME'   => '/home/usr/test.cgi',
     'SERVER_SOFTWARE'   => 'Apache/1.3.27 (Unix) ',
     'HTTP_TE'           => 'deflate,gzip;q=0.3',
@@ -59,33 +59,49 @@ my $q;
 my $form = HTML::FormFu->new( {
         action   => 'http://www.perl.org/test.cgi',
         elements => [
+            { type => 'text', name => 'multiple' },
+            { type => 'file', name => 'multiple' },
+            { type => 'file', name => 'multiple' },
             { type => 'file', name => 'hello_world' },
             { type => 'file', name => 'does_not_exist_gif' },
             { type => 'file', name => '100x100_gif' },
             { type => 'file', name => '300x300_gif' },
-            { type => 'file', name => 'multiple' },
         ],
         query_type => 'CGI::Simple',
     } );
 
 $form->process($q);
 
-my $uploads = $form->get_field('multiple')->uploads;
+{
+    my $multiple = $form->params->{multiple};
 
-is( $uploads->[0]->headers->{'Content-Length'}, 4 );
-is( $uploads->[0]->headers->{'Content-Type'},   'text/plain' );
+    is( @$multiple, 3 );
+    
+    my ( $m1, $m2, $m3 ) = @$multiple;
 
-like( $uploads->[0]->slurp, qr/^One/ );
+    ok( !ref $m1 );
+    is( $m1, 'foo' );
 
-is( $uploads->[1]->headers->{'Content-Length'}, 4 );
-is( $uploads->[1]->headers->{'Content-Type'},   'text/plain' );
-
-like( $uploads->[1]->slurp, qr/^Two/ );
+    isa_ok( $m2, 'HTML::FormFu::Upload' );
+    is( $m2->filename, 'one.txt' );
+    is( $m2->headers->{'Content-Length'}, 4 );
+    is( $m2->headers->{'Content-Type'}, 'text/plain' );
+    is( $m2->slurp, "One\n" );
+    
+    isa_ok( $m3, 'HTML::FormFu::Upload' );
+    is( $m3->filename, 'two.txt' );
+    is( $m3->headers->{'Content-Length'}, 5 );
+    is( $m3->headers->{'Content-Type'}, 'text/plain' );
+    is( $m3->slurp, "Two!\n" );
+}
 
 {
-    my $headers = $form->get_field('hello_world')->headers;
-
-    is( $headers->{'Content-Length'}, 13 );
-    is( $headers->{'Content-Type'},   'text/plain' );
+    my $value = $form->params->{hello_world};
+    
+    isa_ok( $value, 'HTML::FormFu::Upload' );
+    is( $value->filename, 'hello_world.txt' );
+    is( $value->headers->{'Content-Length'}, 13 );
+    is( $value->headers->{'Content-Type'}, 'text/plain' );
+    is( $value->slurp, "Hello World!\n" );
 }
 

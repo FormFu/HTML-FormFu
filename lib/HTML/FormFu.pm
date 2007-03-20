@@ -218,7 +218,7 @@ sub _process_input {
 
     $self->_build_params;
     
-    $self->_build_file_headers;
+    $self->_process_file_uploads;
     
     $self->_filter_input;
     
@@ -241,14 +241,17 @@ sub _process_input {
 sub _build_params {
     my ($self) = @_;
 
-    my $input  = $self->input;
-    my $fields = $self->get_fields;
+    my $input = $self->input;
     my %params;
     
-    for my $field (@$fields) {
-        my $name = $field->name;
-        next if !defined $name;
-
+    my @names = uniq(
+        sort
+        map { $_->name }
+        grep { defined $_->name }
+        @{ $self->get_fields }
+        );
+    
+    for my $name (@names) {
         my $input = exists $input->{$name} ? $input->{$name} : undef;
         
         if ( ref $input eq 'ARRAY' ) {
@@ -262,6 +265,37 @@ sub _build_params {
 
     $self->_processed_params( \%params );
     
+    return;
+}
+
+sub _process_file_uploads {
+    my ($self) = @_;
+    
+    my @names = uniq(
+        sort
+        map { $_->name }
+        grep { $_->isa('HTML::FormFu::Element::file') }
+        grep { defined $_->name }
+        @{ $self->get_fields }
+        );
+
+    if (@names) {
+        my $query_class = $self->query_type;
+        if ( $query_class !~ /^\+/ ) {
+            $query_class = "HTML::FormFu::QueryType::$query_class";
+        }
+        require_class($query_class);
+        
+        my $params = $self->_processed_params;
+    
+        for my $name (@names) {
+            
+            my $values = $query_class->parse_uploads( $self, $name );
+            
+            $params->{$name} = $values;
+        }
+    }
+
     return;
 }
 
@@ -411,28 +445,6 @@ CHECK: for my $name (@names) {
     my @valid = keys %valid;
 
     $self->_valid_names( \@valid );
-
-    return;
-}
-
-sub _build_file_headers {
-    my ($self) = @_;
-
-    my $files = $self->get_fields( { type => 'file' } );
-
-    if (@$files) {
-        my $query_class = $self->query_type;
-        if ( $query_class !~ /^\+/ ) {
-            $query_class = "HTML::FormFu::QueryType::$query_class";
-        }
-        require_class($query_class);
-
-        for my $file (@$files) {
-            my $uploads = $query_class->parse_uploads( $self, $file );
-            
-            $file->uploads( $uploads );
-        }
-    }
 
     return;
 }
