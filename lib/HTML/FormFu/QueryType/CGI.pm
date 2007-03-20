@@ -33,7 +33,7 @@ sub headers {
 sub filename {
     my ($self) = @_;
     
-    return $self->_param;
+    return sprintf "%s", $self->_param;
 }
 
 sub fh {

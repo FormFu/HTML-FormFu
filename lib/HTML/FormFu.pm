@@ -403,29 +403,37 @@ sub _validate_input {
 
 sub _transform_input {
     my ($self) = @_;
-    
-    my $params = $self->_processed_params;
 
-    for my $transformer ( map { @{ $_->get_transformers } } @{ $self->_elements } )
-    {
-        my @errors = eval {
-            $transformer->process( $params );
-            };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ ) {
-            push @errors, HTML::FormFu::Exception::Transformer->new;
+    for my $name ( keys %{ $self->_processed_params } ) {
+        my $value = $self->_processed_params->{$name};
+
+        for my $transformer ( map { @{ $_->get_transformers( { name => $name } ) } }
+            @{ $self->_elements } )
+        {
+            my @errors;
+            
+            ( $value, @errors ) = eval {
+                $transformer->process($value);
+                };
+            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
+                push @errors, $@;
+            }
+            elsif ( $@ ) {
+                push @errors, HTML::FormFu::Exception::Transformer->new;
+            }
+            
+            for my $error (@errors) {
+                $error->parent( $transformer->parent ) if !$error->parent;
+                $error->transformer( $transformer )    if !$error->transformer;
+                
+                $error->parent->add_error( $error );
+            }
         }
         
-        for my $error (@errors) {
-            $error->parent( $transformer->parent ) if !$error->parent;
-            $error->transformer( $transformer )    if !$error->transformer;
-            
-            $error->parent->add_error( $error );
-        }
+        $self->_processed_params->{$name} = $value
+            if !@{ $self->get_errors({ name => $name }) };
     }
-    
+
     return;
 }
 

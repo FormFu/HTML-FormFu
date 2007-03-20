@@ -111,14 +111,16 @@ for my $method (qw/
     *{$name} = $sub;
 }
 
-*constraints = \&constraint;
-*filters     = \&filter;
-*deflators   = \&deflator;
-*inflators   = \&inflator;
-*default     = \&value;
-*default_xml = \&value_xml;
-*default_loc = \&value_loc;
-*value_loc   = \&value_loc;
+*constraints  = \&constraint;
+*filters      = \&filter;
+*deflators    = \&deflator;
+*inflators    = \&inflator;
+*validators   = \&validator;
+*transformers = \&transformer;
+*default      = \&value;
+*default_xml  = \&value_xml;
+*default_loc  = \&value_loc;
+*value_loc    = \&value_loc;
 
 sub new {
     my $self = shift->SUPER::new(@_);

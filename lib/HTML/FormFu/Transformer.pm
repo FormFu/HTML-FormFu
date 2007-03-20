@@ -5,7 +5,7 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
-use HTML::FormFu::Exception::Validator;
+use HTML::FormFu::Exception::Transformer;
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
@@ -33,19 +33,35 @@ sub new {
 }
 
 sub process {
-    my ( $self, $params ) = @_;
+    my ( $self, $values ) = @_;
 
-    my $name  = $self->name;
-    my $value = $params->{$name};
+    my $return;
     my @errors;
 
-    if ( ref $value ) {
-        eval { my @x = @$value };
-        croak $@ if $@;
-
-        push @errors, eval {
-            $self->validate_values( $value, $params );
-        };
+    if ( ref $values eq 'ARRAY' ) {
+        my @return;
+        for my $value ( @$values ) {
+            my ( $return ) = eval {
+                $self->transformer($value);
+                };
+            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
+                push @errors, $@;
+                push @return, undef;
+            }
+            elsif ( $@ ) {
+                push @errors, HTML::FormFu::Exception::Transformer->new;
+                push @return, undef;
+            }
+            else {
+                push @return, $value;
+            }
+        }
+        $return = \@return;
+    }
+    else {
+        ( $return ) = eval {
+            $self->transformer($values);
+            };
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
             push @errors, $@;
         }
@@ -53,43 +69,8 @@ sub process {
             push @errors, HTML::FormFu::Exception::Transformer->new;
         }
     }
-    else {
-        my $ok = eval {
-            $self->validate_value( $value, $params ) ? 1 : 0;
-        };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Transformer->new;
-        }
-    }
 
-    return @errors;
-}
-
-sub validate_values {
-    my ( $self, $values, $params ) = @_;
-
-    my @errors;
-
-    for my $value (@$values) {
-        my $ok = eval {
-            $self->validate_value( $value, $params ) ? 1 : 0;
-        };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Transformer->new;
-        }
-    }
-
-    return @errors;
-}
-
-sub validate_value {
-    croak "validate() should be overridden";
+    return ( $return, @errors );
 }
 
 sub clone {

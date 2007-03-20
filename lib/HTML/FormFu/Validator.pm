@@ -39,7 +39,7 @@ sub process {
     my $value = $params->{$name};
     my @errors;
 
-    if ( ref $value ) {
+    if ( ref $value eq 'ARRAY' ) {
         eval { my @x = @$value };
         croak $@ if $@;
 
