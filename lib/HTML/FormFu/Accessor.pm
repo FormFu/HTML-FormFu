@@ -27,7 +27,7 @@ sub mk_inherited_accessors {
             return $self->{$name};
         };
         no strict 'refs';
-        *{"$class\::$name"}       = $sub;
+        *{"$class\::$name"} = $sub;
     }
 
     return;

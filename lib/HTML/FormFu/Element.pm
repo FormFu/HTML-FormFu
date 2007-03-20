@@ -23,10 +23,11 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(qw/
-    parent
-    render_class_args name element_type render_class_prefix render_class_suffix
-    filename render_class 
-    multi_filename render_method is_field /);
+    parent name element_type filename multi_filename is_field /);
+
+__PACKAGE__->mk_inherited_accessors(
+    qw/ render_class render_class_prefix render_class_suffix render_class_args 
+    render_method /);
 
 sub new {
     my $class = shift;
@@ -84,8 +85,10 @@ sub clone {
     
     my %new = %$self;
     
-    $new{render_class_args} = dclone $self->render_class_args;
-    $new{attributes}        = dclone $self->attributes;
+    $new{render_class_args} = dclone $self->{render_class_args}
+        if $self->{render_class_args};
+    
+    $new{attributes} = dclone $self->attributes;
     
     return bless \%new, ref $self;
 }

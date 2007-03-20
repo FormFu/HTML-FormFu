@@ -36,8 +36,6 @@ __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 
 __PACKAGE__->mk_accessors(
     qw/ parent
-        render_class render_class_prefix render_class_suffix render_class_args 
-        render_method
         indicator filename
         element_defaults query_type languages
         localize_class submitted query input _auto_fieldset
@@ -46,7 +44,9 @@ __PACKAGE__->mk_accessors(
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_validator_class auto_transformer_class /
+    auto_constraint_class auto_validator_class auto_transformer_class
+    render_class render_class_prefix render_class_suffix render_class_args 
+    render_method /
 );
 
 __PACKAGE__->mk_add_methods(qw/ 

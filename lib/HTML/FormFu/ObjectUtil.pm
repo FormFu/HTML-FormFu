@@ -84,13 +84,13 @@ sub _require_element {
         %$arg = ( %{ $self->element_defaults->{$type} }, %$arg );
     }
 
-    for (qw/ render_class_prefix render_method /)
-    {
-        $arg->{$_} = $self->$_ if !exists $arg->{$_};
-    }
-
-    $arg->{render_class_args} = dclone $self->render_class_args
-        if !exists $arg->{render_class_args};
+#    for (qw/ render_class_prefix render_method /)
+#    {
+#        $arg->{$_} = $self->$_ if !exists $arg->{$_};
+#    }
+#
+#    $arg->{render_class_args} = dclone $self->render_class_args
+#        if !exists $arg->{render_class_args};
 
     populate( $element, $arg );
 
@@ -293,16 +293,16 @@ sub load_config_file {
 sub _render_class {
     my ( $self, $dir ) = @_;
 
-    if ( defined $self->{render_class} ) {
-        return $self->{render_class};
+    if ( defined $self->render_class ) {
+        return $self->render_class;
     }
     elsif ( defined $dir ) {
-        return $self->{render_class_prefix} . "::" . $dir . "::"
-            . $self->{render_class_suffix};
+        return $self->render_class_prefix . "::" . $dir . "::"
+            . $self->render_class_suffix;
     }
     else {
-        return $self->{render_class_prefix} . "::"
-            . $self->{render_class_suffix};
+        return $self->render_class_prefix . "::"
+            . $self->render_class_suffix;
     }
 }
 
@@ -329,8 +329,7 @@ sub _coerce {
         } );
 
     for my $method (
-        qw/ attributes render_class_prefix
-        render_class_args comment comment_attributes label label_attributes
+        qw/ attributes comment comment_attributes label label_attributes
         label_filename render_method parent /
         )
     {
