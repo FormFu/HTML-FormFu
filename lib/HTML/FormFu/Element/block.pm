@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
 
+use HTML::FormFu::Accessor qw/ mk_output_accessors /;
 use HTML::FormFu::Attribute qw/ 
     mk_add_methods mk_single_methods mk_require_methods mk_get_methods 
     mk_get_one_methods /;
@@ -11,12 +12,14 @@ use HTML::FormFu::ObjectUtil qw/
     _single_element _require_constraint 
     get_fields get_field get_errors get_error delete_errors
     get_elements get_element get_all_elements insert_before insert_after /;
-use HTML::FormFu::Util qw/ _parse_args _get_elements /;
+use HTML::FormFu::Util qw/ _parse_args _get_elements xml_escape /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
 __PACKAGE__->mk_accessors(
     qw/ tag _elements element_defaults / );
+
+__PACKAGE__->mk_output_accessors(qw/ content /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
@@ -71,6 +74,7 @@ sub render {
 
     my $render = $self->SUPER::render({
         tag       => $self->tag,
+        content   => xml_escape( $self->content ),
         _elements => [ map { $_->render } @{ $self->_elements } ],
         @_ ? %{$_[0]} : ()
         });
