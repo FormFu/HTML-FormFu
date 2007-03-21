@@ -4,7 +4,7 @@ fieldset {
 
 fieldset .button,
 fieldset .checkbox,
-fieldset .content_button,
+fieldset .contentbutton,
 fieldset .file,
 fieldset .image,
 fieldset .multi,
@@ -26,7 +26,7 @@ fieldset .textarea
 
 fieldset .button.label,
 fieldset .checkbox.label,
-fieldset .content_button.label,
+fieldset .contentbutton.label,
 fieldset .file.label,
 fieldset .image.label,
 fieldset .multi.label,
@@ -64,7 +64,7 @@ fieldset .error select {
 }
 
 fieldset .button label,
-fieldset .content_button label,
+fieldset .contentbutton label,
 fieldset .checkbox label,
 fieldset .file label,
 fieldset .image label,
