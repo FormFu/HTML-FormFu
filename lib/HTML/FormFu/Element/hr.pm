@@ -13,6 +13,8 @@ sub new {
     return $self;
 }
 
+sub delete_errors { }
+
 1;
 
 __END__
