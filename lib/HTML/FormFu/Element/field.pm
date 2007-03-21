@@ -21,7 +21,7 @@ __PACKAGE__->mk_attrs(
 
 __PACKAGE__->mk_accessors(qw/ 
     _constraints _filters _inflators _deflators _validators _transformers 
-    _errors
+    _errors container_tag
     field_filename label_filename errors retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -136,6 +136,7 @@ sub new {
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
     $self->label_filename('label');
+    $self->container_tag('span');
     $self->is_field(1);
     $self->render_class_suffix('field');
 
@@ -316,6 +317,7 @@ sub render {
         label                => xml_escape( $self->label ),
         field_filename       => $self->field_filename,
         label_filename       => $self->label_filename,
+        container_tag        => $self->container_tag,
         javascript           => $self->javascript,
         @_ ? %{$_[0]} : ()
         });

@@ -12,6 +12,7 @@ __PACKAGE__->mk_accessors(
         field_filename
         label_filename
         javascript
+        container_tag
         /
 );
 
@@ -38,6 +39,7 @@ sub new {
     $self->filename('multi');
     $self->label_attributes( {} );
     $self->label_filename('label');
+    $self->container_tag('span');
     $self->render_class_suffix('multi');
 
     return $self;
@@ -54,6 +56,7 @@ sub render {
         label                => xml_escape( $self->label ),
         field_filename       => $self->field_filename,
         label_filename       => $self->label_filename,
+        container_tag        => $self->container_tag,
         javascript           => $self->javascript,
         @_ ? %{$_[0]} : ()
         });
