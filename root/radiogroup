@@ -1,4 +1,1 @@
-<fieldset[% process_attrs(self.attrs) %]>[% IF self.label.defined %]
-[% INCLUDE $self.label_filename %][% END %]
-[% INCLUDE $self.radiogroup_filename %]
-</fieldset>
+[% WRAPPER field %][% INCLUDE $self.radiogroup_filename %][% END %]

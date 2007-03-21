@@ -40,7 +40,7 @@ $field_xhtml
 <label>Zwei</label>
 </span>
 </fieldset>
-<fieldset class="radiogroup">
+<fieldset class="radiogroup label">
 <legend>My Bar</legend>
 <span>
 <input name="bar" type="radio" value="one" />
@@ -74,7 +74,7 @@ is( "$form", $form_xhtml );
 
     is( $form->get_field('foo'), $foo_xhtml );
 
-    my $bar_xhtml = qq{<fieldset class="radiogroup">
+    my $bar_xhtml = qq{<fieldset class="radiogroup label">
 <legend>My Bar</legend>
 <span>
 <input name="bar" type="radio" value="one" />
