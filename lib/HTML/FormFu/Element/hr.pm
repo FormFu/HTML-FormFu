@@ -15,6 +15,16 @@ sub new {
 
 sub delete_errors { }
 
+sub get_filters { [] }
+
+sub get_constraints { [] }
+
+sub get_inflators { [] }
+
+sub get_validators { [] }
+
+sub get_transformers { [] }
+
 1;
 
 __END__

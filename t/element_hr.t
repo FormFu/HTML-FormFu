@@ -7,11 +7,12 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->auto_fieldset(1);
+# force a submission
+$form->indicator( sub {1} );
 
 my $hr = $form->element('hr');
 
-$form->process();
+$form->process({});
 
 my $hr_xhtml = qq{<hr />};
 
