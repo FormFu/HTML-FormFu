@@ -10,7 +10,7 @@ use HTML::FormFu::Attribute qw/
     mk_get_one_methods /;
 use HTML::FormFu::ObjectUtil qw/ 
     _single_element _require_constraint 
-    get_fields get_field get_errors get_error delete_errors
+    get_fields get_field get_errors get_error
     get_elements get_element get_all_elements insert_before insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements xml_escape /;
 use Storable qw( dclone );
