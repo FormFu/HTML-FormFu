@@ -16,7 +16,7 @@ our @EXPORT_OK = qw/
     _single_element 
     deflator get_fields get_field get_elements get_element
     get_all_elements get_errors get_error delete_errors
-    load_config_file form insert_after clone name stash /;
+    load_config_file form insert_before insert_after clone name stash /;
 
 sub _single_element {
     my ( $self, $element ) = @_;
@@ -243,6 +243,21 @@ sub populate {
     croak $@ if $@;
 
     return $self;
+}
+
+sub insert_before {
+    my ( $self, $object, $position ) = @_;
+    
+    for my $i ( 1 .. @{ $self->_elements } ) {
+        if ( refaddr( $self->_elements->[$i-1] ) eq refaddr($position) ) {
+            splice @{ $self->_elements }, $i-1, 0, $object;
+            $object->{parent} = $position->{parent};
+            weaken $object->{parent};
+            return $object;
+        }
+    }
+    
+    croak 'position element not found';
 }
 
 sub insert_after {

@@ -17,7 +17,7 @@ use HTML::FormFu::ObjectUtil qw/
     _single_element _require_constraint 
     get_elements get_element get_all_elements get_fields get_field 
     get_errors get_error delete_errors
-    populate load_config_file insert_after form
+    populate load_config_file insert_before insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
 use List::MoreUtils qw/ uniq /;
