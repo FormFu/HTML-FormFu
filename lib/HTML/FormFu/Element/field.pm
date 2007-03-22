@@ -10,6 +10,11 @@ use HTML::FormFu::ObjectUtil qw/
 use HTML::FormFu::Util qw/ _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
+use Exporter qw/ import /;
+
+# used by multi.pm
+our @EXPORT_OK = qw/
+    _render_container_class _render_comment_class _render_label /;
 
 __PACKAGE__->mk_attrs(
     qw/

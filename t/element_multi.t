@@ -15,7 +15,7 @@ $multi->element('radio')->name('dot')->label('My radio');
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<span class="multi">
+<span class="multi label">
 <label>My multi</label>
 <span class="elements">
 <label>My text</label>

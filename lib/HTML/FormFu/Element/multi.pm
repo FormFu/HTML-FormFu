@@ -4,7 +4,9 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
 
-use HTML::FormFu::Util qw( append_xml_attribute xml_escape );
+use HTML::FormFu::Element::field qw/
+    _render_container_class _render_comment_class _render_label /;
+use HTML::FormFu::Util qw/ append_xml_attribute xml_escape /;
 use Storable qw/ dclone /;
 
 __PACKAGE__->mk_accessors(
@@ -61,21 +63,13 @@ sub render {
         @_ ? %{$_[0]} : ()
         });
 
-    if ( defined $self->{comment} ) {
-        append_xml_attribute( $render->{comment_attributes}, 'class', 'comment' );
-        append_xml_attribute( $render->{container_attributes},
-            'class', 'comment' );
-    }
+    $self->_render_container_class($render);
     
+    $self->_render_comment_class($render);
+    
+    $self->_render_label($render);
+
     append_xml_attribute( $render->{attributes}, 'class', 'elements' );
-
-    {
-        my $type = $self->element_type;
-        $type =~ s/:://g;
-
-        append_xml_attribute( $render->{container_attributes},
-            'class', lc($type), );
-    }
 
     return $render;
 }
