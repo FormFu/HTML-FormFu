@@ -4,6 +4,8 @@ use warnings;
 
 use base qw( HTML::FormFu::I18N );
 
+use utf8;
+
 our %Lexicon = (
     form_default_error     => 'Ungültige Eingabe',
     form_allornone_error   => 'Ungültig',
