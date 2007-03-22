@@ -4,7 +4,7 @@ fieldset {
 
 fieldset .button,
 fieldset .checkbox,
-fieldset .contentbutton,
+fieldset .content_button,
 fieldset .file,
 fieldset .image,
 fieldset .multi,
@@ -26,7 +26,7 @@ fieldset .textarea
 
 fieldset .button.label,
 fieldset .checkbox.label,
-fieldset .contentbutton.label,
+fieldset .content_button.label,
 fieldset .file.label,
 fieldset .image.label,
 fieldset .multi.label,
@@ -64,13 +64,14 @@ fieldset .error select {
 }
 
 fieldset .button label,
-fieldset .contentbutton label,
+fieldset .content_button label,
 fieldset .checkbox label,
 fieldset .file label,
 fieldset .image label,
 fieldset .multi label,
 fieldset .password label,
 fieldset .radio label,
+fieldset .radiogroup > label,
 fieldset .select label,
 fieldset .text label,
 fieldset .textarea label
@@ -93,10 +94,11 @@ fieldset .multi .elements label {
 	padding-right: 0.25em;
 }
 
-fieldset .multi .elements input, fieldset .multi .elements select {
+fieldset .multi input,
+fieldset .multi select {
 	display: block;
 	float: left;
-	margin-right: 1em;
+	margin-right: 0.5em;
 }
 
 fieldset.checkboxgroup,
@@ -106,6 +108,11 @@ fieldset.radiogroup
 	margin-left: 12em;
 	padding: 0;
 	width: auto;
+}
+
+fieldset.radiogroup.label {
+	border: 0;
+	margin-left: 0em;
 }
 
 fieldset .comment .comment {
@@ -128,7 +135,6 @@ fieldset .notes {
 }
 
 fieldset .multi.vertical input,
-fieldset .multi.vertical select,
 fieldset.checkboxgroup.vertical input,
 fieldset.radiogroup.vertical input
 {
@@ -137,7 +143,12 @@ fieldset.radiogroup.vertical input
 	clear: left;
 }
 
-fieldset .multi.vertical label,
+fieldset .multi.vertical select {
+	display: block;
+	float: left;
+	clear: right;
+}
+
 fieldset.checkboxgroup.vertical label,
 fieldset.radiogroup.vertical label
 {
