@@ -45,4 +45,11 @@ sub param {
     croak 'require arguments [$name, [$value]]';
 }
 
+# dummy methods, so FakeQuery doesn't cause fatal errors
+# if a form is submitted
+
+sub upload { }
+
+sub uploadInfo{ {} }
+
 1;
