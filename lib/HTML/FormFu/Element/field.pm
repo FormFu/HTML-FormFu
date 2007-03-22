@@ -28,7 +28,8 @@ __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_validator_class auto_transformer_class /
+    auto_constraint_class auto_inflator_class auto_validator_class 
+    auto_transformer_class /
 );
 
 __PACKAGE__->mk_require_methods(qw/ 
@@ -332,7 +333,7 @@ sub render {
     
     $self->_render_constraint_class($render);
     
-#    $self->_render_inflator_class($render);
+    $self->_render_inflator_class($render);
     
     $self->_render_validator_class($render);
     
@@ -446,6 +447,34 @@ sub _render_constraint_class {
             n => defined $render->{name}     ? $render->{name}           : '',
             t => defined $c->constraint_type ? lc( $c->constraint_type ) : '',
         );
+        
+        my $class = $auto_class;
+        
+        $class =~ s/%([fnt])/$string{$1}/ge;
+        
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class );
+    }
+    
+    return;
+}
+
+sub _render_inflator_class {
+    my ( $self, $render ) = @_;
+    
+    my $auto_class = $self->auto_inflator_class;
+    
+    return if !defined $auto_class;
+    
+    for my $c ( @{ $self->_inflators } ) {
+        my %string = (
+            f => defined $self->form->id   ? $self->form->id         : '',
+            n => defined $render->{name}   ? $render->{name}         : '',
+            t => defined $c->inflator_type ? lc( $c->inflator_type ) : '',
+        );
+        
+        $string{t} =~ s/::/_/g;
+        $string{t} =~ s/\+//;
         
         my $class = $auto_class;
         
