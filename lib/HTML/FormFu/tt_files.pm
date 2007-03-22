@@ -19,11 +19,14 @@ __CPAN_HTML_FormFu__multi_rtl__
 [% INCLUDE $self.field_filename %][% IF self.label.defined %]
 [% INCLUDE $self.label_filename %][% END %]__CPAN_HTML_FormFu__end_form__
 </form>__CPAN_HTML_FormFu__hidden__
-[% INCLUDE $self.field_filename %]__CPAN_HTML_FormFu__legend__
-<legend[% process_attrs(self.label_attributes) %]>[% self.label %]</legend>__CPAN_HTML_FormFu__block__
+[% INCLUDE $self.field_filename %]__CPAN_HTML_FormFu__hr__
+<hr[% process_attrs(self.attrs) %] />__CPAN_HTML_FormFu__legend__
+<legend[% process_attrs(self.label_attributes) %]>[% self.label %]</legend>__CPAN_HTML_FormFu__repeatable_hidden_button__
+[% INCLUDE $self.field_filename %]__CPAN_HTML_FormFu__block__
 [% INCLUDE start_block %]
-[% FOREACH element = self.elements %][% INCLUDE $element.filename self = element %]
-[% END %][% INCLUDE end_block %]__CPAN_HTML_FormFu__select__
+[% IF self.content.defined %][% self.content %]
+[% ELSE %][% FOREACH element = self.elements %][% INCLUDE $element.filename self = element %]
+[% END %][% END %][% INCLUDE end_block %]__CPAN_HTML_FormFu__select__
 [% WRAPPER field %][% INCLUDE $self.field_filename %][% END %]__CPAN_HTML_FormFu__select_option_tag__
 <option value="[% self.value %]"[% process_attrs(self.attributes) %]>[% self.label %]</option>__CPAN_HTML_FormFu__input_tag__
 <input name="[% self.name %]" type="[% self.type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attrs) %] />__CPAN_HTML_FormFu__end_block__
@@ -47,21 +50,18 @@ __CPAN_HTML_FormFu__radiogroup_item__
 [% END %][% INCLUDE end_form %]
 __CPAN_HTML_FormFu__textarea_tag__
 <textarea name="[% self.name %]"[% process_attrs(self.attrs) %]>[% self.value IF self.value.defined %]</textarea>__CPAN_HTML_FormFu__field__
-<span[% process_attrs(self.container_attributes) %]>[% IF self.errors %][% FOREACH error = self.errors %]
+<[% self.container_tag %][% process_attrs(self.container_attributes) %]>[% IF self.errors %][% FOREACH error = self.errors %]
 <span class="error_message [% error.class %]">[% error.message %]</span>[% END %][% END %][% IF self.label.defined %]
 [% INCLUDE $self.label_filename %][% END %]
 [% content %][% IF self.comment.defined %]
 <span[% process_attrs(self.comment_attributes) %]>
 [% self.comment %]
 </span>[% END %]
-</span>[% IF self.javascript.defined %]
+</[% self.container_tag %]>[% IF self.javascript.defined %]
 <script type="text/javascript">
 [% self.javascript %]
 </script>[% END %]__CPAN_HTML_FormFu__radiogroup__
-<fieldset[% process_attrs(self.attrs) %]>[% IF self.label.defined %]
-[% INCLUDE $self.label_filename %][% END %]
-[% INCLUDE $self.radiogroup_filename %]
-</fieldset>__CPAN_HTML_FormFu__select_tag__
+[% WRAPPER field %][% INCLUDE $self.radiogroup_filename %][% END %]__CPAN_HTML_FormFu__select_tag__
 <select name="[% self.name %]"[% process_attrs(self.attrs) %]>
 [% FOREACH option = self.options %][% IF option.group %]<optgroup[% IF option.label.defined %] label="[% option.label %]"[% END %][% process_attrs(option.attributes) %]>
 [% FOREACH item = option.group %][% INCLUDE $self.subgroup_filename self = item %]
