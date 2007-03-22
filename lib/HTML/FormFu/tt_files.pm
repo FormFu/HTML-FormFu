@@ -50,8 +50,9 @@ __CPAN_HTML_FormFu__radiogroup_item__
 [% END %][% INCLUDE end_form %]
 __CPAN_HTML_FormFu__textarea_tag__
 <textarea name="[% self.name %]"[% process_attrs(self.attrs) %]>[% self.value IF self.value.defined %]</textarea>__CPAN_HTML_FormFu__field__
-<[% self.container_tag %][% process_attrs(self.container_attributes) %]>[% IF self.errors %][% FOREACH error = self.errors %]
-<span class="error_message [% error.class %]">[% error.message %]</span>[% END %][% END %][% IF self.label.defined %]
+<[% self.container_tag %][% process_attrs(self.container_attributes) %]>[% IF self.label.defined && self.label_filename == 'legend' %]
+[% INCLUDE $self.label_filename %][% END %][% IF self.errors %][% FOREACH error = self.errors %]
+<span class="error_message [% error.class %]">[% error.message %]</span>[% END %][% END %][% IF self.label.defined && self.label_filename != 'legend' %]
 [% INCLUDE $self.label_filename %][% END %]
 [% content %][% IF self.comment.defined %]
 <span[% process_attrs(self.comment_attributes) %]>

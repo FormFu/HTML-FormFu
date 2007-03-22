@@ -96,6 +96,18 @@ sub _prepare_attrs {
     return;
 }
 
+sub _render_label {
+    my ( $self, $render ) = @_;
+    
+    $self->SUPER::_render_label($render);
+    
+    if ( defined $render->{label} && $render->{label_filename} eq 'legend' ) {
+        $render->{container_attributes}{class} =~ s/\blabel\b/legend/;
+    }
+    
+    return;
+}
+
 sub render {
     my $self = shift;
 
