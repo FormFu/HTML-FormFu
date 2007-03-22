@@ -121,8 +121,6 @@ sub render {
             if exists $item->{group};
     }
 
-    append_xml_attribute( $render->{attributes}, 'class', 'radiogroup' );
-
     return $render;
 }
 
