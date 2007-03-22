@@ -5,6 +5,7 @@ use warnings;
 use base qw( HTML::FormFu::I18N );
 
 our %Lexicon = (
+    form_error_message     => 'There were errors with your submission, see below for details',
     form_default_error     => 'Invalid input',
     form_allornone_error   => 'Error',
     form_ascii_error       => 'Field contains invalid characters',

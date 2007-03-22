@@ -1,0 +1,2 @@
+[% IF self.form_error_message.defined && self.form.has_errors %]
+<div>[% self.form_error_message %]</div>[% END %]

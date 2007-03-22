@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
-use HTML::FormFu::Accessor qw/ mk_inherited_accessors /;
+use HTML::FormFu::Accessor qw/ mk_inherited_accessors mk_output_accessors /;
 use HTML::FormFu::Attribute qw/ 
     mk_attrs mk_attr_accessors mk_add_methods mk_single_methods 
     mk_require_methods mk_get_methods mk_get_one_methods /;
@@ -41,6 +41,8 @@ __PACKAGE__->mk_accessors(
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names /
 );
+
+__PACKAGE__->mk_output_accessors(qw/ form_error_message /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
@@ -528,6 +530,8 @@ sub valid {
 sub has_errors {
     my $self = shift;
 
+    return if !$self->submitted;
+
     my @names = map { $_->name }
         grep { @{ $_->get_errors } }
         grep { defined $_->name }
@@ -569,6 +573,7 @@ sub render {
             render_class_suffix => $self->render_class_suffix,
             render_method       => $self->render_method,
             filename            => $self->filename,
+            form_error_message  => xml_escape( $self->form_error_message ),
             _elements           => [ map { $_->render } @{ $self->_elements } ],
             parent              => $self,
         } );
