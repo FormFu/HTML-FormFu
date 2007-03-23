@@ -151,7 +151,7 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->{options} = dclone $self->options;
+    $clone->_options( dclone $self->_options );
     
     return $clone;
 }

@@ -573,12 +573,12 @@ sub clone {
     my $clone = $self->SUPER::clone(@_);
     
     for my $list (qw/ _constraints _filters _inflators _deflators /) {
-        $clone->{$list} = [ map { $_->clone } @{ $self->$list } ];
+        $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
     }
     
-    $clone->{comment_attributes}   = dclone $self->comment_attributes;
-    $clone->{container_attributes} = dclone $self->container_attributes;
-    $clone->{label_attributes}     = dclone $self->label_attributes;
+    $clone->comment_attributes(   dclone $self->comment_attributes );
+    $clone->container_attributes( dclone $self->container_attributes );
+    $clone->label_attributes(     dclone $self->label_attributes );
     
     return $clone;
 }

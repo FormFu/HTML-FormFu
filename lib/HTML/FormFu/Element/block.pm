@@ -96,9 +96,9 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->{_elements} = [ map { $_->clone } @{ $self->_elements } ];
+    $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
     
-    $clone->{element_defaults} = dclone $self->element_defaults;
+    $clone->element_defaults( dclone $self->element_defaults );
     
     return $clone;
 }

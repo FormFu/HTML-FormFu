@@ -25,7 +25,8 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->{allow} = dclone $self->allow if ref $self->allow;
+    $clone->allow( dclone $self->allow )
+        if ref $self->allow;
     
     return $clone;
 }

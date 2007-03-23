@@ -35,7 +35,7 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->{_builder} = $self->_builder->clone;
+    $clone->_builder( $self->_builder->clone );
     
     return $clone;
 }

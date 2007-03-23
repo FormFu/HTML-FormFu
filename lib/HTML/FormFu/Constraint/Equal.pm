@@ -75,7 +75,8 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->{others} = dclone $self->others if ref $self->others;
+    $clone->others( dclone $self->others )
+        if ref $self->others;
     
     return $clone;
 }
