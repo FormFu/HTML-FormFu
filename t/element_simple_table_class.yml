@@ -1,0 +1,18 @@
+---
+auto_fieldset: 1
+elements: 
+  - type: simple_table
+    odd_class: x
+    even_class: y
+    headers:
+      - foo
+    rows: 
+      - 
+          - type: text
+            name: foo
+      - 
+          - type: text
+            name: bar
+      - 
+          - type: text
+            name: baz

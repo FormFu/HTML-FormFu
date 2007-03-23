@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::block';
 use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ headers /);
+__PACKAGE__->mk_accessors(qw/ headers odd_class even_class /);
 
 sub new {
     my $self = shift->SUPER::new(@_);
@@ -83,6 +83,23 @@ sub render {
     
     my $copy = $self->clone;
     
+    my @elements = @{ $copy->_elements };
+    my $odd      = $self->odd_class;
+    my $even     = $self->even_class;
+    
+    for my $i ( 1 .. scalar @elements ) {
+        my $row = $elements[$i-1];
+        
+        if ( $i % 2 ) {
+            $row->attributes({ class => $odd })
+                if defined $odd;
+        }
+        else {
+            $row->attributes({ class => $even })
+                if defined $even;
+        }
+    }
+    
     $copy->_add_headers;
 
     my $render = $copy->SUPER::render({
@@ -104,9 +121,69 @@ HTML::FormFu::Element::simple_table
 
 =head1 SYNOPSIS
 
+The following is yaml markup for a table consisting of a header row 
+containing 2 C<th> cells, and a further 2 rows, each containing 2 C<td> 
+cells. 
+
+    type: simple_table
+    headers: 
+      - One
+      - Two
+    rows: 
+      - 
+        - type: input
+          name: one_a
+        - type: input
+          name: two_a
+      - 
+        - type: input
+          name: one_b
+        - type: input
+          name: two_b
+
 =head1 DESCRIPTION
 
+Sometimes you just really need to use a table to display some fields in a 
+grid format.
+
+As it's name suggests, this is a compromise between power and simplicity. 
+If you want more control of the markup, you'll probably just have to revert 
+to using nested L<block's|HTML::FormFu::Element::block>, setting the tags to 
+table, tr, td, etc. and adding the cell contents as elements.
+
 =head1 METHODS
+
+=head2 headers
+
+Input Value: \@headers
+
+L</headers> accepts an arrayref of strings. Each string is xml-escaped and 
+inserted into a new header cell.
+
+=head2 rows
+
+Input Value: \@rows
+
+L</rows> accepts an array-ref, each item representing a new row. Each row 
+should be comprised of an array-ref, each item representing a table cell.
+
+Each cell item should be appropriate for passing to L<HTML::FormFu/element>; 
+so either a single element's definition, or an array-ref of element 
+definitions.
+
+=head2 odd_class
+
+Input Value: $string
+
+The supplied string will be used as the class-name for each odd-numbered row 
+(not counting any header row).
+
+=head2 even_class
+
+Input Value: $string
+
+The supplied string will be used as the class-name for each even-numbered row 
+(not counting any header row).
 
 =head1 SEE ALSO
 
