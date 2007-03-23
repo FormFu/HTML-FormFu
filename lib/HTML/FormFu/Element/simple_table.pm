@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
 
+use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(qw/ headers /);
@@ -87,6 +88,8 @@ sub render {
     my $render = $copy->SUPER::render({
         @_ ? %{$_[0]} : ()
         });
+
+    append_xml_attribute( $render->attributes, 'class', $self->element_type );
 
     return $render;
 }

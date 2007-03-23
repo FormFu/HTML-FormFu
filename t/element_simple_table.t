@@ -12,7 +12,7 @@ $form->load_config_file('t/element_simple_table.yml');
 my $xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<table>
+<table class="simple_table">
 <tr>
 <th>
 foo
