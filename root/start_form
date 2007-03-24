@@ -1,1 +1,1 @@
-<form[% process_attrs(self.attrs) %]>
+<form[% process_attrs(self.attrs) %]>[% INCLUDE form_error_message %]
