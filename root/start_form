@@ -1,1 +1,4 @@
-<form[% process_attrs(self.attrs) %]>[% INCLUDE form_error_message %]
+<form[% process_attrs(self.attrs) %]>[% INCLUDE form_error_message %][% IF self.javascript.defined %]
+<script type="text/javascript">
+[% self.javascript %]
+</script>[% END %]
