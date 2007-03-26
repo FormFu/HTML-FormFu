@@ -46,22 +46,16 @@ sub process {
         push @errors, eval {
             $self->validate_values( $value, $params );
         };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ ) {
-            push @errors, HTML::FormFu::Exception::Validator->new;
+        if ( $@ ) {
+            push @errors, $self->return_error($@);
         }
     }
     else {
         my $ok = eval {
             $self->validate_value( $value, $params ) ? 1 : 0;
         };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Validator->new;
+        if ( $@ or !$ok ) {
+            push @errors, $self->return_error($@);
         }
     }
 
@@ -91,6 +85,17 @@ sub validate_values {
 sub validate_value {
     croak "validate() should be overridden";
 }
+
+sub return_error {
+    my ( $self, $err ) = @_;
+    
+    if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Validator') ) {
+        $err = HTML::FormFu::Exception::Validator->new;
+    }
+    
+    return $err;
+}
+
 
 sub clone {
     my ( $self ) = @_;

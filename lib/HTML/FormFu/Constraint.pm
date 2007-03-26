@@ -71,11 +71,8 @@ sub constrain_values {
         my $ok = eval {
             $self->constrain_value( $value, $params ) ? 1 : 0;
         };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Constraint->new;
+        if ( $@ or !$ok ) {
+            push @errors, $self->return_error($@)
         }
     }
 

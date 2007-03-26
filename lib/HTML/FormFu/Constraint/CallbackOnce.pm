@@ -22,11 +22,8 @@ sub process {
         $callback->( $value, $params );
         };
 
-    if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
-        push @errors, $@;
-    }
-    elsif ( $@ or !$ok ) {
-        push @errors, HTML::FormFu::Exception::Constraint->new;
+    if ( $@ or !$ok ) {
+        push @errors, $self->return_error($@);
     }
 
     return @errors;

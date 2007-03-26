@@ -37,12 +37,8 @@ sub process {
             my ( $return ) = eval {
                 $self->inflator($value);
                 };
-            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
-                push @errors, $@;
-                push @return, undef;
-            }
-            elsif ( $@ ) {
-                push @errors, HTML::FormFu::Exception::Inflator->new;
+            if ($@) {
+                push @errors, $self->return_error($@);
                 push @return, undef;
             }
             else {
@@ -55,15 +51,22 @@ sub process {
         ( $return ) = eval {
             $self->inflator($values);
             };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ ) {
-            push @errors, HTML::FormFu::Exception::Inflator->new;
+        if ($@) {
+            push @errors, $self->return_error($@);
         }
     }
 
     return ( $return, @errors );
+}
+
+sub return_error {
+    my ( $self, $err ) = @_;
+    
+    if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Inflator') ) {
+        $err = HTML::FormFu::Exception::Inflator->new;
+    }
+    
+    return $err;
 }
 
 sub clone {

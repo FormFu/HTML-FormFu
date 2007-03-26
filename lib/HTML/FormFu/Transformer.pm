@@ -44,12 +44,8 @@ sub process {
             my ( $return ) = eval {
                 $self->transformer($value);
                 };
-            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
-                push @errors, $@;
-                push @return, undef;
-            }
-            elsif ( $@ ) {
-                push @errors, HTML::FormFu::Exception::Transformer->new;
+            if ( $@ ) {
+                push @errors, $self->return_error($@);
                 push @return, undef;
             }
             else {
@@ -62,11 +58,8 @@ sub process {
         ( $return ) = eval {
             $self->transformer($values);
             };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ ) {
-            push @errors, HTML::FormFu::Exception::Transformer->new;
+        if ( $@ ) {
+            push @errors, $self->return_error($@);
         }
     }
 
@@ -80,6 +73,17 @@ sub clone {
     
     return bless \%new, ref $self;
 }
+
+sub return_error {
+    my ( $self, $err ) = @_;
+    
+    if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Transformer') ) {
+        $err = HTML::FormFu::Exception::Transformer->new;
+    }
+    
+    return $err;
+}
+
 
 1;
 
