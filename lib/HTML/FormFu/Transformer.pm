@@ -10,7 +10,7 @@ use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ parent transformer_type /);
+__PACKAGE__->mk_accessors(qw/ parent transformer_type localize_args /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 

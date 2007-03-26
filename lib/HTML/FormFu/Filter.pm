@@ -7,7 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ parent filter_type /);
+__PACKAGE__->mk_accessors(qw/ parent filter_type localize_args /);
 
 sub new {
     my $class = shift;

@@ -9,7 +9,7 @@ use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
 use Scalar::Util qw/ blessed /;
 
-__PACKAGE__->mk_accessors(qw/ parent inflator_type /);
+__PACKAGE__->mk_accessors(qw/ parent inflator_type localize_args /);
 
 sub new {
     my $class = shift;

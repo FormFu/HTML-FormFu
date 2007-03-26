@@ -63,7 +63,8 @@ sub message {
     
     $message =~ s/%([fnt])/$string{$1}/ge;;
     
-    return $self->{message} = $self->form->localize( $message );
+    return $self->{message} = $self->form->localize(
+        $message, $self->$stage->localize_args );
 }
 
 1;

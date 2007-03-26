@@ -10,7 +10,7 @@ use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ parent constraint_type not /);
+__PACKAGE__->mk_accessors(qw/ parent constraint_type not localize_args /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
@@ -46,22 +46,16 @@ sub process {
         push @errors, eval {
             $self->constrain_values( $value, $params );
         };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ ) {
-            push @errors, HTML::FormFu::Exception::Constraint->new;
+        if ($@) {
+            push @errors, $self->return_error($@);
         }
     }
     else {
         my $ok = eval {
             $self->constrain_value( $value, $params ) ? 1 : 0;
         };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Constraint->new;
+        if ( $@ or !$ok ) {
+            push @errors, $self->return_error($@);
         }
     }
 
@@ -90,6 +84,16 @@ sub constrain_values {
 
 sub constrain_value {
     croak "constrain_value() should be overridden";
+}
+
+sub return_error {
+    my ( $self, $err ) = @_;
+    
+    if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Constraint') ) {
+        $err = HTML::FormFu::Exception::Constraint->new;
+    }
+    
+    return $err;
 }
 
 sub clone {
