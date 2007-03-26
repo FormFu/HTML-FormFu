@@ -15,7 +15,7 @@ requires 'File::Spec';
 requires 'HTML::Scrubber';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
-requires 'Module::Pluggable::Fast';
+requires 'Module::Pluggable';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
 requires 'Scalar::Util';

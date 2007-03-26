@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use HTML::FormFu;
 
-use Module::Pluggable::Fast (
-    search => [
+use Module::Pluggable (
+    search_path => [
         qw/
             HTML::FormFu::Element
             HTML::FormFu::Constraint
