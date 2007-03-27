@@ -1427,43 +1427,194 @@ Compatible with the C<maketext> method in L<Locale::Maketext>.
 
 =head2 query
 
+Arguments: $query_object
+
+Arguments: \%params
+
+Provide a L<CGI> compatible query object or a hash-ref of submitted 
+names/values. Alternatively, the query object can be passed directly to the 
+L</process> object.
+
 =head2 query_type
 
+Arguments: $query_type
+
+Set which module is being used to provide the L</query>.
+
+The L<Catalyst::Controller::HTML::FormFu> automatically sets this to 
+C<Catalyst>.
+
+Valid values are C<CGI>, C<Catalyst> and C<CGI::Simple>.
+
+Default Value: 'CGI'
+
 =head2 process
+
+Arguments: $query_object
+
+Arguments: \%params
+
+Process the provided query object or input values. This must be called 
+before calling any of the methods listed under 
+L</"SUBMITTED FORM VALUES AND ERRORS"> and L</"MODIFYING A SUBMITTED FORM">.
+
+It's not necessary to call L</process> before printing the form or calling 
+L</render>.
 
 =head1 SUBMITTED FORM VALUES AND ERRORS
 
 =head2 submitted
 
+Returns true if the form has been submitted. See L</indicator> for details 
+on how this is computed.
+
 =head2 submitted_and_valid
+
+Shorthand for C<< $form->submitted && !$form->has_errors >>
 
 =head2 params
 
+Return Value: \%params
+
+Returns a hash-ref of all valid input for which there were no errors.
+
 =head2 param
+
+Return Value: @valid_names
+
+Arguments: $field_name
+
+Return Value: $input_value
+
+A (readonly) L<CGI> compatible method.
+
+If no argument is given, returns a list of all valid input field names 
+without errors.
+
+If a field name if given, in list-context returns any valid values submitted 
+for that field, and in scalar-context returns only the first of any valid 
+values submitted for that field.
+
+Passing more than 1 argument is a fatal error. 
 
 =head2 valid
 
+Return Value: @valid_names
+
+Arguments: $field_name
+
+Return Value: $bool
+
+If no argument is given, returns a list of all valid input field names 
+without errors.
+
+If a field name if given, returns C<true> if that field had no errors and 
+C<false> if there were errors.
+
 =head2 has_errors
+
+Return Value: @names
+
+Arguments: $field_name
+
+Return Value: $bool
+
+If no argument is given, returns a list of all input field names with errors.
+
+If a field name if given, returns C<true> if that field had errors and 
+C<false> if there were no errors.
 
 =head2 get_errors
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: \@errors
+
+Returns an array-ref of exception objects from all fields in the form.
+
+Accepts both C<name>, C<type> and C<stage> arguments to narrow the returned 
+results.
+
+    $form->get_errors({
+        name  => 'foo',
+        type  => 'Regex',
+        stage => 'constraint'
+    });
+
 =head2 get_error
+
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: $error
+
+Accepts the same arguments as L</get_errors>, but only returns the first 
+error found.
 
 =head1 MODIFYING A SUBMITTED FORM
 
 =head2 add_valid
 
+Arguments: $name, $value
+
+Return Value: $value
+
+The provided value replaces any current value for the named field. This 
+value will be returned in subsequent calls to L</params> and L</param> and 
+the named field will be included in calculations for L</valid>.
+
 =head2 delete_errors
+
+Deletes all errors from a submitted form.
 
 =head1 RENDERING A FORM
 
 =head2 render
 
+Return Value: $render_object
+
+Returns a C<$render> object which can either be printed, or used for more 
+advanced custom rendering.
+
+Using a C<$form> object in string context (for example, printing it) 
+automatically calls L</render>.
+
+The default class of the returned render object is 
+L<HTML::FormFu::Render::Form>.
+
 =head2 start_form
+
+Return Value: $string
+
+Convenience method for returning L<HTML::FormFu::Render::Form/start_form>.
+
+Returns the form start tag, and any output of L</form_error_message> and 
+L</javascript>.
+
+Equivalent to:
+
+    $form->render->start_form;
 
 =head2 end_form
 
+Return Value: $string
+
+Convenience method for returning L<HTML::FormFu::Render::Form/end_form>.
+
+Returns the form end tag.
+
+Equivalent to:
+
+    $form->render->end_form;
+
 =head2 hidden_fields
+
+Return Value: $string
+
+Returns all hidden form fields.
 
 =head1 ADVANCED CUSTOMISATION
 
@@ -1512,6 +1663,12 @@ your local system.
 
 =head2 render_method
 
+Arguments: $method_name
+
+The method named called by L<HTML::FormFu::Render::base/output>.
+
+Default Value: 'xhtml'
+
 =head1 INTROSPECTION
 
 =head2 get_elements
@@ -1522,9 +1679,7 @@ Arguments: \%options
 
 Return Value: \@elements
 
-    my $elements = $form->get_elements;
-
-Returns all top-level (not recursive) elements in the form.
+Returns all top-level elements in the form (not recursive).
 
 Accepts both C<name> and C<type> arguments to narrow the returned results.
 
@@ -1543,8 +1698,6 @@ Arguments: \%options
 
 Return Value: $element
 
-    my $element = $form->get_element;
-
 Accepts the same arguments as L</get_elements>, but only returns the first 
 element found.
 
@@ -1558,10 +1711,8 @@ Arguments: \%options
 
 Return Value: \@elements
 
-    my $fields = $form->get_fields;
-
-Returns all form-field type elements in the form (specifically, all elements 
-which have a true L<HTML::FormFu::Element/is_field> value.
+Returns all fields in the form (specifically, all elements which have a true 
+L<HTML::FormFu::Element/is_field> value.
 
 Accepts both C<name> and C<type> arguments to narrow the returned results.
 
@@ -1578,14 +1729,36 @@ Arguments: \%options
 
 Return Value: $element
 
-    my $field = $form->get_field;
-
 Accepts the same arguments as L</get_fields>, but only returns the first 
-form-field found.
+field found.
 
 =head2 get_deflators
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: \@deflators
+
+Returns all top-level deflators from all fields.
+
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_deflators({
+        name => 'foo',
+        type => 'Strftime',
+    });
+
 =head2 get_deflator
+
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: $element
+
+Accepts the same arguments as L</get_deflators>, but only returns the first 
+deflator found.
 
 =head2 get_filters
 
@@ -1595,14 +1768,13 @@ Arguments: \%options
 
 Return Value: \@filters
 
-    my $filters = $form->get_filters;
+Returns all top-level filters from all fields.
 
-Returns all filters from all form-fields.
-
-Accepts a C<type> argument to narrow the returned results.
+Accepts both C<name> and C<type> arguments to narrow the returned results.
 
     $form->get_filters({
-        type => 'callback',
+        name => 'foo',
+        type => 'LowerCase',
     });
 
 =head2 get_filter
@@ -1612,8 +1784,6 @@ Arguments: %options
 Arguments: \%options
 
 Return Value: $filter
-
-    my $filter = $form->get_filter;
 
 Accepts the same arguments as L</get_filters>, but only returns the first 
 filter found.
@@ -1626,14 +1796,13 @@ Arguments: \%options
 
 Return Value: \@constraints
 
-    my $constraints = $form->get_constraints;
+Returns all constraints from all fields.
 
-Returns all constraints from all form-fields.
-
-Accepts a C<type> argument to narrow the returned results.
+Accepts both C<name> and C<type> arguments to narrow the returned results.
 
     $form->get_constraints({
-        type => 'callback',
+        name => 'foo',
+        type => 'Equal',
     });
 
 =head2 get_constraint
@@ -1644,24 +1813,99 @@ Arguments: \%options
 
 Return Value: $constraint
 
-    my $constraint = $form->get_constraint;
-
 Accepts the same arguments as L</get_constraints>, but only returns the 
 first constraint found.
 
 =head2 get_inflators
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: \@inflators
+
+Returns all inflators from all fields.
+
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_inflators({
+        name => 'foo',
+        type => 'DateTime',
+    });
+
 =head2 get_inflator
+
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: $inflator
+
+Accepts the same arguments as L</get_inflators>, but only returns the 
+first inflator found.
 
 =head2 get_validators
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: \@validators
+
+Returns all validators from all fields.
+
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_validators({
+        name => 'foo',
+        type => 'Callback',
+    });
+
 =head2 get_validator
+
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: $validator
+
+Accepts the same arguments as L</get_validators>, but only returns the 
+first validator found.
 
 =head2 get_transformers
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: \@transformers
+
+Returns all transformers from all fields.
+
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_transformers({
+        name => 'foo',
+        type => 'Callback',
+    });
+
 =head2 get_transformer
 
+Arguments: %options
+
+Arguments: \%options
+
+Return Value: $transformer
+
+Accepts the same arguments as L</get_transformers>, but only returns the 
+first transformer found.
+
 =head2 clone
+
+Returns a deep clone of the <$form> object.
+
+Because of scoping issues, code references (such as in Callback constraints) 
+are copied instead of cloned.
 
 =head1 BEST PRACTICES
 
@@ -1715,7 +1959,7 @@ L<http://lists.rawmode.org/cgi-bin/mailman/listinfo/html-widget>
 
 =head1 BUGS
 
-Please submit bugs / feature requests to either L<rt.perl.org> or 
+Please submit bugs / feature requests to either L<http://rt.perl.org> or 
 L<http://code.google.com/p/html-formfu/issues/list>
 
 =head1 SUBVERSION REPOSITORY
