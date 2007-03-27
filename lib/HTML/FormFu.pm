@@ -469,6 +469,8 @@ sub submitted_and_valid {
 sub params {
     my ($self) = @_;
 
+    return {} if !$self->submitted;
+
     my @names = $self->valid;
     my %params;
 
@@ -489,6 +491,8 @@ sub param {
     my $self = shift;
 
     croak 'param method is readonly' if @_ > 1;
+    
+    return if !$self->submitted;
 
     if ( @_ == 1 ) {
 
@@ -515,6 +519,9 @@ sub param {
 
 sub valid {
     my $self  = shift;
+    
+    return if !$self->submitted;
+    
     my @valid = @{ $self->_valid_names };
 
     if (@_) {
@@ -947,6 +954,9 @@ receives a suitable string value instead.
 
 See L<HTML::FormFu::Deflator> for a list of core deflators.
 
+If a C<name> attribute isn't provided, a new deflator is created for and 
+added to every field on the form.
+
 If you want to load a filter in a namespace other than 
 C<HTML::FormFu::Deflator::>, you can use a fully qualified package-name by 
 prefixing it with C<+>.
@@ -1016,6 +1026,9 @@ to all L<fields|HTML::FormFu::Element::field> already attached to the form.
 
 See L<HTML::FormFu::Filter> for a list of core filters.
 
+If a C<name> attribute isn't provided, a new filter is created for and 
+added to every field on the form.
+
 If you want to load a filter in a namespace other than 
 C<HTML::FormFu::Filter::>, you can use a fully qualified package-name by 
 prefixing it with C<+>.
@@ -1037,6 +1050,9 @@ Arguments: \@arrayref_of_types_or_options
 Return Value: @constraints
 
 See L<HTML::FormFu::Constraint> for a list of core constraints.
+
+If a C<name> attribute isn't provided, a new constraint is created for and 
+added to every field on the form.
 
 If you want to load a constraint in a namespace other than 
 C<HTML::FormFu::Constraint::>, you can use a fully qualified package-name by 
@@ -1060,6 +1076,9 @@ Return Value: @inflators
 
 See L<HTML::FormFu::Inflator> for a list of core inflators.
 
+If a C<name> attribute isn't provided, a new inflator is created for and 
+added to every field on the form.
+
 If you want to load a inflator in a namespace other than 
 C<HTML::FormFu::Inflator::>, you can use a fully qualified package-name by 
 prefixing it with C<+>.
@@ -1082,6 +1101,9 @@ Return Value: @validators
 
 See L<HTML::FormFu::Validator> for a list of core validators.
 
+If a C<name> attribute isn't provided, a new validator is created for and 
+added to every field on the form.
+
 If you want to load a validator in a namespace other than 
 C<HTML::FormFu::Validator::>, you can use a fully qualified package-name by 
 prefixing it with C<+>.
@@ -1103,6 +1125,9 @@ Arguments: \@arrayref_of_types_or_options
 Return Value: @transformers
 
 See L<HTML::FormFu::Transformer> for a list of core transformer.
+
+If a C<name> attribute isn't provided, a new transformer is created for and 
+added to every field on the form.
 
 If you want to load a transformer in a namespace other than 
 C<HTML::FormFu::Transformer::>, you can use a fully qualified package-name by 

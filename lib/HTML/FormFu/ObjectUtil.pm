@@ -186,6 +186,8 @@ sub _require_constraint {
 sub get_errors {
     my $self = shift;
     my %args = _parse_args(@_);
+    
+    return [] if !$self->form->submitted;
 
     my @e = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
     
@@ -206,6 +208,8 @@ sub get_errors {
 
 sub get_error {
     my $self = shift;
+    
+    return if !$self->form->submitted;
 
     my $c = $self->get_errors(@_);
 
