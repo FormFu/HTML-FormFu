@@ -16,15 +16,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::UpperCase - UpperCase transforming filter
-
-=head1 SYNOPSIS
-
-    $form->filter( UpperCase => 'foo' );
+HTML::FormFu::Filter::UpperCase
 
 =head1 DESCRIPTION
 
-UpperCase transforming filter
+UpperCase transforming filter.
 
 =head1 AUTHOR
 

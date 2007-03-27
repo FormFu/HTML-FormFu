@@ -12,6 +12,8 @@ use HTML::Scrubber;
 
 sub filter {
     my ( $self, $value ) = @_;
+    
+    return 1 if !defined $value;
 
     my $allowed = $self->allow || [];
 
@@ -37,11 +39,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::HTMLScrubber - HTML::Scrubber based filter
-
-=head1 SYNOPSIS
-
-    $form->filter( HTMLScrubber => 'foo' );
+HTML::FormFu::Filter::HTMLScrubber
 
 =head1 DESCRIPTION
 

@@ -16,15 +16,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Required - Required constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Required => 'foo' );
+HTML::FormFu::Constraint::Required
 
 =head1 DESCRIPTION
 
-Required constraint.
+States that a value must be submitted. The empty string is not allowed.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

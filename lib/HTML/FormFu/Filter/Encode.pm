@@ -1,8 +1,9 @@
-# $Id$
-
 package HTML::FormFu::Filter::Encode;
+
 use strict;
+use warnings;
 use base qw(HTML::FormFu::Filter);
+
 use Encode qw(encode decode FB_CROAK);
 
 __PACKAGE__->mk_accessors($_) for qw(_candidates encode_to);
@@ -11,7 +12,7 @@ sub filter
 {
     my ($self, $value) = @_;
 
-    return if !defined $value || length $value == 0;
+    return if !defined $value;
 
     my $utf8 = $self->decode_to_utf8($value);
 
@@ -53,7 +54,6 @@ sub decode_to_utf8
     foreach my $candidate ($self->get_candidates) {
         eval { $ret = decode($candidate, $value, FB_CROAK) };
         if ( ! $@) {
-#            print STDERR "decoded from $candidate -> $ret\n";
             last;
         }
     }

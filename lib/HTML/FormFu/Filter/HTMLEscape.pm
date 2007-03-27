@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Filter';
 sub filter {
     my ( $self, $value ) = @_;
 
-    return unless defined $value;
+    return 1 if !defined $value;
 
     $value =~ s/&(?!(amp|lt|gt|quot);)/&amp;/g;
     $value =~ s/</&lt;/g;
@@ -23,11 +23,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::HTMLEscape - HTML escaping filter
-
-=head1 SYNOPSIS
-
-    $form->filter( HTMLEscape => 'foo' );
+HTML::FormFu::Filter::HTMLEscape
 
 =head1 DESCRIPTION
 

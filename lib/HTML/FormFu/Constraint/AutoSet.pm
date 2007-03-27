@@ -18,11 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::AutoSet - AutoSet constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint('Autoset');
+HTML::FormFu::Constraint::AutoSet
 
 =head1 DESCRIPTION
 
@@ -31,15 +27,11 @@ L<HTML::FormFu::Element::select> only.
 
 Ensures that the input value is one of the pre-defined element options.
 
+=head1 SEE ALSO
+
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint::Set>
 
 L<HTML::FormFu::FormFu>
-
-=head1 METHODS
-
-=head2 set
-
-Arguments: \@allow_values
 
 =head1 AUTHOR
 

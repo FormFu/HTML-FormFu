@@ -14,15 +14,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::ASCII - ASCII constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( ASCII => 'foo' );
+HTML::FormFu::Constraint::ASCII
 
 =head1 DESCRIPTION
 
-ASCII constraint.
+Input value must only contain ASCII characters.
 
 =head1 SEE ALSO
 

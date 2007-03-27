@@ -77,22 +77,31 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::DependOn - DependOn constraint
+HTML::FormFu::Constraint::DependOn
 
 =head1 SYNOPSIS
 
-    $form->constraint( DependOn => 'foo', 'bar' );
+    type: DependOn
+    name: foo
+    others: bar
 
 =head1 DESCRIPTION
 
-If the first named field is present, all remaining named fields must be 
-present.
+If a value is submitted for the field this constraint is associated with, 
+then a value must also be submitted for all fields named in L</others>.
 
 If the constraint fails, the first field will not display an error, but all 
 other named fields will.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 others
+
+Arguments: \@field_names
+
+=head2 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

@@ -35,27 +35,39 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::CallbackOnce - CallbackOnce constraint
+HTML::FormFu::Constraint::CallbackOnce
 
 =head1 SYNOPSIS
 
-    $form->constraint( CallbackOnce => 'foo' )->callback(
-        sub {
-            my ($params) = @_;
-            # do something, return 1 or 0
-        }
+    $form->constraint({
+        type => 'CallbackOnce',
+        name => 'foo',
+        callback => \&sfoo,
     );
+    
+    sub foo {
+        my ( $value, $params ) = @_;
+
+        # return true or false
+    }
 
 =head1 DESCRIPTION
 
 Unlinke the L<HTML::FormFu::Constraint::Callback>, this callback is only 
-called once for each named field, regardless of how many values are 
-submitted.
+called once, regardless of how many values are submitted.
 
-The argument passed to the callback is a hashref of name/value pairs, 
-containing only the applicable named fields.
+The first argument passed to the callback is the submitted value for the 
+associated field; this may be a single value or an arrayref of value.
+The second argument passed to the callback is a hashref of name/value pairs 
+for all input fields.
 
 This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 callback
+
+Arguments: \&sub_ref
 
 =head1 SEE ALSO
 

@@ -20,14 +20,15 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::SingleValue - SingleValue constraint
+HTML::FormFu::Constraint::SingleValue
 
 =head1 DESCRIPTION
 
 Ensures that multiple values were not submitted for the named element.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

@@ -34,18 +34,33 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Length - Length constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Length => 'foo' )->min(3)->max(255);
+HTML::FormFu::Constraint::Length
 
 =head1 DESCRIPTION
 
-Length constraint.
+Checks the input value meets both a minimum and maximum length.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 minimum
+
+=head2 min
+
+The minimum input string length.
+
+L</min> is an alias for L</minimum>.
+
+=head2 maximum
+
+=head2 max
+
+The maximum input string length.
+
+L</max> is an alias for L</maximum>.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

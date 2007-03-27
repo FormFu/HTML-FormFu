@@ -912,8 +912,8 @@ Arguments: \@arrayref_of_types_or_options
 
 Return Value: @elements
 
-Adds a new element to the form. See L<HTML::FormFu::Element> for a list of 
-core elements.
+Adds a new element to the form. See 
+L<HTML::FormFu::Element/"CORE ELEMENTS"> for a list of core elements.
 
 If you want to load an element from a namespace other than 
 C<HTML::FormFu::Element::>, you can use a fully qualified package-name by 
@@ -952,7 +952,7 @@ If an object doesn't stringify to a suitable value for display, the
 L<deflator|HTML::FormFu::Deflator> can ensure that the form field 
 receives a suitable string value instead.
 
-See L<HTML::FormFu::Deflator> for a list of core deflators.
+See L<HTML::FormFu::Deflator/"CORE DEFLATORS"> for a list of core deflators.
 
 If a C<name> attribute isn't provided, a new deflator is created for and 
 added to every field on the form.
@@ -1024,7 +1024,7 @@ just that named field.
 If you do not provide a C<name> or C<names> value, the filter will be added 
 to all L<fields|HTML::FormFu::Element::field> already attached to the form. 
 
-See L<HTML::FormFu::Filter> for a list of core filters.
+See L<HTML::FormFu::Filter/"CORE FILTERS"> for a list of core filters.
 
 If a C<name> attribute isn't provided, a new filter is created for and 
 added to every field on the form.
@@ -1049,7 +1049,8 @@ Arguments: \@arrayref_of_types_or_options
 
 Return Value: @constraints
 
-See L<HTML::FormFu::Constraint> for a list of core constraints.
+See L<HTML::FormFu::Constraint/"CORE CONSTRAINTS"> for a list of core 
+constraints.
 
 If a C<name> attribute isn't provided, a new constraint is created for and 
 added to every field on the form.
@@ -1074,7 +1075,7 @@ Arguments: \@arrayref_of_types_or_options
 
 Return Value: @inflators
 
-See L<HTML::FormFu::Inflator> for a list of core inflators.
+See L<HTML::FormFu::Inflator/"CORE INFLATORS"> for a list of core inflators.
 
 If a C<name> attribute isn't provided, a new inflator is created for and 
 added to every field on the form.
@@ -1099,7 +1100,8 @@ Arguments: \@arrayref_of_types_or_options
 
 Return Value: @validators
 
-See L<HTML::FormFu::Validator> for a list of core validators.
+See L<HTML::FormFu::Validator/"CORE VALIDATORS"> for a list of core 
+validators.
 
 If a C<name> attribute isn't provided, a new validator is created for and 
 added to every field on the form.
@@ -1124,7 +1126,8 @@ Arguments: \@arrayref_of_types_or_options
 
 Return Value: @transformers
 
-See L<HTML::FormFu::Transformer> for a list of core transformer.
+See L<HTML::FormFu::Transformer/"CORE TRANSFORMERS"> for a list of core 
+transformers.
 
 If a C<name> attribute isn't provided, a new transformer is created for and 
 added to every field on the form.

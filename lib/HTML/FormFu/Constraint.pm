@@ -111,11 +111,110 @@ HTML::Widget::Constraint - Constraint Base Class
 
 =head1 SYNOPSIS
 
+    ---
+    elements: 
+      - type: text
+        name: foo
+        constraints:
+          - type: Length
+            min: 8
+      - type: text
+        name: bar
+        constraints: 
+          - Integer
+          - Required
+    constraints: 
+      - SingleValue
+
 =head1 DESCRIPTION
+
+C<constraints()> and C<constraint> can be called on any 
+L<form|HTML::FormFu>, L<block element|HTML::FormFu::Element::block> 
+(includes fieldsets) or L<field element|HTML::FormFu::Element::field>.
+
+If called on a field element, no C<name> argument should be passed.
+
+If called on a L<form|HTML::FormFu> or 
+L<block element|HTML::FormFu::Element::block>, if no C<name> argument is 
+provided, a new constraint is created for and added to every field on that 
+form or block.
+
+See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 =head1 METHODS
 
+=head2 constraint_type
+
+Returns the C<type> argument originally used to create the constraint.
+
+=head2 localise_args
+
+Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
+to replace C<[_1]>, C<[_2]>, etc. in the localized string.
+
+=head2 parent
+
+Returns the L<HTML::FormFu::Element::field> object that the constraint is 
+associated with.
+
+=head2 form
+
+Returns the L<HTML::FormFu> object that the constraint's field is attached 
+to.
+
+=head2 name
+
+Shorthand for C<< $constraint->parent->name >>
+
 =head1 CORE CONSTRAINTS
+
+=over
+
+=item L<HTML::FormFu::Constraint::AllOrNone>
+
+=item L<HTML::FormFu::Constraint::ASCII>
+
+=item L<HTML::FormFu::Constraint::AutoSet>
+
+=item L<HTML::FormFu::Constraint::Bool>
+
+=item L<HTML::FormFu::Constraint::Callback>
+
+=item L<HTML::FormFu::Constraint::CallbackOnce>
+
+=item L<HTML::FormFu::Constraint::DependOn>
+
+=item L<HTML::FormFu::Constraint::Email>
+
+=item L<HTML::FormFu::Constraint::Equal>
+
+=item L<HTML::FormFu::Constraint::Integer>
+
+=item L<HTML::FormFu::Constraint::Length>
+
+=item L<HTML::FormFu::Constraint::MaxLength>
+
+=item L<HTML::FormFu::Constraint::MinLength>
+
+=item L<HTML::FormFu::Constraint::MinMaxNeeded>
+
+=item L<HTML::FormFu::Constraint::Number>
+
+=item L<HTML::FormFu::Constraint::Printable>
+
+=item L<HTML::FormFu::Constraint::Range>
+
+=item L<HTML::FormFu::Constraint::Regex>
+
+=item L<HTML::FormFu::Constraint::Required>
+
+=item L<HTML::FormFu::Constraint::Set>
+
+=item L<HTML::FormFu::Constraint::SingleValue>
+
+=item L<HTML::FormFu::Constraint::Word>
+
+=back
 
 =head1 AUTHOR
 

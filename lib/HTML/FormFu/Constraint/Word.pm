@@ -14,15 +14,12 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Word - Single word constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Word => 'foo' );
+HTML::FormFu::Constraint::Word
 
 =head1 DESCRIPTION
 
-Word constraint.
+Ensure the input is a single word. Which characters are considered "word 
+characters" will depend on the current locale.
 
 =head1 SEE ALSO
 

@@ -12,15 +12,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::Whitespace - Whitespace removing filter
-
-=head1 SYNOPSIS
-
-    $form->filter( Whitespace => 'foo' );
+HTML::FormFu::Filter::Whitespace
 
 =head1 DESCRIPTION
 
-Whitespace removing filter.
+Removes all whitespace.
 
 =head1 AUTHOR
 

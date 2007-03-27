@@ -20,15 +20,14 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Email - Email constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Email => 'foo' )->min(3)->max(255);
+HTML::FormFu::Constraint::Email
 
 =head1 DESCRIPTION
 
-Email constraint.
+Checks the input value is an email address according to the C<address> 
+method of L<Email::Valid>.
+
+=head2 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

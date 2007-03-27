@@ -12,15 +12,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::NonNumeric - Non-numeric character removing filter
-
-=head1 SYNOPSIS
-
-    $form->filter( NonNumeric => 'foo' );
+HTML::FormFu::Filter::NonNumeric
 
 =head1 DESCRIPTION
 
-Non-numeric character removing filter.
+Remove all non-numeric characters.
 
 =head1 AUTHOR
 

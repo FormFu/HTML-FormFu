@@ -60,25 +60,87 @@ HTML::Widget::Filter - Filter Base Class
 
 =head1 SYNOPSIS
 
-    my $filter = $form->filter( $type, @names );
+    ---
+    elements: 
+      - type: text
+        name: foo
+        filters:
+          - type: Encode
+            candidates:
+              - utf8
+              - Hebrew
+      - type: text
+        name: bar
+        filters: 
+          - LowerCase
+          - Encode
+    filters: 
+      - TrimEdges
 
 =head1 DESCRIPTION
 
-Filter Base Class.
+C<filters()> and C<filter> can be called on any L<form|HTML::FormFu>, 
+L<block element|HTML::FormFu::Element::block> (includes fieldsets) or 
+L<field element|HTML::FormFu::Element::field>.
+
+If called on a field element, no C<name> argument should be passed.
+
+If called on a L<form|HTML::FormFu> or 
+L<block element|HTML::FormFu::Element::block>, if no C<name> argument is 
+provided, a new filter is created for and added to every field on that form 
+or block.
+
+See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 =head1 METHODS
 
-=head2 names
+=head2 filter_type
 
-Arguments: @names
+Returns the C<type> argument originally used to create the filter.
 
-Return Value: @names
+=head2 localise_args
 
-Contains names of params to filter.
+Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
+to replace C<[_1]>, C<[_2]>, etc. in the localized string.
 
-=head2 process
+=head2 parent
 
-Arguments: $form_result, \%params
+Returns the L<HTML::FormFu::Element::field> object that the filter is 
+associated with.
+
+=head2 form
+
+Returns the L<HTML::FormFu> object that the filter's field is attached to.
+
+=head2 name
+
+Shorthand for C<< $filter->parent->name >>
+
+=head1 CORE FILTERS
+
+=over
+
+=item L<HTML::FormFu::Filter::Callback>
+
+=item L<HTML::FormFu::Filter::Encode>
+
+=item L<HTML::FormFu::Filter::HTMLEscape>
+
+=item L<HTML::FormFu::Filter::HTMLScrubber>
+
+=item L<HTML::FormFu::Filter::LowerCase>
+
+=item L<HTML::FormFu::Filter::NonNumeric>
+
+=item L<HTML::FormFu::Filter::Regex>
+
+=item L<HTML::FormFu::Filter::TrimEdges>
+
+=item L<HTML::FormFu::Filter::UpperCase>
+
+=item L<HTML::FormFu::Filter::Whitespace>
+
+=back
 
 =head1 AUTHOR
 

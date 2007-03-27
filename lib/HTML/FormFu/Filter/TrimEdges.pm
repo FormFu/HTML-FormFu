@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Filter';
 sub filter {
    my ( $self, $value ) = @_;
 
-   return unless defined $value;
+   return 1 if !defined $value;
    
    $value =~ s/^\s+//;
    $value =~ s/\s+\z//;
@@ -21,12 +21,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::TrimEdges - Trim whitespaces from beginning and
-end of string
-
-=head1 SYNOPSIS
-
-   $form->filter( TrimEdges => 'foo' );
+HTML::FormFu::Filter::TrimEdges
 
 =head1 DESCRIPTION
 

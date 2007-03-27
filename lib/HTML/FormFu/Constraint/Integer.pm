@@ -12,15 +12,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Integer - Integer constraint
-
-=head1 SYNOPSIS
-
-    my $c = $form->constraint( Integer => 'foo' );
+HTML::FormFu::Constraint::Integer
 
 =head1 DESCRIPTION
 
 Integer constraint.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint::Regex>,
 L<HTML::FormFu::Constraint>

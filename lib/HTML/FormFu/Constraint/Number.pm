@@ -22,15 +22,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Number - Number constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Number => 'foo' );
+HTML::FormFu::Constraint::Number
 
 =head1 DESCRIPTION
 
-Number constraint.
+The input must be a number.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

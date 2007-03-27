@@ -81,14 +81,23 @@ HTML::FormFu::Constraint::AllOrNone - AllOrNone constraint
 
 =head1 SYNOPSIS
 
-    $form->constraint( AllOrNone => 'foo' )->others( 'bar', 'baz' );
+    type: AllOrNone
+    name: foo
+    others: [bar, baz]
 
 =head1 DESCRIPTION
 
 Ensure that either all or none of the named fields are present.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 others
+
+Arguments: \@field_names
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

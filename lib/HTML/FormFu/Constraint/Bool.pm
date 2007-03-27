@@ -14,15 +14,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Bool - Boolean constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Bool => 'foo' );
+HTML::FormFu::Constraint::Bool
 
 =head1 DESCRIPTION
 
-Boolean constraint. Value must be either 1 or 0.
+Value must be either 1 or 0.
 
 =head1 SEE ALSO
 

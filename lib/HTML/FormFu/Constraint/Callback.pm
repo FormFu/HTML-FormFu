@@ -7,11 +7,11 @@ use base 'HTML::FormFu::Constraint';
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub constrain_value {
-    my ( $self, $value ) = @_;
+    my ( $self, $value, $params ) = @_;
 
     my $callback = $self->callback || sub {1};
 
-    my $ok = $callback->($value);
+    my $ok = $callback->( $value, $params );
 
     return $ok;
 }
@@ -22,22 +22,35 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Callback - Callback constraint
+HTML::FormFu::Constraint::Callback
 
 =head1 SYNOPSIS
 
-    $form->constraint( Callback => 'foo' )->callback(
-        sub {
-            my ($value) = @_;
-            # do something, return 1 or 0
-        }
+    $form->constraint({
+        type => 'Callback',
+        name => 'foo',
+        callback => \&sfoo,
     );
+    
+    sub foo {
+        my ( $value, $params ) = @_;
+
+        # return true or false
+    }
 
 =head1 DESCRIPTION
 
-Callback constraint.
+The first argument passed to the callback is the submitted value for the 
+associated field. The second argument passed to the callback is a hashref of 
+name/value pairs for all input fields.
 
 This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 callback
+
+Arguments: \&sub_ref
 
 =head1 SEE ALSO
 

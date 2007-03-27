@@ -42,38 +42,36 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Regex - Regex constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Regex => 'foo' );
-
-    # YAML
-    elements:
-        -
-            label: foo
-            name: foo
-            type: text
-            constraint:
-                - type: Regex
-                  regex: ^foo[_-]+bar$
-
-    # YAML, using Regexp::Common
-    elements:
-        -
-            label: foo
-            name: foo
-            type: text
-            constraint:
-                - type: Regex
-                  common:
-                    - URI
-                    - HTTP
-                    - '-scheme': 'https?'
+HTML::FormFu::Constraint::Regex
 
 =head1 DESCRIPTION
 
-Regex constraint.
+Regular expression-based constraint.
+
+=head1 METHODS
+
+=head2 regex
+
+Arguments: $regex
+
+Arguments: $string
+
+=head2 common
+
+Arguments: \@parts
+
+Used to build a L<Regexp::Common> regex.
+
+The following definition is equivalent to 
+C<< $RE{URI}{HTTP}{-scheme => 'https?'} >>
+
+    type: Regex
+    common: 
+      - URI
+      - HTTP
+      - { '-scheme': 'https?' }
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

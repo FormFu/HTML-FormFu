@@ -38,18 +38,39 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Range - Numerical range constraint
+HTML::FormFu::Constraint::Range
 
 =head1 SYNOPSIS
 
-    $form->constraint( Range => 'age' )->min(18)->max(35);
+    type: Range
+    min: 18
+    max: 35
 
 =head1 DESCRIPTION
 
 Numerical range constraint.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 minimum
+
+=head2 min
+
+If defined, the input value must be equal to or greater than this.
+
+L</min> is an alias for L</minimum>.
+
+=head2 maximum
+
+=head2 max
+
+If defined, the input value must be equal to or less than this.
+
+L</max> is an alias for L</maximum>.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

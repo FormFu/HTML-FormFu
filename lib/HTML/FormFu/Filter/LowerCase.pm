@@ -16,11 +16,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::LowerCase - LowerCase transforming filter
-
-=head1 SYNOPSIS
-
-    $form->filter( LowerCase => 'foo' );
+HTML::FormFu::Filter::LowerCase
 
 =head1 DESCRIPTION
 

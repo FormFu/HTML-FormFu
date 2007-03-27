@@ -92,18 +92,49 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MinMaxNeeded - MinMaxNeeded constraint
+HTML::FormFu::Constraint::MinMaxNeeded
 
 =head1 SYNOPSIS
 
-    $form->constraint( MinMaxNeeded => 'foo' )->others( 'bar', 'baz' )->min(1)->max(1);
+    type: MinMaxNeeded
+    name: foo
+    others: [bar, baz]
+    min: 1
+    max: 1
 
 =head1 DESCRIPTION
 
-Ensure that at least a minimum and only a maximum number of fields are present.
+Ensure that at least a minimum and only a maximum number of fields are 
+present.
 
-This constraint doesn't honour the C<not()> value, as it wouldn't make much 
-sense.
+This constraint doesn't honour the C<not()> value.
+
+=head1 METHODS
+
+=head2 others
+
+Arguments: \@field_names
+
+A list of field names, which along with the field the constraint is related 
+to, is used in processing the constraint.
+
+=head2 minimum
+
+=head2 min
+
+The minimum number of named fields which must be filled in.
+
+L</min> is an alias for L</minimum>.
+
+=head2 maximum
+
+=head2 max
+
+The maximum number of named fields which must be filled in.
+
+L</max> is an alias for L</maximum>.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

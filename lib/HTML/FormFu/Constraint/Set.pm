@@ -36,25 +36,28 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Set - Set constraint
+HTML::FormFu::Constraint::Set
 
 =head1 SYNOPSIS
 
-    $form->constraint( Set => 'foo' )->set([ 'yes', 'no' ]);
+    type: Set
+    set: [yes, no]
 
 =head1 DESCRIPTION
 
-The value must be in the specified set of values.
-
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
-
-L<HTML::FormFu::FormFu>
+The input value must be in the specified set of values.
 
 =head1 METHODS
 
 =head2 set
 
-Arguments: \@allow_values
+Arguments: \@allowed_values
+
+=head1 SEE ALSO
+
+Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
+
+L<HTML::FormFu::FormFu>
 
 =head1 AUTHOR
 

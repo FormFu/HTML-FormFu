@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::Equal;
+
 use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
@@ -87,11 +88,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Equal - Equal constraint
+HTML::FormFu::Constraint::Equal
 
 =head1 SYNOPSIS
 
-    $form->constraint( Equal => 'foo' )->others('bar');
+    type: Equal
+    name: password
+    others: repeat_password
 
 =head1 DESCRIPTION
 
@@ -99,6 +102,17 @@ Ensure that all values are equal.
 
 If the constraint fails, the first field will not display an error, but all 
 other named fields will.
+
+=head1 METHODS
+
+=head2 others
+
+Arguments: \@field_names
+
+A list of field names whose value must be equal to the value of the 
+field the constraint is associated with.
+
+=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 

@@ -14,11 +14,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Printable - Printable constraint
-
-=head1 SYNOPSIS
-
-    $form->constraint( Printable => 'foo' );
+HTML::FormFu::Constraint::Printable
 
 =head1 DESCRIPTION
 

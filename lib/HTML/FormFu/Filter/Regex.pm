@@ -8,6 +8,8 @@ __PACKAGE__->mk_accessors(qw/ match replace /);
 
 sub filter {
     my ( $self, $value ) = @_;
+    
+    return 1 if !defined $value;
 
     my $match   = $self->match;
     my $replace = $self->replace;
@@ -26,17 +28,35 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::Regex - Match/Replace filter
+HTML::FormFu::Filter::Regex
 
 =head1 SYNOPSIS
 
-    $form->filter( Regex => 'foo' )
-        ->match( qr/\d/ )
-        ->replace( '*' );
+The following filter would turn C<1234-5678> into C<****-****>.
+
+    type: Regex
+    match: \d
+    replace: *
 
 =head1 DESCRIPTION
 
-Regex filter.
+Regular expression-based match / replace filter.
+
+=head1 METHODS
+
+=head2 match
+
+A regex object or string to be used in the "left-hand side" of a C<s///g> 
+regular expression.
+
+Default Value: qr/./
+
+=head2 replace
+
+A string to be used in the "right-hand side" of a C<s///g> regular 
+expression. The string will replace every occurance of L</match>.
+
+Default Value: ''
 
 =head1 AUTHOR
 
