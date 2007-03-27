@@ -48,6 +48,29 @@ HTML::FormFu::Constraint::Regex - Regex constraint
 
     $form->constraint( Regex => 'foo' );
 
+    # YAML
+    elements:
+        -
+            label: foo
+            name: foo
+            type: text
+            constraint:
+                - type: Regex
+                  regex: ^foo[_-]+bar$
+
+    # YAML, using Regexp::Common
+    elements:
+        -
+            label: foo
+            name: foo
+            type: text
+            constraint:
+                - type: Regex
+                  common:
+                    - URI
+                    - HTTP
+                    - '-scheme': 'https?'
+
 =head1 DESCRIPTION
 
 Regex constraint.
