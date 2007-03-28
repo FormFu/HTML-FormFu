@@ -294,13 +294,14 @@ sub load_config_file {
         croak "file not found: '$_'" if !-f $_;
     }
 
-    my $files = Config::Any->load_files( {
-            files   => \@filenames,
-            use_ext => 1,
-        } );
-
-    for my $file (@$files) {
-        $self->populate( $file->{ ( keys %$file )[0] } );
+    for my $file (@filenames) {
+        
+        my $config = Config::Any->load_files( {
+                files   => [$file],
+                use_ext => 1,
+            } );
+        
+        $self->populate( $config->[0]->{$file} );
     }
 
     return $self;
