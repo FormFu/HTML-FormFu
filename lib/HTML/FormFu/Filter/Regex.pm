@@ -9,7 +9,7 @@ __PACKAGE__->mk_accessors(qw/ match replace /);
 sub filter {
     my ( $self, $value ) = @_;
     
-    return 1 if !defined $value;
+    return if !defined $value;
 
     my $match   = $self->match;
     my $replace = $self->replace;

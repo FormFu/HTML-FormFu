@@ -13,7 +13,7 @@ use HTML::Scrubber;
 sub filter {
     my ( $self, $value ) = @_;
     
-    return 1 if !defined $value;
+    return if !defined $value;
 
     my $allowed = $self->allow || [];
 

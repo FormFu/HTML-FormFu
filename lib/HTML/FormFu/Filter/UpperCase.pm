@@ -7,6 +7,8 @@ use base 'HTML::FormFu::Filter';
 sub filter {
     my ( $self, $value ) = @_;
 
+    return if !defined $value;
+
     return uc $value;
 }
 

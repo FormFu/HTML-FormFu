@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Filter';
 sub filter {
     my ( $self, $value ) = @_;
 
-    return 1 if !defined $value;
+    return if !defined $value;
 
     $value =~ s/&(?!(amp|lt|gt|quot);)/&amp;/g;
     $value =~ s/</&lt;/g;
