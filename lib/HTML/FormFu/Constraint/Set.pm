@@ -25,7 +25,8 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    $clone->set( dclone $self->set );
+    $clone->set( dclone $self->set )
+        if $self->set;
     
     return $clone;
 }
