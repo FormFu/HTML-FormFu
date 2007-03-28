@@ -147,6 +147,33 @@ See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 Returns the C<type> argument originally used to create the constraint.
 
+=head2 not
+
+If true, inverts the results of the constraint - such that input that would 
+otherwise fail will pass, and vise-versa.
+
+This value is ignored by some constraints - see the documentation for 
+individual constraints for details.
+
+=head2 message
+
+Arguments: $string
+
+Set the message which will be displayed if the constraint fails.
+
+=head2 message_xml
+
+Arguments: $string
+
+Variant of L</message> which ensures the value won't be XML-escaped.
+
+=head2 message_loc
+
+Arguments: $string
+
+Variant of L</message> which uses L<localize|HTML::FormFu/localize> to 
+create the message.
+
 =head2 localise_args
 
 Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
