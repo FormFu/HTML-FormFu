@@ -72,7 +72,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Accessor
+HTML::FormFu::Accessor
 
 =head1 SYNOPSIS
 

@@ -111,7 +111,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Validator - Validator Base Class
+HTML::FormFu::Validator - Validator Base Class
 
 =head1 SYNOPSIS
 

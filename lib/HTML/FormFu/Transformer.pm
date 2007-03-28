@@ -91,7 +91,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Transformer - Transformer Base Class
+HTML::FormFu::Transformer - Transformer Base Class
 
 =head1 SYNOPSIS
 

@@ -128,7 +128,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Element - Element Base Class
+HTML::FormFu::Element - Element Base Class
 
 =head1 SYNOPSIS
 

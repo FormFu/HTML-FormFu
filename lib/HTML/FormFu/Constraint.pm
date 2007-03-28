@@ -107,7 +107,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Constraint - Constraint Base Class
+HTML::FormFu::Constraint - Constraint Base Class
 
 =head1 SYNOPSIS
 

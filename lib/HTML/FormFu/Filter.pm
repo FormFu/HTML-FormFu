@@ -56,7 +56,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Filter - Filter Base Class
+HTML::FormFu::Filter - Filter Base Class
 
 =head1 SYNOPSIS
 

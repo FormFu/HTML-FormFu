@@ -380,7 +380,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Attribute
+HTML::FormFu::Attribute
 
 =head1 SYNOPSIS
 

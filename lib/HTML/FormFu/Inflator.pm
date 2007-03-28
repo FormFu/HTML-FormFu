@@ -83,7 +83,7 @@ __END__
 
 =head1 NAME
 
-HTML::Widget::Filter - Inflator Base Class
+HTML::FormFu::Inflator - Inflator Base Class
 
 =head1 SYNOPSIS
 
