@@ -4,17 +4,6 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Render::Element::block';
 
-sub errors {
-    my ($self) = @_;
-    
-    my @errors = 
-        map { $_->{errors} ? @{ $_->{errors} } : () } 
-        grep { $_->{is_field} } 
-        @{ $self->elements };
-    
-    return \@errors;
-}
-
 sub label_tag {
     my ($self) = @_;
 
