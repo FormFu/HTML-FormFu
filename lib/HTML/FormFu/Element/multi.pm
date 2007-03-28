@@ -7,6 +7,7 @@ use base 'HTML::FormFu::Element::block';
 use HTML::FormFu::Element::field qw/
     _render_container_class _render_comment_class _render_label /;
 use HTML::FormFu::Util qw/ append_xml_attribute xml_escape /;
+use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
 
 __PACKAGE__->mk_accessors(
@@ -68,10 +69,33 @@ sub render {
     $self->_render_comment_class($render);
     
     $self->_render_label($render);
+    
+    $self->_render_error_class($render);
 
     append_xml_attribute( $render->{attributes}, 'class', 'elements' );
 
     return $render;
+}
+
+sub _render_error_class {
+    my ( $self, $render ) = @_;
+    
+    my @errors = map { @{ $_->get_errors } } @{ $self->_elements };
+    
+    if (@errors) {
+        $render->{errors} = \@errors;
+
+        append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
+
+        my @class = uniq sort map { $_->class } @errors;
+
+        for my $class (@class) {
+            append_xml_attribute( $render->{container_attributes},
+                'class', $class );
+        }
+    }
+    
+    return;
 }
 
 sub clone {
