@@ -299,12 +299,9 @@ sub load_config_file {
             use_ext => 1,
         } );
 
-    my %config;
     for my $file (@$files) {
-        %config = ( %config, %{ $file->{ ( keys %$file )[0] } } );
+        $self->populate( $file->{ ( keys %$file )[0] } );
     }
-
-    $self->populate( \%config );
 
     return $self;
 }

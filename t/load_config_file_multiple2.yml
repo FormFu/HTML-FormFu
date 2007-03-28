@@ -1,0 +1,5 @@
+---
+action: /foo
+elements:
+  - type: text
+    name: bar
