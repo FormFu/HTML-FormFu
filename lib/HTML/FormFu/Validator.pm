@@ -52,7 +52,7 @@ sub process {
     }
     else {
         my $ok = eval {
-            $self->validate_value( $value, $params ) ? 1 : 0;
+            $self->validate_value( $value, $params );
         };
         if ( $@ or !$ok ) {
             push @errors, $self->return_error($@);
@@ -69,7 +69,7 @@ sub validate_values {
 
     for my $value (@$values) {
         my $ok = eval {
-            $self->validate_value( $value, $params ) ? 1 : 0;
+            $self->validate_value( $value, $params );
         };
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
             push @errors, $@;

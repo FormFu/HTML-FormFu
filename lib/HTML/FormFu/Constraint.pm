@@ -52,7 +52,7 @@ sub process {
     }
     else {
         my $ok = eval {
-            $self->constrain_value( $value, $params ) ? 1 : 0;
+            $self->constrain_value( $value, $params );
         };
         if ( $@ or !$ok ) {
             push @errors, $self->return_error($@);
@@ -69,7 +69,7 @@ sub constrain_values {
 
     for my $value (@$values) {
         my $ok = eval {
-            $self->constrain_value( $value, $params ) ? 1 : 0;
+            $self->constrain_value( $value, $params );
         };
         if ( $@ or !$ok ) {
             push @errors, $self->return_error($@)

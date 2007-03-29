@@ -11,7 +11,7 @@ sub constrain_value {
 
     return 1 if !defined $value || $value eq '';
 
-    return Email::Valid->address( -address => $value ) ? 1 : 0;
+    return Email::Valid->address( -address => $value );
 }
 
 1;
