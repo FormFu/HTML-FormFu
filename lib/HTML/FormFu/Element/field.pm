@@ -27,7 +27,8 @@ __PACKAGE__->mk_attrs(
 __PACKAGE__->mk_accessors(qw/ 
     _constraints _filters _inflators _deflators _validators _transformers 
     _errors container_tag
-    field_filename label_filename errors retain_default javascript /);
+    field_filename label_filename errors retain_default javascript
+    render_processed_value /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
@@ -399,7 +400,9 @@ sub _render_value {
     
     my $input = (defined $self->name 
                  && exists $self->form->input->{ $self->name } ) 
-              ? $self->form->input->{ $self->name } 
+              ? $self->render_processed_value 
+                ? $self->form->_processed_params->{ $self->name }
+                : $self->form->input->{ $self->name } 
               : undef;
               
     my $value = $self->process_value($input);

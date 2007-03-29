@@ -33,10 +33,10 @@ sub process {
 
     my $values = $params->{$name};
     if ( ref $values eq 'ARRAY' ) {
-        $params->{$name} = [ map { $self->filter($_); } @$values ];
+        $params->{$name} = [ map { $self->filter( $_, $params ); } @$values ];
     }
     else {
-        $params->{$name} = $self->filter($values);
+        $params->{$name} = $self->filter( $values, $params );
     }
 
     return;
