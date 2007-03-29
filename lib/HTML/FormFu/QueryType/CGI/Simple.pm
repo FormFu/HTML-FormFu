@@ -23,6 +23,8 @@ sub parse_uploads {
         push @new, $param;
     }
     
+    return if !@new;
+    
     return @new == 1 ? $new[0] : \@new;
 }
 
