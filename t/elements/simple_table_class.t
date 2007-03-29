@@ -6,7 +6,7 @@ use Test::More tests => 1;
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
-$form->load_config_file('t/element_simple_table_class.yml');
+$form->load_config_file('t/elements/simple_table_class.yml');
 
 
 my $xhtml = <<EOF;
