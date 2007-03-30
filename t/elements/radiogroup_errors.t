@@ -19,10 +19,14 @@ $field->constraint('Required');
 my $xhtml = qq{<fieldset class="radiogroup legend">
 <legend>My legend</legend>
 <span>
+<span>
 <input name="foo" type="radio" value="one" />
 <label>One</label>
+</span>
+<span>
 <input name="foo" type="radio" value="two" />
 <label>Two</label>
+</span>
 </span>
 </fieldset>};
 
@@ -36,10 +40,14 @@ is( "$field", $xhtml );
 <legend>My legend</legend>
 <span class="error_message error_constraint_required">This field is required</span>
 <span>
+<span>
 <input name="foo" type="radio" value="one" />
 <label>One</label>
+</span>
+<span>
 <input name="foo" type="radio" value="two" />
 <label>Two</label>
+</span>
 </span>
 </fieldset>};
 

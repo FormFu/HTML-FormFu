@@ -29,24 +29,38 @@ my $expected_form_xhtml = <<EOF;
 <fieldset class="radiogroup">
 <span>
 <span class="subgroup">
+<span>
 <input name="foo" type="radio" value="1" />
 <label>one</label>
+</span>
+<span>
 <input name="foo" type="radio" value="2" checked="checked" />
 <label>two</label>
 </span>
+</span>
 <span class="subgroup">
+<span>
 <input name="foo" type="radio" value="foo2_1" />
 <label>One</label>
+</span>
+<span>
 <input name="foo" type="radio" value="foo2_2" />
 <label>Two</label>
 </span>
+</span>
+<span>
 <input name="foo" type="radio" value="x" />
 <label>non-opt</label>
+</span>
 <span class="opt4 subgroup">
+<span>
 <input name="foo" type="radio" value="foo3_1" />
 <label>wun</label>
+</span>
+<span>
 <input name="foo" type="radio" value="foo3_2" class="foo3b" />
 <label>too</label>
+</span>
 </span>
 </span>
 </fieldset>

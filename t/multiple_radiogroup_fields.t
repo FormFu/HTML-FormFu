@@ -20,12 +20,18 @@ my $xhtml = <<EOF;
 <form action="" method="post">
 <fieldset class="radiogroup">
 <span>
+<span>
 <input name="foo" type="radio" value="one" checked="checked" />
 <label>One</label>
+</span>
+<span>
 <input name="foo" type="radio" value="two" />
 <label>Two</label>
+</span>
+<span>
 <input name="foo" type="radio" value="three" checked="checked" />
 <label>Three</label>
+</span>
 </span>
 </fieldset>
 </form>

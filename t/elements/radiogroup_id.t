@@ -13,10 +13,14 @@ my $foo = $form->element('radiogroup')->name('foo')->values( [ 1, 2 ] );
 
 my $foo_xhtml = qq{<fieldset class="radiogroup">
 <span>
+<span>
 <input name="foo" type="radio" value="1" id="foo1" />
 <label for="foo1">1</label>
+</span>
+<span>
 <input name="foo" type="radio" value="2" id="foo2" />
 <label for="foo2">2</label>
+</span>
 </span>
 </fieldset>};
 
