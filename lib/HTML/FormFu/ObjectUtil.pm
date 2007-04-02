@@ -84,14 +84,6 @@ sub _require_element {
         %$arg = ( %{ $self->element_defaults->{$type} }, %$arg );
     }
 
-#    for (qw/ render_class_prefix render_method /)
-#    {
-#        $arg->{$_} = $self->$_ if !exists $arg->{$_};
-#    }
-#
-#    $arg->{render_class_args} = dclone $self->render_class_args
-#        if !exists $arg->{render_class_args};
-
     populate( $element, $arg );
 
     return $element;
@@ -309,18 +301,24 @@ sub load_config_file {
 
 sub _render_class {
     my ( $self, $dir ) = @_;
-
+    my $class;
+    
     if ( defined $self->render_class ) {
-        return $self->render_class;
+        $class =  $self->render_class;
+    }
+    elsif ( defined $dir && defined $self->render_class_suffix ) {
+        $class = $self->render_class_prefix . "::" . $dir . 
+            "::" . $self->render_class_suffix
     }
     elsif ( defined $dir ) {
-        return $self->render_class_prefix . "::" . $dir . "::"
-            . $self->render_class_suffix;
+        $class = $self->render_class_prefix . "::" . $dir;
     }
     else {
-        return $self->render_class_prefix . "::"
+        $class = $self->render_class_prefix . "::"
             . $self->render_class_suffix;
     }
+    
+    return $class;
 }
 
 sub _coerce {

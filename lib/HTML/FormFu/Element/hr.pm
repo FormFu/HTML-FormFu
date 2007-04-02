@@ -2,28 +2,15 @@ package HTML::FormFu::Element::hr;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element';
+use base 'HTML::FormFu::Element::non_block';
 
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->filename('hr');
-    $self->render_class_suffix('hr');
+    $self->tag('hr');
 
     return $self;
 }
-
-sub delete_errors { }
-
-sub get_filters { [] }
-
-sub get_constraints { [] }
-
-sub get_inflators { [] }
-
-sub get_validators { [] }
-
-sub get_transformers { [] }
 
 1;
 
@@ -31,22 +18,16 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Text - Text form field
-
-=head1 SYNOPSIS
-
-    my $element = $form->element( Text => 'foo' );
+HTML::FormFu::Element::hr
 
 =head1 DESCRIPTION
 
-Text form field.
-
-=head1 METHODS
+Horizontal-rule element.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::input>, 
-L<HTML::FormFu::Element::field>, L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::non_block>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

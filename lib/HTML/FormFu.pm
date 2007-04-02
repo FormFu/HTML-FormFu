@@ -39,7 +39,8 @@ __PACKAGE__->mk_accessors(
         indicator filename javascript
         element_defaults query_type languages
         localize_class submitted query input _auto_fieldset
-        _elements _processed_params _valid_names /
+        _elements _processed_params _valid_names
+        render_class_suffix /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -48,7 +49,7 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_inflator_class auto_validator_class 
     auto_transformer_class
-    render_class render_class_prefix render_class_suffix render_class_args 
+    render_class render_class_prefix render_class_args 
     render_method /
 );
 

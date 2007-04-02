@@ -23,10 +23,11 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(qw/
-    parent name element_type filename multi_filename is_field /);
+    parent name element_type filename multi_filename is_field 
+    render_class_suffix /);
 
 __PACKAGE__->mk_inherited_accessors(
-    qw/ render_class render_class_prefix render_class_suffix render_class_args 
+    qw/ render_class render_class_prefix render_class_args 
     render_method /);
 
 sub new {
@@ -56,23 +57,33 @@ sub get_fields { [] }
 
 sub get_field { }
 
-sub get_constraints { [] }
+sub get_deflators { [] }
 
-sub get_constraint { }
+sub get_deflator { }
 
 sub get_filters { [] }
 
 sub get_filter { }
 
-sub get_deflators { [] }
+sub get_constraints { [] }
 
-sub get_deflator { }
+sub get_constraint { }
 
 sub get_inflators { [] }
 
 sub get_inflator { }
 
+sub get_validators { [] }
+
+sub get_validator { }
+
+sub get_transformers { [] }
+
+sub get_transformer { }
+
 sub get_errors { [] }
+
+sub delete_errors { }
 
 sub prepare { }
 
