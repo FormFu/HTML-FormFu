@@ -4,10 +4,12 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
 
-use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods mk_get_one_methods /;
+use HTML::FormFu::Attribute qw/ 
+    mk_attrs mk_require_methods mk_get_one_methods /;
 use HTML::FormFu::ObjectUtil qw/   
     get_error _require_constraint /;
-use HTML::FormFu::Util qw/ _parse_args append_xml_attribute xml_escape require_class /;
+use HTML::FormFu::Util qw/ 
+    _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 use Exporter qw/ import /;
@@ -127,7 +129,6 @@ for my $method (qw/
 *default      = \&value;
 *default_xml  = \&value_xml;
 *default_loc  = \&value_loc;
-*value_loc    = \&value_loc;
 
 sub new {
     my $self = shift->SUPER::new(@_);
@@ -592,19 +593,458 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::field - form field base-class.
+HTML::FormFu::Element::field
 
 =head1 DESCRIPTION
 
-Form field base-class.
+Base-class for all form-field elements.
+
+=head1 METHODS
+
+=head2 default
+
+Set the form-field's default value.
+
+=head2 default_xml
+
+Arguments: $string
+
+If you don't want the default value to be XML-escaped, use the 
+L</default_xml> method instead of </default>.
+
+=head2 default_loc
+
+Arguments: $localization_key
+
+Set the default value using a L10N key.
+
+=head2 value
+
+For most fields, L</value> is an alias for L</default>.
+
+For the L<HTML::FormFu::Element::checkbox> and 
+L<HTML::FormFu::Element::radio> elements, L</value> sets what the value of 
+the field will be if it is checked or selected. If the L</default> is the 
+same as the L</value>, then the field will be checked or selected when 
+rendered.
+
+For the L<HTML::FormFu::Element::radiogroup> and 
+L<HTML::FormFu::Element::select> elements, the L</value> is ignored: 
+L</values|HTML::FormFu::Element::group/values> or 
+L</options|HTML::FormFu::Element::group/options> provides the equivalent 
+function.
+
+=head2 value_xml
+
+Arguments: $string
+
+If you don't want the value to be XML-escaped, use the L</value_xml> 
+method instead of </value>.
+
+=head2 value_loc
+
+Arguments: $localization_key
+
+Set the value using a L10N key.
+
+=head2 label
+
+Set a label to communicate the purpose of the form-field to the user.
+
+=head2 label_xml
+
+Arguments: $string
+
+If you don't want the label to be XML-escaped, use the L</label_xml> 
+method instead of </label>.
+
+=head2 label_loc
+
+Arguments: $localization_key
+
+Set the label using a L10N key.
+
+=head2 comment
+
+Set a comment to be displayed along with the form-field.
+
+=head2 comment_xml
+
+Arguments: $string
+
+If you don't want the comment to be XML-escaped, use the L</comment_xml> 
+method instead of </comment>.
+
+=head2 comment_loc
+
+Arguments: $localization_key
+
+Set the comment using a L10N key.
+
+=head2 container_tag
+
+Set which tag-name should be used to contain the various field parts (field, 
+label, comment, errors, etc.).
+
+Default Value: 'span'
+
+=head2 javascript
+
+Arguments: [$javascript]
+
+If set, the contents will be rendered within a C<script> tag, within the 
+field's container.
+
+=head2 retain_default
+
+If L</retain_default> is true and the form was submitted, but the field 
+didn't have a value submitted, then when the form is redisplayed to the user 
+the field will have it's value set to it's default value , rather than the 
+usual behaviour of having an empty value.
+
+Default Value: C<false>
+
+=head2 render_processed_value
+
+=head2 clone
+
+See L<HTML::FormFu/clone> for details.
+
+=head2 deflators
+
+See L<HTML::FormFu/deflators> for details.
+
+=head2 deflator
+
+See L<HTML::FormFu/deflator> for details.
+
+=head1 ATTRIBUTES
+
+=head2 comment_attributes
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+Attributes added to the comment container.
+
+=head2 comment_attributes_xml
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+If you don't want the values to be XML-escaped, use the 
+L</comment_attributes_xml> method instead of </comment_attributes>.
+
+=head2 add_comment_attributes
+
+=head2 add_comment_attrs
+
+See L<HTML::FormFu::/add_attributes> for details.
+
+=head2 add_comment_attributes_xml
+
+=head2 add_comment_attrs_xml
+
+See L<HTML::FormFu::/add_attributes_xml> for details.
+
+=head2 add_comment_attributes_loc
+
+=head2 add_comment_attrs_loc
+
+See L<HTML::FormFu::/add_attributes_loc> for details.
+
+=head2 del_comment_attributes
+
+=head2 del_comment_attrs
+
+See L<HTML::FormFu::/del_attributes> for details.
+
+=head2 del_comment_attributes_xml
+
+=head2 del_comment_attrs_xml
+
+See L<HTML::FormFu::/del_attributes_xml> for details.
+
+=head2 del_comment_attributes_loc
+
+=head2 del_comment_attrs_loc
+
+See L<HTML::FormFu::/del_attributes_loc> for details.
+
+=head2 container_attributes
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+Arguments added to the field's container.
+
+=head2 container_attributes_xml
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+If you don't want the values to be XML-escaped, use the 
+L</container_attributes_xml> method instead of </container_attributes>.
+
+=head2 add_container_attributes
+
+=head2 add_container_attrs
+
+See L<HTML::FormFu::/add_attributes> for details.
+
+=head2 add_container_attributes_xml
+
+=head2 add_container_attrs_xml
+
+See L<HTML::FormFu::/add_attributes_xml> for details.
+
+=head2 add_container_attributes_loc
+
+=head2 add_container_attrs_loc
+
+See L<HTML::FormFu::/add_attributes_loc> for details.
+
+=head2 del_container_attributes
+
+=head2 del_container_attrs
+
+See L<HTML::FormFu::/del_attributes> for details.
+
+=head2 del_container_attributes_xml
+
+=head2 del_container_attrs_xml
+
+See L<HTML::FormFu::/del_attributes_xml> for details.
+
+=head2 del_container_attributes_loc
+
+=head2 del_container_attrs_loc
+
+See L<HTML::FormFu::/del_attributes_loc> for details.
+
+=head2 label_attributes
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+Attributes added to the label container.
+
+=head2 label_attributes_xml
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+If you don't want the values to be XML-escaped, use the 
+L</label_attributes_xml> method instead of </label_attributes>.
+
+=head2 add_label_attributes
+
+=head2 add_label_attrs
+
+See L<HTML::FormFu::/add_attributes> for details.
+
+=head2 add_label_attributes_xml
+
+=head2 add_label_attrs_xml
+
+See L<HTML::FormFu::/add_attributes_xml> for details.
+
+=head2 add_label_attributes_loc
+
+=head2 add_label_attrs_loc
+
+See L<HTML::FormFu::/add_attributes_loc> for details.
+
+=head2 del_label_attributes
+
+=head2 del_label_attrs
+
+See L<HTML::FormFu::/del_attributes> for details.
+
+=head2 del_label_attributes_xml
+
+=head2 del_label_attrs_xml
+
+See L<HTML::FormFu::/del_attributes_xml> for details.
+
+=head2 del_label_attributes_loc
+
+=head2 del_label_attrs_loc
+
+See L<HTML::FormFu::/del_attributes_loc> for details.
+
+=head1 FORM LOGIC AND VALIDATION
+
+=head2 filters
+
+See L<HTML::FormFu/filters> for details.
+
+=head2 filter
+
+See L<HTML::FormFu/filter> for details.
+
+=head2 constraints
+
+See L<HTML::FormFu/constraints> for details.
+
+=head2 constraint
+
+See L<HTML::FormFu/constraint> for details.
+
+=head2 inflators
+
+See L<HTML::FormFu/inflators> for details.
+
+=head2 inflator
+
+See L<HTML::FormFu/inflator> for details.
+
+=head2 validators
+
+See L<HTML::FormFu/validators> for details.
+
+=head2 validator
+
+See L<HTML::FormFu/validator> for details.
+
+=head2 transformers
+
+See L<HTML::FormFu/transformers> for details.
+
+=head2 transformer
+
+See L<HTML::FormFu/transformer> for details.
+
+=head1 CSS CLASSES
+
+=head2 auto_id
+
+See L<HTML::FormFu/auto_id> for details.
+
+=head2 auto_label
+
+See L<HTML::FormFu/auto_label> for details.
+
+=head2 auto_error_class
+
+See L<HTML::FormFu/auto_error_class> for details.
+
+=head2 auto_error_message
+
+See L<HTML::FormFu/auto_error_message> for details.
+
+=head2 auto_constraint_class
+
+See L<HTML::FormFu/auto_constraint_class> for details.
+
+=head2 auto_inflator_class
+
+See L<HTML::FormFu/auto_inflator_class> for details.
+
+=head2 auto_validator_class
+
+See L<HTML::FormFu/auto_validator_class> for details.
+
+=head2 auto_transformer_class
+
+See L<HTML::FormFu/auto_transformer_class> for details.
+
+=head1 RENDERING
+
+=head2 field_filename
+
+The template filename to be used for just the form field - not including the 
+display of any container, label, errors, etc. 
+
+Must be set by more specific field classes.
+
+=head2 label_filename
+
+The template filename to be used to render the label.
+
+Must be set by more specific field classes.
+
+=head1 ERROR HANDLING
+
+=head2 get_errors
+
+See L<HTML::FormFu/get_errors> for details.
+
+=head2 add_error
+
+=head2 delete_errors
+
+See L<HTML::FormFu/delete_errors> for details.
+
+=head1 INTROSPECTION
+
+=head2 get_deflators
+
+See L<HTML::FormFu/get_deflators> for details.
+
+=head2 get_deflator
+
+See L<HTML::FormFu/get_deflator> for details.
+
+=head2 get_filters
+
+See L<HTML::FormFu/get_filters> for details.
+
+=head2 get_filter
+
+See L<HTML::FormFu/get_filter> for details.
+
+=head2 get_constraints
+
+See L<HTML::FormFu/get_constraints> for details.
+
+=head2 get_constraint
+
+See L<HTML::FormFu/get_constraint> for details.
+
+=head2 get_inflators
+
+See L<HTML::FormFu/get_inflators> for details.
+
+=head2 get_inflator
+
+See L<HTML::FormFu/get_inflator> for details.
+
+=head2 get_validators
+
+See L<HTML::FormFu/get_validators> for details.
+
+=head2 get_validator
+
+See L<HTML::FormFu/get_validator> for details.
+
+=head2 get_transformers
+
+See L<HTML::FormFu/get_transformers> for details.
+
+=head2 get_transformer
+
+See L<HTML::FormFu/get_transformer> for details.
+
+=head2 get_errors
+
+See L<HTML::FormFu/get_errors> for details.
+
+=head2 delete_errors
+
+See L<HTML::FormFu/delete_errors> for details.
+
+=head1 SEE ALSO
 
 Base-class for L<HTML::FormFu::Element::group>, L<HTML::FormFu::Element::input>,
 L<HTML::FormFu::Element::Multi>, L<HTML::FormFu::Element::ContentButton>, 
 L<HTML::FormFu::Element::Textarea>.
-
-=head1 METHODS
-
-=head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 

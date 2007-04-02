@@ -1215,6 +1215,40 @@ XML-escaped.
 
 L</add_attrs_xml> is an alias for L</add_attributes_xml>.
 
+=head2 del_attributes
+
+=head2 del_attrs
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+Return Value: $form
+
+Accepts either a list of key/value pairs, or a hash-ref.
+
+    $form->del_attributes( $key => $value );
+    $form->del_attributes( { $key => $value } );
+
+All values are removed from the attribute value.
+
+    $form->attributes({ class => 'foo bar' });
+    
+    $form->del_attributes({ class => 'bar' });
+    
+    # class is now 'foo'
+
+L</del_attrs> is an alias for L</del_attributes>.
+
+=head2 del_attributes_xml
+
+=head2 del_attrs_xml
+
+Provides the same functionality as L<"/del_attributes">, but values won't be 
+XML-escaped.
+
+L</del_attrs_xml> is an alias for L</del_attributes_xml>.
+
 The following methods are shortcuts for accessing L<"/attributes"> keys.
 
 =head2 id
@@ -1660,12 +1694,24 @@ L</render_class_prefix> and L</render_class_suffix> are ignored.
 
 Default Value: none
 
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
+
 =head2 render_class_prefix
 
 Set the prefix used to generate the classname of the form render object and 
 all Element render objects.
 
 Default Value: "HTML::FormFu::Render"
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
 
 =head2 render_class_suffix
 
@@ -1690,6 +1736,12 @@ The default value of C<INCLUDE_PATH> is C<root>. This should generally be
 overridden to point to the location of the HTML::FormFu template files on 
 your local system.
 
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
+
 =head2 render_method
 
 Arguments: [$method_name]
@@ -1697,6 +1749,12 @@ Arguments: [$method_name]
 The method named called by L<HTML::FormFu::Render::base/output>.
 
 Default Value: 'xhtml'
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
 
 =head1 INTROSPECTION
 

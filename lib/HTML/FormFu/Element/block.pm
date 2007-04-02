@@ -113,15 +113,225 @@ HTML::FormFu::Element::Block - Block element
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( Block => 'foo' );
+    ---
+    elements: 
+      - type: Block
+        elements: 
+          - type: text
+            name: foo
+    
+      - type: Block
+        tag: span
+        content: Whatever
 
 =head1 DESCRIPTION
 
-Block element. Base-class for L<HTML::FormFu::Element::Fieldset>.
+Block element which may contain other elements.
 
 =head1 METHODS
 
+=head2 tag
+
+Specifies which tag name should be used to render the block.
+
+Default Value: 'div'
+
+=head2 content
+
+If L</content> is set, it is used as the block's contents, and any attached 
+elements are ignored.
+
+=head2 content_xml
+
+Arguments: $string
+
+If you don't want the content to be XML-escaped, use the L</content_xml> 
+method instead of </content>.
+
+=head2 content_loc
+
+Arguments: $localization_key
+
+To set the content to a localized string, set L</content_loc> to a key in 
+your L10N file instead of using L</content>.
+
+=head2 elements
+
+See L<HTML::FormFu/elements> for details.
+
+=head2 element
+
+See L<HTML::FormFu/element> for details.
+
+=head2 deflators
+
+See L<HTML::FormFu/deflators> for details.
+
+=head2 deflator
+
+See L<HTML::FormFu/deflator> for details.
+
+=head2 filters
+
+See L<HTML::FormFu/filters> for details.
+
+=head2 filter
+
+See L<HTML::FormFu/filter> for details.
+
+=head2 constraints
+
+See L<HTML::FormFu/constraints> for details.
+
+=head2 constraint
+
+See L<HTML::FormFu/constraint> for details.
+
+=head2 inflators
+
+See L<HTML::FormFu/inflators> for details.
+
+=head2 inflator
+
+See L<HTML::FormFu/inflator> for details.
+
+=head2 validators
+
+See L<HTML::FormFu/validators> for details.
+
+=head2 validator
+
+See L<HTML::FormFu/validator> for details.
+
+=head2 transformers
+
+See L<HTML::FormFu/transformers> for details.
+
+=head2 transformer
+
+See L<HTML::FormFu/transformer> for details.
+
+=head1 CSS CLASSES
+
+=head2 auto_id
+
+See L<HTML::FormFu/auto_id> for details.
+
+=head2 auto_label
+
+See L<HTML::FormFu/auto_label> for details.
+
+=head2 auto_error_class
+
+See L<HTML::FormFu/auto_error_class> for details.
+
+=head2 auto_error_message
+
+See L<HTML::FormFu/auto_error_message> for details.
+
+=head2 auto_constraint_class
+
+See L<HTML::FormFu/auto_constraint_class> for details.
+
+=head2 auto_inflator_class
+
+See L<HTML::FormFu/auto_inflator_class> for details.
+
+=head2 auto_validator_class
+
+See L<HTML::FormFu/auto_validator_class > for details.
+
+=head2 auto_transformer_class
+
+See L<HTML::FormFu/auto_transformer_class> for details.
+
+=head1 RENDERING
+
+=head2 start
+
+=head2 end
+
+=head1 INTROSPECTION
+
+=head2 get_elements
+
+See L<HTML::FormFu/get_elements> for details.
+
+=head2 get_element
+
+See L<HTML::FormFu/get_element> for details.
+
+=head2 get_all_elements
+
+See L<HTML::FormFu/get_all_elements> for details.
+
+=head2 get_fields
+
+See L<HTML::FormFu/get_fields> for details.
+
+=head2 get_field
+
+See L<HTML::FormFu/get_field> for details.
+
+=head2 get_deflators
+
+See L<HTML::FormFu/get_deflators> for details.
+
+=head2 get_deflator
+
+See L<HTML::FormFu/get_deflator> for details.
+
+=head2 get_filters
+
+See L<HTML::FormFu/get_filters> for details.
+
+=head2 get_filter
+
+See L<HTML::FormFu/get_filter> for details.
+
+=head2 get_constraints
+
+See L<HTML::FormFu/get_constraints> for details.
+
+=head2 get_constraint
+
+See L<HTML::FormFu/get_constraint> for details.
+
+=head2 get_inflators
+
+See L<HTML::FormFu/get_inflators> for details.
+
+=head2 get_inflator
+
+See L<HTML::FormFu/get_inflator> for details.
+
+=head2 get_validators
+
+See L<HTML::FormFu/get_validators> for details.
+
+=head2 get_validator
+
+See L<HTML::FormFu/get_validator> for details.
+
+=head2 get_transformers
+
+See L<HTML::FormFu/get_transformers> for details.
+
+=head2 get_transformer
+
+See L<HTML::FormFu/get_transformer> for details.
+
+=head2 get_errors
+
+See L<HTML::FormFu/get_errors> for details.
+
+=head2 delete_errors
+
+See L<HTML::FormFu/delete_errors> for details.
+
 =head1 SEE ALSO
+
+Base-class for L<HTML::FormFu::Element::Fieldset>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 
