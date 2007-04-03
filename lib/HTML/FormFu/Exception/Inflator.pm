@@ -11,7 +11,7 @@ sub stage {
 sub type {
     my $self = shift;
     
-    return $self->inflator->inflator_type;
+    return $self->inflator->type;
 }
 
 1;

@@ -292,10 +292,13 @@ sub mk_require_methods {
             $type =~ s/^\+//;
             
             require_class($class);
+            
+            my $type_method = $name eq 'element'
+                ? "${name}_type" : 'type';
         
             my $object = $class->new( {
-                    "${name}_type" => $type,
-                    parent         => $self,
+                    $type_method => $type,
+                    parent       => $self,
                 } );
         
             weaken( $object->{parent} );
@@ -335,9 +338,7 @@ sub mk_get_methods {
             }
             
             if ( exists $args{type} ) {
-                my $type_method = "${name}_type";
-                
-                @x = grep { $_->$type_method eq $args{type} } @x;
+                @x = grep { $_->type eq $args{type} } @x;
             }
             
             return \@x;

@@ -7,7 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ parent deflator_type /);
+__PACKAGE__->mk_accessors(qw/ parent type /);
 
 sub new {
     my $class = shift;

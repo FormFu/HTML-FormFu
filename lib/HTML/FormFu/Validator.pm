@@ -7,26 +7,6 @@ use base 'HTML::FormFu::Processor';
 use HTML::FormFu::Exception::Validator;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ validator_type /);
-
-sub new {
-    my $class = shift;
-
-    my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
-
-    my $self = bless {}, $class;
-
-    for (qw/ validator_type /) {
-        croak "$_ attribute required" if !exists $attrs{$_};
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
-
 sub process {
     my ( $self, $params ) = @_;
 

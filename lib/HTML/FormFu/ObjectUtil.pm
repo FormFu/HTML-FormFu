@@ -159,9 +159,9 @@ sub _require_constraint {
     require_class($class);
 
     my $constraint = $class->new( {
-            constraint_type => $type,
-            not             => $not,
-            parent          => $self,
+            type   => $type,
+            not    => $not,
+            parent => $self,
         } );
 
     weaken( $constraint->{parent} );

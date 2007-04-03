@@ -107,9 +107,7 @@ for my $method (qw/
         }
     
         if ( exists $args{type} ) {
-            my $type_method = "${method}_type";
-            
-            @x = grep { $_->$type_method eq $args{type} } @x;
+            @x = grep { $_->type eq $args{type} } @x;
         }
     
         return \@x;
@@ -454,7 +452,7 @@ sub _render_constraint_class {
         my %string = (
             f => defined $self->form->id     ? $self->form->id           : '',
             n => defined $render->{name}     ? $render->{name}           : '',
-            t => defined $c->constraint_type ? lc( $c->constraint_type ) : '',
+            t => defined $c->type ? lc( $c->type ) : '',
         );
         
         my $class = $auto_class;
@@ -479,7 +477,7 @@ sub _render_inflator_class {
         my %string = (
             f => defined $self->form->id   ? $self->form->id         : '',
             n => defined $render->{name}   ? $render->{name}         : '',
-            t => defined $c->inflator_type ? lc( $c->inflator_type ) : '',
+            t => defined $c->type ? lc( $c->type ) : '',
         );
         
         $string{t} =~ s/::/_/g;
@@ -507,7 +505,7 @@ sub _render_validator_class {
         my %string = (
             f => defined $self->form->id    ? $self->form->id           : '',
             n => defined $render->{name}    ? $render->{name}           : '',
-            t => defined $c->validator_type ? lc( $c->validator_type ) : '',
+            t => defined $c->type ? lc( $c->type ) : '',
         );
         
         $string{t} =~ s/::/_/g;
@@ -535,7 +533,7 @@ sub _render_transformer_class {
         my %string = (
             f => defined $self->form->id      ? $self->form->id            : '',
             n => defined $render->{name}      ? $render->{name}            : '',
-            t => defined $c->transformer_type ? lc( $c->transformer_type ) : '',
+            t => defined $c->type ? lc( $c->type ) : '',
         );
         
         $string{t} =~ s/::/_/g;

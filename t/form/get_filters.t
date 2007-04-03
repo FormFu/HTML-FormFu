@@ -24,11 +24,11 @@ $form->filter('Whitespace');
     is( $filters->[3]->name, 'age' );
     is( $filters->[4]->name, 'age' );
 
-    is( $filters->[0]->filter_type, 'LowerCase' );
-    is( $filters->[1]->filter_type, 'HTMLEscape' );
-    is( $filters->[2]->filter_type, 'Whitespace' );
-    is( $filters->[3]->filter_type, 'HTMLEscape' );
-    is( $filters->[4]->filter_type, 'Whitespace' );
+    is( $filters->[0]->type, 'LowerCase' );
+    is( $filters->[1]->type, 'HTMLEscape' );
+    is( $filters->[2]->type, 'Whitespace' );
+    is( $filters->[3]->type, 'HTMLEscape' );
+    is( $filters->[4]->type, 'Whitespace' );
 }
 
 {
@@ -36,9 +36,9 @@ $form->filter('Whitespace');
 
     is( @$filters, 3, '3 filters' );
 
-    is( $filters->[0]->filter_type, 'LowerCase' );
-    is( $filters->[1]->filter_type, 'HTMLEscape' );
-    is( $filters->[2]->filter_type, 'Whitespace' );
+    is( $filters->[0]->type, 'LowerCase' );
+    is( $filters->[1]->type, 'HTMLEscape' );
+    is( $filters->[2]->type, 'Whitespace' );
 }
 
 {
@@ -46,8 +46,8 @@ $form->filter('Whitespace');
 
     is( @$filters, 2, '2 filters' );
 
-    is( $filters->[0]->filter_type, 'HTMLEscape' );
-    is( $filters->[1]->filter_type, 'Whitespace' );
+    is( $filters->[0]->type, 'HTMLEscape' );
+    is( $filters->[1]->type, 'Whitespace' );
 }
 
 {

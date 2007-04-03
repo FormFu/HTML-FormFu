@@ -11,7 +11,7 @@ sub stage {
 sub type {
     my $self = shift;
     
-    return $self->constraint->constraint_type;
+    return $self->constraint->type;
 }
 
 1;

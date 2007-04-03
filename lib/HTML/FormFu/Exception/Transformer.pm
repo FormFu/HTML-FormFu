@@ -11,7 +11,7 @@ sub stage {
 sub type {
     my $self = shift;
     
-    return $self->transformer->transformer_type;
+    return $self->transformer->type;
 }
 
 1;

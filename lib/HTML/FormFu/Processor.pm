@@ -6,11 +6,34 @@ use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Accessor qw( mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name );
+use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ parent not localize_args /);
+use overload
+    'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
+    bool => sub {1};
+
+__PACKAGE__->mk_accessors(qw/ type parent not localize_args /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
+
+sub new {
+    my $class = shift;
+
+    my %attrs;
+    eval { %attrs = %{ $_[0] } if @_ };
+    croak "attributes argument must be a hashref" if $@;
+
+    my $self = bless {}, $class;
+
+    for (qw/ type /) {
+        croak "$_ attribute required" if !exists $attrs{$_};
+    }
+
+    $self->populate( \%attrs );
+
+    return $self;
+}
 
 sub clone {
     my ( $self ) = @_;

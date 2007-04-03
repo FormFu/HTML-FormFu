@@ -11,7 +11,7 @@ sub stage {
 sub type {
     my $self = shift;
     
-    return $self->validator->validator_type;
+    return $self->validator->type;
 }
 
 1;

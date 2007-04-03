@@ -7,7 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ parent filter_type localize_args /);
+__PACKAGE__->mk_accessors(qw/ parent type localize_args /);
 
 sub new {
     my $class = shift;
@@ -94,7 +94,7 @@ See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 =head1 METHODS
 
-=head2 filter_type
+=head2 type
 
 Returns the C<type> argument originally used to create the filter.
 

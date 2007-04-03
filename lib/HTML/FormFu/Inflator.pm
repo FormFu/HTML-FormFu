@@ -7,22 +7,6 @@ use base 'HTML::FormFu::Processor';
 use HTML::FormFu::Exception::Inflator;
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ inflator_type /);
-
-sub new {
-    my $class = shift;
-
-    my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
-
-    my $self = bless {}, $class;
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
-
 sub process {
     my ( $self, $values ) = @_;
 

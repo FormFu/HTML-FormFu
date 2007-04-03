@@ -8,26 +8,6 @@ use HTML::FormFu::Exception::Constraint;
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ constraint_type /);
-
-sub new {
-    my $class = shift;
-
-    my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
-
-    my $self = bless {}, $class;
-
-    for (qw/ constraint_type /) {
-        croak "$_ attribute required" if !exists $attrs{$_};
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
-
 sub process {
     my ( $self, $params ) = @_;
 
@@ -131,7 +111,7 @@ See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 =head1 METHODS
 
-=head2 constraint_type
+=head2 type
 
 Returns the C<type> argument originally used to create the constraint.
 
