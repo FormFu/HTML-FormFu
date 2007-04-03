@@ -2,14 +2,12 @@ package HTML::FormFu::Inflator;
 
 use strict;
 use warnings;
-use base 'Class::Accessor::Chained::Fast';
+use base 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Inflator;
-use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );
-use Scalar::Util qw/ blessed /;
 
-__PACKAGE__->mk_accessors(qw/ parent inflator_type localize_args /);
+__PACKAGE__->mk_accessors(qw/ inflator_type /);
 
 sub new {
     my $class = shift;
@@ -67,14 +65,6 @@ sub return_error {
     }
     
     return $err;
-}
-
-sub clone {
-    my ( $self ) = @_;
-    
-    my %new = %$self;
-    
-    return bless \%new, ref $self;
 }
 
 1;

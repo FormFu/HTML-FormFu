@@ -2,17 +2,12 @@ package HTML::FormFu::Transformer;
 
 use strict;
 use warnings;
-use base 'Class::Accessor::Chained::Fast';
+use base 'HTML::FormFu::Processor';
 
-use HTML::FormFu::Accessor qw( mk_output_accessors );
 use HTML::FormFu::Exception::Transformer;
-use HTML::FormFu::ObjectUtil qw( populate form name );
-use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ parent transformer_type localize_args /);
-
-__PACKAGE__->mk_output_accessors(qw/ message /);
+__PACKAGE__->mk_accessors(qw/ transformer_type /);
 
 sub new {
     my $class = shift;
@@ -64,14 +59,6 @@ sub process {
     }
 
     return ( $return, @errors );
-}
-
-sub clone {
-    my ( $self ) = @_;
-    
-    my %new = %$self;
-    
-    return bless \%new, ref $self;
 }
 
 sub return_error {
