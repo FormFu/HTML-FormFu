@@ -432,7 +432,7 @@ sub _render_value {
 sub _render_container_class {
     my ( $self, $render ) = @_;
     
-    my $type = $self->element_type;
+    my $type = $self->type;
     $type =~ s/:://g;
 
     append_xml_attribute( $render->{container_attributes},
@@ -450,9 +450,9 @@ sub _render_constraint_class {
     
     for my $c ( @{ $self->_constraints } ) {
         my %string = (
-            f => defined $self->form->id     ? $self->form->id           : '',
-            n => defined $render->{name}     ? $render->{name}           : '',
-            t => defined $c->type ? lc( $c->type ) : '',
+            f => defined $self->form->id ? $self->form->id : '',
+            n => defined $render->{name} ? $render->{name} : '',
+            t => defined $c->type        ? lc( $c->type )  : '',
         );
         
         my $class = $auto_class;
@@ -475,9 +475,9 @@ sub _render_inflator_class {
     
     for my $c ( @{ $self->_inflators } ) {
         my %string = (
-            f => defined $self->form->id   ? $self->form->id         : '',
-            n => defined $render->{name}   ? $render->{name}         : '',
-            t => defined $c->type ? lc( $c->type ) : '',
+            f => defined $self->form->id ? $self->form->id : '',
+            n => defined $render->{name} ? $render->{name} : '',
+            t => defined $c->type        ? lc( $c->type )  : '',
         );
         
         $string{t} =~ s/::/_/g;
@@ -503,9 +503,9 @@ sub _render_validator_class {
     
     for my $c ( @{ $self->_validators } ) {
         my %string = (
-            f => defined $self->form->id    ? $self->form->id           : '',
-            n => defined $render->{name}    ? $render->{name}           : '',
-            t => defined $c->type ? lc( $c->type ) : '',
+            f => defined $self->form->id ? $self->form->id : '',
+            n => defined $render->{name} ? $render->{name} : '',
+            t => defined $c->type        ? lc( $c->type )  : '',
         );
         
         $string{t} =~ s/::/_/g;
@@ -531,9 +531,9 @@ sub _render_transformer_class {
     
     for my $c ( @{ $self->_transformers } ) {
         my %string = (
-            f => defined $self->form->id      ? $self->form->id            : '',
-            n => defined $render->{name}      ? $render->{name}            : '',
-            t => defined $c->type ? lc( $c->type ) : '',
+            f => defined $self->form->id ? $self->form->id : '',
+            n => defined $render->{name} ? $render->{name} : '',
+            t => defined $c->type        ? lc( $c->type )  : '',
         );
         
         $string{t} =~ s/::/_/g;

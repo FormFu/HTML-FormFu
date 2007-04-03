@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 ok( my $element = $form->element('text')->name('foo') );
 is( $element->name,         'foo' );
-is( $element->element_type, 'text' );
+is( $element->type, 'text' );
 
 # add more elements to test accessor output
 $form->element('text')->name('bar')->size(10);

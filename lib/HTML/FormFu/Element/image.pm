@@ -9,7 +9,7 @@ __PACKAGE__->mk_attr_accessors(qw/ src width height /);
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('image');
+    $self->field_type('image');
     $self->src('') if !defined $self->src;
     
     return $self;

@@ -106,7 +106,7 @@ sub render {
         @_ ? %{$_[0]} : ()
         });
 
-    append_xml_attribute( $render->attributes, 'class', $self->element_type );
+    append_xml_attribute( $render->attributes, 'class', $self->type );
 
     return $render;
 }

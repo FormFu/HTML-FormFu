@@ -40,7 +40,7 @@ sub _single_element {
         
         if ( $self->can('auto_fieldset') 
              && $self->auto_fieldset 
-             && $e->element_type ne 'fieldset' )
+             && $e->type ne 'fieldset' )
         {
             my ($target) = reverse @{ $self->get_elements({ type => 'fieldset' }) };
             
@@ -70,7 +70,7 @@ sub _require_element {
     require_class($class);
 
     my $element = $class->new( {
-            element_type    => $type,
+            type    => $type,
             parent          => $self,
         } );
 
@@ -339,7 +339,7 @@ sub _coerce {
 
     my $element = $class->new( {
             name         => $self->name,
-            element_type => $args{type},
+            type => $args{type},
             errors       => $args{errors},
         } );
 

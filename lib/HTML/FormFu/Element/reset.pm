@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::button';
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('reset');
+    $self->field_type('reset');
 
     return $self;
 }

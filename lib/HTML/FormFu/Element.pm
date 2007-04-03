@@ -23,7 +23,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(qw/
-    parent name element_type filename multi_filename is_field 
+    parent name type filename multi_filename is_field 
     render_class_suffix /);
 
 __PACKAGE__->mk_inherited_accessors(
@@ -113,7 +113,7 @@ sub render {
         name                => xml_escape( $self->name ),
         attributes          => xml_escape( $self->attributes ),
         render_class_args   => dclone( $self->render_class_args ),
-        element_type        => $self->element_type,
+        type        => $self->type,
         render_class_suffix => $self->render_class_suffix,
         render_method       => $self->render_method,
         filename            => $self->filename,
@@ -212,7 +212,7 @@ See L<HTML::FormFu/populate> for details.
 
 See L<HTML::FormFu/stash> for details.
 
-=head2 element_type
+=head2 type
 
 Returns the C<type> argument originally used to create the element.
 

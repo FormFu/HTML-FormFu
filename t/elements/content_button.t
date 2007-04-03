@@ -11,8 +11,8 @@ my $field = $form->element('content_button')->name('foo');
 
 # add more elements to test accessor output
 $form->element('content_button')->name('bar')->content('<p>button</p>');
-$form->element('content_button')->name('baz')->content('x')->type('submit');
-$form->element('content_button')->name('baf')->type('reset');
+$form->element('content_button')->name('baz')->content('x')->field_type('submit');
+$form->element('content_button')->name('baf')->field_type('reset');
 
 my $field_xhtml = qq{<span class="content_button">
 <button name="foo" type="button"></button>

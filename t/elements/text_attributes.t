@@ -11,7 +11,7 @@ my $element = $form->element('text')->name('foo')->comment('Whatever')->label('F
     ->default('bar')->size(30)->maxlength(50);
 
 is( $element->name,         'foo',      'element name' );
-is( $element->element_type, 'text',     'element element_type' );
+is( $element->type, 'text',     'element type' );
 is( $element->comment,      'Whatever', 'element comment' );
 is( $element->label,        'Foo',      'element label' );
 is( $element->default,      'bar',      'element value' );

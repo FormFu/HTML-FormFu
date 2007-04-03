@@ -9,15 +9,15 @@ my $form = HTML::FormFu->new;
 
 my $outer = $form->element('fieldset')->name('outer')->legend('My Form');
 is( $outer->name,         'outer' );
-is( $outer->element_type, 'fieldset' );
+is( $outer->type, 'fieldset' );
 
 my $inner = $outer->element('block');
 ok( !$inner->name );
-is( $inner->element_type, 'block' );
+is( $inner->type, 'block' );
 
 my $foo = $outer->element('text')->name('foo');
 is( $foo->name,         'foo' );
-is( $foo->element_type, 'text' );
+is( $foo->type, 'text' );
 
 my $field_xhtml = qq{<span class="text">
 <input name="foo" type="text" />

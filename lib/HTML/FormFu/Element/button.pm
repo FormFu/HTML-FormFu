@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::input';
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('button');
+    $self->field_type('button');
 
     return $self;
 }

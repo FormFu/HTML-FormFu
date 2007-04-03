@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::input';
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('hidden');
+    $self->field_type('hidden');
     $self->filename('hidden');
 
     return $self;

@@ -9,7 +9,7 @@ __PACKAGE__->mk_output_accessors(qw/ default /);
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('radio');
+    $self->field_type('radio');
     $self->multi_filename('multi_rtl');
 
     return $self;

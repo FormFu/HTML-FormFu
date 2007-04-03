@@ -16,7 +16,7 @@ use HTML::FormFu::Util qw(
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('checkbox');
+    $self->field_type('checkbox');
     $self->multi_filename('multi_rtl');
 
     return $self;

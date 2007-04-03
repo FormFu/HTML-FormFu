@@ -9,7 +9,7 @@ __PACKAGE__->mk_accessors(qw/ render_value /);
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('password');
+    $self->field_type('password');
 
     return $self;
 }

@@ -28,7 +28,7 @@ sub _get_elements {
     }
 
     if ( exists $args->{type} ) {
-        @$elements = grep { $_->element_type eq $args->{type} } @$elements;
+        @$elements = grep { $_->type eq $args->{type} } @$elements;
     }
 
     return $elements;

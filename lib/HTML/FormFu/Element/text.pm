@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::input';
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('text');
+    $self->field_type('text');
 
     return $self;
 }

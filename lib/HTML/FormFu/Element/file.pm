@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Element::input';
 sub new {
     my $self = shift->SUPER::new(@_);
 
-    $self->type('file');
+    $self->field_type('file');
     
     $self->form->enctype('multipart/form-data');
 

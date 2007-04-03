@@ -8,7 +8,7 @@ use Carp qw/ croak /;
 
 __PACKAGE__->mk_attr_accessors(qw/ id /);
 
-__PACKAGE__->mk_accessors(qw/ name element_type multi_filename is_field /);
+__PACKAGE__->mk_accessors(qw/ name type multi_filename is_field /);
 
 sub multi {
     my $self = shift;

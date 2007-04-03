@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Element::field';
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
 
-__PACKAGE__->mk_accessors(qw/ type /);
+__PACKAGE__->mk_accessors(qw/ field_type /);
 
 __PACKAGE__->mk_attr_accessors(qw/ checked size maxlength alt /);
 
@@ -24,7 +24,7 @@ sub render {
     my $self = shift;
 
     my $render = $self->SUPER::render({
-        type => $self->type,
+        field_type => $self->field_type,
         @_ ? %{$_[0]} : ()
         });
 
