@@ -6,6 +6,8 @@ use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
+__PACKAGE__->mk_accessors(qw/ processor /);
+
 sub name {
     my $self = shift;
     
@@ -47,8 +49,7 @@ sub message {
     
     return $self->{message} if defined $self->{message};
     
-    my $stage = $self->stage;
-    return $self->$stage->message if defined $self->$stage->message;
+    return $self->processor->message if defined $self->processor->message;
     
     my %string = (
         f => defined $self->form->id ? $self->form->id   : '',
@@ -64,7 +65,13 @@ sub message {
     $message =~ s/%([fnt])/$string{$1}/ge;;
     
     return $self->{message} = $self->form->localize(
-        $message, $self->$stage->localize_args );
+        $message, $self->processor->localize_args );
+}
+
+sub type {
+    my $self = shift;
+    
+    return $self->processor->type;
 }
 
 1;

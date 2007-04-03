@@ -13,7 +13,7 @@ use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     bool => sub {1};
 
-__PACKAGE__->mk_accessors(qw/ type parent not localize_args /);
+__PACKAGE__->mk_accessors(qw/ type parent localize_args /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
