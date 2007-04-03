@@ -262,7 +262,7 @@ sub add_error {
     return;
 }
 
-sub delete_errors {
+sub clear_errors {
     my ($self) = @_;
     
     $self->_errors([]);
@@ -976,9 +976,9 @@ See L<HTML::FormFu/get_errors> for details.
 
 =head2 add_error
 
-=head2 delete_errors
+=head2 clear_errors
 
-See L<HTML::FormFu/delete_errors> for details.
+See L<HTML::FormFu/clear_errors> for details.
 
 =head1 INTROSPECTION
 
@@ -1034,9 +1034,9 @@ See L<HTML::FormFu/get_transformer> for details.
 
 See L<HTML::FormFu/get_errors> for details.
 
-=head2 delete_errors
+=head2 clear_errors
 
-See L<HTML::FormFu/delete_errors> for details.
+See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 

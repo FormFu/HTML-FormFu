@@ -83,7 +83,7 @@ sub get_transformer { }
 
 sub get_errors { [] }
 
-sub delete_errors { }
+sub clear_errors { }
 
 sub prepare_id { }
 

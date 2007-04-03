@@ -15,7 +15,7 @@ our @EXPORT_OK = qw/
     _require_constraint
     _single_element 
     deflator get_fields get_field get_elements get_element
-    get_all_elements get_errors get_error delete_errors
+    get_all_elements get_errors get_error clear_errors
     load_config_file form insert_before insert_after clone name stash /;
 
 sub _single_element {
@@ -208,10 +208,10 @@ sub get_error {
     return @$c ? $c->[0] : ();
 }
 
-sub delete_errors {
+sub clear_errors {
     my ($self) = @_;
     
-    map { $_->delete_errors } @{ $self->_elements };
+    map { $_->clear_errors } @{ $self->_elements };
     
     return;
 }

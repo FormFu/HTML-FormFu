@@ -16,7 +16,7 @@ use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/ 
     _single_element _require_constraint 
     get_elements get_element get_all_elements get_fields get_field 
-    get_errors get_error delete_errors
+    get_errors get_error clear_errors
     populate load_config_file insert_before insert_after form
     _render_class clone stash /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
@@ -138,7 +138,7 @@ sub process {
     $self->input(             {} );
     $self->_processed_params( {} );
     $self->_valid_names(      [] );
-    $self->delete_errors;
+    $self->clear_errors;
 
     my $query;
     if (@_) {
@@ -1629,7 +1629,7 @@ The provided value replaces any current value for the named field. This
 value will be returned in subsequent calls to L</params> and L</param> and 
 the named field will be included in calculations for L</valid>.
 
-=head2 delete_errors
+=head2 clear_errors
 
 Deletes all errors from a submitted form.
 
