@@ -71,7 +71,7 @@ fieldset .image label,
 fieldset .multi label,
 fieldset .password label,
 fieldset .radio label,
-fieldset .radiogroup > label,
+fieldset .radiogroup label,
 fieldset .select label,
 fieldset .text label,
 fieldset .textarea label
@@ -81,6 +81,14 @@ fieldset .textarea label
 	width: 11em;
 	text-align: right;
 	padding-right: 1em;
+}
+
+fieldset .radiogroup span label {
+	/* undo the above style */
+	float: none;
+	width: auto;
+	text-align: left;
+	padding-right: 0;
 }
 
 fieldset .multi .elements {
