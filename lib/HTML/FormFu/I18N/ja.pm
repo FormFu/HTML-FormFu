@@ -1,0 +1,31 @@
+package HTML::FormFu::I18N::ja;
+use strict;
+use warnings;
+
+use base qw( HTML::FormFu::I18N );
+
+our %Lexicon = (
+    form_error_message     => 'フォーム内容にエラーがありました',
+    form_default_error     => '不正な値です',
+    form_allornone_error   => 'エラー',
+    form_ascii_error       => 'ASCII以外の文字列が混入しています',
+    form_autoset_error     => '不正な項目が選択されています',
+    form_bool_error        => 'Field must be a boolean value',
+    form_dependon_error    => 'Error',
+    form_email_error       => 'メールアドレスの書式が不正です',
+    form_equal_error       => 'Error',
+    form_integer_error     => '整数の値が不正です',
+    form_length_error      => '項目の文字列長が不正です',
+    form_minlength_error   => '最低[_1]文字の入力が必要です',
+    form_maxlength_error   => '最大[_1]文字までの入力が可能です',
+    form_number_error      => '項目は数値で指定してください',
+    form_printable_error   => '不正な値が指定されています',
+    form_range_error       => 'Invalid input',
+    form_regex_error       => 'Invalid input',
+    form_required_error    => '必須項目',
+    form_set_error         => 'Field contains an invalid choice',
+    form_singlevalue_error => 'This field only accepts a single value',
+    form_word_error        => 'Field contains invalid characters',
+);
+
+1;
