@@ -2034,6 +2034,21 @@ the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
       - type: block
         tag: span
 
+=head2 How do I check if a textfield contains a URI in a proper format?
+
+Use HTML::FormFu::Constraint::Regex:
+
+    ---
+    elements:
+        - type: text
+          name: uri
+          constraint:
+            - type: Regex
+              common:
+                - URI
+                - HTTP
+                - { '-scheme': 'ftp|https?' } 
+
 =head1 SUPPORT
 
 Project Page:
