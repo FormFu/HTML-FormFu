@@ -36,7 +36,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 
 __PACKAGE__->mk_accessors(
     qw/ parent
-        indicator filename javascript
+        indicator filename javascript javascript_src
         element_defaults query_type languages
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
@@ -582,6 +582,7 @@ sub render {
             render_method       => $self->render_method,
             filename            => $self->filename,
             javascript          => $self->javascript,
+            javascript_src      => $self->javascript_src,
             form_error_message  => xml_escape( $self->form_error_message ),
             _elements           => [ map { $_->render } @{ $self->_elements } ],
             parent              => $self,
