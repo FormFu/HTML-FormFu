@@ -151,9 +151,7 @@ sub get_localize_object {
 #warn "+ loading ".$localize_data->{localize_object};
 
         $localize_data->{localize_object} =
-            $self->get_localize_object_from_class(
-                $localize_data->{localize_object}
-            );
+            $self->get_localize_object_from_class( $self->localize_class );
 
         $localize_data->{dies_on_missing_key} =
             $self->get_localize_object_dies_on_missing_key(
