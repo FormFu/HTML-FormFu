@@ -2,15 +2,12 @@ package HTML::FormFu::Constraint::Equal;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Constraint';
+use base 'HTML::FormFu::Constraint::_others';
 
 use Exporter qw/ import /;
-use Storable qw/ dclone /;
 
 # only exported for use by test suite
 our @EXPORT_OK = qw/ _values_eq /;
-
-__PACKAGE__->mk_accessors(qw/ others /);
 
 sub process {
     my ( $self, $params ) = @_;
@@ -69,17 +66,6 @@ sub _arrays_eq {
     }
 
     return 1;
-}
-
-sub clone {
-    my $self = shift;
-    
-    my $clone = $self->SUPER::clone(@_);
-    
-    $clone->others( dclone $self->others )
-        if ref $self->others;
-    
-    return $clone;
 }
 
 1;

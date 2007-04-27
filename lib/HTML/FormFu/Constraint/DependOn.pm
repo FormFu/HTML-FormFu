@@ -2,11 +2,7 @@ package HTML::FormFu::Constraint::DependOn;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Constraint';
-
-use Storable qw/ dclone /;
-
-__PACKAGE__->mk_accessors(qw/ others /);
+use base 'HTML::FormFu::Constraint::_others';
 
 sub process {
     my ( $self, $params ) = @_;
@@ -58,17 +54,6 @@ sub constrain_value {
     return 0 if !defined $value || $value eq '';
 
     return 1;
-}
-
-sub clone {
-    my $self = shift;
-    
-    my $clone = $self->SUPER::clone(@_);
-    
-    $clone->others( dclone $self->others )
-        if ref $self->others;
-    
-    return $clone;
 }
 
 1;

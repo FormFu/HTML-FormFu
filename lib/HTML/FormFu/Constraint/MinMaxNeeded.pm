@@ -2,11 +2,9 @@ package HTML::FormFu::Constraint::MinMaxNeeded;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Constraint';
+use base 'HTML::FormFu::Constraint::_others';
 
-use Storable qw/ dclone /;
-
-__PACKAGE__->mk_accessors(qw/ minimum maximum others /);
+__PACKAGE__->mk_accessors(qw/ minimum maximum /);
 
 *min = \&minimum;
 *max = \&maximum;
@@ -73,17 +71,6 @@ sub constrain_value {
     return 0 if !defined $value || $value eq '';
 
     return 1;
-}
-
-sub clone {
-    my $self = shift;
-    
-    my $clone = $self->SUPER::clone(@_);
-    
-    $clone->{others} = dclone $self->others
-        if ref $self->others;
-    
-    return $clone;
 }
 
 1;
