@@ -25,7 +25,7 @@ sub process {
             $self->constrain_values( $value, $params );
         };
         if ($@) {
-            push @errors, $self->return_error($@);
+            push @errors, $self->mk_error($@);
         }
     }
     else {
@@ -33,7 +33,7 @@ sub process {
             $self->constrain_value( $value, $params );
         };
         if ( $@ or !$ok ) {
-            push @errors, $self->return_error($@);
+            push @errors, $self->mk_error($@);
         }
     }
 
@@ -50,7 +50,7 @@ sub constrain_values {
             $self->constrain_value( $value, $params );
         };
         if ( $@ or !$ok ) {
-            push @errors, $self->return_error($@)
+            push @errors, $self->mk_error($@)
         }
     }
 
@@ -61,7 +61,7 @@ sub constrain_value {
     croak "constrain_value() should be overridden";
 }
 
-sub return_error {
+sub mk_error {
     my ( $self, $err ) = @_;
     
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Constraint') ) {

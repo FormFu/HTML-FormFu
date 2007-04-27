@@ -57,7 +57,7 @@ $form->element('text')->name('baz');
             bar => 'yada',
             baz => 'x',
         } );
-
+    
     ok( $form->valid('foo'),  'foo valid' );
     ok( $form->valid('bar'),  'bar valid' );
     ok( !$form->valid('baz'), 'baz not valid' );

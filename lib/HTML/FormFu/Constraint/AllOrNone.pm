@@ -12,7 +12,7 @@ sub process {
 
     my @names = ( $self->name );
     push @names, ref $others ? @{$others} : $others;
-    my @errors;
+    my @failed;
 
     for my $name (@names) {
         my $seen  = 0;
@@ -33,19 +33,13 @@ sub process {
             $seen = 1 if $ok && !$@;
         }
 
-        if ( !$seen ) {
-            my $field = $self->form->get_field({ name => $name })
-                or die "AllOrNone->others() field not found: '$name'";
-            
-            push @errors, HTML::FormFu::Exception::Constraint->new({
-                parent => $field,
-                });
-        }
+        push @failed, $name 
+            if !$seen;
     }
 
-    return ( scalar @errors == scalar @names )
-        ? ()
-        : @errors;
+    return $self->mk_errors(
+        ( @failed && scalar @failed != scalar @names ), 
+        \@failed );
 }
 
 sub constrain_value {
@@ -74,17 +68,17 @@ HTML::FormFu::Constraint::AllOrNone - AllOrNone constraint
 
 Ensure that either all or none of the named fields are present.
 
+By default, if some but not all fields are submitted, errors are attached to 
+those fields which weren't submitted. This behaviour can be changed by setting 
+any of L</attach_errors_to_base>, L</attach_errors_to_others> or 
+L</attach_errors_to>.
+
 This constraint doesn't honour the C<not()> value.
-
-=head1 METHODS
-
-=head2 others
-
-Arguments: \@field_names
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from  
+L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu::FormFu>
 

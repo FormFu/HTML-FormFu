@@ -12,7 +12,7 @@ sub process {
 
     my $first = $self->name;
     my @names = ref $others ? @{$others} : ($others);
-    my @errors;
+    my @failed;
 
     return if !$self->constrain_value( $params->{$first} );
 
@@ -34,18 +34,12 @@ sub process {
                 };
             $ok = 0 if $@;
         }
-
-        if ( !$ok ) {
-            my $field = $self->form->get_field({ name => $name })
-                or die "DependOn->others() field not found: '$name'";
-            
-            push @errors, HTML::FormFu::Exception::Constraint->new({
-                parent => $field,
-                });
-        }
+        
+        push @failed, $name
+            if !$ok;
     }
 
-    return @errors;
+    return $self->mk_errors( scalar @failed, \@failed );
 }
 
 sub constrain_value {
@@ -72,23 +66,20 @@ HTML::FormFu::Constraint::DependOn
 
 =head1 DESCRIPTION
 
-If a value is submitted for the field this constraint is associated with, 
-then a value must also be submitted for all fields named in L</others>.
+If a value is submitted for the field this constraint is attached to, then a 
+value must also be submitted for all fields named in L</others>.
 
-If the constraint fails, the first field will not display an error, but all 
-other named fields will.
+By default, if any of the named fields in L</others> are missing, an error 
+will be attached to each missing field. This behaviour can be changed by 
+setting any of L</attach_errors_to_base>, L</attach_errors_to_others> or 
+L</attach_errors_to>.
 
 This constraint doesn't honour the C<not()> value.
 
-=head1 METHODS
+=head1 SEE ALSO
 
-=head2 others
-
-Arguments: \@field_names
-
-=head2 SEE ALSO
-
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from  
+L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu::FormFu>
 

@@ -43,7 +43,7 @@ $form->element('text')->name('bif');
         } );
 
     ok( $form->has_errors );
-
+#use Data::Dumper; die Dumper( $form );
     ok( $form->valid('foo') );
     ok( $form->has_errors('bar') );
     ok( $form->valid('baz') );

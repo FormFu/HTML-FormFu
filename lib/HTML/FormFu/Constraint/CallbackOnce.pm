@@ -23,7 +23,7 @@ sub process {
         };
 
     if ( $@ or !$ok ) {
-        push @errors, $self->return_error($@);
+        push @errors, $self->mk_error($@);
     }
 
     return @errors;

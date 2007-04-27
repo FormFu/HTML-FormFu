@@ -9,6 +9,15 @@ __PACKAGE__->mk_accessors(qw/ minimum maximum /);
 *min = \&minimum;
 *max = \&maximum;
 
+sub new {
+    my $self = shift->SUPER::new(@_);
+
+    $self->attach_errors_to_base(1);
+    $self->attach_errors_to_others(1);
+
+    return $self;
+}
+
 sub process {
     my ( $self, $params ) = @_;
     my $count = 0;
@@ -26,7 +35,6 @@ sub process {
     # get field names to check
     my @names = ( $self->name );
     push @names, ref $others ? @{$others} : $others;
-    my @errors;
 
     for my $name (@names) {
         my $value = $params->{$name};
@@ -34,10 +42,10 @@ sub process {
             eval { my @x = @$value };
             croak $@ if $@;
 
-            my @local_errors = eval {
+            my @errors = eval {
                 $self->constrain_values( $value, $params );
                 };
-            $count++ if !@local_errors && !$@;
+            $count++ if !@errors && !$@;
         }
         else {
             my $ok = eval {
@@ -47,21 +55,7 @@ sub process {
         }
     }
 
-    # check min/max values
-    if ( $count < $min || $count > $max ) {
-
-        # create exceptions
-        for my $name (@names) {
-            my $field = $self->form->get_field({ name => $name })
-                or die "MinMaxNeeded->others() field not found: '$name'";
-
-            push @errors, HTML::FormFu::Exception::Constraint->new({
-                parent => $field,
-                });
-        }
-    }
-
-    return @errors;
+    return $self->mk_errors( $count < $min || $count > $max );
 }
 
 # return true if value is defined
@@ -98,13 +92,6 @@ This constraint doesn't honour the C<not()> value.
 
 =head1 METHODS
 
-=head2 others
-
-Arguments: \@field_names
-
-A list of field names, which along with the field the constraint is related 
-to, is used in processing the constraint.
-
 =head2 minimum
 
 =head2 min
@@ -121,9 +108,18 @@ The maximum number of named fields which must be filled in.
 
 L</max> is an alias for L</maximum>.
 
+=head2 attach_errors_to_base
+
+Default Value: 1
+
+=head2 attach_errors_to_others
+
+Default Value: 1
+
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from  
+L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu::FormFu>
 

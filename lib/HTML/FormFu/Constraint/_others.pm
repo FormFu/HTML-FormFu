@@ -6,7 +6,48 @@ use base 'HTML::FormFu::Constraint';
 
 use Storable qw/ dclone /;
 
-__PACKAGE__->mk_accessors(qw/ others /);
+__PACKAGE__->mk_accessors(qw/
+    others 
+    attach_errors_to_base
+    attach_errors_to_others
+    attach_errors_to /);
+
+sub mk_errors {
+    my ( $self, $failed, $names ) = @_;
+    
+    my @attach;
+    
+    if ( $self->attach_errors_to ) {
+        push @attach, @{ $self->attach_errors_to }
+            if $failed;
+    }
+    elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
+        push @attach, $self->name
+            if $self->attach_errors_to_base
+               && $failed;
+        
+        push @attach, ref $self->others ? @{ $self->others } : $self->others
+            if $self->attach_errors_to_others
+               && $failed; 
+    }
+    elsif ( $names ) {
+        push @attach, @$names
+            if $failed;
+    }
+    
+    my @errors;
+    
+    for my $name (@attach) {
+        my $field = $self->form->get_field({ name => $name })
+            or die "others() field not found: '$name'";
+        
+        push @errors, HTML::FormFu::Exception::Constraint->new({
+            parent => $field,
+            });
+    }
+    
+    return @errors;
+}
 
 sub clone {
     my $self = shift;
@@ -26,6 +67,39 @@ __END__
 =head1 NAME
 
 HTML::FormFu::Constraint::_other - Base class for constraints needing others() method
+
+=head1 METHODS
+
+=head2 others
+
+Arguments: \@field_names
+
+=head2 attach_errors_to_base
+
+If true, any error will cause the error message to be associated with the 
+field the constraint is attached to.
+
+Can be use in conjunction with L</attach_errors_to_others>.
+
+Is ignored if L</attach_errors_to> is set.
+
+=head2 attach_errors_to_others
+
+If true, any error will cause the error message to be associated with every 
+field named in L</others>.
+
+Can be use in conjunction with L</attach_errors_to_base>.
+
+Is ignored if L</attach_errors_to> is set.
+
+=head2 attach_errors_to
+
+Arguments: \@field_names
+
+Any error will cause the error message to be associated with every field 
+named in L</attach_errors_to>.
+
+Overrides L</attach_errors_to_base> and L</attach_errors_to_others>.
 
 =head1 SEE ALSO
 

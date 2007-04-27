@@ -18,23 +18,17 @@ sub process {
     my $name  = $self->name;
     my $value = $params->{$name};
     my @names = ref $others ? @{$others} : ($others);
-    my @errors;
+    my @failed;
 
     for my $eq_name (@names) {
 
         my $ok = _values_eq( $value, $params->{$eq_name} );
 
-        if ( $self->not ? $ok : !$ok ) {
-            my $field = $self->form->get_field({ name => $eq_name })
-                or die "Equal->others() field not found: '$eq_name'";
-            
-            push @errors, HTML::FormFu::Exception::Constraint->new({
-                parent => $field,
-                });
-        }
+        push @failed, $eq_name
+            if $self->not ? $ok : !$ok;
     }
 
-    return @errors;
+    return  $self->mk_errors( scalar @failed, \@failed );
 }
 
 sub _values_eq {
@@ -84,23 +78,13 @@ HTML::FormFu::Constraint::Equal
 
 =head1 DESCRIPTION
 
-Ensure that all values are equal.
-
-If the constraint fails, the first field will not display an error, but all 
-other named fields will.
-
-=head1 METHODS
-
-=head2 others
-
-Arguments: \@field_names
-
-A list of field names whose value must be equal to the value of the 
-field the constraint is associated with.
+All fields named in L</others> must have an equal value to the field this 
+constraint is attached to.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from  
+L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu::FormFu>
 
