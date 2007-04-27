@@ -50,7 +50,8 @@ __PACKAGE__->mk_inherited_accessors(
     auto_constraint_class auto_inflator_class auto_validator_class 
     auto_transformer_class
     render_class render_class_prefix render_class_args 
-    render_method /
+    render_method 
+    render_processed_value /
 );
 
 __PACKAGE__->mk_add_methods(qw/ 

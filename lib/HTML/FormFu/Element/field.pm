@@ -29,15 +29,14 @@ __PACKAGE__->mk_attrs(
 __PACKAGE__->mk_accessors(qw/ 
     _constraints _filters _inflators _deflators _validators _transformers 
     _errors container_tag
-    field_filename label_filename errors retain_default javascript
-    render_processed_value /);
+    field_filename label_filename errors retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_inflator_class auto_validator_class 
-    auto_transformer_class /
+    auto_transformer_class render_processed_value /
 );
 
 __PACKAGE__->mk_require_methods(qw/ 
@@ -397,16 +396,21 @@ sub _render_comment_class {
 sub _render_value {
     my ( $self, $render ) = @_;
     
-    my $input = (defined $self->name 
+    my $render_processed;
+    
+    my $input = ( $self->form->submitted
+                 && defined $self->name 
                  && exists $self->form->input->{ $self->name } ) 
               ? $self->render_processed_value 
-                ? $self->form->_processed_params->{ $self->name }
+                ? ( $render_processed = 1 && 
+                    $self->form->_processed_params->{ $self->name } 
+                  )
                 : $self->form->input->{ $self->name } 
               : undef;
               
     my $value = $self->process_value($input);
     
-    if ( !$self->form->submitted ) {
+    if ( !$self->form->submitted || $render_processed ) {
         for my $deflator ( @{ $self->_deflators } ) {
             $value = $deflator->process($value);
         }
@@ -703,6 +707,15 @@ usual behaviour of having an empty value.
 Default Value: C<false>
 
 =head2 render_processed_value
+
+The default behaviour when re-displaying a form after a submission, is that 
+the field contains the original unchanged user-submitted value.
+
+If L</render_processed_value> is true, the field value will be the final 
+result after all Filters, Inflators and Transformers have been run. 
+Deflators will also be run on the value.
+
+Default Value: false
 
 =head2 clone
 
