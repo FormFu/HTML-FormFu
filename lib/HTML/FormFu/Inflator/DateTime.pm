@@ -50,14 +50,21 @@ HTML::FormFu::Inflator::DateTime - DateTime inflator
 
 =head1 SYNOPSIS
 
-    $form->inflator( DateTime => 'start_time' )
-        ->parser( strptime => '%d-%m-%Y' );
-
-    $form->inflator( DateTime => 'end_time' )
-        ->parser(
-            regex => qr/^ (\d{2}) - (\d{2}) - (\d{4}) $/x,
-            params => [qw/ day month year /], 
-        );
+    ---
+    elements:
+      - type: text
+        name: start_date
+        inflators:
+          - type: DateTime
+            parser: 
+              strptime: '%d-%m-%Y'
+      - type: text
+        name: end_time
+        inflators:
+          - type: DateTime
+            parser:
+              regex: '^ (\d{2}) - (\d{2}) - (\d{4}) $'
+              params: [day, month, year]
 
 =head1 DESCRIPTION
 
