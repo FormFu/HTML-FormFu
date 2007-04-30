@@ -8,7 +8,7 @@ use HTML::FormFu::Exception::Constraint;
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ not /);
+__PACKAGE__->mk_accessors(qw/ not force_errors /);
 
 sub process {
     my ( $self, $params ) = @_;

@@ -54,7 +54,10 @@ sub process {
         }
     }
 
-    return $self->mk_errors( $count < $min || $count > $max );
+    return $self->mk_errors(
+        ( $count < $min || $count > $max ), 
+        \@names, 
+        \@names );
 }
 
 # return true if value is defined

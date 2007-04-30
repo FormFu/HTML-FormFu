@@ -28,7 +28,7 @@ sub process {
             if $self->not ? $ok : !$ok;
     }
 
-    return  $self->mk_errors( scalar @failed, \@failed );
+    return  $self->mk_errors( scalar @failed, \@failed, \@names );
 }
 
 sub _values_eq {

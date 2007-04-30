@@ -13,25 +13,29 @@ __PACKAGE__->mk_accessors(qw/
     attach_errors_to /);
 
 sub mk_errors {
-    my ( $self, $failed, $names ) = @_;
+    my ( $self, $failed, $names_failed, $names_attach ) = @_;
     
+    my $force = $self->force_errors || $self->parent->force_errors;
     my @attach;
     
     if ( $self->attach_errors_to ) {
         push @attach, @{ $self->attach_errors_to }
-            if $failed;
+            if $failed || $force;
     }
     elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
         push @attach, $self->name
             if $self->attach_errors_to_base
-               && $failed;
+               && ( $failed || $force );
         
         push @attach, ref $self->others ? @{ $self->others } : $self->others
             if $self->attach_errors_to_others
-               && $failed; 
+               && ( $failed || $force ); 
     }
-    elsif ( $names ) {
-        push @attach, @$names
+    elsif ( $force ) {
+        push @attach, @$names_attach;
+    }
+    elsif ( @$names_failed ) {
+        push @attach, @$names_failed
             if $failed;
     }
     
@@ -41,9 +45,15 @@ sub mk_errors {
         my $field = $self->form->get_field({ name => $name })
             or die "others() field not found: '$name'";
         
-        push @errors, HTML::FormFu::Exception::Constraint->new({
-            parent => $field,
-            });
+        my $error = $self->mk_error;
+        
+        $error->parent($field);
+        
+        $error->forced(1)
+            if ( !$failed && $force && grep { $name eq $_ } @$names_attach )
+            || ! grep { $name eq $_ } @$names_failed;
+        
+        push @errors, $error;
     }
     
     return @errors;

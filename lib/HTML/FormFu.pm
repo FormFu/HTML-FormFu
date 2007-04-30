@@ -51,7 +51,7 @@ __PACKAGE__->mk_inherited_accessors(
     auto_transformer_class
     render_class render_class_prefix render_class_args 
     render_method 
-    render_processed_value /
+    render_processed_value force_errors /
 );
 
 __PACKAGE__->mk_add_methods(qw/ 

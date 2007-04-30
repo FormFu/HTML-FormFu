@@ -7,7 +7,7 @@ use base 'HTML::FormFu::Constraint';
 sub constrain_values {
     my ( $self, $values ) = @_;
 
-    return HTML::FormFu::Exception::Constraint->new;
+    die;
 }
 
 sub constrain_value {

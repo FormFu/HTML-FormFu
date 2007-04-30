@@ -5,7 +5,7 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new->indicator( sub {1} );
 
 $form->element('text')->name('foo')
     ->constraint('AllOrNone')->others(qw/ bar baz bif /);
@@ -43,7 +43,7 @@ $form->element('text')->name('bif');
         } );
 
     ok( $form->has_errors );
-#use Data::Dumper; die Dumper( $form );
+
     ok( $form->valid('foo') );
     ok( $form->has_errors('bar') );
     ok( $form->valid('baz') );
