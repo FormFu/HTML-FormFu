@@ -193,7 +193,7 @@ Shorthand for C<< $constraint->parent->name >>
 
 =item L<HTML::FormFu::Constraint::MinLength>
 
-=item L<HTML::FormFu::Constraint::MinMaxNeeded>
+=item L<HTML::FormFu::Constraint::MinMaxFields>
 
 =item L<HTML::FormFu::Constraint::Number>
 

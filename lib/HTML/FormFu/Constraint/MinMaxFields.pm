@@ -1,4 +1,4 @@
-package HTML::FormFu::Constraint::MinMaxNeeded;
+package HTML::FormFu::Constraint::MinMaxFields;
 
 use strict;
 use warnings;
@@ -13,7 +13,6 @@ sub new {
     my $self = shift->SUPER::new(@_);
 
     $self->attach_errors_to_base(1);
-    $self->attach_errors_to_others(1);
 
     return $self;
 }
@@ -73,11 +72,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MinMaxNeeded
+HTML::FormFu::Constraint::MinMaxFields
 
 =head1 SYNOPSIS
 
-    type: MinMaxNeeded
+    type: MinMaxFields
     name: foo
     others: [bar, baz]
     min: 1
