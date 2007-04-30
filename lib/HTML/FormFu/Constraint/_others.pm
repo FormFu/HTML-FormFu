@@ -13,30 +13,33 @@ __PACKAGE__->mk_accessors(qw/
     attach_errors_to /);
 
 sub mk_errors {
-    my ( $self, $failed, $names_failed, $names_attach ) = @_;
+    my ( $self, $args ) = @_;
+    
+    my $pass   = $args->{pass};
+    my @failed = $args->{failed} ? @{ $args->{failed} } : ();
+    my @names  = $args->{names}  ? @{ $args->{names} }  : ();
     
     my $force = $self->force_errors || $self->parent->force_errors;
     my @attach;
     
     if ( $self->attach_errors_to ) {
         push @attach, @{ $self->attach_errors_to }
-            if $failed || $force;
+            if !$pass || $force;
     }
     elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
         push @attach, $self->name
             if $self->attach_errors_to_base
-               && ( $failed || $force );
+               && ( !$pass || $force );
         
         push @attach, ref $self->others ? @{ $self->others } : $self->others
             if $self->attach_errors_to_others
-               && ( $failed || $force ); 
+               && ( !$pass || $force ); 
     }
     elsif ( $force ) {
-        push @attach, @$names_attach;
+        push @attach, @names;
     }
-    elsif ( @$names_failed ) {
-        push @attach, @$names_failed
-            if $failed;
+    elsif ( @failed && !$pass ) {
+        push @attach, @failed;
     }
     
     my @errors;
@@ -50,8 +53,8 @@ sub mk_errors {
         $error->parent($field);
         
         $error->forced(1)
-            if ( !$failed && $force && grep { $name eq $_ } @$names_attach )
-            || ! grep { $name eq $_ } @$names_failed;
+            if ( $pass && $force && grep { $name eq $_ } @names )
+            || !grep { $name eq $_ } @failed;
         
         push @errors, $error;
     }

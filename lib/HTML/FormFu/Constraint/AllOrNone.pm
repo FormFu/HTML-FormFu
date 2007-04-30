@@ -37,10 +37,10 @@ sub process {
             if !$seen;
     }
 
-    return $self->mk_errors(
-        ( @failed && scalar @failed != scalar @names ), 
-        \@failed, 
-        \@names);
+    return $self->mk_errors({
+        pass   => @failed && scalar @failed != scalar @names ? 0 : 1,
+        failed => \@failed,
+        names  => \@names });
 }
 
 sub constrain_value {

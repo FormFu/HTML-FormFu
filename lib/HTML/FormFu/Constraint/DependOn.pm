@@ -39,7 +39,10 @@ sub process {
             if !$ok;
     }
 
-    return $self->mk_errors( scalar @failed, \@failed, \@names );
+    return $self->mk_errors({ 
+        pass   => @failed ? 0 : 1,
+        failed => \@failed,
+        names  => \@names });
 }
 
 sub constrain_value {
