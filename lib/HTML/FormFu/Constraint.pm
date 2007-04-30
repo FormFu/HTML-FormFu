@@ -25,16 +25,20 @@ sub process {
             $self->constrain_values( $value, $params );
         };
         if ($@) {
-            push @errors, $self->mk_error($@);
+            push @errors, $self->mk_errors({
+                pass    => 0,
+                message => $@,
+            });
         }
     }
     else {
         my $ok = eval {
             $self->constrain_value( $value, $params );
         };
-        if ( $@ or !$ok ) {
-            push @errors, $self->mk_error($@);
-        }
+        push @errors, $self->mk_errors({
+            pass    => ( $@ || !$ok ) ? 0 : 1,
+            message => $@,
+        });
     }
 
     return @errors;
@@ -49,9 +53,11 @@ sub constrain_values {
         my $ok = eval {
             $self->constrain_value( $value, $params );
         };
-        if ( $@ or !$ok ) {
-            push @errors, $self->mk_error($@)
-        }
+        
+        push @errors, $self->mk_errors({
+            pass    => ( $@ || !$ok ) ? 0 : 1,
+            message => $@,
+        });
     }
 
     return @errors;
@@ -59,6 +65,27 @@ sub constrain_values {
 
 sub constrain_value {
     croak "constrain_value() should be overridden";
+}
+
+sub mk_errors {
+    my ( $self, $args ) = @_;
+    
+    my $pass    = $args->{pass};
+    my $message = $args->{message};
+
+    my @errors;    
+    my $name  = $self->name;
+    my $force = $self->force_errors || $self->parent->force_errors;
+    
+    if ( !$pass || $force ) {
+        my $error = $self->mk_error($message);
+        
+        $error->forced(1) if !$pass;
+        
+        push @errors, $error;
+    }
+    
+    return @errors;
 }
 
 sub mk_error {

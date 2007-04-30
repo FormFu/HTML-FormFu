@@ -16,17 +16,15 @@ sub process {
     my $value = $params->{$name};
 
     my $callback = $self->callback || sub {1};
-    my @errors;
     
     my $ok = eval {
         $callback->( $value, $params );
         };
 
-    if ( $@ or !$ok ) {
-        push @errors, $self->mk_error($@);
-    }
-
-    return @errors;
+    return $self->mk_errors({
+        pass    => ( $@ or !$ok ) ? 0 : 1,
+        message => $@,
+    });
 }
 
 1;

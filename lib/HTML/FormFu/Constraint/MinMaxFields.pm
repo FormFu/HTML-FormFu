@@ -57,7 +57,8 @@ sub process {
     return $self->mk_errors({
         pass   => ( $count < $min || $count > $max ) ? 0 : 1,
         failed => \@names,
-        names  => \@names });
+        names  => \@names,
+    });
 }
 
 # return true if value is defined
