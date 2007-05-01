@@ -37,7 +37,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 __PACKAGE__->mk_accessors(
     qw/ parent
         indicator filename javascript javascript_src
-        element_defaults query_type languages
+        element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
         render_class_suffix /
@@ -584,6 +584,7 @@ sub render {
             filename            => $self->filename,
             javascript          => $self->javascript,
             javascript_src      => $self->javascript_src,
+            force_error_message => $self->force_error_message,
             form_error_message  => xml_escape( $self->form_error_message ),
             _elements           => [ map { $_->render } @{ $self->_elements } ],
             parent              => $self,
@@ -867,6 +868,11 @@ set L</form_error_message_loc> to the value C<form_error_message>.
 
 You can, of course, set L</form_error_message_loc> to any key in your L10N 
 file.
+
+=head1 force_error_message
+
+If true, forces the L</form_error_message> to be displayed even if there are 
+no field errors.
 
 =head2 element_defaults
 
