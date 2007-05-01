@@ -8,6 +8,7 @@ requires 'Carp';
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::Data::Accessor';
 requires 'Config::Any';
+requires 'Date::Calc';
 requires 'DateTime::Format::Builder';
 requires 'Email::Valid';
 requires 'File::Copy';
