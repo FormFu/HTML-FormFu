@@ -598,7 +598,7 @@ sub render {
 
     $render->attributes( xml_escape $self->attributes );
     $render->stash( $self->stash );
-
+    
     return $render;
 }
 
