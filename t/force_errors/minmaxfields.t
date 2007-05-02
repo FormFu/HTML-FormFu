@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More tests => 17;
 
 use HTML::FormFu;
 
@@ -25,14 +25,14 @@ $form->element('text')->name('boz');
             boz => '',
         } );
 
-    ok( $form->has_errors );
+    ok( !$form->has_errors, 'no real errors' );
     
-    ok( $form->has_errors('foo') );
+    ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
     
-    ok( $form->get_errors('foo')->[0]{forced} );
+    ok( $form->get_errors({ name => 'foo', forced => 1 }) );
 }
 
 {
@@ -43,14 +43,14 @@ $form->element('text')->name('boz');
             boz => '',
         } );
 
-    ok( $form->has_errors );
+    ok( !$form->has_errors, 'no real errors' );
     
-    ok( $form->has_errors('foo') );
+    ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
     
-    ok( $form->get_errors('foo')->[0]{forced} );
+    ok( $form->get_errors({ name => 'foo', forced => 1 }) );
 }
 
 {
@@ -67,6 +67,4 @@ $form->element('text')->name('boz');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
-    
-    ok( !$form->get_errors('foo')->[0]{forced} );
 }

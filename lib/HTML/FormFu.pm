@@ -346,6 +346,8 @@ sub _inflate_input {
     my ($self) = @_;
 
     for my $name ( keys %{ $self->_processed_params } ) {
+        next if $self->has_errors( $name );
+        
         my $value = $self->_processed_params->{$name};
 
         for my $inflator ( map { @{ $_->get_inflators( { name => $name } ) } }
@@ -371,8 +373,7 @@ sub _inflate_input {
             }
         }
         
-        $self->_processed_params->{$name} = $value
-            if !@{ $self->get_errors({ name => $name }) };
+        $self->_processed_params->{$name} = $value;
     }
 
     return;
@@ -385,6 +386,8 @@ sub _validate_input {
 
     for my $validator ( map { @{ $_->get_validators } } @{ $self->_elements } )
     {
+        next if $self->has_errors( $validator->field->name );
+        
         my @errors = eval {
             $validator->process( $params );
             };
@@ -415,6 +418,8 @@ sub _transform_input {
         for my $transformer ( map { @{ $_->get_transformers( { name => $name } ) } }
             @{ $self->_elements } )
         {
+            next if $self->has_errors( $transformer->field->name );
+            
             my @errors;
             
             ( $value, @errors ) = eval {
@@ -435,8 +440,7 @@ sub _transform_input {
             }
         }
         
-        $self->_processed_params->{$name} = $value
-            if !@{ $self->get_errors({ name => $name }) };
+        $self->_processed_params->{$name} = $value;
     }
 
     return;

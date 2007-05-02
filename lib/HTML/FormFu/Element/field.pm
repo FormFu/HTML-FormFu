@@ -248,6 +248,10 @@ sub get_errors {
     if ( exists $args{stage} ) {
         @e = grep { $_->stage eq $args{stage} } @e;
     }
+    
+    if ( !$args{forced} ) {
+        @e = grep { !$_->forced } @e;
+    }
 
     return \@e;
 }
@@ -577,7 +581,9 @@ sub clone {
     
     my $clone = $self->SUPER::clone(@_);
     
-    for my $list (qw/ _constraints _filters _inflators _deflators /) {
+    for my $list (qw/ _filters _constraints _inflators _validators _transformers 
+                     _deflators /)
+    {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
     }
     

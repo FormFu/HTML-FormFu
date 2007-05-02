@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 use HTML::FormFu;
 
@@ -25,9 +25,8 @@ $form->element('text')->name('bar')
             bar => 'c',
         } );
 
-    ok( $form->has_errors('foo'), 'foo valid' );
-    ok( $form->has_errors('bar'), 'bar valid' );
+    ok( !$form->has_errors('foo') );
+    ok( $form->has_errors('bar') );
     
-    ok( !$form->get_errors('foo')->[0]{forced} );
-    ok( $form->get_errors('bar')->[0]{forced} );
+    ok( $form->get_errors({ name => 'foo', forced => 1 }) );
 }

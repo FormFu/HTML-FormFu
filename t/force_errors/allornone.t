@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 24;
+use Test::More tests => 13;
 
 use HTML::FormFu;
 
@@ -23,30 +23,20 @@ $form->element('text')->name('bif');
             bif => [ 3, 4 ],
         });
 
-    ok( $form->has_errors('foo') );
-    ok( $form->has_errors('bar') );
-    ok( $form->has_errors('baz') );
-    ok( $form->has_errors('bif') );
-    
-    ok( $form->get_errors('foo')->[0]{forced} );
-    ok( $form->get_errors('bar')->[0]{forced} );
-    ok( $form->get_errors('baz')->[0]{forced} );
-    ok( $form->get_errors('bif')->[0]{forced} );
+    ok( !$form->has_errors('foo') );
+    ok( !$form->has_errors('bar') );
+    ok( !$form->has_errors('baz') );
+    ok( !$form->has_errors('bif') );
 }
 
 # Valid
 {
     $form->process({});
 
-    ok( $form->has_errors('foo') );
-    ok( $form->has_errors('bar') );
-    ok( $form->has_errors('baz') );
-    ok( $form->has_errors('bif') );
-    
-    ok( $form->get_errors('foo')->[0]{forced} );
-    ok( $form->get_errors('bar')->[0]{forced} );
-    ok( $form->get_errors('baz')->[0]{forced} );
-    ok( $form->get_errors('bif')->[0]{forced} );
+    ok( !$form->has_errors('foo') );
+    ok( !$form->has_errors('bar') );
+    ok( !$form->has_errors('baz') );
+    ok( !$form->has_errors('bif') );
 }
 
 # Invalid
@@ -58,13 +48,10 @@ $form->element('text')->name('bif');
             bif => [ 3, 4 ],
         } );
 
-    ok( $form->has_errors('foo') );
+    ok( !$form->has_errors('foo') );
     ok( $form->has_errors('bar') );
-    ok( $form->has_errors('baz') );
-    ok( $form->has_errors('bif') );
+    ok( !$form->has_errors('baz') );
+    ok( !$form->has_errors('bif') );
     
-    ok( $form->get_errors('foo')->[0]{forced} );
-    ok( !$form->get_errors('bar')->[0]{forced} );
-    ok( $form->get_errors('baz')->[0]{forced} );
-    ok( $form->get_errors('bif')->[0]{forced} );
+    ok( $form->get_errors({ name => 'bar', forced => 1 }) );
 }

@@ -141,7 +141,7 @@ sub as {
     return $self->_coerce(
         type       => $type,
         attributes => \%attrs,
-        errors     => $self->errors,
+        errors     => $self->_errors,
         package    => __PACKAGE__,
     );
 }

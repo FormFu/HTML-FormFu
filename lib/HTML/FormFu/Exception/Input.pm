@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
-__PACKAGE__->mk_accessors(qw/ processor /);
+__PACKAGE__->mk_accessors(qw/ processor forced /);
 
 sub name {
     my $self = shift;
@@ -72,6 +72,14 @@ sub type {
     my $self = shift;
     
     return $self->processor->type;
+}
+
+sub clone {
+    my ( $self ) = @_;
+    
+    my %new = %$self;
+    
+    return bless \%new, ref $self;
 }
 
 1;

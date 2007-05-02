@@ -195,6 +195,10 @@ sub get_errors {
         @e = grep { $_->stage eq $args{stage} } @e;
     }
     
+    if ( !$args{forced} ) {
+        @e = grep { !$_->forced } @e;
+    }
+    
     return \@e;
 }
 
@@ -320,6 +324,15 @@ sub _render_class {
     
     return $class;
 }
+
+# create a map of errors to processors, so we can reassociate the new cloned 
+    # errors with the new cloned processors
+
+    # clone the errors
+#    my @errors = map { $_->clone } @{ $self->_errors };
+    
+    # reassociate the errors with the processors
+#    map { $_->processor() } @errors;
 
 sub _coerce {
     my ( $self, %args ) = @_;
