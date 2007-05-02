@@ -17,6 +17,8 @@ __PACKAGE__->mk_accessors(qw/ type parent localize_args /);
 
 __PACKAGE__->mk_output_accessors(qw/ message /);
 
+*field = \&parent;
+
 sub new {
     my $class = shift;
 
