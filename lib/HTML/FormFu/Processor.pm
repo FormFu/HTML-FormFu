@@ -11,6 +11,7 @@ use Carp qw/ croak /;
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
+    '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     bool => sub {1};
 
 __PACKAGE__->mk_accessors(qw/ type parent localize_args /);

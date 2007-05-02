@@ -29,7 +29,7 @@ __PACKAGE__->mk_attrs(
 __PACKAGE__->mk_accessors(qw/ 
     _constraints _filters _inflators _deflators _validators _transformers 
     _errors container_tag
-    field_filename label_filename errors retain_default javascript /);
+    field_filename label_filename retain_default javascript /);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 

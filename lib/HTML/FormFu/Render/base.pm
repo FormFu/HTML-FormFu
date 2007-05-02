@@ -11,6 +11,8 @@ use Template;
 use Carp qw/ croak /;
 
 use overload
+    'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
+    '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '""' => sub { return shift->output },
     bool => sub {1};
 

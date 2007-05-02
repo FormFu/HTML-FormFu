@@ -351,9 +351,8 @@ sub _coerce {
     require_class($class);
 
     my $element = $class->new( {
-            name         => $self->name,
+            name => $self->name,
             type => $args{type},
-            errors       => $args{errors},
         } );
 
     for my $method (
@@ -363,6 +362,8 @@ sub _coerce {
     {
         $element->$method( $self->$method );
     }
+    
+    _coerce_processors_and_errors( $self, $element, %args );
 
     $element->attributes( $args{attributes} );
 
@@ -374,6 +375,43 @@ sub _coerce {
     $render->{value} = $self->value;
 
     return $render;
+}
+
+sub _coerce_processors_and_errors {
+    my ( $self, $element, %args ) = @_;
+    
+    if ( $args{errors} && @{ $args{errors} } > 0 ) {
+        
+        my @errors = @{ $args{errors} };
+        my @new_errors;
+        
+        for my $list (qw/ _filters _constraints _inflators _validators 
+                               _transformers _deflators /)
+        {
+            $element->$list([]);
+            
+            for my $processor ( @{ $self->$list } ) {
+                my @errors_to_copy = map { $_->clone } 
+                    grep { $_->processor == $processor } @errors;
+                
+                my $processor_clone = $processor->clone;
+                
+                $processor_clone->parent($element);
+                
+                map { $_->processor($processor_clone) } @errors_to_copy;
+                
+                push @{ $element->$list }, $processor_clone;
+                
+                push @new_errors, @errors_to_copy;
+            }
+        }
+        $element->_errors(\@new_errors);
+    }
+    else {
+        $element->_errors([]);
+    }
+    
+    return;
 }
 
 sub form {

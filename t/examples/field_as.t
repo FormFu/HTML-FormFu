@@ -52,22 +52,21 @@ EOF
 is( $output, $xhtml );
 
 # check that errors are carried to the new field
-SKIP: {
-    skip 'until error behaviour is sorted out properly', 1;
+{
     my $xhtml = <<EOF;
 <html>
 <body>
 <form action="" method="post">
-<span class="password comment label error required_error">
-<span class="error_message required_error">This field is required</span>
+<span class="password comment label error error_constraint_required">
+<span class="error_message error_constraint_required">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" value="" />
 <span class="comment">
 Comment
 </span>
 </span>
-<span class="text comment label error required_error">
-<span class="error_message required_error">This field is required</span>
+<span class="text comment label error error_constraint_required">
+<span class="error_message error_constraint_required">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" value="" disabled="disabled" />
 <span class="comment">
