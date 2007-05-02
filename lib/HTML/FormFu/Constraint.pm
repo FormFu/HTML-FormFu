@@ -80,7 +80,7 @@ sub mk_errors {
     if ( !$pass || $force ) {
         my $error = $self->mk_error($message);
         
-        $error->forced(1) if !$pass;
+        $error->forced(1) if $pass;
         
         push @errors, $error;
     }
