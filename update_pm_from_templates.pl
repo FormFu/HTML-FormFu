@@ -31,7 +31,7 @@ package HTML::FormFu::tt_files;
 
 This package should only be used by L<HTML::FormFu::Deploy>.
 
-It contains the data needed to generate the T<TT|Template> template files. 
+It contains the data needed to generate the L<TT|Template> template files. 
 This file should only be updated using the update_pm_from_templates.pl file, 
 which is only available from the subversion repository.
 
