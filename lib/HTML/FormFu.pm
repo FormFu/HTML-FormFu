@@ -2058,10 +2058,7 @@ Use HTML::FormFu::Constraint::Regex:
           name: uri
           constraint:
             - type: Regex
-              common:
-                - URI
-                - HTTP
-                - { '-scheme': 'ftp|https?' } 
+              common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
 
 =head1 SUPPORT
 
