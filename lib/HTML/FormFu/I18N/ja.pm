@@ -20,12 +20,12 @@ our %Lexicon = (
     form_maxlength_error   => '最大[_1]文字まで入力可能です',
     form_number_error      => '数値を指定してください',
     form_printable_error   => '不正な文字が使用されています',
-    form_range_error       => 'Invalid input',
-    form_regex_error       => 'Invalid input',
+    form_range_error       => '不正な値が使用されています',
+    form_regex_error       => '不正な値が使用されています',
     form_required_error    => '必須項目',
-    form_set_error         => 'Field contains an invalid choice',
-    form_singlevalue_error => 'This field only accepts a single value',
-    form_word_error        => 'Field contains invalid characters',
+    form_set_error         => '不正な項目が選択されています',
+    form_singlevalue_error => '複数の値が設定されています',
+    form_word_error        => '不正な文字が仕様されています',
 );
 
 1;
