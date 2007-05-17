@@ -461,7 +461,27 @@ sub stash {
 };
 
 sub constraints_from_dbic {
-    my ( $self, $source ) = @_;
+    my ( $self, $source, $map ) = @_;
+    
+    $map ||= {};
+    
+    $source = _result_source( $source );
+    
+    for my $col ( $source->columns ) {
+        _add_constraints( $self, $col, $source->column_info($col) );
+    }
+    
+    for my $col ( keys %$map ) {
+        my $source = _result_source( $map->{$col} );
+        
+        _add_constraints( $self, $col, $source->column_info($col) );
+    }
+    
+    return $self;
+}
+
+sub _result_source {
+    my ( $source ) = @_;
     
     if ( ref $source eq 'ARRAY' ) {
         my ( $schema, $class ) = @$source;
@@ -471,15 +491,13 @@ sub constraints_from_dbic {
         $source = $source->result_source;
     }
     
-    for my $col ( $source->columns ) {
-        _add_constraints( $self, $col, $source->column_info($col) );
-    }
-    
-    return $self;
+    return $source;
 }
 
 sub _add_constraints {
     my ( $self, $col, $info ) = @_;
+    
+    return if !$self->get_field($col);
     
     return if !defined $info->{data_type};
     

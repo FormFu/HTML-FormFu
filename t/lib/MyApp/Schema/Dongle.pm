@@ -1,4 +1,4 @@
-package MyApp::Schema::Person;
+package MyApp::Schema::Dongle;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use base 'DBIx::Class';
 
 __PACKAGE__->load_components(qw/ PK::Auto Core /);
 
-__PACKAGE__->table("person");
+__PACKAGE__->table("dongle");
 
 __PACKAGE__->add_columns(
     "person_id",
@@ -18,32 +18,17 @@ __PACKAGE__->add_columns(
             unsigned => 1,
         },
     },
-    "title",
-    {   data_type   => "ENUM",
-        is_nullable => 0,
-        extra => {
-            list => [qw/ Mr Mrs Miss /],
-        },
-    },
-    "name",
+    "dongle",
     {   data_type   => "VARCHAR",
         is_nullable => 0,
-        size        => 255,
-    },
-    "age",
-    {   data_type   => "INT",
-        is_nullable => 0,
         size        => 10,
-        extra => {
-            unsigned => 1,
-        }
-    }
+    },
 );
 
 __PACKAGE__->set_primary_key("person_id");
 
-__PACKAGE__->might_have(
-    dongle => 'Dongle',
+__PACKAGE__->belongs_to(
+    person => 'Person',
     { 'foreign.person_id' => 'self.person_id' } );
 
 1;
