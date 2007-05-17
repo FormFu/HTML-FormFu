@@ -10,7 +10,7 @@ use lib 't/lib';
 
 SKIP: {
     eval "use MyApp::Schema";
-    warn $@ if $@;
+    
     skip 'DBIx::Class needed', $count if $@;
     
     my $form = HTML::FormFu->new;
@@ -21,9 +21,9 @@ SKIP: {
     $form->element({ name => 'dongle' });
     
     $form->constraints_from_dbic(
-        [ 'MyApp::Schema', 'Person' ],
+        'MyApp::Schema::Person',
         {
-            dongle => [ 'MyApp::Schema', 'Dongle' ],
+            dongle => 'MyApp::Schema::Dongle',
         }
     );
     

@@ -6,7 +6,7 @@ use Exporter qw/ import /;
 
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements /;
 use Config::Any;
-use Scalar::Util qw/ refaddr weaken /;
+use Scalar::Util qw/ refaddr weaken blessed /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 
@@ -483,11 +483,7 @@ sub constraints_from_dbic {
 sub _result_source {
     my ( $source ) = @_;
     
-    if ( ref $source eq 'ARRAY' ) {
-        my ( $schema, $class ) = @$source;
-        $source = $schema->resultset($class)->result_source;
-    }
-    else {
+    if ( blessed $source ) {
         $source = $source->result_source;
     }
     
