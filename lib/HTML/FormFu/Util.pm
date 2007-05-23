@@ -17,6 +17,7 @@ our @EXPORT_OK = qw/
     xml_escape
     literal
     _get_elements
+    process_attrs
     /;
 
 sub _get_elements {
@@ -273,6 +274,23 @@ sub xml_escape {
 
 sub literal {
     return HTML::FormFu::Literal->new(@_);
+}
+
+sub process_attrs {
+    my ($attrs) = @_;
+
+    eval { my %attrs = %$attrs };
+    croak $@ if $@;
+
+    my @attrs;
+
+    for my $attr ( sort keys %$attrs ) {
+        push @attrs, sprintf qq{%s="%s"}, $attr, $attrs->{$attr};
+    }
+
+    return @attrs
+        ? " " . join " ", @attrs
+        : "";
 }
 
 1;

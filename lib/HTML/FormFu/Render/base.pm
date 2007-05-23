@@ -6,7 +6,7 @@ use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ form stash /;
-use HTML::FormFu::Util qw/ _parse_args _get_elements /;
+use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
 use Template;
 use Carp qw/ croak /;
 
@@ -101,23 +101,6 @@ sub xhtml {
         or croak $template->error;
 
     return $output;
-}
-
-sub process_attrs {
-    my ($attrs) = @_;
-
-    eval { my %attrs = %$attrs };
-    croak $@ if $@;
-
-    my @attrs;
-
-    for my $attr ( sort keys %$attrs ) {
-        push @attrs, sprintf qq{%s="%s"}, $attr, $attrs->{$attr};
-    }
-
-    return @attrs
-        ? " " . join " ", @attrs
-        : "";
 }
 
 1;
