@@ -410,7 +410,16 @@ sub _render_value {
                   )
                 : $self->form->input->{ $self->name } 
               : undef;
-              
+    
+    if ( ref $input eq 'ARRAY' ) {
+        my $elems = $self->form->get_fields( $self->name );
+        for ( 0 .. @$elems-1 ) {
+            if ( $self == $elems->[$_] ) {
+                $input = $input->[$_];
+            }
+        }
+    }
+    
     my $value = $self->process_value($input);
     
     if ( !$self->form->submitted || $render_processed ) {
