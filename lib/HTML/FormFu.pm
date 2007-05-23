@@ -15,8 +15,8 @@ use HTML::FormFu::Inflator;
 use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/ 
     _single_element _require_constraint 
-    get_elements get_element get_all_elements get_fields get_field 
-    get_errors get_error clear_errors
+    get_elements get_element get_all_elements get_all_element 
+    get_fields get_field get_errors get_error clear_errors
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;

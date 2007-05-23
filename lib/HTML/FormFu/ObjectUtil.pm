@@ -15,7 +15,7 @@ our @EXPORT_OK = qw/
     _require_constraint
     _single_element 
     deflator get_fields get_field get_elements get_element
-    get_all_elements get_errors get_error clear_errors
+    get_all_elements get_all_element get_errors get_error clear_errors
     load_config_file form insert_before insert_after clone name stash 
     constraints_from_dbic /;
 
@@ -114,6 +114,14 @@ sub get_all_elements {
     my @e = map { $_, @{ $_->get_all_elements } } @{ $self->_elements };
 
     return _get_elements( \%args, \@e );
+}
+
+sub get_all_element {
+    my $self = shift;
+
+    my $e = $self->get_all_elements(@_);
+
+    return @$e ? $e->[0] : ();
 }
 
 sub get_fields {

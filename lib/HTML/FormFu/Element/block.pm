@@ -11,7 +11,8 @@ use HTML::FormFu::Attribute qw/
 use HTML::FormFu::ObjectUtil qw/ 
     _single_element _require_constraint 
     get_fields get_field get_errors get_error clear_errors
-    get_elements get_element get_all_elements insert_before insert_after /;
+    get_elements get_element get_all_elements get_all_element insert_before 
+    insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements xml_escape /;
 use Storable qw( dclone );
 use Carp qw/croak/;
