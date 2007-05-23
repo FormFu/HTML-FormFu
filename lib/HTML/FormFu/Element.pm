@@ -86,6 +86,8 @@ sub get_errors { [] }
 
 sub clear_errors { }
 
+sub process { }
+
 sub prepare_id { }
 
 sub prepare_attrs { }

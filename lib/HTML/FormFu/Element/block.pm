@@ -62,6 +62,14 @@ sub new {
     return $self;
 }
 
+sub process {
+    my ( $self ) = @_;
+
+    map { $_->process } @{ $self->_elements };
+
+    return;
+}
+
 sub prepare_id {
     my ( $self, $render ) = @_;
 
