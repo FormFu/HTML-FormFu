@@ -48,6 +48,8 @@ sub new {
     return $self;
 }
 
+sub setup { }
+
 sub get_elements { [] }
 
 sub get_element { }

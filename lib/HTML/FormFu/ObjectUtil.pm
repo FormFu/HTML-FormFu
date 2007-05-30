@@ -86,6 +86,8 @@ sub _require_element {
     }
 
     populate( $element, $arg );
+    
+    $element->setup;
 
     return $element;
 }
