@@ -102,18 +102,21 @@ sub values {
 
 sub value_range {
     my ( $self, $arg ) = @_;
-    my ( $first, $last );
+    my ( @values );
 
     croak "value_range argument must be a single array-ref of values" if @_ > 2;
 
     if ( defined $arg ) {
-        eval { ( $first, $last ) = @$arg };
+        eval { @values = @$arg };
         croak "value_range argument must be an array-ref" if $@;
     }
     
-    croak "range must contain 2 values" if @$arg != 2;
+    croak "range must contain at least 2 values" if @$arg < 2;
+    
+    my $end   = pop @values;
+    my $start = pop @values;
 
-    return $self->values([ $first .. $last ]);
+    return $self->values([ @values, $start .. $end ]);
 }
 
 sub prepare_attrs {

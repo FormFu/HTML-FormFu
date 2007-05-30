@@ -1,16 +1,19 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('select')->name('foo')
+my $foo = $form->element('select')->name('foo')
         ->value_range([ 2000, 2010 ]);
 
-my $field_xhtml = qq{<span class="select">
+my $bar = $form->element('select')->name('bar')
+        ->value_range([ 'year', 2000, 2002 ]);
+
+my $foo_xhtml = qq{<span class="select">
 <select name="foo">
 <option value="2000">2000</option>
 <option value="2001">2001</option>
@@ -26,4 +29,15 @@ my $field_xhtml = qq{<span class="select">
 </select>
 </span>};
 
-is( "$field", $field_xhtml, 'stringified field' );
+is( "$foo", $foo_xhtml );
+
+my $bar_xhtml = qq{<span class="select">
+<select name="bar">
+<option value="year">Year</option>
+<option value="2000">2000</option>
+<option value="2001">2001</option>
+<option value="2002">2002</option>
+</select>
+</span>};
+
+is( "$bar", $bar_xhtml );
