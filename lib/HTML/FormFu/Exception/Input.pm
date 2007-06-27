@@ -35,7 +35,7 @@ sub class {
     
     my $class = $self->parent->auto_error_class;
     
-    $class =~ s/%([fnts])/$string{$1}/ge;
+    $class =~ s/%([fnts])/$string{$1}/g;
     
     return $self->{class} = $class;
 }
@@ -62,7 +62,7 @@ sub message {
     
     my $message = $self->parent->auto_error_message;
     
-    $message =~ s/%([fnt])/$string{$1}/ge;;
+    $message =~ s/%([fnt])/$string{$1}/g;
     
     return $self->{message} = $self->form->localize(
         $message, $self->processor->localize_args );

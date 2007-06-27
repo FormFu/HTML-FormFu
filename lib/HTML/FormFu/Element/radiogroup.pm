@@ -51,8 +51,8 @@ sub _prepare_id {
         );
 
         my $id = $self->auto_id;
-        $id =~ s/ %([fn]) / $string{$1} /gex;
-        $id =~ s/ %c / ++$$count_ref /gex;
+        $id =~ s/%([fn])/$string{$1}/g;
+        $id =~ s/%c/ ++$$count_ref /gex;
 
         $option->{attributes}{id} = $id;
     }

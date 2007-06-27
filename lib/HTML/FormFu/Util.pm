@@ -245,7 +245,6 @@ sub xml_escape {
     my $val = shift;
 
     return undef  if !defined $val;
-    return "$val" if blessed $val;
 
     if ( ref $val eq 'HASH' ) {
         my %val = %$val;
@@ -262,10 +261,15 @@ sub xml_escape {
         }
         return \@new;
     }
+    elsif ( ref $val ) {
+        return "$val";
+    }
 
     return $val if !length $val;
 
-    $val =~ s/([&"'])/"&#".ord($1).";"/ge;
+    $val =~ s/&/&#38;/g;
+    $val =~ s/"/&#34;/g;
+    $val =~ s/'/&#39;/g;
     $val =~ s/</&lt;/g;
     $val =~ s/>/&gt;/g;
 
@@ -282,15 +286,14 @@ sub process_attrs {
     eval { my %attrs = %$attrs };
     croak $@ if $@;
 
-    my @attrs;
+    my $xml = join " ", 
+        map { sprintf qq{%s="%s"}, $_, $attrs->{$_} }
+        sort keys %$attrs;
 
-    for my $attr ( sort keys %$attrs ) {
-        push @attrs, sprintf qq{%s="%s"}, $attr, $attrs->{$attr};
-    }
+    $xml = " $xml"
+        if length $xml;
 
-    return @attrs
-        ? " " . join " ", @attrs
-        : "";
+    return $xml;
 }
 
 1;

@@ -285,7 +285,7 @@ sub prepare_id {
         );
 
         my $id = $self->auto_id;
-        $id =~ s/%([fn])/$string{$1}/ge;
+        $id =~ s/%([fn])/$string{$1}/g;
 
         $render->{attributes}{id} = $id;
     }
@@ -364,7 +364,7 @@ sub _render_label {
         );
 
         my $label = $self->auto_label;
-        $label =~ s/%([fn])/$string{$1}/ge;
+        $label =~ s/%([fn])/$string{$1}/g;
 
         $render->{label} = $self->form->localize( $label );
     }
@@ -473,7 +473,7 @@ sub _render_constraint_class {
         
         my $class = $auto_class;
         
-        $class =~ s/%([fnt])/$string{$1}/ge;
+        $class =~ s/%([fnt])/$string{$1}/g;
         
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
@@ -501,7 +501,7 @@ sub _render_inflator_class {
         
         my $class = $auto_class;
         
-        $class =~ s/%([fnt])/$string{$1}/ge;
+        $class =~ s/%([fnt])/$string{$1}/g;
         
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
@@ -529,7 +529,7 @@ sub _render_validator_class {
         
         my $class = $auto_class;
         
-        $class =~ s/%([fnt])/$string{$1}/ge;
+        $class =~ s/%([fnt])/$string{$1}/g;
         
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
@@ -557,7 +557,7 @@ sub _render_transformer_class {
         
         my $class = $auto_class;
         
-        $class =~ s/%([fnt])/$string{$1}/ge;
+        $class =~ s/%([fnt])/$string{$1}/g;
         
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
