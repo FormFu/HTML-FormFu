@@ -13,7 +13,6 @@ sub new {
 
     $self->filename('radiogroup');
     $self->radiogroup_filename('radiogroup_tag');
-    $self->subgroup_filename('radiogroup_item');
     $self->label_filename('legend');
     $self->container_tag('fieldset');
 

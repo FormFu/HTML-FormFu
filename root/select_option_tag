@@ -1,1 +1,0 @@
-<option value="[% self.value %]"[% process_attrs(self.attributes) %]>[% self.label %]</option>

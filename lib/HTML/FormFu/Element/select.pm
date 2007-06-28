@@ -13,7 +13,6 @@ sub new {
 
     $self->filename('select');
     $self->field_filename('select_tag');
-    $self->subgroup_filename('select_option_tag');
     $self->multi_filename('multi_ltr');
 
     return $self;

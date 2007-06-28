@@ -9,7 +9,7 @@ use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ subgroup_filename _options /);
+__PACKAGE__->mk_accessors(qw/ _options /);
 
 sub new {
     my $self = shift->SUPER::new(@_);
@@ -147,7 +147,6 @@ sub render {
 
     my $render = $self->SUPER::render({
         options           => dclone( $self->_options ),
-        subgroup_filename => $self->subgroup_filename,
         @_ ? %{$_[0]} : ()
         });
 
