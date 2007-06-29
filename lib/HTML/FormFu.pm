@@ -1,4 +1,5 @@
 package HTML::FormFu;
+use 5.8.1;
 use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';

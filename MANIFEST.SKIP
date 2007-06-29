@@ -1,6 +1,11 @@
+^benchmarks\b
+^dojo\b
+^update_pm_from_templates\.pl$
+
 # Eclipse workspace file
 ^\.project$
 ^\.includepath$
+^\.settings\b
 
 # Avoid version control files.
 \bRCS\b
