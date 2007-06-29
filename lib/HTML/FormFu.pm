@@ -2021,6 +2021,11 @@ See L</load_config_file>.
 
 =head1 FREQUENTLY ASKED QUESTIONS (FAQ)
 
+=head2 It's too slow!
+
+Are you using L<Catalyst::Plugin::StackTrace>? This is known to 
+cause performance problems, and we advise disabling it.
+
 =head2 How do I add an onSubmit handler to the form?
 
     ---
