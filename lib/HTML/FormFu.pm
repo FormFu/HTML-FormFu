@@ -80,7 +80,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *transformers = \&transformer;
 *loc          = \&localize;
 
-our $VERSION = '0.00_01';
+our $VERSION = '0.01000_01';
 
 sub new {
     my $class = shift;
@@ -628,6 +628,19 @@ __END__
 =head1 NAME
 
 HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
+
+=head1 BETA SOFTWARE
+
+Please note that this is beta software.
+
+There may be API changes required before the 1.0 release. Any incompatible 
+changes will first be discussed on the L<mailing list|/SUPPORT>.
+
+Much work is needed on documentation, and contributions are welcome. This 
+file is quite extensively documented, but may contain errors due to 
+more recent code changes. Some C<pm> files may not be documented at all yet, 
+so please refer to the test suite, the code, or questions are welcome on the 
+L<mailing list/SUPPORT>.
 
 =head1 SYNOPSIS
 
@@ -2077,17 +2090,35 @@ L<http://code.google.com/p/html-formfu/>
 
 Mailing list:
 
-L<http://lists.rawmode.org/cgi-bin/mailman/listinfo/html-widget>
+L<http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/html-formfu>
+
+Mailing list archives:
+
+L<http://lists.scsys.co.uk/pipermail/html-formfu/>
+
+The L<HTML::Widget archives|http://lists.scsys.co.uk/pipermail/html-widget/> 
+between January and May 2007 also contain discussion regarding HTML::FormFu.
 
 =head1 BUGS
 
-Please submit bugs / feature requests to either L<http://rt.perl.org> or 
-L<http://code.google.com/p/html-formfu/issues/list>
+Please submit bugs / feature requests to 
+L<http://code.google.com/p/html-formfu/issues/list> (preferred) or 
+L<http://rt.perl.org>.
 
 =head1 SUBVERSION REPOSITORY
 
 The publicly viewable subversion code repository is at 
 L<http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>.
+
+If you wish to contribute, you'll need a gmail email address. Then just 
+join our mailing list and ask for commit access.
+
+If you wish to contribute but for some reason really don't want to sign up 
+for a gmail account, please post patches to the mailing list (but then 
+you'll have to wait for someone to commit them). 
+
+If you have commit permissions, please use this repository url: 
+L<https://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>
 
 =head1 SEE ALSO
 
@@ -2104,6 +2135,8 @@ L<DBIx::Class::FormFu>
 Carl Franks
 
 Daisuke Maki
+
+Andreas Marienborg
 
 Mario Minati
 
