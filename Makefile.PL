@@ -22,6 +22,14 @@ requires 'Regexp::Common';
 requires 'Scalar::Util';
 requires 'Storable' => '2.05';
 requires 'Template';
+requires 'YAML::Syck';
+
+my $msg = "Use Template::Alloy for improved performance over Template.pm ?
+(see docs for enabling this at runtime)";
+
+feature $msg, 
+    -default => 0,
+    'Template::Alloy' => '1.005';
 
 build_requires 'Test::NoWarnings';
 
@@ -29,4 +37,5 @@ no_index directory => 'examples';
 
 tests 't/*.t t/*/*.t';
 
+auto_install();
 &WriteAll;

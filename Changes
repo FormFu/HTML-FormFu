@@ -1,0 +1,10 @@
+This file documents the revision history for Perl extension HTML::Widget.
+
+0.01000_02	2007-07-02
+
+        - Added YAML::Syck to dependencies
+        - Pod fix
+
+0.01000_01	2007-06-29
+
+        - First CPAN dev release

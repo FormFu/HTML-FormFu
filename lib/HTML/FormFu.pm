@@ -81,7 +81,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *transformers = \&transformer;
 *loc          = \&localize;
 
-our $VERSION = '0.01000_01';
+our $VERSION = '0.01000_02';
 
 sub new {
     my $class = shift;
@@ -641,7 +641,7 @@ Much work is needed on documentation, and contributions are welcome. This
 file is quite extensively documented, but may contain errors due to 
 more recent code changes. Some C<pm> files may not be documented at all yet, 
 so please refer to the test suite, the code, or questions are welcome on the 
-L<mailing list/SUPPORT>.
+L<mailing list|/SUPPORT>.
 
 =head1 SYNOPSIS
 
@@ -1036,7 +1036,7 @@ Validators allow for a more complex validation than Constraints. Validators
 can be sure that all values have successfully passed all Constraints and have 
 been successfully passed through all Inflators. It is expected that most 
 Validators will be application-specific, and so each will be implemented as 
-a seperate class written by the L<HTML::FormFu|HTML::FormFu> user.
+a seperate class written by the HTML::FormFu user.
 
 =head2 filters
 
