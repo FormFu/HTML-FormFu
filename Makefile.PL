@@ -35,7 +35,7 @@ build_requires 'Test::NoWarnings';
 
 no_index directory => 'examples';
 
-tests_recursive;
+tests 't/*.t t/*/*.t';
 
 auto_install();
 &WriteAll;
