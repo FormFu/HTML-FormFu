@@ -81,7 +81,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *transformers = \&transformer;
 *loc          = \&localize;
 
-our $VERSION = '0.01000_02';
+our $VERSION = '0.01000_03';
 
 sub new {
     my $class = shift;
