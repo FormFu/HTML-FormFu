@@ -20,7 +20,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::File - File upload form field
+HTML::FormFu::Element::file - File upload form field
 
 =head1 SYNOPSIS
 

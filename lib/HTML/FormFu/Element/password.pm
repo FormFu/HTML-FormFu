@@ -43,7 +43,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Password - Password form field
+HTML::FormFu::Element::password - Password form field
 
 =head1 SYNOPSIS
 

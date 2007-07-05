@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Fieldset - Fieldset element
+HTML::FormFu::Element::fieldset - Fieldset element
 
 =head1 SYNOPSIS
 

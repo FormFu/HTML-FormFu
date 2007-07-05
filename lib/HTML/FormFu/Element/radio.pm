@@ -56,7 +56,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Radio - Radio form field
+HTML::FormFu::Element::radio - Radio form field
 
 =head1 SYNOPSIS
 

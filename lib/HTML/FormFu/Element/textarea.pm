@@ -25,7 +25,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Textarea - Textarea form field
+HTML::FormFu::Element::textarea - Textarea form field
 
 =head1 SYNOPSIS
 

@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Text - Text form field
+HTML::FormFu::Element::text - Text form field
 
 =head1 SYNOPSIS
 

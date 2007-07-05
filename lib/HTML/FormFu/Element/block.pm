@@ -126,7 +126,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Block - Block element
+HTML::FormFu::Element::block - Block element
 
 =head1 SYNOPSIS
 

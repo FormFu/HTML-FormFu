@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::_other - Base class for constraints needing others() method
+HTML::FormFu::Constraint::_others - Base class for constraints needing others() method
 
 =head1 METHODS
 

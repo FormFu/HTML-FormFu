@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Image - Image button form field
+HTML::FormFu::Element::image - Image button form field
 
 =head1 SYNOPSIS
 

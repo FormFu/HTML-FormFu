@@ -67,7 +67,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Checkbox - Checkbox form field
+HTML::FormFu::Element::checkbox - Checkbox form field
 
 =head1 SYNOPSIS
 

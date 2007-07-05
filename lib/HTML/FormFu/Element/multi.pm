@@ -116,7 +116,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Multi - Combine multiple fields in a single element
+HTML::FormFu::Element::multi - Combine multiple fields in a single element
 
 =head1 SYNOPSIS
 

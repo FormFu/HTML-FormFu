@@ -19,7 +19,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Hidden - Hidden form field
+HTML::FormFu::Element::hidden - Hidden form field
 
 =head1 SYNOPSIS
 

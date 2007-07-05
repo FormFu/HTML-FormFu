@@ -52,7 +52,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Select - Select form field
+HTML::FormFu::Element::select - Select form field
 
 =head1 SYNOPSIS
 

@@ -129,7 +129,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::RadioGroup - Group of radiobutton form fields
+HTML::FormFu::Element::radiogroup - Group of radiobutton form fields
 
 =head1 SYNOPSIS
 

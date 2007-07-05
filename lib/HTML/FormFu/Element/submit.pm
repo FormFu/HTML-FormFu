@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Submit - Submit button form field
+HTML::FormFu::Element::submit - Submit button form field
 
 =head1 SYNOPSIS
 

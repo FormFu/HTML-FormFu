@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Reset - Reset button form field
+HTML::FormFu::Element::reset - Reset button form field
 
 =head1 SYNOPSIS
 

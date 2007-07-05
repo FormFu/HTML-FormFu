@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Button - Button form field
+HTML::FormFu::Element::button - Button form field
 
 =head1 SYNOPSIS
 
