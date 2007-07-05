@@ -7,7 +7,6 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ form stash /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
-use Template;
 use Carp qw/ croak /;
 
 use overload
@@ -20,7 +19,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 
 __PACKAGE__->mk_accessors(
     qw/ render_class_args render_class_suffix render_method
-        filename _elements parent /
+        filename _elements parent template_alloy /
 );
 
 sub new {
@@ -79,17 +78,22 @@ sub output {
 
 sub xhtml {
     my ( $self, $filename ) = @_;
-
+    
     $filename = $self->filename if !defined $filename;
 
     my %args = %{ $self->render_class_args };
 
+    my $alloy = delete $args{TEMPLATE_ALLOY};
+    $alloy = 1 if $ENV{HTML_FORMFU_TEMPLATE_ALLOY};
+    require( $alloy ? 'Template/Alloy.pm' : 'Template.pm' );
+    
     $args{INCLUDE_PATH} = 'root' if !keys %args;
 
     $args{RELATIVE}  = 1;
     $args{RECURSION} = 1;
 
-    my $template = Template->new( \%args );
+    my $package  = $alloy ? 'Template::Alloy' : 'Template';
+    my $template = $package->new( \%args );
 
     my $output;
     my %vars = (
