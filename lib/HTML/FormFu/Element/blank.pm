@@ -19,17 +19,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Text - Text form field
-
-=head1 SYNOPSIS
-
-    my $element = $form->element( Text => 'foo' );
-
-=head1 DESCRIPTION
-
-Text form field.
-
-=head1 METHODS
+HTML::FormFu::Element::blank - blank element
 
 =head1 SEE ALSO
 

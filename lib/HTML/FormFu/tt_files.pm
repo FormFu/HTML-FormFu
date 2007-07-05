@@ -42,7 +42,7 @@ __CPAN_HTML_FormFu__label__
 [% IF self.label.defined %][% INCLUDE $self.label_filename %]
 [% END %][% INCLUDE $self.field_filename %]__CPAN_HTML_FormFu__content_button__
 [% WRAPPER field %]<button name="[% self.name %]" type="[% self.field_type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attrs) %]>[% self.content %]</button>[% END %]__CPAN_HTML_FormFu__start_block__
-<[% self.tag %][% process_attrs(self.attrs) %]>[% IF self.legend.defined %]
+[% IF self.tag.defined %]<[% self.tag %][% process_attrs(self.attrs) %]>[% END %][% IF self.legend.defined %]
 <legend>[% self.legend %]</legend>[% END %]__CPAN_HTML_FormFu__field__
 <[% self.container_tag %][% process_attrs(self.container_attributes) %]>[% IF self.label.defined && self.label_filename == 'legend' %]
 [% INCLUDE $self.label_filename %][% END %][% IF self.errors %][% FOREACH error = self.errors %]
@@ -64,7 +64,7 @@ __CPAN_HTML_FormFu__label__
 <input[% IF self.name.defined %] name="[% self.name %]"[% END %] type="[% self.field_type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attrs) %] />__CPAN_HTML_FormFu__textarea_tag__
 <textarea name="[% self.name %]"[% process_attrs(self.attrs) %]>[% self.value IF self.value.defined %]</textarea>__CPAN_HTML_FormFu__hidden__
 [% INCLUDE $self.field_filename %]__CPAN_HTML_FormFu__end_block__
-</[% self.tag %]>__CPAN_HTML_FormFu__non_block__
+[% IF self.tag.defined %]</[% self.tag %]>[% END %]__CPAN_HTML_FormFu__non_block__
 <[% self.tag %][% process_attrs(self.attrs) %] />__CPAN_HTML_FormFu__blank__
 __CPAN_HTML_FormFu__form_error_message__
 [% IF self.force_error_message || self.form_error_message.defined && self.form.has_errors %]
