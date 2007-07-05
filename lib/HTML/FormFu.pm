@@ -4,7 +4,8 @@ use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
-use HTML::FormFu::Accessor qw/ mk_inherited_accessors mk_output_accessors /;
+use HTML::FormFu::Accessor qw/ mk_inherited_accessors mk_output_accessors 
+    mk_inherited_merging_accessors /;
 use HTML::FormFu::Attribute qw/ 
     mk_attrs mk_attr_accessors mk_add_methods mk_single_methods 
     mk_require_methods mk_get_methods mk_get_one_methods /;
@@ -52,10 +53,12 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_inflator_class auto_validator_class 
     auto_transformer_class
-    render_class render_class_prefix render_class_args 
+    render_class render_class_prefix 
     render_method 
     render_processed_value force_errors /
 );
+
+__PACKAGE__->mk_inherited_merging_accessors(qw/ render_class_args /);
 
 __PACKAGE__->mk_add_methods(qw/ 
     element deflator filter constraint inflator validator transformer /);

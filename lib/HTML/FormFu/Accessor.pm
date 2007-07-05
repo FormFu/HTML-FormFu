@@ -4,10 +4,14 @@ use strict;
 use warnings;
 use Exporter qw/ import /;
 
-use HTML::FormFu::Util qw( literal );
+use HTML::FormFu::Util qw( append_xml_attribute literal );
 use Carp qw/ croak /;
 
-our @EXPORT_OK = qw/ mk_inherited_accessors mk_output_accessors /;
+our @EXPORT_OK = qw/
+    mk_inherited_accessors 
+    mk_output_accessors 
+    mk_inherited_merging_accessors
+    /;
 
 sub mk_inherited_accessors {
     my ( $self, @names ) = @_;
@@ -28,6 +32,36 @@ sub mk_inherited_accessors {
         };
         no strict 'refs';
         *{"$class\::$name"} = $sub;
+    }
+
+    return;
+}
+
+sub mk_inherited_merging_accessors {
+    my ( $self, @names ) = @_;
+    
+    my $class = ref $self || $self;
+
+    $class->mk_inherited_accessors(@names);
+
+    for my $name (@names) {
+        my $sub = sub {
+            my $self = shift;
+            if (@_) {
+                my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+
+                for ( keys %attrs ) {
+                    append_xml_attribute( $self->{$name}, $_, $attrs{$_} );
+                }
+                return $self;
+            }
+            while ( defined $self->parent && !defined $self->{$name} ) {
+                $self = $self->parent;
+            }
+            return $self->{$name};
+        };
+        no strict 'refs';
+        *{"$class\::add_$name"} = $sub;
     }
 
     return;
