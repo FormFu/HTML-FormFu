@@ -37,28 +37,7 @@ cmpthese(
 sub formfu {
     my $form = HTML::FormFu->new;
     
-    $form->auto_fieldset(1);
-    
-    for (1..10) {
-        $form->element({
-            name  => "text$_",
-            size  => 10,
-            label => "text & $_",
-        });
-    }
-    
-    $form->element({
-        name    => "select",
-        type    => "select",
-        label   => "select",
-        values  => [ 1907 .. 2007 ],
-        default => 2007,
-    });
-    
-    $form->element({
-        type => "submit",
-        name => "submit",
-    });
+    $form->load_from_config('tobias.yml');
     
     return $form;
 }
@@ -66,12 +45,21 @@ sub formfu {
 sub widget {
     my $form = HTML::Widget->new;
     
-    for (1..10) {
-        $form->element( "Textfield", "text$_" )->label("text & $_")->size(10);
-    }
+    $form->element( "Textfield", "motto" )->label("Motto:")->maxlength(80);
+    $form->element( "Textarea", "about" )->label("About me:")->rows(6)->cols(50);
     
-    $form->element( "Select", "select" )->label("select")->options(
-        map { $_, $_ } 1907 .. 2007 )->selected(2007);
+    $form->element( "Textfield", "city" )->label("City:")->maxlength(32);
+    $form->element( "Select", "zip_codes" )->label("Zipcode:")
+        ->comment("Select how many zipcode digits you want to display to other users.");
+    
+    $form->element( "Textfield", "daystart" )->label("My morning starts with:")
+        ->maxlength(255);
+    $form->element( "Textfield", "" )->label("")->maxlength();
+    $form->element( "Textfield", "" )->label("")->maxlength();
+    $form->element( "Textfield", "" )->label("")->maxlength();
+    $form->element( "Textfield", "" )->label("")->maxlength();
+    
+    $form->element( "Select", "" )->label("");
     
     $form->element( "Submit", "submit" );
     

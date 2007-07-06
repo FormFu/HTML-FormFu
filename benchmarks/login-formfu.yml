@@ -1,0 +1,22 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: text
+    name: username
+    size: 10
+    label: Username
+    constraints:
+      - type: Required
+
+  - type: password
+    name: password
+    size: 10
+    label: Password
+    constraints:
+      - type: Required
+
+  - type: submit
+    name: _submit
+
+indicator: username
