@@ -317,8 +317,10 @@ sub _process_file_uploads {
 sub _filter_input {
     my ($self) = @_;
 
+    my $params = $self->_processed_params;
+
     for my $filter ( map { @{ $_->get_filters } } @{ $self->_elements } ) {
-        $filter->process( $self, $self->_processed_params );
+        $filter->process( $self, $params );
     }
     
     return;
@@ -422,8 +424,10 @@ sub _validate_input {
 sub _transform_input {
     my ($self) = @_;
 
+    my $params = $self->_processed_params;
+
     for my $name ( keys %{ $self->_processed_params } ) {
-        my $value = $self->_processed_params->{$name};
+        my $value = $params->{$name};
 
         for my $transformer ( map { @{ $_->get_transformers( { name => $name } ) } }
             @{ $self->_elements } )
@@ -433,7 +437,7 @@ sub _transform_input {
             my @errors;
             
             ( $value, @errors ) = eval {
-                $transformer->process($value);
+                $transformer->process( $value, $params );
                 };
             if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
                 push @errors, $@;
@@ -460,7 +464,8 @@ sub _build_valid_names {
     my ($self) = @_;
 
     my @errors = $self->has_errors;
-    my @names  = keys %{ $self->input };
+    my @names  = keys %{ $self->input }, 
+                 keys %{ $self->_processed_params };
 
     my %valid;
 CHECK: for my $name (@names) {
