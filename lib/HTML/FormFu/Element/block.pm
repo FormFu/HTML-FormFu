@@ -63,14 +63,6 @@ sub new {
     return $self;
 }
 
-sub setup {
-    my ( $self ) = @_;
-
-    map { $_->setup } @{ $self->_elements };
-
-    return;
-}
-
 sub process {
     my ( $self ) = @_;
 
