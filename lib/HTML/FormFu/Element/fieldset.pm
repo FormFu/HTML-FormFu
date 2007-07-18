@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
 
-__PACKAGE__->mk_accessors(qw/ legend /);
+__PACKAGE__->mk_output_accessors(qw/ legend /);
 
 sub new {
     my $self = shift->SUPER::new(@_);

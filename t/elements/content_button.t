@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new;
 my $field = $form->element('content_button')->name('foo');
 
 # add more elements to test accessor output
-$form->element('content_button')->name('bar')->content('<p>button</p>');
+$form->element('content_button')->name('bar')->content_xml('<p>button</p>');
 $form->element('content_button')->name('baz')->content('x')->field_type('submit');
 $form->element('content_button')->name('baf')->field_type('reset');
 

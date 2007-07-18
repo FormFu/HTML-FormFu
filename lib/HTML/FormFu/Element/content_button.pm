@@ -4,7 +4,10 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Element::field';
 
-__PACKAGE__->mk_accessors(qw/ field_type content /);
+use HTML::FormFu::Util qw/ xml_escape /;
+
+__PACKAGE__->mk_accessors(qw/ field_type /);
+__PACKAGE__->mk_output_accessors(qw/ content /);
 
 sub new {
     my $self = shift->SUPER::new(@_);
@@ -21,7 +24,7 @@ sub render {
 
     my $render = $self->SUPER::render({
         field_type => $self->field_type,
-        content    => $self->content,
+        content    => xml_escape( $self->content ),
         @_ ? %{$_[0]} : ()
         });
 
