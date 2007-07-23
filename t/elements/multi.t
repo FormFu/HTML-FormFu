@@ -12,6 +12,7 @@ my $multi = $form->element('multi')->label('My multi');
 $multi->element('text')->name('bar')->label('My text');
 $multi->element('hidden')->name('baz');
 $multi->element('radio')->name('dot')->label('My radio');
+$multi->element('blank')->name('gzz');
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
@@ -23,6 +24,7 @@ my $form_xhtml = <<EOF;
 <input name="baz" type="hidden" />
 <input name="dot" type="radio" />
 <label>My radio</label>
+
 </span>
 </span>
 </form>

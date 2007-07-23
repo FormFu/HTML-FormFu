@@ -8,6 +8,8 @@ sub new {
     my $self = shift->SUPER::new(@_);
 
     $self->filename('blank');
+    $self->field_filename('blank');
+    $self->multi_filename('blank');
     $self->render_class_suffix('blank');
 
     return $self;
