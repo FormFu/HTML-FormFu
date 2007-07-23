@@ -170,12 +170,12 @@ sub process {
     
     $self->submitted( $submitted );
     
-    return if !$submitted;
-    
     for my $elem ( @{ $self->get_elements } ) {
         $elem->process;
     }
-
+    
+    return if !$submitted;
+    
     my %params;
 
     for my $param ( $query->param ) {
