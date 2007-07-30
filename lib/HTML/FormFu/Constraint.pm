@@ -3,6 +3,7 @@ package HTML::FormFu::Constraint;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Processor';
+use Class::C3;
 
 use HTML::FormFu::Exception::Constraint;
 use Scalar::Util qw/ blessed /;

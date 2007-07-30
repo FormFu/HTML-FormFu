@@ -3,6 +3,7 @@ package HTML::FormFu::Element::content_button;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::field';
+use Class::C3;
 
 use HTML::FormFu::Util qw/ xml_escape /;
 
@@ -10,7 +11,7 @@ __PACKAGE__->mk_accessors(qw/ field_type /);
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->filename('content_button');
     $self->multi_filename('multi_ltr');
@@ -22,7 +23,7 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         field_type => $self->field_type,
         content    => xml_escape( $self->content ),
         @_ ? %{$_[0]} : ()

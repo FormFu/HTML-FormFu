@@ -3,11 +3,12 @@ package HTML::FormFu::Element::non_block;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
+use Class::C3;
 
 __PACKAGE__->mk_accessors(qw/ tag /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->filename('non_block');
 
@@ -17,7 +18,7 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         tag => $self->tag,
         @_ ? %{$_[0]} : ()
         });

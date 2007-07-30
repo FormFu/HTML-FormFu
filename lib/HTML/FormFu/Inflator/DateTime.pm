@@ -3,13 +3,14 @@ package HTML::FormFu::Inflator::DateTime;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Inflator';
+use Class::C3;
 
 use DateTime::Format::Builder;
 
 __PACKAGE__->mk_accessors(qw/ _builder /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->_builder( DateTime::Format::Builder->new );
 
@@ -33,7 +34,7 @@ sub inflator {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->_builder( $self->_builder->clone );
     

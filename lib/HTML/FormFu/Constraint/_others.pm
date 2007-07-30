@@ -3,6 +3,7 @@ package HTML::FormFu::Constraint::_others;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
+use Class::C3;
 
 use Storable qw/ dclone /;
 
@@ -65,7 +66,7 @@ sub mk_errors {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->others( dclone $self->others )
         if ref $self->others;

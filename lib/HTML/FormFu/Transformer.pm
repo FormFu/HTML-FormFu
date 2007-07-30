@@ -3,6 +3,7 @@ package HTML::FormFu::Transformer;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Processor';
+use Class::C3;
 
 use HTML::FormFu::Exception::Transformer;
 use Carp qw/ croak /;

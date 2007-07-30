@@ -3,6 +3,7 @@ package HTML::FormFu::Element;
 use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
+use Class::C3;
 
 use HTML::FormFu::Accessor qw( mk_output_accessors mk_inherited_accessors );
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;

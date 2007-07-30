@@ -3,13 +3,14 @@ package HTML::FormFu::Element::select;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::group';
+use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 
 __PACKAGE__->mk_attr_accessors(qw/ multiple size /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->filename('select');
     $self->field_filename('select_tag');

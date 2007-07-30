@@ -3,6 +3,7 @@ package HTML::FormFu::Inflator;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Processor';
+use Class::C3;
 
 use HTML::FormFu::Exception::Inflator;
 use Carp qw( croak );

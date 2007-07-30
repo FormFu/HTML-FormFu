@@ -3,6 +3,7 @@ package HTML::FormFu::Filter::HTMLScrubber;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Filter';
+use Class::C3;
 
 use Storable qw/ dclone /;
 
@@ -25,7 +26,7 @@ sub filter {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->allow( dclone $self->allow )
         if ref $self->allow;

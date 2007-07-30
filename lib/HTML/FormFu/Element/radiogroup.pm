@@ -3,13 +3,14 @@ package HTML::FormFu::Element::radiogroup;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::group';
+use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 
 __PACKAGE__->mk_accessors(qw/ radiogroup_filename /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->filename('radiogroup');
     $self->radiogroup_filename('radiogroup_tag');
@@ -98,7 +99,7 @@ sub _prepare_attrs {
 sub _render_label {
     my ( $self, $render ) = @_;
     
-    $self->SUPER::_render_label($render);
+    $self->next::method($render);
     
     if ( defined $render->{label} && $render->{label_filename} eq 'legend' ) {
         $render->{container_attributes}{class} =~ s/\blabel\b/legend/;
@@ -110,7 +111,7 @@ sub _render_label {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         radiogroup_filename => $self->radiogroup_filename,
         @_ ? %{$_[0]} : ()
         });

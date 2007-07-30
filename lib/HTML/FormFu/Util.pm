@@ -236,6 +236,8 @@ sub require_class {
     if ( !exists $::INC{$class} ) {
         eval { require $class };
         croak $@ if $@;
+        
+        Class::C3::initialize();
     }
 
     return;

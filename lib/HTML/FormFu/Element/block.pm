@@ -3,6 +3,7 @@ package HTML::FormFu::Element::block;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
+use Class::C3;
 
 use HTML::FormFu::Accessor qw/ mk_output_accessors /;
 use HTML::FormFu::Attribute qw/ 
@@ -52,7 +53,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *transformers = \&transformer;
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->_elements( [] );
     $self->element_defaults( {} );
@@ -82,7 +83,7 @@ sub prepare_id {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         tag       => $self->tag,
         content   => xml_escape( $self->content ),
         _elements => [ map { $_->render } @{ $self->_elements } ],
@@ -103,7 +104,7 @@ sub end {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
     

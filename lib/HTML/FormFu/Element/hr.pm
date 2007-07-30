@@ -3,9 +3,10 @@ package HTML::FormFu::Element::hr;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::non_block';
+use Class::C3;
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->tag('hr');
 

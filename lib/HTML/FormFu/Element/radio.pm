@@ -3,11 +3,12 @@ package HTML::FormFu::Element::radio;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::input';
+use Class::C3;
 
 __PACKAGE__->mk_output_accessors(qw/ default /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->field_type('radio');
     $self->multi_filename('multi_rtl');
@@ -45,7 +46,7 @@ sub prepare_attrs {
         $render->attributes( 'checked' => 'checked' );
     }
     
-    $self->SUPER::prepare_attrs($render);
+    $self->next::method($render);
 
     return;
 }

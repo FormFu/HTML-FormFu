@@ -3,6 +3,7 @@ package HTML::FormFu::Element::input;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::field';
+use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
 
@@ -11,7 +12,7 @@ __PACKAGE__->mk_accessors(qw/ field_type /);
 __PACKAGE__->mk_attr_accessors(qw/ checked size maxlength alt /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->filename('input');
     $self->field_filename('input_tag');
@@ -23,7 +24,7 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         field_type => $self->field_type,
         @_ ? %{$_[0]} : ()
         });

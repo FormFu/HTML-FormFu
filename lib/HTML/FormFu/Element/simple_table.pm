@@ -3,6 +3,7 @@ package HTML::FormFu::Element::simple_table;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
+use Class::C3;
 
 use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Carp qw/ croak /;
@@ -10,7 +11,7 @@ use Carp qw/ croak /;
 __PACKAGE__->mk_accessors(qw/ headers odd_class even_class /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->tag('table');
 
@@ -102,7 +103,7 @@ sub render {
     
     $copy->_add_headers;
 
-    my $render = $copy->SUPER::render({
+    my $render = $copy->next::method({
         @_ ? %{$_[0]} : ()
         });
 

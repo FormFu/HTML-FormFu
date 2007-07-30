@@ -3,11 +3,12 @@ package HTML::FormFu::Element::image;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::button';
+use Class::C3;
 
 __PACKAGE__->mk_attr_accessors(qw/ src width height /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->field_type('image');
     $self->src('') if !defined $self->src;

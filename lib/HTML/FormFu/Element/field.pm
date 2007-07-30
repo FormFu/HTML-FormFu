@@ -3,6 +3,7 @@ package HTML::FormFu::Element::field;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element';
+use Class::C3;
 
 use HTML::FormFu::Attribute qw/ 
     mk_attrs mk_require_methods mk_get_one_methods /;
@@ -127,7 +128,7 @@ for my $method (qw/
 *default_loc  = \&value_loc;
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->_constraints(  [] );
     $self->_filters(      [] );
@@ -317,7 +318,7 @@ sub process_value {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         comment_attributes   => xml_escape( $self->comment_attributes ),
         container_attributes => xml_escape( $self->container_attributes ),
         label_attributes     => xml_escape( $self->label_attributes ),
@@ -588,7 +589,7 @@ sub _render_error_class {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     for my $list (qw/ _filters _constraints _inflators _validators _transformers 
                      _deflators /)

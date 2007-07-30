@@ -3,11 +3,12 @@ package HTML::FormFu::Element::fieldset;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
+use Class::C3;
 
 __PACKAGE__->mk_output_accessors(qw/ legend /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->tag('fieldset');
 
@@ -17,7 +18,7 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         legend => $self->legend,
         @_ ? %{$_[0]} : ()
         });

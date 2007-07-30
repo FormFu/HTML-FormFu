@@ -3,6 +3,7 @@ package HTML::FormFu::Element::group;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::field';
+use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
 use HTML::FormFu::Util qw/ append_xml_attribute /;
@@ -12,7 +13,7 @@ use Carp qw( croak );
 __PACKAGE__->mk_accessors(qw/ _options /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->_options( [] );
     $self->container_attributes( {} );
@@ -137,7 +138,7 @@ sub prepare_attrs {
         }
     }
     
-    $self->SUPER::prepare_attrs($render);
+    $self->next::method($render);
 
     return;
 }
@@ -145,7 +146,7 @@ sub prepare_attrs {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         options           => dclone( $self->_options ),
         @_ ? %{$_[0]} : ()
         });
@@ -167,7 +168,7 @@ sub as {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->_options( dclone $self->_options );
     

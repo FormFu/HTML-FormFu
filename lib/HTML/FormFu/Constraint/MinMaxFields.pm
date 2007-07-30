@@ -3,6 +3,7 @@ package HTML::FormFu::Constraint::MinMaxFields;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint::_others';
+use Class::C3;
 
 __PACKAGE__->mk_accessors(qw/ minimum maximum /);
 
@@ -10,7 +11,7 @@ __PACKAGE__->mk_accessors(qw/ minimum maximum /);
 *max = \&maximum;
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->attach_errors_to_base(1);
 

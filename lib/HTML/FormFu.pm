@@ -86,6 +86,8 @@ __PACKAGE__->mk_get_one_methods(qw/
 
 our $VERSION = '0.01000_03';
 
+Class::C3::initialize();
+
 sub new {
     my $class = shift;
 

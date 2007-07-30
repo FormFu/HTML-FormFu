@@ -3,6 +3,7 @@ package HTML::FormFu::Deflator;
 use strict;
 use warnings;
 use base 'Class::Accessor::Chained::Fast';
+use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Carp qw( croak );

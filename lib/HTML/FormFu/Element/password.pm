@@ -3,11 +3,12 @@ package HTML::FormFu::Element::password;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::input';
+use Class::C3;
 
 __PACKAGE__->mk_accessors(qw/ render_value /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->field_type('password');
 

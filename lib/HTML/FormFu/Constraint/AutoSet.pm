@@ -3,13 +3,14 @@ package HTML::FormFu::Constraint::AutoSet;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint::Set';
+use Class::C3;
 
 sub process {
     my $self = shift;
     
     $self->set( map { $_->{value} } @{ $self->parent->_options } );
     
-    return $self->SUPER::process(@_);
+    return $self->next::method(@_);
 }
 
 1;

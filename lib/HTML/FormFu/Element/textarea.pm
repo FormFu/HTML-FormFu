@@ -3,11 +3,12 @@ package HTML::FormFu::Element::textarea;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::field';
+use Class::C3;
 
 __PACKAGE__->mk_attr_accessors(qw/ cols rows /);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->render_class_suffix('field');
     $self->filename('input');

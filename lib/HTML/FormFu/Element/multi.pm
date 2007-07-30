@@ -3,6 +3,7 @@ package HTML::FormFu::Element::multi;
 use strict;
 use warnings;
 use base 'HTML::FormFu::Element::block';
+use Class::C3;
 
 use HTML::FormFu::Element::field qw/
     _render_container_class _render_comment_class _render_label /;
@@ -34,7 +35,7 @@ __PACKAGE__->mk_attrs(
 );
 
 sub new {
-    my $self = shift->SUPER::new(@_);
+    my $self = shift->next::method(@_);
 
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
@@ -51,7 +52,7 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->SUPER::render({
+    my $render = $self->next::method({
         comment_attributes   => xml_escape( $self->comment_attributes ),
         container_attributes => xml_escape( $self->container_attributes ),
         label_attributes     => xml_escape( $self->label_attributes ),
@@ -101,7 +102,7 @@ sub _render_error_class {
 sub clone {
     my $self = shift;
     
-    my $clone = $self->SUPER::clone(@_);
+    my $clone = $self->next::method(@_);
     
     $clone->comment_attributes(   dclone $self->comment_attributes );
     $clone->container_attributes( dclone $self->container_attributes );
