@@ -6,6 +6,7 @@ all_from 'lib/HTML/FormFu.pm';
 requires 'perl' => '5.8.1';
 requires 'Carp';
 requires 'Class::Accessor::Chained::Fast';
+requires 'Class::C3';
 requires 'Class::Data::Accessor';
 requires 'Config::Any';
 requires 'Date::Calc';
