@@ -190,6 +190,67 @@ L<HTML::FormFu::Element::Select> fields.
 
 =head1 METHODS
 
+=head2 options
+
+Arguments: \@options
+
+    ---
+    elements:
+      - type: select
+        name: foo
+        options:
+          - [ 01, January ]
+          - [ 02, February ]
+          - value: 03
+            label: March
+            attributes:
+              style: highlighted
+          - [ 04, April ]
+
+Use to set the list of items in the select menu / radiogroup.
+
+It's arguments must be an array-ref of items. Each item may be an array ref 
+of the form C<[ $value, $label ]> or a hash-ref of the form 
+C<< { value => $value, label => $label } >>. Each hash-ref may also have the 
+keys C<attributes> and C<label_attributes>.
+
+=head2 values
+
+Arguments: \@values
+
+    ---
+    elements:
+      - type: radiogroup
+        name: foo
+        values:
+          - jan
+          - feb
+          - mar
+          - apr
+
+A more concise alternative to L</options>. Use to set the list of values in 
+the select menu / radiogroup.
+
+It's arguments must be an array-ref of values. The labels used are the 
+result of C<ucfirst($value)>.
+
+=head2 value_range
+
+Arguments: \@values
+
+    ---
+    elements:
+      - type: select
+        name: foo
+        value_range:
+          - ""
+          - 1
+          - 12 
+
+Similar to L</values>, but the last 2 values are expanded to a range. Any 
+preceeding values are used literally, allowing the common empty first item 
+in select menus.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 

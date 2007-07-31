@@ -65,6 +65,18 @@ Select form field.
 
 =head1 METHODS
 
+=head2 options
+
+See L<HTML::FormFu::Element::group/options>.
+
+=head2 values
+
+See L<HTML::FormFu::Element::group/values>.
+
+=head2 value_range
+
+See L<HTML::FormFu::Element::group/value_range>.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::group>, 
