@@ -157,6 +157,11 @@ sub process {
     else {
         $query = $self->query;
     }
+
+    for my $elem ( @{ $self->get_elements } ) {
+        $elem->process;
+    }
+
     my $submitted;
     my @params;
 
@@ -171,10 +176,6 @@ sub process {
     }
     
     $self->submitted( $submitted );
-    
-    for my $elem ( @{ $self->get_elements } ) {
-        $elem->process;
-    }
     
     return if !$submitted;
     
