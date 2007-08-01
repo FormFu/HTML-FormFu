@@ -293,12 +293,9 @@ sub mk_require_methods {
             
             require_class($class);
             
-            my $type_method = $name eq 'element'
-                ? "${name}_type" : 'type';
-        
             my $object = $class->new( {
-                    $type_method => $type,
-                    parent       => $self,
+                    type   => $type,
+                    parent => $self,
                 } );
         
             weaken( $object->{parent} );
