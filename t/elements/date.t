@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;
+use Test::More tests => 16;
 
 use HTML::FormFu;
 
@@ -43,4 +43,16 @@ like( $form->get_field('foo'), qr/\Q<option value="2007" selected="selected">/ )
 like( $form->get_field('bar'), qr/\Q<option value="1" selected="selected">/ );
 like( $form->get_field('bar'), qr/\Q<option value="7" selected="selected">/ );
 like( $form->get_field('bar'), qr/\Q<option value="2007" selected="selected">/ );
+
+# incorrect date
+
+$form->process({
+    'foo.day', 29,
+    'foo.month', 2,
+    'foo.year', 2007,
+});
+
+ok( $form->submitted );
+ok( $form->has_errors );
+ok( !defined $form->params->{foo} );
 

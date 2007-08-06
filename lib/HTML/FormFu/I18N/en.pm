@@ -26,6 +26,7 @@ our %Lexicon = (
     form_set_error         => 'Field contains an invalid choice',
     form_singlevalue_error => 'This field only accepts a single value',
     form_word_error        => 'Field contains invalid characters',
+    form_datetime_error    => 'Invalid date',
 );
 
 1;

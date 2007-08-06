@@ -170,13 +170,22 @@ sub process {
       && defined $query->{$month_name}
       && defined $query->{$year_name} )
     {
-        my $dt = DateTime->new(
-            day   => $query->{$day_name},
-            month => $query->{$month_name},
-            year  => $query->{$year_name},
-        );
+        my $dt;
         
-        $query->{ $self->name } = $dt->strftime( $self->strftime );
+        eval {
+            $dt = DateTime->new(
+                day   => $query->{$day_name},
+                month => $query->{$month_name},
+                year  => $query->{$year_name},
+            );
+        };
+        
+        if ( $@ ) {
+            $query->{ $self->name } = $self->strftime;
+        }
+        else {
+            $query->{ $self->name } = $dt->strftime( $self->strftime );
+        }
     }
     
     return;
