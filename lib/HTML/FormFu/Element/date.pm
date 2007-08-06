@@ -14,14 +14,10 @@ use Carp qw/ croak /;
 __PACKAGE__->mk_accessors(qw/
     day_name month_name year_name
     months short_months years year year_less year_plus 
-    day_prefix month_prefix year_prefix
+    day_prefix month_prefix year_prefix 
+    day_default month_default year_default 
     strftime auto_inflate 
 /);
-
-#    day_default month_default year_default
-#    day_options day_values day_value_range 
-#    month_options month_values month_value_range 
-#    year_options year_values year_value_range 
 
 # build get_Xs methods
 for my $method (qw/ 
@@ -138,18 +134,27 @@ sub _add_elements {
         type => 'select',
         name => $day_name,
         options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
+        defined $self->day_default 
+            ? ( default => $self->day_default )
+            : (),
         });
 
     $self->element({
         type => 'select',
         name => $month_name,
         options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
+        defined $self->month_default 
+            ? ( default => $self->month_default )
+            : (),
         });
 
     $self->element({
         type => 'select',
         name => $year_name,
         options => [ @year_prefix, map {[ $_, $_ ]} @years ],
+        defined $self->year_default 
+            ? ( default => $self->year_default )
+            : (),
         });
     
     if ( $self->auto_inflate 
