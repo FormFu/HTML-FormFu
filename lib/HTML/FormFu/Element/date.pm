@@ -8,11 +8,12 @@ use Class::C3;
 use HTML::FormFu::Attribute qw/ mk_require_methods /;
 use HTML::FormFu::Util qw/ _get_elements /;
 use DateTime;
+use DateTime::Locale;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(qw/
     day_name month_name year_name
-    months years year year_less year_plus 
+    months short_months years year year_less year_plus 
     strftime auto_inflate 
 /);
 
@@ -92,9 +93,25 @@ sub _add_elements {
                   ? $self->year_name
                   : sprintf "%s.year", $self->name;
 
-    my @months = defined $self->months
-               ? @{ $self->months }
-               : qw/ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec /;
+    my @months;
+    
+    if ( defined $self->months ) {
+        @months = @{ $self->months };
+    }
+    else {
+        for my $lang ( @{ $self->form->languages } ) {
+            my $loc;
+            eval {
+                $loc = DateTime::Locale->load( $lang );
+            };
+            if ( !$@ ) {
+                @months = $self->short_months 
+                    ? @{ $loc->month_abbreviations }
+                    : @{ $loc->month_names };
+                last;
+            }
+        }
+    }
 
     my $year = defined $self->year
              ? $self->year
@@ -263,7 +280,14 @@ Arguments: \@months
 
 A list of month names used for the month menu.
 
-If not set, the English short names are used (Jan, Feb, etc.).
+If not set, the list of month names is obtained from L<DateTime::Locale> 
+using the locale set in L<HTML::FormFu/languages>.
+
+=head2 short_months
+
+If true (and L</months> is not set) the list of abbreviated month names is 
+obtained from L<DateTime::Locale> using the locale set in 
+L<HTML::FormFu/languages>.
 
 =head2 years
 

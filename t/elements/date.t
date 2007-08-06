@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;
+use Test::More tests => 18;
 
 use HTML::FormFu;
 
@@ -11,6 +11,7 @@ $form->element('date')
     ->name('foo')
     ->strftime("%m/%d/%Y")
     ->auto_inflate(1)
+    ->short_months(1)
     ->constraint('Required');
 
 $form->element('date')
@@ -43,6 +44,9 @@ like( $form->get_field('foo'), qr/\Q<option value="2007" selected="selected">/ )
 like( $form->get_field('bar'), qr/\Q<option value="1" selected="selected">/ );
 like( $form->get_field('bar'), qr/\Q<option value="7" selected="selected">/ );
 like( $form->get_field('bar'), qr/\Q<option value="2007" selected="selected">/ );
+
+like( $form->get_field('foo'), qr/\Q>Jan</ );
+like( $form->get_field('bar'), qr/\Q>January</ );
 
 # incorrect date
 

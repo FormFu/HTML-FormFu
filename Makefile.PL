@@ -12,6 +12,7 @@ requires 'Config::Any';
 requires 'Date::Calc';
 requires 'DateTime::Format::Builder';
 requires 'DateTime::Format::Strptime';
+requires 'DateTime::Locale';
 requires 'Email::Valid';
 requires 'File::Copy';
 requires 'File::Spec';
