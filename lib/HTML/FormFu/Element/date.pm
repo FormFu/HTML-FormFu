@@ -14,6 +14,7 @@ use Carp qw/ croak /;
 __PACKAGE__->mk_accessors(qw/
     day_name month_name year_name
     months short_months years year year_less year_plus 
+    day_prefix month_prefix year_prefix
     strftime auto_inflate 
 /);
 
@@ -62,6 +63,9 @@ sub new {
     $self->strftime("%d-%m-%Y") if !defined $self->strftime;
     $self->year_less(0)         if !defined $self->year_less;
     $self->year_plus(10)        if !defined $self->year_plus;
+    $self->day_prefix([])       if !defined $self->day_prefix;
+    $self->month_prefix([])     if !defined $self->month_prefix;
+    $self->year_prefix([])      if !defined $self->year_prefix;
 
     return $self;
 }
@@ -112,7 +116,7 @@ sub _add_elements {
             }
         }
     }
-
+    
     my $year = defined $self->year
              ? $self->year
              : (localtime(time))[5] + 1900;
@@ -120,23 +124,32 @@ sub _add_elements {
     my @years = defined $self->years
               ? @{ $self->years }
               : ( $year - $self->year_less ) .. ( $year + $self->year_plus );
+    
+    my @day_prefix   = map {[ '', $_ ]} 
+        ref $self->day_prefix ? @{ $self->day_prefix } : $self->day_prefix;
+    
+    my @month_prefix = map {[ '', $_ ]} 
+        ref $self->month_prefix ? @{ $self->month_prefix } : $self->month_prefix;
+    
+    my @year_prefix  = map {[ '', $_ ]} 
+        ref $self->year_prefix ? @{ $self->year_prefix } : $self->year_prefix;
 
     $self->element({
         type => 'select',
         name => $day_name,
-        values => [1..31],
+        options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
         });
 
     $self->element({
         type => 'select',
         name => $month_name,
-        options => [ map { [ $_+1, $months[$_] ] } 0..11 ],
+        options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
         });
 
     $self->element({
         type => 'select',
         name => $year_name,
-        values => \@years,
+        options => [ @year_prefix, map {[ $_, $_ ]} @years ],
         });
     
     if ( $self->auto_inflate 
