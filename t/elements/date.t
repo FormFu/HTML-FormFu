@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 12;
+use Test::More tests => 13;
 
 use HTML::FormFu;
 
@@ -27,6 +27,8 @@ $form->process({
     'bar.month', 7,
     'bar.year', 2007,
     });
+
+ok( $form->submitted_and_valid );
 
 isa_ok( $form->params->{foo}, 'DateTime' );
 ok( !ref $form->params->{bar} );
