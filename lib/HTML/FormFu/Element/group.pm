@@ -125,7 +125,9 @@ sub prepare_attrs {
 
     my $submitted = $self->form->submitted;
     my $default   = $self->default;
-    my $value     = $self->form->input->{ $self->name };
+    my $value     = defined $self->name
+        ? $self->form->input->{ $self->name }
+        : undef;
     
     for my $option ( @{ $render->{options} } ) {
         if ( exists $option->{group} ) {
