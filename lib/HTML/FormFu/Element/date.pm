@@ -227,7 +227,7 @@ sub process_input {
         }
     }
     
-    return;
+    return $self->next::method( $input );
 }
 
 sub render {
