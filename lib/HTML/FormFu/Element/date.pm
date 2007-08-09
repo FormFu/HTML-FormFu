@@ -108,6 +108,7 @@ sub _add_elements {
                 @months = $self->short_months 
                     ? @{ $loc->month_abbreviations }
                     : @{ $loc->month_names };
+                
                 last;
             }
         }
@@ -187,7 +188,10 @@ sub process {
     
     $self->_add_elements;
     
-    my $query = $self->form->query;
+}
+
+sub process_input {
+    my ( $self, $input ) = @_;
     
     my $day_name = defined $self->day_name
                  ? $self->day_name
@@ -201,25 +205,25 @@ sub process {
                   ? $self->year_name
                   : sprintf "%s.year", $self->name;
     
-    if ( defined $query->{$day_name}
-      && defined $query->{$month_name}
-      && defined $query->{$year_name} )
+    if ( defined $input->{$day_name}
+      && defined $input->{$month_name}
+      && defined $input->{$year_name} )
     {
         my $dt;
         
         eval {
             $dt = DateTime->new(
-                day   => $query->{$day_name},
-                month => $query->{$month_name},
-                year  => $query->{$year_name},
+                day   => $input->{$day_name},
+                month => $input->{$month_name},
+                year  => $input->{$year_name},
             );
         };
         
         if ( $@ ) {
-            $query->{ $self->name } = $self->strftime;
+            $input->{ $self->name } = $self->strftime;
         }
         else {
-            $query->{ $self->name } = $dt->strftime( $self->strftime );
+            $input->{ $self->name } = $dt->strftime( $self->strftime );
         }
     }
     

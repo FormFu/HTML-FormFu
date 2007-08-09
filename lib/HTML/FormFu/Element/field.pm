@@ -273,6 +273,8 @@ sub clear_errors {
     return;
 }
 
+sub process_input { }
+
 sub prepare_id {
     my ( $self, $render ) = @_;
 

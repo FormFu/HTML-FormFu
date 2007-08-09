@@ -198,6 +198,10 @@ sub process {
         #        $result->no_render(1)
         #            if @render && !grep { $name eq $_ } @render;
     
+    for my $field ( @{ $self->get_fields } ) {
+        $field->process_input( \%params );
+    }
+    
     $self->input( \%params );
     
     $self->_process_input;
