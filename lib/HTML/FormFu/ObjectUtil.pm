@@ -6,6 +6,7 @@ use Exporter qw/ import /;
 
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements /;
 use Config::Any;
+use Encode 'decode';
 use Scalar::Util qw/ refaddr weaken blessed /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
@@ -308,10 +309,28 @@ sub load_config_file {
                 use_ext => 1,
             } );
         
-        $self->populate( $config->[0]->{$file} );
+        my $data = $config->[0]->{$file};
+        
+        if ( $file =~ /ya?ml\z/i ) {
+            _decode_yaml( $data );
+        }
+        
+        $self->populate( $data );
     }
 
     return $self;
+}
+
+sub _decode_yaml {
+    if ( ref $_[0] eq 'HASH' ) {
+        _decode_yaml( $_[0]->{$_} ) for keys %{ $_[0] };
+    }
+    elsif ( ref $_[0] eq 'ARRAY' ) {
+        _decode_yaml($_) for @{ $_[0] };
+    }
+    elsif ( !ref $_[0] && utf8::valid($_[0]) ) {
+        $_[0] = decode( 'UTF-8', $_[0] );
+    }
 }
 
 sub _render_class {
