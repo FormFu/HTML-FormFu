@@ -311,7 +311,7 @@ sub load_config_file {
         
         my $data = $config->[0]->{$file};
         
-        if ( $file =~ /ya?ml\z/i ) {
+        if ( $file =~ /\.ya?ml\z/i ) {
             _decode_yaml( $data );
         }
         

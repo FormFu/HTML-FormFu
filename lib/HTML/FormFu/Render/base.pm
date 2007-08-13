@@ -88,7 +88,7 @@ sub xhtml {
     require( $alloy ? 'Template/Alloy.pm' : 'Template.pm' );
     
     $args{INCLUDE_PATH} = 'root'  if !keys %args;
-    $args{ENCODING}     = 'utf-8' if !exists $args{ENCODING};
+    $args{ENCODING}     = 'UTF-8' if !exists $args{ENCODING};
 
     $args{RELATIVE}  = 1;
     $args{RECURSION} = 1;
