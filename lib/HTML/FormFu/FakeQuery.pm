@@ -9,36 +9,38 @@ sub new {
     eval { my %x = %$param };
     croak 'argument must be a hashref' if $@;
 
-    return bless $param, $class;
+    my $self = { _params => $param };
+
+    return bless $self, $class;
 }
 
 sub param {
     my $self = shift;
 
     if ( !@_ ) {
-        return keys %$self;
+        return keys %{ $self->{_params} };
     }
     elsif ( @_ == 2 ) {
         my ( $param, $value ) = @_;
 
         $self->{$param} = $value;
-        return $self->{$param};
+        return $self->{_params}{$param};
     }
     elsif ( @_ == 1 ) {
         my ($param) = @_;
 
-        unless ( exists $self->{$param} ) {
+        unless ( exists $self->{_params}{$param} ) {
             return wantarray ? () : undef;
         }
-        if ( ref $self->{$param} eq 'ARRAY' ) {
+        if ( ref $self->{_params}{$param} eq 'ARRAY' ) {
             return (wantarray)
-                ? @{ $self->{$param} }
-                : $self->{$param}->[0];
+                ? @{ $self->{_params}{$param} }
+                : $self->{_params}{$param}->[0];
         }
         else {
             return (wantarray)
-                ? ( $self->{$param} )
-                : $self->{$param};
+                ? ( $self->{_params}{$param} )
+                : $self->{_params}{$param};
         }
     }
 
