@@ -59,12 +59,15 @@ sub new {
     $self->render_class_suffix('multi');
     $self->strftime("%d-%m-%Y");
     $self->day({
+        type   => 'select',
         prefix => [],
     });
     $self->month({
+        type   => 'select',
         prefix => [],
     });
     $self->year({
+        type   => 'select',
         prefix => [],
         less   => 0,
         plus   => 10,
@@ -141,7 +144,7 @@ sub _add_day {
         ref $day->{prefix} ? @{ $day->{prefix} } : $day->{prefix};
     
     $self->element({
-        type => 'select',
+        type => $day->{type},
         name => $day_name,
         options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
         defined $day->{default} 
@@ -165,7 +168,7 @@ sub _add_month {
         ref $month->{prefix} ? @{ $month->{prefix} } : $month->{prefix};
     
     $self->element({
-        type => 'select',
+        type => $month->{type},
         name => $month_name,
         options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
         defined $month->{default} 
@@ -195,7 +198,7 @@ sub _add_year {
         ref $year->{prefix} ? @{ $year->{prefix} } : $year->{prefix};
 
     $self->element({
-        type => 'select',
+        type => $year->{type},
         name => $year_name,
         options => [ @year_prefix, map {[ $_, $_ ]} @years ],
         defined $year->{default} 
