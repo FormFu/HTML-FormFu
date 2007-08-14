@@ -4,6 +4,9 @@ use warnings;
 use Test::More tests => 16;
 
 use HTML::FormFu;
+use DateTime;
+
+my $dt = DateTime->new( day => 6, month => 8, year => 2007);
 
 my $form = HTML::FormFu->new;
 
@@ -12,22 +15,23 @@ $form->element('date')
     ->strftime("%m/%d/%Y")
     ->day({
         prefix  => '-- Day --',
-        default => 6,
     })
     ->month({
         prefix  => '-- Month --',
-        default => 8,
         short_names => 1,
     })
     ->year({
         prefix  => '-- Year --',
-        default => 2007,
     })
+    ->default( $dt )
     ->auto_inflate(1)
     ->constraint('Required');
 
+
+
 $form->element('date')
-    ->name('bar');
+    ->name('bar')
+    ->default('14-08-2007');
 
 is ( "$form", <<HTML_ERRORS );
 <form action="" method="post">
@@ -114,7 +118,7 @@ is ( "$form", <<HTML_ERRORS );
 <option value="11">11</option>
 <option value="12">12</option>
 <option value="13">13</option>
-<option value="14">14</option>
+<option value="14" selected="selected">14</option>
 <option value="15">15</option>
 <option value="16">16</option>
 <option value="17">17</option>
@@ -141,14 +145,14 @@ is ( "$form", <<HTML_ERRORS );
 <option value="5">May</option>
 <option value="6">June</option>
 <option value="7">July</option>
-<option value="8">August</option>
+<option value="8" selected="selected">August</option>
 <option value="9">September</option>
 <option value="10">October</option>
 <option value="11">November</option>
 <option value="12">December</option>
 </select>
 <select name="bar.year">
-<option value="2007">2007</option>
+<option value="2007" selected="selected">2007</option>
 <option value="2008">2008</option>
 <option value="2009">2009</option>
 <option value="2010">2010</option>

@@ -8,7 +8,9 @@ use Class::C3;
 use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods /;
 use HTML::FormFu::Util qw/ _get_elements /;
 use DateTime;
+use DateTime::Format::Builder;
 use DateTime::Locale;
+use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_attrs(qw/
@@ -86,6 +88,8 @@ sub _add_elements {
     
     $self->_elements([]);
     
+    _date_defaults( $self );
+    
     _add_day(   $self );
     _add_month( $self );
     _add_year(  $self );
@@ -94,6 +98,33 @@ sub _add_elements {
         && !@{ $self->get_inflators({ type => "DateTime" }) } )
     {
         _add_inflator( $self );
+    }
+    
+    return;
+}
+
+sub _date_defaults {
+    my $self = shift;
+    
+    my $default = $self->default;
+    
+    if ( defined $default ) {
+        
+        if ( blessed($default) && $default->isa('DateTime') ) {
+            $self->day->{default}   = $default->day;
+            $self->month->{default} = $default->month;
+            $self->year->{default}  = $default->year;
+        }
+        else {
+            my $builder = DateTime::Format::Builder->new;
+            $builder->parser({ strptime => $self->strftime });
+            
+            my $dt = $builder->parse_datetime( $default );
+            
+            $self->day->{default}   = $dt->day;
+            $self->month->{default} = $dt->month;
+            $self->year->{default}  = $dt->year;
+        }
     }
     
     return;
@@ -331,6 +362,16 @@ menu into a single date parameter (and doesn't delete the individual menu's
 parameters).
 
 =head1 METHODS
+
+=head2 default
+
+Arguments: DateTime object
+
+Arguments: $date_string
+
+Accepts either a L<DateTime> object, or a string containing a date, matching 
+the L</strftime> format. Overwrites any default value set in L</day>, 
+L</month> or L</year>.
 
 =head2 strftime
 
