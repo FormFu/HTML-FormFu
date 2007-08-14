@@ -5,17 +5,17 @@ use warnings;
 use base 'HTML::FormFu::Element::field', 'HTML::FormFu::Element::multi';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_require_methods /;
+use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods /;
 use HTML::FormFu::Util qw/ _get_elements /;
 use DateTime;
 use DateTime::Locale;
 use Carp qw/ croak /;
 
+__PACKAGE__->mk_attrs(qw/
+    day month year
+/);
+
 __PACKAGE__->mk_accessors(qw/
-    day_name month_name year_name
-    months short_months years year year_less year_plus 
-    day_prefix month_prefix year_prefix 
-    day_default month_default year_default 
     strftime auto_inflate 
 /);
 
@@ -55,13 +55,18 @@ sub new {
 
     $self->is_field(0);
     $self->render_class_suffix('multi');
-    
-    $self->strftime("%d-%m-%Y") if !defined $self->strftime;
-    $self->year_less(0)         if !defined $self->year_less;
-    $self->year_plus(10)        if !defined $self->year_plus;
-    $self->day_prefix([])       if !defined $self->day_prefix;
-    $self->month_prefix([])     if !defined $self->month_prefix;
-    $self->year_prefix([])      if !defined $self->year_prefix;
+    $self->strftime("%d-%m-%Y");
+    $self->day({
+        prefix => [],
+    });
+    $self->month({
+        prefix => [],
+    });
+    $self->year({
+        prefix => [],
+        less   => 0,
+        plus   => 10,
+    });
 
     return $self;
 }
@@ -81,22 +86,26 @@ sub _add_elements {
     
     $self->_elements([]);
     
-    my $day_name = defined $self->day_name
-                 ? $self->day_name
+    my $day   = $self->day;
+    my $month = $self->month;
+    my $year  = $self->year;
+    
+    my $day_name = defined $day->{name}
+                 ? $day->{name}
                  : sprintf "%s.day", $self->name;
 
-    my $month_name = defined $self->month_name
-                   ? $self->month_name
+    my $month_name = defined $month->{name}
+                   ? $month->{name}
                    : sprintf "%s.month", $self->name;
 
-    my $year_name = defined $self->year_name
-                  ? $self->year_name
+    my $year_name = defined $year->{name}
+                  ? $year->{name}
                   : sprintf "%s.year", $self->name;
 
     my @months;
     
-    if ( defined $self->months ) {
-        @months = @{ $self->months };
+    if ( defined $month->{names} ) {
+        @months = @{ $month->{names} };
     }
     else {
         for my $lang ( @{ $self->form->languages } ) {
@@ -105,7 +114,7 @@ sub _add_elements {
                 $loc = DateTime::Locale->load( $lang );
             };
             if ( !$@ ) {
-                @months = $self->short_months 
+                @months = $month->{short_names} 
                     ? @{ $loc->month_abbreviations }
                     : @{ $loc->month_names };
                 
@@ -114,29 +123,29 @@ sub _add_elements {
         }
     }
     
-    my $year = defined $self->year
-             ? $self->year
+    my $year_ref = defined $year->{reference}
+             ? $year->{reference}
              : (localtime(time))[5] + 1900;
 
-    my @years = defined $self->years
-              ? @{ $self->years }
-              : ( $year - $self->year_less ) .. ( $year + $self->year_plus );
+    my @years = defined $year->{list}
+              ? @{ $year->{list} }
+              : ( $year_ref - $year->{less} ) .. ( $year_ref + $year->{plus} );
     
     my @day_prefix   = map {[ '', $_ ]} 
-        ref $self->day_prefix ? @{ $self->day_prefix } : $self->day_prefix;
+        ref $day->{prefix} ? @{ $day->{prefix} } : $day->{prefix};
     
     my @month_prefix = map {[ '', $_ ]} 
-        ref $self->month_prefix ? @{ $self->month_prefix } : $self->month_prefix;
+        ref $month->{prefix} ? @{ $month->{prefix} } : $month->{prefix};
     
     my @year_prefix  = map {[ '', $_ ]} 
-        ref $self->year_prefix ? @{ $self->year_prefix } : $self->year_prefix;
+        ref $year->{prefix} ? @{ $year->{prefix} } : $year->{prefix};
 
     $self->element({
         type => 'select',
         name => $day_name,
         options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
-        defined $self->day_default 
-            ? ( default => $self->day_default )
+        defined $day->{default} 
+            ? ( default => $day->{default} )
             : (),
         });
 
@@ -144,8 +153,8 @@ sub _add_elements {
         type => 'select',
         name => $month_name,
         options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
-        defined $self->month_default 
-            ? ( default => $self->month_default )
+        defined $month->{default} 
+            ? ( default => $month->{default} )
             : (),
         });
 
@@ -153,8 +162,8 @@ sub _add_elements {
         type => 'select',
         name => $year_name,
         options => [ @year_prefix, map {[ $_, $_ ]} @years ],
-        defined $self->year_default 
-            ? ( default => $self->year_default )
+        defined $year->{default} 
+            ? ( default => $year->{default} )
             : (),
         });
     
@@ -193,16 +202,16 @@ sub process {
 sub process_input {
     my ( $self, $input ) = @_;
     
-    my $day_name = defined $self->day_name
-                 ? $self->day_name
+    my $day_name = defined $self->day->{name}
+                 ? $self->day->{name}
                  : sprintf "%s.day", $self->name;
 
-    my $month_name = defined $self->month_name
-                   ? $self->month_name
+    my $month_name = defined $self->month->{name}
+                   ? $self->month->{name}
                    : sprintf "%s.month", $self->name;
 
-    my $year_name = defined $self->year_name
-                  ? $self->year_name
+    my $year_name = defined $self->year->{name}
+                  ? $self->year->{name}
                   : sprintf "%s.year", $self->name;
     
     if ( defined $input->{$day_name}
@@ -265,7 +274,7 @@ menus for the day, month and year.
 
 A date element named C<foo> would result in 3 select menus with the names 
 C<foo.day>, C<foo.month> and C<foo.year>. The names can instead be 
-explicitly specified with L</day_name>, L</month_name> and L</year_name>.
+overridden by the C<name> value in L</day>, L</month> and L</year>.
 
 This element automatically merges the input parameters from the select 
 menu into a single date parameter (and doesn't delete the individual menu's 
@@ -285,6 +294,130 @@ will be in prior to the DateTime inflator being run; which is
 what any L<Filters|HTML::FormFu::Filter> and 
 L<Constraints|HTML::FormFu::Constraint> will receive.
 
+=head2 day
+
+Arguments: \%setting
+
+Set values effecting the C<day> select menu. Known keys are:
+
+=head3 name
+
+Override the auto-generated name of the select menu.
+
+=head3 default
+
+Set the default value of the select menu
+
+=head3 prefix
+
+Arguments: $value
+
+Arguments: \@values
+
+A string or arrayref of strings to be inserted into the start of the select 
+menu.
+
+Each value is only used as the label for a select item - the value for each 
+of these items is always the empty string C<''>.
+
+=head2 month
+
+Arguments: \%setting
+
+Set values effecting the C<month> select menu. Known keys are:
+
+=head3 name
+
+Override the auto-generated name of the select menu.
+
+=head3 default
+
+Set the default value of the select menu
+
+=head3 prefix
+
+Arguments: $value
+
+Arguments: \@values
+
+A string or arrayref of strings to be inserted into the start of the select 
+menu.
+
+Each value is only used as the label for a select item - the value for each 
+of these items is always the empty string C<''>.
+
+=head3 names
+
+Arguments: \@months
+
+A list of month names used for the month menu.
+
+If not set, the list of month names is obtained from L<DateTime::Locale> 
+using the locale set in L<HTML::FormFu/languages>.
+
+=head3 short_names
+
+Argument: bool
+
+If true (and C<months> is not set) the list of abbreviated month names is 
+obtained from L<DateTime::Locale> using the locale set in 
+L<HTML::FormFu/languages>.
+
+=head2 year
+
+Arguments: \%setting
+
+Set values effecting the C<year> select menu. Known keys are:
+
+=head3 name
+
+Override the auto-generated name of the select menu.
+
+=head3 default
+
+Set the default value of the select menu
+
+=head3 prefix
+
+Arguments: $value
+
+Arguments: \@values
+
+A string or arrayref of strings to be inserted into the start of the select 
+menu.
+
+Each value is only used as the label for a select item - the value for each 
+of these items is always the empty string C<''>.
+
+=head3 list
+
+Arguments: \@years
+
+A list of years used for the year menu.
+
+If this is set, C<reference>, C<less> and C<plus> are ignored.
+
+=head3 reference
+
+Arguments: $year
+
+Default Value: the current year, calculated from L<time()|perlfunc/time()>
+
+If C<list> is not set, the list is created from the range of 
+C<reference - year_less> to C<reference + year_plus>.
+
+=head3 less
+
+Arguments: $count
+
+Default Value: 0
+
+=head3 plus
+
+Arguments: $count
+
+Default Value: 10
+
 =head2 auto_inflate
 
 If true, a L<DateTime Inflator|HTML::FormFu::Inflator::DateTime> will 
@@ -295,42 +428,6 @@ If you require the DateTime Inflator to have a different stringification
 format to the format used internally by your Filters and Constraints, then 
 you must explicitly add your own DateTime Inflator, rather than using 
 L</auto_inflate>.
-
-=head2 months
-
-Arguments: \@months
-
-A list of month names used for the month menu.
-
-If not set, the list of month names is obtained from L<DateTime::Locale> 
-using the locale set in L<HTML::FormFu/languages>.
-
-=head2 short_months
-
-If true (and L</months> is not set) the list of abbreviated month names is 
-obtained from L<DateTime::Locale> using the locale set in 
-L<HTML::FormFu/languages>.
-
-=head2 years
-
-Arguments: \@years
-
-A list of years used for the year menu. Overrides L</year>.
-
-=head2 year
-
-Default Value: the current year, calculated from L<time()|perlfunc/time()>
-
-If the L</years> list is not set, the list is created from the range of 
-C<year - year_less> to C<year + year_plus>.
-
-=head2 year_less
-
-Default Value: 0
-
-=head2 year_plus
-
-Default Value: 10
 
 =head1 CAVEATS
 

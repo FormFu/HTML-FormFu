@@ -10,14 +10,20 @@ my $form = HTML::FormFu->new;
 $form->element('date')
     ->name('foo')
     ->strftime("%m/%d/%Y")
+    ->day({
+        prefix  => '-- Day --',
+        default => 6,
+    })
+    ->month({
+        prefix  => '-- Month --',
+        default => 8,
+        short_names => 1,
+    })
+    ->year({
+        prefix  => '-- Year --',
+        default => 2007,
+    })
     ->auto_inflate(1)
-    ->short_months(1)
-    ->day_prefix('-- Day --')
-    ->month_prefix('-- Month --')
-    ->year_prefix('-- Year --')
-    ->day_default(6)
-    ->month_default(8)
-    ->year_default(2007)
     ->constraint('Required');
 
 $form->element('date')
