@@ -86,22 +86,99 @@ sub _add_elements {
     
     $self->_elements([]);
     
-    my $day   = $self->day;
-    my $month = $self->month;
-    my $year  = $self->year;
+    _add_day(   $self );
+    _add_month( $self );
+    _add_year(  $self );
     
-    my $day_name = defined $day->{name}
-                 ? $day->{name}
-                 : sprintf "%s.day", $self->name;
+    if ( $self->auto_inflate 
+        && !@{ $self->get_inflators({ type => "DateTime" }) } )
+    {
+        _add_inflator( $self );
+    }
+    
+    return;
+}
 
-    my $month_name = defined $month->{name}
-                   ? $month->{name}
-                   : sprintf "%s.month", $self->name;
+sub _add_day {
+    my ( $self ) = @_;
+    
+    my $day = $self->day;
+    
+    my $day_name = _build_day_name( $self );
+    
+    my @day_prefix = map {[ '', $_ ]} 
+        ref $day->{prefix} ? @{ $day->{prefix} } : $day->{prefix};
+    
+    $self->element({
+        type => 'select',
+        name => $day_name,
+        options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
+        defined $day->{default} 
+            ? ( default => $day->{default} )
+            : (),
+        });
+    
+    return;
+}
 
-    my $year_name = defined $year->{name}
-                  ? $year->{name}
-                  : sprintf "%s.year", $self->name;
+sub _add_month {
+    my ( $self ) = @_;
+    
+    my $month = $self->month;
+    
+    my $month_name = _build_month_name( $self );
+    
+    my @months = _build_month_list( $self );
+    
+    my @month_prefix = map {[ '', $_ ]} 
+        ref $month->{prefix} ? @{ $month->{prefix} } : $month->{prefix};
+    
+    $self->element({
+        type => 'select',
+        name => $month_name,
+        options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
+        defined $month->{default} 
+            ? ( default => $month->{default} )
+            : (),
+        });
+    
+    return;
+}
 
+sub _add_year {
+    my ( $self ) = @_;
+    
+    my $year = $self->year;
+    
+    my $year_name = _build_year_name( $self );
+
+    my $year_ref = defined $year->{reference}
+             ? $year->{reference}
+             : (localtime(time))[5] + 1900;
+
+    my @years = defined $year->{list}
+              ? @{ $year->{list} }
+              : ( $year_ref - $year->{less} ) .. ( $year_ref + $year->{plus} );
+    
+    my @year_prefix = map {[ '', $_ ]} 
+        ref $year->{prefix} ? @{ $year->{prefix} } : $year->{prefix};
+
+    $self->element({
+        type => 'select',
+        name => $year_name,
+        options => [ @year_prefix, map {[ $_, $_ ]} @years ],
+        defined $year->{default} 
+            ? ( default => $year->{default} )
+            : (),
+        });
+    
+    return;
+}
+
+sub _build_month_list {
+    my ( $self ) = @_;
+    
+    my $month = $self->month;
     my @months;
     
     if ( defined $month->{names} ) {
@@ -123,61 +200,41 @@ sub _add_elements {
         }
     }
     
-    my $year_ref = defined $year->{reference}
-             ? $year->{reference}
-             : (localtime(time))[5] + 1900;
+    return @months;
+}
 
-    my @years = defined $year->{list}
-              ? @{ $year->{list} }
-              : ( $year_ref - $year->{less} ) .. ( $year_ref + $year->{plus} );
+sub _build_day_name {
+    my ( $self ) = @_;
     
-    my @day_prefix   = map {[ '', $_ ]} 
-        ref $day->{prefix} ? @{ $day->{prefix} } : $day->{prefix};
-    
-    my @month_prefix = map {[ '', $_ ]} 
-        ref $month->{prefix} ? @{ $month->{prefix} } : $month->{prefix};
-    
-    my @year_prefix  = map {[ '', $_ ]} 
-        ref $year->{prefix} ? @{ $year->{prefix} } : $year->{prefix};
+    my $day_name = defined $self->day->{name}
+                 ? $self->day->{name}
+                 : sprintf "%s.day", $self->name;
 
-    $self->element({
-        type => 'select',
-        name => $day_name,
-        options => [ @day_prefix, map {[ $_, $_ ]} 1..31 ],
-        defined $day->{default} 
-            ? ( default => $day->{default} )
-            : (),
-        });
+    return $day_name;
+}
 
-    $self->element({
-        type => 'select',
-        name => $month_name,
-        options => [ @month_prefix, map { [ $_+1, $months[$_] ] } 0..11 ],
-        defined $month->{default} 
-            ? ( default => $month->{default} )
-            : (),
-        });
+sub _build_month_name {
+    my ( $self ) = @_;
+    
+    my $month_name = defined $self->month->{name}
+                 ? $self->month->{name}
+                 : sprintf "%s.month", $self->name;
 
-    $self->element({
-        type => 'select',
-        name => $year_name,
-        options => [ @year_prefix, map {[ $_, $_ ]} @years ],
-        defined $year->{default} 
-            ? ( default => $year->{default} )
-            : (),
-        });
+    return $month_name;
+}
+
+sub _build_year_name {
+    my ( $self ) = @_;
     
-    if ( $self->auto_inflate 
-        && !@{ $self->get_inflators({ type => "DateTime" }) } )
-    {
-        $self->_add_inflator
-    }
-    
-    return;
+    my $year_name = defined $self->year->{name}
+                 ? $self->year->{name}
+                 : sprintf "%s.year", $self->name;
+
+    return $year_name;
 }
 
 sub _add_inflator {
-    my $self = shift;
+    my ( $self ) = @_;
     
     $self->_inflators([]);
     
@@ -197,22 +254,15 @@ sub process {
     
     $self->_add_elements;
     
+    return;
 }
 
 sub process_input {
     my ( $self, $input ) = @_;
     
-    my $day_name = defined $self->day->{name}
-                 ? $self->day->{name}
-                 : sprintf "%s.day", $self->name;
-
-    my $month_name = defined $self->month->{name}
-                   ? $self->month->{name}
-                   : sprintf "%s.month", $self->name;
-
-    my $year_name = defined $self->year->{name}
-                  ? $self->year->{name}
-                  : sprintf "%s.year", $self->name;
+    my $day_name   = _build_day_name( $self );
+    my $month_name = _build_month_name( $self );
+    my $year_name  = _build_year_name( $self );
     
     if ( defined $input->{$day_name}
       && defined $input->{$month_name}
