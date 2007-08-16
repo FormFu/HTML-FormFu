@@ -26,6 +26,10 @@ our %Lexicon = (
     form_constraint_singlevalue => 'This field only accepts a single value',
     form_constraint_word        => 'Field contains invalid characters',
     form_inflator_datetime      => 'Invalid date',
+    
+    form_inflator_imager       => 'Error opening image file',
+    form_validator_imager_size => 'Image upload too large',
+    form_transformer_imager    => 'Error processing image file',
 );
 
 1;
