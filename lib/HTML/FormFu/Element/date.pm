@@ -298,9 +298,9 @@ sub process_input {
     my $month_name = _build_month_name( $self );
     my $year_name  = _build_year_name( $self );
     
-    if ( defined $input->{$day_name}
-      && defined $input->{$month_name}
-      && defined $input->{$year_name} )
+    if ( defined $input->{$day_name}   && length $input->{$day_name}
+      && defined $input->{$month_name} && length $input->{$month_name}
+      && defined $input->{$year_name}  && length $input->{$year_name} )
     {
         my $dt;
         

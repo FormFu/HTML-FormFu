@@ -33,7 +33,7 @@ $form->element('date')
     ->name('bar')
     ->default('14-08-2007');
 
-is ( "$form", <<HTML_ERRORS );
+is ( "$form", <<HTML );
 <form action="" method="post">
 <span class="date date">
 <span class="elements">
@@ -167,7 +167,8 @@ is ( "$form", <<HTML_ERRORS );
 </span>
 </span>
 </form>
-HTML_ERRORS
+HTML
+
 
 $form->process({
     'foo.day', 30,
@@ -342,3 +343,4 @@ is ( "$form", <<HTML_ERRORS );
 </span>
 </form>
 HTML_ERRORS
+
