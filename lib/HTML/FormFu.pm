@@ -84,7 +84,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *transformers = \&transformer;
 *loc          = \&localize;
 
-our $VERSION = '0.01000_03';
+our $VERSION = '0.01001';
 
 Class::C3::initialize();
 
@@ -157,19 +157,21 @@ sub process {
     else {
         $query = $self->query;
     }
+    
+    if ( defined $query && !blessed($query) ) {
+        $query = HTML::FormFu::FakeQuery->new($query);
+        
+        $self->query( $query );
+    }
 
     for my $elem ( @{ $self->get_elements } ) {
         $elem->process;
     }
 
     my $submitted;
-    my @params;
 
     if ( defined $query ) {
-        $query = HTML::FormFu::FakeQuery->new($query)
-            if !blessed($query);
-
-        eval { @params = $query->param };
+        eval { my @params = $query->param };
         croak "Invalid query object: $@" if $@;
 
         $submitted = $self->_submitted($query);
@@ -2126,14 +2128,14 @@ L<http://rt.perl.org>.
 The publicly viewable subversion code repository is at 
 L<http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>.
 
-If you wish to contribute, you'll need a gmail email address. Then just 
-join our mailing list and ask for commit access.
+If you wish to contribute, you'll need a GMAIL email address. Then just 
+ask on the mailing list for commit access.
 
 If you wish to contribute but for some reason really don't want to sign up 
-for a gmail account, please post patches to the mailing list (but then 
+for a GMAIL account, please post patches to the mailing list (although  
 you'll have to wait for someone to commit them). 
 
-If you have commit permissions, please use this repository url: 
+If you have commit permissions, use the HTTPS repository url: 
 L<https://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>
 
 =head1 SEE ALSO
