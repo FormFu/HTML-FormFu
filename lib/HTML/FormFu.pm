@@ -32,7 +32,8 @@ use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '""' => sub { return shift->render },
-    bool => sub {1};
+    bool => sub {1},
+    fallback => 1;
 
 __PACKAGE__->mk_attrs(qw/ attributes /);
 
@@ -187,7 +188,7 @@ sub process {
     for my $param ( $query->param ) {
 
         # don't allow names without a matching field
-        next unless $self->get_field($param);
+        next unless defined $self->get_field($param);
 
         my @values = $query->param($param);
         $params{$param} = @values > 1 ? \@values : $values[0];

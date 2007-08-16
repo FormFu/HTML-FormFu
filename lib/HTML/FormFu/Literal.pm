@@ -3,9 +3,9 @@ package HTML::FormFu::Literal;
 use strict;
 use warnings;
 
-use overload '""' => sub {
-    return join "", @{ $_[0] };
-};
+use overload 
+    '""' => sub { return join "", @{ $_[0] } },
+    fallback => 1;
 
 sub new {
     my $class = shift;
