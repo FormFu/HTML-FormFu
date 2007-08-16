@@ -511,8 +511,8 @@ sub _result_source {
 sub _add_constraints {
     my ( $self, $col, $info ) = @_;
     
-    return if !$self->get_field($col);
-    
+    return if !defined $self->get_field($col);
+
     return if !defined $info->{data_type};
     
     my $type = lc $info->{data_type};
