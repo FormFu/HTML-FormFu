@@ -6,6 +6,7 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Inflator;
+use Scalar::Util qw/ blessed /;
 use Carp qw( croak );
 
 sub process {

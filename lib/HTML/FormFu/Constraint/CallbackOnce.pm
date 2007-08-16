@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use base 'HTML::FormFu::Constraint';
 
-use Scalar::Util qw/ blessed /;
-
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub process {
