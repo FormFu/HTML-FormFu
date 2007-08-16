@@ -7,6 +7,7 @@ use base 'Class::Accessor::Chained::Fast';
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ form stash /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
+use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
 
 use overload

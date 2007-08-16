@@ -23,7 +23,7 @@ use HTML::FormFu::ObjectUtil qw/
     _render_class clone stash constraints_from_dbic /;
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements xml_escape /;
 use List::MoreUtils qw/ uniq /;
-use Scalar::Util qw/ blessed weaken /;
+use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
 use Regexp::Copy;
 use Carp qw/ croak /;
@@ -2151,6 +2151,8 @@ L<Catalyst::Controller::HTML::FormFu>
 L<DBIx::Class::FormFu>
 
 =head1 AUTHORS
+
+Brian Cassidy
 
 Carl Franks
 
