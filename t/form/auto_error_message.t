@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('text')->name('foo');
-$form->element('text')->name('bar')->auto_error_message('form_default_error');
+$form->element('text')->name('bar')->auto_error_message('form_constraint_integer');
 
 $form->constraint('Number');
 
@@ -24,5 +24,5 @@ like(
 
 like(
     $form->get_field('bar'),
-    qr!Invalid input!
+    qr/integer/i
 );

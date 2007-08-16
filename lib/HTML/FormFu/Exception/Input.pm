@@ -55,6 +55,7 @@ sub message {
         f => defined $self->form->id ? $self->form->id   : '',
         n => defined $self->name     ? $self->name       : '',
         t => defined $self->type     ? lc( $self->type ) : '',
+        s => $self->stage,
     );
     
     $string{t} =~ s/::/_/g;
@@ -62,7 +63,7 @@ sub message {
     
     my $message = $self->parent->auto_error_message;
     
-    $message =~ s/%([fnt])/$string{$1}/g;
+    $message =~ s/%([fnts])/$string{$1}/g;
     
     return $self->{message} = $self->form->localize(
         $message, $self->processor->localize_args );

@@ -85,6 +85,7 @@ __PACKAGE__->mk_get_one_methods(qw/
 *loc          = \&localize;
 
 our $VERSION = '0.01001';
+$VERSION = eval $VERSION;
 
 Class::C3::initialize();
 
@@ -115,7 +116,7 @@ sub new {
         languages           => ['en'],
         localize_class      => 'HTML::FormFu::I18N',
         auto_error_class    => 'error_%s_%t',
-        auto_error_message  => 'form_%t_error',
+        auto_error_message  => 'form_%s_%t',
     );
 
     $self->populate( \%defaults );
