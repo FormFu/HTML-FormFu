@@ -2152,9 +2152,11 @@ L<DBIx::Class::FormFu>
 
 =head1 AUTHORS
 
-Brian Cassidy
-
 Carl Franks
+
+=head1 CONTRIBUTORS
+
+Brian Cassidy
 
 Daisuke Maki
 
