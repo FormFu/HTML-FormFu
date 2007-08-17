@@ -7,10 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('textarea')->name('foo');
+my $field = $form->element('Textarea')->name('foo');
 
 # add more elements to test accessor output
-$form->element('textarea')->name('bar')->default("foo\nbar")->cols(10)->rows(2);
+$form->element('Textarea')->name('bar')->default("foo\nbar")->cols(10)->rows(2);
 
 my $field_xhtml = qq{<span class="textarea">
 <textarea name="foo" cols="40" rows="20"></textarea>

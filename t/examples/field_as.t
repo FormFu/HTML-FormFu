@@ -8,11 +8,11 @@ use Template;
 
 my $form = HTML::FormFu->new;
 
-$form->element('password')->name('foo')->label('Foo')
+$form->element('Password')->name('foo')->label('Foo')
     ->label_attributes( { class => 'my_label' } )->comment('Comment')
     ->render_value(1);
 
-$form->element('submit')->name('submit');
+$form->element('Submit')->name('submit');
 
 $form->constraint( Required => 'foo' );
 
@@ -74,14 +74,14 @@ Comment
 </span>
 </span>
 <span class="submit">
-<input name="submit" type="submit" value="submit" />
+<input name="submit" type="submit" value="Submit" />
 </span>
 </form>
 </body>
 </html>
 EOF
 
-    $form->process( { submit => 'submit', } );
+    $form->process( { submit => 'Submit', } );
 
     my $output = undef;
     $template->process( \$data, { form => $form }, \$output )
@@ -95,7 +95,7 @@ __DATA__
 <body>[% render = form.render %]
 [% render.start_form %]
 [% render.field('foo') %]
-[% render.field('foo').as('text', 'disabled', 'disabled') %]
+[% render.field('foo').as('Text', 'disabled', 'disabled') %]
 [% render.field('submit') %]
 [% render.end_form %]
 </body>

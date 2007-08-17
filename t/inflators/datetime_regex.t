@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
+$form->element('Text')->name('foo');
 
 $form->inflator('DateTime')->parser( {
         regex  => qr/^ (\d{2}) \/ (\d{2}) \/ (\d{4}) $/x,

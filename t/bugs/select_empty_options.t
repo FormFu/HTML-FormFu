@@ -6,8 +6,8 @@ use Test::More tests => 2;
 use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
-$form->element('select')->name('foo');
-$form->element('select')->name('bar')->options();
+$form->element('Select')->name('foo');
+$form->element('Select')->name('bar')->options();
 
 my $xhtml = <<EOF;
 <form action="" method="post">

@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('password')->name('foo')->render_value(1);
+$form->element('Password')->name('foo')->render_value(1);
 
 my $field_xhtml = qq{<span class="password">
 <input name="foo" type="password" />

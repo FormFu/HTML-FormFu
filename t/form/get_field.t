@@ -7,11 +7,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $fs = $form->element('fieldset');
+my $fs = $form->element('Fieldset');
 
-my $e1 = $fs->element('text')->name('foo');
-my $e2 = $fs->element('hidden')->name('foo');
-my $e3 = $fs->element('hidden')->name('bar');
+my $e1 = $fs->element('Text')->name('foo');
+my $e2 = $fs->element('Hidden')->name('foo');
+my $e3 = $fs->element('Hidden')->name('bar');
 
 {
     my @fields = $form->get_field;
@@ -24,7 +24,7 @@ my $e3 = $fs->element('hidden')->name('bar');
 }
 
 {
-    my @fields = $form->get_field( { type => 'fieldset' } );
+    my @fields = $form->get_field( { type => 'Fieldset' } );
 
     is( @fields, 0 );
 }
@@ -46,7 +46,7 @@ my $e3 = $fs->element('hidden')->name('bar');
 }
 
 {
-    my @fields = $form->get_field( { type => 'hidden' } );
+    my @fields = $form->get_field( { type => 'Hidden' } );
 
     is( @fields, 1 );
 
@@ -56,7 +56,7 @@ my $e3 = $fs->element('hidden')->name('bar');
 {
     my @fields = $form->get_field( {
             name => 'foo',
-            type => 'hidden',
+            type => 'Hidden',
         } );
 
     is( @fields, 1 );

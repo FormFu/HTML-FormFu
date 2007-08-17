@@ -1,16 +1,18 @@
-package HTML::FormFu::Element::button;
+package HTML::FormFu::Element::Image;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_input';
+use base 'HTML::FormFu::Element::Button';
 use Class::C3;
+
+__PACKAGE__->mk_attr_accessors(qw/ src width height /);
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type('button');
-    $self->retain_default(1);
-
+    $self->field_type('image');
+    $self->src('') if !defined $self->src;
+    
     return $self;
 }
 
@@ -20,25 +22,24 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::button - Button form field
+HTML::FormFu::Element::Image - Image button form field
 
 =head1 SYNOPSIS
 
-    $e = $form->element( button => 'foo' );
+    $e = $form->element( Image => 'foo' );
 
 =head1 DESCRIPTION
 
-Button form field, and base-class for L<HTML::FormFu::Element::image>, 
-L<HTML::FormFu::Element::reset>, 
-L<HTML::FormFu::Element::submit>
+Image button form field.
 
 =head1 METHODS
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::Button>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

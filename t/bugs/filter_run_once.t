@@ -9,7 +9,7 @@ my $count = 0;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
+$form->element('Text')->name('foo');
 
 $form->filter( Callback => 'foo' )->callback( sub { $count++ } );
 

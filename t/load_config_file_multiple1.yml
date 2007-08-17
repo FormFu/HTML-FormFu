@@ -1,4 +1,4 @@
 ---
 elements:
-  - type: text
+  - type: Text
     name: foo

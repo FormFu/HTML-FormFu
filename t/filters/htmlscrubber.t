@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('HTMLScrubber');
-$form->element('text')->name('bar')->filter('HTMLScrubber')->allow( ['b'] );
+$form->element('Text')->name('foo')->filter('HTMLScrubber');
+$form->element('Text')->name('bar')->filter('HTMLScrubber')->allow( ['b'] );
 
 my $original_foo = "<p>message</p>";
 my $filtered_foo = "message";

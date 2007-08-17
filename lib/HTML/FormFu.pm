@@ -134,7 +134,7 @@ sub auto_fieldset {
     
     my %opts = ref $_[0] ? %{$_[0]} : ();
     
-    $opts{type} = 'fieldset';
+    $opts{type} = 'Fieldset';
     
     $self->element( \%opts );
     
@@ -300,7 +300,7 @@ sub _process_file_uploads {
     my @names = uniq(
         sort
         map { $_->name }
-        grep { $_->isa('HTML::FormFu::Element::file') }
+        grep { $_->isa('HTML::FormFu::Element::File') }
         grep { defined $_->name }
         @{ $self->get_fields }
         );
@@ -638,7 +638,7 @@ sub hidden_fields {
     my ($self) = @_;
 
     return join "", map { $_->render } 
-        @{ $self->get_fields( { type => 'hidden' } ) };
+        @{ $self->get_fields( { type => 'Hidden' } ) };
 }
 
 1;
@@ -1074,7 +1074,7 @@ Return Value: @filters
 If you provide a C<name> or C<names> value, the filter will be added to 
 just that named field.
 If you do not provide a C<name> or C<names> value, the filter will be added 
-to all L<fields|HTML::FormFu::Element::_field> already attached to the form. 
+to all L<fields|HTML::FormFu::Element::_Field> already attached to the form. 
 
 See L<HTML::FormFu::Filter/"CORE FILTERS"> for a list of core filters.
 
@@ -1372,7 +1372,7 @@ defined value.
 Arguments: [$string]
 
 If set, then all form fields will be given an auto-generated 
-L<name|HTML::FormFu::Element::field/label>, if it doesn't have one already.
+L<name|HTML::FormFu::Element::Field/label>, if it doesn't have one already.
 
 The following character substitution will be performed: C<%f> will be 
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by 
@@ -2082,8 +2082,8 @@ L<HTML::FormFu::Element/attributes>.
 
 =head2 How can I add a HTML tag which isn't included?
 
-You can use the L<HTML::FormFu::Element::block> element, and set
-the L<tag|HTML::FormFu::Element::block/tag> to the tag type you want.
+You can use the L<HTML::FormFu::Element::Block> element, and set
+the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
 
     ---
     elements:

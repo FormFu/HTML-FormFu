@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo[bar]');
+$form->element('Text')->name('foo[bar]');
 
 {
     $form->process({ 'foo[bar]' => 'bam' });

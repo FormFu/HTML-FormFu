@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('TrimEdges');
+$form->element('Text')->name('foo')->filter('TrimEdges');
 
 my $original_foo = " Foo Bar ";
 my $filtered_foo = "Foo Bar";

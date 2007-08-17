@@ -1,4 +1,4 @@
-package HTML::FormFu::Element::_non_block;
+package HTML::FormFu::Element::_NonBlock;
 
 use strict;
 use warnings;
@@ -32,7 +32,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_non_block
+HTML::FormFu::Element::_NonBlock
 
 =head1 DESCRIPTION
 

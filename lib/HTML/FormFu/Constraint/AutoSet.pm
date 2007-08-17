@@ -23,8 +23,8 @@ HTML::FormFu::Constraint::AutoSet
 
 =head1 DESCRIPTION
 
-For use with L<HTML::FormFu::Element::radiogroup> and 
-L<HTML::FormFu::Element::select> only.
+For use with L<HTML::FormFu::Element::Radiogroup> and 
+L<HTML::FormFu::Element::Select> only.
 
 Ensures that the input value is one of the pre-defined element options.
 

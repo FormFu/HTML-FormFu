@@ -8,9 +8,9 @@ use Storable qw/ dclone /;
 
 my $form = HTML::FormFu->new;
 
-my $fs = $form->element('fieldset');
-my $e1 = $fs->element('text')->name('foo');
-my $e2 = $fs->element('hidden')->name('foo');
+my $fs = $form->element('Fieldset');
+my $e1 = $fs->element('Text')->name('foo');
+my $e2 = $fs->element('Hidden')->name('foo');
 
 my $e3 = $e1->clone;
 

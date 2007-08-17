@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::password;
+package HTML::FormFu::Element::Password;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_input';
+use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
 __PACKAGE__->mk_accessors(qw/ render_value /);
@@ -44,7 +44,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::password - Password form field
+HTML::FormFu::Element::Password - Password form field
 
 =head1 SYNOPSIS
 
@@ -59,8 +59,8 @@ Password form field.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

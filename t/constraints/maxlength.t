@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->constraint('MaxLength')->max(5);
-$form->element('text')->name('bar')->constraint('MaxLength')->max(5);
+$form->element('Text')->name('foo')->constraint('MaxLength')->max(5);
+$form->element('Text')->name('bar')->constraint('MaxLength')->max(5);
 
 # Valid
 {

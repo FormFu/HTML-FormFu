@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->constraint('Set')->set( [qw/ yes no /] );
-$form->element('text')->name('bar')->constraint('Set')->set( [qw/ yes no /] );
+$form->element('Text')->name('foo')->constraint('Set')->set( [qw/ yes no /] );
+$form->element('Text')->name('bar')->constraint('Set')->set( [qw/ yes no /] );
 
 # Valid
 {

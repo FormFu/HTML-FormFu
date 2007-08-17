@@ -4,7 +4,7 @@ package
 use strict;
 use warnings;
 
-use base 'HTML::FormFu::Element::text';
+use base 'HTML::FormFu::Element::Text';
 
 sub setup {
     my ( $self ) = @_;

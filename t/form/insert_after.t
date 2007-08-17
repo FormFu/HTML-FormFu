@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $e1 = $form->element('text')->name('foo');
-my $e2 = $form->element('hidden')->name('foo');
+my $e1 = $form->element('Text')->name('foo');
+my $e2 = $form->element('Hidden')->name('foo');
 
 my $e3 = $e1->clone;
 

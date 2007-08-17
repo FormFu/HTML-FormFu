@@ -1,11 +1,11 @@
-package HTML::FormFu::Element::multi;
+package HTML::FormFu::Element::Multi;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::block';
+use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
-use HTML::FormFu::Element::_field qw/
+use HTML::FormFu::Element::_Field qw/
     _render_container_class _render_comment_class _render_label /;
 use HTML::FormFu::Util qw/ append_xml_attribute xml_escape /;
 use List::MoreUtils qw/ uniq /;
@@ -117,7 +117,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::multi - Combine multiple fields in a single element
+HTML::FormFu::Element::Multi - Combine multiple fields in a single element
 
 =head1 SYNOPSIS
 
@@ -132,7 +132,7 @@ Combine multiple form fields in a single logical element.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

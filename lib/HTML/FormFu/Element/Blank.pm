@@ -1,14 +1,17 @@
-package HTML::FormFu::Element::reset;
+package HTML::FormFu::Element::Blank;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::button';
+use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type('reset');
+    $self->filename('blank');
+    $self->field_filename('blank');
+    $self->multi_filename('blank');
+    $self->render_class_suffix('blank');
 
     return $self;
 }
@@ -19,24 +22,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::reset - Reset button form field
-
-=head1 SYNOPSIS
-
-    $e = $form->element( Reset => 'foo' );
-
-=head1 DESCRIPTION
-
-Reset button form field.
-
-=head1 METHODS
+HTML::FormFu::Element::Blank - blank element
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::button>, 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('Whitespace');
+$form->element('Text')->name('foo')->filter('Whitespace');
 
 my $original_foo = "Foo Bar";
 my $filtered_foo = "FooBar";

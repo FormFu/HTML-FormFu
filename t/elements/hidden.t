@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('hidden')->name('foo');
+my $field = $form->element('Hidden')->name('foo');
 
 
 my $field_xhtml = qq{<input name="foo" type="hidden" />};

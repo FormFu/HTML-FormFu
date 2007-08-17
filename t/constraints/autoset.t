@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('select')
+$form->element('Select')
     ->name('foo')
     ->values([qw/ one two three /])
     ->constraint('AutoSet');

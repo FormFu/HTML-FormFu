@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('NonNumeric');
+$form->element('Text')->name('foo')->filter('NonNumeric');
 
 my $original_foo = " 0123-4567 (8a9)";
 my $filtered_foo = "0123456789";

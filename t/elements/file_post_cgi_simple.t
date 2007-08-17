@@ -59,13 +59,13 @@ my $q;
 my $form = HTML::FormFu->new( {
         action   => 'http://www.perl.org/test.cgi',
         elements => [
-            { type => 'text', name => 'multiple' },
-            { type => 'file', name => 'multiple' },
-            { type => 'file', name => 'multiple' },
-            { type => 'file', name => 'hello_world' },
-            { type => 'file', name => 'does_not_exist_gif' },
-            { type => 'file', name => '100x100_gif' },
-            { type => 'file', name => '300x300_gif' },
+            { type => 'Text', name => 'multiple' },
+            { type => 'File', name => 'multiple' },
+            { type => 'File', name => 'multiple' },
+            { type => 'File', name => 'hello_world' },
+            { type => 'File', name => 'does_not_exist_gif' },
+            { type => 'File', name => '100x100_gif' },
+            { type => 'File', name => '300x300_gif' },
         ],
         query_type => 'CGI::Simple',
     } );

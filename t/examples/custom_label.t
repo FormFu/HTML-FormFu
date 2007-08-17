@@ -7,12 +7,12 @@ use HTML::FormFu;
 use Template;
 
 my $form = HTML::FormFu->new;
-my $fs   = $form->element('fieldset')->legend('Foo');
+my $fs   = $form->element('Fieldset')->legend('Foo');
 
-$fs->element('text')->name('foo')->label('Foo');
-$fs->element('text')->name('bar')->label('Bar');
-$fs->element('hidden')->name('baz');
-$fs->element('submit')->name('submit');
+$fs->element('Text')->name('foo')->label('Foo');
+$fs->element('Text')->name('bar')->label('Bar');
+$fs->element('Hidden')->name('baz');
+$fs->element('Submit')->name('submit');
 
 my $template = Template->new;
 my $output;
@@ -44,12 +44,12 @@ __DATA__
 <html>
 <body>[% render = form.render %]
 [% render.start_form %]
-[% render.element('type', 'fieldset').start %]
+[% render.element('type', 'Fieldset').start %]
 [% render.field('foo').label_tag %]: [% render.field('foo').field_tag %]
 [% render.field('bar').label_tag %]: [% render.field('bar').field_tag %]
 [% render.field('baz') %]
 [% render.field('submit') %]
-[% render.element('type', 'fieldset').end %]
+[% render.element('type', 'Fieldset').end %]
 [% render.end_form %]
 </body>
 </html>

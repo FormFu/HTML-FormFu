@@ -7,16 +7,16 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->constraint('Required');
-$form->element('text')->name('bar');
-$form->element('submit')->name('submit');
+$form->element('Text')->name('foo')->constraint('Required');
+$form->element('Text')->name('bar');
+$form->element('Submit')->name('submit');
 
 {
     my $xhtml = qq{<span class="submit">
 <input name="submit" type="submit" />
 </span>};
 
-    is( $form->get_field( { type => 'submit' } ), $xhtml );
+    is( $form->get_field( { type => 'Submit' } ), $xhtml );
 }
 
 =pod
@@ -34,5 +34,5 @@ because the browser won't display the default text label,
 <input name="submit" type="submit" />
 </span>};
 
-    is( $form->get_field( { type => 'submit' } ), $xhtml );
+    is( $form->get_field( { type => 'Submit' } ), $xhtml );
 }

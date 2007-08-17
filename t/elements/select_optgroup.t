@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('select')->name('foo')->value(2)->options( [
+$form->element('Select')->name('foo')->value(2)->options( [
         { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
         {   group => [ [ foo2_1 => 'One' ], [ foo2_2 => 'Two' ] ],
             label => 'foo2',

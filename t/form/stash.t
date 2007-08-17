@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->stash->{foo} = 'bar';
 
-$form->element('text')->name('foo')->stash->{baz} = 'daz';
+$form->element('Text')->name('foo')->stash->{baz} = 'daz';
 
 is( $form->render->stash->{foo}, 'bar' );
 

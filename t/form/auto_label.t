@@ -11,8 +11,8 @@ my $form = HTML::FormFu->new
     ->id('form')
     ->auto_label('label_%n');
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar')->auto_label('label_%f_%n');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar')->auto_label('label_%f_%n');
 
 like(
     $form->get_field('foo'),

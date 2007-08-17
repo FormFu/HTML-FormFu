@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->force_errors(1);
 
-$form->element('text')->name('foo')->constraint('Integer');
-$form->element('text')->name('bar')->constraint('Integer');
+$form->element('Text')->name('foo')->constraint('Integer');
+$form->element('Text')->name('bar')->constraint('Integer');
 
 {
     $form->process( {

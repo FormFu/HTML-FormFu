@@ -10,7 +10,7 @@ my $dt = DateTime->new( day => 6, month => 8, year => 2007);
 
 my $form = HTML::FormFu->new;
 
-$form->element('date')
+$form->element('Date')
     ->name('foo')
     ->strftime("%m/%d/%Y")
     ->day({
@@ -29,7 +29,7 @@ $form->element('date')
 
 
 
-$form->element('date')
+$form->element('Date')
     ->name('bar')
     ->default('14-08-2007');
 

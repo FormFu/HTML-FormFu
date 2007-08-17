@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('submit')->name('foo');
+my $field = $form->element('Submit')->name('foo');
 
 my $field_xhtml = qq{<span class="submit">
 <input name="foo" type="submit" />

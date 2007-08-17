@@ -1,14 +1,21 @@
-package HTML::FormFu::Element::submit;
+package HTML::FormFu::Element::Textarea;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::button';
+use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
+
+__PACKAGE__->mk_attr_accessors(qw/ cols rows /);
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type('submit');
+    $self->render_class_suffix('field');
+    $self->filename('input');
+    $self->field_filename('textarea_tag');
+    $self->multi_filename('multi_ltr');
+    $self->cols(40);
+    $self->rows(20);
 
     return $self;
 }
@@ -19,24 +26,22 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::submit - Submit button form field
+HTML::FormFu::Element::Textarea - Textarea form field
 
 =head1 SYNOPSIS
 
-    $element = $form->element( Submit => 'foo' );
+    my $element = $form->element( Text => 'foo' );
 
 =head1 DESCRIPTION
 
-Submit button form field.
+Text form field.
 
 =head1 METHODS
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::button>, 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

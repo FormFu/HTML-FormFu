@@ -7,9 +7,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->constraint('DependOn')->others(qw/ bar baz /)->force_errors(1);
-$form->element('text')->name('bar');
-$form->element('text')->name('baz');
+$form->element('Text')->name('foo')->constraint('DependOn')->others(qw/ bar baz /)->force_errors(1);
+$form->element('Text')->name('bar');
+$form->element('Text')->name('baz');
 
 {
     $form->process( {

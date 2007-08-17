@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new
     ->id('form')
     ->auto_constraint_class('%t_constraint');
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar')->auto_constraint_class('%f_%t_c');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar')->auto_constraint_class('%f_%t_c');
 
 $form->constraint('Number');
 

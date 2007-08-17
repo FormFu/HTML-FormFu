@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('UpperCase');
+$form->element('Text')->name('foo')->filter('UpperCase');
 
 my $original_foo = "Foo Bar";
 my $filtered_foo = "FOO BAR";

@@ -192,7 +192,7 @@ L<Transformers|HTML::FormFu::Transformer>.
 
 =head2 name
 
-For L<field|HTML::FormFu::Element::_field> element, this value is used as 
+For L<field|HTML::FormFu::Element::_Field> element, this value is used as 
 the C<name> attribute which the field's value is associated with.
 
 For all elements, the L</name> value can be useful for identifying and 
@@ -318,7 +318,7 @@ L<HTML::FormFu::Render::base/xhtml> to render the element.
 
 This value identifies which template file should be used to render the 
 element when the element is within a 
-L<multi element|HTML::FormFu::Element::multi>.
+L<multi element|HTML::FormFu::Element::Multi>.
 
 This value is generally either C<multi_ltr> or C<multi_rtl> depending on 
 whether the field and label should be displayed from left-to-right or 
@@ -328,13 +328,13 @@ right-to-left.
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::_field/prepare_id> for details.
+See L<HTML::FormFu::Element::_Field/prepare_id> for details.
 
 =head2 prepare_attrs
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::_field/prepare_attrs> for details.
+See L<HTML::FormFu::Element::_Field/prepare_attrs> for details.
 
 =head2 render
 
@@ -390,35 +390,35 @@ See L<HTML::FormFu/render_method> for details.
 
 =over
 
-=item L<HTML::FormFu::Element::button>
+=item L<HTML::FormFu::Element::Button>
 
-=item L<HTML::FormFu::Element::checkbox>
+=item L<HTML::FormFu::Element::Checkbox>
 
-=item L<HTML::FormFu::Element::content_button>
+=item L<HTML::FormFu::Element::ContentButton>
 
-=item L<HTML::FormFu::Element::date>
+=item L<HTML::FormFu::Element::Date>
 
-=item L<HTML::FormFu::Element::file>
+=item L<HTML::FormFu::Element::File>
 
-=item L<HTML::FormFu::Element::hidden>
+=item L<HTML::FormFu::Element::Hidden>
 
-=item L<HTML::FormFu::Element::image>
+=item L<HTML::FormFu::Element::Image>
 
-=item L<HTML::FormFu::Element::password>
+=item L<HTML::FormFu::Element::Password>
 
-=item L<HTML::FormFu::Element::radiogroup>
+=item L<HTML::FormFu::Element::Radiogroup>
 
-=item L<HTML::FormFu::Element::radio>
+=item L<HTML::FormFu::Element::Radio>
 
-=item L<HTML::FormFu::Element::reset>
+=item L<HTML::FormFu::Element::Reset>
 
-=item L<HTML::FormFu::Element::select>
+=item L<HTML::FormFu::Element::Select>
 
-=item L<HTML::FormFu::Element::submit>
+=item L<HTML::FormFu::Element::Submit>
 
-=item L<HTML::FormFu::Element::textarea>
+=item L<HTML::FormFu::Element::Textarea>
 
-=item L<HTML::FormFu::Element::text>
+=item L<HTML::FormFu::Element::Text>
 
 =back
 
@@ -426,19 +426,19 @@ See L<HTML::FormFu/render_method> for details.
 
 =over
 
-=item L<HTML::FormFu::Element::blank>
+=item L<HTML::FormFu::Element::Blank>
 
-=item L<HTML::FormFu::Element::block>
+=item L<HTML::FormFu::Element::Block>
 
-=item L<HTML::FormFu::Element::fieldset>
+=item L<HTML::FormFu::Element::Fieldset>
 
-=item L<HTML::FormFu::Element::hr>
+=item L<HTML::FormFu::Element::Hr>
 
-=item L<HTML::FormFu::Element::multi>
+=item L<HTML::FormFu::Element::Multi>
 
-=item L<HTML::FormFu::Element::simple_table>
+=item L<HTML::FormFu::Element::SimpleTable>
 
-=item L<HTML::FormFu::Element::src>
+=item L<HTML::FormFu::Element::Src>
 
 =back
 
@@ -449,13 +449,13 @@ used directly.
 
 =over
 
-=item L<HTML::FormFu::Element::_field>
+=item L<HTML::FormFu::Element::_Field>
 
-=item L<HTML::FormFu::Element::_group>
+=item L<HTML::FormFu::Element::_Group>
 
-=item L<HTML::FormFu::Element::_input>
+=item L<HTML::FormFu::Element::_Input>
 
-=item L<HTML::FormFu::Element::non_block>
+=item L<HTML::FormFu::Element::NonBlock>
 
 =back
 

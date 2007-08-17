@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new;
 # force a submission
 $form->indicator( sub {1} );
 
-my $hr = $form->element('hr');
+my $hr = $form->element('Hr');
 
 $form->process({});
 

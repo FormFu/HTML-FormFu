@@ -9,7 +9,7 @@ use HTMLFormFu::TestLib;
 
 my $form = HTML::FormFu->new->id('form')->auto_id('%n%c');
 
-my $foo = $form->element('radiogroup')->name('foo')->values( [ 1, 2 ] );
+my $foo = $form->element('Radiogroup')->name('foo')->values( [ 1, 2 ] );
 
 my $foo_xhtml = qq{<fieldset class="radiogroup">
 <span>

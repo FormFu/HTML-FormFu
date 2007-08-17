@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::select;
+package HTML::FormFu::Element::Select;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_group';
+use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute );
@@ -53,7 +53,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::select - Select form field
+HTML::FormFu::Element::Select - Select form field
 
 =head1 SYNOPSIS
 
@@ -67,21 +67,21 @@ Select form field.
 
 =head2 options
 
-See L<HTML::FormFu::Element::_group/options>.
+See L<HTML::FormFu::Element::_Group/options>.
 
 =head2 values
 
-See L<HTML::FormFu::Element::_group/values>.
+See L<HTML::FormFu::Element::_Group/values>.
 
 =head2 value_range
 
-See L<HTML::FormFu::Element::_group/value_range>.
+See L<HTML::FormFu::Element::_Group/value_range>.
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_group>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Group>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

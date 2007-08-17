@@ -8,8 +8,8 @@ use Template;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
-$form->element('textarea')->name('bar');
+$form->element('Text')->name('foo');
+$form->element('Textarea')->name('bar');
 
 my $template = Template->new;
 my $output;

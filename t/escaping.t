@@ -7,11 +7,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo&')->label('<foo')->comment('foo>')->default("'foo")
+$form->element('Text')->name('foo&')->label('<foo')->comment('foo>')->default("'foo")
     ->attrs( { class => "foo'" } )->add_attrs( { class => 'bar"' } )
     ->container_attrs( { class => 'foo"' } );
 
-$form->element('text')->name('foo&')->label_xml('<foo')->comment_xml('foo>')
+$form->element('Text')->name('foo&')->label_xml('<foo')->comment_xml('foo>')
     ->default_xml("'foo")->attrs_xml( { class => "foo'" } )
     ->add_attrs_xml( { class => 'bar"' } )
     ->container_attrs_xml( { class => 'foo"' } );

@@ -6,10 +6,10 @@ use Test::More tests => 17;
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
-my $fs   = $form->element('fieldset');
+my $fs   = $form->element('Fieldset');
 
-$fs->element('text')->name('name')->constraint('Word');
-$fs->element('text')->name('age')->constraint('Number');
+$fs->element('Text')->name('name')->constraint('Word');
+$fs->element('Text')->name('age')->constraint('Number');
 
 $form->constraint( Required => 'name', 'age' );
 

@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('date')
+$form->element('Date')
     ->name('foo')
     ->auto_inflate(1);
 

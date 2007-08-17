@@ -8,7 +8,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')
+$form->element('Text')
      ->name('foo')
      ->filter('Encode')
      ->candidates( qw(euc-jp sjis jis) )

@@ -1,7 +1,7 @@
 ---
 legend: Jimi
 elements:
- - type: text
+ - type: Text
    name: age
    comment: x
    label: Age
@@ -10,9 +10,9 @@ elements:
      message: No integer.
    - type: Integer
      message: This too!
- - type: text
+ - type: Text
    name: name
    label: Name
- - type: hidden
+ - type: Hidden
    name: ok
    value: OK 

@@ -7,14 +7,14 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->auto_fieldset({ id => 'fs' });
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar');
 
-my $fs = $form->element( 'fieldset' );
+my $fs = $form->element( 'Fieldset' );
 
-$fs->element('text')->name('baz');
+$fs->element('Text')->name('baz');
 
-$form->element('text')->name('yam');
+$form->element('Text')->name('yam');
 
 # xhtml output
 

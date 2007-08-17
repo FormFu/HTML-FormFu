@@ -7,15 +7,15 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('radiogroup')->name('foo')->value(2)
+my $field = $form->element('Radiogroup')->name('foo')->value(2)
         ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
 
 # add more elements to test accessor output
-$form->element('radiogroup')->name('foo2')->options( [
+$form->element('Radiogroup')->name('foo2')->options( [
         { label => 'Ein',  value => 1 },
         { label => 'Zwei', value => 2, attributes => { class => 'foobar' } },
     ] );
-$form->element('radiogroup')->name('bar')->values( [qw/ one two three /] )
+$form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('My Bar');
 
 my $field_xhtml = qq{<fieldset class="radiogroup">

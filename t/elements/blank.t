@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
-$form->element('blank')->name('bar');
+$form->element('Text')->name('foo');
+$form->element('Blank')->name('bar');
 
 is( $form->get_field('bar'), "" );
 

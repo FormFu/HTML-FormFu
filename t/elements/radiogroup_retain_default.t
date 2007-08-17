@@ -8,11 +8,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('radiogroup')->name('foo')->values( [qw/ one two three /] )
+$form->element('Radiogroup')->name('foo')->values( [qw/ one two three /] )
     ->default('two')->retain_default(1);
-$form->element('radiogroup')->name('bar')->values( [qw/ one two three /] )
+$form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
     ->default('one');
-$form->element('radiogroup')->name('baz')->values( [qw/ one two three /] )
+$form->element('Radiogroup')->name('baz')->values( [qw/ one two three /] )
     ->default('three')->retain_default(1);
 
 $form->process( {

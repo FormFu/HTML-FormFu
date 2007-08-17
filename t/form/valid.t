@@ -7,10 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar');
-$form->element('text')->name('string');
-$form->element('text')->name('missing');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar');
+$form->element('Text')->name('string');
+$form->element('Text')->name('missing');
 
 $form->constraint( 'Number', 'foo', 'bar', 'string' );
 

@@ -1,4 +1,4 @@
-package HTML::FormFu::Element::block;
+package HTML::FormFu::Element::Block;
 
 use strict;
 use warnings;
@@ -119,7 +119,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::block - Block element
+HTML::FormFu::Element::Block - Block element
 
 =head1 SYNOPSIS
 
@@ -341,7 +341,7 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::fieldset>.
+Base-class for L<HTML::FormFu::Element::Fieldset>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 

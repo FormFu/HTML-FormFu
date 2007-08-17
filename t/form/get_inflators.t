@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $e1 = $form->element('text')->name('foo');
-my $e2 = $form->element('text')->name('bar');
+my $e1 = $form->element('Text')->name('foo');
+my $e2 = $form->element('Text')->name('bar');
 
 $form->inflator( DateTime => 'foo', 'bar' );
 

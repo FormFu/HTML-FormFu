@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('reset')->name('foo');
+my $field = $form->element('Reset')->name('foo');
 
 my $field_xhtml = qq{<span class="reset">
 <input name="foo" type="reset" />

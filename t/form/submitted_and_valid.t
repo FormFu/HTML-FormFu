@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->constraint('Number');
+$form->element('Text')->name('foo')->constraint('Number');
 
 ok( !$form->submitted_and_valid );
 

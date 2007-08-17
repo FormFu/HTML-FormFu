@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $foo = $form->element('text')->name('foo')->label('My Foo');
-my $bar = $form->element('text')->name('bar');
+my $foo = $form->element('Text')->name('foo')->label('My Foo');
+my $bar = $form->element('Text')->name('bar');
 
 $form->constraint( Number   => 'foo' );
 $form->constraint( Word     => 'bar' );

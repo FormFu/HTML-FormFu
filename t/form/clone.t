@@ -7,9 +7,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $fs = $form->element('fieldset')->id('fs');
+my $fs = $form->element('Fieldset')->id('fs');
 
-$fs->element('text')->name('foo')->id('foo');
+$fs->element('Text')->name('foo')->id('foo');
 
 my $clone = $form->clone;
 

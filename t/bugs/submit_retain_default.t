@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element({ type => 'submit', name => 'foo', default => 'Foo' });
-$form->element({ type => 'submit', name => 'bar', default => 'Bar' });
+$form->element({ type => 'Submit', name => 'foo', default => 'Foo' });
+$form->element({ type => 'Submit', name => 'bar', default => 'Bar' });
 
 my $foo = qq{<input name="foo" type="submit" value="Foo" />};
 my $bar = qq{<input name="bar" type="submit" value="Bar" />};

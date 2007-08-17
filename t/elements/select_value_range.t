@@ -7,10 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $foo = $form->element('select')->name('foo')
+my $foo = $form->element('Select')->name('foo')
         ->value_range([ 2000, 2010 ]);
 
-my $bar = $form->element('select')->name('bar')
+my $bar = $form->element('Select')->name('bar')
         ->value_range([ 'year', 2000, 2002 ]);
 
 my $foo_xhtml = qq{<span class="select">

@@ -7,11 +7,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $element = $form->element('text')->name('foo')->comment('Whatever')->label('Foo')
+my $element = $form->element('Text')->name('foo')->comment('Whatever')->label('Foo')
     ->default('bar')->size(30)->maxlength(50);
 
 is( $element->name,         'foo',      'element name' );
-is( $element->type, 'text',     'element type' );
+is( $element->type, 'Text',     'element type' );
 is( $element->comment,      'Whatever', 'element comment' );
 is( $element->label,        'Foo',      'element label' );
 is( $element->default,      'bar',      'element value' );
@@ -26,7 +26,7 @@ is_deeply(
 );
 
 # add more elements to test accessor output
-$form->element('text')->name('bar')->container_attributes( { class => 'bar' } );
+$form->element('Text')->name('bar')->container_attributes( { class => 'bar' } );
 
 my $expected_field_xhtml = qq{<span class="text comment label">
 <label>Foo</label>

@@ -7,15 +7,15 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')
+$form->element('Text')->name('foo')
     ->constraint('MinMaxFields')
     ->others(qw/ bar baz boz/)
     ->min(1)
     ->max(2)
     ->force_errors(1);
-$form->element('text')->name('bar');
-$form->element('text')->name('baz');
-$form->element('text')->name('boz');
+$form->element('Text')->name('bar');
+$form->element('Text')->name('baz');
+$form->element('Text')->name('boz');
 
 {
     $form->process( {

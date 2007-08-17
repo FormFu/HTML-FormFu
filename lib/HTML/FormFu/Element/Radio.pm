@@ -1,30 +1,23 @@
-package HTML::FormFu::Element::checkbox;
+package HTML::FormFu::Element::Radio;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_input';
+use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
 __PACKAGE__->mk_output_accessors(qw/ default /);
 
-use HTML::FormFu::Util qw(
-    append_xml_attribute
-    has_xml_attribute
-    remove_xml_attribute
-    xml_escape
-);
-
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type('checkbox');
+    $self->field_type('radio');
     $self->multi_filename('multi_rtl');
 
     return $self;
 }
 
 sub process_value {
-    my ( $self, $render ) = @_;
+    my ( $self, $value ) = @_;
 
     return $self->value;
 }
@@ -37,11 +30,7 @@ sub prepare_attrs {
     my $original  = $self->value;
     my $value     = $self->form->input->{ $self->name };
 
-    if ( $submitted
-         && defined $value
-         && defined $original
-         && $value eq $original )
-    {
+    if ( $submitted && defined $value && $value eq $original ) {
         $render->attributes( 'checked', 'checked' );
     }
     elsif ($submitted
@@ -54,9 +43,9 @@ sub prepare_attrs {
         delete $render->attributes->{checked};
     }
     elsif ( defined $default && $default eq $original ) {
-        $render->attributes( 'checked', 'checked' );
+        $render->attributes( 'checked' => 'checked' );
     }
-
+    
     $self->next::method($render);
 
     return;
@@ -68,23 +57,23 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::checkbox - Checkbox form field
+HTML::FormFu::Element::Radio - Radio form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( checkbox => 'foo' );
+    my $element = $form->element( Radio => 'foo' );
 
 =head1 DESCRIPTION
 
-Checkbox form field.
+Radio form field.
 
 =head1 METHODS
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

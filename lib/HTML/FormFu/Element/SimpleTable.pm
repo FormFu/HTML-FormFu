@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::simple_table;
+package HTML::FormFu::Element::SimpleTable;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::block';
+use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
 use HTML::FormFu::Util qw/ append_xml_attribute /;
@@ -33,11 +33,11 @@ sub _add_headers {
     my @original_rows = @{ $self->_elements };
     $self->_elements([]);
     
-    my $header_row = $self->element('block');
+    my $header_row = $self->element('Block');
     $header_row->tag('tr');
     
     for my $text ( @$headers ) {
-        my $th = $header_row->element('block');
+        my $th = $header_row->element('Block');
         $th->tag('th');
         $th->content($text);
     }
@@ -66,11 +66,11 @@ sub rows {
         };
         croak "each row must be an array-ref" if $@;
         
-        my $row = $self->element('block');
+        my $row = $self->element('Block');
         $row->tag('tr');
         
         for my $cell (@cells) {
-            my $td = $row->element('block');
+            my $td = $row->element('Block');
             $td->tag('td');
             $td->element($cell);
         }
@@ -107,7 +107,7 @@ sub render {
         @_ ? %{$_[0]} : ()
         });
 
-    append_xml_attribute( $render->attributes, 'class', $self->type );
+    append_xml_attribute( $render->attributes, 'class', lc $self->type );
 
     return $render;
 }
@@ -118,7 +118,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::simple_table
+HTML::FormFu::Element::SimpleTable
 
 =head1 SYNOPSIS
 
@@ -149,7 +149,7 @@ grid format.
 
 As it's name suggests, this is a compromise between power and simplicity. 
 If you want more control of the markup, you'll probably just have to revert 
-to using nested L<block's|HTML::FormFu::Element::_block>, setting the tags 
+to using nested L<block's|HTML::FormFu::Element::_Block>, setting the tags 
 to table, tr, td, etc. and adding the cell contents as elements.
 
 =head1 METHODS
@@ -189,7 +189,7 @@ The supplied string will be used as the class-name for each even-numbered row
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_block>, 
+L<HTML::FormFu::Element::_Block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

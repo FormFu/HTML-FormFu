@@ -7,14 +7,14 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new({
     element => {
-        type => 'multi',
+        type => 'Multi',
         label => 'My multi',
         elements => [{
-            type => 'text',
+            type => 'Text',
             name => 'foo',
         },
         {
-            type => 'radio',
+            type => 'Radio',
             name => 'bar',
         }]
         },

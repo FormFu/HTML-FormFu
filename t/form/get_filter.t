@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('name');
-$form->element('text')->name('age');
+$form->element('Text')->name('name');
+$form->element('Text')->name('age');
 
 $form->filter( HTMLEscape => 'name', 'age' );
 $form->filter( LowerCase => 'name' );

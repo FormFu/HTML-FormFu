@@ -8,9 +8,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('checkbox')->name('foo')->value('a')->retain_default(1);
-$form->element('checkbox')->name('fox')->value('b')->retain_default(1);
-$form->element('checkbox')->name('bar')->value('c');
+$form->element('Checkbox')->name('foo')->value('a')->retain_default(1);
+$form->element('Checkbox')->name('fox')->value('b')->retain_default(1);
+$form->element('Checkbox')->name('bar')->value('c');
 
 $form->process( {
         foo => '',

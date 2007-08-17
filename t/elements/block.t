@@ -11,12 +11,12 @@ $form->auto_fieldset(1);
 
 my $block = $form->element(
     {
-        type => 'block',
+        type => 'Block',
         tag  => 'span',
         content => 'Hello <World>!',
     });
 
-$block->element({ type => 'text' });
+$block->element({ type => 'Text' });
 
 # because there's a content(), the block's elements should be ignored
 

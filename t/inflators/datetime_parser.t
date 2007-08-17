@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')
+$form->element('Text')->name('foo')
     ->inflator('DateTime')->parser({ strptime => '%d/%m/%Y' });
 
 $form->process( { foo => '31/12/2006' } );

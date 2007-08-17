@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('name')->filter('LowerCase');
-$form->element('text')->name('age');
+$form->element('Text')->name('name')->filter('LowerCase');
+$form->element('Text')->name('age');
 
 $form->filter( HTMLEscape => 'name', 'age' );
 $form->filter('Whitespace');

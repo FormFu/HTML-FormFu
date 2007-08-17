@@ -7,26 +7,26 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->indicator('my_hidden');
 
-$form->element('button')->name('my_button')->value(1);
-$form->element('checkbox')->name('my_checkbox1')->value(1)
+$form->element('Button')->name('my_button')->value(1);
+$form->element('Checkbox')->name('my_checkbox1')->value(1)
     ->attrs( checked => 'checked' );
-$form->element('checkbox')->name('my_checkbox2')->value(0);
-$form->element('content_button')->name('my_contentbutton')->value(1);
-$form->element('hidden')->name('my_hidden')->value(1);
-$form->element('image')->name('my_image')->value(1);
+$form->element('Checkbox')->name('my_checkbox2')->value(0);
+$form->element('ContentButton')->name('my_contentbutton')->value(1);
+$form->element('Hidden')->name('my_hidden')->value(1);
+$form->element('Image')->name('my_image')->value(1);
 
-#$form->element('password')->name('my_password')->value(1)->fill(1);
-$form->element('radio')->name('my_radio1')->value(1)->attrs( checked => 'checked' );
-$form->element('radio')->name('my_radio2')->value(0);
-$form->element('radiogroup')->name('my_radiogroup')->values( [ 1, 0 ] )
+#$form->element('Password')->name('my_password')->value(1)->fill(1);
+$form->element('Radio')->name('my_radio1')->value(1)->attrs( checked => 'checked' );
+$form->element('Radio')->name('my_radio2')->value(0);
+$form->element('Radiogroup')->name('my_radiogroup')->values( [ 1, 0 ] )
     ->attrs( checked => 'checked' );
-$form->element('reset')->name('my_reset')->value(1);
-$form->element('select')->name('my_select')
+$form->element('Reset')->name('my_reset')->value(1);
+$form->element('Select')->name('my_select')
     ->options( [ [ 0 => 'unsubscribed' ], [ 1 => 'subscribed' ] ] )
     ->attrs( selected => 'selected' );
-$form->element('submit')->name('my_submit')->value(1);
-$form->element('text')->name('my_text')->value(1);
-$form->element('textarea')->name('my_textarea')->value(1);
+$form->element('Submit')->name('my_submit')->value(1);
+$form->element('Text')->name('my_text')->value(1);
+$form->element('Textarea')->name('my_textarea')->value(1);
 
 {
     like( $form->get_field('my_button'),        qr/value="1"/ );

@@ -8,7 +8,7 @@ use HTML::FormFu;
 {    # element has explicit id
     my $form = HTML::FormFu->new;
 
-    $form->element('text')->name('foo')->id('fid')->label('Foo');
+    $form->element('Text')->name('foo')->id('fid')->label('Foo');
 
     my $field_xhtml = qq{<span class="text label">
 <label for="fid">Foo</label>
@@ -21,7 +21,7 @@ use HTML::FormFu;
 {    # auto_id
     my $form = HTML::FormFu->new->auto_id('%n');
 
-    $form->element('text')->name('foo')->label('Foo');
+    $form->element('Text')->name('foo')->label('Foo');
 
     my $field_xhtml = qq{<span class="text label">
 <label for="foo">Foo</label>
@@ -34,7 +34,7 @@ use HTML::FormFu;
 {    # auto_id
     my $form = HTML::FormFu->new->id('my_form');
 
-    $form->element('text')->name('foo')->label('Foo')->auto_id('%f_%n');
+    $form->element('Text')->name('foo')->label('Foo')->auto_id('%f_%n');
 
     my $field_xhtml = qq{<span class="text label">
 <label for="my_form_foo">Foo</label>

@@ -41,9 +41,9 @@ sub _single_element {
         
         if ( $self->can('auto_fieldset') 
              && $self->auto_fieldset 
-             && $e->type ne 'fieldset' )
+             && $e->type ne 'Fieldset' )
         {
-            my ($target) = reverse @{ $self->get_elements({ type => 'fieldset' }) };
+            my ($target) = reverse @{ $self->get_elements({ type => 'Fieldset' }) };
             
             push @{ $target->_elements }, $e;
         }
@@ -58,7 +58,7 @@ sub _single_element {
 sub _require_element {
     my ( $self, $arg ) = @_;
 
-    $arg->{type} = 'text' if !exists $arg->{type};
+    $arg->{type} = 'Text' if !exists $arg->{type};
 
     my $type = delete $arg->{type};
     my $class = $type;

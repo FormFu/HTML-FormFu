@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $element = $form->element('file')->name('foo');
+my $element = $form->element('File')->name('foo');
 
 my $field_xhtml = qq{<span class="file">
 <input name="foo" type="file" />

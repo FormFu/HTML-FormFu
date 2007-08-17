@@ -7,9 +7,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('Callback')
+$form->element('Text')->name('foo')->filter('Callback')
     ->callback( sub { $_[0] =~ s/(\d)(\d)/$2$1/g; shift; } );
-$form->element('text')->name('bar')->filter('Callback');
+$form->element('Text')->name('bar')->filter('Callback');
 
 my $original_foo = "ab123456";
 my $filtered_foo = "ab214365";

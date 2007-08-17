@@ -14,9 +14,9 @@ my $elems = $form->get_all_elements;
 
 is( scalar @$elems, 3 );
 
-is( $elems->[0]->type, 'fieldset' );
-is( $elems->[1]->type, 'text' );
-is( $elems->[2]->type, 'text' );
+is( $elems->[0]->type, 'Fieldset' );
+is( $elems->[1]->type, 'Text' );
+is( $elems->[2]->type, 'Text' );
 
 is( $elems->[1]->name, 'foo' );
 is( $elems->[2]->name, 'bar' );

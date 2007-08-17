@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::fieldset;
+package HTML::FormFu::Element::Fieldset;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::block';
+use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
 __PACKAGE__->mk_output_accessors(qw/ legend /);
@@ -32,7 +32,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::fieldset - Fieldset element
+HTML::FormFu::Element::Fieldset - Fieldset element
 
 =head1 SYNOPSIS
 
@@ -47,7 +47,7 @@ Fieldset element.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::block>, 
+L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

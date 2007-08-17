@@ -8,7 +8,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new( { localize_class => 'HTMLFormFu::I18N', } );
 
-$form->element('text')->name('foo')->label_loc('test_label')
+$form->element('Text')->name('foo')->label_loc('test_label')
     ->comment_loc('test_comment')->default_loc('test_default_value');
 
 my $xhtml = qq{<span class="text comment label">

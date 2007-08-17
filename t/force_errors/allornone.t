@@ -7,12 +7,12 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->indicator( sub {1} );
 
-$form->element('text')->name('foo')
+$form->element('Text')->name('foo')
     ->constraint('AllOrNone')->others(qw/ bar baz bif /)->force_errors(1);
 
-$form->element('text')->name('bar');
-$form->element('text')->name('baz');
-$form->element('text')->name('bif');
+$form->element('Text')->name('bar');
+$form->element('Text')->name('baz');
+$form->element('Text')->name('bif');
 
 # Valid
 {

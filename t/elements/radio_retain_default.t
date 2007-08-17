@@ -8,9 +8,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('radio')->name('foo')->value('a')->retain_default(1);
-$form->element('radio')->name('fox')->value('b')->retain_default(1);
-$form->element('radio')->name('bar')->value('c');
+$form->element('Radio')->name('foo')->value('a')->retain_default(1);
+$form->element('Radio')->name('fox')->value('b')->retain_default(1);
+$form->element('Radio')->name('bar')->value('c');
 
 $form->process( {
         foo => '',

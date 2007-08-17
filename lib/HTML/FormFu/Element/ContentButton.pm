@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::content_button;
+package HTML::FormFu::Element::ContentButton;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_field';
+use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
 use HTML::FormFu::Util qw/ xml_escape /;
@@ -38,7 +38,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::content_button - Button form field containing markup
+HTML::FormFu::Element::ContentButton - Button form field containing markup
 
 =head1 SYNOPSIS
 
@@ -62,7 +62,7 @@ content_button form field, rendered using provided markup.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

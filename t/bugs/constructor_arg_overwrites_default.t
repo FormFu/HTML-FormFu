@@ -7,14 +7,14 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new({
     elements => {
-        type => 'text',
+        type => 'Text',
         name => 'foo',
         label_filename => 'foofile',
         }
     });
 
 $form->element({
-    type => 'text',
+    type => 'Text',
     name => 'bar',
     label_filename => 'barfile',
     });

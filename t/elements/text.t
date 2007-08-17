@@ -7,13 +7,13 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-ok( my $element = $form->element('text')->name('foo') );
+ok( my $element = $form->element('Text')->name('foo') );
 is( $element->name,         'foo' );
-is( $element->type, 'text' );
+is( $element->type, 'Text' );
 
 # add more elements to test accessor output
-$form->element('text')->name('bar')->size(10);
-$form->element('text')->name('baz')->size(15)->maxlength(20);
+$form->element('Text')->name('bar')->size(10);
+$form->element('Text')->name('baz')->size(15)->maxlength(20);
 
 my $expected_field_xhtml = qq{<span class="text">
 <input name="foo" type="text" />

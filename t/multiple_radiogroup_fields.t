@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('radiogroup')
+$form->element('Radiogroup')
     ->name('foo')
     ->values([qw/ one two three /])
     ->default('two');

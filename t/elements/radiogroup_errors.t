@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->indicator( sub {1} );
 
-my $field = $form->element('radiogroup');
+my $field = $form->element('Radiogroup');
 
 $field->name('foo');
 $field->values([qw/ one two /]);

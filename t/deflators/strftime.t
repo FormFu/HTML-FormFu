@@ -14,7 +14,7 @@ my $value = DateTime->new(
 
 my $form = HTML::FormFu->new;
 
-my $e = $form->element('text')->name('foo')->default($value);
+my $e = $form->element('Text')->name('foo')->default($value);
 
 $e->deflator('Strftime')->strftime('%d/%m/%Y');
 

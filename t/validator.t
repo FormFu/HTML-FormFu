@@ -8,8 +8,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->localize_class('HTMLFormFu::I18N');
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar');
 
 $form->validator('+HTMLFormFu::MyValidator');
 

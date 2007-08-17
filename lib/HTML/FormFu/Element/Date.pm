@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::date;
+package HTML::FormFu::Element::Date;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_field', 'HTML::FormFu::Element::multi';
+use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods /;
@@ -59,15 +59,15 @@ sub new {
     $self->render_class_suffix('multi');
     $self->strftime("%d-%m-%Y");
     $self->day({
-        type   => 'select',
+        type   => 'Select',
         prefix => [],
     });
     $self->month({
-        type   => 'select',
+        type   => 'Select',
         prefix => [],
     });
     $self->year({
-        type   => 'select',
+        type   => 'Select',
         prefix => [],
         less   => 0,
         plus   => 10,
@@ -79,7 +79,7 @@ sub new {
 sub get_fields {
     my $self = shift;
     
-    my $f = $self->HTML::FormFu::Element::multi::get_fields(@_);
+    my $f = $self->HTML::FormFu::Element::Multi::get_fields(@_);
     
     unshift @$f, $self;
     
@@ -341,7 +341,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::date - 3 select menu multi-field
+HTML::FormFu::Element::Date - 3 select menu multi-field
 
 =head1 SYNOPSIS
 
@@ -353,7 +353,7 @@ HTML::FormFu::Element::date - 3 select menu multi-field
 
 =head1 DESCRIPTION
 
-Creates a L<multi|HTML::FormFu::Element::multi> element containing 3 select 
+Creates a L<multi|HTML::FormFu::Element::Multi> element containing 3 select 
 menus for the day, month and year.
 
 A date element named C<foo> would result in 3 select menus with the names 
@@ -525,28 +525,28 @@ L</auto_inflate>.
 
 =head1 CAVEATS
 
-Although this element inherits from L<HTML::FormFu::Element::block>, it's 
+Although this element inherits from L<HTML::FormFu::Element::Block>, it's 
 behaviour for the methods 
 L<filter/filters|HTML::FormFu/filters>, 
 L<constraint/constraints|HTML::FormFu/constraints>, 
 L<inflator/inflators|HTML::FormFu/inflators>, 
 L<validator/validators|HTML::FormFu/validators> and 
 L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
-a L<field element|HTML::FormFu::Element::_field>, meaning all processors are 
+a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
 added directly to the date element, not to it's select-menu child elements.
 
 This element's L<get_elements|HTML::FormFu/get_elements> and 
 L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from 
-L<HTML::FormFu::Element::block>, and so have the same behaviour. However, it 
+L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it 
 overrides the C<get_fields> method, such that it returns both itself and 
 it's child elements.
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_field>, 
-L<HTML::FormFu::Element::multi>, 
-L<HTML::FormFu::Element::block>, 
+L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Element::Multi>, 
+L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

@@ -7,4 +7,4 @@ use_ok('HTML::FormFu');
 
 use_ok('HTML::FormFu::Preload');
 
-ok( $INC{'HTML/FormFu/Element/text.pm'} );
+ok( $INC{'HTML/FormFu/Element/Text.pm'} );

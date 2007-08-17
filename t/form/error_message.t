@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->form_error_message_loc('form_error_message');
 
-my $field = $form->element('text');
+my $field = $form->element('Text');
 
 $field->name('foo');
 

@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo');
-$form->element('text')->name('bar');
+$form->element('Text')->name('foo');
+$form->element('Text')->name('bar');
 
 my @c1 = $form->constraint({
     type => 'Number',
@@ -42,7 +42,7 @@ is( $c1[1]->type, 'Number' );
 }
 
 # $element->constraint
-my $ec_element = $form->element('text')->name('ec');
+my $ec_element = $form->element('Text')->name('ec');
 
 $ec_element->constraint('Regex')->regex( qr/^\d+$/ );
 

@@ -8,12 +8,12 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('password')->name('foo')->value('a');
-$form->element('password')->name('bar')->value('b')->render_value(1);
-$form->element('password')->name('baz')->value('c')->retain_default(1);
-$form->element('password')->name('doo')->value('d')->retain_default(1)
+$form->element('Password')->name('foo')->value('a');
+$form->element('Password')->name('bar')->value('b')->render_value(1);
+$form->element('Password')->name('baz')->value('c')->retain_default(1);
+$form->element('Password')->name('doo')->value('d')->retain_default(1)
     ->render_value(1);
-$form->element('password')->name('doc')->value('e')->retain_default(1)
+$form->element('Password')->name('doc')->value('e')->retain_default(1)
     ->render_value(1);
 
 $form->process( {

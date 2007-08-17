@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new
     ->form_error_message('Forced Error Message')
     ->force_error_message(1);
 
-my $field = $form->element('text')->name('foo');
+my $field = $form->element('Text')->name('foo');
 
 $field->constraint('Number');
 

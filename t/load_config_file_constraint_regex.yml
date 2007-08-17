@@ -1,6 +1,6 @@
 ---
 elements:
-  - type: text
+  - type: Text
     name: foo
     constraints:
     - type: Not_Regex

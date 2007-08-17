@@ -7,12 +7,12 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('radio')->name('foo')->value('foox');
+my $field = $form->element('Radio')->name('foo')->value('foox');
 
 # add more elements to test accessor output
-$form->element('radio')->name('bar')->value('barx');
-$form->element('radio')->name('moo')->value('moox')->checked('checked');
-$form->element('radio')->name('fad')->value('fadx')->checked('checked');
+$form->element('Radio')->name('bar')->value('barx');
+$form->element('Radio')->name('moo')->value('moox')->checked('checked');
+$form->element('Radio')->name('fad')->value('fadx')->checked('checked');
 
 my $field_xhtml = qq{<span class="radio">
 <input name="foo" type="radio" value="foox" />

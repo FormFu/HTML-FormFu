@@ -7,11 +7,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('image')->name('foo');
+my $field = $form->element('Image')->name('foo');
 
 # add more elements to test accessor output
-$form->element('image')->name('bar')->src('foo.jpg');
-$form->element('image')->name('baz')->src('/bar')->width(120)->height(32);
+$form->element('Image')->name('bar')->src('foo.jpg');
+$form->element('Image')->name('baz')->src('/bar')->width(120)->height(32);
 
 my $field_xhtml = qq{<span class="image">
 <input name="foo" type="image" src="" />

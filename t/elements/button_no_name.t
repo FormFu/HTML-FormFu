@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('button');
+my $field = $form->element('Button');
 
 my $field_xhtml = qq{<span class="button">
 <input type="button" />

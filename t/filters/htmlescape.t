@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('text')->name('foo')->filter('HTMLEscape');
+$form->element('Text')->name('foo')->filter('HTMLEscape');
 
 my $original_foo = qq{&escape "this"};
 my $filtered_foo = "&amp;escape &quot;this&quot;";

@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::text;
+package HTML::FormFu::Element::Text;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::_input';
+use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
 sub new {
@@ -19,7 +19,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::text - Text form field
+HTML::FormFu::Element::Text - Text form field
 
 =head1 SYNOPSIS
 
@@ -32,8 +32,8 @@ Text form field.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>.
 
 L<HTML::FormFu::FormFu>

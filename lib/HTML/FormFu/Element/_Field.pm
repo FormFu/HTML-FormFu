@@ -1,4 +1,4 @@
-package HTML::FormFu::Element::_field;
+package HTML::FormFu::Element::_Field;
 
 use strict;
 use warnings;
@@ -612,7 +612,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_field
+HTML::FormFu::Element::_Field
 
 =head1 DESCRIPTION
 
@@ -641,16 +641,16 @@ Set the default value using a L10N key.
 
 For most fields, L</value> is an alias for L</default>.
 
-For the L<HTML::FormFu::Element::checkbox> and 
-L<HTML::FormFu::Element::radio> elements, L</value> sets what the value of 
+For the L<HTML::FormFu::Element::Checkbox> and 
+L<HTML::FormFu::Element::Radio> elements, L</value> sets what the value of 
 the field will be if it is checked or selected. If the L</default> is the 
 same as the L</value>, then the field will be checked or selected when 
 rendered.
 
-For the L<HTML::FormFu::Element::radiogroup> and 
-L<HTML::FormFu::Element::select> elements, the L</value> is ignored: 
-L</values|HTML::FormFu::Element::_group/values> or 
-L</options|HTML::FormFu::Element::_group/options> provides the equivalent 
+For the L<HTML::FormFu::Element::Radiogroup> and 
+L<HTML::FormFu::Element::Select> elements, the L</value> is ignored: 
+L</values|HTML::FormFu::Element::_Group/values> or 
+L</options|HTML::FormFu::Element::_Group/options> provides the equivalent 
 function.
 
 =head2 value_xml
@@ -1070,11 +1070,11 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::_group>, 
-L<HTML::FormFu::Element::_input>, 
-L<HTML::FormFu::Element::multi>, 
-L<HTML::FormFu::Element::content_button>, 
-L<HTML::FormFu::Element::textarea>.
+Base-class for L<HTML::FormFu::Element::_Group>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::Multi>, 
+L<HTML::FormFu::Element::ContentButton>, 
+L<HTML::FormFu::Element::Textarea>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 

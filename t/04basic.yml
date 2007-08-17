@@ -3,19 +3,19 @@ action: /foo/bar
 id: form
 auto_id: %n
 elements:
-  - type: fieldset
+  - type: Fieldset
     legend: Jimi
     elements:
     - name: age
-      type: text
+      type: Text
       comment: x
       label: Age
       constraints: [Integer, Required]
     - name: name
-      type: text
+      type: Text
       label: Name
     - name: ok
-      type: hidden
+      type: Hidden
       value: OK
 constraints:
   type: Required

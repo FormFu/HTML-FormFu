@@ -7,12 +7,12 @@ use HTML::FormFu;
 use Template;
 
 my $form = HTML::FormFu->new;
-my $fs   = $form->element('fieldset')->legend('Foo');
+my $fs   = $form->element('Fieldset')->legend('Foo');
 
-$fs->element('text')->name('foo')->label('Foo');
-$fs->element('text')->name('bar')->label('Bar');
-$fs->element('hidden')->name('baz');
-$fs->element('submit')->name('submit');
+$fs->element('Text')->name('foo')->label('Foo');
+$fs->element('Text')->name('bar')->label('Bar');
+$fs->element('Hidden')->name('baz');
+$fs->element('Submit')->name('submit');
 
 my $template = Template->new;
 my $output;

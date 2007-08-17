@@ -11,7 +11,7 @@ $form->auto_fieldset(1);
 
 my $block = $form->element(
     {
-        type => 'src',
+        type => 'Src',
         content_xml => 'Hello <i>World</i>!',
     });
 

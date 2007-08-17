@@ -7,12 +7,12 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $foo = $form->element('checkbox')->name('foo')->value('foox');
+my $foo = $form->element('Checkbox')->name('foo')->value('foox');
 
 # add more elements to test accessor output
-my $bar = $form->element('checkbox')->name('bar')->value('barx');
-my $moo = $form->element('checkbox')->name('moo')->value('moox')->default('moox');
-my $fad = $form->element('checkbox')->name('fad')->value('fadx')->default('fadx');
+my $bar = $form->element('Checkbox')->name('bar')->value('barx');
+my $moo = $form->element('Checkbox')->name('moo')->value('moox')->default('moox');
+my $fad = $form->element('Checkbox')->name('fad')->value('fadx')->default('fadx');
 
 my $field_xhtml = qq{<span class="checkbox">
 <input name="foo" type="checkbox" value="foox" />

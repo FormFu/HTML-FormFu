@@ -8,13 +8,13 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->action('/foo/bar')->id('form')->auto_id('%n');
 
-my $fs = $form->element('fieldset')->legend('Jimi');
+my $fs = $form->element('Fieldset')->legend('Jimi');
 
-$fs->element('text')->name('age')->label('Age')->comment('x')
+$fs->element('Text')->name('age')->label('Age')->comment('x')
     ->constraints( [ 'Integer', 'Required', ] );
 
-$fs->element('text')->name('name')->label('Name');
-$fs->element('hidden')->name('ok')->value('OK');
+$fs->element('Text')->name('name')->label('Name');
+$fs->element('Hidden')->name('ok')->value('OK');
 
 $form->constraints({
     type => 'Required',
@@ -30,17 +30,17 @@ my $alt_hash = {
     id        => 'form',
     auto_id => '%n',
     elements  => [ {
-            type => 'fieldset',
+            type => 'Fieldset',
             legend   => 'Jimi',
             elements => [ 
-                    { type => 'text',
+                    { type => 'Text',
                       name =>     'age',
                       label       => 'Age',
                       comment     => 'x',
                       constraints => [ 'Integer', 'Required', ],
                       },
-                    { type => 'text', name => 'name', label => 'Name', },
-                    { type => 'hidden', name => 'ok', value => 'OK', },
+                    { type => 'Text', name => 'name', label => 'Name', },
+                    { type => 'Hidden', name => 'ok', value => 'OK', },
                 ],
         } ],
     constraints => {
