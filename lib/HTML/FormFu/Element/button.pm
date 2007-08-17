@@ -9,6 +9,7 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->field_type('button');
+    $self->retain_default(1);
 
     return $self;
 }

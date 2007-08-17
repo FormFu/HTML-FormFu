@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 22;
+use Test::More tests => 20;
 
 use HTML::FormFu;
 
@@ -50,7 +50,6 @@ $form->element('textarea')->name('my_textarea')->value(1);
 {
     $form->process({ my_hidden => '', });
 
-    like( $form->get_field('my_button'),    qr/value=""/ );
     like( $form->get_field('my_checkbox1'), qr/value="1"/ );
     unlike( $form->get_field('my_checkbox1'), qr/"checked"/ );
 
@@ -59,6 +58,5 @@ $form->element('textarea')->name('my_textarea')->value(1);
 
     like( $form->get_field('my_contentbutton'), qr/value=""/ );
     like( $form->get_field('my_hidden'),        qr/value=""/ );
-    like( $form->get_field('my_image'),         qr/value=""/ );
 }
 
