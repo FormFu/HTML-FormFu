@@ -33,8 +33,10 @@ Reset button form field.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::Button>, 
-L<HTML::FormFu::Element::input>, L<HTML::FormFu::Element::field>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::button>, 
+L<HTML::FormFu::Element::_input>, 
+L<HTML::FormFu::Element::_field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

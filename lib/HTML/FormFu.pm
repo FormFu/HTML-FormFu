@@ -997,7 +997,7 @@ Return Value: @deflators
 
 A L<deflator|HTML::FormFu::Deflator> may be associated with any form field, 
 and allows you to provide 
-L<< $field->default|HTML:FormFu::Element::field/default >> with a value 
+L<< $field->default|HTML:FormFu::Element::_field/default >> with a value 
 which may be an object.
 
 If an object doesn't stringify to a suitable value for display, the 
@@ -1074,7 +1074,7 @@ Return Value: @filters
 If you provide a C<name> or C<names> value, the filter will be added to 
 just that named field.
 If you do not provide a C<name> or C<names> value, the filter will be added 
-to all L<fields|HTML::FormFu::Element::field> already attached to the form. 
+to all L<fields|HTML::FormFu::Element::_field> already attached to the form. 
 
 See L<HTML::FormFu::Filter/"CORE FILTERS"> for a list of core filters.
 
@@ -2082,8 +2082,8 @@ L<HTML::FormFu::Element/attributes>.
 
 =head2 How can I add a HTML tag which isn't included?
 
-You can use the L<HTML::FormFu::Element::Block> element, and set
-the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
+You can use the L<HTML::FormFu::Element::block> element, and set
+the L<tag|HTML::FormFu::Element::block/tag> to the tag type you want.
 
     ---
     elements:

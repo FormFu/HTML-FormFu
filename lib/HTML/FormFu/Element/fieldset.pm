@@ -36,7 +36,7 @@ HTML::FormFu::Element::fieldset - Fieldset element
 
 =head1 SYNOPSIS
 
-    my $fs = $form->element( Fieldset => 'address' );
+    my $fs = $form->element( fieldset => 'address' );
 
 =head1 DESCRIPTION
 
@@ -46,7 +46,8 @@ Fieldset element.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::Block>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

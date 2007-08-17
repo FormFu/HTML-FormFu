@@ -5,7 +5,7 @@ use warnings;
 use base 'HTML::FormFu::Element::block';
 use Class::C3;
 
-use HTML::FormFu::Element::field qw/
+use HTML::FormFu::Element::_field qw/
     _render_container_class _render_comment_class _render_label /;
 use HTML::FormFu::Util qw/ append_xml_attribute xml_escape /;
 use List::MoreUtils qw/ uniq /;
@@ -121,7 +121,7 @@ HTML::FormFu::Element::multi - Combine multiple fields in a single element
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( Multi 'foo' );
+    my $e = $form->element( multi 'foo' );
 
 =head1 DESCRIPTION
 
@@ -131,7 +131,8 @@ Combine multiple form fields in a single logical element.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

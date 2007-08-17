@@ -2,7 +2,7 @@ package HTML::FormFu::Element::hr;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::non_block';
+use base 'HTML::FormFu::Element::_non_block';
 use Class::C3;
 
 sub new {
@@ -28,7 +28,8 @@ Horizontal-rule element.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::non_block>, L<HTML::FormFu::Element>
+L<HTML::FormFu::Element::non_block>, 
+L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

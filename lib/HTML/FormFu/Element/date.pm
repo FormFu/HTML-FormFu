@@ -2,7 +2,7 @@ package HTML::FormFu::Element::date;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::field', 'HTML::FormFu::Element::multi';
+use base 'HTML::FormFu::Element::_field', 'HTML::FormFu::Element::multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods /;
@@ -532,7 +532,7 @@ L<constraint/constraints|HTML::FormFu/constraints>,
 L<inflator/inflators|HTML::FormFu/inflators>, 
 L<validator/validators|HTML::FormFu/validators> and 
 L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
-a L<field element|HTML::FormFu::Element::field>, meaning all processors are 
+a L<field element|HTML::FormFu::Element::_field>, meaning all processors are 
 added directly to the date element, not to it's select-menu child elements.
 
 This element's L<get_elements|HTML::FormFu/get_elements> and 
@@ -543,8 +543,10 @@ it's child elements.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 
-L<HTML::FormFu::Element::multi>, L<HTML::FormFu::Element::block>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element::multi>, 
+L<HTML::FormFu::Element::block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

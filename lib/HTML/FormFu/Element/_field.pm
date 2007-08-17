@@ -1,4 +1,4 @@
-package HTML::FormFu::Element::field;
+package HTML::FormFu::Element::_field;
 
 use strict;
 use warnings;
@@ -612,7 +612,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::field
+HTML::FormFu::Element::_field
 
 =head1 DESCRIPTION
 
@@ -649,8 +649,8 @@ rendered.
 
 For the L<HTML::FormFu::Element::radiogroup> and 
 L<HTML::FormFu::Element::select> elements, the L</value> is ignored: 
-L</values|HTML::FormFu::Element::group/values> or 
-L</options|HTML::FormFu::Element::group/options> provides the equivalent 
+L</values|HTML::FormFu::Element::_group/values> or 
+L</options|HTML::FormFu::Element::_group/options> provides the equivalent 
 function.
 
 =head2 value_xml
@@ -1070,9 +1070,11 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::group>, L<HTML::FormFu::Element::input>,
-L<HTML::FormFu::Element::Multi>, L<HTML::FormFu::Element::ContentButton>, 
-L<HTML::FormFu::Element::Textarea>.
+Base-class for L<HTML::FormFu::Element::_group>, 
+L<HTML::FormFu::Element::_input>, 
+L<HTML::FormFu::Element::multi>, 
+L<HTML::FormFu::Element::content_button>, 
+L<HTML::FormFu::Element::textarea>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 

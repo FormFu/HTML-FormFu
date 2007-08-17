@@ -2,7 +2,7 @@ package HTML::FormFu::Element::password;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::input';
+use base 'HTML::FormFu::Element::_input';
 use Class::C3;
 
 __PACKAGE__->mk_accessors(qw/ render_value /);
@@ -58,8 +58,10 @@ Password form field.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::input>, 
-L<HTML::FormFu::Element::field>, L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_input>, 
+L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

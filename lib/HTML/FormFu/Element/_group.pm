@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::group;
+package HTML::FormFu::Element::_group;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::field';
+use base 'HTML::FormFu::Element::_field';
 use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
@@ -183,12 +183,12 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::group - grouped form field base-class
+HTML::FormFu::Element::_group - grouped form field base-class
 
 =head1 DESCRIPTION
 
-Base class for L<HTML::FormFu::Element::RadioGroup> and 
-L<HTML::FormFu::Element::Select> fields.
+Base class for L<HTML::FormFu::Element::radiogroup> and 
+L<HTML::FormFu::Element::select> fields.
 
 =head1 METHODS
 
@@ -255,8 +255,8 @@ in select menus.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 
-L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

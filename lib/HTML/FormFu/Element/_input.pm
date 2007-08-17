@@ -1,8 +1,8 @@
-package HTML::FormFu::Element::input;
+package HTML::FormFu::Element::_input;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::field';
+use base 'HTML::FormFu::Element::_field';
 use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
@@ -49,21 +49,24 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::input - input field base-class
+HTML::FormFu::Element::_input - input field base-class
 
 =head1 DESCRIPTION
 
-Base-class for L<HTML::FormFu::Element::Button>, 
-L<HTML::FormFu::Element::Checkbox>, L<HTML::FormFu::Element::File>, 
-L<HTML::FormFu::Element::Hidden>, L<HTML::FormFu::Element::Password>, 
-L<HTML::FormFu::Element::Radio>, L<HTML::FormFu::Element::Text>.
+Base-class for L<HTML::FormFu::Element::button>, 
+L<HTML::FormFu::Element::checkbox>, 
+L<HTML::FormFu::Element::file>, 
+L<HTML::FormFu::Element::hidden>, 
+L<HTML::FormFu::Element::password>, 
+L<HTML::FormFu::Element::radio>, 
+L<HTML::FormFu::Element::text>.
 
 =head1 METHODS
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 
-L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

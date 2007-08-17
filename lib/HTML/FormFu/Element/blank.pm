@@ -2,7 +2,7 @@ package HTML::FormFu::Element::blank;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::input';
+use base 'HTML::FormFu::Element::_input';
 use Class::C3;
 
 sub new {
@@ -26,8 +26,10 @@ HTML::FormFu::Element::blank - blank element
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::input>, 
-L<HTML::FormFu::Element::field>, L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_input>, 
+L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

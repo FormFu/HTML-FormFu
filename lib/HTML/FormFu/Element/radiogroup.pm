@@ -2,7 +2,7 @@ package HTML::FormFu::Element::radiogroup;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::group';
+use base 'HTML::FormFu::Element::_group';
 use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute );
@@ -144,20 +144,22 @@ Convenient to use group of radio button fields
 
 =head2 options
 
-See L<HTML::FormFu::Element::group/options>.
+See L<HTML::FormFu::Element::_group/options>.
 
 =head2 values
 
-See L<HTML::FormFu::Element::group/values>.
+See L<HTML::FormFu::Element::_group/values>.
 
 =head2 value_range
 
-See L<HTML::FormFu::Element::group/value_range>.
+See L<HTML::FormFu::Element::_group/value_range>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::group>, 
-L<HTML::FormFu::Element::field>, L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_group>, 
+L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

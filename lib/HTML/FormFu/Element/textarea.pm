@@ -2,7 +2,7 @@ package HTML::FormFu::Element::textarea;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::field';
+use base 'HTML::FormFu::Element::_field';
 use Class::C3;
 
 __PACKAGE__->mk_attr_accessors(qw/ cols rows /);
@@ -40,7 +40,8 @@ Text form field.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::field>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

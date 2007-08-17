@@ -192,7 +192,7 @@ L<Transformers|HTML::FormFu::Transformer>.
 
 =head2 name
 
-For L<field|HTML::FormFu::Element::field> element, this value is used as 
+For L<field|HTML::FormFu::Element::_field> element, this value is used as 
 the C<name> attribute which the field's value is associated with.
 
 For all elements, the L</name> value can be useful for identifying and 
@@ -328,13 +328,13 @@ right-to-left.
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::field/prepare_id> for details.
+See L<HTML::FormFu::Element::_field/prepare_id> for details.
 
 =head2 prepare_attrs
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::field/prepare_attrs> for details.
+See L<HTML::FormFu::Element::_field/prepare_attrs> for details.
 
 =head2 render
 
@@ -396,6 +396,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::content_button>
 
+=item L<HTML::FormFu::Element::date>
+
 =item L<HTML::FormFu::Element::file>
 
 =item L<HTML::FormFu::Element::hidden>
@@ -434,24 +436,26 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::multi>
 
-=item L<HTML::FormFu::Element::non_block>
-
 =item L<HTML::FormFu::Element::simple_table>
+
+=item L<HTML::FormFu::Element::src>
 
 =back
 
 =head1 ELEMENT BASE CLASSES
 
-The following are base classes for other elements, and shouldn't be used 
-directly.
+The following are base classes for other elements, and generally needn't be 
+used directly.
 
 =over
 
-=item L<HTML::FormFu::Element::field>
+=item L<HTML::FormFu::Element::_field>
 
-=item L<HTML::FormFu::Element::group>
+=item L<HTML::FormFu::Element::_group>
 
-=item L<HTML::FormFu::Element::input>
+=item L<HTML::FormFu::Element::_input>
+
+=item L<HTML::FormFu::Element::non_block>
 
 =back
 

@@ -2,7 +2,7 @@ package HTML::FormFu::Element::file;
 
 use strict;
 use warnings;
-use base 'HTML::FormFu::Element::input';
+use base 'HTML::FormFu::Element::_input';
 use Class::C3;
 
 sub new {
@@ -25,7 +25,7 @@ HTML::FormFu::Element::file - File upload form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( File => 'foo' );
+    my $e = $form->element( file => 'foo' );
 
 =head1 DESCRIPTION
 
@@ -35,8 +35,10 @@ File upload form field.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::input>, 
-L<HTML::FormFu::Element::field>, L<HTML::FormFu::Element>
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_input>, 
+L<HTML::FormFu::Element::_field>, 
+L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>
 

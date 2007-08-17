@@ -28,7 +28,8 @@ C<< <div> </div> >> tags.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::block>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

@@ -149,8 +149,8 @@ grid format.
 
 As it's name suggests, this is a compromise between power and simplicity. 
 If you want more control of the markup, you'll probably just have to revert 
-to using nested L<block's|HTML::FormFu::Element::block>, setting the tags to 
-table, tr, td, etc. and adding the cell contents as elements.
+to using nested L<block's|HTML::FormFu::Element::_block>, setting the tags 
+to table, tr, td, etc. and adding the cell contents as elements.
 
 =head1 METHODS
 
@@ -188,7 +188,8 @@ The supplied string will be used as the class-name for each even-numbered row
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Element::block>, 
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::_block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu::FormFu>

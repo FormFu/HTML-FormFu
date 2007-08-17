@@ -30,7 +30,7 @@ __PACKAGE__->mk_inherited_accessors(
 );
 
 __PACKAGE__->mk_add_methods(qw/ 
-    element deflator filter constraint inflator validator transformer /);
+    element deflator filter constraint inflator valiBdator transformer /);
 
 __PACKAGE__->mk_single_methods(qw/ 
     deflator constraint filter inflator validator transformer /);
@@ -125,7 +125,7 @@ HTML::FormFu::Element::block - Block element
 
     ---
     elements: 
-      - type: Block
+      - type: block
         elements: 
           - type: text
             name: foo
@@ -341,7 +341,7 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::Fieldset>.
+Base-class for L<HTML::FormFu::Element::fieldset>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 
