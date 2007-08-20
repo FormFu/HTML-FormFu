@@ -8,7 +8,8 @@ use Class::C3;
 sub process {
     my $self = shift;
     
-    $self->set( map { $_->{value} } @{ $self->parent->_options } );
+    my @set = map { $_->{value} } @{ $self->parent->_options };
+    $self->set( \@set );
     
     return $self->next::method(@_);
 }
