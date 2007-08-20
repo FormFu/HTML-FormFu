@@ -22,90 +22,82 @@ sub _add_headers {
     my ($self) = @_;
 
     my $headers = $self->headers;
-    
-    return if !$headers || !@$headers;    
-    
-    eval {
-        my @foo = @$headers;
-    };
+
+    return if !$headers || !@$headers;
+
+    eval { my @foo = @$headers; };
     croak "headers must be passed as an array-ref" if $@;
-    
+
     my @original_rows = @{ $self->_elements };
-    $self->_elements([]);
-    
+    $self->_elements( [] );
+
     my $header_row = $self->element('Block');
     $header_row->tag('tr');
-    
-    for my $text ( @$headers ) {
+
+    for my $text (@$headers) {
         my $th = $header_row->element('Block');
         $th->tag('th');
         $th->content($text);
     }
-    
+
     if (@original_rows) {
         push @{ $self->_elements }, @original_rows;
     }
-    
+
     return;
 }
 
 sub rows {
     my ( $self, $rows ) = @_;
-    
+
     croak "too many arguments" if @_ > 2;
-    
-    eval {
-        my @foo = @$rows;
-    };
+
+    eval { my @foo = @$rows; };
     croak "rows must be passed as an array-ref" if $@;
-    
+
     for my $cells (@$rows) {
         my @cells;
-        eval {
-            @cells = @$cells;
-        };
+        eval { @cells = @$cells; };
         croak "each row must be an array-ref" if $@;
-        
+
         my $row = $self->element('Block');
         $row->tag('tr');
-        
+
         for my $cell (@cells) {
             my $td = $row->element('Block');
             $td->tag('td');
             $td->element($cell);
         }
     }
-    
+
     return $self;
 }
 
 sub render {
     my $self = shift;
-    
+
     my $copy = $self->clone;
-    
+
     my @elements = @{ $copy->_elements };
     my $odd      = $self->odd_class;
     my $even     = $self->even_class;
-    
+
     for my $i ( 1 .. scalar @elements ) {
-        my $row = $elements[$i-1];
-        
+        my $row = $elements[ $i - 1 ];
+
         if ( $i % 2 ) {
-            $row->attributes({ class => $odd })
+            $row->attributes( { class => $odd } )
                 if defined $odd;
         }
         else {
-            $row->attributes({ class => $even })
+            $row->attributes( { class => $even } )
                 if defined $even;
         }
     }
-    
+
     $copy->_add_headers;
 
-    my $render = $copy->next::method({
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $copy->next::method( { @_ ? %{ $_[0] } : () } );
 
     append_xml_attribute( $render->attributes, 'class', lc $self->type );
 

@@ -11,7 +11,7 @@ $form->element('Text')->name('foo');
 
 # Valid
 {
-    $form->process({ foo => [ 'one', 'two' ] });
+    $form->process( { foo => [ 'one', 'two' ] } );
 
     ok( $form->valid('foo'), 'foo valid' );
 

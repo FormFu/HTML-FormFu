@@ -13,8 +13,8 @@ use Carp qw/ croak /;
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
-    '""' => sub { return shift->output },
-    bool => sub {1},
+    '""'     => sub { return shift->output },
+    bool     => sub {1},
     fallback => 1;
 
 __PACKAGE__->mk_attrs(qw/ attributes /);
@@ -80,7 +80,7 @@ sub output {
 
 sub xhtml {
     my ( $self, $filename ) = @_;
-    
+
     $filename = $self->filename if !defined $filename;
 
     my %args = %{ $self->render_class_args };
@@ -88,14 +88,14 @@ sub xhtml {
     my $alloy = delete $args{TEMPLATE_ALLOY};
     $alloy = 1 if $ENV{HTML_FORMFU_TEMPLATE_ALLOY};
     require( $alloy ? 'Template/Alloy.pm' : 'Template.pm' );
-    
+
     $args{INCLUDE_PATH} = 'root'  if !keys %args;
     $args{ENCODING}     = 'UTF-8' if !exists $args{ENCODING};
 
     $args{RELATIVE}  = 1;
     $args{RECURSION} = 1;
 
-    my $package  = $alloy ? 'Template::Alloy' : 'Template';
+    my $package = $alloy ? 'Template::Alloy' : 'Template';
     my $template = $package->new( \%args );
 
     my $output;

@@ -45,7 +45,7 @@ sub prepare_attrs {
     elsif ( defined $default && $default eq $original ) {
         $render->attributes( 'checked' => 'checked' );
     }
-    
+
     $self->next::method($render);
 
     return;

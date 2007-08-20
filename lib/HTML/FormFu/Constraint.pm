@@ -22,24 +22,22 @@ sub process {
         eval { my @x = @$value };
         croak $@ if $@;
 
-        push @errors, eval {
-            $self->constrain_values( $value, $params );
-        };
+        push @errors, eval { $self->constrain_values( $value, $params ); };
         if ($@) {
-            push @errors, $self->mk_errors({
-                pass    => 0,
-                message => $@,
-            });
+            push @errors,
+                $self->mk_errors( {
+                    pass    => 0,
+                    message => $@,
+                } );
         }
     }
     else {
-        my $ok = eval {
-            $self->constrain_value( $value, $params );
-        };
-        push @errors, $self->mk_errors({
-            pass    => ( $@ || !$ok ) ? 0 : 1,
-            message => $@,
-        });
+        my $ok = eval { $self->constrain_value( $value, $params ); };
+        push @errors,
+            $self->mk_errors( {
+                pass => ( $@ || !$ok ) ? 0 : 1,
+                message => $@,
+            } );
     }
 
     return @errors;
@@ -51,14 +49,13 @@ sub constrain_values {
     my @errors;
 
     for my $value (@$values) {
-        my $ok = eval {
-            $self->constrain_value( $value, $params );
-        };
-        
-        push @errors, $self->mk_errors({
-            pass    => ( $@ || !$ok ) ? 0 : 1,
-            message => $@,
-        });
+        my $ok = eval { $self->constrain_value( $value, $params ); };
+
+        push @errors,
+            $self->mk_errors( {
+                pass => ( $@ || !$ok ) ? 0 : 1,
+                message => $@,
+            } );
     }
 
     return @errors;
@@ -70,32 +67,32 @@ sub constrain_value {
 
 sub mk_errors {
     my ( $self, $args ) = @_;
-    
+
     my $pass    = $args->{pass};
     my $message = $args->{message};
 
-    my @errors;    
-    my $name  = $self->name;
+    my @errors;
+    my $name = $self->name;
     my $force = $self->force_errors || $self->parent->force_errors;
-    
+
     if ( !$pass || $force ) {
         my $error = $self->mk_error($message);
-        
+
         $error->forced(1) if $pass;
-        
+
         push @errors, $error;
     }
-    
+
     return @errors;
 }
 
 sub mk_error {
     my ( $self, $err ) = @_;
-    
+
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Constraint') ) {
         $err = HTML::FormFu::Exception::Constraint->new;
     }
-    
+
     return $err;
 }
 

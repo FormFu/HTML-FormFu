@@ -23,12 +23,12 @@ sub constrain_value {
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->set( dclone $self->set )
         if $self->set;
-    
+
     return $clone;
 }
 

@@ -15,7 +15,7 @@ my $div = $form->element('Block');
 $div->element('Text');
 $div->element('Text')->name('bar');
 
-$form->process({ foo => 1 });
+$form->process( { foo => 1 } );
 
 is( @{ $form->get_fields('foo') }, 1 );
 

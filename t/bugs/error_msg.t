@@ -16,7 +16,7 @@ $form->constraint('Email');
     $form->process( { foo => 'cfranks@cpan', } );
 
     ok( $form->has_errors('foo'), 'foo has errors' );
-    
+
     like( $form, qr/\QThis field must contain an email address/ );
 }
 
@@ -24,6 +24,6 @@ $form->constraint('Email');
     $form->process( { foo => '', } );
 
     ok( $form->has_errors('foo'), 'foo has errors' );
-    
+
     like( $form, qr/\QThis field is required/ );
 }

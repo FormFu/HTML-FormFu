@@ -17,9 +17,8 @@ $form->populate( {
         elements => [
             { type => 'Password', name => 'foo' },
             { type => 'Text',     name => 'bar' },
-            { type => 'Block',  elements => [
-                { type => 'Text', name => 'baz' },
-                ],
+            {   type     => 'Block',
+                elements => [ { type => 'Text', name => 'baz' }, ],
             },
         ],
     } );

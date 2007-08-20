@@ -20,17 +20,13 @@ sub process {
         eval { my @x = @$value };
         croak $@ if $@;
 
-        push @errors, eval {
-            $self->validate_values( $value, $params );
-        };
-        if ( $@ ) {
+        push @errors, eval { $self->validate_values( $value, $params ); };
+        if ($@) {
             push @errors, $self->return_error($@);
         }
     }
     else {
-        my $ok = eval {
-            $self->validate_value( $value, $params );
-        };
+        my $ok = eval { $self->validate_value( $value, $params ); };
         if ( $@ or !$ok ) {
             push @errors, $self->return_error($@);
         }
@@ -45,9 +41,7 @@ sub validate_values {
     my @errors;
 
     for my $value (@$values) {
-        my $ok = eval {
-            $self->validate_value( $value, $params );
-        };
+        my $ok = eval { $self->validate_value( $value, $params ); };
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
             push @errors, $@;
         }
@@ -65,11 +59,11 @@ sub validate_value {
 
 sub return_error {
     my ( $self, $err ) = @_;
-    
+
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Validator') ) {
         $err = HTML::FormFu::Exception::Validator->new;
     }
-    
+
     return $err;
 }
 

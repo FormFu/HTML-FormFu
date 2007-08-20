@@ -5,8 +5,8 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new
-    ->load_config_file('t/load_config_file_multiple.yml');
+my $form
+    = HTML::FormFu->new->load_config_file('t/load_config_file_multiple.yml');
 
 is( $form->action, '/foo' );
 

@@ -6,34 +6,21 @@ use Test::More tests => 16;
 use HTML::FormFu;
 use DateTime;
 
-my $dt = DateTime->new( day => 6, month => 8, year => 2007);
+my $dt = DateTime->new( day => 6, month => 8, year => 2007 );
 
 my $form = HTML::FormFu->new;
 
-$form->element('Date')
-    ->name('foo')
-    ->strftime("%m/%d/%Y")
-    ->day({
-        prefix  => '-- Day --',
-    })
-    ->month({
-        prefix  => '-- Month --',
+$form->element('Date')->name('foo')->strftime("%m/%d/%Y")
+    ->day( { prefix => '-- Day --', } )->month( {
+        prefix      => '-- Month --',
         short_names => 1,
-    })
-    ->year({
-        prefix  => '-- Year --',
-    })
-    ->default( $dt )
-    ->auto_inflate(1)
+    }
+    )->year( { prefix => '-- Year --', } )->default($dt)->auto_inflate(1)
     ->constraint('Required');
 
+$form->element('Date')->name('bar')->default('14-08-2007');
 
-
-$form->element('Date')
-    ->name('bar')
-    ->default('14-08-2007');
-
-is ( "$form", <<HTML );
+is( "$form", <<HTML );
 <form action="" method="post">
 <span class="date date">
 <span class="elements">
@@ -169,15 +156,10 @@ is ( "$form", <<HTML );
 </form>
 HTML
 
-
-$form->process({
-    'foo.day', 30,
-    'foo.month', 6,
-    'foo.year', 2007,
-    'bar.day', 1,
-    'bar.month', 7,
-    'bar.year', 2007,
-    });
+$form->process( {
+        'foo.day', 30, 'foo.month', 6, 'foo.year', 2007,
+        'bar.day', 1,  'bar.month', 7, 'bar.year', 2007,
+    } );
 
 ok( $form->submitted_and_valid );
 
@@ -189,25 +171,23 @@ is( $form->params->{bar}, "01-07-2007" );
 
 like( $form->get_field('foo'), qr/\Q<option value="30" selected="selected">/ );
 like( $form->get_field('foo'), qr/\Q<option value="6" selected="selected">/ );
-like( $form->get_field('foo'), qr/\Q<option value="2007" selected="selected">/ );
+like( $form->get_field('foo'),
+    qr/\Q<option value="2007" selected="selected">/ );
 
 like( $form->get_field('bar'), qr/\Q<option value="1" selected="selected">/ );
 like( $form->get_field('bar'), qr/\Q<option value="7" selected="selected">/ );
-like( $form->get_field('bar'), qr/\Q<option value="2007" selected="selected">/ );
+like( $form->get_field('bar'),
+    qr/\Q<option value="2007" selected="selected">/ );
 
 # incorrect date
 
-$form->process({
-    'foo.day', 29,
-    'foo.month', 2,
-    'foo.year', 2007,
-});
+$form->process( { 'foo.day', 29, 'foo.month', 2, 'foo.year', 2007, } );
 
 ok( $form->submitted );
 ok( $form->has_errors );
 ok( !defined $form->params->{foo} );
 
-is ( "$form", <<HTML_ERRORS );
+is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
 <span class="date error error_inflator_datetime date error error_inflator_datetime">
 <span class="error_message error_inflator_datetime">Invalid date</span>

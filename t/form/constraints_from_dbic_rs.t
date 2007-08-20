@@ -10,21 +10,21 @@ use lib 't/lib';
 
 SKIP: {
     eval "use MyApp::Schema";
-    
+
     skip 'DBIx::Class needed', $count if $@;
-    
+
     my $form = HTML::FormFu->new;
-    
-    $form->element({ name => 'title' });
-    $form->element({ name => 'name' });
-    $form->element({ name => 'age' });
-    
+
+    $form->element( { name => 'title' } );
+    $form->element( { name => 'name' } );
+    $form->element( { name => 'age' } );
+
     my $schema = MyApp::Schema->connect;
-    
+
     $form->constraints_from_dbic( $schema->resultset('Person') );
-    
-    is ( @{ $form->get_field('title')->get_constraints }, 1 );
-    is ( @{ $form->get_field('name')->get_constraints },  1 );
-    is ( @{ $form->get_field('age')->get_constraints },    2 );
-    
+
+    is( @{ $form->get_field('title')->get_constraints }, 1 );
+    is( @{ $form->get_field('name')->get_constraints },  1 );
+    is( @{ $form->get_field('age')->get_constraints },   2 );
+
 }

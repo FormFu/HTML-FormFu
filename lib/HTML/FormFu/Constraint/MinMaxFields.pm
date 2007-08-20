@@ -42,24 +42,20 @@ sub process {
             eval { my @x = @$value };
             croak $@ if $@;
 
-            my @errors = eval {
-                $self->constrain_values( $value, $params );
-                };
+            my @errors = eval { $self->constrain_values( $value, $params ); };
             $count++ if !@errors && !$@;
         }
         else {
-            my $ok = eval {
-                $self->constrain_value($value);
-                };
+            my $ok = eval { $self->constrain_value($value); };
             $count++ if $ok && !$@;
         }
     }
 
-    return $self->mk_errors({
-        pass   => ( $count < $min || $count > $max ) ? 0 : 1,
-        failed => \@names,
-        names  => \@names,
-    });
+    return $self->mk_errors( {
+            pass => ( $count < $min || $count > $max ) ? 0 : 1,
+            failed => \@names,
+            names  => \@names,
+        } );
 }
 
 # return true if value is defined

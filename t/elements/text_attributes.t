@@ -7,16 +7,17 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $element = $form->element('Text')->name('foo')->comment('Whatever')->label('Foo')
+my $element
+    = $form->element('Text')->name('foo')->comment('Whatever')->label('Foo')
     ->default('bar')->size(30)->maxlength(50);
 
-is( $element->name,         'foo',      'element name' );
-is( $element->type, 'Text',     'element type' );
-is( $element->comment,      'Whatever', 'element comment' );
-is( $element->label,        'Foo',      'element label' );
-is( $element->default,      'bar',      'element value' );
-is( $element->size,         30,         'element size' );
-is( $element->maxlength,    50,         'element maxlength' );
+is( $element->name,      'foo',      'element name' );
+is( $element->type,      'Text',     'element type' );
+is( $element->comment,   'Whatever', 'element comment' );
+is( $element->label,     'Foo',      'element label' );
+is( $element->default,   'bar',      'element value' );
+is( $element->size,      30,         'element size' );
+is( $element->maxlength, 50,         'element maxlength' );
 is_deeply(
     $element->attributes,
     {   size      => 30,

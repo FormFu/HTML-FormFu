@@ -9,14 +9,13 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset(1);
 
-my $block = $form->element(
-    {
-        type => 'Block',
-        tag  => 'span',
+my $block = $form->element( {
+        type    => 'Block',
+        tag     => 'span',
         content => 'Hello <World>!',
-    });
+    } );
 
-$block->element({ type => 'Text' });
+$block->element( { type => 'Text' } );
 
 # because there's a content(), the block's elements should be ignored
 
@@ -24,7 +23,7 @@ my $block_xhtml = qq{<span>
 Hello &lt;World&gt;!
 </span>};
 
-is ( $block, $block_xhtml );
+is( $block, $block_xhtml );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">

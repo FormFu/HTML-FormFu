@@ -16,7 +16,8 @@ $form->element('Hidden')->name('my_hidden')->value(1);
 $form->element('Image')->name('my_image')->value(1);
 
 #$form->element('Password')->name('my_password')->value(1)->fill(1);
-$form->element('Radio')->name('my_radio1')->value(1)->attrs( checked => 'checked' );
+$form->element('Radio')->name('my_radio1')->value(1)
+    ->attrs( checked => 'checked' );
 $form->element('Radio')->name('my_radio2')->value(0);
 $form->element('Radiogroup')->name('my_radiogroup')->values( [ 1, 0 ] )
     ->attrs( checked => 'checked' );
@@ -48,7 +49,7 @@ $form->element('Textarea')->name('my_textarea')->value(1);
 # make sure XML of the result object has empty values, not defaults
 
 {
-    $form->process({ my_hidden => '', });
+    $form->process( { my_hidden => '', } );
 
     like( $form->get_field('my_checkbox1'), qr/value="1"/ );
     unlike( $form->get_field('my_checkbox1'), qr/"checked"/ );

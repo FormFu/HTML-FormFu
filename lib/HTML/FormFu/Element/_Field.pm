@@ -5,11 +5,11 @@ use warnings;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ 
+use HTML::FormFu::Attribute qw/
     mk_attrs mk_require_methods mk_get_one_methods /;
-use HTML::FormFu::ObjectUtil qw/   
+use HTML::FormFu::ObjectUtil qw/
     get_error _require_constraint /;
-use HTML::FormFu::Util qw/ 
+use HTML::FormFu::Util qw/
     _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
@@ -27,35 +27,44 @@ __PACKAGE__->mk_attrs(
         /
 );
 
-__PACKAGE__->mk_accessors(qw/ 
-    _constraints _filters _inflators _deflators _validators _transformers 
-    _errors container_tag
-    field_filename label_filename retain_default javascript /);
+__PACKAGE__->mk_accessors(
+    qw/
+        _constraints _filters _inflators _deflators _validators _transformers
+        _errors container_tag
+        field_filename label_filename retain_default javascript /
+);
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_inflator_class auto_validator_class 
-    auto_transformer_class render_processed_value force_errors /);
+        auto_constraint_class auto_inflator_class auto_validator_class
+        auto_transformer_class render_processed_value force_errors /
+);
 
-__PACKAGE__->mk_require_methods(qw/ 
-    deflator filter inflator validator transformer /);
+__PACKAGE__->mk_require_methods(
+    qw/
+        deflator filter inflator validator transformer /
+);
 
-__PACKAGE__->mk_get_one_methods(qw/ 
-    deflator filter constraint inflator validator transformer /);
+__PACKAGE__->mk_get_one_methods(
+    qw/
+        deflator filter constraint inflator validator transformer /
+);
 
 # build _single_X methods
 
-for my $method (qw/ 
-    deflator filter constraint inflator validator transformer /)
+for my $method (
+    qw/
+    deflator filter constraint inflator validator transformer /
+    )
 {
     no strict 'refs';
-    
+
     my $sub = sub {
         my ( $self, $arg ) = @_;
         my @items;
-    
+
         if ( ref $arg eq 'HASH' ) {
             push @items, $arg;
         }
@@ -65,55 +74,57 @@ for my $method (qw/
         else {
             croak 'invalid args';
         }
-    
+
         my @return;
-    
+
         for my $item (@items) {
-            my $type = delete $item->{type};
+            my $type           = delete $item->{type};
             my $require_method = "_require_$method";
-            my $array_method = "_${method}s";
-            
+            my $array_method   = "_${method}s";
+
             my $new = $self->$require_method( $type, $item );
-            
+
             push @{ $self->$array_method }, $new;
             push @return, $new;
         }
-    
+
         return @return;
-        };
-    
+    };
+
     my $name = __PACKAGE__ . "::_single_$method";
-    
+
     *{$name} = $sub;
 }
 
 # build get_Xs methods
 
-for my $method (qw/ 
-    deflator filter constraint inflator validator transformer /)
+for my $method (
+    qw/
+    deflator filter constraint inflator validator transformer /
+    )
 {
     no strict 'refs';
-    
+
     my $sub = sub {
-        my $self = shift;
-        my %args = _parse_args(@_);
+        my $self         = shift;
+        my %args         = _parse_args(@_);
         my $array_method = "_${method}s";
-        
+
         my @x = @{ $self->$array_method };
-    
+
         if ( exists $args{name} ) {
             @x = grep { $_->name eq $args{name} } @x;
         }
-    
+
         if ( exists $args{type} ) {
             @x = grep { $_->type eq $args{type} } @x;
         }
-    
+
         return \@x;
-        };
-    
+    };
+
     my $name = __PACKAGE__ . "::get_${method}s";
-        
+
     *{$name} = $sub;
 }
 
@@ -245,11 +256,11 @@ sub get_errors {
     if ( exists $args{type} ) {
         @e = grep { $_->type eq $args{type} } @e;
     }
-    
+
     if ( exists $args{stage} ) {
         @e = grep { $_->stage eq $args{stage} } @e;
     }
-    
+
     if ( !$args{forced} ) {
         @e = grep { !$_->forced } @e;
     }
@@ -259,17 +270,17 @@ sub get_errors {
 
 sub add_error {
     my ( $self, @errors ) = @_;
-    
+
     push @{ $self->_errors }, @errors;
-    
+
     return;
 }
 
 sub clear_errors {
     my ($self) = @_;
-    
-    $self->_errors([]);
-    
+
+    $self->_errors( [] );
+
     return;
 }
 
@@ -278,9 +289,9 @@ sub process_input { }
 sub prepare_id {
     my ( $self, $render ) = @_;
 
-    if ( !defined $render->{attributes}{id}
-         && defined $self->auto_id
-         && length $self->auto_id )
+    if (   !defined $render->{attributes}{id}
+        && defined $self->auto_id
+        && length $self->auto_id )
     {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
@@ -298,17 +309,17 @@ sub prepare_id {
 
 sub process_value {
     my ( $self, $value ) = @_;
-    
+
     my $submitted = $self->form->submitted;
     my $default   = $self->default;
 
-    my $new = $submitted 
-            ? defined $value 
-                ? $value 
-                : defined $default 
-                    ? "" 
-                    : undef 
-            : $default;
+    my $new
+        = $submitted
+        ? defined $value
+        ? $value
+        : defined $default ? ""
+        : undef
+        : $default;
 
     if ( $submitted && $self->retain_default && defined $new && $new eq "" ) {
         $new = $default;
@@ -320,33 +331,32 @@ sub process_value {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        comment_attributes   => xml_escape( $self->comment_attributes ),
-        container_attributes => xml_escape( $self->container_attributes ),
-        label_attributes     => xml_escape( $self->label_attributes ),
-        comment              => xml_escape( $self->comment ),
-        label                => xml_escape( $self->label ),
-        field_filename       => $self->field_filename,
-        label_filename       => $self->label_filename,
-        container_tag        => $self->container_tag,
-        javascript           => $self->javascript,
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            comment_attributes   => xml_escape( $self->comment_attributes ),
+            container_attributes => xml_escape( $self->container_attributes ),
+            label_attributes     => xml_escape( $self->label_attributes ),
+            comment              => xml_escape( $self->comment ),
+            label                => xml_escape( $self->label ),
+            field_filename       => $self->field_filename,
+            label_filename       => $self->label_filename,
+            container_tag        => $self->container_tag,
+            javascript           => $self->javascript,
+            @_ ? %{ $_[0] } : () } );
 
     $self->_render_container_class($render);
-    
+
     $self->_render_comment_class($render);
-    
+
     $self->_render_label($render);
 
     $self->_render_value($render);
-    
+
     $self->_render_constraint_class($render);
-    
+
     $self->_render_inflator_class($render);
-    
+
     $self->_render_validator_class($render);
-    
+
     $self->_render_transformer_class($render);
 
     $self->_render_error_class($render);
@@ -356,10 +366,10 @@ sub render {
 
 sub _render_label {
     my ( $self, $render ) = @_;
-    
-    if ( !defined $render->{label}
-         && defined $self->auto_label
-         && length $self->auto_label )
+
+    if (   !defined $render->{label}
+        && defined $self->auto_label
+        && length $self->auto_label )
     {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
@@ -369,13 +379,14 @@ sub _render_label {
         my $label = $self->auto_label;
         $label =~ s/%([fn])/$string{$1}/g;
 
-        $render->{label} = $self->form->localize( $label );
+        $render->{label} = $self->form->localize($label);
     }
-    
+
     if ( defined $render->{label} ) {
-        append_xml_attribute( $render->{container_attributes}, 'class', 'label' );
+        append_xml_attribute( $render->{container_attributes},
+            'class', 'label' );
     }
-    
+
     # label "for" attribute
     if (   defined $render->{label}
         && defined $render->{attributes}{id}
@@ -383,226 +394,229 @@ sub _render_label {
     {
         $render->{label_attributes}{for} = $render->{attributes}{id};
     }
-    
+
     return;
 }
 
 sub _render_comment_class {
     my ( $self, $render ) = @_;
-    
+
     if ( defined $render->{comment} ) {
-        append_xml_attribute( $render->{comment_attributes}, 'class', 'comment' );
+        append_xml_attribute( $render->{comment_attributes},
+            'class', 'comment' );
         append_xml_attribute( $render->{container_attributes},
             'class', 'comment' );
     }
-    
+
     return;
 }
 
 sub _render_value {
     my ( $self, $render ) = @_;
-    
+
     my $render_processed;
-    
-    my $input = ( $self->form->submitted
-                 && defined $self->name 
-                 && exists $self->form->input->{ $self->name } ) 
-              ? $self->render_processed_value 
-                ? ( $render_processed = 1 && 
-                    $self->form->_processed_params->{ $self->name } 
-                  )
-                : $self->form->input->{ $self->name } 
-              : undef;
-    
+
+    my $input
+        = (    $self->form->submitted
+            && defined $self->name
+            && exists $self->form->input->{ $self->name } )
+        ? $self->render_processed_value
+        ? ( $render_processed = 1
+            && $self->form->_processed_params->{ $self->name } )
+        : $self->form->input->{ $self->name }
+        : undef;
+
     if ( ref $input eq 'ARRAY' ) {
         my $elems = $self->form->get_fields( $self->name );
-        for ( 0 .. @$elems-1 ) {
+        for ( 0 .. @$elems - 1 ) {
             if ( $self == $elems->[$_] ) {
                 $input = $input->[$_];
             }
         }
     }
-    
+
     my $value = $self->process_value($input);
-    
+
     if ( !$self->form->submitted || $render_processed ) {
         for my $deflator ( @{ $self->_deflators } ) {
             $value = $deflator->process($value);
         }
     }
-    
+
     if ( ref $value eq 'ARRAY' && defined $self->name ) {
         my $max = $#$value;
         my $fields = $self->form->get_fields( name => $self->name );
-        
-        for (0..$max) {
+
+        for ( 0 .. $max ) {
             if ( defined $fields->[$_] && $fields->[$_] eq $self ) {
                 $value = $value->[$_];
                 last;
             }
         }
     }
-    
+
     $render->{value} = xml_escape $value;
-    
+
     return;
 }
 
 sub _render_container_class {
     my ( $self, $render ) = @_;
-    
+
     my $type = $self->type;
     $type =~ s/:://g;
 
-    append_xml_attribute( $render->{container_attributes},
-        'class', lc($type) );
-    
+    append_xml_attribute( $render->{container_attributes}, 'class', lc($type) );
+
     return;
 }
 
 sub _render_constraint_class {
     my ( $self, $render ) = @_;
-    
+
     my $auto_class = $self->auto_constraint_class;
-    
+
     return if !defined $auto_class;
-    
+
     for my $c ( @{ $self->_constraints } ) {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
             n => defined $render->{name} ? $render->{name} : '',
             t => defined $c->type        ? lc( $c->type )  : '',
         );
-        
+
         my $class = $auto_class;
-        
+
         $class =~ s/%([fnt])/$string{$1}/g;
-        
-        append_xml_attribute( $render->{container_attributes},
-            'class', $class );
+
+        append_xml_attribute( $render->{container_attributes}, 'class',
+            $class );
     }
-    
+
     return;
 }
 
 sub _render_inflator_class {
     my ( $self, $render ) = @_;
-    
+
     my $auto_class = $self->auto_inflator_class;
-    
+
     return if !defined $auto_class;
-    
+
     for my $c ( @{ $self->_inflators } ) {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
             n => defined $render->{name} ? $render->{name} : '',
             t => defined $c->type        ? lc( $c->type )  : '',
         );
-        
+
         $string{t} =~ s/::/_/g;
         $string{t} =~ s/\+//;
-        
+
         my $class = $auto_class;
-        
+
         $class =~ s/%([fnt])/$string{$1}/g;
-        
-        append_xml_attribute( $render->{container_attributes},
-            'class', $class );
+
+        append_xml_attribute( $render->{container_attributes}, 'class',
+            $class );
     }
-    
+
     return;
 }
 
 sub _render_validator_class {
     my ( $self, $render ) = @_;
-    
+
     my $auto_class = $self->auto_validator_class;
-    
+
     return if !defined $auto_class;
-    
+
     for my $c ( @{ $self->_validators } ) {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
             n => defined $render->{name} ? $render->{name} : '',
             t => defined $c->type        ? lc( $c->type )  : '',
         );
-        
+
         $string{t} =~ s/::/_/g;
         $string{t} =~ s/\+//;
-        
+
         my $class = $auto_class;
-        
+
         $class =~ s/%([fnt])/$string{$1}/g;
-        
-        append_xml_attribute( $render->{container_attributes},
-            'class', $class );
+
+        append_xml_attribute( $render->{container_attributes}, 'class',
+            $class );
     }
-    
+
     return;
 }
 
 sub _render_transformer_class {
     my ( $self, $render ) = @_;
-    
+
     my $auto_class = $self->auto_transformer_class;
-    
+
     return if !defined $auto_class;
-    
+
     for my $c ( @{ $self->_transformers } ) {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
             n => defined $render->{name} ? $render->{name} : '',
             t => defined $c->type        ? lc( $c->type )  : '',
         );
-        
+
         $string{t} =~ s/::/_/g;
         $string{t} =~ s/\+//;
-        
+
         my $class = $auto_class;
-        
+
         $class =~ s/%([fnt])/$string{$1}/g;
-        
-        append_xml_attribute( $render->{container_attributes},
-            'class', $class );
+
+        append_xml_attribute( $render->{container_attributes}, 'class',
+            $class );
     }
-    
+
     return;
 }
 
 sub _render_error_class {
     my ( $self, $render ) = @_;
-    
+
     my @errors = @{ $self->get_errors };
-    
+
     if (@errors) {
         $render->{errors} = \@errors;
 
-        append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
+        append_xml_attribute( $render->{container_attributes},
+            'class', 'error' );
 
         for my $error (@errors) {
             append_xml_attribute( $render->{container_attributes},
                 'class', $error->class );
         }
     }
-    
+
     return;
 }
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
-    for my $list (qw/ _filters _constraints _inflators _validators _transformers 
-                     _deflators /)
+
+    for my $list (
+        qw/ _filters _constraints _inflators _validators _transformers
+        _deflators /
+        )
     {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
     }
-    
-    $clone->comment_attributes(   dclone $self->comment_attributes );
+
+    $clone->comment_attributes( dclone $self->comment_attributes );
     $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes(     dclone $self->label_attributes );
-    
+    $clone->label_attributes( dclone $self->label_attributes );
+
     return $clone;
 }
 

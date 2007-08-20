@@ -8,8 +8,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Select')->name('foo')->values( [qw/ one two three /] )->default('two')
-    ->retain_default(1);
+$form->element('Select')->name('foo')->values( [qw/ one two three /] )
+    ->default('two')->retain_default(1);
 $form->element('Select')->name('bar')->values( [qw/ one two three /] )
     ->default('one');
 $form->element('Select')->name('baz')->values( [qw/ one two three /] )

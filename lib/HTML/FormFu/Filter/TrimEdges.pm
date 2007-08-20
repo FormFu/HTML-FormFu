@@ -5,14 +5,14 @@ use warnings;
 use base 'HTML::FormFu::Filter';
 
 sub filter {
-   my ( $self, $value ) = @_;
+    my ( $self, $value ) = @_;
 
-   return if !defined $value;
-   
-   $value =~ s/^\s+//;
-   $value =~ s/\s+\z//;
-   
-   return $value;
+    return if !defined $value;
+
+    $value =~ s/^\s+//;
+    $value =~ s/\s+\z//;
+
+    return $value;
 }
 
 1;

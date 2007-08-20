@@ -7,15 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Select')
-    ->name('foo')
-    ->values([qw/ one two three /])
-    ->default('two')
-    ->multiple(1);
+$form->element('Select')->name('foo')->values( [qw/ one two three /] )
+    ->default('two')->multiple(1);
 
-$form->process({
-    foo => [qw/ one three /],
-    });
+$form->process( { foo => [qw/ one three /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">

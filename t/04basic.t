@@ -16,37 +16,38 @@ $fs->element('Text')->name('age')->label('Age')->comment('x')
 $fs->element('Text')->name('name')->label('Name');
 $fs->element('Hidden')->name('ok')->value('OK');
 
-$form->constraints({
-    type => 'Required',
-    name => 'name',
-    });
+$form->constraints( {
+        type => 'Required',
+        name => 'name',
+    } );
 
 $form->filter('HTMLEscape');
 
 # hash-ref
 
 my $alt_hash = {
-    action    => '/foo/bar',
-    id        => 'form',
-    auto_id => '%n',
-    elements  => [ {
-            type => 'Fieldset',
+    action   => '/foo/bar',
+    id       => 'form',
+    auto_id  => '%n',
+    elements => [ {
+            type     => 'Fieldset',
             legend   => 'Jimi',
-            elements => [ 
-                    { type => 'Text',
-                      name =>     'age',
-                      label       => 'Age',
-                      comment     => 'x',
-                      constraints => [ 'Integer', 'Required', ],
-                      },
-                    { type => 'Text', name => 'name', label => 'Name', },
-                    { type => 'Hidden', name => 'ok', value => 'OK', },
-                ],
-        } ],
+            elements => [ {
+                    type        => 'Text',
+                    name        => 'age',
+                    label       => 'Age',
+                    comment     => 'x',
+                    constraints => [ 'Integer', 'Required', ],
+                },
+                { type => 'Text',   name => 'name', label => 'Name', },
+                { type => 'Hidden', name => 'ok',   value => 'OK', },
+            ],
+        }
+    ],
     constraints => {
         type => 'Required',
         name => 'name',
-        },
+    },
     filters => ['HTMLEscape'],
 };
 

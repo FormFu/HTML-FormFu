@@ -22,8 +22,6 @@ my $xhtml = <<EOF;
 </form>
 EOF
 
-eval {
-    is( "$form", $xhtml );
-};
+eval { is( "$form", $xhtml ); };
 
 ok( !$@, "died: $@" );

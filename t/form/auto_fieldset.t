@@ -5,12 +5,12 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->auto_fieldset({ id => 'fs' });
+my $form = HTML::FormFu->new->auto_fieldset( { id => 'fs' } );
 
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 
-my $fs = $form->element( 'Fieldset' );
+my $fs = $form->element('Fieldset');
 
 $fs->element('Text')->name('baz');
 

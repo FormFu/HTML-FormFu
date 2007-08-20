@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 my $outer = $form->element('Fieldset')->name('outer')->legend('My Form');
-is( $outer->name,         'outer' );
+is( $outer->name, 'outer' );
 is( $outer->type, 'Fieldset' );
 
 my $inner = $outer->element('Block');
@@ -16,7 +16,7 @@ ok( !$inner->name );
 is( $inner->type, 'Block' );
 
 my $foo = $outer->element('Text')->name('foo');
-is( $foo->name,         'foo' );
+is( $foo->name, 'foo' );
 is( $foo->type, 'Text' );
 
 my $field_xhtml = qq{<span class="text">

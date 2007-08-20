@@ -28,11 +28,11 @@ sub process {
             if $self->not ? $ok : !$ok;
     }
 
-    return  $self->mk_errors({
-        pass   => @failed ? 0 : 1,
-        failed => \@failed,
-        names  => \@names,
-    });
+    return $self->mk_errors( {
+            pass => @failed ? 0 : 1,
+            failed => \@failed,
+            names  => \@names,
+        } );
 }
 
 sub _values_eq {

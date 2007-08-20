@@ -36,7 +36,7 @@ use HTML::FormFu::Util qw(
     is( xml_escape( \%attr )->{foo}, "&lt;bar &gt;baz" );
 
     # string + literal
-    append_xml_attribute( \%attr, "foo",  literal "<boo" );
+    append_xml_attribute( \%attr, "foo", literal "<boo" );
 
     is( xml_escape( \%attr )->{foo}, "&lt;bar &gt;baz <boo" );
 

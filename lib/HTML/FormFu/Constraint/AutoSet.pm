@@ -7,10 +7,10 @@ use Class::C3;
 
 sub process {
     my $self = shift;
-    
+
     my @set = map { $_->{value} } @{ $self->parent->_options };
     $self->set( \@set );
-    
+
     return $self->next::method(@_);
 }
 

@@ -5,24 +5,23 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({
-    element => {
-        type => 'Multi',
-        label => 'My multi',
-        elements => [{
-            type => 'Text',
-            name => 'foo',
+my $form = HTML::FormFu->new( {
+        element => {
+            type     => 'Multi',
+            label    => 'My multi',
+            elements => [ {
+                    type => 'Text',
+                    name => 'foo',
+                },
+                {   type => 'Radio',
+                    name => 'bar',
+                } ]
         },
-        {
-            type => 'Radio',
-            name => 'bar',
-        }]
-        },
-    constraints => ['Required'],
-    });
+        constraints => ['Required'],
+    } );
 
 $form->indicator( sub {1} );
-$form->process({});
+$form->process(       {} );
 
 my $xhtml = <<EOF;
 <form action="" method="post">

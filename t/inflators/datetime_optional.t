@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')
-    ->inflator('DateTime')->parser({ strptime => '%d/%m/%Y' });
+$form->element('Text')->name('foo')->inflator('DateTime')
+    ->parser( { strptime => '%d/%m/%Y' } );
 
 $form->process( { foo => "" } );
 

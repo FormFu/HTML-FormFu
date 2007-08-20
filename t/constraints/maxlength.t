@@ -30,10 +30,8 @@ $form->element('Text')->name('bar')->constraint('MaxLength')->max(5);
 
     ok( $form->valid('foo'), 'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
-    
-    is(
-        $form->get_error('bar')->message,
-        'Must not be longer than 5 characters long'
-    );
+
+    is( $form->get_error('bar')->message,
+        'Must not be longer than 5 characters long' );
 }
 

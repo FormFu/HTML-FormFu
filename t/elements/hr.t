@@ -12,9 +12,9 @@ $form->indicator( sub {1} );
 
 my $hr = $form->element('Hr');
 
-$form->process({});
+$form->process( {} );
 
 my $hr_xhtml = qq{<hr />};
 
-is ( "$hr", $hr_xhtml );
+is( "$hr", $hr_xhtml );
 

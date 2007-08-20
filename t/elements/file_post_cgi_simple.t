@@ -46,13 +46,14 @@ my $q;
 {
     my $file = 't/elements/file_post.txt';
     local *STDIN;
-    open STDIN, "<", $file
+    open STDIN,
+        "<", $file
         or die "missing test file $file";
     binmode STDIN;
-    
+
     no warnings;
     $CGI::Simple::DISABLE_UPLOADS = 0;
-    
+
     $q = CGI::Simple->new;
 }
 
@@ -76,32 +77,32 @@ $form->process($q);
     my $multiple = $form->params->{multiple};
 
     is( @$multiple, 3 );
-    
+
     my ( $m1, $m2, $m3 ) = @$multiple;
 
     ok( !ref $m1 );
     is( $m1, 'foo' );
 
     isa_ok( $m2, 'HTML::FormFu::Upload' );
-    is( $m2->filename, 'one.txt' );
+    is( $m2->filename,                    'one.txt' );
     is( $m2->headers->{'Content-Length'}, 4 );
-    is( $m2->headers->{'Content-Type'}, 'text/plain' );
-    is( $m2->slurp, "One\n" );
-    
+    is( $m2->headers->{'Content-Type'},   'text/plain' );
+    is( $m2->slurp,                       "One\n" );
+
     isa_ok( $m3, 'HTML::FormFu::Upload' );
-    is( $m3->filename, 'two.txt' );
+    is( $m3->filename,                    'two.txt' );
     is( $m3->headers->{'Content-Length'}, 5 );
-    is( $m3->headers->{'Content-Type'}, 'text/plain' );
-    is( $m3->slurp, "Two!\n" );
+    is( $m3->headers->{'Content-Type'},   'text/plain' );
+    is( $m3->slurp,                       "Two!\n" );
 }
 
 {
     my $value = $form->params->{hello_world};
-    
+
     isa_ok( $value, 'HTML::FormFu::Upload' );
-    is( $value->filename, 'hello_world.txt' );
+    is( $value->filename,                    'hello_world.txt' );
     is( $value->headers->{'Content-Length'}, 13 );
-    is( $value->headers->{'Content-Type'}, 'text/plain' );
-    is( $value->slurp, "Hello World!\n" );
+    is( $value->headers->{'Content-Type'},   'text/plain' );
+    is( $value->slurp,                       "Hello World!\n" );
 }
 

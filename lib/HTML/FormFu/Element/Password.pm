@@ -17,7 +17,7 @@ sub new {
 
 sub process_value {
     my ( $self, $value ) = @_;
-    
+
     my $submitted = $self->form->submitted;
     my $new;
 

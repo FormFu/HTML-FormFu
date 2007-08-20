@@ -10,9 +10,7 @@ my $form = HTML::FormFu->new;
 $form->element('Text')->name('foo');
 $form->element('Text')->name('foo');
 
-$form->process({
-    foo => [qw/ a b /],
-    });
+$form->process( { foo => [qw/ a b /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">

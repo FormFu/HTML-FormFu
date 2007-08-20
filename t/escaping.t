@@ -7,9 +7,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo&')->label('<foo')->comment('foo>')->default("'foo")
-    ->attrs( { class => "foo'" } )->add_attrs( { class => 'bar"' } )
-    ->container_attrs( { class => 'foo"' } );
+$form->element('Text')->name('foo&')->label('<foo')->comment('foo>')
+    ->default("'foo")->attrs( { class => "foo'" } )
+    ->add_attrs( { class => 'bar"' } )->container_attrs( { class => 'foo"' } );
 
 $form->element('Text')->name('foo&')->label_xml('<foo')->comment_xml('foo>')
     ->default_xml("'foo")->attrs_xml( { class => "foo'" } )

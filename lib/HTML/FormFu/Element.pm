@@ -17,21 +17,24 @@ use Carp qw/ croak /;
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
-    '""' => sub { return shift->render },
-    bool => sub {1},
+    '""'     => sub { return shift->render },
+    bool     => sub {1},
     fallback => 1;
 
 __PACKAGE__->mk_attrs(qw/ attributes /);
 
 __PACKAGE__->mk_attr_accessors(qw/ id /);
 
-__PACKAGE__->mk_accessors(qw/
-    parent name type filename multi_filename is_field 
-    render_class_suffix /);
+__PACKAGE__->mk_accessors(
+    qw/
+        parent name type filename multi_filename is_field
+        render_class_suffix /
+);
 
 __PACKAGE__->mk_inherited_accessors(
-    qw/ render_class render_class_prefix render_class_args 
-    render_method /);
+    qw/ render_class render_class_prefix render_class_args
+        render_method /
+);
 
 sub new {
     my $class = shift;
@@ -43,7 +46,7 @@ sub new {
     my $self = bless {}, $class;
 
     $self->attributes( {} );
-    $self->stash( {} );
+    $self->stash(      {} );
 
     $self->populate( \%attrs );
 
@@ -99,18 +102,17 @@ sub prepare_id { }
 sub prepare_attrs { }
 
 sub clone {
-    my ( $self ) = @_;
-    
+    my ($self) = @_;
+
     my %new = %$self;
-    
+
     $new{render_class_args} = dclone $self->{render_class_args}
         if $self->{render_class_args};
-    
+
     $new{attributes} = dclone $self->attributes;
-    
+
     return bless \%new, ref $self;
 }
-
 
 sub render {
     my $self = shift;
@@ -118,25 +120,24 @@ sub render {
     my $class = $self->_render_class('Element');
     require_class($class);
 
-    my $render = $class->new({
-        name                => xml_escape( $self->name ),
-        attributes          => xml_escape( $self->attributes ),
-        render_class_args   => dclone( $self->render_class_args ),
-        type        => $self->type,
-        render_class_suffix => $self->render_class_suffix,
-        render_method       => $self->render_method,
-        filename            => $self->filename,
-        multi_filename      => $self->multi_filename,
-        is_field            => $self->is_field,
-        stash               => $self->stash,
-        parent              => $self,
-        @_ ? %{$_[0]} : ()
-        });
-    
+    my $render = $class->new( {
+            name                => xml_escape( $self->name ),
+            attributes          => xml_escape( $self->attributes ),
+            render_class_args   => dclone( $self->render_class_args ),
+            type                => $self->type,
+            render_class_suffix => $self->render_class_suffix,
+            render_method       => $self->render_method,
+            filename            => $self->filename,
+            multi_filename      => $self->multi_filename,
+            is_field            => $self->is_field,
+            stash               => $self->stash,
+            parent              => $self,
+            @_ ? %{ $_[0] } : () } );
+
     $self->prepare_id($render);
-    
+
     $self->prepare_attrs($render);
-    
+
     return $render;
 }
 

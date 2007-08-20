@@ -52,25 +52,24 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        comment_attributes   => xml_escape( $self->comment_attributes ),
-        container_attributes => xml_escape( $self->container_attributes ),
-        label_attributes     => xml_escape( $self->label_attributes ),
-        comment              => xml_escape( $self->comment ),
-        label                => xml_escape( $self->label ),
-        field_filename       => $self->field_filename,
-        label_filename       => $self->label_filename,
-        container_tag        => $self->container_tag,
-        javascript           => $self->javascript,
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            comment_attributes   => xml_escape( $self->comment_attributes ),
+            container_attributes => xml_escape( $self->container_attributes ),
+            label_attributes     => xml_escape( $self->label_attributes ),
+            comment              => xml_escape( $self->comment ),
+            label                => xml_escape( $self->label ),
+            field_filename       => $self->field_filename,
+            label_filename       => $self->label_filename,
+            container_tag        => $self->container_tag,
+            javascript           => $self->javascript,
+            @_ ? %{ $_[0] } : () } );
 
     $self->_render_container_class($render);
-    
+
     $self->_render_comment_class($render);
-    
+
     $self->_render_label($render);
-    
+
     $self->_render_error_class($render);
 
     append_xml_attribute( $render->{attributes}, 'class', 'elements' );
@@ -80,13 +79,14 @@ sub render {
 
 sub _render_error_class {
     my ( $self, $render ) = @_;
-    
+
     my @errors = map { @{ $_->get_errors } } @{ $self->_elements };
-    
+
     if (@errors) {
         $render->{errors} = \@errors;
 
-        append_xml_attribute( $render->{container_attributes}, 'class', 'error' );
+        append_xml_attribute( $render->{container_attributes},
+            'class', 'error' );
 
         my @class = uniq sort map { $_->class } @errors;
 
@@ -95,19 +95,19 @@ sub _render_error_class {
                 'class', $class );
         }
     }
-    
+
     return;
 }
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
-    $clone->comment_attributes(   dclone $self->comment_attributes );
+
+    $clone->comment_attributes( dclone $self->comment_attributes );
     $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes(     dclone $self->label_attributes );
-    
+    $clone->label_attributes( dclone $self->label_attributes );
+
     return $clone;
 }
 

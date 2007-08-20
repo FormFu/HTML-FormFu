@@ -6,43 +6,52 @@ use base 'HTML::FormFu::Element';
 use Class::C3;
 
 use HTML::FormFu::Accessor qw/ mk_output_accessors /;
-use HTML::FormFu::Attribute qw/ 
-    mk_add_methods mk_single_methods mk_require_methods mk_get_methods 
+use HTML::FormFu::Attribute qw/
+    mk_add_methods mk_single_methods mk_require_methods mk_get_methods
     mk_get_one_methods /;
-use HTML::FormFu::ObjectUtil qw/ 
-    _single_element _require_constraint 
+use HTML::FormFu::ObjectUtil qw/
+    _single_element _require_constraint
     get_fields get_field get_errors get_error clear_errors
-    get_elements get_element get_all_elements get_all_element insert_before 
+    get_elements get_element get_all_elements get_all_element insert_before
     insert_after /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements xml_escape /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors(
-    qw/ tag _elements element_defaults / );
+__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults /);
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_inflator_class auto_validator_class 
-    auto_transformer_class render_processed_value force_errors /
+        auto_constraint_class auto_inflator_class auto_validator_class
+        auto_transformer_class render_processed_value force_errors /
 );
 
-__PACKAGE__->mk_add_methods(qw/ 
-    element deflator filter constraint inflator valiBdator transformer /);
+__PACKAGE__->mk_add_methods(
+    qw/
+        element deflator filter constraint inflator valiBdator transformer /
+);
 
-__PACKAGE__->mk_single_methods(qw/ 
-    deflator constraint filter inflator validator transformer /);
+__PACKAGE__->mk_single_methods(
+    qw/
+        deflator constraint filter inflator validator transformer /
+);
 
-__PACKAGE__->mk_require_methods(qw/ 
-    deflator filter inflator validator transformer /);
+__PACKAGE__->mk_require_methods(
+    qw/
+        deflator filter inflator validator transformer /
+);
 
-__PACKAGE__->mk_get_methods(qw/ 
-    deflator filter constraint inflator validator transformer /);
+__PACKAGE__->mk_get_methods(
+    qw/
+        deflator filter constraint inflator validator transformer /
+);
 
-__PACKAGE__->mk_get_one_methods(qw/ 
-    deflator filter constraint inflator validator transformer /);
+__PACKAGE__->mk_get_one_methods(
+    qw/
+        deflator filter constraint inflator validator transformer /
+);
 
 *elements     = \&element;
 *constraints  = \&constraint;
@@ -65,7 +74,7 @@ sub new {
 }
 
 sub process {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     map { $_->process } @{ $self->_elements };
 
@@ -83,12 +92,11 @@ sub prepare_id {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        tag       => $self->tag,
-        content   => xml_escape( $self->content ),
-        _elements => [ map { $_->render } @{ $self->_elements } ],
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            tag       => $self->tag,
+            content   => xml_escape( $self->content ),
+            _elements => [ map { $_->render } @{ $self->_elements } ],
+            @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
@@ -103,13 +111,13 @@ sub end {
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
-    
+
     $clone->element_defaults( dclone $self->element_defaults );
-    
+
     return $clone;
 }
 

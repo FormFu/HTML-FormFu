@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 ok( my $element = $form->element('Text')->name('foo') );
-is( $element->name,         'foo' );
+is( $element->name, 'foo' );
 is( $element->type, 'Text' );
 
 # add more elements to test accessor output
@@ -36,5 +36,5 @@ EOF
 
 ok( my $form_renderer = $form->render );
 is( $form_renderer->output, $expected_form_xhtml );
-is( "$form_renderer", $expected_form_xhtml );
-is( "$form", $expected_form_xhtml );
+is( "$form_renderer",       $expected_form_xhtml );
+is( "$form",                $expected_form_xhtml );

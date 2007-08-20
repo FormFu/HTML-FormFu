@@ -12,7 +12,7 @@ sub new {
 
     $self->field_type('image');
     $self->src('') if !defined $self->src;
-    
+
     return $self;
 }
 

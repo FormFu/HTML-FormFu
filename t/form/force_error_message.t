@@ -5,17 +5,14 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new
-    ->form_error_message('Forced Error Message')
+my $form = HTML::FormFu->new->form_error_message('Forced Error Message')
     ->force_error_message(1);
 
 my $field = $form->element('Text')->name('foo');
 
 $field->constraint('Number');
 
-$form->process( {
-        foo => '1',
-    } );
+$form->process( { foo => '1', } );
 
 ok( !$form->has_errors );
 

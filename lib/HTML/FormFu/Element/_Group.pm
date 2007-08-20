@@ -103,7 +103,7 @@ sub values {
 
 sub value_range {
     my ( $self, $arg ) = @_;
-    my ( @values );
+    my (@values);
 
     croak "value_range argument must be a single array-ref of values" if @_ > 2;
 
@@ -111,13 +111,13 @@ sub value_range {
         eval { @values = @$arg };
         croak "value_range argument must be an array-ref" if $@;
     }
-    
+
     croak "range must contain at least 2 values" if @$arg < 2;
-    
+
     my $end   = pop @values;
     my $start = pop @values;
 
-    return $self->values([ @values, $start .. $end ]);
+    return $self->values( [ @values, $start .. $end ] );
 }
 
 sub prepare_attrs {
@@ -125,10 +125,11 @@ sub prepare_attrs {
 
     my $submitted = $self->form->submitted;
     my $default   = $self->default;
-    my $value     = defined $self->name
+    my $value
+        = defined $self->name
         ? $self->form->input->{ $self->name }
         : undef;
-    
+
     for my $option ( @{ $render->{options} } ) {
         if ( exists $option->{group} ) {
             for my $item ( @{ $option->{group} } ) {
@@ -139,7 +140,7 @@ sub prepare_attrs {
             $self->_prepare_attrs( $submitted, $value, $default, $option );
         }
     }
-    
+
     $self->next::method($render);
 
     return;
@@ -148,10 +149,9 @@ sub prepare_attrs {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        options           => dclone( $self->_options ),
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            options => dclone( $self->_options ),
+            @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
@@ -169,11 +169,11 @@ sub as {
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->_options( dclone $self->_options );
-    
+
     return $clone;
 }
 

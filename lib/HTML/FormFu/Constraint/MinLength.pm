@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Constraint::Length';
 
 sub localize_args {
     my ($self) = @_;
-    
+
     return $self->min;
 }
 

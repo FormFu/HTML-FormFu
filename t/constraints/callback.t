@@ -16,10 +16,10 @@ sub cb {
     return 1;
 }
 
-$form->constraint({
-    type => 'Callback',
-    callback => \&cb,
-    });
+$form->constraint( {
+        type     => 'Callback',
+        callback => \&cb,
+    } );
 
 # Valid
 {

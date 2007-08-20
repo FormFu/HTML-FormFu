@@ -9,5 +9,6 @@ my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->default('');
 
-like( $form->get_field('foo'), qr/\Q value="" /x, 'empty value appears in XML' );
+like( $form->get_field('foo'), qr/\Q value="" /x,
+    'empty value appears in XML' );
 

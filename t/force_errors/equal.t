@@ -7,7 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new->force_errors(1);
 
-$form->element('Text')->name('foo')->constraint('Equal')->others( 'bar', 'baz' );
+$form->element('Text')->name('foo')->constraint('Equal')
+    ->others( 'bar', 'baz' );
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 
@@ -21,9 +22,9 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
-    
-    ok( $form->get_errors({ name => 'bar', forced => 1 }) );
-    ok( $form->get_errors({ name => 'baz', forced => 1 }) );
+
+    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
+    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
 }
 
 {
@@ -36,9 +37,9 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
-    
-    ok( $form->get_errors({ name => 'bar', forced => 1 }) );
-    ok( $form->get_errors({ name => 'baz', forced => 1 }) );
+
+    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
+    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
 }
 
 {
@@ -51,9 +52,9 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
-    
-    ok( $form->get_errors({ name => 'bar', forced => 1 }) );
-    ok( $form->get_errors({ name => 'baz', forced => 1 }) );
+
+    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
+    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
 }
 
 {
@@ -62,12 +63,12 @@ $form->element('Text')->name('baz');
             bar => 'yada',
             baz => 'x',
         } );
-    
+
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( $form->has_errors('baz') );
-    
-    ok( $form->get_errors({ name => 'baz', forced => 1 }) );
+
+    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
 }
 
 {
@@ -80,6 +81,6 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( $form->has_errors('baz') );
-    
-    ok( $form->get_errors({ name => 'baz', forced => 1 }) );
+
+    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
 }

@@ -13,8 +13,8 @@ __PACKAGE__->mk_accessors(qw/ name type multi_filename is_field /);
 sub multi {
     my $self = shift;
 
-    my $file =
-        defined $self->multi_filename
+    my $file
+        = defined $self->multi_filename
         ? $self->multi_filename
         : $self->filename;
 
@@ -23,11 +23,11 @@ sub multi {
 
 sub as {
     my $self = shift;
-    
+
     if ( $self->parent->can('as') ) {
         return $self->parent->as(@_);
     }
-    
+
     croak "element doesn't implement 'as'";
 }
 

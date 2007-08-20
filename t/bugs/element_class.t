@@ -30,12 +30,12 @@ EOF
 
 # 1st result
 {
-    $form->process({});
+    $form->process( {} );
     is( "$form", $xhtml, 'stringified form' );
 }
 
 # 2nd result
 {
-    $form->process({});
+    $form->process( {} );
     is( "$form", $xhtml, 'stringified form' );
 }

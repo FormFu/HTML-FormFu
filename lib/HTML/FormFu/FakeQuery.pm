@@ -52,6 +52,6 @@ sub param {
 
 sub upload { }
 
-sub uploadInfo{ {} }
+sub uploadInfo { {} }
 
 1;

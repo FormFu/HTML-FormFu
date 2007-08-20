@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 my $field = $form->element('Radiogroup')->name('foo')->value(2)
-        ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
+    ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
 
 # add more elements to test accessor output
 $form->element('Radiogroup')->name('foo2')->options( [

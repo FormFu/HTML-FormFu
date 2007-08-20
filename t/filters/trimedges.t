@@ -12,7 +12,7 @@ $form->element('Text')->name('foo')->filter('TrimEdges');
 my $original_foo = " Foo Bar ";
 my $filtered_foo = "Foo Bar";
 
-$form->process({ foo => $original_foo });
+$form->process( { foo => $original_foo } );
 
 # foo is filtered
 is( $form->params->{foo}, $filtered_foo );

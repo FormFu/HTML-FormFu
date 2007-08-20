@@ -71,9 +71,9 @@ sub _prepare_id {
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;
 
-    if ( $submitted
-         && defined $value
-         && ( ref $value eq 'ARRAY'
+    if (   $submitted
+        && defined $value
+        && (ref $value eq 'ARRAY'
             ? grep { $_ eq $option->{value} } @$value
             : $value eq $option->{value} ) )
     {
@@ -98,23 +98,22 @@ sub _prepare_attrs {
 
 sub _render_label {
     my ( $self, $render ) = @_;
-    
+
     $self->next::method($render);
-    
+
     if ( defined $render->{label} && $render->{label_filename} eq 'legend' ) {
         $render->{container_attributes}{class} =~ s/\blabel\b/legend/;
     }
-    
+
     return;
 }
 
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        radiogroup_filename => $self->radiogroup_filename,
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            radiogroup_filename => $self->radiogroup_filename,
+            @_ ? %{ $_[0] } : () } );
 
     for my $item ( @{ $render->{options} } ) {
         append_xml_attribute( $item->{attributes}, 'class', 'subgroup' )

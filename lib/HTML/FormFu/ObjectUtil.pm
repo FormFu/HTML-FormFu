@@ -10,19 +10,19 @@ use Scalar::Util qw/ refaddr weaken blessed /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 
-our @EXPORT_OK = qw/  
+our @EXPORT_OK = qw/
     _render_class _coerce populate
     _require_constraint
-    _single_element 
+    _single_element
     deflator get_fields get_field get_elements get_element
     get_all_elements get_all_element get_errors get_error clear_errors
-    load_config_file form insert_before insert_after clone name stash 
+    load_config_file form insert_before insert_after clone name stash
     constraints_from_dbic /;
 
 sub _single_element {
     my ( $self, $element ) = @_;
     my @elements;
-    
+
     if ( ref $element eq 'HASH' ) {
         push @elements, $element;
     }
@@ -38,20 +38,21 @@ sub _single_element {
     for (@elements) {
         my $e = _require_element( $self, $_ );
         push @return, $e;
-        
-        if ( $self->can('auto_fieldset') 
-             && $self->auto_fieldset 
-             && $e->type ne 'Fieldset' )
+
+        if (   $self->can('auto_fieldset')
+            && $self->auto_fieldset
+            && $e->type ne 'Fieldset' )
         {
-            my ($target) = reverse @{ $self->get_elements({ type => 'Fieldset' }) };
-            
+            my ($target)
+                = reverse @{ $self->get_elements( { type => 'Fieldset' } ) };
+
             push @{ $target->_elements }, $e;
         }
         else {
             push @{ $self->_elements }, $e;
         }
     }
-    
+
     return @return;
 }
 
@@ -60,7 +61,7 @@ sub _require_element {
 
     $arg->{type} = 'Text' if !exists $arg->{type};
 
-    my $type = delete $arg->{type};
+    my $type  = delete $arg->{type};
     my $class = $type;
     if ( not $class =~ s/^\+// ) {
         $class = "HTML::FormFu::Element::$class";
@@ -71,8 +72,8 @@ sub _require_element {
     require_class($class);
 
     my $element = $class->new( {
-            type    => $type,
-            parent          => $self,
+            type   => $type,
+            parent => $self,
         } );
 
     weaken( $element->{parent} );
@@ -81,12 +82,12 @@ sub _require_element {
         $element->element_defaults( dclone $self->element_defaults );
     }
 
-    if ( exists $self->element_defaults->{ $type } ) {
+    if ( exists $self->element_defaults->{$type} ) {
         %$arg = ( %{ $self->element_defaults->{$type} }, %$arg );
     }
 
     populate( $element, $arg );
-    
+
     $element->setup;
 
     return $element;
@@ -130,7 +131,8 @@ sub get_fields {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my @e = map { $_->is_field ? $_ : @{ $_->get_fields } } @{ $self->_elements };
+    my @e
+        = map { $_->is_field ? $_ : @{ $_->get_fields } } @{ $self->_elements };
 
     return _get_elements( \%args, \@e );
 }
@@ -164,7 +166,7 @@ sub _require_constraint {
     if ( !$abs ) {
         $class = "HTML::FormFu::Constraint::$class";
     }
-    
+
     $type =~ s/^\+//;
 
     require_class($class);
@@ -189,33 +191,33 @@ sub _require_constraint {
 sub get_errors {
     my $self = shift;
     my %args = _parse_args(@_);
-    
+
     return [] if !$self->form->submitted;
 
     my @e = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
-    
+
     if ( exists $args{name} ) {
         @e = grep { $_->name eq $args{name} } @e;
     }
-    
+
     if ( exists $args{type} ) {
         @e = grep { $_->type eq $args{type} } @e;
     }
-    
+
     if ( exists $args{stage} ) {
         @e = grep { $_->stage eq $args{stage} } @e;
     }
-    
+
     if ( !$args{forced} ) {
         @e = grep { !$_->forced } @e;
     }
-    
+
     return \@e;
 }
 
 sub get_error {
     my $self = shift;
-    
+
     return if !$self->form->submitted;
 
     my $c = $self->get_errors(@_);
@@ -225,9 +227,9 @@ sub get_error {
 
 sub clear_errors {
     my ($self) = @_;
-    
+
     map { $_->clear_errors } @{ $self->_elements };
-    
+
     return;
 }
 
@@ -235,8 +237,8 @@ sub populate {
     my ( $self, $arg ) = @_;
 
     my @keys = qw(
-        element_defaults auto_fieldset load_config_file element elements 
-        filter filters constraint constraints inflator inflators 
+        element_defaults auto_fieldset load_config_file element elements
+        filter filters constraint constraints inflator inflators
         deflator deflators query validator validators transformer transformers
     );
 
@@ -258,65 +260,65 @@ sub populate {
 
 sub insert_before {
     my ( $self, $object, $position ) = @_;
-    
+
     for my $i ( 1 .. @{ $self->_elements } ) {
-        if ( refaddr( $self->_elements->[$i-1] ) eq refaddr($position) ) {
-            splice @{ $self->_elements }, $i-1, 0, $object;
+        if ( refaddr( $self->_elements->[ $i - 1 ] ) eq refaddr($position) ) {
+            splice @{ $self->_elements }, $i - 1, 0, $object;
             $object->{parent} = $position->{parent};
             weaken $object->{parent};
             return $object;
         }
     }
-    
+
     croak 'position element not found';
 }
 
 sub insert_after {
     my ( $self, $object, $position ) = @_;
-    
+
     for my $i ( 1 .. @{ $self->_elements } ) {
-        if ( refaddr( $self->_elements->[$i-1] ) eq refaddr($position) ) {
+        if ( refaddr( $self->_elements->[ $i - 1 ] ) eq refaddr($position) ) {
             splice @{ $self->_elements }, $i, 0, $object;
             $object->{parent} = $position->{parent};
             weaken $object->{parent};
             return $object;
         }
     }
-    
+
     croak 'position element not found';
 }
 
 sub load_config_file {
     my $self = shift;
     my @filenames;
-    
+
     if ( @_ == 1 && ref $_[0] eq 'ARRAY' ) {
         push @filenames, @{ $_[0] };
     }
     else {
         push @filenames, @_;
     }
-    
+
     for (@filenames) {
         croak "file not found: '$_'" if !-f $_;
     }
-    
+
     # ignore $@, Config::Any will take care of loading YAML.pm if necessary.
-    # ImplicitUnicode ensures that values won't be double-encoded when we 
+    # ImplicitUnicode ensures that values won't be double-encoded when we
     # encode() our output
     eval { require YAML::Syck };
     local $YAML::Syck::ImplicitUnicode = 1;
 
     for my $file (@filenames) {
-        
+
         my $config = Config::Any->load_files( {
                 files   => [$file],
                 use_ext => 1,
             } );
-        
+
         my $data = $config->[0]->{$file};
-        
-        $self->populate( $data );
+
+        $self->populate($data);
     }
 
     return $self;
@@ -325,32 +327,33 @@ sub load_config_file {
 sub _render_class {
     my ( $self, $dir ) = @_;
     my $class;
-    
+
     if ( defined $self->render_class ) {
-        $class =  $self->render_class;
+        $class = $self->render_class;
     }
     elsif ( defined $dir && defined $self->render_class_suffix ) {
-        $class = $self->render_class_prefix . "::" . $dir . 
-            "::" . $self->render_class_suffix
+        $class
+            = $self->render_class_prefix . "::" 
+            . $dir . "::"
+            . $self->render_class_suffix;
     }
     elsif ( defined $dir ) {
         $class = $self->render_class_prefix . "::" . $dir;
     }
     else {
-        $class = $self->render_class_prefix . "::"
-            . $self->render_class_suffix;
+        $class = $self->render_class_prefix . "::" . $self->render_class_suffix;
     }
-    
+
     return $class;
 }
 
-# create a map of errors to processors, so we can reassociate the new cloned 
-    # errors with the new cloned processors
+# create a map of errors to processors, so we can reassociate the new cloned
+# errors with the new cloned processors
 
-    # clone the errors
+# clone the errors
 #    my @errors = map { $_->clone } @{ $self->_errors };
-    
-    # reassociate the errors with the processors
+
+# reassociate the errors with the processors
 #    map { $_->processor() } @errors;
 
 sub _coerce {
@@ -381,7 +384,7 @@ sub _coerce {
     {
         $element->$method( $self->$method );
     }
-    
+
     _coerce_processors_and_errors( $self, $element, %args );
 
     $element->attributes( $args{attributes} );
@@ -398,76 +401,78 @@ sub _coerce {
 
 sub _coerce_processors_and_errors {
     my ( $self, $element, %args ) = @_;
-    
+
     if ( $args{errors} && @{ $args{errors} } > 0 ) {
-        
+
         my @errors = @{ $args{errors} };
         my @new_errors;
-        
-        for my $list (qw/ _filters _constraints _inflators _validators 
-                               _transformers _deflators /)
+
+        for my $list (
+            qw/ _filters _constraints _inflators _validators
+            _transformers _deflators /
+            )
         {
-            $element->$list([]);
-            
+            $element->$list( [] );
+
             for my $processor ( @{ $self->$list } ) {
-                my @errors_to_copy = map { $_->clone } 
+                my @errors_to_copy = map { $_->clone }
                     grep { $_->processor == $processor } @errors;
-                
+
                 my $processor_clone = $processor->clone;
-                
+
                 $processor_clone->parent($element);
-                
+
                 map { $_->processor($processor_clone) } @errors_to_copy;
-                
+
                 push @{ $element->$list }, $processor_clone;
-                
+
                 push @new_errors, @errors_to_copy;
             }
         }
-        $element->_errors(\@new_errors);
+        $element->_errors( \@new_errors );
     }
     else {
-        $element->_errors([]);
+        $element->_errors( [] );
     }
-    
+
     return;
 }
 
 sub form {
     my ($self) = @_;
-    
+
     while ( defined $self->parent ) {
         $self = $self->parent;
     }
-    
+
     return $self;
 }
 
 sub clone {
-    my ( $self ) = @_;
-    
+    my ($self) = @_;
+
     my %new = %$self;
-    
+
     $new{_elements}         = [ map { $_->clone } @{ $self->_elements } ];
     $new{attributes}        = dclone $self->attributes;
     $new{render_class_args} = dclone $self->render_class_args;
     $new{element_defaults}  = dclone $self->element_defaults;
     $new{languages}         = dclone $self->languages;
-    
+
     return bless \%new, ref $self;
 }
 
 sub name {
     my $self = shift;
-    
+
     croak 'cannot use name() as a setter' if @_;
-    
+
     return $self->parent->name;
 }
 
 sub stash {
     my $self = shift;
-    
+
     $self->{stash} = {} if not exists $self->{stash};
     return $self->{stash} if !@_;
 
@@ -476,58 +481,59 @@ sub stash {
     $self->{stash}->{$_} = $attrs{$_} for keys %attrs;
 
     return $self;
-};
+}
 
 sub constraints_from_dbic {
     my ( $self, $source, $map ) = @_;
-    
+
     $map ||= {};
-    
-    $source = _result_source( $source );
-    
+
+    $source = _result_source($source);
+
     for my $col ( $source->columns ) {
         _add_constraints( $self, $col, $source->column_info($col) );
     }
-    
+
     for my $col ( keys %$map ) {
         my $source = _result_source( $map->{$col} );
-        
+
         _add_constraints( $self, $col, $source->column_info($col) );
     }
-    
+
     return $self;
 }
 
 sub _result_source {
-    my ( $source ) = @_;
-    
+    my ($source) = @_;
+
     if ( blessed $source ) {
         $source = $source->result_source;
     }
-    
+
     return $source;
 }
 
 sub _add_constraints {
     my ( $self, $col, $info ) = @_;
-    
+
     return if !defined $self->get_field($col);
 
     return if !defined $info->{data_type};
-    
+
     my $type = lc $info->{data_type};
-    
+
     if ( $type =~ /(char|text|binary)\z/ && defined $info->{size} ) {
+
         # char, varchar, *text, binary, varbinary
         _add_constraint_max_length( $self, $col, $info );
     }
     elsif ( $type =~ /int/ ) {
         _add_constraint_integer( $self, $col, $info );
-        
+
         if ( $info->{extra}{unsigned} ) {
             _add_constraint_unsigned( $self, $col, $info );
         }
-        
+
     }
     elsif ( $type =~ /enum|set/ && defined $info->{extra}{list} ) {
         _add_constraint_set( $self, $col, $info );
@@ -536,41 +542,41 @@ sub _add_constraints {
 
 sub _add_constraint_max_length {
     my ( $self, $col, $info ) = @_;
-    
-    $self->constraint({
-        type => 'MaxLength',
-        name => $col,
-        max  => $info->{size},
-    });
+
+    $self->constraint( {
+            type => 'MaxLength',
+            name => $col,
+            max  => $info->{size},
+        } );
 }
 
 sub _add_constraint_integer {
     my ( $self, $col, $info ) = @_;
-    
-    $self->constraint({
-        type => 'Integer',
-        name => $col,
-    });
+
+    $self->constraint( {
+            type => 'Integer',
+            name => $col,
+        } );
 }
 
 sub _add_constraint_unsigned {
     my ( $self, $col, $info ) = @_;
-    
-    $self->constraint({
-        type => 'Range',
-        name => $col,
-        min  => 0,
-    });
+
+    $self->constraint( {
+            type => 'Range',
+            name => $col,
+            min  => 0,
+        } );
 }
 
 sub _add_constraint_set {
     my ( $self, $col, $info ) = @_;
-    
-    $self->constraint({
-        type => 'Set',
-        name => $col,
-        set  => $info->{extra}{list},
-    });
+
+    $self->constraint( {
+            type => 'Set',
+            name => $col,
+            set  => $info->{extra}{list},
+        } );
 }
 
 1;

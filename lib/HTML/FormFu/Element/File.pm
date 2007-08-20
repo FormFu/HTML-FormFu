@@ -9,7 +9,7 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->field_type('file');
-    
+
     $self->form->enctype('multipart/form-data');
 
     return $self;

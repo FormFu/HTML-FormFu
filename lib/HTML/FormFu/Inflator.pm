@@ -17,10 +17,8 @@ sub process {
 
     if ( ref $values eq 'ARRAY' ) {
         my @return;
-        for my $value ( @$values ) {
-            my ( $return ) = eval {
-                $self->inflator($value);
-                };
+        for my $value (@$values) {
+            my ($return) = eval { $self->inflator($value); };
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
@@ -32,9 +30,7 @@ sub process {
         $return = \@return;
     }
     else {
-        ( $return ) = eval {
-            $self->inflator($values);
-            };
+        ($return) = eval { $self->inflator($values); };
         if ($@) {
             push @errors, $self->return_error($@);
         }
@@ -45,11 +41,11 @@ sub process {
 
 sub return_error {
     my ( $self, $err ) = @_;
-    
+
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Inflator') ) {
         $err = HTML::FormFu::Exception::Inflator->new;
     }
-    
+
     return $err;
 }
 

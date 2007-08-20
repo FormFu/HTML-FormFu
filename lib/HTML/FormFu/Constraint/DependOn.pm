@@ -17,33 +17,29 @@ sub process {
     return if !$self->constrain_value( $params->{$first} );
 
     for my $name (@names) {
-        my $ok = 0;
+        my $ok    = 0;
         my $value = $params->{$name};
         if ( ref $value ) {
             eval { my @x = @$value };
             croak $@ if $@;
 
-            my @err = eval {
-                $self->constrain_values( $value, $params );
-                };
+            my @err = eval { $self->constrain_values( $value, $params ); };
             $ok = 1 if !@err && !$@;
         }
         else {
-            $ok = eval {
-                $self->constrain_value($value);
-                };
+            $ok = eval { $self->constrain_value($value); };
             $ok = 0 if $@;
         }
-        
+
         push @failed, $name
             if !$ok;
     }
 
-    return $self->mk_errors({ 
-        pass   => @failed ? 0 : 1,
-        failed => \@failed,
-        names  => \@names,
-    });
+    return $self->mk_errors( {
+            pass => @failed ? 0 : 1,
+            failed => \@failed,
+            names  => \@names,
+        } );
 }
 
 sub constrain_value {

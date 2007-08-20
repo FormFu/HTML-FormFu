@@ -13,9 +13,7 @@ $e->deflator('Strftime')->strftime('%d/%m/%Y');
 $e->filter('Regex')->match(2007)->replace(2006);
 $e->inflator('DateTime')->parser( strptime => '%d/%m/%Y' );
 
-$form->process({
-    foo => '27/04/2007',
-});
+$form->process( { foo => '27/04/2007', } );
 
 # inflator has run
 isa_ok( $form->params->{foo}, 'DateTime' );

@@ -8,14 +8,14 @@ use HTML::FormFu::Util qw( append_xml_attribute literal );
 use Carp qw/ croak /;
 
 our @EXPORT_OK = qw/
-    mk_inherited_accessors 
-    mk_output_accessors 
+    mk_inherited_accessors
+    mk_output_accessors
     mk_inherited_merging_accessors
     /;
 
 sub mk_inherited_accessors {
     my ( $self, @names ) = @_;
-    
+
     my $class = ref $self || $self;
 
     for my $name (@names) {
@@ -39,7 +39,7 @@ sub mk_inherited_accessors {
 
 sub mk_inherited_merging_accessors {
     my ( $self, @names ) = @_;
-    
+
     my $class = ref $self || $self;
 
     $class->mk_inherited_accessors(@names);
@@ -89,7 +89,8 @@ sub mk_output_accessors {
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;
 
-            return $self->$name( literal( $self->form->localize( $mess, @args ) ) );
+            return $self->$name(
+                literal( $self->form->localize( $mess, @args ) ) );
         };
         no strict 'refs';
         *{"$class\::$name"}       = $sub;

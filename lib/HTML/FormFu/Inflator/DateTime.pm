@@ -22,31 +22,29 @@ sub parser {
     my $self = shift;
 
     $self->_builder->parser(@_);
-    
+
     return $self;
 }
 
 sub inflator {
     my ( $self, $value ) = @_;
-	
-	return unless defined $value && $value ne "";
+
+    return unless defined $value && $value ne "";
 
     my $dt = $self->_builder->parse_datetime($value);
 
     if ( defined $self->strptime ) {
         my $strptime = $self->strptime;
         my %args;
-        
-        eval {
-            %args = %$strptime;
-        };
+
+        eval { %args = %$strptime; };
         if ($@) {
             %args = ( pattern => $strptime );
         }
-        
-        my $formatter = DateTime::Format::Strptime->new( %args );
-        
-        $dt->set_formatter( $formatter );
+
+        my $formatter = DateTime::Format::Strptime->new(%args);
+
+        $dt->set_formatter($formatter);
     }
 
     return $dt;
@@ -54,11 +52,11 @@ sub inflator {
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->_builder( $self->_builder->clone );
-    
+
     return $clone;
 }
 

@@ -22,9 +22,9 @@ sub new {
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;
 
-    if ( $submitted
-         && defined $value
-         && ( ref $value eq 'ARRAY'
+    if (   $submitted
+        && defined $value
+        && (ref $value eq 'ARRAY'
             ? grep { $_ eq $option->{value} } @$value
             : $value eq $option->{value} ) )
     {
@@ -43,7 +43,7 @@ sub _prepare_attrs {
     elsif ( defined $default && $default eq $option->{value} ) {
         $option->{attributes}{selected} = 'selected';
     }
-    
+
     return;
 }
 

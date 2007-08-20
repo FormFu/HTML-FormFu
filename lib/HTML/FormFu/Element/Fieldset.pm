@@ -18,10 +18,9 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        legend => $self->legend,
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            legend => $self->legend,
+            @_ ? %{ $_[0] } : () } );
 
     return $render;
 }

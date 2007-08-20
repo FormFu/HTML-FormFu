@@ -7,22 +7,24 @@ use Class::C3;
 
 use Storable qw/ dclone /;
 
-__PACKAGE__->mk_accessors(qw/
-    others 
-    attach_errors_to_base
-    attach_errors_to_others
-    attach_errors_to /);
+__PACKAGE__->mk_accessors(
+    qw/
+        others
+        attach_errors_to_base
+        attach_errors_to_others
+        attach_errors_to /
+);
 
 sub mk_errors {
     my ( $self, $args ) = @_;
-    
+
     my $pass   = $args->{pass};
     my @failed = $args->{failed} ? @{ $args->{failed} } : ();
-    my @names  = $args->{names}  ? @{ $args->{names} }  : ();
-    
+    my @names  = $args->{names} ? @{ $args->{names} } : ();
+
     my $force = $self->force_errors || $self->parent->force_errors;
     my @attach;
-    
+
     if ( $self->attach_errors_to ) {
         push @attach, @{ $self->attach_errors_to }
             if !$pass || $force;
@@ -30,47 +32,47 @@ sub mk_errors {
     elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
         push @attach, $self->name
             if $self->attach_errors_to_base
-               && ( !$pass || $force );
-        
+            && ( !$pass || $force );
+
         push @attach, ref $self->others ? @{ $self->others } : $self->others
             if $self->attach_errors_to_others
-               && ( !$pass || $force ); 
+            && ( !$pass || $force );
     }
-    elsif ( $force ) {
+    elsif ($force) {
         push @attach, @names;
     }
     elsif ( @failed && !$pass ) {
         push @attach, @failed;
     }
-    
+
     my @errors;
-    
+
     for my $name (@attach) {
-        my $field = $self->form->get_field({ name => $name })
+        my $field = $self->form->get_field( { name => $name } )
             or die "others() field not found: '$name'";
-        
+
         my $error = $self->mk_error;
-        
+
         $error->parent($field);
-        
+
         $error->forced(1)
             if ( $pass && $force && grep { $name eq $_ } @names )
             || !grep { $name eq $_ } @failed;
-        
+
         push @errors, $error;
     }
-    
+
     return @errors;
 }
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->others( dclone $self->others )
         if ref $self->others;
-    
+
     return $clone;
 }
 

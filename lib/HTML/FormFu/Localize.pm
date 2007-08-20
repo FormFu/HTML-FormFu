@@ -18,24 +18,23 @@ our @EXPORT = qw/
     get_localize_object
     /;
 
-
 sub localize {
-    my $self = shift;
+    my $self              = shift;
     my @localized_strings = ();
 
     $self->add_default_localize_object
         if !$self->{has_default_localize_object};
 
-#warn "* looking for ". join ',', @_;
+    #warn "* looking for ". join ',', @_;
 
-    foreach my $localize_data (@{$self->{localize_data}}) {
-        my $localize_object = $self->get_localize_object( $localize_data );
+    foreach my $localize_data ( @{ $self->{localize_data} } ) {
+        my $localize_object = $self->get_localize_object($localize_data);
 
-#warn "  processing ". ref $localize_object;
+        #warn "  processing ". ref $localize_object;
 
         eval { @localized_strings = $localize_object->localize(@_); };
 
-#warn "  no match" if $@;
+        #warn "  no match" if $@;
 
         next if $@;
 
@@ -44,22 +43,24 @@ sub localize {
         # ids (instead of english language as message ids) the assumption
         # that we just got a result from Locale::Maketext with AUTO = 1 seams
         # to be save when localize returns the same string as handed over.
-        if (!$localize_data->{dies_on_missing_key}
-            &&  scalar (@_) == scalar (@localized_strings)
-            &&  scalar (grep { !$_ } pairwise { $a eq $b } @_, @localized_strings) == 0 ) {
-#warn "  invalid match";
+        if (   !$localize_data->{dies_on_missing_key}
+            && scalar(@_) == scalar(@localized_strings)
+            && scalar( grep { !$_ } pairwise { $a eq $b } @_,
+                @localized_strings ) == 0 )
+        {
+
+            #warn "  invalid match";
             next;
         }
 
-#warn "  match found";
+        #warn "  match found";
         last;
     }
 
-    @localized_strings = @_ if (not scalar @localized_strings );
+    @localized_strings = @_ if ( not scalar @localized_strings );
 
     return wantarray ? @localized_strings : $localized_strings[0];
 }
-
 
 sub add_localize_object {
     my $self = shift;
@@ -69,39 +70,36 @@ sub add_localize_object {
     foreach my $localize_object (@_) {
         my $dies_on_missing_key = undef;
 
-        if (blessed $localize_object) {
-            $dies_on_missing_key =
-                $self->get_localize_object_dies_on_missing_key(
-                    $localize_object
-                );
+        if ( blessed $localize_object) {
+            $dies_on_missing_key
+                = $self->get_localize_object_dies_on_missing_key(
+                $localize_object );
         }
 
-#warn "> add_localize_object ".((ref $localize_object) || $localize_object);
-        unshift @{$self->{localize_data}},
+    #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
+        unshift @{ $self->{localize_data} },
             {
-                localize_object => $localize_object,
-                dies_on_missing_key => $dies_on_missing_key,
+            localize_object     => $localize_object,
+            dies_on_missing_key => $dies_on_missing_key,
             };
     }
 
     return $self;
 }
 
-
 sub get_localize_object_from_class {
     my $self = shift;
-    my ( $class ) = @_;
+    my ($class) = @_;
 
-    require_class( $class );
+    require_class($class);
 
     return $class->get_handle( @{ $self->languages } );
 
 }
 
-
 sub get_localize_object_dies_on_missing_key {
     my $self = shift;
-    my ( $localize_object ) = @_;
+    my ($localize_object) = @_;
 
     # NOTE:
     # Findout how this class reacts on missing entries
@@ -117,24 +115,23 @@ sub get_localize_object_dies_on_missing_key {
     # processing via the AUTO-function (_compile).
 
     my $testkey = 'html_formfu_missing_key_test';
-    my $dies_on_missing_key =
-        ( eval { $localize_object->localize( $testkey ); } ? 0 : 1 );
+    my $dies_on_missing_key
+        = ( eval { $localize_object->localize($testkey); } ? 0 : 1 );
 
     return $dies_on_missing_key;
 }
 
-
 sub add_default_localize_object {
     my $self = shift;
 
-    my $localize_object =
-        $self->get_localize_object_from_class( $self->localize_class );
+    my $localize_object
+        = $self->get_localize_object_from_class( $self->localize_class );
     my $dies_on_missing_key = 1;
 
-    push @{$self->{localize_data}},
+    push @{ $self->{localize_data} },
         {
-            localize_object => $localize_object,
-            dies_on_missing_key => $dies_on_missing_key,
+        localize_object     => $localize_object,
+        dies_on_missing_key => $dies_on_missing_key,
         };
 
     $self->{has_default_localize_object} = 1;
@@ -142,25 +139,23 @@ sub add_default_localize_object {
     return $self;
 }
 
-
 sub get_localize_object {
     my $self = shift;
-    my ( $localize_data ) = @_;
+    my ($localize_data) = @_;
 
-    if (!blessed $localize_data->{localize_object}) {
-#warn "+ loading ".$localize_data->{localize_object};
+    if ( !blessed $localize_data->{localize_object} ) {
 
-        $localize_data->{localize_object} =
-            $self->get_localize_object_from_class( $self->localize_class );
+        #warn "+ loading ".$localize_data->{localize_object};
 
-        $localize_data->{dies_on_missing_key} =
-            $self->get_localize_object_dies_on_missing_key(
-                $localize_data->{localize_object}
-            );
+        $localize_data->{localize_object}
+            = $self->get_localize_object_from_class( $self->localize_class );
+
+        $localize_data->{dies_on_missing_key}
+            = $self->get_localize_object_dies_on_missing_key(
+            $localize_data->{localize_object} );
     }
 
     return $localize_data->{localize_object};
 }
-
 
 1;

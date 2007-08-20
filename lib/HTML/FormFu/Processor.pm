@@ -41,10 +41,10 @@ sub new {
 }
 
 sub clone {
-    my ( $self ) = @_;
-    
+    my ($self) = @_;
+
     my %new = %$self;
-    
+
     return bless \%new, ref $self;
 }
 

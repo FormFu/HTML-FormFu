@@ -7,14 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Radiogroup')
-    ->name('foo')
-    ->values([qw/ one two three /])
+$form->element('Radiogroup')->name('foo')->values( [qw/ one two three /] )
     ->default('two');
 
-$form->process({
-    foo => [qw/ one three /],
-    });
+$form->process( { foo => [qw/ one three /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">

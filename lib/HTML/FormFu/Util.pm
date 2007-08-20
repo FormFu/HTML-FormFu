@@ -236,7 +236,7 @@ sub require_class {
     if ( !exists $::INC{$class} ) {
         eval { require $class };
         croak $@ if $@;
-        
+
         Class::C3::initialize();
     }
 
@@ -246,7 +246,7 @@ sub require_class {
 sub xml_escape {
     my $val = shift;
 
-    return undef  if !defined $val;
+    return undef if !defined $val;
 
     if ( ref $val eq 'HASH' ) {
         my %val = %$val;
@@ -258,8 +258,8 @@ sub xml_escape {
     elsif ( ref $val eq 'ARRAY' ) {
         my @val = @$val;
         my @new;
-        for my $val ( @val ) {
-            push @new, xml_escape( $val );
+        for my $val (@val) {
+            push @new, xml_escape($val);
         }
         return \@new;
     }
@@ -288,8 +288,7 @@ sub process_attrs {
     eval { my %attrs = %$attrs };
     croak $@ if $@;
 
-    my $xml = join " ", 
-        map { sprintf qq{%s="%s"}, $_, $attrs->{$_} }
+    my $xml = join " ", map { sprintf qq{%s="%s"}, $_, $attrs->{$_} }
         sort keys %$attrs;
 
     $xml = " $xml"

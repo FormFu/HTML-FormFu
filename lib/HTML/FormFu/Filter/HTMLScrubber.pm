@@ -13,7 +13,7 @@ use HTML::Scrubber;
 
 sub filter {
     my ( $self, $value ) = @_;
-    
+
     return if !defined $value;
 
     my $allowed = $self->allow || [];
@@ -25,12 +25,12 @@ sub filter {
 
 sub clone {
     my $self = shift;
-    
+
     my $clone = $self->next::method(@_);
-    
+
     $clone->allow( dclone $self->allow )
         if ref $self->allow;
-    
+
     return $clone;
 }
 

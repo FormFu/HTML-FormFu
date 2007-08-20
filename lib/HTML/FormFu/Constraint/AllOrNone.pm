@@ -21,27 +21,23 @@ sub process {
             eval { my @x = @$value };
             croak $@ if $@;
 
-            my @errors = eval {
-                $self->constrain_values( $value, $params );
-                };
+            my @errors = eval { $self->constrain_values( $value, $params ); };
             $seen = 1 if !@errors && !$@;
         }
         else {
-            my $ok = eval {
-                $self->constrain_value($value);
-                };
+            my $ok = eval { $self->constrain_value($value); };
             $seen = 1 if $ok && !$@;
         }
 
-        push @failed, $name 
+        push @failed, $name
             if !$seen;
     }
 
-    return $self->mk_errors({
-        pass   => @failed && scalar @failed != scalar @names ? 0 : 1,
-        failed => \@failed,
-        names  => \@names,
-    });
+    return $self->mk_errors( {
+            pass => @failed && scalar @failed != scalar @names ? 0 : 1,
+            failed => \@failed,
+            names  => \@names,
+        } );
 }
 
 sub constrain_value {

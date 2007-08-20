@@ -12,10 +12,10 @@ $form->element('Text')->name('foo')->default('a')->retain_default(1);
 $form->element('Text')->name('bar')->default('b');
 $form->element('Text')->name('baz')->default('c')->retain_default(1);
 
-$form->process({
+$form->process( {
         foo => '',
         bar => '',
-    });
+    } );
 
 ok( $form->valid('foo') );
 ok( $form->valid('bar') );

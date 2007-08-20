@@ -18,11 +18,11 @@ sub constrain_value {
         $regex = $self->regex;
     }
     elsif ( defined $self->common ) {
-        my @common = ref $self->common ? @{ $self->common } : ($self->common);
-        
+        my @common = ref $self->common ? @{ $self->common } : ( $self->common );
+
         $regex = shift @common;
         $regex = $RE{$regex};
-        
+
         for (@common) {
             $regex = $regex->{ ref $_ ? join( $;, %$_ ) : $_ };
         }
@@ -30,7 +30,7 @@ sub constrain_value {
     else {
         $regex = qr/.*/;
     }
-    
+
     my $ok = $value =~ $regex;
 
     return $self->not ? !$ok : $ok;

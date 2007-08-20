@@ -17,11 +17,9 @@ sub process {
 
     if ( ref $values eq 'ARRAY' ) {
         my @return;
-        for my $value ( @$values ) {
-            my ( $return ) = eval {
-                $self->transformer($value);
-                };
-            if ( $@ ) {
+        for my $value (@$values) {
+            my ($return) = eval { $self->transformer($value); };
+            if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
             }
@@ -32,10 +30,8 @@ sub process {
         $return = \@return;
     }
     else {
-        ( $return ) = eval {
-            $self->transformer($values);
-            };
-        if ( $@ ) {
+        ($return) = eval { $self->transformer($values); };
+        if ($@) {
             push @errors, $self->return_error($@);
         }
     }
@@ -45,14 +41,13 @@ sub process {
 
 sub return_error {
     my ( $self, $err ) = @_;
-    
+
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Transformer') ) {
         $err = HTML::FormFu::Exception::Transformer->new;
     }
-    
+
     return $err;
 }
-
 
 1;
 

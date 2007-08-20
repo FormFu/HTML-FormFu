@@ -23,11 +23,10 @@ sub new {
 sub render {
     my $self = shift;
 
-    my $render = $self->next::method({
-        field_type => $self->field_type,
-        content    => xml_escape( $self->content ),
-        @_ ? %{$_[0]} : ()
-        });
+    my $render = $self->next::method( {
+            field_type => $self->field_type,
+            content    => xml_escape( $self->content ),
+            @_ ? %{ $_[0] } : () } );
 
     return $render;
 }

@@ -8,52 +8,50 @@ use Encode qw(encode decode FB_CROAK);
 
 __PACKAGE__->mk_accessors($_) for qw(_candidates encode_to);
 
-sub filter
-{
-    my ($self, $value) = @_;
+sub filter {
+    my ( $self, $value ) = @_;
 
     return if !defined $value;
 
     my $utf8 = $self->decode_to_utf8($value);
 
-    if (! defined $utf8) {
-        die "HTML::FormFu::Filter::Encode: Unable to decode given string to utf8.";
+    if ( !defined $utf8 ) {
+        die
+            "HTML::FormFu::Filter::Encode: Unable to decode given string to utf8.";
     }
 
     return $self->encode_from_utf8($utf8);
 }
 
-sub get_candidates
-{
+sub get_candidates {
     my $self = shift;
-    my $ret = $self->_candidates;
-    if ($ret && wantarray) {
+    my $ret  = $self->_candidates;
+    if ( $ret && wantarray ) {
         return @$ret;
     }
     return $ret;
 }
 
-sub candidates
-{
+sub candidates {
     my $self = shift;
     if (@_) {
-        if (ref $_[0] && ref $_[0] eq 'ARRAY') {
-            $self->_candidates($_[0]);
-        } else {
-            $self->_candidates([@_]);
+        if ( ref $_[0] && ref $_[0] eq 'ARRAY' ) {
+            $self->_candidates( $_[0] );
+        }
+        else {
+            $self->_candidates( [@_] );
         }
     }
     return $self;
 }
 
-sub decode_to_utf8
-{
-    my ($self, $value) = @_;
+sub decode_to_utf8 {
+    my ( $self, $value ) = @_;
 
     my $ret;
-    foreach my $candidate ($self->get_candidates) {
-        eval { $ret = decode($candidate, $value, FB_CROAK) };
-        if ( ! $@) {
+    foreach my $candidate ( $self->get_candidates ) {
+        eval { $ret = decode( $candidate, $value, FB_CROAK ) };
+        if ( !$@ ) {
             last;
         }
     }
@@ -61,17 +59,16 @@ sub decode_to_utf8
     return $ret;
 }
 
-sub encode_from_utf8
-{
-    my ($self, $value) = @_;
+sub encode_from_utf8 {
+    my ( $self, $value ) = @_;
 
     my $enc = $self->encode_to;
 
-    if (! $enc) {
+    if ( !$enc ) {
         return $value;
     }
-    
-    return encode($enc, $value);
+
+    return encode( $enc, $value );
 }
 
 1;

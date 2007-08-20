@@ -27,8 +27,8 @@ is( "$form", $xhtml );
 
 # multiple
 {
-    $form->javascript_src([qw{ /one.js /two.js }]);
-    
+    $form->javascript_src( [qw{ /one.js /two.js }] );
+
     my $xhtml = <<EOF;
 <form action="" method="post">
 <script type="text/javascript" src="/one.js">

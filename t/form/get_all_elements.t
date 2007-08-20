@@ -15,7 +15,7 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
 {
     my $elems = $form->get_all_elements;
-    
+
     is( @$elems, 4 );
 
     is( $elems->[0], $fs );

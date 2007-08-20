@@ -14,10 +14,10 @@ $form->constraint('ASCII');
 
 # Valid
 {
-    $form->process({
+    $form->process( {
             foo => 'aaa',
             bar => 'bbbbbbb',
-        });
+        } );
 
     ok( $form->valid('foo'), 'foo valid' );
     ok( $form->valid('bar'), 'bar valid' );
@@ -25,10 +25,10 @@ $form->constraint('ASCII');
 
 # Invalid
 {
-    $form->process({
+    $form->process( {
             foo => 'aaa',
             bar => '日本語',
-        });
+        } );
 
     ok( $form->valid('foo'), 'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
