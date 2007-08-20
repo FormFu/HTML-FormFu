@@ -28,8 +28,8 @@ sub parser {
 
 sub inflator {
     my ( $self, $value ) = @_;
-
-    return unless defined $value;
+	
+	return unless defined $value && $value ne "";
 
     my $dt = $self->_builder->parse_datetime($value);
 
