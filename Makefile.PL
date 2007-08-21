@@ -1,5 +1,10 @@
 use inc::Module::Install;
 
+if ( -f 'MANIFEST.SKIP' ) {
+    system( $^X, 'update_pm_from_templates.pl' ) == 0
+	or die "update_pm_from_templates failed";
+}
+
 name 'HTML-FormFu';
 all_from 'lib/HTML/FormFu.pm';
 
