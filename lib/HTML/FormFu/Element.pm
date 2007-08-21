@@ -5,7 +5,8 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 
-use HTML::FormFu::Accessor qw( mk_output_accessors mk_inherited_accessors );
+use HTML::FormFu::Accessor qw( mk_output_accessors mk_inherited_accessors
+    mk_inherited_merging_accessors );
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
     populate form stash /;
@@ -35,6 +36,8 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ render_class render_class_prefix render_class_args
         render_method /
 );
+
+__PACKAGE__->mk_inherited_merging_accessors(qw/ config_callback /);
 
 sub new {
     my $class = shift;
@@ -213,6 +216,10 @@ This is used by L<HTML::FormFu/get_fields>.
 =head2 load_config_file
 
 See L<HTML::FormFu/load_config_file> for details.
+
+=head2 config_callback
+
+See L<HTML::FormFu/config_callback> for details.
 
 =head2 populate
 

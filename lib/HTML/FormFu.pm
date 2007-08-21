@@ -59,7 +59,9 @@ __PACKAGE__->mk_inherited_accessors(
         render_processed_value force_errors /
 );
 
-__PACKAGE__->mk_inherited_merging_accessors(qw/ render_class_args /);
+__PACKAGE__->mk_inherited_merging_accessors(
+    qw/ render_class_args config_callback /
+);
 
 __PACKAGE__->mk_add_methods(
     qw/
@@ -747,6 +749,22 @@ common settings to be kept in a single config file which may be loaded
 by any form.
 
 See L</BEST PRACTICES> for advice on organising config files.
+
+=head2 config_callback
+
+Arguments: \%options
+
+If defined, the arguments are used to create a L<Data::Visitor::Callback> 
+object during L</load_config_file> which may be used to pre-process the 
+config before it is sent to L</populate>
+
+Default Value: not defined
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
 
 =head2 populate
 
