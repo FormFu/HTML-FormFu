@@ -1,3 +1,7 @@
+0.01002	2007-08-22
+
+	- Fixed missing imports causing errors with perl 5.9.x
+
 0.01001	2007-08-22
 
 	- First non-dev release
