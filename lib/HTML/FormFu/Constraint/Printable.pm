@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Printable;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::Regex';
 
 sub regex {

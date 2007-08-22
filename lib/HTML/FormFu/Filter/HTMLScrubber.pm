@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::HTMLScrubber;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Filter';
 use Class::C3;
 

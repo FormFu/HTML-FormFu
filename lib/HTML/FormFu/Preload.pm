@@ -1,7 +1,6 @@
 package HTML::FormFu::Preload;
 
 use strict;
-use warnings;
 use HTML::FormFu;
 
 use Module::Pluggable (

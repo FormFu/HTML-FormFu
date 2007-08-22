@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::SingleValue;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint';
 
 sub constrain_values {

@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Equal;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::_others';
 
 use Exporter qw/ import /;

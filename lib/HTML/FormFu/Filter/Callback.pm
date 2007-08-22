@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::Callback;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Filter';
 
 __PACKAGE__->mk_accessors(qw/callback/);

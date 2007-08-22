@@ -1,6 +1,5 @@
 package HTML::FormFu::I18N::ja;
 use strict;
-use warnings;
 use utf8;
 
 use base qw( HTML::FormFu::I18N );

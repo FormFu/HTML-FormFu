@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Integer;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::Regex';
 
 sub regex {qr/^[0-9]*\z/}

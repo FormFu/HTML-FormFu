@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Email;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint';
 
 use Email::Valid;

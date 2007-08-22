@@ -1,7 +1,6 @@
 package HTML::FormFu::Literal;
 
 use strict;
-use warnings;
 
 use overload
     '""'     => sub { return join "", @{ $_[0] } },

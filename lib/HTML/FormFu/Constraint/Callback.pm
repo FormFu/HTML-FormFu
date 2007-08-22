@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Callback;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint';
 
 __PACKAGE__->mk_accessors(qw/ callback /);

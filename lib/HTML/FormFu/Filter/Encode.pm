@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::Encode;
 
 use strict;
-use warnings;
 use base qw(HTML::FormFu::Filter);
 
 use Encode qw(encode decode FB_CROAK);

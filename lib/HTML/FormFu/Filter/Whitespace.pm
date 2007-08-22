@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::Whitespace;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Filter::Regex';
 
 sub match {qr/\s+/}

@@ -1,7 +1,6 @@
 package HTML::FormFu::Exception::Input;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );

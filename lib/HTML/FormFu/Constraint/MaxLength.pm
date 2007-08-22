@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::MaxLength;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::Length';
 
 sub localize_args {

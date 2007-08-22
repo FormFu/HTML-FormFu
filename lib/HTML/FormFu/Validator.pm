@@ -1,7 +1,6 @@
 package HTML::FormFu::Validator;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Processor';
 use Class::C3;
 

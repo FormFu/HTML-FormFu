@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::MinMaxFields;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::_others';
 use Class::C3;
 

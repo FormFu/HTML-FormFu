@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::_NonBlock;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 

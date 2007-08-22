@@ -1,6 +1,5 @@
 package HTML::FormFu::FakeQuery;
 use strict;
-use warnings;
 use Carp qw/ croak /;
 
 sub new {

@@ -1,7 +1,6 @@
 package HTML::FormFu::Attribute;
 
 use strict;
-use warnings;
 use Exporter qw/ import /;
 use HTML::FormFu::Util qw/
     append_xml_attribute remove_xml_attribute literal require_class

@@ -1,7 +1,6 @@
 package HTML::FormFu::ObjectUtil;
 
 use strict;
-use warnings;
 use Exporter qw/ import /;
 
 use HTML::FormFu::Util qw/ _parse_args require_class _get_elements /;

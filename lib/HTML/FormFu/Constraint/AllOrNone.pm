@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::AllOrNone;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::_others';
 
 sub process {

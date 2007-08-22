@@ -1,6 +1,5 @@
 package HTML::FormFu::I18N;
 use strict;
-use warnings;
 
 use base 'Locale::Maketext';
 

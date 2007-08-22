@@ -1,7 +1,6 @@
 package HTML::FormFu::Processor;
 
 use strict;
-use warnings;
 use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 

@@ -1,7 +1,6 @@
 package HTML::FormFu::Deploy;
 
 use strict;
-use warnings;
 
 use HTML::FormFu::tt_files;
 use File::Copy qw( move );

@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::DependOn;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint::_others';
 
 sub process {

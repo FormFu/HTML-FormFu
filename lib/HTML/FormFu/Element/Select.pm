@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Select;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 

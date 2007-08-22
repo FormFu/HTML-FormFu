@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Radiogroup;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 

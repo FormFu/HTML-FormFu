@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::LowerCase;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Filter';
 
 sub filter {

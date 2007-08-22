@@ -1,6 +1,5 @@
 package HTML::FormFu;
 use strict;
-use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Attribute qw/

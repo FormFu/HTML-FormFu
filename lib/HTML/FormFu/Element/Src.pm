@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Src;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 

@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Image;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::Button';
 use Class::C3;
 

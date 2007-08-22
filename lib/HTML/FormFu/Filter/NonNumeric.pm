@@ -1,7 +1,6 @@
 package HTML::FormFu::Filter::NonNumeric;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Filter::Regex';
 
 sub match {qr/\D+/}

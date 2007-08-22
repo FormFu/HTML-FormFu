@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Blank;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 

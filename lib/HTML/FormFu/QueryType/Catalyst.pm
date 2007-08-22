@@ -1,7 +1,6 @@
 package HTML::FormFu::QueryType::Catalyst;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::QueryType::CGI';
 
 sub parse_uploads {

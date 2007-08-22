@@ -1,7 +1,6 @@
 package HTML::FormFu::Render::Form;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Render::base';
 
 use HTML::FormFu::Util qw/ require_class /;

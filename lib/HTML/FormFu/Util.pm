@@ -1,6 +1,5 @@
 package HTML::FormFu::Util;
 
-use warnings;
 use strict;
 
 use HTML::FormFu::Literal;

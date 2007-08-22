@@ -1,7 +1,6 @@
 package HTML::FormFu::Render::Element::block;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Render::Element';
 
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;

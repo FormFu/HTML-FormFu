@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Regex;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint';
 
 use Regexp::Common;

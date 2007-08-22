@@ -1,7 +1,6 @@
 package HTML::FormFu::Exception;
 
 use strict;
-use warnings;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::ObjectUtil qw/ form /;

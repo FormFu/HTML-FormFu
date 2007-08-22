@@ -1,7 +1,6 @@
 package HTML::FormFu::Validator::Callback;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Validator';
 
 __PACKAGE__->mk_accessors(qw/ callback /);

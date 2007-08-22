@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Button;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 

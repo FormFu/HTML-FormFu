@@ -1,7 +1,6 @@
 package HTML::FormFu::QueryType::CGI::Simple;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::QueryType::CGI';
 
 __PACKAGE__->mk_accessors(qw/ _filename /);

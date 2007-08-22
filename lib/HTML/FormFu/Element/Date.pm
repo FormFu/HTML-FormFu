@@ -1,7 +1,6 @@
 package HTML::FormFu::Element::Date;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 

@@ -1,7 +1,6 @@
 package HTML::FormFu::Constraint::Set;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 

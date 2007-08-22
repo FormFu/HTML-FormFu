@@ -1,7 +1,6 @@
 package HTML::FormFu::Render::Element::multi;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Render::Element::block';
 
 sub label_tag {

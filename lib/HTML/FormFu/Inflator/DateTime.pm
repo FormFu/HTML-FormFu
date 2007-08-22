@@ -1,7 +1,6 @@
 package HTML::FormFu::Inflator::DateTime;
 
 use strict;
-use warnings;
 use base 'HTML::FormFu::Inflator';
 use Class::C3;
 
