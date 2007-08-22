@@ -309,15 +309,13 @@ sub load_config_file {
     # encode() our output
     eval { require YAML::Syck };
     local $YAML::Syck::ImplicitUnicode = 1;
-    
+
     my $config_callback = $self->config_callback;
     my $data_visitor;
-    
+
     if ( defined $config_callback ) {
-        $data_visitor = Data::Visitor::Callback->new(
-            %$config_callback,
-            ignore_return_values => 1,
-        );
+        $data_visitor = Data::Visitor::Callback->new( %$config_callback,
+            ignore_return_values => 1, );
     }
 
     for my $file (@filenames) {
@@ -328,9 +326,9 @@ sub load_config_file {
             } );
 
         my $data = $config->[0]->{$file};
-        
+
         if ( defined $data_visitor ) {
-            $data_visitor->visit( $data );
+            $data_visitor->visit($data);
         }
 
         $self->populate($data);

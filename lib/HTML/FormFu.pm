@@ -60,8 +60,7 @@ __PACKAGE__->mk_inherited_accessors(
 );
 
 __PACKAGE__->mk_inherited_merging_accessors(
-    qw/ render_class_args config_callback /
-);
+    qw/ render_class_args config_callback / );
 
 __PACKAGE__->mk_add_methods(
     qw/

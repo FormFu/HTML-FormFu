@@ -73,7 +73,7 @@ sub add_localize_object {
         if ( blessed $localize_object) {
             $dies_on_missing_key
                 = $self->get_localize_object_dies_on_missing_key(
-                $localize_object );
+                $localize_object);
         }
 
     #warn "> add_localize_object ".((ref $localize_object) || $localize_object);

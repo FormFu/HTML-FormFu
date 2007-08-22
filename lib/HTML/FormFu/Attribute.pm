@@ -234,14 +234,12 @@ sub mk_single_methods {
             my @return;
 
             for my $item (@items) {
-                my @names
-                    = map { ref $_ ? @$_ : $_ }
+                my @names = map { ref $_ ? @$_ : $_ }
                     grep {defined}
                     ( delete $item->{name}, delete $item->{names} );
 
-                @names
-                    = uniq map { $_->name }
-                    grep       { defined $_->name } @{ $self->get_fields }
+                @names = uniq map { $_->name }
+                    grep { defined $_->name } @{ $self->get_fields }
                     if !@names;
 
                 croak "no field names to add $name to" if !@names;
