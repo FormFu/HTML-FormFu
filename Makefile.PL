@@ -14,6 +14,7 @@ requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
 requires 'Class::Data::Accessor';
 requires 'Config::Any';
+requires 'Data::Visitor::Callback';
 requires 'Date::Calc';
 requires 'DateTime::Format::Builder';
 requires 'DateTime::Format::Strptime';

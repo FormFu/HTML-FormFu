@@ -1,3 +1,7 @@
+0.01003	2007-08-22
+
+	- Add missing prereq to Makefile.PL
+
 0.01002	2007-08-22
 
 	- Fixed missing imports causing errors with perl 5.9.x
