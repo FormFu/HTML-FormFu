@@ -1,10 +1,24 @@
 This file documents the revision history for Perl extension HTML::Widget.
 
+0.01001	2007-08-22
+
+	- First non-dev release
+	- All Element names now follow CamelCase convention
+	- Key format of I18N files changed
+	- New Date element
+	- Use Class::C3 instead of SUPER
+	- Automatically set UTF-8 encoding on TT
+	- Support for Template::Alloy instead of TT
+
 0.01000_02	2007-07-02
 
-        - Added YAML::Syck to dependencies
-        - Pod fix
+	- Updated templates in tt_files.pm - 0.01000_02 was out of date
+
+0.01000_02	2007-07-02
+
+	- Added YAML::Syck to dependencies
+	- Pod fix
 
 0.01000_01	2007-06-29
 
-        - First CPAN dev release
+	- First CPAN dev release
