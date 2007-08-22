@@ -5,9 +5,9 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 
-use HTML::FormFu::Accessor qw( mk_output_accessors mk_inherited_accessors
-    mk_inherited_merging_accessors );
-use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
+use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors 
+    mk_output_accessors mk_inherited_accessors
+    mk_inherited_merging_accessors /;
 use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
     populate form stash /;
 use HTML::FormFu::Util qw/ require_class xml_escape /;

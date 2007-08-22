@@ -12,7 +12,8 @@ use Carp qw/ croak /;
 
 our @EXPORT_OK = qw/ mk_attrs mk_attr_accessors mk_attr_modifiers
     mk_add_methods mk_single_methods mk_require_methods mk_get_methods
-    mk_get_one_methods /;
+    mk_get_one_methods mk_inherited_accessors mk_output_accessors 
+    mk_inherited_merging_accessors /;
 
 sub mk_attrs {
     my ( $self, @names ) = @_;
@@ -366,6 +367,94 @@ sub mk_get_one_methods {
         no strict 'refs';
 
         *{"$class\::get_$name"} = $sub;
+    }
+
+    return;
+}
+
+sub mk_inherited_accessors {
+    my ( $self, @names ) = @_;
+
+    my $class = ref $self || $self;
+
+    for my $name (@names) {
+        my $sub = sub {
+            my $self = shift;
+            if (@_) {
+                $self->{$name} = $_[0];
+                return $self;
+            }
+            while ( defined $self->parent && !defined $self->{$name} ) {
+                $self = $self->parent;
+            }
+            return $self->{$name};
+        };
+        no strict 'refs';
+        *{"$class\::$name"} = $sub;
+    }
+
+    return;
+}
+
+sub mk_inherited_merging_accessors {
+    my ( $self, @names ) = @_;
+
+    my $class = ref $self || $self;
+
+    $class->mk_inherited_accessors(@names);
+
+    for my $name (@names) {
+        my $sub = sub {
+            my $self = shift;
+            if (@_) {
+                my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+
+                for ( keys %attrs ) {
+                    append_xml_attribute( $self->{$name}, $_, $attrs{$_} );
+                }
+                return $self;
+            }
+            while ( defined $self->parent && !defined $self->{$name} ) {
+                $self = $self->parent;
+            }
+            return $self->{$name};
+        };
+        no strict 'refs';
+        *{"$class\::add_$name"} = $sub;
+    }
+
+    return;
+}
+
+sub mk_output_accessors {
+    my ( $self, @names ) = @_;
+
+    my $class = ref $self || $self;
+
+    for my $name (@names) {
+        my $sub = sub {
+            my $self = shift;
+            if (@_) {
+                $self->{$name} = $_[0];
+                return $self;
+            }
+            return $self->{$name};
+        };
+        my $xml_sub = sub {
+            my ( $self, $arg ) = @_;
+
+            return $self->$name( literal($arg) );
+        };
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            return $self->$name(
+                literal( $self->form->localize( $mess, @args ) ) );
+        };
+        no strict 'refs';
+        *{"$class\::$name"}       = $sub;
+        *{"$class\::${name}_xml"} = $xml_sub;
+        *{"$class\::${name}_loc"} = $loc_sub;
     }
 
     return;

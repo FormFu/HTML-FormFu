@@ -5,7 +5,7 @@ use warnings;
 use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 
-use HTML::FormFu::Accessor qw( mk_output_accessors );
+use HTML::FormFu::Attribute qw( mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name );
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
