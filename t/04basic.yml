@@ -6,17 +6,17 @@ elements:
   - type: Fieldset
     legend: Jimi
     elements:
-    - name: age
-      type: Text
-      comment: x
-      label: Age
-      constraints: [Integer, Required]
-    - name: name
-      type: Text
-      label: Name
-    - name: ok
-      type: Hidden
-      value: OK
+      - name: age
+        type: Text
+        comment: x
+        label: Age
+        constraints: [Integer, Required]
+      - name: name
+        type: Text
+        label: Name
+      - name: ok
+        type: Hidden
+        value: OK
 constraints:
   type: Required
   name: name
