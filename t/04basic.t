@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use YAML qw( LoadFile );
+use YAML::Syck qw( LoadFile );
 
 use Test::More tests => 7;
 
