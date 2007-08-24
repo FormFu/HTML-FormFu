@@ -280,8 +280,6 @@ sub _build_year_name {
 sub _add_inflator {
     my ($self) = @_;
 
-    $self->_inflators( [] );
-
     $self->inflator( {
             type     => "DateTime",
             parser   => { strptime => $self->strftime, },
