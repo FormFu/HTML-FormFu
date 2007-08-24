@@ -76,42 +76,58 @@ another with no label
 </span>
 </fieldset>
 <fieldset>
-<fieldset class="radiogroup">
+<fieldset class="radiogroup legend">
 <legend>a RadioGroup element</legend>
 <span>
-<input name="rg1" type="radio" value="one" id="rg1_1" />
-<label for="rg1_1">One</label>
-<input name="rg1" type="radio" value="two" id="rg1_2" />
-<label for="rg1_2">Two</label>
+<span>
+<input name="rg1" type="radio" value="one" id="rg1" />
+<label for="rg1">One</label>
+</span>
+<span>
+<input name="rg1" type="radio" value="two" id="rg1" />
+<label for="rg1">Two</label>
+</span>
 </span>
 </fieldset>
-<fieldset class="vertical radiogroup">
+<fieldset class="radiogroup legend">
 <legend>another styled vertically</legend>
+<span class="vertical">
 <span>
-<input name="rg2" type="radio" value="one" id="rg2_1" />
-<label for="rg2_1">One</label>
-<input name="rg2" type="radio" value="two" id="rg2_2" />
-<label for="rg2_2">Two</label>
+<input name="rg2" type="radio" value="one" id="rg2" />
+<label for="rg2">One</label>
+</span>
+<span>
+<input name="rg2" type="radio" value="two" id="rg2" />
+<label for="rg2">Two</label>
+</span>
 </span>
 </fieldset>
-<fieldset class="vertical radiogroup">
+<fieldset class="radiogroup legend">
 <legend>another, styled vertically, with sub-groups</legend>
-<span>
+<span class="vertical">
 <span class="subgroup">
-<input name="rg3" type="radio" value="1" id="rg3_1" />
-<label for="rg3_1">one</label>
-<input name="rg3" type="radio" value="2" id="rg3_2" />
-<label for="rg3_2">two</label>
+<span>
+<input name="rg3" type="radio" value="1" id="rg3" />
+<label for="rg3">one</label>
+</span>
+<span>
+<input name="rg3" type="radio" value="2" id="rg3" />
+<label for="rg3">two</label>
+</span>
 </span>
 <span class="subgroup">
-<input name="rg3" type="radio" value="3" id="rg3_3" />
-<label for="rg3_3">three</label>
-<input name="rg3" type="radio" value="4" id="rg3_4" />
-<label for="rg3_4">four</label>
+<span>
+<input name="rg3" type="radio" value="3" id="rg3" />
+<label for="rg3">three</label>
+</span>
+<span>
+<input name="rg3" type="radio" value="4" id="rg3" />
+<label for="rg3">four</label>
+</span>
 </span>
 </span>
 </fieldset>
-<span class="multi">
+<span class="multi label">
 <label>a Multi element containing 3 Radio elements</label>
 <span class="elements">
 <input name="r1" type="radio" id="r1" />
@@ -122,7 +138,7 @@ another with no label
 <label for="r3">Three</label>
 </span>
 </span>
-<span class="vertical multi">
+<span class="vertical multi label">
 <label>a Multi element with a vertical style</label>
 <span class="elements">
 <select name="s2" id="s2">
@@ -155,9 +171,9 @@ another with no label
 <label for="i1">an Image element</label>
 <input name="i1" type="image" id="i1" src="test.jpg" />
 </span>
-<span class="content_button label">
+<span class="contentbutton label">
 <label for="cnb1">a ContentButton</label>
-<button name="cnb1" type="button" id="cnb1"><i>some</i> <b>markup</b></button>
+<button name="cnb1" type="button" id="cnb1">&lt;i&gt;some&lt;/i&gt; &lt;b&gt;markup&lt;/b&gt;</button>
 </span>
 <span class="submit">
 <input name="submit" type="submit" id="submit" />

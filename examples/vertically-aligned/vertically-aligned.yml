@@ -6,39 +6,40 @@ element_defaults:
     auto_id: %n_%c
 auto_fieldset:
   legend: A fieldset
+
 elements:
-  - type: hidden
+  - type: Hidden
     name: h1
-  - type: text
+  - type: Text
     name: t1
     label: a Text element
-  - type: text
+  - type: Text
     name: t2
     label: another, with a comment
     comment: comment here!
-  - type: text
+  - type: Text
     name: t3
     comment: another with no label
-  - type: password
+  - type: Password
     name: p1
     label: a Password element
-  - type: file
+  - type: File
     name: f1
     label: a File element
-  - type: textarea
+  - type: Textarea
     name: ta1
     label: a Textarea element
     rows: 3
-  - type: textarea
+  - type: Textarea
     name: ta2
     label: another, styled fullwidth
     container_attrs:
       class: fullwidth
-  - type: select
+  - type: Select
     name: s1
     label: a Select element
     values: [one, two, three]
-  - type: select
+  - type: Select
     name: opt1
     label: a Select with optgroups
     options:
@@ -47,19 +48,20 @@ elements:
       - [3, non-optgroup]
       - group: [[4, four], [5, five]]
         label: opt2
+
 # 2nd fieldset
-  - fieldset
-  - type: radiogroup
+  - Fieldset
+  - type: Radiogroup
     name: rg1
     label: a RadioGroup element
     values: [one, two]
-  - type: radiogroup
+  - type: Radiogroup
     name: rg2
     label: another styled vertically
     values: [one, two]
     attrs:
       class: vertical
-  - type: radiogroup
+  - type: Radiogroup
     name: rg3
     label: another, styled vertically, with sub-groups
     attrs:
@@ -69,49 +71,51 @@ elements:
         label: opt1
       - group: [[3, three], [4, four]]
         label: opt2
-  - type: multi
+  - type: Multi
     label: a Multi element containing 3 Radio elements
     elements:
-      - type: radio
+      - type: Radio
         name: r1
         label: One
-      - type: radio
+      - type: Radio
         name: r2
         label: Two
-      - type: radio
+      - type: Radio
         name: r3
         label: Three
-  - type: multi
+  - type: Multi
     container_attrs:
       class: vertical
     label: a Multi element with a vertical style
     elements:
-      - type: select
+      - type: Select
         name: s2
         values: [one, two]
-      - type: select
+      - type: Select
         name: s3
         values: [one, two]
-      - type: select
+      - type: Select
         name: s4
         values: [one, two]
+
 # 3rd fieldset
-  - fieldset
-  - type: radio
+  - Fieldset
+  - type: Radio
     name: r1
     label: a Radio element
-  - type: checkbox
+  - type: Checkbox
     name: cb1
     label: a Checkbox element
+
 # 4th fieldset
-  - fieldset
-  - type: image
+  - Fieldset
+  - type: Image
     name: i1
     src: test.jpg
     label: an Image element
-  - type: content_button
+  - type: ContentButton
     name: cnb1
     label: a ContentButton
     content: <i>some</i> <b>markup</b>
-  - type: submit
+  - type: Submit
     name: submit
