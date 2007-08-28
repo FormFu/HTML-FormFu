@@ -13,6 +13,15 @@ $form->element('Text')->name('bar')->auto_constraint_class('%f_%t_c');
 
 $form->constraint('Number');
 
-like( $form->get_field('foo'), qr!\bnumber_constraint\b! );
+is( $form->get_field('foo'), 
+   q{<span class="text number_constraint">
+<input name="foo" type="text" />
+</span>}
+);
 
-like( $form->get_field('bar'), qr!\bform_number_c\b! );
+is(
+    $form->get_field('bar'),
+    q{<span class="text form_number_c">
+<input name="bar" type="text" />
+</span>}
+);
