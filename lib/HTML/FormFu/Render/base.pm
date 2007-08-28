@@ -4,7 +4,7 @@ use strict;
 use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
-use HTML::FormFu::ObjectUtil qw/ form stash /;
+use HTML::FormFu::ObjectUtil qw/ form stash parent /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
@@ -20,7 +20,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 
 __PACKAGE__->mk_accessors(
     qw/ render_class_args render_class_suffix render_method
-        filename _elements parent template_alloy /
+        filename _elements template_alloy /
 );
 
 sub new {

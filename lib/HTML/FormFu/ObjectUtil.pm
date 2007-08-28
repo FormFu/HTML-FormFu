@@ -17,7 +17,7 @@ our @EXPORT_OK = qw/
     deflator get_fields get_field get_elements get_element
     get_all_elements get_all_element get_errors get_error clear_errors
     load_config_file form insert_before insert_after clone name stash
-    constraints_from_dbic /;
+    constraints_from_dbic parent /;
 
 sub _single_element {
     my ( $self, $element ) = @_;
@@ -590,5 +590,19 @@ sub _add_constraint_set {
             set  => $info->{extra}{list},
         } );
 }
+
+sub parent {
+    my $self = shift;
+    
+    if (@_) {
+        $self->{parent} = shift;
+        
+        weaken( $self->{parent} );
+        
+        return $self;
+    }
+    
+    return $self->{parent};
+};
 
 1;

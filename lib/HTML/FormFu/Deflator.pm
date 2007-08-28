@@ -4,10 +4,10 @@ use strict;
 use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 
-use HTML::FormFu::ObjectUtil qw( populate form name );
+use HTML::FormFu::ObjectUtil qw( populate form name parent );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ parent type /);
+__PACKAGE__->mk_accessors(qw/ type /);
 
 sub new {
     my $class = shift;

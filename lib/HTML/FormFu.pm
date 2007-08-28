@@ -18,7 +18,7 @@ use HTML::FormFu::ObjectUtil qw/
     get_elements get_element get_all_elements get_all_element
     get_fields get_field get_errors get_error clear_errors
     populate load_config_file insert_before insert_after form
-    _render_class clone stash constraints_from_dbic /;
+    _render_class clone stash constraints_from_dbic parent /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape /;
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
@@ -38,8 +38,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 
 __PACKAGE__->mk_accessors(
-    qw/ parent
-        indicator filename javascript javascript_src
+    qw/ indicator filename javascript javascript_src
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
@@ -608,8 +607,9 @@ sub render {
             force_error_message => $self->force_error_message,
             form_error_message  => xml_escape( $self->form_error_message ),
             _elements           => [ map { $_->render } @{ $self->_elements } ],
-            parent              => $self,
         } );
+
+    $render->parent($self);
 
     $render->attributes( xml_escape $self->attributes );
     $render->stash( $self->stash );
