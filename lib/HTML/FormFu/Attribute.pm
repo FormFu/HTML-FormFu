@@ -294,10 +294,9 @@ sub mk_require_methods {
 
             my $object = $class->new( {
                     type   => $type,
-                    parent => $self,
                 } );
 
-            weaken( $object->{parent} );
+            $object->parent($self);
 
             # inlined ObjectUtil::populate(), otherwise circular dependency
             eval {
