@@ -49,6 +49,10 @@ sub new {
 
     $self->attributes( {} );
     $self->stash(      {} );
+    
+    if ( exists $attrs{parent} ) {
+        $self->parent( delete $attrs{parent} );
+    }
 
     $self->populate( \%attrs );
 

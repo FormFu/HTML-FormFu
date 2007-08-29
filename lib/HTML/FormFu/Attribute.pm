@@ -294,9 +294,8 @@ sub mk_require_methods {
 
             my $object = $class->new( {
                     type   => $type,
+                    parent => $self,
                 } );
-
-            $object->parent($self);
 
             # inlined ObjectUtil::populate(), otherwise circular dependency
             eval {

@@ -73,9 +73,8 @@ sub _require_element {
 
     my $element = $class->new( {
             type   => $type,
+            parent => $self,
         } );
-
-    $element->parent($self);
 
     if ( $element->can('element_defaults') ) {
         $element->element_defaults( dclone $self->element_defaults );
@@ -173,9 +172,8 @@ sub _require_constraint {
     my $constraint = $class->new( {
             type   => $type,
             not    => $not,
+            parent => $self,
         } );
-
-    $constraint->parent($self);
 
     # inlined ObjectUtil::populate(), otherwise circular dependency
     eval {
