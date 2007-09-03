@@ -467,7 +467,11 @@ sub _build_valid_names {
     my ($self) = @_;
 
     my @errors = $self->has_errors;
-    my @names = keys %{ $self->input }, keys %{ $self->_processed_params };
+    my @names;
+    push @names, keys %{ $self->input };
+    push @names, keys %{ $self->_processed_params };
+
+    @names = uniq( sort @names );
 
     my %valid;
 CHECK: for my $name (@names) {
