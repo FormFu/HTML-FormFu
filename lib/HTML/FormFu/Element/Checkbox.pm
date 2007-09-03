@@ -81,6 +81,8 @@ Checkbox form field.
 
 =head1 SEE ALSO
 
+L<HTML::FormFu::Filter::Default>
+
 Is a sub-class of, and inherits methods from 
 L<HTML::FormFu::Element::_Input>, 
 L<HTML::FormFu::Element::_Field>, 
