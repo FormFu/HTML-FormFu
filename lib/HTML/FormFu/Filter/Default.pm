@@ -25,13 +25,6 @@ HTML::FormFu::Filter::Default
 
 Provide a default value for when the user doesn't provide a value.
 
-Useful for a L<Checkbox field|HTML::FormFu::Element::Checkbox> in 
-combination with L<DBIx::Class::HTML::FormFu>. - If your database column 
-must be defined C<NOT NULL>, an unchecked Checkbox will cause an error 
-when L<DBIx::Class::HTML::FormFu/populate_from_formfu> attempts to set 
-the database column to C<undef>. Providing a default value with this filter 
-will solve that problem.
-
 =head1 METHODS
 
 =head2 value
