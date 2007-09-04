@@ -107,12 +107,12 @@ HTML::FormFu::Constraint - Constraint Base Class
 
     ---
     elements: 
-      - type: text
+      - type: Text
         name: foo
         constraints:
           - type: Length
             min: 8
-      - type: text
+      - type: Text
         name: bar
         constraints: 
           - Integer

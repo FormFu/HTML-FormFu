@@ -23,7 +23,7 @@ HTML::FormFu::Element::Button - Button form field
 
 =head1 SYNOPSIS
 
-    $e = $form->element( button => 'foo' );
+    $e = $form->element( Button => 'foo' );
 
 =head1 DESCRIPTION
 

@@ -697,15 +697,15 @@ here are L<YAML>, but you can use any format supported by L<Config::Any>).
     indicator: user
     auto_fieldset: 1
     elements:
-      - type: text
+      - type: Text
         name: user
         constraints: 
           - Required
-      - type: password
+      - type: Password
         name: pass
         constraints:
           - Required
-      - type: submit
+      - type: Submit
 
 =head1 DESCRIPTION
 
@@ -837,9 +837,9 @@ A few examples and their output, to demonstrate:
 
     ---
     elements:
-      - type: text
+      - type: Text
         name: foo
-      - type: text
+      - type: Text
         name: bar
 
     <form action="" method="post">
@@ -856,9 +856,9 @@ A few examples and their output, to demonstrate:
     ---
     auto_fieldset: 1
     elements:
-      - type: text
+      - type: Text
         name: foo
-      - type: text
+      - type: Text
         name: bar
 
     <form action="" method="post">
@@ -877,12 +877,12 @@ The 3rd element is within a new fieldset
     ---
     auto_fieldset: { id: fs }
     elements:
-      - type: text
+      - type: Text
         name: foo
-      - type: text
+      - type: Text
         name: bar
-      - type: fieldset
-      - type: text
+      - type: Fieldset
+      - type: Text
         name: baz
 
     <form action="" method="post">
@@ -904,7 +904,7 @@ The 3rd element is within a new fieldset
 Because of this behaviour, if you want nested fieldsets you will have to add 
 each nested fieldset directly to it's intended parent.
 
-    my $parent = $form->get_element({ type => 'fieldset' });
+    my $parent = $form->get_element({ type => 'Fieldset' });
     
     $parent->element('fieldset');
 
@@ -954,9 +954,9 @@ L<size|HTML::FormFu::Element/size> of C<10>, and make every C<textarea>
 element automatically get a class-name of C<bigbox>:
 
     element_defaults:
-      text:
+      Text:
         size: 10
-      textarea:
+      Textarea:
         add_attributes:
           class: bigbox
 
@@ -1022,7 +1022,7 @@ Return Value: @deflators
 
 A L<deflator|HTML::FormFu::Deflator> may be associated with any form field, 
 and allows you to provide 
-L<< $field->default|HTML:FormFu::Element::_field/default >> with a value 
+L<< $field->default|HTML:FormFu::Element::_Field/default >> with a value 
 which may be an object.
 
 If an object doesn't stringify to a suitable value for display, the 
@@ -1848,7 +1848,7 @@ Accepts both C<name> and C<type> arguments to narrow the returned results.
 
     $form->get_elements({
         name => 'foo',
-        type => 'radio',
+        type => 'Radio',
     });
 
 See L</get_all_elements> for a recursive version.
@@ -1881,7 +1881,7 @@ Accepts both C<name> and C<type> arguments to narrow the returned results.
 
     $form->get_fields({
         name => 'foo',
-        type => 'radio',
+        type => 'Radio',
     });
 
 =head2 get_field
@@ -2095,7 +2095,7 @@ See L<HTML::FormFu/attributes>.
 
     ---
     elements:
-      - type: text
+      - type: Text
         attributes_xml: { onchange: $javascript }
 
 See L<HTML::FormFu::Element/attributes>.
@@ -2112,7 +2112,7 @@ the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
 
     ---
     elements:
-      - type: block
+      - type: Block
         tag: span
 
 =head2 How do I check if a textfield contains a URI in a proper format?
@@ -2121,7 +2121,7 @@ Use HTML::FormFu::Constraint::Regex:
 
     ---
     elements:
-        - type: text
+        - type: Text
           name: uri
           constraint:
             - type: Regex

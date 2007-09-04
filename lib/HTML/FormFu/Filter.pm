@@ -66,14 +66,14 @@ HTML::FormFu::Filter - Filter Base Class
 
     ---
     elements: 
-      - type: text
+      - type: Text
         name: foo
         filters:
           - type: Encode
             candidates:
               - utf8
               - Hebrew
-      - type: text
+      - type: Text
         name: bar
         filters: 
           - LowerCase

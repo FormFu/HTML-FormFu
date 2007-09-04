@@ -42,10 +42,10 @@ HTML::FormFu::Element::ContentButton - Button form field containing markup
 
     ---
     elements:
-      type: content_button
+      type: ContentButton
       name: foo
       content: '<img href="/foo.png" />'
-      field_type: submit
+      field_type: Submit
 
 =head1 DESCRIPTION
 

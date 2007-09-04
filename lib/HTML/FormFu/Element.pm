@@ -160,22 +160,22 @@ HTML::FormFu::Element - Element Base Class
 
     ---
     elements:
-      - type: text
+      - type: Text
         name: username
         constraints:
           - type: Required
       
-      - type: password
+      - type: Password
         name: password
         constraints:
           - type: Required
           - type: Equal
             others: repeat-password
       
-      - type: password
+      - type: Password
         name: repeat-password
       
-      - type: submit
+      - type: Submit
 
 =head1 DESCRIPTION
 

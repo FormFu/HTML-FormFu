@@ -23,7 +23,7 @@ HTML::FormFu::Element::Hidden - Hidden form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( hidden => 'foo' );
+    my $e = $form->element( Hidden => 'foo' );
 
 =head1 DESCRIPTION
 

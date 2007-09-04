@@ -71,7 +71,7 @@ HTML::FormFu::Inflator::DateTime - DateTime inflator
 
     ---
     elements:
-      - type: text
+      - type: Text
         name: start_date
         inflators:
           - type: DateTime
@@ -81,7 +81,7 @@ HTML::FormFu::Inflator::DateTime - DateTime inflator
               pattern: '%d-%b-%Y'
               locale: de
       
-      - type: text
+      - type: Text
         name: end_time
         inflators:
           - type: DateTime

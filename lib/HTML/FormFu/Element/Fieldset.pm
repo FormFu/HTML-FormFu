@@ -34,7 +34,7 @@ HTML::FormFu::Element::Fieldset - Fieldset element
 
 =head1 SYNOPSIS
 
-    my $fs = $form->element( fieldset => 'address' );
+    my $fs = $form->element( Fieldset => 'address' );
 
 =head1 DESCRIPTION
 

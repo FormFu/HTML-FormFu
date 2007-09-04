@@ -131,9 +131,9 @@ HTML::FormFu::Element::Block - Block element
 
     ---
     elements: 
-      - type: block
+      - type: Block
         elements: 
-          - type: text
+          - type: Text
             name: foo
     
       - type: Block

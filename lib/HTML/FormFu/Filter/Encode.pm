@@ -82,7 +82,7 @@ HTML::FormFu::Filter::Encode - Encode/Decode Submitted Values
 
    # in your config:
    elements:
-      - type: text
+      - type: Text
         filters:
            - type: Encode
              candidates:
@@ -91,7 +91,7 @@ HTML::FormFu::Filter::Encode - Encode/Decode Submitted Values
 
    # if you want to encode the decoded string to something else
    elements:
-      - type: text
+      - type: Text
         filters:
            - type: Encode
              candidates:

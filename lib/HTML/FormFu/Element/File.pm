@@ -24,7 +24,7 @@ HTML::FormFu::Element::File - File upload form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( file => 'foo' );
+    my $e = $form->element( File => 'foo' );
 
 =head1 DESCRIPTION
 

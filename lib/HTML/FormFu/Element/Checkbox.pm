@@ -71,7 +71,7 @@ HTML::FormFu::Element::Checkbox - Checkbox form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( checkbox => 'foo' );
+    my $e = $form->element( Checkbox => 'foo' );
 
 =head1 DESCRIPTION
 

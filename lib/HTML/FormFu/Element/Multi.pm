@@ -120,7 +120,7 @@ HTML::FormFu::Element::Multi - Combine multiple fields in a single element
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( multi 'foo' );
+    my $e = $form->element( Multi => 'foo' );
 
 =head1 DESCRIPTION
 

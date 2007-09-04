@@ -354,7 +354,7 @@ HTML::FormFu::Element::Date - 3 select menu multi-field
 
     ---
     elements:
-      - type: date
+      - type: Date
         name: foo
         auto_inflate: 1
 

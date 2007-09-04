@@ -197,7 +197,7 @@ Arguments: \@options
 
     ---
     elements:
-      - type: select
+      - type: Select
         name: foo
         options:
           - [ 01, January ]
@@ -242,7 +242,7 @@ Arguments: \@values
 
     ---
     elements:
-      - type: radiogroup
+      - type: Radiogroup
         name: foo
         values:
           - jan
@@ -262,7 +262,7 @@ Arguments: \@values
 
     ---
     elements:
-      - type: select
+      - type: Select
         name: foo
         value_range:
           - ""
