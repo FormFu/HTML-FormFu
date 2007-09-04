@@ -215,6 +215,27 @@ of the form C<[ $value, $label ]> or a hash-ref of the form
 C<< { value => $value, label => $label } >>. Each hash-ref may also have the 
 keys C<attributes> and C<label_attributes>.
 
+Passing an item containing a C<group> key will, for 
+L<Select fields|HTML::FormFu::Element::Select>, create an optgroup. And for 
+L<RadioGroup fields|HTML::FormFu::Element::RadioGroup>, create a sub-group 
+of radiobuttons with a new C<span> block, with the classname C<subgroup>.
+
+An example of Select optgroups:
+
+    ---
+    elements:
+      - type: Select
+        name: foo
+        options:
+          - label: "group 1"
+            group:
+              - [1a, 'item 1a']
+              - [1b, 'item 1b']
+          - label: "group 2"
+            group:
+              - [2a, 'item 2a']
+              - [2b, 'item 2b']
+
 =head2 values
 
 Arguments: \@values
