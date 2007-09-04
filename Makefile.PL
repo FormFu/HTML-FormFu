@@ -16,7 +16,7 @@ requires 'Class::Data::Accessor';
 requires 'Config::Any';
 requires 'Data::Visitor::Callback';
 requires 'Date::Calc';
-requires 'DateTime::Format::Builder';
+requires 'DateTime::Format::Builder' => '0.7901'; # fixes memory leaks
 requires 'DateTime::Format::Strptime';
 requires 'DateTime::Locale';
 requires 'Email::Valid';
