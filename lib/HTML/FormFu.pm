@@ -275,6 +275,8 @@ sub _build_params {
             grep { defined $_->name } @{ $self->get_fields } );
 
     for my $name (@names) {
+        next if !exists $input->{$name};
+        
         my $input = exists $input->{$name} ? $input->{$name} : undef;
 
         if ( ref $input eq 'ARRAY' ) {
@@ -309,8 +311,10 @@ sub _process_file_uploads {
         require_class($query_class);
 
         my $params = $self->_processed_params;
+        my $input  = $self->input;
 
         for my $name (@names) {
+            next if !exists $input->{$name};
 
             my $values = $query_class->parse_uploads( $self, $name );
 
@@ -326,8 +330,12 @@ sub _filter_input {
 
     my $params = $self->_processed_params;
 
-    for my $filter ( map { @{ $_->get_filters } } @{ $self->_elements } ) {
-        $filter->process( $self, $params );
+    for my $name ( keys %$params ) {
+        next if !exists $self->input->{$name};
+        
+        for my $filter ( @{ $self->get_filters({ name => $name }) } ) {
+            $filter->process( $self, $params );
+        }
     }
 
     return;
@@ -337,11 +345,11 @@ sub _constrain_input {
     my ($self) = @_;
 
     my $params = $self->_processed_params;
-
-    for my $constraint ( map { @{ $_->get_constraints } }
-        @{ $self->_elements } )
-    {
+    
+    for my $constraint ( @{ $self->get_constraints } ) {
+        
         my @errors = eval { $constraint->process($params); };
+        
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
             push @errors, $@;
         }
@@ -363,14 +371,16 @@ sub _constrain_input {
 sub _inflate_input {
     my ($self) = @_;
 
-    for my $name ( keys %{ $self->_processed_params } ) {
+    my $params = $self->_processed_params;
+
+    for my $name ( keys %$params ) {
+        next if !exists $self->input->{$name};
+        
         next if $self->has_errors($name);
 
-        my $value = $self->_processed_params->{$name};
+        my $value = $params->{$name};
 
-        for my $inflator ( map { @{ $_->get_inflators( { name => $name } ) } }
-            @{ $self->_elements } )
-        {
+        for my $inflator ( @{ $self->get_inflators({ name => $name }) } ) {
             my @errors;
 
             ( $value, @errors ) = eval { $inflator->process($value); };
@@ -389,7 +399,7 @@ sub _inflate_input {
             }
         }
 
-        $self->_processed_params->{$name} = $value;
+        $params->{$name} = $value;
     }
 
     return;
@@ -400,23 +410,26 @@ sub _validate_input {
 
     my $params = $self->_processed_params;
 
-    for my $validator ( map { @{ $_->get_validators } } @{ $self->_elements } )
-    {
-        next if $self->has_errors( $validator->field->name );
-
-        my @errors = eval { $validator->process($params); };
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
-            push @errors, $@;
-        }
-        elsif ($@) {
-            push @errors, HTML::FormFu::Exception::Validator->new;
-        }
-
-        for my $error (@errors) {
-            $error->parent( $validator->parent ) if !$error->parent;
-            $error->validator($validator)        if !$error->validator;
-
-            $error->parent->add_error($error);
+    for my $name ( keys %$params ) {
+        next if !exists $self->input->{$name};
+        
+        for my $validator ( @{ $self->get_validators({ name => $name }) } ) {
+            next if $self->has_errors( $validator->field->name );
+    
+            my @errors = eval { $validator->process($params); };
+            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
+                push @errors, $@;
+            }
+            elsif ($@) {
+                push @errors, HTML::FormFu::Exception::Validator->new;
+            }
+    
+            for my $error (@errors) {
+                $error->parent( $validator->parent ) if !$error->parent;
+                $error->validator($validator)        if !$error->validator;
+    
+                $error->parent->add_error($error);
+            }
         }
     }
 
@@ -428,12 +441,13 @@ sub _transform_input {
 
     my $params = $self->_processed_params;
 
-    for my $name ( keys %{ $self->_processed_params } ) {
+    for my $name ( keys %$params ) {
+        next if !exists $self->input->{$name};
+        
         my $value = $params->{$name};
 
         for my $transformer (
-            map { @{ $_->get_transformers( { name => $name } ) } }
-            @{ $self->_elements } )
+            @{ $self->get_transformers({ name => $name }) } )
         {
             next if $self->has_errors( $transformer->field->name );
 
