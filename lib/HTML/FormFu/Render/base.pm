@@ -1,9 +1,8 @@
 package HTML::FormFu::Render::base;
 
 use strict;
-use base 'Class::Accessor::Chained::Fast';
 
-use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors /;
+use HTML::FormFu::Attribute qw/ mk_accessors mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ form stash parent /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
 use Scalar::Util qw/ refaddr /;

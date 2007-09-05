@@ -1,12 +1,11 @@
 package HTML::FormFu;
 use strict;
-use base 'Class::Accessor::Chained::Fast';
 
 use HTML::FormFu::Attribute qw/
     mk_attrs mk_attr_accessors mk_add_methods mk_single_methods
     mk_require_methods mk_get_methods mk_get_one_methods 
     mk_inherited_accessors mk_output_accessors
-    mk_inherited_merging_accessors /;
+    mk_inherited_merging_accessors mk_accessors /;
 use HTML::FormFu::Constraint;
 use HTML::FormFu::Exception;
 use HTML::FormFu::FakeQuery;

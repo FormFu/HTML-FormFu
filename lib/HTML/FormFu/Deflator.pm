@@ -1,9 +1,9 @@
 package HTML::FormFu::Deflator;
 
 use strict;
-use base 'Class::Accessor::Chained::Fast';
 use Class::C3;
 
+use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name parent );
 use Carp qw( croak );
 

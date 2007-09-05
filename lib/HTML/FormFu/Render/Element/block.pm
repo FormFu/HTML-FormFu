@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Render::Element';
 
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;
 
-__PACKAGE__->mk_accessors(qw/ elements content /);
+__PACKAGE__->mk_accessors(qw/ content /);
 
 sub elements {
     my $self = shift;

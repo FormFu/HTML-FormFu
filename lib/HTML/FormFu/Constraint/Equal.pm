@@ -3,11 +3,6 @@ package HTML::FormFu::Constraint::Equal;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
-use Exporter qw/ import /;
-
-# only exported for use by test suite
-our @EXPORT_OK = qw/ _values_eq /;
-
 sub process {
     my ( $self, $params ) = @_;
 

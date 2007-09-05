@@ -12,7 +12,32 @@ use Carp qw/ croak /;
 our @EXPORT_OK = qw/ mk_attrs mk_attr_accessors mk_attr_modifiers
     mk_add_methods mk_single_methods mk_require_methods mk_get_methods
     mk_get_one_methods mk_inherited_accessors mk_output_accessors 
-    mk_inherited_merging_accessors /;
+    mk_inherited_merging_accessors mk_accessors /;
+
+sub mk_accessors {
+    my $class = shift;
+
+    for my $name (@_) {
+        my$sub = sub {
+            my $self = shift;
+    
+            if ( @_ == 1 ) {
+                $self->{$name} = $_[0];
+                return $self;
+            }
+            elsif (@_) {
+                $self->{$name} = [@_];
+                return $self;
+            }
+            else {
+                return $self->{$name};
+            }
+        };
+        
+        no strict 'refs';
+        *{"$class\::$name"} = $sub
+    }
+}
 
 sub mk_attrs {
     my ( $self, @names ) = @_;
