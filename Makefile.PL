@@ -28,6 +28,7 @@ requires 'Module::Pluggable';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
 requires 'Scalar::Util';
+requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Storable' => '2.05';
 requires 'Template' => '2.19';
 requires 'YAML::Syck';
