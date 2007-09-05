@@ -9,14 +9,14 @@ elements:
   
   - type: Checkbox
     name: checkbox
-    default: 1
+    value: 1
   
   - type: ContentButton
     name: contentbutton
     content: foo
   
   - type: Date
-    name: 
+    name: date
 #    auto_inflate: 1
   
   - type: Fieldset
