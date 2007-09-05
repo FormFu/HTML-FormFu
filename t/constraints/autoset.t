@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use HTML::FormFu;
 
@@ -15,6 +15,9 @@ $form->element('Select')->name('foo')->values( [qw/ one two three /] )
 # Valid
 {
     $form->process( { foo => 'two', } );
+
+    # Constraint set has 3 values
+    is_deeply( $form->get_constraint->set, [qw/ one two three /] );
 
     ok( $form->valid('foo') );
 }
