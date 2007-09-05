@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Number
+HTML::FormFu::Constraint::Number - Numerical Constraint
 
 =head1 DESCRIPTION
 

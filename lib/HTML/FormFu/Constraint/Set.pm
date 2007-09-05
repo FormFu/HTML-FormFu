@@ -37,7 +37,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Set
+HTML::FormFu::Constraint::Set - Set of Values Constraint
 
 =head1 SYNOPSIS
 

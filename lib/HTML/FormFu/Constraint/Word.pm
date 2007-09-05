@@ -13,7 +13,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Word
+HTML::FormFu::Constraint::Word - Single Word Constraint
 
 =head1 DESCRIPTION
 

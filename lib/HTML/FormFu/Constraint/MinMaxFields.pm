@@ -72,7 +72,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MinMaxFields
+HTML::FormFu::Constraint::MinMaxFields - Min/Max Multi-field Constraint
 
 =head1 SYNOPSIS
 

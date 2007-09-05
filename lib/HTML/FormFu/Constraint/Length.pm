@@ -33,7 +33,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Length
+HTML::FormFu::Constraint::Length - Min/Max Length String Constraint
 
 =head1 DESCRIPTION
 

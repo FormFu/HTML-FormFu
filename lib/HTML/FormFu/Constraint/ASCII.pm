@@ -13,7 +13,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::ASCII
+HTML::FormFu::Constraint::ASCII - ASCII Characters Constraint
 
 =head1 DESCRIPTION
 

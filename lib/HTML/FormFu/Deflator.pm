@@ -48,7 +48,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter - Deflator Base Class
+HTML::FormFu::Deflator - Deflator Base Class
 
 =head1 SYNOPSIS
 

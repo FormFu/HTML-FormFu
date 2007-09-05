@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Regex
+HTML::FormFu::Constraint::Regex - Regex Constraint
 
 =head1 DESCRIPTION
 

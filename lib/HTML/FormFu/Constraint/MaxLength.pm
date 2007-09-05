@@ -15,7 +15,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MinLength
+HTML::FormFu::Constraint::MaxLength - Maximum Length String Constraint
 
 =head1 DESCRIPTION
 

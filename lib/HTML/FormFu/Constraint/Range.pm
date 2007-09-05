@@ -37,7 +37,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Range
+HTML::FormFu::Constraint::Range - Numerical Range Constraint
 
 =head1 SYNOPSIS
 

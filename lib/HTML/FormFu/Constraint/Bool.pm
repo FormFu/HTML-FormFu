@@ -13,7 +13,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Bool
+HTML::FormFu::Constraint::Bool - Boolean Constraint
 
 =head1 DESCRIPTION
 

@@ -19,7 +19,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::SingleValue
+HTML::FormFu::Constraint::SingleValue - Single Value Constraint
 
 =head1 DESCRIPTION
 

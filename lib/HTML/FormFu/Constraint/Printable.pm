@@ -13,7 +13,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Printable
+HTML::FormFu::Constraint::Printable - Printable Characters Constraint
 
 =head1 DESCRIPTION
 

@@ -53,7 +53,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::AllOrNone - AllOrNone constraint
+HTML::FormFu::Constraint::AllOrNone - Multi-field All or None Constraint
 
 =head1 SYNOPSIS
 

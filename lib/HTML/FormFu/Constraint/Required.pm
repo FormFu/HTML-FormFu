@@ -15,7 +15,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Required
+HTML::FormFu::Constraint::Required - Required Field Constraint
 
 =head1 DESCRIPTION
 

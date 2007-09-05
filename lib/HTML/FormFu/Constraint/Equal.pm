@@ -66,7 +66,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Equal
+HTML::FormFu::Constraint::Equal - Multi-field Equality Constraint
 
 =head1 SYNOPSIS
 

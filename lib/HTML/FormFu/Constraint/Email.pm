@@ -19,7 +19,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Email
+HTML::FormFu::Constraint::Email - Email Address Constraint
 
 =head1 DESCRIPTION
 

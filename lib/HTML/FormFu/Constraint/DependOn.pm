@@ -55,7 +55,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::DependOn
+HTML::FormFu::Constraint::DependOn - Multi-field Dependency Constraint
 
 =head1 SYNOPSIS
 

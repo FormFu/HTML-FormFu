@@ -101,7 +101,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint - Constraint Base Class
+HTML::FormFu::Constraint - Constrain User Input
 
 =head1 SYNOPSIS
 
@@ -122,9 +122,17 @@ HTML::FormFu::Constraint - Constraint Base Class
 
 =head1 DESCRIPTION
 
-C<constraints()> and C<constraint> can be called on any 
-L<form|HTML::FormFu>, L<block element|HTML::FormFu::Element::Block> 
-(includes fieldsets) or L<field element|HTML::FormFu::Element::_Field>.
+User input is processed in the following order: 
+L<Filters|HTML::FormFu::Filter|HTML::FormFu::Filter>, 
+L<Constraints|HTML::FormFu::Constraint|HTML::FormFu::Constraint>, 
+L<Inflators|HTML::FormFu::Inflator|HTML::FormFu::Inflator>, 
+L<Validators|HTML::FormFu::Validator|HTML::FormFu::Validator>, 
+L<Transformers|HTML::FormFu::Transformer|HTML::FormFu::Transformer> 
+- see L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
+
+L<HTML::FormFu/constraints> can be called on any L<form|HTML::FormFu>, 
+L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or 
+L<field element|HTML::FormFu::Element::_Field>.
 
 If called on a field element, no C<name> argument should be passed.
 

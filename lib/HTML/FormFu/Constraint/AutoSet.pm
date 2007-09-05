@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::AutoSet
+HTML::FormFu::Constraint::AutoSet - Set Constraint for Selects / Radiogroups
 
 =head1 DESCRIPTION
 

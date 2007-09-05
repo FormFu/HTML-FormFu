@@ -11,7 +11,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::Integer
+HTML::FormFu::Constraint::Integer - Unsigned Integer Constraint
 
 =head1 DESCRIPTION
 

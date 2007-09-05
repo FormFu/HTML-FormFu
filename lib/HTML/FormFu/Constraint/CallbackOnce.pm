@@ -28,7 +28,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::CallbackOnce
+HTML::FormFu::Constraint::CallbackOnce - Code Callback Constraint
 
 =head1 SYNOPSIS
 
