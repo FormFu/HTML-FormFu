@@ -96,7 +96,7 @@ sub render {
 
     $copy->_add_headers;
 
-    my $render = $copy->next::method( { @_ ? %{ $_[0] } : () } );
+    my $render = $copy->next::method(@_);
 
     append_xml_attribute( $render->attributes, 'class', lc $self->type );
 

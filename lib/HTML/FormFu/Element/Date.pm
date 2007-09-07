@@ -337,7 +337,7 @@ sub render {
 
     $self->_add_elements;
 
-    my $render = $self->next::method( { @_ ? %{ $_[0] } : () } );
+    my $render = $self->next::method(@_);
 
     return $render;
 }
