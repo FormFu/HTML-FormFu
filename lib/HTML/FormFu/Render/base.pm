@@ -19,7 +19,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 
 __PACKAGE__->mk_accessors(
     qw/ render_class_args render_class_suffix render_method
-        filename _elements template_alloy /
+        filename _elements /
 );
 
 sub new {
