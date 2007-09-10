@@ -2171,6 +2171,20 @@ Use HTML::FormFu::Constraint::Regex:
             - type: Regex
               common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
 
+=head2 If a user enters a value like "  foo  " and we need to redisplay the form, I would like the prefilled value to be "foo".
+
+First you have to use the TrimEdges Filter.
+
+Second to get this behaviour, set 'render_processed_value' to a true value.
+
+You can set this at the form level to effect all fields, or set it at
+the fieldset- or field-level.
+
+One thing to beware is if you have Inflators on a field that create an
+object, you'll need to ensure either that the object stringifies
+correctly, or set "render_processed_value = 0" for that particular
+field.
+
 =head1 SUPPORT
 
 Project Page:
