@@ -484,6 +484,9 @@ sub _render_constraint_class {
             t => defined $c->type        ? lc( $c->type )  : '',
         );
 
+        $string{t} =~ s/::/_/g;
+        $string{t} =~ s/\+//;
+
         my $class = $auto_class;
 
         $class =~ s/%([fnt])/$string{$1}/g;
