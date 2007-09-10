@@ -725,6 +725,15 @@ This documentation follows the convention that method arguments surrounded
 by square brackets C<[]> are I<optional>, and all other arguments are 
 required.
 
+=head1 STARTING A PROJECT
+
+To start a project do:
+
+    perl -MHTML::FormFu::Deploy -e 'HTML::FormFu::Deploy::deploy()'
+
+This installs the required (Template-Toolkit) templates files in
+directory 'root' underneath your applications base path.
+
 =head1 BUILDING A FORM
 
 =head2 new
