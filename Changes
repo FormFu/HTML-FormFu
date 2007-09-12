@@ -1,6 +1,10 @@
 0.01004 2007-09-12
 
-	- 
+	- AutoSet Constraint now works with Select optgroups
+	- Added vertically-aligned CSS example
+	- Fix circular reference / memory leak
+	- Documentations fixes / additions
+	- require v0.7901 of DateTime::Format::Builder to fix memory leak
 
 0.01003	2007-08-22
 

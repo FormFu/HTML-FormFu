@@ -1,3 +1,4 @@
+^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 ^benchmarks\b
 ^dojo\b
 ^examples\/repeatable\b

@@ -92,7 +92,7 @@ __PACKAGE__->mk_get_one_methods(
 *transformers = \&transformer;
 *loc          = \&localize;
 
-our $VERSION = '0.01003';
+our $VERSION = '0.01004';
 $VERSION = eval $VERSION;
 
 Class::C3::initialize();
