@@ -2112,6 +2112,26 @@ config file, which should be loaded by each form.
 
 See L</load_config_file>.
 
+=head1 EXAMPLES
+
+=head2 vertically-aligned CSS
+
+The distribution directory C<examples/vertically-aligned> contains a form with 
+example CSS for a "vertically aligned" theme.
+
+This can be viewed by opening the file C<vertically-aligned.html> in a 
+web-browser.
+
+If you wish to experiment with making changes, the form is defined in file 
+C<vertically-aligned.yml>, and the HTML file can be updated with any changes 
+by running the following command (while in the distribution root directory).
+
+    perl examples/vertically-aligned/vertically-aligned.pl
+
+This uses the C<Template Toolkit|Template> file C<vertically-aligned.tt>, 
+and the CSS is defined in files C<vertically-aligned.css> and 
+C<vertically-aligned-ie.css>.
+
 =head1 FREQUENTLY ASKED QUESTIONS (FAQ)
 
 =head2 It's too slow!

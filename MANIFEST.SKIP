@@ -1,6 +1,6 @@
 ^benchmarks\b
 ^dojo\b
-^examples\b
+^examples\/repeatable\b
 ^update_pm_from_templates\.pl$
 ^client-side-constraint
 ^t\b.*\.disabled
