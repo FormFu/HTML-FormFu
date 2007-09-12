@@ -44,5 +44,7 @@ build_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';
 
+install_script('bin/html_formfu_deploy.pl');
+
 auto_install();
 &WriteAll;
