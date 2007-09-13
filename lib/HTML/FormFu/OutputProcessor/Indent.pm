@@ -6,12 +6,13 @@ use base 'HTML::FormFu::OutputProcessor';
 use HTML::FormFu::Attribute(qw/ mk_accessors /);
 use HTML::TokeParser::Simple;
 
-__PACKAGE__->mk_accessors(qw/ indent /);
+__PACKAGE__->mk_accessors(qw/ indent preserve_tags /);
 
 sub new {
     my $self = shift->next::method(@_);
 
     $self->indent("\t");
+    $self->preserve_tags([qw/ pre textarea /]);
 
     return $self;
 }
@@ -23,6 +24,7 @@ sub process {
     
     my $parser = HTML::TokeParser::Simple->new( \$input );
     
+    my @preserve_tags = @{ $self->preserve_tags };
     my $count  = 0;
     my $in_pre = 0;
     my $output = "";
@@ -30,7 +32,9 @@ sub process {
     while ( my $token = $parser->get_token ) {
         
         if ( $token->is_start_tag ) {
-            $in_pre = 1 if $token->get_tag eq 'pre';
+            my $tag = $token->get_tag;
+            
+            $in_pre = 1 if grep { $tag eq $_ } @preserve_tags;
             
             $output .= $indent x $count;
             $output .= $token->as_is;
@@ -39,7 +43,9 @@ sub process {
                 && $token->get_attrseq->[-1] eq "/";
         }
         elsif ( $token->is_end_tag ) {
-            $in_pre = 0 if $token->get_tag eq 'pre';
+            my $tag = $token->get_tag;
+            
+            $in_pre = 0 if grep { $tag eq $_ } @preserve_tags;
             
             $count--;
             
@@ -96,6 +102,14 @@ Arguments: $string
 Default Value: "\t"
 
 The string to be used to indent the HTML.
+
+=head2 preserve_tags
+
+Arguments: \@tags
+
+Default Value: ['pre', 'textarea']
+
+An arrayref of tag names who's contents should not be processed.
 
 =head1 SEE ALSO
 
