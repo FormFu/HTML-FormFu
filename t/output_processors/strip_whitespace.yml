@@ -1,0 +1,71 @@
+---
+auto_fieldset:
+  legend: "fieldset"
+
+elements:
+  - type: Hidden
+    name: hidden
+    value: 1
+  
+  - type: Text
+    name: foo
+    label: Foo
+  
+  - type: Textarea
+    name: textarea
+    value: "foo\nbar\n"
+  
+  - type: Select
+    name: select
+    values: [a, b, d]
+  
+  - type: Select
+    name: select2
+    options:
+      - [1, one]
+      - group:
+          - [2, two]
+          - [3, three]
+  
+  - type: Multi
+    elements:
+      - type: Text
+        name: multi1
+      - type: Text
+        name: multi2
+  
+  - type: Radiogroup
+    name: radiogroup
+    values: [a, b, c]
+  
+  - type: Radiogroup
+    name: radiogroup2
+    options:
+      - [1, one]
+      - group:
+         - [2, two]
+         - [3, three]
+  
+  - type: Radio
+    name: radio
+
+  - type: SimpleTable
+    headers:
+      - foo
+      - bar
+    rows:
+      - 
+        - type: Text
+          name: table1
+        - type: Block
+          content: foo
+      - 
+        - type: Text
+          name: table2
+        - type: Block
+          content: bar
+  
+  - type: Hr
+  
+  - type: Submit
+    name: submit

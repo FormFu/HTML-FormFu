@@ -25,6 +25,11 @@ my $input = <<INPUT;
 <input name="text" type="text" />
 <span class="comment">Comment</span>
 </span>
+<span class="textarea">
+<textarea name="textarea" cols="40" rows="20">foo
+bar
+</textarea>
+</span>
 <span class="select">
 <select name="select">
 <option value="1">1</option>
@@ -51,6 +56,11 @@ my $output = <<OUTPUT;
             <label for="text">Label</label>
             <input name="text" type="text" />
             <span class="comment">Comment</span>
+        </span>
+        <span class="textarea">
+            <textarea name="textarea" cols="40" rows="20">foo
+bar
+</textarea>
         </span>
         <span class="select">
             <select name="select">
