@@ -7,7 +7,7 @@ use Class::C3;
 use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ headers odd_class even_class /);
+__PACKAGE__->mk_accessors(qw/ odd_class even_class /);
 
 sub new {
     my $self = shift->next::method(@_);
@@ -17,16 +17,13 @@ sub new {
     return $self;
 }
 
-sub _add_headers {
-    my ($self) = @_;
-
-    my $headers = $self->headers;
-
-    return if !$headers || !@$headers;
+sub headers {
+    my ( $self, $headers ) = @_;
 
     eval { my @foo = @$headers; };
     croak "headers must be passed as an array-ref" if $@;
-
+    
+    # save any elements already added
     my @original_rows = @{ $self->_elements };
     $self->_elements( [] );
 
@@ -43,7 +40,7 @@ sub _add_headers {
         push @{ $self->_elements }, @original_rows;
     }
 
-    return;
+    return $self;
 }
 
 sub rows {
@@ -75,14 +72,17 @@ sub rows {
 sub render {
     my $self = shift;
 
-    my $copy = $self->clone;
+    my $odd  = $self->odd_class;
+    my $even = $self->even_class;
+    my $i = 1;
 
-    my @elements = @{ $copy->_elements };
-    my $odd      = $self->odd_class;
-    my $even     = $self->even_class;
-
-    for my $i ( 1 .. scalar @elements ) {
-        my $row = $elements[ $i - 1 ];
+    for my $row (@{ $self->get_elements } ) {
+        my $first_cell = $row->get_element;
+        
+        if ( $i == 1 && $first_cell->tag eq 'th' ) {
+            # skip the header row
+            next;
+        }
 
         if ( $i % 2 ) {
             $row->attributes( { class => $odd } )
@@ -92,12 +92,11 @@ sub render {
             $row->attributes( { class => $even } )
                 if defined $even;
         }
+        $i++;
     }
 
-    $copy->_add_headers;
-
-    my $render = $copy->next::method(@_);
-
+    my $render = $self->next::method(@_);
+    
     append_xml_attribute( $render->attributes, 'class', lc $self->type );
 
     return $render;

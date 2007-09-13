@@ -106,6 +106,18 @@ sub prepare_id { }
 
 sub prepare_attrs { }
 
+sub get_output_processors {
+    my $self = shift;
+    
+    return $self->form->get_output_processors(@_);
+}
+
+sub get_output_processor {
+    my $self = shift;
+    
+    return $self->form->get_output_processor(@_);
+}
+
 sub clone {
     my ($self) = @_;
 

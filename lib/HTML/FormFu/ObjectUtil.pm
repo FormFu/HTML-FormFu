@@ -403,6 +403,10 @@ sub _coerce {
     my $render = $element->render;
 
     $render->{value} = $self->value;
+    
+    # because $element goes out of scope at the end of this subroutine, 
+    # we need an unweakened reference, so bypass parent() method
+    $render->{parent} = $element;
 
     return $render;
 }

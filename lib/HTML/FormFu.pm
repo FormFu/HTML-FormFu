@@ -18,7 +18,8 @@ use HTML::FormFu::ObjectUtil qw/
     get_fields get_field get_errors get_error clear_errors
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic parent /;
-use HTML::FormFu::Util qw/ require_class _get_elements xml_escape /;
+use HTML::FormFu::Util qw/ require_class _get_elements xml_escape 
+    _parse_args /;
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
@@ -41,7 +42,7 @@ __PACKAGE__->mk_accessors(
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
-        render_class_suffix /
+        render_class_suffix _output_processors /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -60,7 +61,8 @@ __PACKAGE__->mk_inherited_merging_accessors(
 
 __PACKAGE__->mk_add_methods(
     qw/
-        element deflator filter constraint inflator validator transformer /
+        element deflator filter constraint inflator validator transformer 
+        output_processor /
 );
 
 __PACKAGE__->mk_single_methods(
@@ -70,7 +72,7 @@ __PACKAGE__->mk_single_methods(
 
 __PACKAGE__->mk_require_methods(
     qw/
-        deflator filter inflator validator transformer /
+        deflator filter inflator validator transformer output_processor /
 );
 
 __PACKAGE__->mk_get_methods(
@@ -83,14 +85,15 @@ __PACKAGE__->mk_get_one_methods(
         deflator filter constraint inflator validator tranformer /
 );
 
-*elements     = \&element;
-*constraints  = \&constraint;
-*filters      = \&filter;
-*deflators    = \&deflator;
-*inflators    = \&inflator;
-*validators   = \&validator;
-*transformers = \&transformer;
-*loc          = \&localize;
+*elements          = \&element;
+*constraints       = \&constraint;
+*filters           = \&filter;
+*deflators         = \&deflator;
+*inflators         = \&inflator;
+*validators        = \&validator;
+*transformers      = \&transformer;
+*output_processors = \&output_processor;
+*loc               = \&localize;
 
 our $VERSION = '0.01004';
 $VERSION = eval $VERSION;
@@ -108,6 +111,7 @@ sub new {
 
     my %defaults = (
         _elements           => [],
+        _output_processors  => [],
         _valid_names        => [],
         _processed_params   => {},
         input               => {},
@@ -647,6 +651,55 @@ sub hidden_fields {
 
     return join "",
         map { $_->render } @{ $self->get_fields( { type => 'Hidden' } ) };
+}
+
+sub _single_output_processor {
+    my ( $self, $arg ) = @_;
+    my @items;
+    
+    if ( ref $arg eq 'HASH' ) {
+        push @items, $arg;
+    }
+    elsif ( !ref $arg ) {
+        push @items, { type => $arg };
+    }
+    else {
+        croak 'invalid args';
+    }
+    
+    my @return;
+    
+    for my $item (@items) {
+        my $type = delete $item->{type};
+    
+        my $new = $self->_require_output_processor( $type, $item );
+    
+        push @{ $self->_output_processors }, $new;
+        push @return, $new;
+    }
+
+    return @return;
+};
+
+sub get_output_processors {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_output_processors };
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+}
+
+sub get_output_processor {
+    my $self = shift;
+
+    my $x = $self->get_output_processors(@_);
+
+    return @$x ? $x->[0] : ();
 }
 
 1;

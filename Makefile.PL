@@ -22,6 +22,7 @@ requires 'Email::Valid';
 requires 'File::Copy';
 requires 'File::Spec';
 requires 'HTML::Scrubber';
+requires 'HTML::TokeParser::Simple';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';

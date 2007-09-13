@@ -19,7 +19,7 @@ __PACKAGE__->mk_attrs(qw/ attributes /);
 
 __PACKAGE__->mk_accessors(
     qw/ render_class_args render_class_suffix render_method
-        filename _elements /
+        filename _elements _output_processors /
 );
 
 sub new {
@@ -73,7 +73,13 @@ sub output {
 
     my $method = $self->render_method;
 
-    return $self->$method(@_);
+    my $output = $self->$method(@_);
+
+    for my $proc ( @{ $self->form->get_output_processors } ) {
+        $output = $proc->process( $output );
+    }
+
+    return $output
 }
 
 sub xhtml {

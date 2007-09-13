@@ -310,7 +310,10 @@ sub mk_require_methods {
 
             my $class = $type;
             if ( not $class =~ s/^\+// ) {
-                $class = "HTML::FormFu::" . ucfirst($name) . "::$class";
+                my $prefix = $name;
+                $prefix =~ s/_(\w)/ uc($1) /ge;
+                
+                $class = "HTML::FormFu::" . ucfirst($prefix) . "::$class";
             }
 
             $type =~ s/^\+//;
