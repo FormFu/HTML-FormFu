@@ -30,7 +30,8 @@ __PACKAGE__->mk_accessors(
     qw/
         _constraints _filters _inflators _deflators _validators _transformers
         _errors container_tag
-        field_filename label_filename retain_default javascript /
+        field_filename label_filename retain_default force_default
+        javascript /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -283,7 +284,20 @@ sub clear_errors {
     return;
 }
 
-sub process_input { }
+sub process_input {
+    my ( $self, $input ) = @_;
+
+    my $submitted = $self->form->submitted;
+    my $default   = $self->default;
+    my $field     = $self->name;
+
+    # set input to default value (defined before calling FormFu->process)
+    if ( $submitted && $self->force_default && defined $default ) {
+        $input->{$field} = $default;
+    }
+
+    return;
+}
 
 sub prepare_id {
     my ( $self, $render ) = @_;
@@ -314,13 +328,23 @@ sub process_value {
 
     my $new
         = $submitted
-        ? defined $value
-        ? $value
-        : defined $default ? ""
-        : undef
-        : $default;
+          ? defined $value
+            ? $value
+            : defined $default
+              ? ""
+              : undef
+          : $default;
 
     if ( $submitted && $self->retain_default && defined $new && $new eq "" ) {
+        $new = $default;
+    }
+
+    # if the default value has been changed after FormFu->process has been
+    # called we respect the change here
+    if (    $submitted
+         && $self->force_default
+         && defined $default
+         && $new ne $default ) {
         $new = $default;
     }
 
@@ -736,6 +760,18 @@ If L</retain_default> is true and the form was submitted, but the field
 didn't have a value submitted, then when the form is redisplayed to the user 
 the field will have it's value set to it's default value , rather than the 
 usual behaviour of having an empty value.
+
+Default Value: C<false>
+
+=head2 force_default
+
+If L</force_default> is true and the form was submitted, and the field
+has a default/value set, then when the form is redisplayed to the user
+the field will have it's value set to it's default value.
+
+If the default value is being changed after FormFu->process is being called
+the later default value is respected for rendering, *but* nevertheless the
+input value doesn't respect that, it will remain the first value.
 
 Default Value: C<false>
 
