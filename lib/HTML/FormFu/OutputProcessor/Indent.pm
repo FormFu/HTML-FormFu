@@ -12,70 +12,71 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->indent("\t");
-    $self->preserve_tags([qw/ pre textarea /]);
+    $self->preserve_tags( [qw/ pre textarea /] );
 
     return $self;
 }
 
 sub process {
     my ( $self, $input ) = @_;
-    
+
     my $indent = $self->indent;
-    
+
     my $parser = HTML::TokeParser::Simple->new( \$input );
-    
+
     my @preserve_tags = @{ $self->preserve_tags };
-    my $count  = 0;
-    my $in_pre = 0;
-    my $output = "";
-    
+    my $count         = 0;
+    my $in_pre        = 0;
+    my $output        = "";
+
     while ( my $token = $parser->get_token ) {
-        
+
         if ( $token->is_start_tag ) {
             my $tag = $token->get_tag;
-            
+
             $in_pre = 1 if grep { $tag eq $_ } @preserve_tags;
-            
+
             $output .= $indent x $count;
             $output .= $token->as_is;
-            
-            $count++ unless defined $token->get_attrseq->[-1]
+
+            $count++
+                unless defined $token->get_attrseq->[-1]
                 && $token->get_attrseq->[-1] eq "/";
         }
         elsif ( $token->is_end_tag ) {
             my $tag = $token->get_tag;
-            
+
             $in_pre = 0 if grep { $tag eq $_ } @preserve_tags;
-            
+
             $count--;
-            
-            if ( $output =~ m/ > \s* \z /x && !$in_pre) {
+
+            if ( $output =~ m/ > \s* \z /x && !$in_pre ) {
                 $output .= "\n" . $indent x $count;
             }
-            
+
             $output .= $token->as_is;
         }
         elsif ( $token->is_text ) {
             my $text = $token->as_is;
-            
+
             if ( length $parser->peek && !$in_pre ) {
                 $text =~ s/\A\s+/ /;
                 $text =~ s/\s+\z/ /;
             }
-            
+
             if ( $text eq ' ' && $parser->peek =~ m/ < /x ) {
                 $text = "";
             }
-            
+
             $output .= $text;
         }
         else {
             $output .= $token->as_is;
         }
-        
+
         $output .= "\n" if $parser->peek =~ m{ < (?!/) }x && !$in_pre;
     }
-    
+
     return $output;
 }
 

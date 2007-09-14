@@ -328,12 +328,11 @@ sub process_value {
 
     my $new
         = $submitted
-          ? defined $value
-            ? $value
-            : defined $default
-              ? ""
-              : undef
-          : $default;
+        ? defined $value
+        ? $value
+        : defined $default ? ""
+        : undef
+        : $default;
 
     if ( $submitted && $self->retain_default && defined $new && $new eq "" ) {
         $new = $default;
@@ -341,10 +340,11 @@ sub process_value {
 
     # if the default value has been changed after FormFu->process has been
     # called we respect the change here
-    if (    $submitted
-         && $self->force_default
-         && defined $default
-         && $new ne $default ) {
+    if (   $submitted
+        && $self->force_default
+        && defined $default
+        && $new ne $default )
+    {
         $new = $default;
     }
 

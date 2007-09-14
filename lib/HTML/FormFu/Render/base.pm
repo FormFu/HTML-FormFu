@@ -76,10 +76,10 @@ sub output {
     my $output = $self->$method(@_);
 
     for my $proc ( @{ $self->form->get_output_processors } ) {
-        $output = $proc->process( $output );
+        $output = $proc->process($output);
     }
 
-    return $output
+    return $output;
 }
 
 sub xhtml {

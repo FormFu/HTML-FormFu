@@ -32,7 +32,7 @@ sub new {
     for (qw/ type /) {
         croak "$_ attribute required" if !exists $attrs{$_};
     }
-    
+
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );
     }

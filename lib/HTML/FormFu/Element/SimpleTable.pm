@@ -22,7 +22,7 @@ sub headers {
 
     eval { my @foo = @$headers; };
     croak "headers must be passed as an array-ref" if $@;
-    
+
     # save any elements already added
     my @original_rows = @{ $self->_elements };
     $self->_elements( [] );
@@ -74,12 +74,13 @@ sub render {
 
     my $odd  = $self->odd_class;
     my $even = $self->even_class;
-    my $i = 1;
+    my $i    = 1;
 
-    for my $row (@{ $self->get_elements } ) {
+    for my $row ( @{ $self->get_elements } ) {
         my $first_cell = $row->get_element;
-        
+
         if ( $i == 1 && $first_cell->tag eq 'th' ) {
+
             # skip the header row
             next;
         }
@@ -96,7 +97,7 @@ sub render {
     }
 
     my $render = $self->next::method(@_);
-    
+
     append_xml_attribute( $render->attributes, 'class', lc $self->type );
 
     return $render;

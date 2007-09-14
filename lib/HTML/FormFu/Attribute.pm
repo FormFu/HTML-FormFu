@@ -11,16 +11,16 @@ use Carp qw/ croak /;
 
 our @EXPORT_OK = qw/ mk_attrs mk_attr_accessors mk_attr_modifiers
     mk_add_methods mk_single_methods mk_require_methods mk_get_methods
-    mk_get_one_methods mk_inherited_accessors mk_output_accessors 
+    mk_get_one_methods mk_inherited_accessors mk_output_accessors
     mk_inherited_merging_accessors mk_accessors /;
 
 sub mk_accessors {
     my $class = shift;
 
     for my $name (@_) {
-        my$sub = sub {
+        my $sub = sub {
             my $self = shift;
-    
+
             if ( @_ == 1 ) {
                 $self->{$name} = $_[0];
                 return $self;
@@ -33,9 +33,9 @@ sub mk_accessors {
                 return $self->{$name};
             }
         };
-        
+
         no strict 'refs';
-        *{"$class\::$name"} = $sub
+        *{"$class\::$name"} = $sub;
     }
 }
 
@@ -312,7 +312,7 @@ sub mk_require_methods {
             if ( not $class =~ s/^\+// ) {
                 my $prefix = $name;
                 $prefix =~ s/_(\w)/ uc($1) /ge;
-                
+
                 $class = "HTML::FormFu::" . ucfirst($prefix) . "::$class";
             }
 

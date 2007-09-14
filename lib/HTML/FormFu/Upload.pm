@@ -16,9 +16,9 @@ sub new {
     croak "attributes argument must be a hashref" if $@;
 
     my $self = bless \%attrs, $class;
-    
+
     $self->populate( \%attrs );
-    
+
     return $self;
 }
 

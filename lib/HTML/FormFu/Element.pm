@@ -3,8 +3,8 @@ package HTML::FormFu::Element;
 use strict;
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors 
-    mk_output_accessors mk_inherited_accessors mk_accessors 
+use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors
+    mk_output_accessors mk_inherited_accessors mk_accessors
     mk_inherited_merging_accessors /;
 use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
     populate form stash parent /;
@@ -48,7 +48,7 @@ sub new {
 
     $self->attributes( {} );
     $self->stash(      {} );
-    
+
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );
     }
@@ -108,13 +108,13 @@ sub prepare_attrs { }
 
 sub get_output_processors {
     my $self = shift;
-    
+
     return $self->form->get_output_processors(@_);
 }
 
 sub get_output_processor {
     my $self = shift;
-    
+
     return $self->form->get_output_processor(@_);
 }
 

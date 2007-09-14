@@ -6,66 +6,73 @@ use base 'HTML::FormFu::OutputProcessor';
 use HTML::FormFu::Attribute(qw/ mk_accessors /);
 use HTML::TokeParser::Simple;
 
-__PACKAGE__->mk_accessors(qw/
-    collapse_tags 
-    collapse_consecutive_tags 
-/);
+__PACKAGE__->mk_accessors(
+    qw/
+        collapse_tags
+        collapse_consecutive_tags
+        /
+);
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->collapse_tags([qw/
-        fieldset
-        form
-        hr
-        legend
-        optgroup
-        option
-        table
-        td
-        th
-        tr
-    /]);
-    
-    $self->collapse_consecutive_tags([qw/
-        span
-    /]);
+    $self->collapse_tags( [
+            qw/
+                fieldset
+                form
+                hr
+                legend
+                optgroup
+                option
+                table
+                td
+                th
+                tr
+                /
+        ] );
+
+    $self->collapse_consecutive_tags( [
+            qw/
+                span
+                /
+        ] );
 
     return $self;
 }
 
 sub process {
     my ( $self, $input ) = @_;
-    
+
     my $parser = HTML::TokeParser::Simple->new( \$input );
     my @tokens;
-    
+
     while ( my $token = $parser->get_token ) {
         push @tokens, $token;
     }
-    
-    my $iter = HTML::FormFu::OutputProcessor::StripWhitespace::_iter->new(
-        @tokens
-    );
-    
+
+    my $iter
+        = HTML::FormFu::OutputProcessor::StripWhitespace::_iter->new( @tokens );
+
     my @collapse    = @{ $self->collapse_tags };
     my @consecutive = @{ $self->collapse_consecutive_tags };
-    my $output = "";
-    
+    my $output      = "";
+
     while ( defined( my $token = $iter->next ) ) {
-        
+
         if ( $token->is_start_tag ) {
             my $tag      = $token->get_tag;
             my $prev_tag = $iter->prev_tag_name;
-            
-            if ( grep { $tag eq $_} @collapse ) {
+
+            if ( grep { $tag eq $_ } @collapse ) {
+
                 # strip \s from before us
                 $output =~ s/ \s+ \z //x;
             }
             elsif ( defined $prev_tag ) {
+
                 # strip \s between <start> <start>
                 for my $consec (@consecutive) {
-                    if ($tag eq $consec && $tag eq $prev_tag ) {
+                    if ( $tag eq $consec && $tag eq $prev_tag ) {
                         $output =~ s/ \s+ \z //x;
                     }
                 }
@@ -74,37 +81,39 @@ sub process {
         elsif ( $token->is_end_tag ) {
             my $tag      = $token->get_tag;
             my $prev_tag = $iter->prev_tag_name;
-            
-            if ( grep { $tag eq $_} @collapse ) {
+
+            if ( grep { $tag eq $_ } @collapse ) {
+
                 # strip \s from before us
                 $output =~ s/ \s+ \z //x;
             }
             elsif ( defined $prev_tag ) {
+
                 # strip \s between </end> </end>
                 for my $consec (@consecutive) {
-                    if ($tag eq $consec && $tag eq $prev_tag ) {
+                    if ( $tag eq $consec && $tag eq $prev_tag ) {
                         $output =~ s/ \s+ \z //x;
                     }
                 }
             }
         }
-        
+
         my $prev_tag = $iter->prev_tag_name;
-        
+
         if ( defined $prev_tag && grep { $prev_tag eq $_ } @collapse ) {
             $output =~ s/ \s+ \z //x;
-            
+
             my $part = $token->as_is;
-            
-            $part =~ s/ ^ \s+ //x; 
-            
+
+            $part =~ s/ ^ \s+ //x;
+
             $output .= $part;
         }
         else {
             $output .= $token->as_is;
         }
     }
-    
+
     return $output;
 }
 
@@ -112,68 +121,68 @@ package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
 sub new {
     my $class = shift;
-    
+
     my %self = (
         tags => \@_,
         i    => 0,
     );
-    
+
     return bless \%self, $class;
 }
 
 sub next {
     my ($self) = @_;
-    
-    return $self->{tags}[ $self->{i} ++ ];
+
+    return $self->{tags}[ $self->{i}++ ];
 }
 
 sub prev_tag_name {
     my ($self) = @_;
-    
+
     my $i = $self->{i} - 2;
-    
-    while ( $i >= 0) {
-        
+
+    while ( $i >= 0 ) {
+
         if ( $self->{tags}[$i]->is_tag ) {
-            return if ! $self->{tags}[$i]->is_tag;
-            
+            return if !$self->{tags}[$i]->is_tag;
+
             return $self->{tags}[$i]->get_tag;
         }
-        
+
         --$i;
     }
 }
 
 #sub prev_start_tag_name {
 #    my ($self) = @_;
-#    
+#
 #    my $i = $self->{i} - 2;
-#    
+#
 #    while ( $i >= 0) {
-#        
+#
 #        if ( $self->{tags}[$i]->is_tag ) {
 #            return if ! $self->{tags}[$i]->is_start_tag;
-#            
+#
 #            return $self->{tags}[$i]->get_tag;
 #        }
-#        
+#
 #        --$i;
 #    }
 #}
 #
 #sub prev_end_tag_name {
 #    my ($self) = @_;
-#    
+#
 #    my $i = $self->{i} - 2;
-#    
+#
 #    while ( $i >= 0) {
-#        
+#
 #        if ( $self->{tags}[$i]->is_tag ) {
 #            return if ! $self->{tags}[$i]->is_end_tag;
-#            
+#
 #            return $self->{tags}[$i]->get_tag;
 #        }
-#        
+#
 #        --$i;
 #    }
 #}

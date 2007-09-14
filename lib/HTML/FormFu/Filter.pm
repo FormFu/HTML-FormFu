@@ -17,7 +17,7 @@ sub new {
     croak "attributes argument must be a hashref" if $@;
 
     my $self = bless {}, $class;
-    
+
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );
     }

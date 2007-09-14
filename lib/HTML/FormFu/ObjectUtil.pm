@@ -403,8 +403,8 @@ sub _coerce {
     my $render = $element->render;
 
     $render->{value} = $self->value;
-    
-    # because $element goes out of scope at the end of this subroutine, 
+
+    # because $element goes out of scope at the end of this subroutine,
     # we need an unweakened reference, so bypass parent() method
     $render->{parent} = $element;
 
@@ -593,16 +593,16 @@ sub _add_constraint_set {
 
 sub parent {
     my $self = shift;
-    
+
     if (@_) {
         $self->{parent} = shift;
-        
+
         weaken( $self->{parent} );
-        
+
         return $self;
     }
-    
+
     return $self->{parent};
-};
+}
 
 1;

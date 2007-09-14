@@ -8,7 +8,7 @@ sub process {
     my $self = shift;
 
     my @set = map { _parse_value($_) } @{ $self->parent->_options };
-    
+
     $self->set( \@set );
 
     return $self->next::method(@_);
@@ -16,9 +16,9 @@ sub process {
 
 sub _parse_value {
     my ($item) = @_;
-    
-    if ( exists $item->{group} ){
-        return map { _parse_value($_) } @{ $item->{group} }
+
+    if ( exists $item->{group} ) {
+        return map { _parse_value($_) } @{ $item->{group} };
     }
     else {
         return $item->{value};
