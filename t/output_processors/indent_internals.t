@@ -7,10 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $proc = $form->output_processor({
-    type   => 'Indent',
-    indent => " " x 4,
-});
+my $proc = $form->output_processor( {
+        type   => 'Indent',
+        indent => " " x 4,
+    } );
 
 my $input = <<INPUT;
 <form action="" method="post">

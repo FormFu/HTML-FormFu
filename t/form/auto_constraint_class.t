@@ -13,14 +13,13 @@ $form->element('Text')->name('bar')->auto_constraint_class('%f_%t_c');
 
 $form->constraint('Number');
 
-is( $form->get_field('foo'), 
-   q{<span class="text number_constraint">
+is( $form->get_field('foo'),
+    q{<span class="text number_constraint">
 <input name="foo" type="text" />
 </span>}
 );
 
-is(
-    $form->get_field('bar'),
+is( $form->get_field('bar'),
     q{<span class="text form_number_c">
 <input name="bar" type="text" />
 </span>}

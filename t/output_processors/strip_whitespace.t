@@ -131,7 +131,8 @@ XHTML
 $form->output_processor('StripWhitespace');
 
 {
-    my $xhtml = qq{<form action="" method="post"><fieldset><legend>fieldset</legend><input name="hidden" type="hidden" value="1" />
+    my $xhtml
+        = qq{<form action="" method="post"><fieldset><legend>fieldset</legend><input name="hidden" type="hidden" value="1" />
 <span class="text label">
 <label>Foo</label>
 <input name="foo" type="text" />
