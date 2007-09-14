@@ -24,6 +24,7 @@ sub new {
 
 sub process_value {
     my ( $self, $render ) = @_;
+# $input instead of $render
 
     return $self->value;
 }

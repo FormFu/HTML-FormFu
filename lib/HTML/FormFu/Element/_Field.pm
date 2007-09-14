@@ -289,11 +289,22 @@ sub process_input {
 
     my $submitted = $self->form->submitted;
     my $default   = $self->default;
+    my $original  = $self->value;
     my $field     = $self->name;
 
     # set input to default value (defined before calling FormFu->process)
     if ( $submitted && $self->force_default && defined $default ) {
         $input->{$field} = $default;
+    }
+    # checkbox, radio
+    elsif ( $submitted && $self->force_default && $self->checked ) {
+        # the checked attribute is set, so force input to be the original value
+        $input->{$field} = $original;
+    }
+    # checkbox, radio
+    elsif ( $submitted && $self->force_default && !defined $default && defined $original ) {
+        # default and value are not equal, so this element is not checked by default
+        $input->{$field} = undef;
     }
 
     return;
@@ -339,7 +350,7 @@ sub process_value {
     }
 
     # if the default value has been changed after FormFu->process has been
-    # called we respect the change here
+    # called we use it and set the value to that changed default again
     if (   $submitted
         && $self->force_default
         && defined $default
