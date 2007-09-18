@@ -29,7 +29,7 @@ sub process {
     my $min = $self->minimum;
     $min = 1 if !defined $min;
     my $max = $self->maximum;
-    $max = 1 if !defined $max;
+    $max = 1 + scalar @$others if !defined $max;
 
     # get field names to check
     my @names = ( $self->name );
@@ -106,6 +106,9 @@ L</min> is an alias for L</minimum>.
 The maximum number of named fields which must be filled in.
 
 L</max> is an alias for L</maximum>.
+
+The default for max is the number of all affected fields, in other words one
+more than the number of elements given to others.
 
 =head2 attach_errors_to_base
 
