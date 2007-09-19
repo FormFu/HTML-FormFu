@@ -91,11 +91,7 @@ for my $method ( 'constraint', @PROCESSORS ) {
 
 # build get_Xs methods
 
-for my $method (
-    qw/
-    deflator filter constraint inflator validator transformer /
-    )
-{
+for my $method ( 'constraint', @PROCESSORS ) {
     no strict 'refs';
 
     my $sub = sub {
