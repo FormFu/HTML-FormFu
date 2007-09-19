@@ -8,6 +8,9 @@ __PACKAGE__->mk_accessors(qw/ callback /);
 sub process {
     my ( $self, $params ) = @_;
 
+    # check when condition
+    return unless $self->_process_when( $params );
+
     my $name = $self->name;
 
     my $value = $params->{$name};

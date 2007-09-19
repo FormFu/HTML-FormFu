@@ -6,6 +6,9 @@ use base 'HTML::FormFu::Constraint::_others';
 sub process {
     my ( $self, $params ) = @_;
 
+    # check when condition
+    return unless $self->_process_when( $params );
+
     my $others = $self->others;
     return if !defined $others;
 

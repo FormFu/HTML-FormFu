@@ -21,6 +21,9 @@ sub process {
     my ( $self, $params ) = @_;
     my $count = 0;
 
+    # check when condition
+    return unless $self->_process_when( $params );
+
     # others are needed
     my $others = $self->others;
     return if !defined $others;

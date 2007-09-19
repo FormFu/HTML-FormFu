@@ -8,7 +8,7 @@ use HTML::FormFu::Exception::Constraint;
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
 
-__PACKAGE__->mk_accessors(qw/ not force_errors /);
+__PACKAGE__->mk_accessors(qw/ not force_errors when /);
 
 sub process {
     my ( $self, $params ) = @_;
@@ -16,6 +16,9 @@ sub process {
     my $name  = $self->name;
     my $value = $params->{$name};
     my @errors;
+
+    # check when condition
+    return unless $self->_process_when( $params );
 
     if ( ref $value ) {
         eval { my @x = @$value };
@@ -95,6 +98,43 @@ sub mk_error {
     return $err;
 }
 
+sub _process_when {
+    my ( $self, $params ) = @_;
+    # returns 1 if when condition is fullfilled or not defined
+    # returns 0 if when condition is defined and not fullfilled
+
+    # get when condition
+    my $when = $self->when;
+    return 1 if !defined $when;
+
+    # check type of 'when'
+    croak "Parameter 'when' is not a hash ref" if ref $when ne 'HASH';
+
+    # field must be defined
+    my $when_field = $when->{field};
+    croak "Parameter 'field' is not defined" if !defined $when_field;
+
+    # nothing to constrain if field doesn't exist
+    my $when_field_value = $params->{$when_field};
+    return 0 if !defined $when_field_value;
+
+    # a compare value must be defined
+    my @values;
+    my $compare_value = $when->{value};
+    push @values, $compare_value if defined $compare_value;
+    my $compare_values = $when->{values};
+    push @values, @$compare_values if ref $compare_values eq 'ARRAY';
+    croak "Parameter 'value' or 'values' are not defined" unless @values;
+
+    # determine if condition is fullfilled
+    my $fullfilled = grep { $when_field_value eq $_ } @values;
+
+    # invert when condition if asked for
+    $fullfilled = $when->{not} ? !$fullfilled : $fullfilled;
+
+    return $fullfilled;
+}
+
 1;
 
 __END__
@@ -112,6 +152,9 @@ HTML::FormFu::Constraint - Constrain User Input
         constraints:
           - type: Length
             min: 8
+            when:
+              field: bar
+              values: [ 1, 3, 5 ]
       - type: Text
         name: bar
         constraints: 
@@ -194,6 +237,17 @@ to.
 =head2 name
 
 Shorthand for C<< $constraint->parent->name >>
+
+=head2 when
+
+Defines a condition for the constraint. Only when the condition is fullfilled
+the constraint will be applied.
+
+This method expects a hashref with the following keys:
+  field: name of form field that shall be compared
+  value: expected value in the form field 'field'
+  values: Array of multiple values, one must match to fullfill the condition
+  not: inverse the when condition - value(s) must not match
 
 =head1 CORE CONSTRAINTS
 
