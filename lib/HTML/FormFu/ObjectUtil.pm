@@ -7,54 +7,69 @@ use HTML::FormFu::Util qw/ _parse_args require_class _get_elements /;
 use Config::Any;
 use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
+use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 
-our @EXPORT_OK = qw/
-    _render_class _coerce populate
-    _require_constraint
+our @form_and_block = qw/
+    element
+    deflator
+    filter
+    constraint
+    inflator
+    validator
+    transformer
     _single_element
-    deflator get_fields get_field get_elements get_element
-    get_all_elements get_all_element get_errors get_error clear_errors
+    _single_deflator
+    _single_filter
+    _single_constraint
+    _single_inflator
+    _single_validator
+    _single_transformer
+    _require_constraint
+    get_element
+    get_elements
+    get_deflators
+    get_filters
+    get_constraints
+    get_inflators
+    get_validators
+    get_transformers
+    get_all_element
+    get_all_elements
+    get_field
+    get_fields
+    get_error
+    get_errors
+    clear_errors
+    /;
+
+our @form_and_element = qw/
+    _require_deflator
+    _require_filter
+    _require_inflator
+    _require_validator
+    _require_transformer
+    get_deflator
+    get_filter
+    get_constraint
+    get_inflator
+    get_validator
+    get_transformer
+    /;
+
+our @EXPORT_OK = (qw/
+    _render_class _coerce populate
+    deflator 
     load_config_file form insert_before insert_after clone name stash
-    constraints_from_dbic parent /;
+    constraints_from_dbic parent /,
+    @form_and_block,
+    @form_and_element );
 
-sub _single_element {
-    my ( $self, $element ) = @_;
-    my @elements;
-
-    if ( ref $element eq 'HASH' ) {
-        push @elements, $element;
-    }
-    elsif ( !ref $element ) {
-        push @elements, { type => $element };
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    for (@elements) {
-        my $e = _require_element( $self, $_ );
-        push @return, $e;
-
-        if (   $self->can('auto_fieldset')
-            && $self->auto_fieldset
-            && $e->type ne 'Fieldset' )
-        {
-            my ($target)
-                = reverse @{ $self->get_elements( { type => 'Fieldset' } ) };
-
-            push @{ $target->_elements }, $e;
-        }
-        else {
-            push @{ $self->_elements }, $e;
-        }
-    }
-
-    return @return;
-}
+our %EXPORT_TAGS = (
+    FORM_AND_BLOCK => \@form_and_block,
+    FORM_AND_ELEMENT => \@form_and_element,
+);
 
 sub _require_element {
     my ( $self, $arg ) = @_;
@@ -604,5 +619,626 @@ sub parent {
 
     return $self->{parent};
 }
+
+sub element {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_element($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_element($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub deflator {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_deflator($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_deflator($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub filter {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_filter($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_filter($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub constraint {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_constraint($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_constraint($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub inflator {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_inflator($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_inflator($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub validator {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_validator($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_validator($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub transformer {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_transformer($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_transformer($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
+sub _single_element {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my $new = _require_element( $self, $arg );
+
+    if (   $self->can('auto_fieldset')
+        && $self->auto_fieldset
+        && $new->type ne 'Fieldset' )
+    {
+        my ($target)
+            = reverse @{ $self->get_elements( { type => 'Fieldset' } ) };
+
+        push @{ $target->_elements }, $new;
+    }
+    else {
+        push @{ $self->_elements }, $new;
+    }
+
+    return $new;
+}
+
+sub _single_deflator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add deflator to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_deflator( $type, $arg );
+            push @{ $field->_deflators }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub _single_filter {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add filter to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_filter( $type, $arg );
+            push @{ $field->_filters }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub _single_constraint {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add constraint to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_constraint( $type, $arg );
+            push @{ $field->_constraints }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub _single_inflator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add inflator to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_inflator( $type, $arg );
+            push @{ $field->_inflators }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub _single_validator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add validator to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_validator( $type, $arg );
+            push @{ $field->_validators }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub _single_transformer {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined}
+        ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq( map { $_->name }
+        grep { defined $_->name } @{ $self->get_fields } )
+        if !@names;
+
+    croak "no field names to add transformer to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+    
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+            my $new = $field->_require_transformer( $type, $arg );
+            push @{ $field->_transformers }, $new;
+            push @return, $new;
+        }
+    }
+    
+    return @return;
+};
+
+sub get_deflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_deflators(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_filters {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_filters(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_constraints {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_constraints(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_inflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_inflators(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_validators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_validators(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_transformers {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = map { @{ $_->get_transformers(@_) } } @{ $self->_elements };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub _require_deflator {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::Deflator::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
+
+sub _require_filter {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::Filter::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
+
+sub _require_inflator {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::Inflator::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
+
+sub _require_validator {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::Validator::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
+
+sub _require_transformer {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::Transformer::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
+
+sub get_deflator {
+    my $self = shift;
+
+    my $x = $self->get_deflators(@_);
+
+    return @$x ? $x->[0] : ();
+};
+
+sub get_filter {
+    my $self = shift;
+
+    my $x = $self->get_filters(@_);
+
+    return @$x ? $x->[0] : ();
+};
+
+sub get_constraint {
+    my $self = shift;
+
+    my $x = $self->get_constraints(@_);
+
+    return @$x ? $x->[0] : ();
+};
+
+sub get_inflator {
+    my $self = shift;
+
+    my $x = $self->get_inflators(@_);
+
+    return @$x ? $x->[0] : ();
+};
+
+sub get_validator {
+    my $self = shift;
+
+    my $x = $self->get_validators(@_);
+
+    return @$x ? $x->[0] : ();
+};
+
+sub get_transformer {
+    my $self = shift;
+
+    my $x = $self->get_transformers(@_);
+
+    return @$x ? $x->[0] : ();
+};
 
 1;

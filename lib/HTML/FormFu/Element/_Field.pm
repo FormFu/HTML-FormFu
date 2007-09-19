@@ -4,8 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/
-    mk_attrs mk_require_methods mk_get_one_methods /;
+use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil qw/
     get_error _require_constraint /;
 use HTML::FormFu::Util qw/
@@ -42,81 +41,6 @@ __PACKAGE__->mk_inherited_accessors(
         auto_transformer_class render_processed_value force_errors /
 );
 
-our @PROCESSORS = qw/ 
-    deflator filter inflator validator transformer /;
-
-__PACKAGE__->mk_require_methods( @PROCESSORS);
-
-__PACKAGE__->mk_get_one_methods( 'constraint', @PROCESSORS );
-
-# build _single_X methods
-
-for my $method ( 'constraint', @PROCESSORS ) {
-    no strict 'refs';
-
-    my $sub = sub {
-        my ( $self, $arg ) = @_;
-        my @items;
-
-        if ( ref $arg eq 'HASH' ) {
-            push @items, $arg;
-        }
-        elsif ( !ref $arg ) {
-            push @items, { type => $arg };
-        }
-        else {
-            croak 'invalid args';
-        }
-
-        my @return;
-
-        for my $item (@items) {
-            my $type           = delete $item->{type};
-            my $require_method = "_require_$method";
-            my $array_method   = "_${method}s";
-
-            my $new = $self->$require_method( $type, $item );
-
-            push @{ $self->$array_method }, $new;
-            push @return, $new;
-        }
-
-        return @return;
-    };
-
-    my $name = __PACKAGE__ . "::_single_$method";
-
-    *{$name} = $sub;
-}
-
-# build get_Xs methods
-
-for my $method ( 'constraint', @PROCESSORS ) {
-    no strict 'refs';
-
-    my $sub = sub {
-        my $self         = shift;
-        my %args         = _parse_args(@_);
-        my $array_method = "_${method}s";
-
-        my @x = @{ $self->$array_method };
-
-        if ( exists $args{name} ) {
-            @x = grep { $_->name eq $args{name} } @x;
-        }
-
-        if ( exists $args{type} ) {
-            @x = grep { $_->type eq $args{type} } @x;
-        }
-
-        return \@x;
-    };
-
-    my $name = __PACKAGE__ . "::get_${method}s";
-
-    *{$name} = $sub;
-}
-
 *constraints  = \&constraint;
 *filters      = \&filter;
 *deflators    = \&deflator;
@@ -148,15 +72,15 @@ sub new {
     return $self;
 }
 
-sub constraint {
+sub deflator {
     my ( $self, $arg ) = @_;
     my @return;
 
     if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_constraint( $self, $_ ) } @$arg;
+        push @return, map { _single_deflator( $self, $_ ) } @$arg;
     }
     else {
-        push @return, _single_constraint( $self, $arg );
+        push @return, _single_deflator( $self, $arg );
     }
 
     return @return == 1 ? $return[0] : @return;
@@ -176,15 +100,15 @@ sub filter {
     return @return == 1 ? $return[0] : @return;
 }
 
-sub deflator {
+sub constraint {
     my ( $self, $arg ) = @_;
     my @return;
 
     if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_deflator( $self, $_ ) } @$arg;
+        push @return, map { _single_constraint( $self, $_ ) } @$arg;
     }
     else {
-        push @return, _single_deflator( $self, $arg );
+        push @return, _single_constraint( $self, $arg );
     }
 
     return @return == 1 ? $return[0] : @return;
@@ -231,6 +155,108 @@ sub transformer {
 
     return @return == 1 ? $return[0] : @return;
 }
+
+sub get_deflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_deflators };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_filters {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_filters };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_constraints {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_constraints };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_inflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_inflators };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_validators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_validators };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
+
+sub get_transformers {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_transformers };
+
+    if ( exists $args{name} ) {
+        @x = grep { $_->name eq $args{name} } @x;
+    }
+
+    if ( exists $args{type} ) {
+        @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    return \@x;
+};
 
 sub get_errors {
     my $self = shift;
@@ -645,6 +671,132 @@ sub clone {
 
     return $clone;
 }
+
+sub _single_deflator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_deflator( $type, $arg );
+
+    push @{ $self->_deflators }, $new;
+
+    return $new;
+};
+
+sub _single_filter {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_filter( $type, $arg );
+
+    push @{ $self->_filters }, $new;
+
+    return $new;
+};
+
+sub _single_constraint {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_constraint( $type, $arg );
+
+    push @{ $self->_constraints }, $new;
+
+    return $new;
+};
+
+sub _single_inflator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_inflator( $type, $arg );
+
+    push @{ $self->_inflators }, $new;
+
+    return $new;
+};
+
+sub _single_validator {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_validator( $type, $arg );
+
+    push @{ $self->_validators }, $new;
+
+    return $new;
+};
+
+sub _single_transformer {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_transformer( $type, $arg );
+
+    push @{ $self->_transformers }, $new;
+
+    return $new;
+};
 
 1;
 

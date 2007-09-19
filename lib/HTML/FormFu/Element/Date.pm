@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_attrs mk_require_methods /;
+use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::Util qw/ _get_elements _parse_args /;
 use DateTime;
 use DateTime::Format::Builder;

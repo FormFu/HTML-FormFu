@@ -6,8 +6,9 @@ use Class::C3;
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors
     mk_output_accessors mk_inherited_accessors mk_accessors
     mk_inherited_merging_accessors /;
-use HTML::FormFu::ObjectUtil qw/ load_config_file _render_class
-    populate form stash parent /;
+use HTML::FormFu::ObjectUtil qw/ 
+    :FORM_AND_ELEMENT
+    load_config_file _render_class populate form stash parent /;
 use HTML::FormFu::Util qw/ require_class xml_escape /;
 use Scalar::Util qw/ refaddr /;
 use Storable qw( dclone );
@@ -74,27 +75,15 @@ sub get_field { }
 
 sub get_deflators { [] }
 
-sub get_deflator { }
-
 sub get_filters { [] }
-
-sub get_filter { }
 
 sub get_constraints { [] }
 
-sub get_constraint { }
-
 sub get_inflators { [] }
-
-sub get_inflator { }
 
 sub get_validators { [] }
 
-sub get_validator { }
-
 sub get_transformers { [] }
-
-sub get_transformer { }
 
 sub get_errors { [] }
 

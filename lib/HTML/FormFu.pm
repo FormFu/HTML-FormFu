@@ -2,8 +2,7 @@ package HTML::FormFu;
 use strict;
 
 use HTML::FormFu::Attribute qw/
-    mk_attrs mk_attr_accessors mk_add_methods mk_single_methods
-    mk_require_methods mk_get_methods mk_get_one_methods
+    mk_attrs mk_attr_accessors
     mk_inherited_accessors mk_output_accessors
     mk_inherited_merging_accessors mk_accessors /;
 use HTML::FormFu::Constraint;
@@ -13,9 +12,8 @@ use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
 use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/
-    _single_element _require_constraint
-    get_elements get_element get_all_elements get_all_element
-    get_fields get_field get_errors get_error clear_errors
+    :FORM_AND_BLOCK
+    :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic parent /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
@@ -58,23 +56,6 @@ __PACKAGE__->mk_inherited_accessors(
 
 __PACKAGE__->mk_inherited_merging_accessors(
     qw/ render_class_args config_callback /);
-
-our @PROCESSORS = qw/ 
-    deflator filter inflator validator transformer /;
-
-__PACKAGE__->mk_add_methods(
-    'element', 'constraint', 'output_processor', @PROCESSORS
-);
-
-__PACKAGE__->mk_single_methods( 'constraint', @PROCESSORS );
-
-__PACKAGE__->mk_require_methods(
-    'output_processor', @PROCESSORS
-);
-
-__PACKAGE__->mk_get_methods( 'constraint', @PROCESSORS );
-
-__PACKAGE__->mk_get_one_methods( 'constraint', @PROCESSORS );
 
 *elements          = \&element;
 *constraints       = \&constraint;
@@ -644,6 +625,20 @@ sub hidden_fields {
         map { $_->render } @{ $self->get_fields( { type => 'Hidden' } ) };
 }
 
+sub output_processor {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_output_processor($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_output_processor($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+};
+
 sub _single_output_processor {
     my ( $self, $arg ) = @_;
     my @items;
@@ -671,6 +666,33 @@ sub _single_output_processor {
 
     return @return;
 }
+
+sub _require_output_processor {
+    my ( $self, $type, $opt ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$opt };
+    croak "options argument must be hash-ref" if $@;
+
+    my $class = $type;
+    if ( not $class =~ s/^\+// ) {
+        $class = "HTML::FormFu::OutputProcessor::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $object = $class->new( {
+        type   => $type,
+        parent => $self,
+        } );
+
+    $object->populate( $opt );
+
+    return $object;
+};
 
 sub get_output_processors {
     my $self = shift;
