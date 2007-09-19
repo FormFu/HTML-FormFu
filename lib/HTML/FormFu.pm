@@ -59,31 +59,22 @@ __PACKAGE__->mk_inherited_accessors(
 __PACKAGE__->mk_inherited_merging_accessors(
     qw/ render_class_args config_callback /);
 
+our @PROCESSORS = qw/ 
+    deflator filter inflator validator transformer /;
+
 __PACKAGE__->mk_add_methods(
-    qw/
-        element deflator filter constraint inflator validator transformer
-        output_processor /
+    'element', 'constraint', 'output_processor', @PROCESSORS
 );
 
-__PACKAGE__->mk_single_methods(
-    qw/
-        deflator filter constraint inflator validator transformer /
-);
+__PACKAGE__->mk_single_methods( 'constraint', @PROCESSORS );
 
 __PACKAGE__->mk_require_methods(
-    qw/
-        deflator filter inflator validator transformer output_processor /
+    'output_processor', @PROCESSORS
 );
 
-__PACKAGE__->mk_get_methods(
-    qw/
-        deflator filter constraint inflator validator transformer /
-);
+__PACKAGE__->mk_get_methods( 'constraint', @PROCESSORS );
 
-__PACKAGE__->mk_get_one_methods(
-    qw/
-        deflator filter constraint inflator validator tranformer /
-);
+__PACKAGE__->mk_get_one_methods( 'constraint', @PROCESSORS );
 
 *elements          = \&element;
 *constraints       = \&constraint;

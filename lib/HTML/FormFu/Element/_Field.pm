@@ -42,23 +42,16 @@ __PACKAGE__->mk_inherited_accessors(
         auto_transformer_class render_processed_value force_errors /
 );
 
-__PACKAGE__->mk_require_methods(
-    qw/
-        deflator filter inflator validator transformer /
-);
+our @PROCESSORS = qw/ 
+    deflator filter inflator validator transformer /;
 
-__PACKAGE__->mk_get_one_methods(
-    qw/
-        deflator filter constraint inflator validator transformer /
-);
+__PACKAGE__->mk_require_methods( @PROCESSORS);
+
+__PACKAGE__->mk_get_one_methods( 'constraint', @PROCESSORS );
 
 # build _single_X methods
 
-for my $method (
-    qw/
-    deflator filter constraint inflator validator transformer /
-    )
-{
+for my $method ( 'constraint', @PROCESSORS ) {
     no strict 'refs';
 
     my $sub = sub {

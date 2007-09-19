@@ -26,30 +26,18 @@ __PACKAGE__->mk_inherited_accessors(
         auto_transformer_class render_processed_value force_errors /
 );
 
-__PACKAGE__->mk_add_methods(
-    qw/
-        element deflator filter constraint inflator valiBdator transformer /
-);
+our @PROCESSORS = qw/ 
+    deflator filter inflator validator transformer /;
 
-__PACKAGE__->mk_single_methods(
-    qw/
-        deflator constraint filter inflator validator transformer /
-);
+__PACKAGE__->mk_add_methods( 'element', 'constraint', @PROCESSORS );
 
-__PACKAGE__->mk_require_methods(
-    qw/
-        deflator filter inflator validator transformer /
-);
+__PACKAGE__->mk_single_methods( 'constraint', @PROCESSORS );
 
-__PACKAGE__->mk_get_methods(
-    qw/
-        deflator filter constraint inflator validator transformer /
-);
+__PACKAGE__->mk_require_methods( @PROCESSORS );
 
-__PACKAGE__->mk_get_one_methods(
-    qw/
-        deflator filter constraint inflator validator transformer /
-);
+__PACKAGE__->mk_get_methods( 'constraint', @PROCESSORS );
+
+__PACKAGE__->mk_get_one_methods( 'constraint', @PROCESSORS );
 
 *elements     = \&element;
 *constraints  = \&constraint;
