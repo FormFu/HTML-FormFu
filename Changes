@@ -1,3 +1,10 @@
+0.01005 2007-09-21
+
+	- New Indent "output processor" to pretty-print output
+	- New force_default() method on fields
+	- New when() method for all Constraints
+	- Behaviour change for MinMaxFields Constraint
+
 0.01004 2007-09-12
 
 	- New html_formfu_deploy.pl helper program
