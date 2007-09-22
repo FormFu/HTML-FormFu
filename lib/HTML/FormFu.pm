@@ -2271,6 +2271,33 @@ object, you'll need to ensure either that the object stringifies
 correctly, or set "render_processed_value = 0" for that particular
 field.
 
+=head2 how to populate a form with default values from a hash?
+
+You can use something like te following before calling 'process':
+$hashref = { street => 'Bakerstreet', city => 'London'};
+map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
+
+=head2 how to create a title tag for my form fields
+
+  elements:
+   - type: Text
+     name: country_name
+     label: Country Name
+     size: 32
+     attributes:
+       title: Name of country (when not USA domestic)
+
+If you also would like to give the label a title tag than you add:
+
+     label_attributes:
+       title: Name of country (when not USA domestic)
+
+You also can add a title tag to the container element that surrounds label
+and form field:
+
+     container_attributes:
+       title: Name of country (when not USA domestic)
+
 =head1 SUPPORT
 
 Project Page:
