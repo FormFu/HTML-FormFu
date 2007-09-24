@@ -802,7 +802,7 @@ required.
 
 HTML::FormFu uses a templating system such as L<Template::Toolkit|Template> 
 or L<Template::Alloy> to create the form's XHTML output. As such, it needs 
-to be able to find it's own template files. If you're using the L<Catalyst> 
+to be able to find its own template files. If you're using the L<Catalyst> 
 web framework, just run the following command:
 
     $ script/myapp_create.pl HTML::FormFu
@@ -815,9 +815,9 @@ If you're not using L<Catalyst>, you can create the template files by
 running the following command (while in the directory containing your CGI 
 programs):
 
-    $ html_formfu_deploy.pl
+      $ html_formfu_deploy.pl
 
-This installs the templates files in directory C<./root>, which is the 
+This installs the template files in directory C<./root>, which is the 
 default path that HTML::FormFu searches in.
 
 Although HTML::FormFu uses L<Template::Toolkit|Template> internally, 
@@ -860,7 +860,7 @@ format recognized by L<Config::Any>.
 The content of each config file is passed to L</populate>, and so are added 
 to the form.
 
-L</load_config_file> may be called in a config file itself, as so allow 
+L</load_config_file> may be called in a config file itself, so as to allow 
 common settings to be kept in a single config file which may be loaded 
 by any form.
 
@@ -904,10 +904,10 @@ If L</indicator> is set to a fieldname, L</submitted> will return true if
 a value for that fieldname was submitted.
 
 If L</indicator> is set to a code-ref, it will be called as a subroutine 
-with the two arguments C<$form> and C<$query>, and it's return value will be 
+with the two arguments C<$form> and C<$query>, and its return value will be 
 used as the return value for L</submitted>.
 
-If L</indicator> is not set, </submitted> will return true if a value for 
+If L</indicator> is not set, L</submitted> will return true if a value for 
 any known fieldname was submitted.
 
 =head2 auto_fieldset
@@ -1003,7 +1003,7 @@ The 3rd element is within a new fieldset
     </form>
 
 Because of this behaviour, if you want nested fieldsets you will have to add 
-each nested fieldset directly to it's intended parent.
+each nested fieldset directly to its intended parent.
 
     my $parent = $form->get_element({ type => 'Fieldset' });
     
@@ -1038,7 +1038,7 @@ set L</form_error_message_loc> to the value C<form_error_message>.
 You can, of course, set L</form_error_message_loc> to any key in your L10N 
 file.
 
-=head1 force_error_message
+=head2 force_error_message
 
 If true, forces the L</form_error_message> to be displayed even if there are 
 no field errors.
@@ -1102,7 +1102,7 @@ prefixing it with C<+>.
       - type: +MyApp::CustomElement
         name: foo
 
-If a C<type> is not provided in the C<\%options>, the default C<text> will 
+If a C<type> is not provided in the C<\%options>, the default C<Text> will 
 be used.
 
 L</element> is an alias for L</elements>.
@@ -1181,7 +1181,7 @@ Validators allow for a more complex validation than Constraints. Validators
 can be sure that all values have successfully passed all Constraints and have 
 been successfully passed through all Inflators. It is expected that most 
 Validators will be application-specific, and so each will be implemented as 
-a seperate class written by the HTML::FormFu user.
+a separate class written by the HTML::FormFu user.
 
 =head2 filters
 
@@ -1203,9 +1203,6 @@ If you do not provide a C<name> or C<names> value, the filter will be added
 to all L<fields|HTML::FormFu::Element::_Field> already attached to the form. 
 
 See L<HTML::FormFu::Filter/"CORE FILTERS"> for a list of core filters.
-
-If a C<name> attribute isn't provided, a new filter is created for and 
-added to every field on the form.
 
 If you want to load a filter in a namespace other than 
 C<HTML::FormFu::Filter::>, you can use a fully qualified package-name by 
@@ -1352,7 +1349,7 @@ L</attrs> is an alias for L</attributes>.
 
 =head2 attrs_xml
 
-Provides the same functionality as L<"/attributes">, but values won't be 
+Provides the same functionality as L</attributes>, but values won't be 
 XML-escaped.
 
 L</attrs_xml> is an alias for L</attributes_xml>.
@@ -1372,8 +1369,9 @@ Accepts either a list of key/value pairs, or a hash-ref.
     $form->add_attributes( $key => $value );
     $form->add_attributes( { $key => $value } );
 
-All values are appended to existing values, with a preceeding space 
-character. This is primarily to allow the easy addition of new class names.
+All values are appended to existing values, with a preceding space 
+character. This is primarily to allow the easy addition of new names to the class
+attribute.
 
     $form->attributes({ class => 'foo' });
     
@@ -1387,7 +1385,7 @@ L</add_attrs> is an alias for L</add_attributes>.
 
 =head2 add_attrs_xml
 
-Provides the same functionality as L<"/add_attributes">, but values won't be 
+Provides the same functionality as L</add_attributes>, but values won't be 
 XML-escaped.
 
 L</add_attrs_xml> is an alias for L</add_attributes_xml>.
@@ -1421,12 +1419,12 @@ L</del_attrs> is an alias for L</del_attributes>.
 
 =head2 del_attrs_xml
 
-Provides the same functionality as L<"/del_attributes">, but values won't be 
+Provides the same functionality as L</del_attributes>, but values won't be 
 XML-escaped.
 
 L</del_attrs_xml> is an alias for L</del_attributes_xml>.
 
-The following methods are shortcuts for accessing L<"/attributes"> keys.
+The following methods are shortcuts for accessing L</attributes> keys.
 
 =head2 id
 
@@ -1728,7 +1726,7 @@ Return Value: @valid_names
 
 A (readonly) L<CGI> compatible method.
 
-If a field name if given, in list-context returns any valid values submitted 
+If a field name is given, in list-context returns any valid values submitted 
 for that field, and in scalar-context returns only the first of any valid 
 values submitted for that field.
 
@@ -1903,7 +1901,7 @@ Arguments: [\%constructor_arguments]
 Accepts a hash-ref of arguments passed to the render object constructor for 
 the form and all elements.
 
-The default render class (L<HTML::FormFu::Render::Base>) passes these 
+The default render class (L<HTML::FormFu::Render::base>) passes these 
 arguments to the L<TT|Template> constructor.
 
 The keys C<RELATIVE> and C<RECURSION> are overridden to always be true, as 
@@ -1944,6 +1942,7 @@ Arguments: [\%options]
 Return Value: \@elements
 
 Returns all top-level elements in the form (not recursive).
+See L</get_all_elements> for a recursive version.
 
 Accepts both C<name> and C<type> arguments to narrow the returned results.
 
@@ -1951,8 +1950,6 @@ Accepts both C<name> and C<type> arguments to narrow the returned results.
         name => 'foo',
         type => 'Radio',
     });
-
-See L</get_all_elements> for a recursive version.
 
 =head2 get_element
 
@@ -1966,6 +1963,8 @@ Accepts the same arguments as L</get_elements>, but only returns the first
 element found.
 
 =head2 get_all_elements
+
+=head2 get_all_element
 
 =head2 get_fields
 
@@ -2194,7 +2193,7 @@ by running the following command (while in the distribution root directory).
 
     perl examples/vertically-aligned/vertically-aligned.pl
 
-This uses the C<Template Toolkit|Template> file C<vertically-aligned.tt>, 
+This uses the L<Template Toolkit|Template> file C<vertically-aligned.tt>, 
 and the CSS is defined in files C<vertically-aligned.css> and 
 C<vertically-aligned-ie.css>.
 
@@ -2257,13 +2256,13 @@ Use HTML::FormFu::Constraint::Regex:
             - type: Regex
               common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
 
-=head2 If a user enters a value like "  foo  " and we need to redisplay the form, I would like the prefilled value to be "foo".
+=head2 If a user enters a value like "  foo  " and we need to redisplay the form, I would like the pre-filled value to be "foo".
 
 First you have to use the TrimEdges Filter.
 
 Second to get this behaviour, set 'render_processed_value' to a true value.
 
-You can set this at the form level to effect all fields, or set it at
+You can set this at the form level to affect all fields, or set it at
 the fieldset- or field-level.
 
 One thing to beware is if you have Inflators on a field that create an

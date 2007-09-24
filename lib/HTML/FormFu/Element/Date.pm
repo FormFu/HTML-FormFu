@@ -355,8 +355,18 @@ HTML::FormFu::Element::Date - 3 select menu multi-field
     ---
     elements:
       - type: Date
-        name: foo
+        name: birthdate
+        label: 'Birthdate:'
+        day:
+          prefix: "- Day -"
+        month:
+          prefix: "- Month -"
+        year:
+          prefix: "- Year -"
+          less: 70
+          plus: 0
         auto_inflate: 1
+
 
 =head1 DESCRIPTION
 
