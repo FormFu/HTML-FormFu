@@ -39,10 +39,12 @@ sub _prepare_attrs {
     elsif ($submitted) {
         delete $option->{attributes}{selected};
     }
-    elsif ( defined $default && $default eq $option->{value} ) {
+    elsif ( defined $default
+        && (ref $default eq 'ARRAY'
+            ? grep { $_ eq $option->{value} } @$default
+            : $default eq $option->{value} ) ) {
         $option->{attributes}{selected} = 'selected';
     }
-
     return;
 }
 

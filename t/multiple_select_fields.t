@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 use HTML::FormFu;
 
@@ -25,3 +25,13 @@ my $xhtml = <<EOF;
 EOF
 
 is( "$form", $xhtml );
+
+
+$form = HTML::FormFu->new;
+
+$form->element('Select')->name('foo')->values( [qw/ one two three /] )
+    ->default('two')->multiple(1);
+my $select_field = $form->get_element( { name => 'foo' } );
+$select_field->default( [qw/ one three /] );
+is( "$form", $xhtml );
+
