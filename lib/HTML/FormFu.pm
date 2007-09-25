@@ -2213,6 +2213,7 @@ the following yaml config:
     render_class_args:
       TEMPLATE_ALLOY: 1
 
+
 =head2 How do I add an onSubmit handler to the form?
 
     ---
@@ -2234,6 +2235,7 @@ See L<HTML::FormFu::Element/attributes>.
 You can add any arbitrary HTML attributes with 
 L<HTML::FormFu::Element/attributes>.
 
+
 =head2 How can I add a HTML tag which isn't included?
 
 You can use the L<HTML::FormFu::Element::Block> element, and set
@@ -2243,6 +2245,7 @@ the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
     elements:
       - type: Block
         tag: span
+
 
 =head2 How do I check if a textfield contains a URI in a proper format?
 
@@ -2255,6 +2258,7 @@ Use HTML::FormFu::Constraint::Regex:
           constraint:
             - type: Regex
               common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
+
 
 =head2 If a user enters a value like "  foo  " and we need to redisplay the form, I would like the pre-filled value to be "foo".
 
@@ -2270,13 +2274,15 @@ object, you'll need to ensure either that the object stringifies
 correctly, or set "render_processed_value = 0" for that particular
 field.
 
-=head2 how to populate a form with default values from a hash?
+
+=head2 How to populate a form with default values from a hash?
 
 You can use something like te following before calling 'process':
 $hashref = { street => 'Bakerstreet', city => 'London'};
 map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
 
-=head2 how to create a title tag for my form fields
+
+=head2 How to create a title tag for my form fields?
 
   elements:
    - type: Text
@@ -2296,6 +2302,103 @@ and form field:
 
      container_attributes:
        title: Name of country (when not USA domestic)
+
+
+=head2 How to insert a field to defined postion?
+
+I use my .yml for existing users to edit their data, except that the can't
+change the username, so I do not include that in my config.
+If I now want to use the same config for new users to create, I would need
+the field username. How would I insert it at the beginning of the form?
+
+There are two ways to deal with this. First by having multiple yaml files:
+
+So, if the rest of the fields are in 'user_edit.yml'.
+Put the username field in 'user_username.yml'.
+Then create a 'user_existing.yml' that looks something like this:
+
+    ---
+    load_config_file:
+      - user_username.yml
+      - user_edit.yml
+
+Then depending on your need, create your form from either
+'user_edit.yml' or 'user_existing.yml'.
+
+A completely different alternative is to use insert_before().
+This requires you to use auto_fieldset(), or just manually place the
+fields in a fieldset.
+
+Say the first field in the normal form is 'email', then you could do
+something like this:
+
+    $fieldset = $form->get_element({ type => 'Fieldset' });
+    $fieldset->insert_before(
+            HTML::FormFu->new->element({ name => 'username' }),
+            $form->get_field('email')
+        );
+
+
+=head2 How to write values onto the stash from a yaml config file?
+
+Putting the following into your config helps:
+
+    ---
+    id: form
+    stash:
+       hello: "howdy"
+    elements:
+       - type: Fieldset
+    ...
+
+
+=head2 How to create a error in the form, if an according DB operation fails?
+
+You can use the following eval to catch DB related errors while creating or
+updateing a record:
+
+    eval {$row->populate_from_formfu( $c->stash->{form} );};
+
+And then check if $@ has an according message, e. g.:
+    "Duplicate entry ... for key 'email'"
+
+Now you'll need a constraint especially for that error - you could use a
+Callback constraint, as that always passes if you don't provide a callback()
+routine - so it won't interfere in any way.
+
+That is what the config could look like:
+
+    ---
+    elements:
+      - name: email
+      - constraints:
+        type: Callback
+        message: 'Email already taken'
+
+Then, after your test:
+
+    if ( $@ =~ m/duplicate entry for key 'email'/i ) {
+        $form->get_field('email')->get_constraint('Callback')
+            ->force_errors(1);
+        $form->process;
+        # then redisplay the form as normal
+    }
+
+
+=head2 In my Radiogroup element each option has the same id?
+
+You have to enable auto_id().
+
+Use something like:
+
+    $self->auto_id( '%n_%c' );
+
+or:
+
+    ---
+    auto_id: "%n_%c"
+    ...
+
 
 =head1 SUPPORT
 
