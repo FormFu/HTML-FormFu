@@ -635,7 +635,7 @@ sub _render_transformer_class {
 sub _render_error_class {
     my ( $self, $render ) = @_;
 
-    my @errors = @{ $self->get_errors };
+    my @errors = @{ $self->get_errors({ forced => 1 }) };
 
     if (@errors) {
         $render->{errors} = \@errors;
