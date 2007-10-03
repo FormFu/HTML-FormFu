@@ -10,6 +10,8 @@ sub constrain_value {
 
     my $callback = $self->callback || sub {1};
 
+    no strict 'refs';
+    
     my $ok = $callback->( $value, $params );
 
     return $ok;
@@ -25,12 +27,19 @@ HTML::FormFu::Constraint::Callback - Code Callback Constraint
 
 =head1 SYNOPSIS
 
-    $form->constraint({
+    $field->constraint({
         type => 'Callback',
-        name => 'foo',
-        callback => \&sfoo,
+        callback => \&foo,
     );
-    
+
+    ---
+    elements:
+      - type: Text
+        name: foo
+        constraints:
+          - type: Callback
+            callback: "main::my_constraint"
+
     sub foo {
         my ( $value, $params ) = @_;
 
@@ -49,7 +58,9 @@ This constraint doesn't honour the C<not()> value.
 
 =head2 callback
 
-Arguments: \&sub_ref
+Arguments: \&code-reference
+
+Arguments: "subroutine-name"
 
 =head1 SEE ALSO
 

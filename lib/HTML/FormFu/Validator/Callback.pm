@@ -10,6 +10,8 @@ sub validate_value {
 
     my $callback = $self->callback || sub {1};
 
+    no strict 'refs';
+
     my $ok = $callback->($value);
 
     return $ok;
@@ -25,9 +27,27 @@ HTML::FormFu::Validator::Callback - Callback validator
 
 =head1 SYNOPSIS
 
+    $field->validator('Callback')->callback( \&my_validator );
+
+    ---
+    elements:
+      - type: Text
+        name: foo
+        validators:
+          - type: Callback
+            callback: "main::my_validator"
+
 =head1 DESCRIPTION
 
 Callback validator.
+
+=head1 METHODS
+
+=head2 callback
+
+Arguments: \&code-reference
+
+Arguments: "subroutine-name"
 
 =head1 SEE ALSO
 

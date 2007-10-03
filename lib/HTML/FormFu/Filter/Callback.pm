@@ -10,6 +10,8 @@ sub filter {
 
     my $callback = $self->callback || sub { $_[0] };
 
+    no strict 'refs';
+    
     return $callback->($value);
 }
 
@@ -23,11 +25,38 @@ HTML::FormFu::Filter::Callback - filter with custom subroutine
 
 =head1 SYNOPSIS
 
-    $form->filter( Callback => 'foo' );
+    $field->filter({
+        type     => 'Callback',
+        callback => \&my_filter,
+    });
+
+    ---
+    elements:
+      - type: Text
+        name: foo
+        filters:
+          - type: Callback
+            callback: "main::my_filter"
+
+    sub my_filter {
+        my ($value) = @_;
+        
+        # do something to $value
+        
+        return $value;
+    }
 
 =head1 DESCRIPTION
 
 Filter using a user-provided subroutine.
+
+=head1 METHODS
+
+=head2 callback
+
+Arguments: \&code-reference
+
+Arguments: "subroutine-name"
 
 =head1 AUTHOR
 
