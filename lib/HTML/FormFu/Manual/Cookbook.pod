@@ -75,6 +75,54 @@ Simply add a Block element in the relevant place.
 
 The element's tag will default to C<&lt;div&gt;>.
 
+=head2 Load my form config from a string instead of a file?
+
+An example of where this might be useful is in a self contained test script.
+Unfortunately, at the time of writing it's not as simple as doing:
+
+  my $config = "
+    ---
+    elements:
+      - name: foo
+  ";
+  $form->load_config( $config );
+
+This is because HTML::FormFu uses L<Config::Any> behind the scenes when you call
+C<HTML::FormFu/"load_config_file"> and this module only supports loading from
+files. However, if you use YAML for your config files there are two workarounds.
+Either:
+
+  use HTML::FormFu;
+  use YAML::Syck qw( Load );
+
+  my $form = HTML::FormFu->new;
+
+  $form->populate( Load( do { local $/; <DATA> } ) );
+
+  print $form;
+
+  __DATA__
+  ---
+  elements:
+    - name: foo
+    - name: bar
+
+Or:
+
+  use HTML::FormFu;
+  use YAML::Syck qw( Load );
+
+  my $form = HTML::FormFu->new;
+
+  $form->populate( Load( <<END ) );
+  ---
+  elements:
+    - name: foo
+    - name: bar
+  END
+
+  print $form;
+
 =head2 Produce an option group in a Radiogroup/Select element?
 
 For example, you want HTML like the following:
@@ -136,6 +184,80 @@ The equivalent YAML is as follows:
 
 See also "options" in L<HTML::FormFu::Element::_Group/"options">.
 
+=head2 Force an element to always have a certain value?
+
+See the following:
+
+L<HTML::FormFu::Element::_Field/"retain_default">
+L<HTML::FormFu::Element::_Field/"force_default">
+
+=head2 Set default values for several form fields at once using a hash?
+
+For example, you want to do something like this:
+
+  $form->set_default_values(
+    {
+      street => 'Bakerstreet',
+      city => 'London'
+    }
+  );
+
+One way is:
+
+  $form->process( %hash );
+
+But this has the (probably) unwanted side-effect of creating error messages for
+failed constraints.
+
+A method like C<set_default_values> could probably be incorporated into the main
+code (I'm sure patches are welcome), but for now Mario Minati suggests the
+following:
+
+  # before calling $form->process
+  my $hashref = { street => 'Bakerstreet', city => 'London'};
+  map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
+
+=head2 Add a popup hint to a field?
+
+Some visual browsers (including IE6/7, Firefox, Opera 9) display a tooltip when
+a user hovers their mouse pointer over an HTML element with a "title" tag. Aural
+browsers may try to turn the content into speech. You can take advantage of this
+behaviour to provide a hint to the user about how to complete a form field.
+
+  elements:
+    - type: Text
+      name: country_name
+      label: Country Name
+      attributes:
+        title: Name of country
+
+The above will provide a hint when the "country_name" field receives focus. You
+could alter this so the hint is provided for the field's label instead:
+
+  elements:
+    - type: Text
+      name: country_name
+      label: Country Name
+      label_attributes:
+        title: Name of country
+
+Or you could provide the hint for the container tag around both field and label
+(by default this will be a C<&lt;span&gt;>):
+
+  elements:
+    - type: Text
+      name: country_name
+      label: Country Name
+      container_attributes:
+        title: Name of country (when not USA domestic)
+
+=head2 Check Date fields for errors?
+
+Attach a Date inflator to your date field. When the inflator is processed, it
+will try to create a DateTime object. An error will be thrown if the supplied
+values do not make a valid date and this will be returned to the user by
+HTML::FormFu.
+
 =head2 Know when to use a constraint and when to use a validator?
 
 As Jason Kohles explains:
@@ -188,6 +310,38 @@ Then add your custom validator to the form:
 Note the prefix '+' in front of the custom validator's name - required in this
 case because we are using a validator class from outside the
 HTML::FormFu::Validator:: namespace.
+
+=head2 Constrain one form field based on the value of another
+
+For example, you have a radiogroup and several text fields, with different text
+fields being required depending on the value of the radiogroup.
+
+This is achieved using the C<when> attribute of a constraint:
+
+  constraints:
+    - type: Length
+      min: 8
+      when:
+        field: bar
+        values: [ 1, 3, 5 ]
+
+In the above example, the Length constraint is only processed when the form
+field named "bar" has a value of either 1, 3 or 5.
+
+You can also test for a negative condition using the C<not> attribute:
+
+  constraints:
+    - type: Length
+      min: 8
+      when:
+        field: bar
+        values: [ 1, 3, 5 ]
+        not: 1
+
+Now the constraint will be processed only if the value of field "bar" is NOT 1,
+3 or 5.
+
+Both the above attributes are documented further in L<HTML::FormFu::Constraint>.
 
 =head1 AUTHORS
 
