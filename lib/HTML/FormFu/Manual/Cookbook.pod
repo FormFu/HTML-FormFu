@@ -1,0 +1,192 @@
+=head1 NAME
+
+HTML::FormFu::Cookbook - Cooking with HTML::FormFu
+
+=head1 DESCRIPTION
+
+Miscellaneous useful recipes for use with HTML::FormFu
+
+=head1 BASICS
+
+Some useful info for beginners.
+
+=head2 Installing the FormFu templates
+
+Before doing anything else, make sure the FormFu templates have been set up on
+your system. This can be done as follows:
+
+  $ html_formfu_deploy.pl <output_path>
+
+The output path will default to "./root" if not supplied on the command line.
+
+=head2 Default search paths for config files and templates
+
+The default locations for config files and templates are as follows:
+
+=head3 Config files
+
+The current working directory (see L<HTML::FormFu/"load config file">).
+
+=head3 Templates
+
+Subdirectory 'root' of the current working directory. In a default setup this is
+set by C<HTML::FormFu::Render::base::xhtml()>. You can supply a different
+template path as follows:
+
+  $form->render_class_args( { INCLUDE_PATH => '/path/to/templates' } );
+
+=head2 How to perform standalone testing of a form
+
+When starting out with HTML::FormFu, you may want to test things from a script
+rather than using a web framework like Catalyst. Something like the following
+will help:
+
+  #!/usr/bin/perl -w
+  use strict;
+  use HTML::FormFu;
+  my( $config_file, $template_root ) = ( @ARGV );
+  die "config file missing" if !defined $config_file;
+  my $form = HTML::FormFu->new;
+  # set template root if supplied on command line
+  # will default to ./root otherwise
+  $form->render_class_args( { INCLUDE_PATH => $template_root } )i
+    if defined $template_root;
+  $form->load_config_file( $config_file );
+  print $form;
+
+=head1 How do I...
+
+=head2 Make my form output nicely formatted HTML?
+
+Add this to your form config:
+
+  ---
+  output_processors:
+    - Indent
+
+=head2 Add a blank div to a form (e.g. for AJAX purposes)
+
+Simply add a Block element in the relevant place.
+
+  ---
+  elements:
+    - type: Block
+      id: foo
+
+The element's tag will default to C<&lt;div&gt;>.
+
+=head2 Produce an option group in a Radiogroup/Select element?
+
+For example, you want HTML like the following:
+
+  <form action="" method="post">
+    <span class="select">
+      <select name="month">
+        <optgroup label="----Q1----">
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+        </optgroup>
+        <optgroup label="----Q2----">
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+        </optgroup>
+        <optgroup label="----Q3----">
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+        </optgroup>
+        <optgroup label="----Q4----">
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </optgroup>
+      </select>
+    </span>
+  </form>
+
+The equivalent YAML is as follows:
+
+  ---
+  elements:
+    - type: Select
+      name: month
+      options:
+        - label: "----Q1----"
+          group:
+            - [01, January]
+            - [02, February]
+            - [03, March]
+        - label: "----Q2----"
+          group:
+            - [04, April]
+            - [05, May]
+            - [06, June]
+        - label: "----Q3----"
+          group:
+            - [07, July]
+            - [08, August]
+            - [09, September]
+         - label: "----Q4----"
+          group:
+            - [10, October]
+            - [11, November]
+            - [12, December]
+
+See also "options" in L<HTML::FormFu::Element::_Group/"options">.
+
+=head2 Know when to use a constraint and when to use a validator?
+
+As Jason Kohles explains:
+
+Generally a constraint is used for more low level information, and validators for higher-level stuff.  A good example is email addresses, an Email   constraint would check for things like "is this a string", "does it contain an @ sign", "does it end with a valid top-level domain", and other things   applicable to all email addresses. Validators are usually used for more business-logic level things, like a registration form might have an email validator that checks to make sure the email address being registered doesn't already exist in the database.
+
+=head2 Implement a custom validator?
+
+Create a custom validator class that inherits from L<HTML::FormFu::Validator>,
+like this:
+
+  package My::Custom::Validator;
+
+  use strict;
+  use warnings;
+
+  use base 'HTML::FormFu::Validator';
+
+  sub validate_value {
+    my ( $self, $value, $params ) = @_;
+
+    # check whether $value is valid here, according to your own criteria
+
+    die HTML::FormFu::Exception::Validator->new
+      if $value_is_invalid;
+
+    # $value is valid
+    return 1;
+  }
+
+  1;
+
+Then add your custom validator to the form:
+
+  # add validator only to form field named 'field1'
+  $form->validator( { type => '+My::Custom::Validator', name => 'field1' } );
+
+  # add validator to all form fields
+  $form->validator( { type => '+My::Custom::Validator' } );
+  # OR
+  $form->validator( '+My::Custom::Validator' );
+
+Note the prefix '+' in front of the custom validator's name - required in this
+case because we are using a validator class from outside the
+HTML::FormFu::Validator:: namespace.
+
+=head1 AUTHORS
+
+Will Hawes C<wdhawes@gmail.com>
+
+=head1 COPYRIGHT
+
+This document is free, you can redistribute it and/or modify it
+under the same terms as Perl itself.
