@@ -140,7 +140,14 @@ See also "options" in L<HTML::FormFu::Element::_Group/"options">.
 
 As Jason Kohles explains:
 
-Generally a constraint is used for more low level information, and validators for higher-level stuff.  A good example is email addresses, an Email   constraint would check for things like "is this a string", "does it contain an @ sign", "does it end with a valid top-level domain", and other things   applicable to all email addresses. Validators are usually used for more business-logic level things, like a registration form might have an email validator that checks to make sure the email address being registered doesn't already exist in the database.
+Generally a constraint is used for more low level information, and validators
+for higher-level stuff. A good example is email addresses, an Email constraint
+would check for things like "is this a string", "does it contain an @ sign",
+"does it end with a valid top-level domain", and other things applicable to all
+email addresses. Validators are usually used for more business-logic level
+things, like a registration form might have an email validator that checks to
+make sure the email address being registered doesn't already exist in the
+database.
 
 =head2 Implement a custom validator?
 
