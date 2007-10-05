@@ -258,6 +258,43 @@ will try to create a DateTime object. An error will be thrown if the supplied
 values do not make a valid date and this will be returned to the user by
 HTML::FormFu.
 
+=head2 Insert a new field before existing form fields?
+
+One way is to use C<insert_before>. Assuming the first field in your existing
+form is "email" and you want to add "username" in front of it:
+
+  my $fieldset = $form->get_element({ type => 'Fieldset' });
+  $fieldset->insert_before(
+    HTML::FormFu->new->element( { name => 'username' } ),
+    $form->get_field('email')
+  );
+
+Another, cleaner way to approach the problem is to use multiple yaml files:
+
+  # user_edit.yml
+  ---
+  elements:
+    - type: Text
+      name: email
+
+  # user_username.yml
+  ---
+  elements:
+    - type: Text
+      name: username
+
+   # user_register.yml
+   ---
+   load_config_file:
+    - user_username.yml
+    - user_edit.yml
+
+  # create either a user edit form...
+  $form->load_config_file( 'user_edit.yml' );
+
+  # ...or a user registration form complete with "username" field at the top
+  $form->load_config_file( 'user_register.yml' );
+
 =head2 Know when to use a constraint and when to use a validator?
 
 As Jason Kohles explains:
