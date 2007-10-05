@@ -864,6 +864,14 @@ L</load_config_file> may be called in a config file itself, so as to allow
 common settings to be kept in a single config file which may be loaded 
 by any form.
 
+Like perl's C<open> function, relative-paths are resolved from the current 
+working directory.
+
+If you're using the C<FormConfig> action controller in 
+L<Catalyst::Controller::HTML::FormFu>, see 
+L<config_file_path|Catalyst::Controller::HTML::FormFu/config_file_path>. 
+
+
 See L</BEST PRACTICES> for advice on organising config files.
 
 =head2 config_callback
