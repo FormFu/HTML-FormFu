@@ -7,6 +7,7 @@ use HTML::FormFu::ObjectUtil qw/ form stash parent /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
+use Template::Constants;
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
@@ -108,8 +109,22 @@ sub xhtml {
         process_attrs => \&process_attrs,
     );
 
-    $template->process( $filename, \%vars, \$output )
-        or croak $template->error;
+    if (!$template->process( $filename, \%vars, \$output )) {
+        if ( !$alloy &&
+             $template->{ _ERROR }->type() eq Template::Constants::ERROR_FILE ) {
+            croak "There was an file error while processing '". $filename. "'. ".
+                "(". $template->error(). ")\n".
+                "Did you set 'render_class_args' to have the apropriate 'INCLUDE_PATH'?"
+        }
+        elsif ( $alloy && $template->error()->type() eq 'file' ) {
+            croak "There was an file error while processing '". $filename. "'. ".
+                "(". $template->error(). ")\n".
+                "Did you set 'render_class_args' to have the apropriate 'INCLUDE_PATH'?"
+        }
+        else {
+           croak $template->error;
+        }
+    }
 
     return $output;
 }
