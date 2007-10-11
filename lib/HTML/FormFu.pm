@@ -2408,6 +2408,16 @@ or:
     ...
 
 
+=head2 I have several elements nested on a fieldset, and get_element couldn't find the nested elements, only the outer ones.
+
+There's a get_all_element() method which will do a recursive search
+and only return the first found (though if you don't provide a name or
+type argument, then it'll still only return the outer fieldset).
+
+Or you could do something like:
+    $form->get_element({type=>'Fieldset'})->get_element();
+
+
 =head1 SUPPORT
 
 Project Page:
