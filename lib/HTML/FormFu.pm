@@ -2222,6 +2222,11 @@ the following yaml config:
       TEMPLATE_ALLOY: 1
 
 
+An other way of speeding HTML::FormFu is to preload all FormFu modules:
+
+    use HTML::FormFu::Preload;
+
+
 =head2 How do I add an onSubmit handler to the form?
 
     ---
