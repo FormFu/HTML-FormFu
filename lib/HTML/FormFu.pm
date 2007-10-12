@@ -1972,6 +1972,24 @@ element found.
 
 =head2 get_all_elements
 
+Arguments: [%options]
+
+Arguments: [\%options]
+
+Return Value: \@elements
+
+Returns all elements in the form recursively.
+
+Optionally accepts both C<name> and C<type> arguments to narrow the returned
+results.
+
+    # return all Text elements
+    $form->get_all_elements({
+        type => 'Text',
+    });
+
+See L</get_elements> for a non-recursive version.
+
 =head2 get_all_element
 
 =head2 get_fields
