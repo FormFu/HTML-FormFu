@@ -49,7 +49,7 @@ will help:
   my $form = HTML::FormFu->new;
   # set template root if supplied on command line
   # will default to ./root otherwise
-  $form->render_class_args( { INCLUDE_PATH => $template_root } )i
+  $form->render_class_args( { INCLUDE_PATH => $template_root } )
     if defined $template_root;
   $form->load_config_file( $config_file );
   print $form;
