@@ -2481,8 +2481,6 @@ L<https://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>
 
 =head1 SEE ALSO
 
-L<HTML::FormFu::Dojo>
-
 L<HTML::FormFu::Imager>
 
 L<Catalyst::Controller::HTML::FormFu>
