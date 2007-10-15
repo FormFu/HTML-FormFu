@@ -2441,6 +2441,34 @@ Or you could do something like:
     $form->get_element({type=>'Fieldset'})->get_element();
 
 
+=head1 CAVEATS
+
+=head2 yaml config is hash not array
+
+The yml config for a form is interpreted as a hash, so no order is preserved 
+and no double use of the same keyis possible.
+
+    load_config_file
+      - defaults
+    elements
+      - ...
+    load_config_file
+      - some_default_elements
+
+That does *not* work as the second load_config_file overwrites the first one 
+and the elements defined in 'some_default_elements' are displayed before the 
+elements defined in the 'elements' section as load_config_file is interpreded 
+before elements in the 'populate' function in ObjectUtil.
+
+The work around is loading everything from an external file as underneath 
+load_config_file the order is preserved, as it is an array:
+
+    load_config_file
+      - defaults
+      - the_specific_elements
+      - some_default_elements
+
+
 =head1 SUPPORT
 
 Project Page:
