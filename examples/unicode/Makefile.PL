@@ -6,9 +6,11 @@ all_from 'lib/unicode.pm';
 requires 'Catalyst' => '5.7008';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
+requires 'Catalyst::Plugin::Unicode';
+requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Action::RenderView';
-requires 'YAML'; # This should reflect the config file format you've chosen
-                 # See Catalyst::Plugin::ConfigLoader for supported formats
+requires 'YAML::Syck';
+
 catalyst;
 
 install_script glob('script/*.pl');
