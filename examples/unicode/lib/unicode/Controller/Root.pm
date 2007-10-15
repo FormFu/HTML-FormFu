@@ -32,8 +32,10 @@ sub default : Private {
     $c->response->body( <<HTML );
 <html>
 <body>
-<a href="/tt">TT</a><br />
-<a href="tt_alloy">Template::Alloy</a>
+<a href="/tt">TT only</a><br />
+<a href="tt_alloy">Template::Alloy only</a><br />
+<a href="tt_cross">TT template, with HTML::FormFu using Template::Alloy</a><br />
+<a href="tt_alloy_cross">Template::Alloy template, with HTML::FormFu using TT</a>
 </body>
 HTML
 }
@@ -41,13 +43,7 @@ HTML
 sub tt : Local : FormConfig('index.yml') {
     my ( $self, $c ) = @_;
     
-    my $rs = $c->model('DB')->resultset('Unicode')->find(1);
-    
-    $c->stash->{form}->get_field('db')->default_xml( $rs->string );
-    
-    $c->stash->{form}->render_class_args->{ENCODING} = 'UTF-8';
-    
-    $c->stash->{template} = 'index.tt';
+    $self->_common( $c );
     
     $c->forward('View::TT');
 }
@@ -55,16 +51,43 @@ sub tt : Local : FormConfig('index.yml') {
 sub tt_alloy : Local : FormConfig('index.yml') {
     my ( $self, $c ) = @_;
     
-    my $rs = $c->model('DB')->resultset('Unicode')->find(1);
-    
-    $c->stash->{form}->get_field('db')->default( $rs->string );
+    $self->_common( $c );
     
     $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
+    
+    $c->forward('View::TT::Alloy');
+}
+
+sub tt_cross : Local : FormConfig('index.yml') {
+    my ( $self, $c ) = @_;
+    
+    $self->_common( $c );
+    
+    $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
+    
+    $c->forward('View::TT');
+}
+
+sub tt_alloy_cross : Local : FormConfig('index.yml') {
+    my ( $self, $c ) = @_;
+    
+    $self->_common( $c );
+    
+    $c->forward('View::TT::Alloy');
+}
+
+sub _common : Private {
+    my ( $self, $c ) = @_;
+    
+    my $result = $c->model('DB')->resultset('Unicode')->find(1);
+    
+    $c->stash->{form}->get_field('db')->default( $result->string );
+    
     $c->stash->{form}->render_class_args->{ENCODING} = 'UTF-8';
     
     $c->stash->{template} = 'index.tt';
     
-    $c->forward('View::TT::Alloy');
+    return;
 }
 
 =head1 AUTHOR
