@@ -2,7 +2,7 @@ package unicode::Controller::Root;
 
 use strict;
 use warnings;
-use base 'Catalyst::Controller::HMTL::FormFu';
+use base 'Catalyst::Controller::HTML::FormFu';
 
 #
 # Sets the actions in this controller to be registered with no prefix
