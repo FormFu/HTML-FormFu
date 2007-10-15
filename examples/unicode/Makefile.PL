@@ -9,6 +9,7 @@ requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Plugin::Unicode';
 requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Action::RenderView';
+requires 'DBIx::Class::Schema';
 requires 'YAML::Syck';
 
 catalyst;

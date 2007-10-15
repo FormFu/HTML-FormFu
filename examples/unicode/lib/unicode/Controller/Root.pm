@@ -33,6 +33,12 @@ sub default : Private {
     $c->response->body( $c->welcome_message );
 }
 
+sub index : Path('/') : FormConfig {
+    my ( $self, $c ) = @_;
+    
+    
+}
+
 =head2 end
 
 Attempt to render a view, if needed.
