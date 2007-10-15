@@ -7,7 +7,7 @@
 </title>
 </head>
 <body>
-<p>This uncode is in the TT template -> ü</p>
+<p>This uncode is in the template file -&gt; ü</p>
 [% form %]
 </body>
 </html>

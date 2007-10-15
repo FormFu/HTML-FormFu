@@ -29,23 +29,33 @@ unicode::Controller::Root - Root Controller for unicode
 sub default : Private {
     my ( $self, $c ) = @_;
 
-    # Hello World
-    $c->response->body( $c->welcome_message );
+    $c->response->body( <<HTML );
+<html>
+<body>
+<a href="/tt">TT</a><br />
+<a href="tt_alloy">Template::Alloy</a>
+</body>
+HTML
 }
 
-sub index : Path('/') : FormConfig {
+sub tt : Local : FormConfig('index.yml') {
     my ( $self, $c ) = @_;
     
+    $c->stash->{template} = 'index.tt';
     
+    $c->forward('View::TT');
 }
 
-=head2 end
-
-Attempt to render a view, if needed.
-
-=cut 
-
-sub end : ActionClass('RenderView') {}
+sub tt_alloy : Local : FormConfig('index.yml') {
+    my ( $self, $c ) = @_;
+    
+    $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
+    $c->stash->{form}->render_class_args->{ENCODING} = 'utf8';
+    
+    $c->stash->{template} = 'index.tt';
+    
+    $c->forward('View::TT::Alloy');
+}
 
 =head1 AUTHOR
 

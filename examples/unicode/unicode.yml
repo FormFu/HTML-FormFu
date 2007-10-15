@@ -1,2 +1,9 @@
 ---
 name: unicode
+
+'View::TT':
+  ENCODING: UTF-8
+
+'View::TT::Alloy':
+  TEMPLATE_EXTENSION: '.tt'
+  ENCODING: UTF-8

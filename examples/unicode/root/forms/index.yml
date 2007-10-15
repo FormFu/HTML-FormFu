@@ -2,5 +2,5 @@
 elements:
   - type: Text
     name: foo
-    label: "Unicode label from form yaml 'u' with an unlaut: ü"
+    label: "This unicode is in the form yaml -> ü"
     default: ü
