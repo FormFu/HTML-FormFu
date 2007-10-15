@@ -41,6 +41,12 @@ HTML
 sub tt : Local : FormConfig('index.yml') {
     my ( $self, $c ) = @_;
     
+    my $rs = $c->model('DB')->resultset('Unicode')->find(1);
+    
+    $c->stash->{form}->get_field('db')->default_xml( $rs->string );
+    
+    $c->stash->{form}->render_class_args->{ENCODING} = 'UTF-8';
+    
     $c->stash->{template} = 'index.tt';
     
     $c->forward('View::TT');
@@ -49,8 +55,12 @@ sub tt : Local : FormConfig('index.yml') {
 sub tt_alloy : Local : FormConfig('index.yml') {
     my ( $self, $c ) = @_;
     
+    my $rs = $c->model('DB')->resultset('Unicode')->find(1);
+    
+    $c->stash->{form}->get_field('db')->default( $rs->string );
+    
     $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
-    $c->stash->{form}->render_class_args->{ENCODING} = 'utf8';
+    $c->stash->{form}->render_class_args->{ENCODING} = 'UTF-8';
     
     $c->stash->{template} = 'index.tt';
     

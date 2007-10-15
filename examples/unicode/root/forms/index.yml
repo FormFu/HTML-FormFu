@@ -1,6 +1,15 @@
 ---
+auto_fieldset: 1
+languages: [de]
+
 elements:
   - type: Text
-    name: foo
-    label: "This unicode is in the form yaml -> ü"
+    name: yml
+    label: "From the form yaml -> ü"
     default: ü
+  - type: Text
+    name: db
+    label: "From the database ->"
+  - type: Date
+    name: date
+    label: "From DateTime::Locale ->"

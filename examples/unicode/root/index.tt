@@ -5,9 +5,13 @@
 <head>
 <title>Unicode Demo
 </title>
+<style type="text/css" media="all">
+	@import url("[% c.uri_for('/vertically-aligned.css') %]");
+</style>
 </head>
 <body>
-<p>This uncode is in the template file -&gt; ü</p>
+<p>From the template file -&gt; ü</p>
 [% form %]
+<p>From the database, bypassing FormFu -&gt; [% c.model('DB').resultset('Unicode').find(1).string %]</p>
 </body>
 </html>
