@@ -1,0 +1,6 @@
+---
+elements:
+  - type: Text
+    name: foo
+    label: "Unicode label from form yaml 'u' with an unlaut: ü"
+    default: ü
