@@ -7,7 +7,6 @@ use HTML::FormFu::ObjectUtil qw/ form stash parent /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
-use Template::Constants;
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
@@ -110,19 +109,29 @@ sub xhtml {
     );
 
     if (!$template->process( $filename, \%vars, \$output )) {
-        if ( !$alloy &&
-             $template->{ _ERROR }->type() eq Template::Constants::ERROR_FILE ) {
-            croak "There was an file error while processing '". $filename. "'. ".
-                "(". $template->error(). ")\n".
-                "Did you set 'render_class_args' to have the apropriate 'INCLUDE_PATH'?"
+        
+        my $error = $template->error;
+        my $type  = 'file';
+        
+        if ( !$alloy ) {
+            require "Template/Constants.pm";
+            $type = Template::Constants::ERROR_FILE();
         }
-        elsif ( $alloy && $template->error()->type() eq 'file' ) {
-            croak "There was an file error while processing '". $filename. "'. ".
-                "(". $template->error(). ")\n".
-                "Did you set 'render_class_args' to have the apropriate 'INCLUDE_PATH'?"
+        
+        if ( $error->type() eq $type ) {
+            croak <<ERROR;
+Template file not found: '$filename'.
+Set path to HTML::FormFu template directory in
+    \$form->render_class_args->{INCLUDE_PATH}.
+Default is 'root'.
+Run `html_formfu_deploy.pl` to create the files, or see 
+Catalyst::Helper::HTML::FormFu if you're using Catalyst. 
+Template error: '$error'
+ERROR
+
         }
         else {
-           croak $template->error;
+           croak $error;
         }
     }
 
