@@ -1925,6 +1925,13 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a 
 defined value.
 
+=head2 add_render_class_args
+
+Arguments: [\%constructor_arguments]
+
+Ensures that the hash-ref argument is merged with any existing hash-ref 
+value of L</render_class_args>.
+
 =head2 render_method
 
 Arguments: [$method_name]
