@@ -83,8 +83,6 @@ sub _common : Private {
     
     $c->stash->{form}->get_field('db')->default( $result->string );
     
-    $c->stash->{form}->render_class_args->{ENCODING} = 'UTF-8';
-    
     $c->stash->{template} = 'index.tt';
     
     return;
