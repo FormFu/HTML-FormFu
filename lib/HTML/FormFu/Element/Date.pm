@@ -232,7 +232,8 @@ sub _build_month_list {
             eval { $loc = DateTime::Locale->load($lang); };
             if ( !$@ ) {
                 @months
-                    = $month->{short_names}
+                    = map {ucfirst}
+                    $month->{short_names}
                     ? @{ $loc->month_abbreviations }
                     : @{ $loc->month_names };
 
