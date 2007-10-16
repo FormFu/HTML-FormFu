@@ -93,7 +93,7 @@ sub xhtml {
     $alloy = 1 if $ENV{HTML_FORMFU_TEMPLATE_ALLOY};
     require( $alloy ? 'Template/Alloy.pm' : 'Template.pm' );
 
-    $args{INCLUDE_PATH} = 'root'  if !keys %args;
+    $args{INCLUDE_PATH} = 'root'  if !exists $args{INCLUDE_PATH};
     $args{ENCODING}     = 'UTF-8' if !exists $args{ENCODING};
 
     $args{RELATIVE}  = 1;
