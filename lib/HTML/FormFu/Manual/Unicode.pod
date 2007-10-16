@@ -1,0 +1,116 @@
+=head1 NAME
+
+HTML::FormFu::Manual::Unicode - Working with unicode
+
+=head1 DESCRIPTION
+
+Working with unicode.
+
+=head1 ASSUMPTIONS
+
+In this tutorial, we're assuming that all encodings are UTF-8. It's 
+relatively simple to combine different encodings from different sources, 
+but that's beyond the scope of this tutorial.
+
+For simplicity, we're also going to assume that you're using L<Catalyst> 
+for your web-framework, L<DBIx::Class> for your database ORM, 
+L<TT|Template> for your templating system, and YAML format C<HTML::FormFu> 
+configuration files, with L<YAML::Syck> installed. However, the principles 
+we'll cover should translate to whatever technologies you chose to work with.
+
+=head1 BASICS
+
+To make it short and sweet: you must decode all data going into your 
+program, and encode all data coming from your program.
+
+Skip to L</CHANGES REQUIRED> if you want to see what you need to do without 
+any other explanation.
+
+=head1 INPUT
+
+=head2 Input parameters from the browser
+
+C<Catalyst::Plugin::Unicode> will decode all input parameters sent from the 
+browser to your application - see L</Catalyst Configuration>.
+
+=head2 Data from the database
+
+C<DBIx::Class::UTF8Columns> will decode all input retrieved from the 
+database - see L</DBIx::Class Configuration>.
+
+=head2 Your template files
+
+Set TT to decode all template files - see L</TT Configuration>.
+
+=head2 HTML::FormFu's own template files
+
+Set C<HTML::FormFu> to decode all template files - see 
+L</HTML::FormFu Template Configuration>.
+
+=head2 HTML::FormFu form configuration files
+
+If you have L<YAML::Syck> installed, your YAML format form configuration 
+files will automatically be decoded by L<HTML::FormFu/load_config_file>, 
+which automatically sets C<$YAML::Syck::ImplicitUnicode = 1>.
+
+=head2 Your perl source code
+
+Any perl source files which contain unicode must use the L<utf8> module.
+
+=head1 OUTPUT
+
+=head2 Data saved to the database
+
+C<DBIx::Class::UTF8Columns> will encode all data sent to the database - see 
+L</DBIx::Class Configuration>.
+
+=head2 HTML sent to the browser
+
+C<Catalyst::Plugin::Unicode> will encode all output sent from your 
+application to the browser - see L</Catalyst Configuration>.
+
+=head1 CHANGES REQUIRED
+
+=head2 Catalyst Configuration
+
+Add L<Catalyst::Plugin::Unicode> to the list of Catalyst plugins:
+
+    use Catalyst qw/ ConfigLoader Static::Simple Unicode /;
+
+=head2 DBIx::Class Configuration
+
+Add L<DBIx::Class::UTF8Columns> to the list of components loaded, for each 
+table that has columns storing unicode:
+
+    __PACKAGE__->load_components(qw/ UTF8Columns HTML::FormFu PK::Auto Core /);
+
+Pass each column name that will store unicode to C<utf8_columns()>:
+
+    __PACKAGE__->utf8_columns(qw/ lastname firstname /);
+
+=head2 TT Configuration
+
+Tell TT to decode all template files, by adding the following to your 
+C<myapp.yml> Catalyst configuration file:
+
+    'View::TT':
+      ENCODING: UTF-8
+
+=head2 HTML::FormFu Template Configuration
+
+Make C<HTML::FormFu> tell TT to decode all template files, by adding the 
+following to your C<myapp.yml> Catalyst configuration file:
+
+    'Controller::HTML::FormFu':
+      constructor:
+        render_class_args:
+          ENCODING: UTF-8
+
+=head1 AUTHORS
+
+Carl Franks C<cfranks@cpan.org>
+
+=head1 COPYRIGHT
+
+This document is free, you can redistribute it and/or modify it
+under the same terms as Perl itself.
