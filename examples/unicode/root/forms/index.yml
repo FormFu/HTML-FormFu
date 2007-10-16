@@ -6,10 +6,16 @@ elements:
   - type: Text
     name: yml
     label: "From the form yaml -> ü"
-    default: ü
+    constraints:
+      - Required
+  
   - type: Text
     name: db
     label: "From the database ->"
+  
   - type: Date
     name: date
     label: "From DateTime::Locale ->"
+  
+  - type: Submit
+    name: submit

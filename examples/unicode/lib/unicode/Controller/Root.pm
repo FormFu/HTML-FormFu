@@ -79,9 +79,15 @@ sub tt_alloy_cross : Local : FormConfig('index.yml') {
 sub _common : Private {
     my ( $self, $c ) = @_;
     
+    my $form = $c->stash->{form};
+    
+    if ( $form->submitted ) {
+        $form->get_field('db')->comment("^ check this submitted value");
+    }
+    
     my $result = $c->model('DB')->resultset('Unicode')->find(1);
     
-    $c->stash->{form}->get_field('db')->default( $result->string );
+    $form->get_field('db')->default( $result->string );
     
     $c->stash->{template} = 'index.tt';
     
