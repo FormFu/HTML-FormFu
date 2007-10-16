@@ -15,7 +15,7 @@ Some useful info for beginners.
 Before doing anything else, make sure the FormFu templates have been set up on
 your system. This can be done as follows:
 
-  $ html_formfu_deploy.pl <output_path>
+    $ html_formfu_deploy.pl <output_path>
 
 The output path will default to "./root" if not supplied on the command line.
 
@@ -33,7 +33,7 @@ Subdirectory 'root' of the current working directory. In a default setup this is
 set by C<HTML::FormFu::Render::base::xhtml()>. You can supply a different
 template path as follows:
 
-  $form->render_class_args( { INCLUDE_PATH => '/path/to/templates' } );
+    $form->render_class_args( { INCLUDE_PATH => '/path/to/templates' } );
 
 =head2 How to perform standalone testing of a form
 
@@ -41,18 +41,23 @@ When starting out with HTML::FormFu, you may want to test things from a script
 rather than using a web framework like Catalyst. Something like the following
 will help:
 
-  #!/usr/bin/perl -w
-  use strict;
-  use HTML::FormFu;
-  my( $config_file, $template_root ) = ( @ARGV );
-  die "config file missing" if !defined $config_file;
-  my $form = HTML::FormFu->new;
-  # set template root if supplied on command line
-  # will default to ./root otherwise
-  $form->render_class_args( { INCLUDE_PATH => $template_root } )
-    if defined $template_root;
-  $form->load_config_file( $config_file );
-  print $form;
+    #!/usr/bin/perl -w
+    use strict;
+    use HTML::FormFu;
+    
+    my( $config_file, $template_root ) = ( @ARGV );
+    die "config file missing" if !defined $config_file;
+    
+    my $form = HTML::FormFu->new;
+    
+    # set template root if supplied on command line
+    # will default to ./root otherwise
+    $form->render_class_args( { INCLUDE_PATH => $template_root } )
+        if defined $template_root;
+    
+    $form->load_config_file( $config_file );
+    
+    print $form;
 
 =head1 How do I...
 
@@ -60,18 +65,18 @@ will help:
 
 Add this to your form config:
 
-  ---
-  output_processors:
-    - Indent
+    ---
+    output_processors:
+      - Indent
 
 =head2 Add a blank div to a form (e.g. for AJAX purposes)
 
 Simply add a Block element in the relevant place.
 
-  ---
-  elements:
-    - type: Block
-      id: foo
+    ---
+    elements:
+      - type: Block
+        id: foo
 
 The element's tag will default to C<&lt;div&gt;>.
 
@@ -80,107 +85,107 @@ The element's tag will default to C<&lt;div&gt;>.
 An example of where this might be useful is in a self contained test script.
 Unfortunately, at the time of writing it's not as simple as doing:
 
-  my $config = "
-    ---
-    elements:
-      - name: foo
-  ";
-  $form->load_config( $config );
+    my $config = "
+      ---
+      elements:
+        - name: foo
+    ";
+    $form->load_config( $config );
 
 This is because HTML::FormFu uses L<Config::Any> behind the scenes when you call
 C<HTML::FormFu/"load_config_file"> and this module only supports loading from
 files. However, if you use YAML for your config files there are two workarounds.
 Either:
 
-  use HTML::FormFu;
-  use YAML::Syck qw( Load );
-
-  my $form = HTML::FormFu->new;
-
-  $form->populate( Load( do { local $/; <DATA> } ) );
-
-  print $form;
-
-  __DATA__
-  ---
-  elements:
-    - name: foo
-    - name: bar
+    use HTML::FormFu;
+    use YAML::Syck qw( Load );
+    
+    my $form = HTML::FormFu->new;
+    
+    $form->populate( Load( do { local $/; <DATA> } ) );
+    
+      print $form;
+    
+    __DATA__
+    ---
+    elements:
+      - name: foo
+      - name: bar
 
 Or:
 
-  use HTML::FormFu;
-  use YAML::Syck qw( Load );
-
-  my $form = HTML::FormFu->new;
-
-  $form->populate( Load( <<END ) );
-  ---
-  elements:
-    - name: foo
-    - name: bar
-  END
-
-  print $form;
+    use HTML::FormFu;
+    use YAML::Syck qw( Load );
+    
+    my $form = HTML::FormFu->new;
+    
+    $form->populate( Load( <<END ) );
+    ---
+    elements:
+      - name: foo
+      - name: bar
+    END
+    
+    print $form;
 
 =head2 Produce an option group in a Radiogroup/Select element?
 
 For example, you want HTML like the following:
 
-  <form action="" method="post">
-    <span class="select">
-      <select name="month">
-        <optgroup label="----Q1----">
-          <option value="01">January</option>
-          <option value="02">February</option>
-          <option value="03">March</option>
-        </optgroup>
-        <optgroup label="----Q2----">
-          <option value="04">April</option>
-          <option value="05">May</option>
-          <option value="06">June</option>
-        </optgroup>
-        <optgroup label="----Q3----">
-          <option value="07">July</option>
-          <option value="08">August</option>
-          <option value="09">September</option>
-        </optgroup>
-        <optgroup label="----Q4----">
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
-        </optgroup>
-      </select>
-    </span>
-  </form>
+    <form action="" method="post">
+      <span class="select">
+        <select name="month">
+          <optgroup label="----Q1----">
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+          </optgroup>
+          <optgroup label="----Q2----">
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+          </optgroup>
+          <optgroup label="----Q3----">
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+          </optgroup>
+          <optgroup label="----Q4----">
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </optgroup>
+        </select>
+      </span>
+    </form>
 
 The equivalent YAML is as follows:
 
-  ---
-  elements:
-    - type: Select
-      name: month
-      options:
-        - label: "----Q1----"
-          group:
-            - [01, January]
-            - [02, February]
-            - [03, March]
-        - label: "----Q2----"
-          group:
-            - [04, April]
-            - [05, May]
-            - [06, June]
-        - label: "----Q3----"
-          group:
-            - [07, July]
-            - [08, August]
-            - [09, September]
-         - label: "----Q4----"
-          group:
-            - [10, October]
-            - [11, November]
-            - [12, December]
+    ---
+    elements:
+      - type: Select
+        name: month
+        options:
+          - label: "----Q1----"
+            group:
+              - [01, January]
+              - [02, February]
+              - [03, March]
+          - label: "----Q2----"
+            group:
+              - [04, April]
+              - [05, May]
+              - [06, June]
+          - label: "----Q3----"
+            group:
+              - [07, July]
+              - [08, August]
+              - [09, September]
+           - label: "----Q4----"
+            group:
+              - [10, October]
+              - [11, November]
+              - [12, December]
 
 See also "options" in L<HTML::FormFu::Element::_Group/"options">.
 
@@ -195,16 +200,16 @@ L<HTML::FormFu::Element::_Field/"force_default">
 
 For example, you want to do something like this:
 
-  $form->set_default_values(
-    {
-      street => 'Bakerstreet',
-      city => 'London'
-    }
-  );
+    $form->set_default_values(
+      {
+        street => 'Bakerstreet',
+        city => 'London'
+      }
+    );
 
 One way is:
 
-  $form->process( %hash );
+    $form->process( %hash );
 
 But this has the (probably) unwanted side-effect of creating error messages for
 failed constraints.
@@ -213,9 +218,9 @@ A method like C<set_default_values> could probably be incorporated into the main
 code (I'm sure patches are welcome), but for now Mario Minati suggests the
 following:
 
-  # before calling $form->process
-  my $hashref = { street => 'Bakerstreet', city => 'London'};
-  map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
+    # before calling $form->process
+    my $hashref = { street => 'Bakerstreet', city => 'London'};
+    map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
 
 =head2 Add a popup hint to a field?
 
@@ -224,32 +229,32 @@ a user hovers their mouse pointer over an HTML element with a "title" tag. Aural
 browsers may try to turn the content into speech. You can take advantage of this
 behaviour to provide a hint to the user about how to complete a form field.
 
-  elements:
-    - type: Text
-      name: country_name
-      label: Country Name
-      attributes:
-        title: Name of country
+    elements:
+      - type: Text
+        name: country_name
+        label: Country Name
+        attributes:
+          title: Name of country
 
 The above will provide a hint when the "country_name" field receives focus. You
 could alter this so the hint is provided for the field's label instead:
 
-  elements:
-    - type: Text
-      name: country_name
-      label: Country Name
-      label_attributes:
-        title: Name of country
+    elements:
+      - type: Text
+        name: country_name
+        label: Country Name
+        label_attributes:
+          title: Name of country
 
 Or you could provide the hint for the container tag around both field and label
 (by default this will be a C<&lt;span&gt;>):
 
-  elements:
-    - type: Text
-      name: country_name
-      label: Country Name
-      container_attributes:
-        title: Name of country (when not USA domestic)
+    elements:
+      - type: Text
+        name: country_name
+        label: Country Name
+        container_attributes:
+          title: Name of country (when not USA domestic)
 
 =head2 Check Date fields for errors?
 
@@ -263,55 +268,56 @@ HTML::FormFu.
 One way is to use C<insert_before>. Assuming the first field in your existing
 form is "email" and you want to add "username" in front of it:
 
-  my $fieldset = $form->get_element({ type => 'Fieldset' });
-  $fieldset->insert_before(
-    HTML::FormFu->new->element( { name => 'username' } ),
-    $form->get_field('email')
-  );
+    my $fieldset = $form->get_element({ type => 'Fieldset' });
+    
+    $fieldset->insert_before(
+      HTML::FormFu->new->element( { name => 'username' } ),
+      $form->get_field('email')
+    );
 
 Another, cleaner way to approach the problem is to use multiple yaml files:
 
-  # user_edit.yml
-  ---
-  elements:
-    - type: Text
-      name: email
+    # user_edit.yml
+    ---
+    elements:
+      - type: Text
+        name: email
+    
+    # user_username.yml
+    ---
+    elements:
+      - type: Text
+        name: username
+    
+     # user_register.yml
+     ---
+     load_config_file:
+      - user_username.yml
+      - user_edit.yml
 
-  # user_username.yml
-  ---
-  elements:
-    - type: Text
-      name: username
-
-   # user_register.yml
-   ---
-   load_config_file:
-    - user_username.yml
-    - user_edit.yml
-
-  # create either a user edit form...
-  $form->load_config_file( 'user_edit.yml' );
-
-  # ...or a user registration form complete with "username" field at the top
-  $form->load_config_file( 'user_register.yml' );
+    # create either a user edit form...
+    $form->load_config_file( 'user_edit.yml' );
+    
+    # ...or a user registration form complete with "username" field at the top
+    $form->load_config_file( 'user_register.yml' );
 
 Note that C<load_config_file:> does not necessarily need to appear at the top
 level of your YAML file:
 
-  # user_username.yml
-  ---
-  elements:
-    - type: Text
-      name: username
-  
-  # user_edit.yml
-  ---
-  elements:
-    - type: Fieldset
-      elements:
-        - load_config_file: user_username.yml
-        - type: Submit
-          name: submit
+    # user_username.yml
+    ---
+    elements:
+      - type: Text
+        name: username
+    
+    # user_edit.yml
+    ---
+    elements:
+      - type: Fieldset
+        elements:
+          - load_config_file: user_username.yml
+          - type: Submit
+            name: submit
 
 =head2 Know when to use a constraint and when to use a validator?
 
@@ -331,36 +337,36 @@ database.
 Create a custom validator class that inherits from L<HTML::FormFu::Validator>,
 like this:
 
-  package My::Custom::Validator;
-
-  use strict;
-  use warnings;
-
-  use base 'HTML::FormFu::Validator';
-
-  sub validate_value {
-    my ( $self, $value, $params ) = @_;
-
-    # check whether $value is valid here, according to your own criteria
-
-    die HTML::FormFu::Exception::Validator->new
-      if $value_is_invalid;
-
-    # $value is valid
-    return 1;
-  }
-
-  1;
+    package My::Custom::Validator;
+    
+    use strict;
+    use warnings;
+    
+    use base 'HTML::FormFu::Validator';
+    
+    sub validate_value {
+      my ( $self, $value, $params ) = @_;
+      
+      # check whether $value is valid here, according to your own criteria
+      
+      die HTML::FormFu::Exception::Validator->new
+        if $value_is_invalid;
+      
+      # $value is valid
+      return 1;
+    }
+    
+    1;
 
 Then add your custom validator to the form:
 
-  # add validator only to form field named 'field1'
-  $form->validator( { type => '+My::Custom::Validator', name => 'field1' } );
-
-  # add validator to all form fields
-  $form->validator( { type => '+My::Custom::Validator' } );
-  # OR
-  $form->validator( '+My::Custom::Validator' );
+    # add validator only to form field named 'field1'
+    $form->validator( { type => '+My::Custom::Validator', name => 'field1' } );
+    
+    # add validator to all form fields
+    $form->validator( { type => '+My::Custom::Validator' } );
+    # OR
+    $form->validator( '+My::Custom::Validator' );
 
 Note the prefix '+' in front of the custom validator's name - required in this
 case because we are using a validator class from outside the
@@ -373,25 +379,25 @@ fields being required depending on the value of the radiogroup.
 
 This is achieved using the C<when> attribute of a constraint:
 
-  constraints:
-    - type: Length
-      min: 8
-      when:
-        field: bar
-        values: [ 1, 3, 5 ]
+    constraints:
+      - type: Length
+        min: 8
+        when:
+          field: bar
+          values: [ 1, 3, 5 ]
 
 In the above example, the Length constraint is only processed when the form
 field named "bar" has a value of either 1, 3 or 5.
 
 You can also test for a negative condition using the C<not> attribute:
 
-  constraints:
-    - type: Length
-      min: 8
-      when:
-        field: bar
-        values: [ 1, 3, 5 ]
-        not: 1
+    constraints:
+      - type: Length
+        min: 8
+        when:
+          field: bar
+          values: [ 1, 3, 5 ]
+          not: 1
 
 Now the constraint will be processed only if the value of field "bar" is NOT 1,
 3 or 5.
