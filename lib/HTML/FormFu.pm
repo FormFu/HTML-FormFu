@@ -2230,7 +2230,7 @@ C<vertically-aligned-ie.css>.
 Are you using L<Catalyst::Plugin::StackTrace>? This is known to 
 cause performance problems, and we advise disabling it.
 
-You can also tell HTML::FormFu to use L<Template::Alloy> instead of 
+You can also use L<Template::Alloy> instead of 
 L<Template::Toolkit|Template>, it's mostly compatible, and in most cases 
 provides a reasonable speed increase. You can do this either by setting the 
 C<HTML_FORMFU_TEMPLATE_ALLOY> environment variable to a true value, or with 
@@ -2238,12 +2238,22 @@ the following yaml config:
 
     render_class_args:
       TEMPLATE_ALLOY: 1
+      COMPILE_DIR: /tmp
+      COMPILE_PERL: 1
 
+You can still use L<Template::Toolkit|Template>
 
-An other way of speeding HTML::FormFu is to preload all FormFu modules:
+Template::Alloy's caching is off by default. Switch it on by setting either 
+C<COMPILE_EXT> or C<COMPILE_DIR>. If you're running under a persistent 
+environment such as modperl or fastcgi, you should also set C<COMPILE_PERL> 
+to compile the cached templates down to perl code.
+
+To reduce the runtime for each template that uses a previously unused
+element or porocessor - at the expense of greater memory usage, you 
+can preload all FormFu modules - this is only recommended for persistent 
+environments such as modperl or fastcgi:
 
     use HTML::FormFu::Preload;
-
 
 =head2 How do I add an onSubmit handler to the form?
 
