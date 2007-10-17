@@ -126,6 +126,24 @@ sub auto_fieldset {
     return $self;
 }
 
+sub default_values {
+    my $self = shift;
+    
+    my %values;
+    eval { %values = %{ $_[0] } };
+    croak "default_values argument must be a hashref" if $@;
+    
+    for my $field (@{ $self->get_fields }) {
+        my $field_name = $field->name;
+        next unless defined $field_name;
+        next unless exists $values{$field_name};
+        
+        $field->default( $values{$field_name} );
+    }
+    
+    return $self;
+}
+
 sub process {
     my $self = shift;
 
@@ -901,6 +919,21 @@ method-name and arguments.
 
 Provides a simple way to set multiple values, or add multiple elements to 
 a form with a single method-call.
+
+=head2 default_values
+
+Arguments: \%defaults
+
+Return Value: $form
+
+Set multiple field's default values from a single hash-ref.
+
+The hash-ref's keys correspond to a form field's name, and the value is 
+passed to the field's L<default method|HTML::FormFu::_Field/default>.
+
+This should be called after all fields have been added to the form, and 
+before L</process> is called (otherwise, call L</process> again before 
+rendering the form).
 
 =head2 indicator
 
