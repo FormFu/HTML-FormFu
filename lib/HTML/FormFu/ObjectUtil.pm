@@ -249,6 +249,7 @@ sub populate {
 
     my @keys = qw(
         element_defaults auto_fieldset load_config_file element elements
+        default_values
         filter filters constraint constraints inflator inflators
         deflator deflators query validator validators transformer transformers
     );
