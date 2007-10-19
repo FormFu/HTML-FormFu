@@ -219,7 +219,18 @@ This is used by L<HTML::FormFu/get_fields>.
 
 =head2 load_config_file
 
-See L<HTML::FormFu/load_config_file> for details.
+Arguments: $filename
+
+Arguments: \@filenames
+
+Populate an element using a config file:
+
+    ---
+    elements:
+      - type: Block
+        load_config_file: 'elements.yml'
+
+See L<HTML::FormFu/load_config_file> for further details.
 
 =head2 config_callback
 
@@ -236,6 +247,16 @@ See L<HTML::FormFu/stash> for details.
 =head2 type
 
 Returns the C<type> argument originally used to create the element.
+
+=head1 CHANGING DEFAULT BEHAVIOUR
+
+=head2 render_processed_value
+
+See L<HTML::FormFu/render_processed_value> for details.
+
+=head2 force_errors
+
+See L<HTML::FormFu/force_errors> for details.
 
 =head1 ELEMENT ATTRIBUTES
 

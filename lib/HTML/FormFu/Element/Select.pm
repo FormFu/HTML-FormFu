@@ -58,11 +58,22 @@ HTML::FormFu::Element::Select - Select form field
 
 =head1 SYNOPSIS
 
-    my $element = $form->element( Select => 'foo' );
+YAML config:
+
+    ---
+    elements:
+      - type: Select
+        name: sex
+        options:
+          - [ 'm', 'Male' ]
+          - [ 'f', 'Female' ]
 
 =head1 DESCRIPTION
 
 Select form field.
+
+Supports optgroups, see L<HTML::FormFu::Element::_Group/options> for 
+details.
 
 =head1 METHODS
 

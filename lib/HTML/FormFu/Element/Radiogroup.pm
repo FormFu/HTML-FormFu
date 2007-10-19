@@ -132,11 +132,23 @@ HTML::FormFu::Element::Radiogroup - Group of radiobutton form fields
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( RadioGroup => 'foo' );
+YAML config:
+
+    ---
+    elements:
+      - type: RadioGroup
+        name: sex
+        options:
+          - [ 'm', 'Male' ]
+          - [ 'f', 'Female' ]
 
 =head1 DESCRIPTION
 
-Convenient to use group of radio button fields
+Convenient to use group of radio button fields.
+
+Use the same syntax as you would to create a Select element optgroup to 
+create RadioGroup sub-groups, see L<HTML::FormFu::Element::_Group/options> 
+for details.
 
 =head1 METHODS
 
@@ -151,6 +163,18 @@ See L<HTML::FormFu::Element::_Group/values>.
 =head2 value_range
 
 See L<HTML::FormFu::Element::_Group/value_range>.
+
+=head2 auto_id
+
+In addition to the substitutions documented by L<HTML::FormFu/auto_id>, 
+C<%c> will be replaced by an incremented integer, to ensure there are 
+no duplicated ID's.
+
+    ---
+    elements:
+      type: Radiogroup
+      name: foo
+      auto_id: "%n_%c"
 
 =head1 SEE ALSO
 

@@ -6,6 +6,9 @@ HTML::FormFu::Manual::Unicode - Working with unicode
 
 Working with unicode.
 
+For a practical example, see the Catalyst application in the 
+C<examples/unicode> directory in this distribution.
+
 =head1 ASSUMPTIONS
 
 In this tutorial, we're assuming that all encodings are UTF-8. It's 

@@ -165,13 +165,23 @@ HTML::FormFu::Constraint - Constrain User Input
 
 =head1 DESCRIPTION
 
-User input is processed in the following order: 
-L<Filters|HTML::FormFu::Filter|HTML::FormFu::Filter>, 
-L<Constraints|HTML::FormFu::Constraint|HTML::FormFu::Constraint>, 
-L<Inflators|HTML::FormFu::Inflator|HTML::FormFu::Inflator>, 
-L<Validators|HTML::FormFu::Validator|HTML::FormFu::Validator>, 
-L<Transformers|HTML::FormFu::Transformer|HTML::FormFu::Transformer> 
-- see L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
+User input is processed in the following order:
+
+=over
+
+=item L<Filters|HTML::FormFu::Filter|HTML::FormFu::Filter>
+
+=item L<Constraints|HTML::FormFu::Constraint|HTML::FormFu::Constraint>
+
+=item L<Inflators|HTML::FormFu::Inflator|HTML::FormFu::Inflator>
+
+=item L<Validators|HTML::FormFu::Validator|HTML::FormFu::Validator>
+
+=item L<Transformers|HTML::FormFu::Transformer|HTML::FormFu::Transformer>
+
+=back
+
+See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 L<HTML::FormFu/constraints> can be called on any L<form|HTML::FormFu>, 
 L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or 
@@ -223,6 +233,10 @@ create the message.
 
 Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
 to replace C<[_1]>, C<[_2]>, etc. in the localized string.
+
+=head2 force_errors
+
+See L<HTML::FormFu/force_errors> for details.
 
 =head2 parent
 

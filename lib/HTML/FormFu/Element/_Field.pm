@@ -944,17 +944,6 @@ new value.
 This way you can enforce an input element (e.g. text field) to show a given
 value.
 
-=head2 render_processed_value
-
-The default behaviour when re-displaying a form after a submission, is that 
-the field contains the original unchanged user-submitted value.
-
-If L</render_processed_value> is true, the field value will be the final 
-result after all Filters, Inflators and Transformers have been run. 
-Deflators will also be run on the value.
-
-Default Value: false
-
 =head2 clone
 
 See L<HTML::FormFu/clone> for details.

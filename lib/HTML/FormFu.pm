@@ -882,6 +882,11 @@ L</load_config_file> may be called in a config file itself, so as to allow
 common settings to be kept in a single config file which may be loaded 
 by any form.
 
+    ---
+    load_config_file:
+      - file1
+      - file2
+
 Like perl's C<open> function, relative-paths are resolved from the current 
 working directory.
 
@@ -919,6 +924,9 @@ method-name and arguments.
 
 Provides a simple way to set multiple values, or add multiple elements to 
 a form with a single method-call.
+
+Attempts to call the method-names in a semi-intelligent order (see 
+the source of populate() in C<HTML::FormFu::ObjectUtil> for details). 
 
 =head2 default_values
 
@@ -1076,7 +1084,7 @@ Arguments: $localization_key
 For ease of use, if you'd like to use the provided localized error message, 
 set L</form_error_message_loc> to the value C<form_error_message>.
 
-You can, of course, set L</form_error_message_loc> to any key in your L10N 
+You can, of course, set L</form_error_message_loc> to any key in your I18N 
 file.
 
 =head2 force_error_message
@@ -1113,9 +1121,15 @@ of the form.
 
 Arguments: [\%private_stash]
 
+Return Value: \%stash
+
 Provides a hash-ref in which you can store any data you might want to 
-associate with the form. This data will not be used by 
-L<HTML::FormFu|HTML::FormFu> at all.
+associate with the form.
+
+    ---
+    stash:
+      foo: value
+      bar: value
 
 =head2 elements
 
@@ -1182,6 +1196,66 @@ prefixing it with C<+>.
 
 L</deflator> is an alias for L</deflators>.
 
+=head2 insert_before
+
+Arguments: $new_element, $existing_element
+
+Return Value: $new_element
+
+The 1st argument must be the element you want added, the 2nd argument 
+must be the existing element that the new element should be placed before.
+
+    my $new = $form->element(\%specs);
+    
+    my $position = $form->get_element({ type => $type, name => $name });
+    
+    $form->insert_before( $new, $position );
+
+In the first line of the above example, the C<$new> element is initially 
+added to the end of the form. However, the C<insert_before> method 
+reparents the C<$new> element, so it will no longer be on the end of the 
+form. Because of this, if you try to copy an element from one form to 
+another, it will 'steal' the element, instead of copying it. In this case, 
+you must use C<clone>:
+
+    my $new = $form1->get_element({ type => $type1, name => $name1 })
+                    ->clone;
+    
+    my $position = $form2->get_element({ type => $type2, name => $name2 });
+    
+    $form2->insert_before( $new, $position );
+
+=head2 insert_after
+
+Arguments: $new_element, $existing_element
+
+Return Value: $new_element
+
+The 1st argument must be the element you want added, the 2nd argument 
+must be the existing element that the new element should be placed after.
+
+    my $new = $form->element(\%specs);
+    
+    my $position = $form->get_element({ type => $type, name => $name });
+    
+    $form->insert_after( $new, $position );
+
+In the first line of the above example, the C<$new> element is initially 
+added to the end of the form. However, the C<insert_after> method 
+reparents the C<$new> element, so it will no longer be on the end of the 
+form. Because of this, if you try to copy an element from one form to 
+another, it will 'steal' the element, instead of copying it. In this case, 
+you must use C<clone>:
+
+    my $new = $form1->get_element({ type => $type1, name => $name1 })
+                    ->clone;
+    
+    my $position = $form2->get_element({ type => $type2, name => $name2 });
+    
+    $form2->insert_after( $new, $position );
+
+=head2 insert_after
+
 =head1 FORM LOGIC AND VALIDATION
 
 L<HTML::FormFu|HTML::FormFu> provides several stages for what is 
@@ -1212,17 +1286,19 @@ the next stage to proceed. If there were any errors, the form should be
 re-displayed to the user, to allow them to input correct values.
 
 Constraints are intended for low-level validation of values, such as 
-"is this value within bounds" or "is this a valid email address".
+"is this an integer?", "is this value within bounds?" or 
+"is this a valid email address?".
 
 Inflators are intended to allow a value to be turned into an appropriate 
 object. The resulting object will be passed to subsequent Validators and 
 Transformers, and will also be returned by L</params> and L</param>.
 
-Validators allow for a more complex validation than Constraints. Validators 
-can be sure that all values have successfully passed all Constraints and have 
-been successfully passed through all Inflators. It is expected that most 
-Validators will be application-specific, and so each will be implemented as 
-a separate class written by the HTML::FormFu user.
+Validators are intended for higher-level validation, such as 
+business-logic and database constraints such as "is this username unique?".
+Validators are only run if all Constraints and Inflators have run 
+without errors. It is expected that most Validators will be 
+application-specific, and so each will be implemented as a separate class 
+written by the HTML::FormFu user.
 
 =head2 filters
 
@@ -1353,6 +1429,45 @@ C<HTML::FormFu::Transformer::>, you can use a fully qualified package-name by
 prefixing it with C<+>.
 
 L</transformer> is an alias for L</transformers>.
+
+=head1 CHANGING DEFAULT BEHAVIOUR
+
+=head2 render_processed_value
+
+The default behaviour when re-displaying a form after a submission, is that 
+the field contains the original unchanged user-submitted value.
+
+If L</render_processed_value> is true, the field value will be the final 
+result after all Filters, Inflators and Transformers have been run. 
+Deflators will also be run on the value.
+
+If you set this on a field with an Inflator, but without an equivalent 
+Deflator, you should ensure that the Inflators stringify back to a useable 
+value, so as not to confuse / annoy the user.
+
+Default Value: false
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
+
+=head2 force_errors
+
+Force a constraint to fail, regardless of user input.
+
+If this is called at runtime, after the form has already been processed, 
+you must called L<HTML::FormFu/process> again before redisplaying the 
+form to the user.
+
+Default Value: false
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element, an element or a single constraint. When the value 
+is read, if no value is defined it automatically traverses the element's 
+hierarchy of parents, through any block elements and up to the form, 
+searching for a defined value.
 
 =head1 FORM ATTRIBUTES
 
@@ -2010,6 +2125,8 @@ Return Value: $element
 Accepts the same arguments as L</get_elements>, but only returns the first 
 element found.
 
+See L</get_all_element> for a recursive version.
+
 =head2 get_all_elements
 
 Arguments: [%options]
@@ -2024,6 +2141,7 @@ Optionally accepts both C<name> and C<type> arguments to narrow the returned
 results.
 
     # return all Text elements
+    
     $form->get_all_elements({
         type => 'Text',
     });
@@ -2031,6 +2149,24 @@ results.
 See L</get_elements> for a non-recursive version.
 
 =head2 get_all_element
+
+Arguments: [%options]
+
+Arguments: [\%options]
+
+Return Value: $element
+
+Accepts the same arguments as L</get_all_elements>, but only returns the 
+first element found.
+
+    # return the first Text field found, regardless of whether it's 
+    # within a fieldset or not
+    
+    $form->get_all_element({
+        type => 'Text',
+    });
+
+See L</get_all_elements> for a non-recursive version.
 
 =head2 get_fields
 
@@ -2243,6 +2379,14 @@ config file, which should be loaded by each form.
 
 See L</load_config_file>.
 
+=head1 COOKBOOK
+
+L<HTML::FormFu::Manual::Cookbook>
+
+=head2 UNICODE
+
+L<HTML::FormFu::Manual::Unicode>
+
 =head1 EXAMPLES
 
 =head2 vertically-aligned CSS
@@ -2262,262 +2406,6 @@ by running the following command (while in the distribution root directory).
 This uses the L<Template Toolkit|Template> file C<vertically-aligned.tt>, 
 and the CSS is defined in files C<vertically-aligned.css> and 
 C<vertically-aligned-ie.css>.
-
-=head1 FREQUENTLY ASKED QUESTIONS (FAQ)
-
-=head2 It's too slow!
-
-Are you using L<Catalyst::Plugin::StackTrace>? This is known to 
-cause performance problems, and we advise disabling it.
-
-You can also use L<Template::Alloy> instead of 
-L<Template::Toolkit|Template>, it's mostly compatible, and in most cases 
-provides a reasonable speed increase. You can do this either by setting the 
-C<HTML_FORMFU_TEMPLATE_ALLOY> environment variable to a true value, or with 
-the following yaml config:
-
-    render_class_args:
-      TEMPLATE_ALLOY: 1
-      COMPILE_DIR: /tmp
-      COMPILE_PERL: 1
-
-You can still use L<Template::Toolkit|Template>
-
-Template::Alloy's caching is off by default. Switch it on by setting either 
-C<COMPILE_EXT> or C<COMPILE_DIR>. If you're running under a persistent 
-environment such as modperl or fastcgi, you should also set C<COMPILE_PERL> 
-to compile the cached templates down to perl code.
-
-To reduce the runtime for each template that uses a previously unused
-element or porocessor - at the expense of greater memory usage, you 
-can preload all FormFu modules - this is only recommended for persistent 
-environments such as modperl or fastcgi:
-
-    use HTML::FormFu::Preload;
-
-=head2 How do I add an onSubmit handler to the form?
-
-    ---
-    attributes_xml: { onsubmit: $javascript }
-
-See L<HTML::FormFu/attributes>.
-
-=head2 How do I add an onChange handler to a form field?
-
-    ---
-    elements:
-      - type: Text
-        attributes_xml: { onchange: $javascript }
-
-See L<HTML::FormFu::Element/attributes>.
-
-=head2 Element X does not have an accessor for Y!
-
-You can add any arbitrary HTML attributes with 
-L<HTML::FormFu::Element/attributes>.
-
-
-=head2 How can I add a HTML tag which isn't included?
-
-You can use the L<HTML::FormFu::Element::Block> element, and set
-the L<tag|HTML::FormFu::Element::Block/tag> to the tag type you want.
-
-    ---
-    elements:
-      - type: Block
-        tag: span
-
-
-=head2 How do I check if a textfield contains a URI in a proper format?
-
-Use HTML::FormFu::Constraint::Regex:
-
-    ---
-    elements:
-        - type: Text
-          name: uri
-          constraint:
-            - type: Regex
-              common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
-
-
-=head2 If a user enters a value like "  foo  " and we need to redisplay the form, I would like the pre-filled value to be "foo".
-
-First you have to use the TrimEdges Filter.
-
-Second to get this behaviour, set 'render_processed_value' to a true value.
-
-You can set this at the form level to affect all fields, or set it at
-the fieldset- or field-level.
-
-One thing to beware is if you have Inflators on a field that create an
-object, you'll need to ensure either that the object stringifies
-correctly, or set "render_processed_value = 0" for that particular
-field.
-
-
-=head2 How to populate a form with default values from a hash?
-
-You can use something like te following before calling 'process':
-$hashref = { street => 'Bakerstreet', city => 'London'};
-map { $form->get_field( $_ )->default( $hashref->{$_} ) } keys $hashref;
-
-
-=head2 How to create a title tag for my form fields?
-
-  elements:
-   - type: Text
-     name: country_name
-     label: Country Name
-     size: 32
-     attributes:
-       title: Name of country (when not USA domestic)
-
-If you also would like to give the label a title tag than you add:
-
-     label_attributes:
-       title: Name of country (when not USA domestic)
-
-You also can add a title tag to the container element that surrounds label
-and form field:
-
-     container_attributes:
-       title: Name of country (when not USA domestic)
-
-
-=head2 How to insert a field to defined postion?
-
-I use my .yml for existing users to edit their data, except that the can't
-change the username, so I do not include that in my config.
-If I now want to use the same config for new users to create, I would need
-the field username. How would I insert it at the beginning of the form?
-
-There are two ways to deal with this. First by having multiple yaml files:
-
-So, if the rest of the fields are in 'user_edit.yml'.
-Put the username field in 'user_username.yml'.
-Then create a 'user_existing.yml' that looks something like this:
-
-    ---
-    load_config_file:
-      - user_username.yml
-      - user_edit.yml
-
-Then depending on your need, create your form from either
-'user_edit.yml' or 'user_existing.yml'.
-
-A completely different alternative is to use insert_before().
-This requires you to use auto_fieldset(), or just manually place the
-fields in a fieldset.
-
-Say the first field in the normal form is 'email', then you could do
-something like this:
-
-    $fieldset = $form->get_element({ type => 'Fieldset' });
-    $fieldset->insert_before(
-            HTML::FormFu->new->element({ name => 'username' }),
-            $form->get_field('email')
-        );
-
-
-=head2 How to write values onto the stash from a yaml config file?
-
-Putting the following into your config helps:
-
-    ---
-    id: form
-    stash:
-       hello: "howdy"
-    elements:
-       - type: Fieldset
-    ...
-
-
-=head2 How to create a error in the form, if an according DB operation fails?
-
-You can use the following eval to catch DB related errors while creating or
-updateing a record:
-
-    eval {$row->populate_from_formfu( $c->stash->{form} );};
-
-And then check if $@ has an according message, e. g.:
-    "Duplicate entry ... for key 'email'"
-
-Now you'll need a constraint especially for that error - you could use a
-Callback constraint, as that always passes if you don't provide a callback()
-routine - so it won't interfere in any way.
-
-That is what the config could look like:
-
-    ---
-    elements:
-      - name: email
-      - constraints:
-        type: Callback
-        message: 'Email already taken'
-
-Then, after your test:
-
-    if ( $@ =~ m/duplicate entry for key 'email'/i ) {
-        $form->get_field('email')->get_constraint('Callback')
-            ->force_errors(1);
-        $form->process;
-        # then redisplay the form as normal
-    }
-
-
-=head2 In my Radiogroup element each option has the same id?
-
-You have to enable auto_id().
-
-Use something like:
-
-    $self->auto_id( '%n_%c' );
-
-or:
-
-    ---
-    auto_id: "%n_%c"
-    ...
-
-
-=head2 I have several elements nested on a fieldset, and get_element couldn't find the nested elements, only the outer ones.
-
-There's a get_all_element() method which will do a recursive search
-and only return the first found (though if you don't provide a name or
-type argument, then it'll still only return the outer fieldset).
-
-Or you could do something like:
-    $form->get_element({type=>'Fieldset'})->get_element();
-
-
-=head1 CAVEATS
-
-=head2 yaml config is hash not array
-
-The yml config for a form is interpreted as a hash, so no order is preserved 
-and no double use of the same keyis possible.
-
-    load_config_file
-      - defaults
-    elements
-      - ...
-    load_config_file
-      - some_default_elements
-
-That does *not* work as the second load_config_file overwrites the first one 
-and the elements defined in 'some_default_elements' are displayed before the 
-elements defined in the 'elements' section as load_config_file is interpreded 
-before elements in the 'populate' function in ObjectUtil.
-
-The work around is loading everything from an external file as underneath 
-load_config_file the order is preserved, as it is an array:
-
-    load_config_file
-      - defaults
-      - the_specific_elements
-      - some_default_elements
-
 
 =head1 SUPPORT
 
