@@ -89,6 +89,8 @@ cannot have multiple keys with the same name.
 See L<HTML::FormFu/load_config_file> and L<HTML::FormFu/populate> for 
 more details.
 
+See L<http://www.yaml.org/spec/> for the YAML specification.
+
 =head1 BUILDING A FORM
 
 =head2 Quick single-file prototypes
