@@ -2435,11 +2435,12 @@ L<http://rt.perl.org>.
 The publicly viewable subversion code repository is at 
 L<http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>.
 
-If you wish to contribute, you'll need a GMAIL email address. Then just 
-ask on the mailing list for commit access.
+If you wish to contribute, you'll need a google account. Then just 
+ask on the mailing list for commit access, giving the email address 
+your account uses.
 
 If you wish to contribute but for some reason really don't want to sign up 
-for a GMAIL account, please post patches to the mailing list (although  
+for a google account, please post patches to the mailing list (although  
 you'll have to wait for someone to commit them). 
 
 If you have commit permissions, use the HTTPS repository url: 
