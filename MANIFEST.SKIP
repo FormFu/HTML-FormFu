@@ -1,11 +1,6 @@
 # Don't know if it's getting kept
 ^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 
-# Needs realworld testing
-^lib\/HTML\/FormFu\/OutputProcessor\/StripWhitespace\.pm$
-^t\/output_processors\/strip_whitespace\.t$
-^t\/output_processors\/strip_whitespace\.yml$
-
 ^benchmarks\b
 ^dojo\b
 ^examples\/repeatable\b
