@@ -299,15 +299,6 @@ sub clear_errors {
     return;
 }
 
-sub overwrite_default {
-    my ( $self, $value ) = @_;
-
-    $self->default( $value );
-    $self->force_default(1);
-
-    return $self;
-}
-
 sub process_input {
     my ( $self, $input ) = @_;
 
@@ -935,14 +926,6 @@ the later default value is respected for rendering, *but* nevertheless the
 input value doesn't respect that, it will remain the first value.
 
 Default Value: C<false>
-
-=head2 overwrite_default
-
-This function sets the default value of the field from with your code to a
-new value.
-
-This way you can enforce an input element (e.g. text field) to show a given
-value.
 
 =head2 clone
 
