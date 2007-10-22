@@ -733,7 +733,7 @@ sub _single_element {
 
     if (   $self->can('auto_fieldset')
         && $self->auto_fieldset
-        && $new->type !~ /^Fieldset$/i )
+        && $new->type ne 'Fieldset' )
     {
         my ($target)
             = reverse @{ $self->get_elements( { type => 'Fieldset' } ) };

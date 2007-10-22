@@ -28,8 +28,7 @@ sub _get_elements {
     }
 
     if ( exists $args->{type} ) {
-        my $re = qr/^$args->{type}$/i;
-        @$elements = grep { $_->type =~ /$re/ } @$elements;
+        @$elements = grep { $_->type eq $args->{type} } @$elements;
     }
 
     return $elements;
