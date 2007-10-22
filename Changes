@@ -1,9 +1,26 @@
 0.01005 2007-09-21
 
-	- New Indent "output processor" to pretty-print output
+	- Backward Imcompatible Changes:
+	- MinMaxFields Constraint, max() defaults to number of associated 
+	  fields (named field + others) - previously defaulted to '1'
+	- render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not 
+	  set - previously was only set if the entire render_class_args hashref 
+	  was empty
+	- Additions:
+	- Indent and StripWhitespace "output processors" to pretty-print output
 	- New force_default() method on fields
 	- New when() method for all Constraints
-	- Behaviour change for MinMaxFields Constraint
+	- New CopyValue Filter
+	- New Cookbook and Unicode manual pages
+	- New unicode example Catalyst application
+	- Callback Filters, Constraints and Validators now accept a fully 
+	  qualified subroutine name instead of a code-ref
+	- New portuguese I18N translation
+	- Changes:
+	- Date element month names from DateTime::Locale are run through ucfirst
+	- Documentation improvements
+	- Bigfixes:
+	- Forced errors are now displayed
 
 0.01004 2007-09-12
 
