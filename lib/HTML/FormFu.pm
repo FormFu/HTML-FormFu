@@ -67,7 +67,7 @@ __PACKAGE__->mk_inherited_merging_accessors(
 *output_processors = \&output_processor;
 *loc               = \&localize;
 
-our $VERSION = '0.01005';
+our $VERSION = '0.01006';
 $VERSION = eval $VERSION;
 
 Class::C3::initialize();
