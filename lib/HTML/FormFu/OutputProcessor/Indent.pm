@@ -46,13 +46,13 @@ sub process {
         elsif ( $token->is_end_tag ) {
             my $tag = $token->get_tag;
 
-            $in_pre = 0 if grep { $tag eq $_ } @preserve_tags;
-
             $count--;
 
             if ( $output =~ m/ > \s* \z /x && !$in_pre ) {
                 $output .= "\n" . $indent x $count;
             }
+
+            $in_pre = 0 if grep { $tag eq $_ } @preserve_tags;
 
             $output .= $token->as_is;
         }

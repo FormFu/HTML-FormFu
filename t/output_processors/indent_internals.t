@@ -30,6 +30,9 @@ my $input = <<INPUT;
 bar
 </textarea>
 </span>
+<span class="textarea">
+<textarea name="empty_textarea" cols="40" rows="20"></textarea>
+</span>
 <span class="select">
 <select name="select">
 <option value="1">1</option>
@@ -61,6 +64,9 @@ my $output = <<OUTPUT;
             <textarea name="textarea" cols="40" rows="20">foo
 bar
 </textarea>
+        </span>
+        <span class="textarea">
+            <textarea name="empty_textarea" cols="40" rows="20"></textarea>
         </span>
         <span class="select">
             <select name="select">
