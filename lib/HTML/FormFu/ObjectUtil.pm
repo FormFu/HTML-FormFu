@@ -739,6 +739,9 @@ sub _single_element {
             = reverse @{ $self->get_elements( { type => 'Fieldset' } ) };
 
         push @{ $target->_elements }, $new;
+
+        $new->{parent} = $target;
+        weaken $new->{parent};
     }
     else {
         push @{ $self->_elements }, $new;
