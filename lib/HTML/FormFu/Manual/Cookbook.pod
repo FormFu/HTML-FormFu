@@ -341,7 +341,7 @@ Example usage:
 	if ( $@ =~ m/duplicate entry for key 'email'/i ) {
         
         $form->get_field('email')
-             ->get_constraint('Callback')
+             ->get_constraint({ type => 'Callback' })
              ->force_errors(1);
         
         $form->process;
