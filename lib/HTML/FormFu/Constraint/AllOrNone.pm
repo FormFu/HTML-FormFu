@@ -3,8 +3,6 @@ package HTML::FormFu::Constraint::AllOrNone;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
-use HTML::FormFu::Util qw/ split_name /;
-
 sub process {
     my ( $self, $params ) = @_;
 
@@ -21,7 +19,7 @@ sub process {
     for my $name (@names) {
         my $value = $self->get_nested_hash_value(
             $params,
-            split_name($name) );
+            $name );
         
         my $seen  = 0;
         if ( ref $value ) {

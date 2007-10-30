@@ -9,7 +9,7 @@ use HTML::FormFu::ObjectUtil qw/
     get_error _require_constraint set_nested_hash_value nested_hash_key_exists
     get_nested_hash_value /;
 use HTML::FormFu::Util qw/
-    _parse_args append_xml_attribute xml_escape require_class split_name /;
+    _parse_args append_xml_attribute xml_escape require_class /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 use Exporter qw/ import /;
@@ -366,21 +366,20 @@ sub process_input {
     my $default   = $self->default;
     my $original  = $self->value;
     my $name      = $self->nested_name;
-    my @names     = split_name( $name );
 
     # set input to default value (defined before calling FormFu->process)
     if ( $submitted && $self->force_default && defined $default ) {
-        $self->set_nested_hash_value( $input, $name, $default, @names )
+        $self->set_nested_hash_value( $input, $name, $default )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && $self->checked ) {
         # the checked attribute is set, so force input to be the original value
-        $self->set_nested_hash_value( $input, $name, $original, @names )
+        $self->set_nested_hash_value( $input, $name, $original )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && !defined $default && defined $original ) {
         # default and value are not equal, so this element is not checked by default
-        $self->set_nested_hash_value( $input, $name, undef, @names )
+        $self->set_nested_hash_value( $input, $name, undef )
     }
 
     return;
@@ -527,17 +526,16 @@ sub _render_value {
 
     my $form  = $self->form;
     my $name  = $self->nested_name;
-    my @names = defined $name ? split_name( $name ) : ();
     my $render_processed;
 
     my $input = (
         $self->form->submitted
             && defined $name
-            && $self->nested_hash_key_exists( $form->input, @names ) )
+            && $self->nested_hash_key_exists( $form->input, $name ) )
         ? $self->render_processed_value
             ? ( $render_processed = 1
-                && $self->get_nested_hash_value( $form->_processed_params, @names ) )
-            : $self->get_nested_hash_value( $form->input, @names )
+                && $self->get_nested_hash_value( $form->_processed_params, $name ) )
+            : $self->get_nested_hash_value( $form->input, $name )
         : undef;
 
     if ( ref $input eq 'ARRAY' ) {

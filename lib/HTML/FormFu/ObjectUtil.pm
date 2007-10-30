@@ -3,7 +3,7 @@ package HTML::FormFu::ObjectUtil;
 use strict;
 use Exporter qw/ import /;
 
-use HTML::FormFu::Util qw/ _parse_args require_class _get_elements /;
+use HTML::FormFu::Util qw/ _parse_args require_class _get_elements split_name /;
 use Config::Any;
 use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
@@ -517,7 +517,9 @@ sub nested_names {
 }
 
 sub get_nested_hash_value {
-    my ( $self, $param, $root, @names ) = @_;
+    my ( $self, $param, $name ) = @_;
+
+    my ( $root, @names ) = split_name($name);
 
     if ( !@names ) {
         return exists $param->{$root} ? $param->{$root} : undef;
@@ -545,11 +547,12 @@ sub get_nested_hash_value {
 }
 
 sub set_nested_hash_value {
-    my ( $self, $param, $name, $value, $root, @names ) = @_;
+    my ( $self, $param, $name, $value ) = @_;
+
+    my ( $root, @names ) = split_name($name);
 
     if ( !@names ) {
-        $param->{$root} = $value;
-        return;
+        return $param->{$root} = $value;
     }
     
     my $ref = \$param->{$root};
@@ -577,7 +580,9 @@ sub set_nested_hash_value {
 }
 
 sub nested_hash_key_exists {
-    my ( $self, $param, $root, @names ) = @_;
+    my ( $self, $param, $name ) = @_;
+
+    my ( $root, @names ) = split_name($name);
 
     if ( !@names ) {
         return exists $param->{$root};

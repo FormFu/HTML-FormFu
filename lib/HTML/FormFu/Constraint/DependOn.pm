@@ -3,8 +3,6 @@ package HTML::FormFu::Constraint::DependOn;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
-use HTML::FormFu::Util qw/ split_name /;
-
 sub process {
     my ( $self, $params ) = @_;
 
@@ -19,14 +17,14 @@ sub process {
 
     my $value = $self->get_nested_hash_value(
         $params,
-        $self->nested_names );
+        $self->nested_name );
 
     return if !$self->constrain_value( $value );
 
     for my $name (@names) {
         my $value = $self->get_nested_hash_value(
             $params,
-            split_name($name) );
+            $name );
         
         my $ok = 0;
         

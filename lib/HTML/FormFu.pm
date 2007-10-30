@@ -196,16 +196,11 @@ sub process {
         next if !grep {$name eq $_} @params;
         
         if ( $field->nested ) {
-            my @names = $field->nested_names;
-            
-            my $root = shift @names;
-            
-            
             my @values = $query->param($name);
             
             my $value = @values > 1 ? \@values : $values[0];
             
-            $self->set_nested_hash_value( \%param, $name, $value, $root, @names );
+            $self->set_nested_hash_value( \%param, $name, $value );
         }
         else {
             my @values = $query->param($name);
@@ -282,14 +277,13 @@ sub _build_params {
     my %params;
 
     for my $field ( @{ $self->get_fields } ) {
-        my $name  = $field->nested_name;
-        my @names = $field->nested_names;
+        my $name = $field->nested_name;
         
         next if !defined $name;
         next if exists $params{$name};
-        next if !$self->nested_hash_key_exists( $self->input, @names );
+        next if !$self->nested_hash_key_exists( $self->input, $name );
 
-        my $input = $self->get_nested_hash_value( $self->input, @names );
+        my $input = $self->get_nested_hash_value( $self->input, $name );
         
         if ( ref $input eq 'ARRAY' ) {
 
@@ -298,7 +292,7 @@ sub _build_params {
             $input = [@$input];
         }
 
-        $self->set_nested_hash_value( \%params, $name, $input, @names )
+        $self->set_nested_hash_value( \%params, $name, $input, $name )
     }
 
     $self->_processed_params( \%params );
@@ -327,13 +321,11 @@ sub _process_file_uploads {
         my $input  = $self->input;
 
         for my $name (@names) {
-            my @nested_names = split_name($name);
-            
-            next if !$self->nested_hash_key_exists( $input, @nested_names );
+            next if !$self->nested_hash_key_exists( $input, $name );
 
             my $values = $query_class->parse_uploads( $self, $name );
 
-            $self->set_nested_hash_value( $params, $name, $values, @nested_names );
+            $self->set_nested_hash_value( $params, $name, $values );
         }
     }
 
@@ -349,7 +341,7 @@ sub _filter_input {
         my $name = $filter->nested_name;
         
         next if !defined $name;
-        next if !$self->nested_hash_key_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, $name );
 
         $filter->process( $self, $params );
     }
@@ -393,13 +385,12 @@ sub _inflate_input {
         my $name = $inflator->nested_name;
         next if !defined $name;
         
-        my @names = split_name($name);
-        next if !$self->nested_hash_key_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, $name );
         next if grep {defined} @{ $inflator->parent->get_errors };
 
         my $value = $self->get_nested_hash_value(
             $params,
-            @names );
+            $name );
 
         my @errors;
 
@@ -419,7 +410,7 @@ sub _inflate_input {
             $error->parent->add_error($error);
         }
 
-        $self->set_nested_hash_value( $params, $name, $value, @names );
+        $self->set_nested_hash_value( $params, $name, $value );
     }
 
     return;
@@ -433,9 +424,7 @@ sub _validate_input {
     for my $validator ( @{ $self->get_validators } ) {
         my $name = $validator->nested_name;
         next if !defined $name;
-
-        my @names = split_name($name);
-        next if !$self->nested_hash_key_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, $name );
         next if grep {defined} @{ $validator->parent->get_errors };
 
         my @errors = eval { $validator->process($params) };
@@ -466,14 +455,12 @@ sub _transform_input {
     for my $transformer ( @{ $self->get_transformers } ) {
         my $name = $transformer->nested_name;
         next if !defined $name;
-        
-        my @names = split_name($name);
-        next if !$self->nested_hash_key_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, $name );
         next if grep {defined} @{ $transformer->parent->get_errors };
 
         my $value = $self->get_nested_hash_value(
             $params,
-            @names );
+            $name );
 
         my @errors;
 
@@ -495,7 +482,7 @@ sub _transform_input {
             $error->parent->add_error($error);
         }
 
-        $self->set_nested_hash_value( $params, $name, $value, @names );
+        $self->set_nested_hash_value( $params, $name, $value );
     }
 
     return;
@@ -506,7 +493,7 @@ sub _build_valid_names {
 
     my $params = $self->_processed_params;
     my @errors = $self->has_errors;
-    my @names = grep { $self->nested_hash_key_exists( $params, split_name($_) ) }
+    my @names = grep { $self->nested_hash_key_exists( $params, $_ ) }
         grep { defined }
         map { $_->nested_name }
         @{ $self->get_fields };
@@ -592,14 +579,13 @@ sub params {
     my %params;
 
     for my $name (@names) {
-        my @names  = split_name($name);
         my @values = $self->param($name);
         
         if ( @values > 1 ) {
-            $self->set_nested_hash_value( \%params, $name, \@values, @names );
+            $self->set_nested_hash_value( \%params, $name, \@values );
         }
         else {
-            $self->set_nested_hash_value( \%params, $name, $values[0], @names );
+            $self->set_nested_hash_value( \%params, $name, $values[0] );
         }
     }
 
@@ -620,7 +606,7 @@ sub param {
         my $valid = $self->valid($name);
         my $value = $self->get_nested_hash_value(
             $self->_processed_params,
-            split_name($name) );
+            $name );
 
         if ( !defined $valid || !defined $value ) {
             return;

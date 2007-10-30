@@ -6,7 +6,7 @@ use Class::C3;
 use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::ObjectUtil qw(
     populate form name parent nested_name nested_names get_nested_hash_value
-    set_nested_hash_value );
+    set_nested_hash_value nested_hash_key_exists );
 use Carp qw( croak );
 
 __PACKAGE__->mk_accessors(qw/ type localize_args /);
@@ -37,11 +37,9 @@ sub process {
     # don't run filters on invalid input
     return if $result->has_errors($name);
 
-    my @names = $self->nested_names;
-
     my $value = $self->get_nested_hash_value(
         $params,
-        @names );
+        $name );
 
     my $filtered;
     
@@ -52,7 +50,7 @@ sub process {
         $filtered = $self->filter( $value, $params );
     }
 
-    $self->set_nested_hash_value( $params, $name, $filtered, @names );
+    $self->set_nested_hash_value( $params, $name, $filtered );
 
     return;
 }

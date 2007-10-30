@@ -4,8 +4,6 @@ use strict;
 use base 'HTML::FormFu::Constraint::_others';
 use Class::C3;
 
-use HTML::FormFu::Util qw/ split_name /;
-
 __PACKAGE__->mk_accessors(qw/ minimum maximum /);
 
 *min = \&minimum;
@@ -43,7 +41,7 @@ sub process {
     for my $name (@names) {
         my $value = $self->get_nested_hash_value(
             $params,
-            split_name($name) );
+            $name );
 
         if ( ref $value ) {
             eval { my @x = @$value };

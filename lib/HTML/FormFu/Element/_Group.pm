@@ -126,7 +126,7 @@ sub prepare_attrs {
     my $default   = $self->default;
     my $value
         = defined $self->name
-        ? $self->get_nested_hash_value( $self->form->input, $self->nested_names )
+        ? $self->get_nested_hash_value( $self->form->input, $self->nested_name )
         : undef;
 
     for my $option ( @{ $render->{options} } ) {

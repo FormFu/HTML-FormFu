@@ -316,6 +316,7 @@ sub split_name {
 
     if ( $name =~ /^ \w+ \[ /x ) {
         # copied from Catalyst::Plugin::Params::Nested::Expander
+
         return grep { defined } ( $name =~ /
             ^  (\w+)      # root param
             | \[ (\w+) \] # nested

@@ -3,8 +3,6 @@ package HTML::FormFu::Constraint::CallbackOnce;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
-use HTML::FormFu::Util qw/ split_name /;
-
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub process {
@@ -15,7 +13,7 @@ sub process {
 
     my $value = $self->get_nested_hash_value(
         $params,
-        $self->nested_names );
+        $self->nested_name );
 
     my $callback = $self->callback || sub {1};
 
