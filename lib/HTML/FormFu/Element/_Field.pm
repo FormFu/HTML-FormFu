@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil qw/
-    get_error _require_constraint set_nested_hash_value _hash_name_exists
+    get_error _require_constraint set_nested_hash_value nested_hash_key_exists
     get_nested_hash_value /;
 use HTML::FormFu::Util qw/
     _parse_args append_xml_attribute xml_escape require_class split_name /;
@@ -533,7 +533,7 @@ sub _render_value {
     my $input = (
         $self->form->submitted
             && defined $name
-            && $self->_hash_name_exists( $form->input, @names ) )
+            && $self->nested_hash_key_exists( $form->input, @names ) )
         ? $self->render_processed_value
             ? ( $render_processed = 1
                 && $self->get_nested_hash_value( $form->_processed_params, @names ) )

@@ -16,7 +16,7 @@ use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic parent
-    get_nested_hash_value set_nested_hash_value _hash_name_exists /;
+    get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
     split_name _parse_args /;
 use List::MoreUtils qw/ uniq /;
@@ -287,7 +287,7 @@ sub _build_params {
         
         next if !defined $name;
         next if exists $params{$name};
-        next if !$self->_hash_name_exists( $self->input, @names );
+        next if !$self->nested_hash_key_exists( $self->input, @names );
 
         my $input = $self->get_nested_hash_value( $self->input, @names );
         
@@ -329,7 +329,7 @@ sub _process_file_uploads {
         for my $name (@names) {
             my @nested_names = split_name($name);
             
-            next if !$self->_hash_name_exists( $input, @nested_names );
+            next if !$self->nested_hash_key_exists( $input, @nested_names );
 
             my $values = $query_class->parse_uploads( $self, $name );
 
@@ -349,7 +349,7 @@ sub _filter_input {
         my $name = $filter->nested_name;
         
         next if !defined $name;
-        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, split_name($name) );
 
         $filter->process( $self, $params );
     }
@@ -394,7 +394,7 @@ sub _inflate_input {
         next if !defined $name;
         
         my @names = split_name($name);
-        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, split_name($name) );
         next if grep {defined} @{ $inflator->parent->get_errors };
 
         my $value = $self->get_nested_hash_value(
@@ -435,7 +435,7 @@ sub _validate_input {
         next if !defined $name;
 
         my @names = split_name($name);
-        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, split_name($name) );
         next if grep {defined} @{ $validator->parent->get_errors };
 
         my @errors = eval { $validator->process($params) };
@@ -468,7 +468,7 @@ sub _transform_input {
         next if !defined $name;
         
         my @names = split_name($name);
-        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if !$self->nested_hash_key_exists( $params, split_name($name) );
         next if grep {defined} @{ $transformer->parent->get_errors };
 
         my $value = $self->get_nested_hash_value(
@@ -506,7 +506,7 @@ sub _build_valid_names {
 
     my $params = $self->_processed_params;
     my @errors = $self->has_errors;
-    my @names = grep { $self->_hash_name_exists( $params, split_name($_) ) }
+    my @names = grep { $self->nested_hash_key_exists( $params, split_name($_) ) }
         grep { defined }
         map { $_->nested_name }
         @{ $self->get_fields };
