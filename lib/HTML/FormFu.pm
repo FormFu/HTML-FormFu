@@ -42,7 +42,7 @@ __PACKAGE__->mk_accessors(
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
         render_class_suffix _output_processors 
-        nested_name nested_subscript nested_max_array /
+        nested_name nested_subscript /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -103,7 +103,6 @@ sub new {
         localize_class      => 'HTML::FormFu::I18N',
         auto_error_class    => 'error_%s_%t',
         auto_error_message  => 'form_%s_%t',
-        nested_max_array    => 99,
     );
 
     $self->populate( \%defaults );

@@ -523,14 +523,10 @@ sub nested_hash_value {
         return exists $param->{$root} ? $param->{$root} : undef;
     }
     
-    my $max_array = $self->form->nested_max_array;
     my $ref = \$param->{$root};
 
     for (@names) {
-        if ( $max_array && /^(0|[1-9][0-9]*)\z/ ) {
-            croak "nested param array limit exceeded: $root, $1"
-                if $1 >= $max_array;
-
+        if ( /^(0|[1-9][0-9]*)\z/ ) {
             croak "nested param clash for ARRAY $root"
                 if ref $$ref ne 'ARRAY';
 
@@ -556,15 +552,10 @@ sub _expand_hash {
         return;
     }
     
-    my $max_array = $self->form->nested_max_array;
-    
     my $ref = \$param->{$root};
     
     for (@names) {
-        if ( $max_array && /^(0|[1-9][0-9]*)\z/ ) {
-            croak "nested param array limit exceeded: $name, $1"
-                if $1 >= $max_array;
-
+        if ( /^(0|[1-9][0-9]*)\z/ ) {
             $$ref = [] if !defined $$ref;
 
             croak "nested param clash for ARRAY $name"
@@ -592,17 +583,12 @@ sub _hash_name_exists {
         return exists $param->{$root};
     }
     
-    my $max_array = $self->form->nested_max_array;
-    
     my $ref = \$param->{$root};
 
     for my $i (0 .. $#names) {
         my $part = $names[$i];
         
-        if ( $max_array && $part =~ /^(0|[1-9][0-9]*)\z/ ) {
-            croak "nested param array limit exceeded: $root, $1"
-                if $1 >= $max_array;
-
+        if ( $part =~ /^(0|[1-9][0-9]*)\z/ ) {
             croak "nested param clash for ARRAY $root"
                 if ref $$ref ne 'ARRAY';
             
