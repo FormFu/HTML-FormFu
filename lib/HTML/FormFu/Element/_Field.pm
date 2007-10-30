@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil qw/
-    get_error _require_constraint _expand_hash _hash_name_exists
+    get_error _require_constraint set_nested_hash_value _hash_name_exists
     get_nested_hash_value /;
 use HTML::FormFu::Util qw/
     _parse_args append_xml_attribute xml_escape require_class split_name /;
@@ -370,17 +370,17 @@ sub process_input {
 
     # set input to default value (defined before calling FormFu->process)
     if ( $submitted && $self->force_default && defined $default ) {
-        $self->_expand_hash( $input, $name, $default, @names )
+        $self->set_nested_hash_value( $input, $name, $default, @names )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && $self->checked ) {
         # the checked attribute is set, so force input to be the original value
-        $self->_expand_hash( $input, $name, $original, @names )
+        $self->set_nested_hash_value( $input, $name, $original, @names )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && !defined $default && defined $original ) {
         # default and value are not equal, so this element is not checked by default
-        $self->_expand_hash( $input, $name, undef, @names )
+        $self->set_nested_hash_value( $input, $name, undef, @names )
     }
 
     return;

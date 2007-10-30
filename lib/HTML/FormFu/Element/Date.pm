@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::ObjectUtil qw/ get_nested_hash_value _expand_hash /;
+use HTML::FormFu::ObjectUtil qw/ get_nested_hash_value set_nested_hash_value /;
 use HTML::FormFu::Util qw/ _get_elements _parse_args split_name /;
 use DateTime;
 use DateTime::Format::Builder;
@@ -332,7 +332,7 @@ sub process_input {
         
         my $self_name = $self->nested_name;
         
-        $self->_expand_hash(
+        $self->set_nested_hash_value(
             $input, $self_name, $value, split_name($self_name) );
     }
 

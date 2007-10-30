@@ -16,7 +16,7 @@ use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic parent
-    get_nested_hash_value _expand_hash _hash_name_exists /;
+    get_nested_hash_value set_nested_hash_value _hash_name_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
     split_name _parse_args /;
 use List::MoreUtils qw/ uniq /;
@@ -205,7 +205,7 @@ sub process {
             
             my $value = @values > 1 ? \@values : $values[0];
             
-            $self->_expand_hash( \%param, $name, $value, $root, @names );
+            $self->set_nested_hash_value( \%param, $name, $value, $root, @names );
         }
         else {
             my @values = $query->param($name);
@@ -298,7 +298,7 @@ sub _build_params {
             $input = [@$input];
         }
 
-        $self->_expand_hash( \%params, $name, $input, @names )
+        $self->set_nested_hash_value( \%params, $name, $input, @names )
     }
 
     $self->_processed_params( \%params );
@@ -333,7 +333,7 @@ sub _process_file_uploads {
 
             my $values = $query_class->parse_uploads( $self, $name );
 
-            $self->_expand_hash( $params, $name, $values, @nested_names );
+            $self->set_nested_hash_value( $params, $name, $values, @nested_names );
         }
     }
 
@@ -419,7 +419,7 @@ sub _inflate_input {
             $error->parent->add_error($error);
         }
 
-        $self->_expand_hash( $params, $name, $value, @names );
+        $self->set_nested_hash_value( $params, $name, $value, @names );
     }
 
     return;
@@ -495,7 +495,7 @@ sub _transform_input {
             $error->parent->add_error($error);
         }
 
-        $self->_expand_hash( $params, $name, $value, @names );
+        $self->set_nested_hash_value( $params, $name, $value, @names );
     }
 
     return;
@@ -596,10 +596,10 @@ sub params {
         my @values = $self->param($name);
         
         if ( @values > 1 ) {
-            $self->_expand_hash( \%params, $name, \@values, @names );
+            $self->set_nested_hash_value( \%params, $name, \@values, @names );
         }
         else {
-            $self->_expand_hash( \%params, $name, $values[0], @names );
+            $self->set_nested_hash_value( \%params, $name, $values[0], @names );
         }
     }
 
