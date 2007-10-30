@@ -7,11 +7,11 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo[bar]');
+$form->element('Text')->name('foo/bar');
 
 {
-    $form->process( { 'foo[bar]' => 'bam' } );
+    $form->process( { 'foo/bar' => 'bam' } );
 
-    is( $form->param('foo[bar]'), 'bam', 'foo[bar] valid' );
+    is( $form->param('foo/bar'), 'bam', 'foo/bar valid' );
 }
 

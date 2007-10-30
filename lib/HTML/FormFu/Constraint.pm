@@ -13,8 +13,10 @@ __PACKAGE__->mk_accessors(qw/ not force_errors when /);
 sub process {
     my ( $self, $params ) = @_;
 
-    my $name  = $self->name;
-    my $value = $params->{$name};
+    my $value = $self->nested_hash_value(
+        $params,
+        $self->nested_names );
+
     my @errors;
 
     # check when condition
@@ -74,7 +76,6 @@ sub mk_errors {
     my $message = $args->{message};
 
     my @errors;
-    my $name = $self->name;
     my $force = $self->force_errors || $self->parent->force_errors;
 
     if ( !$pass || $force ) {

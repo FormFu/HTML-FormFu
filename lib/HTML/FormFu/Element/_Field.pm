@@ -6,9 +6,10 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::ObjectUtil qw/
-    get_error _require_constraint /;
+    get_error _require_constraint _expand_hash _hash_name_exists
+    nested_hash_value /;
 use HTML::FormFu::Util qw/
-    _parse_args append_xml_attribute xml_escape require_class /;
+    _parse_args append_xml_attribute xml_escape require_class split_name /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 use Exporter qw/ import /;
@@ -70,6 +71,65 @@ sub new {
     $self->render_class_suffix('field');
 
     return $self;
+}
+
+sub nested {
+    my $self = shift;
+    
+    croak 'cannot set nested' if @_;
+    
+    if ( defined $self->name ) {
+       while ( defined $self->parent ) {
+           $self = $self->parent;
+           
+           return 1 if defined $self->nested_name;
+       }
+   }
+   
+   return;
+}
+
+sub nested_name {
+   my $self = shift;
+
+   croak 'cannot set nested_name' if @_;
+
+    return if !defined $self->name;
+
+   my @names = $self->nested_names;
+
+   if ( $self->form->nested_subscript ) {
+       my $name = shift @names;
+       map { $name .= "[$_]" } @names;
+       return $name;
+   }
+   else {
+       return join ".", @names;
+   }
+}
+
+sub nested_names {
+    my $self = shift;
+    
+    croak 'cannot set nested_names' if @_;
+    
+    if ( defined $self->name ) {
+       my @names;
+       my $parent = $self;
+       
+       while ( defined $parent->parent ) {
+           $parent = $parent->parent;
+
+           push @names, $parent->nested_name
+               if defined $parent->nested_name;
+       }
+       
+       if (@names) {
+           return reverse(@names), $self->name;
+       }
+   }
+   
+   return ( $self->name );
 }
 
 sub deflator {
@@ -305,21 +365,22 @@ sub process_input {
     my $submitted = $self->form->submitted;
     my $default   = $self->default;
     my $original  = $self->value;
-    my $field     = $self->name;
+    my $name      = $self->nested_name;
+    my @names     = split_name( $name );
 
     # set input to default value (defined before calling FormFu->process)
     if ( $submitted && $self->force_default && defined $default ) {
-        $input->{$field} = $default;
+        $self->_expand_hash( $input, $name, $default, @names )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && $self->checked ) {
         # the checked attribute is set, so force input to be the original value
-        $input->{$field} = $original;
+        $self->_expand_hash( $input, $name, $original, @names )
     }
     # checkbox, radio
     elsif ( $submitted && $self->force_default && !defined $default && defined $original ) {
         # default and value are not equal, so this element is not checked by default
-        $input->{$field} = undef;
+        $self->_expand_hash( $input, $name, undef, @names )
     }
 
     return;
@@ -381,6 +442,7 @@ sub render {
     my $self = shift;
 
     my $render = $self->next::method( {
+            nested_name          => xml_escape( $self->nested_name ),
             comment_attributes   => xml_escape( $self->comment_attributes ),
             container_attributes => xml_escape( $self->container_attributes ),
             label_attributes     => xml_escape( $self->label_attributes ),
@@ -463,16 +525,19 @@ sub _render_comment_class {
 sub _render_value {
     my ( $self, $render ) = @_;
 
+    my $form  = $self->form;
+    my $name  = $self->nested_name;
+    my @names = defined $name ? split_name( $name ) : ();
     my $render_processed;
 
-    my $input
-        = (    $self->form->submitted
-            && defined $self->name
-            && exists $self->form->input->{ $self->name } )
+    my $input = (
+        $self->form->submitted
+            && defined $name
+            && $self->_hash_name_exists( $form->input, @names ) )
         ? $self->render_processed_value
-        ? ( $render_processed = 1
-            && $self->form->_processed_params->{ $self->name } )
-        : $self->form->input->{ $self->name }
+            ? ( $render_processed = 1
+                && $self->nested_hash_value( $form->_processed_params, @names ) )
+            : $self->nested_hash_value( $form->input, @names )
         : undef;
 
     if ( ref $input eq 'ARRAY' ) {

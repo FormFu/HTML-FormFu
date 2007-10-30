@@ -3,6 +3,8 @@ package HTML::FormFu::Constraint::DependOn;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
+use HTML::FormFu::Util qw/ split_name /;
+
 sub process {
     my ( $self, $params ) = @_;
 
@@ -12,15 +14,22 @@ sub process {
     my $others = $self->others;
     return if !defined $others;
 
-    my $first = $self->name;
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
 
-    return if !$self->constrain_value( $params->{$first} );
+    my $value = $self->nested_hash_value(
+        $params,
+        $self->nested_names );
+
+    return if !$self->constrain_value( $value );
 
     for my $name (@names) {
-        my $ok    = 0;
-        my $value = $params->{$name};
+        my $value = $self->nested_hash_value(
+            $params,
+            split_name($name) );
+        
+        my $ok = 0;
+        
         if ( ref $value ) {
             eval { my @x = @$value };
             croak $@ if $@;

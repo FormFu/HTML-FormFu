@@ -24,10 +24,14 @@ sub process_value {
 sub prepare_attrs {
     my ( $self, $render ) = @_;
 
-    my $submitted = $self->form->submitted;
+    my $form      = $self->form;
+    my $submitted = $form->submitted;
     my $default   = $self->default;
     my $original  = $self->value;
-    my $value     = $self->form->input->{ $self->name };
+    my $value
+        = defined $self->name
+        ? $self->nested_hash_value( $form->input, $self->nested_names )
+        : undef;
 
     if ( $submitted && defined $value && $value eq $original ) {
         $render->attributes( 'checked', 'checked' );

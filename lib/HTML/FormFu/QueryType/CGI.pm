@@ -3,6 +3,8 @@ package HTML::FormFu::QueryType::CGI;
 use strict;
 use base 'HTML::FormFu::Upload';
 
+use Scalar::Util qw/ blessed /;
+
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;
 
@@ -10,7 +12,7 @@ sub parse_uploads {
     my @new;
 
     for my $param (@params) {
-        if ( ref $param ) {
+        if ( blessed $param ) {
             $param = $class->new( {
                     _param => $param,
                     parent => $form,

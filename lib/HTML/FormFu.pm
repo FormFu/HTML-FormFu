@@ -15,9 +15,10 @@ use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_BLOCK
     :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
-    _render_class clone stash constraints_from_dbic parent /;
+    _render_class clone stash constraints_from_dbic parent
+    nested_hash_value _expand_hash _hash_name_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
-    _parse_args /;
+    split_name _parse_args /;
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
@@ -40,7 +41,8 @@ __PACKAGE__->mk_accessors(
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
-        render_class_suffix _output_processors /
+        render_class_suffix _output_processors 
+        nested_name nested_subscript nested_max_array /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -101,6 +103,7 @@ sub new {
         localize_class      => 'HTML::FormFu::I18N',
         auto_error_class    => 'error_%s_%t',
         auto_error_message  => 'form_%s_%t',
+        nested_max_array    => 99,
     );
 
     $self->populate( \%defaults );
@@ -184,22 +187,39 @@ sub process {
 
     return if !$submitted;
 
-    my %params;
+    my %param;
+    my @params = $query->param;
 
-    for my $param ( $query->param ) {
-
-        # don't allow names without a matching field
-        next unless defined $self->get_field($param);
-
-        my @values = $query->param($param);
-        $params{$param} = @values > 1 ? \@values : $values[0];
+    for my $field (@{ $self->get_fields }) {
+        my $name  = $field->nested_name;
+        
+        next if !defined $name;
+        next if !grep {$name eq $_} @params;
+        
+        if ( $field->nested ) {
+            my @names = $field->nested_names;
+            
+            my $root = shift @names;
+            
+            
+            my @values = $query->param($name);
+            
+            my $value = @values > 1 ? \@values : $values[0];
+            
+            $self->_expand_hash( \%param, $name, $value, $root, @names );
+        }
+        else {
+            my @values = $query->param($name);
+            
+            $param{$name} = @values > 1 ? \@values : $values[0];
+        }
     }
 
     for my $field ( @{ $self->get_fields } ) {
-        $field->process_input( \%params );
+        $field->process_input( \%param );
     }
 
-    $self->input( \%params );
+    $self->input( \%param );
 
     $self->_process_input;
 
@@ -217,8 +237,8 @@ sub _submitted {
     }
     elsif ( !defined $indi ) {
         my @names = uniq(
-            map      { $_->name }
-                grep { defined $_->name } @{ $self->get_fields } );
+            grep      { defined }
+                map { $_->nested_name } @{ $self->get_fields } );
 
         $code = sub {
             grep { defined $query->param($_) } @names;
@@ -262,16 +282,16 @@ sub _build_params {
     my $input = $self->input;
     my %params;
 
-    my @names = uniq(
-        sort
-            map  { $_->name }
-            grep { defined $_->name } @{ $self->get_fields } );
+    for my $field ( @{ $self->get_fields } ) {
+        my $name  = $field->nested_name;
+        my @names = $field->nested_names;
+        
+        next if !defined $name;
+        next if exists $params{$name};
+        next if !$self->_hash_name_exists( $self->input, @names );
 
-    for my $name (@names) {
-        next if !exists $input->{$name};
-
-        my $input = exists $input->{$name} ? $input->{$name} : undef;
-
+        my $input = $self->nested_hash_value( $self->input, @names );
+        
         if ( ref $input eq 'ARRAY' ) {
 
             # can't clone upload filehandles
@@ -279,7 +299,7 @@ sub _build_params {
             $input = [@$input];
         }
 
-        $params{$name} = $input;
+        $self->_expand_hash( \%params, $name, $input, @names )
     }
 
     $self->_processed_params( \%params );
@@ -292,9 +312,10 @@ sub _process_file_uploads {
 
     my @names = uniq(
         sort
-            map  { $_->name }
+            grep { defined }
+            map  { $_->nested_name }
             grep { $_->isa('HTML::FormFu::Element::File') }
-            grep { defined $_->name } @{ $self->get_fields } );
+            @{ $self->get_fields } );
 
     if (@names) {
         my $query_class = $self->query_type;
@@ -307,11 +328,13 @@ sub _process_file_uploads {
         my $input  = $self->input;
 
         for my $name (@names) {
-            next if !exists $input->{$name};
+            my @nested_names = split_name($name);
+            
+            next if !$self->_hash_name_exists( $input, @nested_names );
 
             my $values = $query_class->parse_uploads( $self, $name );
 
-            $params->{$name} = $values;
+            $self->_expand_hash( $params, $name, $values, @nested_names );
         }
     }
 
@@ -322,13 +345,14 @@ sub _filter_input {
     my ($self) = @_;
 
     my $params = $self->_processed_params;
+    
+    for my $filter ( @{ $self->get_filters } ) {
+        my $name = $filter->nested_name;
+        
+        next if !defined $name;
+        next if !$self->_hash_name_exists( $params, split_name($name) );
 
-    for my $name ( keys %$params ) {
-        next if !exists $self->input->{$name};
-
-        for my $filter ( @{ $self->get_filters( { name => $name } ) } ) {
-            $filter->process( $self, $params );
-        }
+        $filter->process( $self, $params );
     }
 
     return;
@@ -366,33 +390,37 @@ sub _inflate_input {
 
     my $params = $self->_processed_params;
 
-    for my $name ( keys %$params ) {
-        next if !exists $self->input->{$name};
+    for my $inflator ( @{ $self->get_inflators } ) {
+        my $name = $inflator->nested_name;
+        next if !defined $name;
+        
+        my @names = split_name($name);
+        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if grep {defined} @{ $inflator->parent->get_errors };
 
-        next if $self->has_errors($name);
+        my $value = $self->nested_hash_value(
+            $params,
+            @names );
 
-        my $value = $params->{$name};
+        my @errors;
 
-        for my $inflator ( @{ $self->get_inflators( { name => $name } ) } ) {
-            my @errors;
-
-            ( $value, @errors ) = eval { $inflator->process($value); };
-            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
-                push @errors, $@;
-            }
-            elsif ($@) {
-                push @errors, HTML::FormFu::Exception::Inflator->new;
-            }
-
-            for my $error (@errors) {
-                $error->parent( $inflator->parent ) if !$error->parent;
-                $error->inflator($inflator)         if !$error->inflator;
-
-                $error->parent->add_error($error);
-            }
+        ( $value, @errors ) = eval { $inflator->process($value) };
+            
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
+            push @errors, $@;
+        }
+        elsif ($@) {
+            push @errors, HTML::FormFu::Exception::Inflator->new;
         }
 
-        $params->{$name} = $value;
+        for my $error (@errors) {
+            $error->parent( $inflator->parent ) if !$error->parent;
+            $error->inflator($inflator)         if !$error->inflator;
+
+            $error->parent->add_error($error);
+        }
+
+        $self->_expand_hash( $params, $name, $value, @names );
     }
 
     return;
@@ -403,26 +431,28 @@ sub _validate_input {
 
     my $params = $self->_processed_params;
 
-    for my $name ( keys %$params ) {
-        next if !exists $self->input->{$name};
+    for my $validator ( @{ $self->get_validators } ) {
+        my $name = $validator->nested_name;
+        next if !defined $name;
 
-        for my $validator ( @{ $self->get_validators( { name => $name } ) } ) {
-            next if $self->has_errors( $validator->field->name );
+        my @names = split_name($name);
+        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if grep {defined} @{ $validator->parent->get_errors };
 
-            my @errors = eval { $validator->process($params); };
-            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
-                push @errors, $@;
-            }
-            elsif ($@) {
-                push @errors, HTML::FormFu::Exception::Validator->new;
-            }
+        my @errors = eval { $validator->process($params) };
 
-            for my $error (@errors) {
-                $error->parent( $validator->parent ) if !$error->parent;
-                $error->validator($validator)        if !$error->validator;
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
+            push @errors, $@;
+        }
+        elsif ($@) {
+            push @errors, HTML::FormFu::Exception::Validator->new;
+        }
 
-                $error->parent->add_error($error);
-            }
+        for my $error (@errors) {
+            $error->parent( $validator->parent ) if !$error->parent;
+            $error->validator($validator)        if !$error->validator;
+
+            $error->parent->add_error($error);
         }
     }
 
@@ -434,37 +464,39 @@ sub _transform_input {
 
     my $params = $self->_processed_params;
 
-    for my $name ( keys %$params ) {
-        next if !exists $self->input->{$name};
+    for my $transformer ( @{ $self->get_transformers } ) {
+        my $name = $transformer->nested_name;
+        next if !defined $name;
+        
+        my @names = split_name($name);
+        next if !$self->_hash_name_exists( $params, split_name($name) );
+        next if grep {defined} @{ $transformer->parent->get_errors };
 
-        my $value = $params->{$name};
+        my $value = $self->nested_hash_value(
+            $params,
+            @names );
 
-        for my $transformer (
-            @{ $self->get_transformers( { name => $name } ) } )
+        my @errors;
+
+        ( $value, @errors )
+            = eval { $transformer->process( $value, $params ) };
+
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') )
         {
-            next if $self->has_errors( $transformer->field->name );
-
-            my @errors;
-
-            ( $value, @errors )
-                = eval { $transformer->process( $value, $params ); };
-            if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') )
-            {
-                push @errors, $@;
-            }
-            elsif ($@) {
-                push @errors, HTML::FormFu::Exception::Transformer->new;
-            }
-
-            for my $error (@errors) {
-                $error->parent( $transformer->parent ) if !$error->parent;
-                $error->transformer($transformer)      if !$error->transformer;
-
-                $error->parent->add_error($error);
-            }
+            push @errors, $@;
+        }
+        elsif ($@) {
+            push @errors, HTML::FormFu::Exception::Transformer->new;
         }
 
-        $self->_processed_params->{$name} = $value;
+        for my $error (@errors) {
+            $error->parent( $transformer->parent ) if !$error->parent;
+            $error->transformer($transformer)      if !$error->transformer;
+
+            $error->parent->add_error($error);
+        }
+
+        $self->_expand_hash( $params, $name, $value, @names );
     }
 
     return;
@@ -473,10 +505,15 @@ sub _transform_input {
 sub _build_valid_names {
     my ($self) = @_;
 
+    my $params = $self->_processed_params;
     my @errors = $self->has_errors;
-    my @names;
-    push @names, keys %{ $self->input };
-    push @names, keys %{ $self->_processed_params };
+    my @names = grep { $self->_hash_name_exists( $params, split_name($_) ) }
+        grep { defined }
+        map { $_->nested_name }
+        @{ $self->get_fields };
+
+    push @names, grep { ref $params->{$_} ne 'HASH' }
+        keys %$params;
 
     @names = uniq( sort @names );
 
@@ -494,6 +531,53 @@ CHECK: for my $name (@names) {
     return;
 }
 
+sub _hash_keys {
+    my ( $hash, $subscript ) = @_;
+    my @names;
+    
+    for my $key ( keys %$hash ) {
+        if ( ref $hash->{$key} eq 'HASH' ) {
+            push @names, map {
+                $subscript ? "${key}[${_}]" : "$key.$_"
+            } _hash_keys( $hash->{$key}, $subscript );
+        }
+        elsif ( ref $hash->{$key} eq 'ARRAY' ) {
+            push @names, map {
+                $subscript ? "${key}[${_}]" : "$key.$_"
+            } _array_indices( $hash->{$key}, $subscript );
+        }
+        else {
+            push @names, $key;
+        }
+    }
+    
+    return @names;
+}
+
+sub _array_indices {
+    my ( $array, $subscript ) = @_;
+    
+    my @names;
+    
+    for my $i ( 0 .. $#{$array} ) {
+        if ( ref $array->[$i] eq 'HASH' ) {
+            push @names, map {
+                $subscript ? "${i}[${_}]" : "$i.$_"
+            } _hash_keys( $array->[$i], $subscript );
+        }
+        elsif ( ref $array->[$i] eq 'ARRAY' ) {
+            push @names, map {
+                $subscript ? "${i}[${_}]" : "$i.$_"
+            } _array_indices( $array->[$i], $subscript );
+        }
+        else {
+            push @names, $i;
+        }
+    }
+    
+    return @names;
+}
+
 sub submitted_and_valid {
     my ($self) = @_;
 
@@ -509,12 +593,14 @@ sub params {
     my %params;
 
     for my $name (@names) {
+        my @names  = split_name($name);
         my @values = $self->param($name);
+        
         if ( @values > 1 ) {
-            $params{$name} = \@values;
+            $self->_expand_hash( \%params, $name, \@values, @names );
         }
         else {
-            $params{$name} = $values[0];
+            $self->_expand_hash( \%params, $name, $values[0], @names );
         }
     }
 
@@ -533,7 +619,9 @@ sub param {
         # only return a valid value
         my $name  = shift;
         my $valid = $self->valid($name);
-        my $value = $self->_processed_params->{$name};
+        my $value = $self->nested_hash_value(
+            $self->_processed_params,
+            split_name($name) );
 
         if ( !defined $valid || !defined $value ) {
             return;
@@ -560,7 +648,29 @@ sub valid {
 
     if (@_) {
         my $name = shift;
-        return 1 if grep {/\Q$name/} @valid;
+        
+        return 1 if grep { $name eq $_ } @valid;
+        
+        # not found - see if it's the name of a nested block
+        my $parent;
+        if ( defined $self->nested_name && $self->nested_name eq $name ) {
+            $parent = $self;
+        }
+        else {
+            ($parent) = grep { $_->isa('HTML::FormFu::Element::Block') }
+                @{ $self->get_all_elements({
+                    nested_name => $name,
+                }) };
+        }
+        
+        if ( defined $parent ) {
+            my $fail = grep {defined}
+                map { @{ $_->get_errors } }
+                @{ $parent->get_fields };
+
+            return 1 if !$fail;
+        }
+        
         return;
     }
 
@@ -573,9 +683,9 @@ sub has_errors {
 
     return if !$self->submitted;
 
-    my @names = map { $_->name }
+    my @names = map { $_->nested_name }
         grep { @{ $_->get_errors } }
-        grep { defined $_->name } @{ $self->get_fields };
+        grep { defined $_->nested_name } @{ $self->get_fields };
 
     if (@_) {
         my $name = shift;

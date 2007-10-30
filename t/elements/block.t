@@ -15,7 +15,7 @@ my $block = $form->element( {
         content => 'Hello <World>!',
     } );
 
-$block->element( { type => 'Text' } );
+$block->element( { name => "foo" } );
 
 # because there's a content(), the block's elements should be ignored
 

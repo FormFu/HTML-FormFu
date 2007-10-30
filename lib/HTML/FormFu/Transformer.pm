@@ -23,7 +23,7 @@ sub process {
                 push @return, undef;
             }
             else {
-                push @return, $value;
+                push @return, $return;
             }
         }
         $return = \@return;

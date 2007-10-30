@@ -3,6 +3,8 @@ package HTML::FormFu::Constraint::Equal;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
+use HTML::FormFu::Util qw/ split_name /;
+
 sub process {
     my ( $self, $params ) = @_;
 
@@ -12,16 +14,22 @@ sub process {
     my $others = $self->others;
     return if !defined $others;
 
-    my $name  = $self->name;
-    my $value = $params->{$name};
+    my $value = $self->nested_hash_value(
+        $params,
+        $self->nested_names );
+
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
 
-    for my $eq_name (@names) {
+    for my $name (@names) {
 
-        my $ok = _values_eq( $value, $params->{$eq_name} );
+        my $other_value = $self->nested_hash_value(
+            $params,
+            split_name($name) );
 
-        push @failed, $eq_name
+        my $ok = _values_eq( $value, $other_value );
+
+        push @failed, $name
             if $self->not ? $ok : !$ok;
     }
 

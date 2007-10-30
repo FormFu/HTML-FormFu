@@ -12,7 +12,6 @@ sub filter {
 
     my $match   = $self->match;
     my $replace = $self->replace;
-
     $match   = qr/./ if !defined $match;
     $replace = ''    if !defined $replace;
 

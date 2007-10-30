@@ -62,7 +62,9 @@ our @EXPORT_OK = (qw/
     _render_class _coerce populate
     deflator 
     load_config_file form insert_before insert_after clone name stash
-    constraints_from_dbic parent /,
+    constraints_from_dbic parent nested_name nested_names nested_hash_value
+    _expand_hash _hash_name_exists
+    /,
     @form_and_block,
     @form_and_element );
 
@@ -498,6 +500,128 @@ sub name {
     return $self->parent->name;
 }
 
+sub nested_name {
+    my $self = shift;
+
+    croak 'cannot use nested_name() as a setter' if @_;
+
+    return $self->parent->nested_name;
+}
+
+sub nested_names {
+    my $self = shift;
+
+    croak 'cannot use nested_names() as a setter' if @_;
+
+    return $self->parent->nested_names;
+}
+
+sub nested_hash_value {
+    my ( $self, $param, $root, @names ) = @_;
+
+    if ( !@names ) {
+        return exists $param->{$root} ? $param->{$root} : undef;
+    }
+    
+    my $max_array = $self->form->nested_max_array;
+    my $ref = \$param->{$root};
+
+    for (@names) {
+        if ( $max_array && /^(0|[1-9][0-9]*)\z/ ) {
+            croak "nested param array limit exceeded: $root, $1"
+                if $1 >= $max_array;
+
+            croak "nested param clash for ARRAY $root"
+                if ref $$ref ne 'ARRAY';
+
+            return if $1 > $#{$$ref};
+
+            $ref = \($$ref->[$1]);
+        }
+        else {
+            return if !exists $$ref->{$_};
+
+            $ref = \($$ref->{$_});
+        }
+    }
+    
+    return $$ref;
+}
+
+sub _expand_hash {
+    my ( $self, $param, $name, $value, $root, @names ) = @_;
+
+    if ( !@names ) {
+        $param->{$root} = $value;
+        return;
+    }
+    
+    my $max_array = $self->form->nested_max_array;
+    
+    my $ref = \$param->{$root};
+    
+    for (@names) {
+        if ( $max_array && /^(0|[1-9][0-9]*)\z/ ) {
+            croak "nested param array limit exceeded: $name, $1"
+                if $1 >= $max_array;
+
+            $$ref = [] if !defined $$ref;
+
+            croak "nested param clash for ARRAY $name"
+                if ref $$ref ne 'ARRAY';
+
+            $ref = \($$ref->[$1]);
+        }
+        else {
+            $$ref = {} if !defined $$ref;
+
+            croak "nested param clash for HASH $name"
+                if ref $$ref ne 'HASH';
+            
+            $ref = \($$ref->{$_});
+        }
+    }
+    
+    $$ref = $value;
+}
+
+sub _hash_name_exists {
+    my ( $self, $param, $root, @names ) = @_;
+
+    if ( !@names ) {
+        return exists $param->{$root};
+    }
+    
+    my $max_array = $self->form->nested_max_array;
+    
+    my $ref = \$param->{$root};
+
+    for my $i (0 .. $#names) {
+        my $part = $names[$i];
+        
+        if ( $max_array && $part =~ /^(0|[1-9][0-9]*)\z/ ) {
+            croak "nested param array limit exceeded: $root, $1"
+                if $1 >= $max_array;
+
+            croak "nested param clash for ARRAY $root"
+                if ref $$ref ne 'ARRAY';
+            
+            if ( $i == $#names ) {
+                return $1 > $$ref->[$1] ? 1 : 0;
+            }
+            
+            $ref = \($$ref->[$1]);
+        }
+        else {
+            if ( $i == $#names ) {
+                return exists $$ref->{$part} ? 1 : 0;
+            }
+            
+            $ref = \($$ref->{$part});
+        }
+    }
+}
+
 sub stash {
     my $self = shift;
 
@@ -764,8 +888,8 @@ sub _single_deflator {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep {defined}
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add deflator to" if !@names;
@@ -775,7 +899,7 @@ sub _single_deflator {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_deflator( $type, $arg );
             push @{ $field->_deflators }, $new;
             push @return, $new;
@@ -799,8 +923,8 @@ sub _single_filter {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep { defined }
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add filter to" if !@names;
@@ -810,7 +934,7 @@ sub _single_filter {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_filter( $type, $arg );
             push @{ $field->_filters }, $new;
             push @return, $new;
@@ -834,8 +958,8 @@ sub _single_constraint {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep {defined}
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add constraint to" if !@names;
@@ -845,7 +969,7 @@ sub _single_constraint {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_constraint( $type, $arg );
             push @{ $field->_constraints }, $new;
             push @return, $new;
@@ -869,8 +993,8 @@ sub _single_inflator {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep {defined}
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add inflator to" if !@names;
@@ -880,7 +1004,7 @@ sub _single_inflator {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_inflator( $type, $arg );
             push @{ $field->_inflators }, $new;
             push @return, $new;
@@ -904,8 +1028,8 @@ sub _single_validator {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep {defined}
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add validator to" if !@names;
@@ -915,7 +1039,7 @@ sub _single_validator {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_validator( $type, $arg );
             push @{ $field->_validators }, $new;
             push @return, $new;
@@ -939,8 +1063,8 @@ sub _single_transformer {
         grep {defined}
         ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq( map { $_->name }
-        grep { defined $_->name } @{ $self->get_fields } )
+    @names = uniq( grep {defined}
+        map { $_->nested_name } @{ $self->get_fields } )
         if !@names;
 
     croak "no field names to add transformer to" if !@names;
@@ -950,7 +1074,7 @@ sub _single_transformer {
     my @return;
     
     for my $x (@names) {
-        for my $field ( @{ $self->get_fields( { name => $x } ) } ) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
             my $new = $field->_require_transformer( $type, $arg );
             push @{ $field->_transformers }, $new;
             push @return, $new;
@@ -974,6 +1098,10 @@ sub get_deflators {
         @x = grep { $_->type eq $args{type} } @x;
     }
 
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
+    }
+
     return \@x;
 };
 
@@ -989,6 +1117,10 @@ sub get_filters {
 
     if ( exists $args{type} ) {
         @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
     }
 
     return \@x;
@@ -1008,6 +1140,10 @@ sub get_constraints {
         @x = grep { $_->type eq $args{type} } @x;
     }
 
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
+    }
+
     return \@x;
 };
 
@@ -1023,6 +1159,10 @@ sub get_inflators {
 
     if ( exists $args{type} ) {
         @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
     }
 
     return \@x;
@@ -1042,6 +1182,10 @@ sub get_validators {
         @x = grep { $_->type eq $args{type} } @x;
     }
 
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
+    }
+
     return \@x;
 };
 
@@ -1057,6 +1201,10 @@ sub get_transformers {
 
     if ( exists $args{type} ) {
         @x = grep { $_->type eq $args{type} } @x;
+    }
+
+    if ( exists $args{nested_name} ) {
+        @x = grep { $_->nested_name eq $args{nested_name} } @x;
     }
 
     return \@x;

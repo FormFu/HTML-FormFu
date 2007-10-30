@@ -11,7 +11,7 @@ $form->element('Date')->name('foo')->auto_inflate(1);
 
 # empty input
 
-$form->process( { 'foo.day', '', 'foo.month', '', 'foo.year', '', } );
+$form->process( { 'foo_day', '', 'foo_month', '', 'foo_year', '', } );
 
 ok( $form->submitted_and_valid );
 

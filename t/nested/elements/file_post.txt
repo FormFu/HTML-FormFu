@@ -1,0 +1,13 @@
+--xYzZY
+Content-Disposition: form-data; name="foo.bar"
+
+foo
+--xYzZY
+Content-Disposition: form-data; name="foo.bar"; filename="one.txt"
+Content-Length: 4
+Content-Type: text/plain
+
+One
+
+--xYzZY--
+

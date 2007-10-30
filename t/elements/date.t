@@ -24,7 +24,7 @@ is( "$form", <<HTML );
 <form action="" method="post">
 <span class="date date">
 <span class="elements">
-<select name="foo.day">
+<select name="foo_day">
 <option value="">-- Day --</option>
 <option value="1">1</option>
 <option value="2">2</option>
@@ -58,7 +58,7 @@ is( "$form", <<HTML );
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-<select name="foo.month">
+<select name="foo_month">
 <option value="">-- Month --</option>
 <option value="1">Jan</option>
 <option value="2">Feb</option>
@@ -73,7 +73,7 @@ is( "$form", <<HTML );
 <option value="11">Nov</option>
 <option value="12">Dec</option>
 </select>
-<select name="foo.year">
+<select name="foo_year">
 <option value="">-- Year --</option>
 <option value="2007" selected="selected">2007</option>
 <option value="2008">2008</option>
@@ -91,7 +91,7 @@ is( "$form", <<HTML );
 </span>
 <span class="date date">
 <span class="elements">
-<select name="bar.day">
+<select name="bar_day">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -124,7 +124,7 @@ is( "$form", <<HTML );
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-<select name="bar.month">
+<select name="bar_month">
 <option value="1">January</option>
 <option value="2">February</option>
 <option value="3">March</option>
@@ -138,7 +138,7 @@ is( "$form", <<HTML );
 <option value="11">November</option>
 <option value="12">December</option>
 </select>
-<select name="bar.year">
+<select name="bar_year">
 <option value="2007" selected="selected">2007</option>
 <option value="2008">2008</option>
 <option value="2009">2009</option>
@@ -157,17 +157,20 @@ is( "$form", <<HTML );
 HTML
 
 $form->process( {
-        'foo.day', 30, 'foo.month', 6, 'foo.year', 2007,
-        'bar.day', 1,  'bar.month', 7, 'bar.year', 2007,
+        'foo_day', 30, 'foo_month', 6, 'foo_year', 2007,
+        'bar_day', 1,  'bar_month', 7, 'bar_year', 2007,
     } );
 
 ok( $form->submitted_and_valid );
 
-isa_ok( $form->params->{foo}, 'DateTime' );
-ok( !ref $form->params->{bar} );
+my $foo = $form->param('foo');
+my $bar = $form->param('bar');
 
-is( $form->params->{foo}, "06/30/2007" );
-is( $form->params->{bar}, "01-07-2007" );
+isa_ok( $foo, 'DateTime' );
+ok( !ref $bar );
+
+is( $foo, "06/30/2007" );
+is( $bar, "01-07-2007" );
 
 like( $form->get_field('foo'), qr/\Q<option value="30" selected="selected">/ );
 like( $form->get_field('foo'), qr/\Q<option value="6" selected="selected">/ );
@@ -181,7 +184,7 @@ like( $form->get_field('bar'),
 
 # incorrect date
 
-$form->process( { 'foo.day', 29, 'foo.month', 2, 'foo.year', 2007, } );
+$form->process( { 'foo_day', 29, 'foo_month', 2, 'foo_year', 2007, } );
 
 ok( $form->submitted );
 ok( $form->has_errors );
@@ -192,7 +195,7 @@ is( "$form", <<HTML_ERRORS );
 <span class="date error error_inflator_datetime date error error_inflator_datetime">
 <span class="error_message error_inflator_datetime">Invalid date</span>
 <span class="elements">
-<select name="foo.day">
+<select name="foo_day">
 <option value="">-- Day --</option>
 <option value="1">1</option>
 <option value="2">2</option>
@@ -226,7 +229,7 @@ is( "$form", <<HTML_ERRORS );
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-<select name="foo.month">
+<select name="foo_month">
 <option value="">-- Month --</option>
 <option value="1">Jan</option>
 <option value="2" selected="selected">Feb</option>
@@ -241,7 +244,7 @@ is( "$form", <<HTML_ERRORS );
 <option value="11">Nov</option>
 <option value="12">Dec</option>
 </select>
-<select name="foo.year">
+<select name="foo_year">
 <option value="">-- Year --</option>
 <option value="2007" selected="selected">2007</option>
 <option value="2008">2008</option>
@@ -259,7 +262,7 @@ is( "$form", <<HTML_ERRORS );
 </span>
 <span class="date date">
 <span class="elements">
-<select name="bar.day">
+<select name="bar_day">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -292,7 +295,7 @@ is( "$form", <<HTML_ERRORS );
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-<select name="bar.month">
+<select name="bar_month">
 <option value="1">January</option>
 <option value="2">February</option>
 <option value="3">March</option>
@@ -306,7 +309,7 @@ is( "$form", <<HTML_ERRORS );
 <option value="11">November</option>
 <option value="12">December</option>
 </select>
-<select name="bar.year">
+<select name="bar_year">
 <option value="2007">2007</option>
 <option value="2008">2008</option>
 <option value="2009">2009</option>

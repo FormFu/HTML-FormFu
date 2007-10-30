@@ -11,8 +11,10 @@ use Carp qw/ croak /;
 sub process {
     my ( $self, $params ) = @_;
 
-    my $name  = $self->name;
-    my $value = $params->{$name};
+    my $value = $self->nested_hash_value(
+        $params,
+        $self->nested_names );
+    
     my @errors;
 
     if ( ref $value eq 'ARRAY' ) {

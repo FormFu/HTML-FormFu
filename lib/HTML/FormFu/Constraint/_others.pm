@@ -29,7 +29,7 @@ sub mk_errors {
             if !$pass || $force;
     }
     elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
-        push @attach, $self->name
+        push @attach, $self->nested_name
             if $self->attach_errors_to_base
             && ( !$pass || $force );
 
@@ -47,7 +47,7 @@ sub mk_errors {
     my @errors;
 
     for my $name (@attach) {
-        my $field = $self->form->get_field( { name => $name } )
+        my $field = $self->form->get_field( { nested_name => $name } )
             or die "others() field not found: '$name'";
 
         my $error = $self->mk_error;

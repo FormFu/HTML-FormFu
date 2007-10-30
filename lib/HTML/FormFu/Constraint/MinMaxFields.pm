@@ -4,6 +4,8 @@ use strict;
 use base 'HTML::FormFu::Constraint::_others';
 use Class::C3;
 
+use HTML::FormFu::Util qw/ split_name /;
+
 __PACKAGE__->mk_accessors(qw/ minimum maximum /);
 
 *min = \&minimum;
@@ -35,11 +37,14 @@ sub process {
     $max = 1 + scalar @$others if !defined $max;
 
     # get field names to check
-    my @names = ( $self->name );
+    my @names = ( $self->nested_name );
     push @names, ref $others ? @{$others} : $others;
 
     for my $name (@names) {
-        my $value = $params->{$name};
+        my $value = $self->nested_hash_value(
+            $params,
+            split_name($name) );
+
         if ( ref $value ) {
             eval { my @x = @$value };
             croak $@ if $@;

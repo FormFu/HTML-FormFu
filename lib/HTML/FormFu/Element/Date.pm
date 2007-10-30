@@ -5,7 +5,8 @@ use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::Util qw/ _get_elements _parse_args /;
+use HTML::FormFu::ObjectUtil qw/ nested_hash_value _expand_hash /;
+use HTML::FormFu::Util qw/ _get_elements _parse_args split_name /;
 use DateTime;
 use DateTime::Format::Builder;
 use DateTime::Locale;
@@ -39,15 +40,7 @@ for my $method (
         my @x        = @{ $self->$accessor };
         push @x, map { @{ $_->$get_method(@_) } } @{ $self->_elements };
 
-        if ( exists $args{name} ) {
-            @x = grep { $_->name eq $args{name} } @x;
-        }
-
-        if ( exists $args{type} ) {
-            @x = grep { $_->type eq $args{type} } @x;
-        }
-
-        return \@x;
+        return _get_elements( \%args, \@x );
     };
 
     my $name = __PACKAGE__ . "::get_${method}s";
@@ -64,15 +57,15 @@ sub new {
     $self->render_class_suffix('multi');
     $self->strftime("%d-%m-%Y");
     $self->day( {
-            type   => 'Select',
+            type   => '_DateSelect',
             prefix => [],
         } );
     $self->month( {
-            type   => 'Select',
+            type   => '_DateSelect',
             prefix => [],
         } );
     $self->year( {
-            type   => 'Select',
+            type   => '_DateSelect',
             prefix => [],
             less   => 0,
             plus   => 10,
@@ -83,12 +76,13 @@ sub new {
 
 sub get_fields {
     my $self = shift;
+    my %args = _parse_args(@_);
 
-    my $f = $self->HTML::FormFu::Element::Multi::get_fields(@_);
+    my $f = $self->HTML::FormFu::Element::Block::get_fields;
 
     unshift @$f, $self;
 
-    return $f;
+    return _get_elements( \%args, $f );
 }
 
 sub _add_elements {
@@ -251,7 +245,7 @@ sub _build_day_name {
     my $day_name
         = defined $self->day->{name}
         ? $self->day->{name}
-        : sprintf "%s.day", $self->name;
+        : sprintf "%s_day", $self->name;
 
     return $day_name;
 }
@@ -262,7 +256,7 @@ sub _build_month_name {
     my $month_name
         = defined $self->month->{name}
         ? $self->month->{name}
-        : sprintf "%s.month", $self->name;
+        : sprintf "%s_month", $self->name;
 
     return $month_name;
 }
@@ -273,7 +267,7 @@ sub _build_year_name {
     my $year_name
         = defined $self->year->{name}
         ? $self->year->{name}
-        : sprintf "%s.year", $self->name;
+        : sprintf "%s_year", $self->name;
 
     return $year_name;
 }
@@ -305,29 +299,41 @@ sub process_input {
     my $month_name = _build_month_name($self);
     my $year_name  = _build_year_name($self);
 
-    if (   defined $input->{$day_name}
-        && length $input->{$day_name}
-        && defined $input->{$month_name}
-        && length $input->{$month_name}
-        && defined $input->{$year_name}
-        && length $input->{$year_name} )
+    $day_name   = $self->get_element({ name => $day_name })->nested_name;
+    $month_name = $self->get_element({ name => $month_name })->nested_name;
+    $year_name  = $self->get_element({ name => $year_name })->nested_name;
+
+    my $day   = $self->nested_hash_value( $input, split_name( $day_name ) );
+    my $month = $self->nested_hash_value( $input, split_name( $month_name ) );
+    my $year  = $self->nested_hash_value( $input, split_name( $year_name ) );
+
+    if (   defined $day   && length $day
+        && defined $month && length $month
+        && defined $year  && length $year )
     {
         my $dt;
 
         eval {
             $dt = DateTime->new(
-                day   => $input->{$day_name},
-                month => $input->{$month_name},
-                year  => $input->{$year_name},
+                day   => $day,
+                month => $month,
+                year  => $year,
             );
         };
 
+        my $value;
+
         if ($@) {
-            $input->{ $self->name } = $self->strftime;
+            $value = $self->strftime;
         }
         else {
-            $input->{ $self->name } = $dt->strftime( $self->strftime );
+            $value = $dt->strftime( $self->strftime );
         }
+        
+        my $self_name = $self->nested_name;
+        
+        $self->_expand_hash(
+            $input, $self_name, $value, split_name($self_name) );
     }
 
     return $self->next::method($input);
@@ -375,7 +381,7 @@ Creates a L<multi|HTML::FormFu::Element::Multi> element containing 3 select
 menus for the day, month and year.
 
 A date element named C<foo> would result in 3 select menus with the names 
-C<foo.day>, C<foo.month> and C<foo.year>. The names can instead be 
+C<foo_day>, C<foo_month> and C<foo_year>. The names can instead be 
 overridden by the C<name> value in L</day>, L</month> and L</year>.
 
 This element automatically merges the input parameters from the select 

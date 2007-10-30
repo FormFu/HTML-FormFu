@@ -3,6 +3,8 @@ package HTML::FormFu::Constraint::CallbackOnce;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
+use HTML::FormFu::Util qw/ split_name /;
+
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub process {
@@ -11,9 +13,9 @@ sub process {
     # check when condition
     return unless $self->_process_when( $params );
 
-    my $name = $self->name;
-
-    my $value = $params->{$name};
+    my $value = $self->nested_hash_value(
+        $params,
+        $self->nested_names );
 
     my $callback = $self->callback || sub {1};
 

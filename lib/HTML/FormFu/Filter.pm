@@ -4,7 +4,9 @@ use strict;
 use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_accessors );
-use HTML::FormFu::ObjectUtil qw( populate form name parent );
+use HTML::FormFu::ObjectUtil qw(
+    populate form name parent nested_name nested_names nested_hash_value
+    _expand_hash );
 use Carp qw( croak );
 
 __PACKAGE__->mk_accessors(qw/ type localize_args /);
@@ -30,18 +32,27 @@ sub new {
 sub process {
     my ( $self, $result, $params ) = @_;
 
-    my $name = $self->name;
+    my $name = $self->nested_name;
 
     # don't run filters on invalid input
     return if $result->has_errors($name);
 
-    my $values = $params->{$name};
-    if ( ref $values eq 'ARRAY' ) {
-        $params->{$name} = [ map { $self->filter( $_, $params ); } @$values ];
+    my @names = $self->nested_names;
+
+    my $value = $self->nested_hash_value(
+        $params,
+        @names );
+
+    my $filtered;
+    
+    if ( ref $value eq 'ARRAY' ) {
+        $filtered = [ map { $self->filter( $_, $params ); } @$value ];
     }
     else {
-        $params->{$name} = $self->filter( $values, $params );
+        $filtered = $self->filter( $value, $params );
     }
+
+    $self->_expand_hash( $params, $name, $filtered, @names );
 
     return;
 }
