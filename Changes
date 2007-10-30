@@ -1,3 +1,15 @@
+0.02000
+
+	- Template files changed
+	- Date element now uses names of the form "date_day" instead of 
+	  "date.day", so as to not conflict with the new nested-params. This 
+	  should only affect you if your client-side code (CSS, JS) references 
+	  the field names.
+	- New "nested" params support. Form and Block elements have a new 
+	  nested_name() method. Field elements have new nested(), nested_name() 
+	  and nested_names() methods. Doesn't require CGI::Expand or 
+	  Catalyst::Plugin::NestedParams.
+
 0.01006 2007-10-23
 
 	- render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not 
