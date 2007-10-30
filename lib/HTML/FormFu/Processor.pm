@@ -5,7 +5,7 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_accessors mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw( 
-    populate form name nested_name nested_names nested_hash_value parent );
+    populate form name nested_name nested_names get_nested_hash_value parent );
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
 

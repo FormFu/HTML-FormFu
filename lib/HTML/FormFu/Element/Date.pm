@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::ObjectUtil qw/ nested_hash_value _expand_hash /;
+use HTML::FormFu::ObjectUtil qw/ get_nested_hash_value _expand_hash /;
 use HTML::FormFu::Util qw/ _get_elements _parse_args split_name /;
 use DateTime;
 use DateTime::Format::Builder;
@@ -303,9 +303,9 @@ sub process_input {
     $month_name = $self->get_element({ name => $month_name })->nested_name;
     $year_name  = $self->get_element({ name => $year_name })->nested_name;
 
-    my $day   = $self->nested_hash_value( $input, split_name( $day_name ) );
-    my $month = $self->nested_hash_value( $input, split_name( $month_name ) );
-    my $year  = $self->nested_hash_value( $input, split_name( $year_name ) );
+    my $day   = $self->get_nested_hash_value( $input, split_name( $day_name ) );
+    my $month = $self->get_nested_hash_value( $input, split_name( $month_name ) );
+    my $year  = $self->get_nested_hash_value( $input, split_name( $year_name ) );
 
     if (   defined $day   && length $day
         && defined $month && length $month

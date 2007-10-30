@@ -19,7 +19,7 @@ sub process {
     my @failed;
 
     for my $name (@names) {
-        my $value = $self->nested_hash_value(
+        my $value = $self->get_nested_hash_value(
             $params,
             split_name($name) );
         

@@ -16,7 +16,7 @@ use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
     _render_class clone stash constraints_from_dbic parent
-    nested_hash_value _expand_hash _hash_name_exists /;
+    get_nested_hash_value _expand_hash _hash_name_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
     split_name _parse_args /;
 use List::MoreUtils qw/ uniq /;
@@ -289,7 +289,7 @@ sub _build_params {
         next if exists $params{$name};
         next if !$self->_hash_name_exists( $self->input, @names );
 
-        my $input = $self->nested_hash_value( $self->input, @names );
+        my $input = $self->get_nested_hash_value( $self->input, @names );
         
         if ( ref $input eq 'ARRAY' ) {
 
@@ -397,7 +397,7 @@ sub _inflate_input {
         next if !$self->_hash_name_exists( $params, split_name($name) );
         next if grep {defined} @{ $inflator->parent->get_errors };
 
-        my $value = $self->nested_hash_value(
+        my $value = $self->get_nested_hash_value(
             $params,
             @names );
 
@@ -471,7 +471,7 @@ sub _transform_input {
         next if !$self->_hash_name_exists( $params, split_name($name) );
         next if grep {defined} @{ $transformer->parent->get_errors };
 
-        my $value = $self->nested_hash_value(
+        my $value = $self->get_nested_hash_value(
             $params,
             @names );
 
@@ -618,7 +618,7 @@ sub param {
         # only return a valid value
         my $name  = shift;
         my $valid = $self->valid($name);
-        my $value = $self->nested_hash_value(
+        my $value = $self->get_nested_hash_value(
             $self->_processed_params,
             split_name($name) );
 

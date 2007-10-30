@@ -13,7 +13,7 @@ sub process {
     # check when condition
     return unless $self->_process_when( $params );
 
-    my $value = $self->nested_hash_value(
+    my $value = $self->get_nested_hash_value(
         $params,
         $self->nested_names );
 

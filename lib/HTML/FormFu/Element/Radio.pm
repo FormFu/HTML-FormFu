@@ -30,7 +30,7 @@ sub prepare_attrs {
     my $original  = $self->value;
     my $value
         = defined $self->name
-        ? $self->nested_hash_value( $form->input, $self->nested_names )
+        ? $self->get_nested_hash_value( $form->input, $self->nested_names )
         : undef;
 
     if ( $submitted && defined $value && $value eq $original ) {

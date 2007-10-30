@@ -5,7 +5,7 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::ObjectUtil qw(
-    populate form name parent nested_name nested_names nested_hash_value
+    populate form name parent nested_name nested_names get_nested_hash_value
     _expand_hash );
 use Carp qw( croak );
 
@@ -39,7 +39,7 @@ sub process {
 
     my @names = $self->nested_names;
 
-    my $value = $self->nested_hash_value(
+    my $value = $self->get_nested_hash_value(
         $params,
         @names );
 

@@ -17,14 +17,14 @@ sub process {
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
 
-    my $value = $self->nested_hash_value(
+    my $value = $self->get_nested_hash_value(
         $params,
         $self->nested_names );
 
     return if !$self->constrain_value( $value );
 
     for my $name (@names) {
-        my $value = $self->nested_hash_value(
+        my $value = $self->get_nested_hash_value(
             $params,
             split_name($name) );
         

@@ -14,7 +14,7 @@ sub process {
     my $others = $self->others;
     return if !defined $others;
 
-    my $value = $self->nested_hash_value(
+    my $value = $self->get_nested_hash_value(
         $params,
         $self->nested_names );
 
@@ -23,7 +23,7 @@ sub process {
 
     for my $name (@names) {
 
-        my $other_value = $self->nested_hash_value(
+        my $other_value = $self->get_nested_hash_value(
             $params,
             split_name($name) );
 

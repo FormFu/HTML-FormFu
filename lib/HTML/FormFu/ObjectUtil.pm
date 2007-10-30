@@ -62,7 +62,7 @@ our @EXPORT_OK = (qw/
     _render_class _coerce populate
     deflator 
     load_config_file form insert_before insert_after clone name stash
-    constraints_from_dbic parent nested_name nested_names nested_hash_value
+    constraints_from_dbic parent nested_name nested_names get_nested_hash_value
     _expand_hash _hash_name_exists
     /,
     @form_and_block,
@@ -516,7 +516,7 @@ sub nested_names {
     return $self->parent->nested_names;
 }
 
-sub nested_hash_value {
+sub get_nested_hash_value {
     my ( $self, $param, $root, @names ) = @_;
 
     if ( !@names ) {

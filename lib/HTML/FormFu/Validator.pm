@@ -11,7 +11,7 @@ use Carp qw/ croak /;
 sub process {
     my ( $self, $params ) = @_;
 
-    my $value = $self->nested_hash_value(
+    my $value = $self->get_nested_hash_value(
         $params,
         $self->nested_names );
     
