@@ -279,6 +279,10 @@ sub mk_output_accessors {
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;
 
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
             return $self->$name(
                 literal( $self->form->localize( $mess, @args ) ) );
         };

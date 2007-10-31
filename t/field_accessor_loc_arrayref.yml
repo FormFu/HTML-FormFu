@@ -1,0 +1,7 @@
+---
+elements:
+  - name: foo
+    label_loc:
+      - test_two_args
+      - one
+      - two
