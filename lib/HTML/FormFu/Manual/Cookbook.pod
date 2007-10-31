@@ -119,9 +119,6 @@ See L<http://www.yaml.org/spec/> for the YAML specification.
 You can run the following script to quickly view a form's markup - replace 
 the contents of the C<__DATA__> section with your own YAML config.
 
-It assumes the TT templates are in the './root' directory, see 
-L</Installing the FormFu templates> for details.
-
     #!/usr/bin/perl
     use strict;
     use warnings;
