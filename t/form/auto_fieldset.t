@@ -5,7 +5,9 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->auto_fieldset( { id => 'fs' } );
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->auto_fieldset( { id => 'fs' } );
 
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');

@@ -5,7 +5,9 @@ use Test::More tests => 6;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->id('foo')->action('/bar')->enctype('unknown')
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->id('foo')->action('/bar')->enctype('unknown')
     ->method('get');
 
 is( $form->id,      'foo',     'form id' );

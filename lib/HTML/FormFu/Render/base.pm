@@ -5,6 +5,8 @@ use strict;
 use HTML::FormFu::Attribute qw/ mk_accessors mk_attrs mk_attr_accessors /;
 use HTML::FormFu::ObjectUtil qw/ form stash parent /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements process_attrs /;
+use File::ShareDir qw/ dist_file /;
+use File::Spec;
 use Scalar::Util qw/ refaddr /;
 use Carp qw/ croak /;
 
@@ -21,6 +23,19 @@ __PACKAGE__->mk_accessors(
     qw/ render_class_args render_class_suffix render_method
         filename _elements _output_processors /
 );
+
+our $SHARE_DIR;
+
+eval {
+    # dist_dir() doesn't reliably return the directory our files are in.
+    # find the path of one of our files, then get the directory from that
+    
+    my $path = dist_file( 'HTML-FormFu', 'templates/tt/xhtml/form' );
+    
+    my ( $volume, $dirs, $file ) = File::Spec->splitpath( $path );
+    
+    $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
+};
 
 sub new {
     my $class = shift;
@@ -93,9 +108,18 @@ sub xhtml {
     $alloy = 1 if $ENV{HTML_FORMFU_TEMPLATE_ALLOY};
     require( $alloy ? 'Template/Alloy.pm' : 'Template.pm' );
 
-    $args{INCLUDE_PATH} = 'root'  if !exists $args{INCLUDE_PATH};
-    $args{ENCODING}     = 'UTF-8' if !exists $args{ENCODING};
+    if ( defined $SHARE_DIR ) {
+        # add $SHARE_DIR to the end of INCLUDE_PATH
 
+        $args{INCLUDE_PATH} =
+            exists $args{INCLUDE_PATH}
+                ?  ref $args{INCLUDE_PATH} eq 'ARRAY'
+                    ? [ @{ $args{INCLUDE_PATH} }, $SHARE_DIR ]
+                    : [ $args{INCLUDE_PATH}, $SHARE_DIR ]
+                : [ $SHARE_DIR ];
+    }
+
+    $args{ENCODING}  = 'UTF-8' if !exists $args{ENCODING};
     $args{RELATIVE}  = 1;
     $args{RECURSION} = 1;
 
@@ -121,11 +145,12 @@ sub xhtml {
         if ( $error->type() eq $type ) {
             croak <<ERROR;
 Template file not found: '$filename'.
-Set path to HTML::FormFu template directory in
-    \$form->render_class_args->{INCLUDE_PATH}.
-Default is 'root'.
-Run `html_formfu_deploy.pl` to create the files, or see 
-Catalyst::Helper::HTML::FormFu if you're using Catalyst. 
+The template files should have been installed somewhere in @INC as part of
+the installation process, please report this bug.
+See Catalyst::Helper::HTML::FormFu if you're using Catalyst.
+Alternatively, you can create a local copy of the files by running 
+    `html_formfu_deploy.pl`.
+Then set \$form->render_class_args->{INCLUDE_PATH} to point to that location.
 Template error: '$error'
 ERROR
 

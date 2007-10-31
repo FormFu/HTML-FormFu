@@ -5,7 +5,9 @@ use Test::More tests => 20;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->indicator('my_hidden');
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->indicator('my_hidden');
 
 $form->element('Button')->name('my_button')->value(1);
 $form->element('Checkbox')->name('my_checkbox1')->value(1)

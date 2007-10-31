@@ -6,7 +6,10 @@ use Test::More tests => 1;
 use lib 't/lib';
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( { localize_class => 'HTMLFormFu::I18N', } );
+my $form = HTML::FormFu->new( {
+    localize_class => 'HTMLFormFu::I18N',
+    render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' },
+} );
 
 $form->element('Text')->name('foo')->label_loc('test_label')
     ->comment_loc('test_comment')->default_loc('test_default_value');

@@ -5,7 +5,7 @@ use Test::More tests => 9;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Text')->name('foo')->constraint('DependOn')
     ->others(qw/ bar baz /)->force_errors(1);

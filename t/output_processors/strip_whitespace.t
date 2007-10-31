@@ -5,7 +5,7 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->load_config_file('t/output_processors/strip_whitespace.yml');
 

@@ -5,7 +5,7 @@ use Test::More tests => 4;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Text')->name('foo')->constraint('Not_Equal')->others('bar');
 $form->element('Text')->name('bar');

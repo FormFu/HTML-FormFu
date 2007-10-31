@@ -6,7 +6,7 @@ use Test::More tests => 1;
 use HTML::FormFu;
 use Template;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Text')->name('foo');
 $form->element('Textarea')->name('bar');

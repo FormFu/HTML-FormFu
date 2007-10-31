@@ -5,7 +5,7 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Text')->name('foo')->validator('Callback')->callback(\&cb);
 $form->element('Text')->name('bar')->validator('Callback')->callback("main::cb");

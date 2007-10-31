@@ -5,7 +5,7 @@ use Test::More tests => 17;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 my $fs   = $form->element('Fieldset');
 
 $fs->element('Text')->name('name')->constraint('Word');

@@ -6,7 +6,7 @@ use Test::NoWarnings;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Checkbox')->name('foo')->value('a')->force_default(1);
 $form->element('Checkbox')->name('fox')->value('b')->force_default(1);

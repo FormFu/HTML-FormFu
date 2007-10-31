@@ -5,7 +5,9 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->action('/foo/bar')->id('form');
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->action('/foo/bar')->id('form');
 
 my $fs = $form->element('Fieldset')->legend('Jimi');
 
@@ -31,8 +33,9 @@ $fs->filter('HTMLEscape');
 
 # load_config_file
 
-my $alt_form
-    = HTML::FormFu->new->load_config_file('t/load_config_file_form.yml');
+my $alt_form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$alt_form->load_config_file('t/load_config_file_form.yml');
 
 is_deeply( $alt_form, $form );
 

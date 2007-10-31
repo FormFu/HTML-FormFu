@@ -6,7 +6,9 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->action('/foo/bar')->id('form')->auto_id('%n');
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->action('/foo/bar')->id('form')->auto_id('%n');
 
 my $fs = $form->element('Fieldset')->legend('Jimi');
 
@@ -62,7 +64,10 @@ is_deeply( $yml_hash, $alt_hash );
 # xhtml output
 
 my $alt_form = HTML::FormFu->new($alt_hash);
-my $yml_form = HTML::FormFu->new->load_config_file('t/04basic.yml');
+$alt_form->render_class_args( { INCLUDE_PATH => 'share/templates/tt/xhtml' } );
+
+my $yml_form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+$yml_form->load_config_file('t/04basic.yml');
 
 my $xhtml = <<EOF;
 <form action="/foo/bar" id="form" method="post">

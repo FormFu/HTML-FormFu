@@ -5,7 +5,7 @@ use Test::More tests => 15;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 my $fs = $form->element('Fieldset');
 

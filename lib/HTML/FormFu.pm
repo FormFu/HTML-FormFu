@@ -914,24 +914,14 @@ required.
 =head1 GETTING STARTED
 
 HTML::FormFu uses a templating system such as L<Template::Toolkit|Template> 
-or L<Template::Alloy> to create the form's XHTML output. As such, it needs 
-to be able to find its own template files. If you're using the L<Catalyst> 
-web framework, just run the following command:
+or L<Template::Alloy> to create the form's XHTML output. If you don't plan 
+on customising these, you can skip this section, as HTML::FormFu will 
+automatically find it's template files if it was installed correctly.
 
-    $ script/myapp_create.pl HTML::FormFu
-
-This will create a directory, C<root/formfu>, containing the HTML::FormFu 
-template files. If you also use L<Catalyst::Controller::HTML::FormFu>, this 
-will also use that directory by default.
-
-If you're not using L<Catalyst>, you can create the template files by 
-running the following command (while in the directory containing your CGI 
-programs):
-
-      $ html_formfu_deploy.pl
-
-This installs the template files in directory C<./root>, which is the 
-default path that HTML::FormFu searches in.
+If you plan on customising HTML::FormFu's template files, you'll need to 
+create your own copy of them, see 
+L<HTML::FormFu::Manual::Cookbook/"Installing the TT templates"> for further 
+details.
 
 Although HTML::FormFu uses L<Template::Toolkit|Template> internally, 
 HTML::FormFu can be used in conjunction with whichever other templating 
@@ -2158,9 +2148,10 @@ arguments to the L<TT|Template> constructor.
 The keys C<RELATIVE> and C<RECURSION> are overridden to always be true, as 
 these are a basic requirement for the L<Template> engine.
 
-The default value of C<INCLUDE_PATH> is C<root>. This should generally be 
-overridden to point to the location of the HTML::FormFu template files on 
-your local system.
+The systen directory containing HTML::FormFu's template files is always 
+added to the end of C<INCLUDE_PATH>, so that the core template files will be 
+found. You only need to set this yourself if you have your own copy of the 
+template files for customisation purposes.
 
 This method is a special 'inherited accessor', which means it can be set on 
 the form, a block element or a single element. When the value is read, if 

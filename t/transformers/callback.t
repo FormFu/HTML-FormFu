@@ -5,7 +5,7 @@ use Test::More tests => 3;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Text')->name('foo')->transformer('Callback')->callback(\&cb);
 $form->element('Text')->name('bar')->transformer('Callback')->callback("main::cb");

@@ -5,8 +5,9 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->form_error_message('Forced Error Message')
-    ->force_error_message(1);
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->form_error_message('Forced Error Message')->force_error_message(1);
 
 my $field = $form->element('Text')->name('foo');
 

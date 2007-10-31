@@ -2,67 +2,76 @@ package HTML::FormFu::Deploy;
 
 use strict;
 
-use HTML::FormFu::tt_files;
-use File::Copy qw( move );
+use Fatal qw( open binmode close mkdir );
+use File::Copy qw( copy move );
+use File::Find qw( find );
+use File::ShareDir qw( dist_file );
 use File::Spec;
 use Carp qw( croak );
 
-use Exporter qw( import );
-our @EXPORT_OK = qw( deploy );
+our $SHARE_DIR;
 
-our $template_dir = "root";
-our $SRC_DATA;
-our %FILE;
-{
-    local $/;
-    $SRC_DATA = eval { package HTML::FormFu::tt_files; <DATA> };
+if ( -f 'MANIFEST.SKIP' && -d 'share/templates/tt/xhtml' ) {
+    warn "Running as a developer, using the local, not installed templates\n\n";
+    
+    $SHARE_DIR = 'share/templates/tt/xhtml';
 }
-
-{
-    my $data = $SRC_DATA;
-
-    $data =~ s/__CPAN_HTML_FormFu__END_OF_FILE__.*//s;
-
-    # use look-ahead so the __CPAN_ line isn't removed
-    my @data = split /(?=__CPAN_HTML_FormFu__[^\n]+__\n)/, $data;
-
-    for my $item (@data) {
-        $item =~ s/__CPAN_HTML_FormFu__([^\n]+)__\n//
-            or croak "invalid data file header";
-
-        $FILE{$1} = $item;
-    }
+else {
+    # dist_dir() doesn't reliably return the directory our files are in.
+    # find the path of one of our files, then get the directory from that
+    
+    my $path = dist_file( 'HTML-FormFu', 'templates/tt/xhtml/form' );
+    
+    my ( $volume, $dirs, $file ) = File::Spec->splitpath( $path );
+    
+    $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
 }
 
 sub file_list {
-    return keys %FILE;
+    my @dir;
+    
+    my $wanted = sub {
+        return if /^\./;                          # skip files beginning with "."
+        return unless -f $File::Find::name;       # skip non-files
+
+        push @dir, $_;
+    };
+    
+    find( $wanted, $SHARE_DIR );
+
+    return @dir;
 }
 
 sub file_source {
     my $filename = shift
         or croak "filename argument required";
 
-    croak "unknown filename" unless exists $FILE{$filename};
+    my $path = File::Spec->catfile( $SHARE_DIR, $filename );
 
-    return $FILE{$filename};
+    croak "unknown filename" unless -f $path;
+
+    open my $fh, '<', $path;
+    
+    my $data = do { local $/; <$fh> };
+    
+    $data = "" if !defined $data;
+    
+    close $fh;
+    
+    return $data;
 }
 
 sub deploy {
-    my $dir;
-    if (@_) {
-        $dir = shift;
-    }
-    else {
-        warn "using default directory '$template_dir'\n";
-        $dir = $template_dir;
-    }
+    my ($dir) = @_;
+    
+    croak "directory argument required" if !defined $dir;
 
     if ( !-d $dir ) {
         warn "creating directory '$dir'\n";
-        mkdir $dir or croak $@;
+        mkdir $dir;
     }
 
-    for my $filename ( keys %FILE ) {
+    for my $filename ( file_list() ) {
         my $path = File::Spec->catfile( $dir, $filename );
 
         if ( -f $path ) {
@@ -75,13 +84,14 @@ sub deploy {
             }
         }
 
-        my $ok = open my $fh, '>', $path;
-        if ( !$ok ) {
-            warn "failed to open '$path', skipping file\n$@\n";
+        my $fh;
+        eval { open $fh, '>', $path };
+        if ( $@ ) {
+            warn "failed to open '$path' for writing, skipping file\n$@\n";
             next;
         }
         binmode $fh;
-        print $fh $FILE{$filename};
+        print $fh file_source($filename);
         close $fh;
     }
     return;

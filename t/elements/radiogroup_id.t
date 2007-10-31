@@ -7,7 +7,9 @@ use HTML::FormFu;
 use lib 't/lib';
 use HTMLFormFu::TestLib;
 
-my $form = HTML::FormFu->new->id('form')->auto_id('%n%c');
+my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->id('form')->auto_id('%n%c');
 
 my $foo = $form->element('Radiogroup')->name('foo')->values( [ 1, 2 ] );
 

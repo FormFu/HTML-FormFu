@@ -5,7 +5,7 @@ use Test::More tests => 10;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 my $outer = $form->element('Fieldset')->name('outer')->legend('My Form');
 is( $outer->name, 'outer' );

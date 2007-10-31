@@ -12,13 +12,29 @@ Some useful info for beginners.
 
 =head2 Installing the TT templates
 
-Before doing anything else, make sure HTML::FormFu's TT templates have been 
-set up on your system. This can be done by running this command from your 
-commandline:
+HTML::FormFu stores the markup for individual elements in templates files. 
+You only need to install a local copy of the temlate files if you plan on 
+customising them. If you're using the L<Catalyst> web framework, 
+install L<Catalyst::Controller::HTML::FormFu> and run the following command:
 
-    html_formfu_deploy.pl <output_path>
+    $ script/myapp_create.pl HTML::FormFu
 
-The output path will default to "./root" if not specified.
+This will create a directory, C<root/formfu>, containing the HTML::FormFu 
+template files.
+
+If you use L<Catalyst::Controller::HTML::FormFu> as a base class and you 
+don't set HTML::FormFu's INCLUDE_PATH yourself, it will automatically be set 
+to C<root/formfu> if that directory exists.
+
+If you're not using L<Catalyst>, you can create the template files by 
+running the following command:
+
+      $ html_formfu_deploy.pl <target-directory>
+
+Take note that if you choose to customise your own copy of HTML::FormFu's 
+template files, you'll need to keep track of the C<Changes> file, when 
+updating HTML::FormFu, so that you can update your own templates if the 
+core templates are updated.
 
 =head2 Default search paths for config and template files
 
@@ -26,23 +42,28 @@ The default locations for config files and templates are as follows:
 
 =head3 Config files
 
-The current working directory (see L<HTML::FormFu/"load_config_file">).
+The current working directory (C<cwd>) (see L<HTML::FormFu/"load_config_file">).
 
 If you're using the C<FormConfig> action attribute from 
-L<Catalyst::Controller::HTML::FormFu>, see 
-L<Catalyst::Controller::HTML::FormFu/config_file_path>.
+L<Catalyst::Controller::HTML::FormFu>, forms should be saved in C<root/forms>. 
+See L<Catalyst::Controller::HTML::FormFu/SYNOPSIS> and 
+L<Catalyst::Controller::HTML::FormFu/config_file_path> for further details.
 
 =head3 Template files
 
-Subdirectory 'root' of the current working directory. You can supply a 
-different template path with the following YAML config:
+HTML::FormFu will automatically find it's template files in your C<@INC> 
+directories.
+
+If you have a local copy of the template files, you can set the path with the 
+following YAML config:
 
     render_class_args:
       INCLUDE_PATH: "/path/to/templates"
 
-If you're using L<Catalyst::Controller::HTML::FormFu>, you can ensure 
-this is set in all forms by setting this in your C<myapp.yml> Catalyst 
-configuration file:
+If you're using L<Catalyst::Controller::HTML::FormFu> and don't have the 
+templates in the default C<root/formfu> directory, you can set the directory 
+for all your forms, application-wide, by setting this in your C<myapp.yml> 
+Catalyst configuration file:
 
     'Controller::HTML::FormFu':
       constructor:

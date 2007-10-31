@@ -8,7 +8,7 @@ use DateTime;
 
 my $dt = DateTime->new( day => 6, month => 8, year => 2007 );
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->auto_fieldset( { nested_name => 'date' } );
 

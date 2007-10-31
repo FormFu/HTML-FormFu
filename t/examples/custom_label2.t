@@ -6,7 +6,7 @@ use Test::More tests => 1;
 use HTML::FormFu;
 use Template;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 my $fs   = $form->element('Fieldset')->legend('Foo');
 
 $fs->element('Text')->name('foo')->label('Foo');

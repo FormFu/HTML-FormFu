@@ -6,7 +6,7 @@ use Test::More tests => 2;
 use HTML::FormFu;
 use Template;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Password')->name('foo')->label('Foo')
     ->label_attributes( { class => 'my_label' } )->comment('Comment')

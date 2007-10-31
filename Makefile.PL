@@ -1,10 +1,5 @@
 use inc::Module::Install;
 
-if ( -f 'MANIFEST.SKIP' ) {
-    system( $^X, 'update_pm_from_templates.pl' ) == 0
-	or die "update_pm_from_templates failed";
-}
-
 name 'HTML-FormFu';
 all_from 'lib/HTML/FormFu.pm';
 
@@ -19,7 +14,10 @@ requires 'DateTime::Format::Builder' => '0.7901'; # fixes memory leaks
 requires 'DateTime::Format::Strptime';
 requires 'DateTime::Locale';
 requires 'Email::Valid';
+requires 'Fatal';
 requires 'File::Copy';
+requires 'File::Find';
+requires 'File::ShareDir';
 requires 'File::Spec';
 requires 'HTML::Scrubber';
 requires 'HTML::TokeParser::Simple';
@@ -46,6 +44,7 @@ build_requires 'Test::NoWarnings';
 tests 't/*.t t/*/*.t';
 
 install_script('bin/html_formfu_deploy.pl');
+install_share();
 
 auto_install();
 &WriteAll;
