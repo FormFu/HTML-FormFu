@@ -3,10 +3,24 @@ use strict;
 use Carp qw/ croak /;
 
 sub new {
-    my ( $class, $param ) = @_;
+    my ( $class, $form, $param ) = @_;
 
     eval { my %x = %$param };
     croak 'argument must be a hashref' if $@;
+
+    # handle pre-expanded input
+
+    my @names = grep {defined}
+        map { $_->nested_name }
+        @{ $form->get_fields }; 
+
+    for my $name (@names) {
+        next if exists $param->{$name};
+        
+        if ( $form->nested_hash_key_exists( $param, $name ) ) {
+            $param->{$name} = $form->get_nested_hash_value( $param, $name );
+        }
+    }
 
     my $self = { _params => $param };
 

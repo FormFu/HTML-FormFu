@@ -164,7 +164,7 @@ sub process {
     }
 
     if ( defined $query && !blessed($query) ) {
-        $query = HTML::FormFu::FakeQuery->new($query);
+        $query = HTML::FormFu::FakeQuery->new( $self, $query );
 
         $self->query($query);
     }
