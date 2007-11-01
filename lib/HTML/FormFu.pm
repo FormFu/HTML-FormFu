@@ -754,30 +754,24 @@ sub output_processor {
 
 sub _single_output_processor {
     my ( $self, $arg ) = @_;
-    my @items;
 
-    if ( ref $arg eq 'HASH' ) {
-        push @items, $arg;
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
     }
-    elsif ( !ref $arg ) {
-        push @items, { type => $arg };
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
     }
     else {
         croak 'invalid args';
     }
 
-    my @return;
+    my $type = delete $arg->{type};
 
-    for my $item (@items) {
-        my $type = delete $item->{type};
+    my $new = $self->_require_output_processor( $type, $arg );
 
-        my $new = $self->_require_output_processor( $type, $item );
-
-        push @{ $self->_output_processors }, $new;
-        push @return, $new;
-    }
-
-    return @return;
+    push @{ $self->_output_processors }, $new;
+    
+    return $new;
 }
 
 sub _require_output_processor {

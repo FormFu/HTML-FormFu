@@ -855,7 +855,10 @@ sub _single_element {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -886,7 +889,10 @@ sub _single_deflator {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -921,7 +927,10 @@ sub _single_filter {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -956,7 +965,10 @@ sub _single_constraint {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -991,7 +1003,10 @@ sub _single_inflator {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -1026,7 +1041,10 @@ sub _single_validator {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
@@ -1061,7 +1079,10 @@ sub _single_transformer {
     if ( !ref $arg ) {
         $arg = { type => $arg };
     }
-    elsif ( ref $arg ne 'HASH' ) {
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
         croak 'invalid args';
     }
 
