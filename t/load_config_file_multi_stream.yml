@@ -1,0 +1,16 @@
+---
+auto_fieldset: 1
+
+elements:
+  - name: foo
+  - name: bar
+
+constraints:
+  - type: Required
+
+# baz below won't have a constraint, because it's loaded after the above 
+# call to constraints()
+
+---
+elements:
+  - name: baz

@@ -972,6 +972,23 @@ by any form.
       - file1
       - file2
 
+YAML multiple documents within a single file. The document start marker is 
+a line containing 3 dashes. Multiple documents will be applied in order, 
+just as if multiple filenames had been given.
+
+In the following example, multiple documents are taken advantage of to 
+load another config file after the elements are added. (If this were 
+a single document, the C<load_config_file> would be called before 
+C<elements>, regardless of it's position in the file).
+
+    ---
+    elements:
+      - name: one
+      - name: two
+    
+    ---
+    load_config_file: ext.yml
+    
 Like perl's C<open> function, relative-paths are resolved from the current 
 working directory.
 

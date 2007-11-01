@@ -9,6 +9,7 @@ use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
 use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
+use YAML::Syck qw/ LoadFile /;
 use Carp qw/ croak /;
 
 our @form_and_block = qw/
@@ -332,22 +333,36 @@ sub load_config_file {
     }
 
     for my $file (@filenames) {
-
-        my $config = Config::Any->load_files( {
-                files   => [$file],
-                use_ext => 1,
-            } );
-
-        my $data = $config->[0]->{$file};
-
-        if ( defined $data_visitor ) {
-            $data_visitor->visit($data);
+        
+        if ( $file =~ /\.ya?ml\z/i ) {
+            for my $data ( YAML::Syck::LoadFile($file) ) {
+                _load_single_document( $self, $data_visitor, $data );
+            }
         }
+        else {
+            my $config = Config::Any->load_files( {
+                    files   => [$file],
+                    use_ext => 1,
+                } );
 
-        $self->populate($data);
+            _load_single_document(
+                $self, $data_visitor, $config->[0]->{$file} );
+        }
     }
 
     return $self;
+}
+
+sub _load_single_document {
+    my ( $self, $data_visitor, $data ) = @_;
+    
+    if ( defined $data_visitor ) {
+        $data_visitor->visit($data);
+    }
+
+    $self->populate($data);
+    
+    return;
 }
 
 sub _render_class {
