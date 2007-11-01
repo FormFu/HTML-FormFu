@@ -493,12 +493,23 @@ sub _build_valid_names {
 
     my $params = $self->_processed_params;
     my @errors = $self->has_errors;
-    my @names = grep { $self->nested_hash_key_exists( $params, $_ ) }
-        grep { defined }
-        map { $_->nested_name }
-        @{ $self->get_fields };
-
+    my @names;
+    my %non_param;
+    
+    for my $field ( @{ $self->get_fields } ) {
+        my $name = $field->nested_name;
+        next if !defined $name;
+        
+        if ( $field->non_param ) {
+            $non_param{$name} = 1;
+        }
+        elsif ( $self->nested_hash_key_exists( $params, $name ) ) {
+            push @names, $name;
+        }
+    }
+    
     push @names, grep { ref $params->{$_} ne 'HASH' }
+        grep { !exists $non_param{$_} }
         keys %$params;
 
     @names = uniq( sort @names );

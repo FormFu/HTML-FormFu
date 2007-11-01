@@ -31,7 +31,7 @@ __PACKAGE__->mk_accessors(
         _constraints _filters _inflators _deflators _validators _transformers
         _errors container_tag
         field_filename label_filename retain_default force_default
-        javascript /
+        javascript non_param /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -920,6 +920,18 @@ method instead of </value>.
 Arguments: $localization_key
 
 Set the value using a L10N key.
+
+=head2 non_param
+
+Arguments: bool
+
+If true, values for this field are never returned by L<HTML::FormFu/params>, 
+L<HTML::FormFu/param> and L<HTML::FormFu/valid>.
+
+This is useful for Submit buttons, when you only use its value as an 
+L<indicator|HTML::FormFu/indicator>.
+
+Default Value: false
 
 =head2 label
 
