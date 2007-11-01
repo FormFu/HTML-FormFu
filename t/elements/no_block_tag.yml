@@ -1,0 +1,6 @@
+---
+elements:
+  - type: Block
+    tag: ~
+    elements:
+      - name: foo
