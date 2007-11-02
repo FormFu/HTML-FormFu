@@ -3,6 +3,7 @@ package HTML::FormFu::Render::Element::block;
 use strict;
 use base 'HTML::FormFu::Render::Element';
 
+use HTML::FormFu::Attribute qw/ mk_accessors /;
 use HTML::FormFu::Util qw/ _parse_args _get_elements /;
 
 __PACKAGE__->mk_accessors(qw/ content /);
