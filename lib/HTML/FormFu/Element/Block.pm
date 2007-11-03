@@ -12,15 +12,14 @@ use HTML::FormFu::Util qw/ _get_elements xml_escape /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults /);
+__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults nested_name /);
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
 __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
         auto_constraint_class auto_inflator_class auto_validator_class
-        auto_transformer_class render_processed_value force_errors
-        nested_name /
+        auto_transformer_class render_processed_value force_errors /
 );
 
 *elements     = \&element;
