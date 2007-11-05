@@ -73,6 +73,17 @@ sub new {
     return $self;
 }
 
+sub name {
+    my $self = shift;
+    
+    if ( @_ && $_[0] =~ /[\.\[\]]/ ) {
+        croak "field names may not contain periods or square brackets\n".
+            "see documentation on nested_names() for details";
+    }
+    
+    return $self->next::method(@_);
+}
+
 sub nested {
     my $self = shift;
     
