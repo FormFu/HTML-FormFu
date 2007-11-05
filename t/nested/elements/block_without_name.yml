@@ -1,0 +1,8 @@
+---
+auto_fieldset:
+  nested_name: foo
+
+elements:
+  - type: Block
+    elements:
+      - name: bar
