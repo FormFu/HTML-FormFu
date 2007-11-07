@@ -12,7 +12,10 @@ use HTML::FormFu::Util qw/ _get_elements xml_escape /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults nested_name /);
+__PACKAGE__->mk_accessors(
+    qw/ tag _elements element_defaults nested_name
+        repeatable _repeat_count _original_elements /
+);
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
@@ -38,6 +41,7 @@ sub new {
     $self->render_class_suffix('block');
     $self->filename('block');
     $self->tag('div');
+    $self->_repeat_count(0);
 
     return $self;
 }
@@ -50,6 +54,43 @@ sub process {
     return;
 }
 
+sub repeat {
+    my ( $self, $count ) = @_;
+    
+    $count ||= 1;
+    
+    croak "element is not repeatable"
+        if !$self->repeatable;
+    
+    my @children = @{ $self->_elements };
+    
+    croak "not child elements to repeat"
+        if !@children;
+    
+    $self->_original_elements( \@children );
+    $self->_elements([]);
+    my @return;
+    
+    for my $rep_count ( 1 .. $count ) {
+        my @repeat;
+        
+        for my $child_count ( 1 .. @children ) {
+            my $child = $children[$child_count-1];
+            
+            $child = $child->clone;
+            
+            push @{ $self->_elements }, $child;
+            push @repeat, $child;
+            
+        }
+        push @return, \@repeat;
+        
+        $self->_repeat_count( $self->_repeat_count + 1 );
+    }
+    
+    return @return;
+}
+
 sub prepare_id {
     my ( $self, $render ) = @_;
 
@@ -60,7 +101,7 @@ sub prepare_id {
 
 sub render {
     my $self = shift;
-
+#use Data::Dumper; warn Dumper( $self->_elements );
     my $render = $self->next::method( {
             tag       => $self->tag,
             content   => xml_escape( $self->content ),
