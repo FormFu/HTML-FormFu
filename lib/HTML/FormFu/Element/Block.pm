@@ -14,7 +14,7 @@ use Carp qw/croak/;
 
 __PACKAGE__->mk_accessors(
     qw/ tag _elements element_defaults nested_name
-        repeatable _repeat_count _original_elements /
+        repeatable _repeat_count _original_elements increment_field_names /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
@@ -62,22 +62,33 @@ sub repeat {
     croak "element is not repeatable"
         if !$self->repeatable;
     
-    my @children = @{ $self->_elements };
+    my $children = $self->_original_elements || $self->_elements;
     
-    croak "not child elements to repeat"
-        if !@children;
+    croak "no child elements to repeat"
+        if !defined $children || !@$children;
     
-    $self->_original_elements( \@children );
+    $self->_original_elements( $children );
     $self->_elements([]);
     my @return;
     
     for my $rep_count ( 1 .. $count ) {
         my @repeat;
         
-        for my $child_count ( 1 .. @children ) {
-            my $child = $children[$child_count-1];
+        for my $child_count ( 1 .. @$children ) {
+            my $child = $children->[$child_count-1];
             
             $child = $child->clone;
+            
+            if ( $self->increment_field_names ) {
+                for my $field ( $child, @{ $child->get_all_elements } ) {
+                    next unless $field->is_field;
+                    my $name = $field->name;
+                    if ( defined $name && $name =~ /0/ ) {
+                        $name =~ s/0/$rep_count/e;
+                        $field->name($name);
+                    }
+                }
+            }
             
             push @{ $self->_elements }, $child;
             push @repeat, $child;
