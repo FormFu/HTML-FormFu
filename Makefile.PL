@@ -1,9 +1,9 @@
 use inc::Module::Install;
 
 name 'HTML-FormFu';
+perl_version '5.008001';
 all_from 'lib/HTML/FormFu.pm';
 
-requires 'perl' => '5.8.1';
 requires 'Carp';
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
@@ -39,7 +39,7 @@ feature $msg,
     -default => 0,
     'Template::Alloy' => '1.005';
 
-build_requires 'Test::NoWarnings';
+test_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';
 
