@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-$form->load_config_file('t/elements/block_repeatable.yml');
+$form->load_config_file('t/elements/block_repeatable_inc.yml');
 
 my $fs = $form->get_element;
 my $block = $fs->get_element;
@@ -20,16 +20,18 @@ is( $form, <<HTML );
 <fieldset>
 <div>
 <span class="text">
-<input name="foo" type="text" />
+<input name="foo1" type="text" />
 </span>
 <span class="text">
-<input name="bar" type="text" />
+<input name="bar1" type="text" />
+</span>
+</div>
+<div>
+<span class="text">
+<input name="foo2" type="text" />
 </span>
 <span class="text">
-<input name="foo" type="text" />
-</span>
-<span class="text">
-<input name="bar" type="text" />
+<input name="bar2" type="text" />
 </span>
 </div>
 <span class="submit">

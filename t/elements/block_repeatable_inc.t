@@ -24,6 +24,8 @@ is( $form, <<HTML );
 <span class="text">
 <input name="bar1" type="text" />
 </span>
+</div>
+<div>
 <span class="text">
 <input name="foo2" type="text" />
 </span>

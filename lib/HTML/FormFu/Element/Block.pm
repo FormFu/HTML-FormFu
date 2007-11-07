@@ -13,8 +13,7 @@ use Storable qw( dclone );
 use Carp qw/croak/;
 
 __PACKAGE__->mk_accessors(
-    qw/ tag _elements element_defaults nested_name
-        repeatable _repeat_count _original_elements increment_field_names /
+    qw/ tag _elements element_defaults nested_name /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
@@ -41,7 +40,6 @@ sub new {
     $self->render_class_suffix('block');
     $self->filename('block');
     $self->tag('div');
-    $self->_repeat_count(0);
 
     return $self;
 }
@@ -54,60 +52,6 @@ sub process {
     return;
 }
 
-sub repeat {
-    my ( $self, $count ) = @_;
-    
-    $count ||= 1;
-    
-    croak "element is not repeatable"
-        if !$self->repeatable;
-    
-    my $children;
-    if ( $self->_original_elements ) {
-        $children = $self->_original_elements;
-    }
-    else {
-        $children = $self->_elements;
-        $self->_original_elements($children);
-        $self->_elements([]);
-    }
-    
-    croak "no child elements to repeat"
-        if !@$children;
-    
-    my @return;
-    
-    for my $rep_count ( 1 .. $count ) {
-        my @repeat;
-        
-        for my $child_count ( 1 .. @$children ) {
-            my $child = $children->[$child_count-1];
-            
-            $child = $child->clone;
-            
-            if ( $self->increment_field_names ) {
-                for my $field ( $child, @{ $child->get_all_elements } ) {
-                    next unless $field->is_field;
-                    my $name = $field->name;
-                    if ( defined $name && $name =~ /0/ ) {
-                        $name =~ s/0/$rep_count/e;
-                        $field->name($name);
-                    }
-                }
-            }
-            
-            push @{ $self->_elements }, $child;
-            push @repeat, $child;
-            
-        }
-        push @return, \@repeat;
-        
-        $self->_repeat_count( $self->_repeat_count + 1 );
-    }
-    
-    return @return;
-}
-
 sub prepare_id {
     my ( $self, $render ) = @_;
 
@@ -118,7 +62,7 @@ sub prepare_id {
 
 sub render {
     my $self = shift;
-#use Data::Dumper; warn Dumper( $self->_elements );
+
     my $render = $self->next::method( {
             tag       => $self->tag,
             content   => xml_escape( $self->content ),

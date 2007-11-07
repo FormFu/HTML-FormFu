@@ -2,8 +2,7 @@
 auto_fieldset: 1
 
 elements:
-  - type: Block
-    repeatable: 1
+  - type: Repeatable
     elements:
       - name: foo
       - name: bar
