@@ -62,13 +62,19 @@ sub repeat {
     croak "element is not repeatable"
         if !$self->repeatable;
     
-    my $children = $self->_original_elements || $self->_elements;
+    my $children;
+    if ( $self->_original_elements ) {
+        $children = $self->_original_elements;
+    }
+    else {
+        $children = $self->_elements;
+        $self->_original_elements($children);
+        $self->_elements([]);
+    }
     
     croak "no child elements to repeat"
-        if !defined $children || !@$children;
+        if !@$children;
     
-    $self->_original_elements( $children );
-    $self->_elements([]);
     my @return;
     
     for my $rep_count ( 1 .. $count ) {
