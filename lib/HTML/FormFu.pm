@@ -27,7 +27,9 @@ use Carp qw/ croak /;
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
+    'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
+    '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
     '""'     => sub { return shift->render },
     bool     => sub {1},
     fallback => 1;
@@ -136,11 +138,11 @@ sub default_values {
     croak "default_values argument must be a hashref" if $@;
     
     for my $field (@{ $self->get_fields }) {
-        my $field_name = $field->name;
-        next unless defined $field_name;
-        next unless exists $values{$field_name};
+        my $name = $field->nested_name;
+        next unless defined $name;
+        next unless exists $values{$name};
         
-        $field->default( $values{$field_name} );
+        $field->default( $values{$name} );
     }
     
     return $self;

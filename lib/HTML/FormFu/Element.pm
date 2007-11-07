@@ -16,7 +16,9 @@ use Carp qw/ croak /;
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
+    'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
+    '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
     '""'     => sub { return shift->render },
     bool     => sub {1},
     fallback => 1;
