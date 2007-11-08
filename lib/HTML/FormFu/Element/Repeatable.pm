@@ -264,6 +264,32 @@ See L<HTML::FormFu::Element::block/tag> for details.
 
 =head2 auto_id
 
+As well as the usual subtitutions, any instances of C<%r> will be 
+replaced with the value of L</repeatable_count>.
+
+See L<HTML::FormFu::Element::block/auto_id> for further details.
+
+    ---
+    elements:
+      - type: Repeatable
+        auto_id: "%n_%r"
+        elements:
+          - name: foo
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <div>
+        <input name="foo" id="foo_1" type="text" />
+    </div>
+    <div>
+        <input name="foo" id="foo_2" type="text" />
+    </div>
+
+=head2 content
+
+Not supported for Repeatable elements - will throw a fatal error if called as
+a setter.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
