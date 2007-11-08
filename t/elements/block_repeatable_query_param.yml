@@ -1,0 +1,12 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Repeatable
+    increment_field_names: 1
+    query_param: count
+    elements:
+      - name: foo0
+      - name: bar0
+  - type: Submit
+    name: submit

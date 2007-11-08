@@ -6,7 +6,7 @@ use Class::C3;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(
-    qw/ _repeat_count _original_elements increment_field_names /
+    qw/ _repeat_count _original_elements increment_field_names query_param /
 );
 
 sub new {
@@ -71,6 +71,21 @@ sub repeat {
     $self->_repeat_count($repeat_count);
     
     return @return;
+}
+
+sub process {
+    my ($self) = @_;
+    
+    my $form = $self->form;
+    
+    if ( defined $self->query_param && defined $form->query ) {
+        my $count = $form->query->param( $self->query_param );
+        
+        $self->repeat( $count )
+            if defined $count && $count =~ /^[1-9][0-9]*\z/;
+    }
+    
+    return;
 }
 
 1;
