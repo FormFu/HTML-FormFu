@@ -6,14 +6,13 @@ use Class::C3;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(
-    qw/ _repeat_count _original_elements increment_field_names query_param /
+    qw/ _original_elements increment_field_names query_param /
 );
 
 sub new {
     my $self = shift->next::method(@_);
 
     $self->filename('repeatable');
-    $self->_repeat_count(0);
 
     return $self;
 }
@@ -23,25 +22,28 @@ sub repeat {
     
     $count ||= 1;
     
+    croak "invalid number to repeat"
+        unless $count =~ /^[1-9][0-9]*\z/;
+    
     my $children;
+    
     if ( $self->_original_elements ) {
+        # repeat() has already been called
         $children = $self->_original_elements;
     }
     else {
         $children = $self->_elements;
         $self->_original_elements($children);
-        $self->_elements([]);
     }
     
     croak "no child elements to repeat"
         if !@$children;
-    
-    my $repeat_count = $self->_repeat_count;
+
+    $self->_elements([]);
+        
     my @return;
     
     for my $rep ( 1 .. $count ) {
-        $repeat_count += 1;
-        
         my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
         
@@ -51,14 +53,14 @@ sub repeat {
         $block->attributes( $self->attributes );
         $block->tag( $self->tag );
         
-        $block->repeatable_count( $repeat_count );
+        $block->repeatable_count( $rep );
         
         if ( $self->increment_field_names ) {
             for my $field ( @{ $block->get_all_elements } ) {
                 next unless $field->is_field;
                 my $name = $field->name;
                 if ( defined $name && $name =~ /0/ ) {
-                    $name =~ s/0/$repeat_count/e;
+                    $name =~ s/0/$rep/e;
                     $field->name($name);
                 }
             }
@@ -68,24 +70,32 @@ sub repeat {
         
     }
     
-    $self->_repeat_count($repeat_count);
-    
-    return @return;
+    return \@return;
 }
 
 sub process {
     my ($self) = @_;
     
-    my $form = $self->form;
+    my $form  = $self->form;
+    my $count = 1;
     
     if ( defined $self->query_param && defined $form->query ) {
-        my $count = $form->query->param( $self->query_param );
+        my $input = $form->query->param( $self->query_param );
         
-        $self->repeat( $count )
-            if defined $count && $count =~ /^[1-9][0-9]*\z/;
+        $count = $input
+            if defined $input && $input =~ /^[1-9][0-9]*\z/;
     }
     
+    $self->repeat( $count );
+    
     return;
+}
+
+sub content {
+    my $self = shift;
+    
+    croak "Repeatable elements do not support the content() method"
+        if @_;
 }
 
 1;
@@ -94,17 +104,165 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Fieldset - Fieldset element
+HTML::FormFu::Element::Repeatable - repeatable block element
 
 =head1 SYNOPSIS
 
-    my $fs = $form->element( Fieldset => 'address' );
+    ---
+    elements:
+      - type: Repeatable
+        elements:
+          - name: foo
+          - name: bar
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <div>
+        <input name="foo" type="text" />
+        <input name="bar" type="text" />
+    </div>
+    <div>
+        <input name="foo" type="text" />
+        <input name="bar" type="text" />
+    </div>
 
 =head1 DESCRIPTION
 
-Fieldset element.
+Provides a way to extend a form at run-time, by copying and repeating it's 
+child elements.
+
+The elements intended for copying must be added before L</repeat> is called.
+
+Although the Repeatable element inherits from 
+L<Block|HTML::FormFu::Element::Block>, it doesn't generate a block tag 
+around all the repeated elements - instead it places each repeat of the 
+elements in a new L<Block|HTML::FormFu::Element::Block> element, which 
+inherits the Repeatable's display settings, such as L</attributes> and 
+L</tag>.
 
 =head1 METHODS
+
+=head2 repeat
+
+Arguments: [$count]
+
+Return Value: $arrayref_of_new_child_blocks
+
+This method creates C<$count> number of copies of the child elements.
+If no argument C<$count> is provided, it defaults to C<1>.
+
+L</repeat> is automatically called during C<< $form->process >>, to ensure 
+the initial child elements are correctly setup.
+
+Any subsequent call to L</repeat> will delete the previously copied elements 
+before creating new copies - this means you cannot make repeated calls to 
+L</repeat> within a loop to create more copies.
+
+Each copy of the elements returned are contained in a new 
+L<Block|HTML::FormFu::Element::Block> element. For example, calling 
+C<< $element->repeat(2) >> on a Repeatable element containing 2 Text fields 
+would return 2 L<Block|HTML::FormFu::Element::Block> elements, each 
+containing a copy of the 2 Text fields.
+
+=head2 query_param
+
+Arguments: $name
+
+If true, the L<HTML::FormFu/query> will be searched during 
+L<HTML::FormFu/process> for a parameter with the given name. The value for 
+that parameter will be passed to L</repeat>, to automatically create the 
+new copies.
+
+If you're using L</increment_field_names>, this is essential: if the 
+elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not 
+present on the form during L<HTML::FormFu/process>, no Processors 
+(Constraints, etc.) will be run on the fields, and their values will not 
+be returned by L<HTML::FormFu/params> or L<HTML::FormFu/param>.
+
+=head2 increment_field_names
+
+Arguments: $bool
+
+If true, then any copies of fields whose name contains a C<0>, will have 
+the C<0> replaced by it's L</repeatable_count> value.
+
+    ---
+    elements:
+      - type: Repeatable
+        increment_field_names: 1
+        elements:
+          - name: foo_0
+          - name: bar_0
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <div>
+        <input name="foo_1" type="text" />
+        <input name="bar_1" type="text" />
+    </div>
+    <div>
+        <input name="foo_2" type="text" />
+        <input name="bar_2" type="text" />
+    </div>
+
+See also L</query_param>.
+
+=head2 repeatable_count
+
+This is set on each new L<Block|HTML::FormFu::Element::Block> element 
+returned by L</repeat>, starting at number C<1>.
+
+Because this is an 'inherited accessor' available on all elements, it can be
+used to determine whether any element is a child of a Repeatable element.
+
+=head2 attributes
+
+=head2 attrs
+
+Any attributes set will be passed to every repeated Block of elements.
+
+    ---
+    elements:
+      - type: Repeatable
+        attributes: 
+          class: rep
+        elements:
+          - name: foo
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <div class="rep">
+        <input name="foo" type="text" />
+    </div>
+    <div class="rep">
+        <input name="foo" type="text" />
+    </div>
+
+See L<HTML::FormFu/attributes> for details.
+
+=head2 tag
+
+The L</tag> value will be passed to every repeated Block of elements.
+
+    ---
+    elements:
+      - type: Repeatable
+        tag: span
+        elements:
+          - name: foo
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <span>
+        <input name="foo" type="text" />
+    </span>
+    <span>
+        <input name="foo" type="text" />
+    </span>
+
+See L<HTML::FormFu::Element::block/tag> for details.
+
+=head2 auto_id
 
 =head1 SEE ALSO
 
