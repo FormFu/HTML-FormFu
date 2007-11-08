@@ -42,10 +42,16 @@ sub repeat {
     for my $rep ( 1 .. $count ) {
         $repeat_count += 1;
         
+        my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
-        $block->_elements([
-            map { $_->clone } @$children
-        ]);
+        
+        map { $_->parent($block) } @clones;
+        
+        $block->_elements(\@clones);
+        $block->attributes( $self->attributes );
+        $block->tag( $self->tag );
+        
+        $block->repeatable_count( $repeat_count );
         
         if ( $self->increment_field_names ) {
             for my $field ( @{ $block->get_all_elements } ) {

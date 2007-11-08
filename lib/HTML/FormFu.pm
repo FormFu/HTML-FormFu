@@ -55,7 +55,7 @@ __PACKAGE__->mk_inherited_accessors(
         auto_transformer_class
         render_class render_class_prefix
         render_method
-        render_processed_value force_errors /
+        render_processed_value force_errors repeatable_count /
 );
 
 __PACKAGE__->mk_inherited_merging_accessors(

@@ -1,0 +1,11 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Repeatable
+    tag: fieldset
+    elements:
+      - name: foo
+      - name: bar
+  - type: Submit
+    name: submit

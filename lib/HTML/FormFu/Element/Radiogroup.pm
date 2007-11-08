@@ -52,6 +52,10 @@ sub _prepare_id {
         my $id = $self->auto_id;
         $id =~ s/%([fn])/$string{$1}/g;
         $id =~ s/%c/ ++$$count_ref /gex;
+        
+        if ( defined( my $count = $self->repeatable_count ) ) {
+            $id =~ s/%r/$count/g;
+        }
 
         $option->{attributes}{id} = $id;
     }
