@@ -53,12 +53,16 @@ sub _parse_option {
             }
             my %group = ( group => \@new );
             $group{label} = $item->{label};
+            $group{label} = $self->form->localize( $item->{label_loc} )
+                if defined $item->{label_loc};
             $group{attributes} = $item->{attributes} || {};
 
             return \%group;
         }
         $item->{attributes}       = {} if !exists $item->{attributes};
         $item->{label_attributes} = {} if !exists $item->{label_attributes};
+        $item->{label}            = $self->form->localize( $item->{label_loc} )
+            if defined $item->{label_loc};
         return $item;
     }
 
@@ -235,6 +239,9 @@ An example of Select optgroups:
             group:
               - [2a, 'item 2a']
               - [2b, 'item 2b']
+
+The usage of label_loc instead of label is supported to translate a given
+string. label_loc is supported for items and option groups.
 
 =head2 values
 
