@@ -19,19 +19,22 @@ our @EXPORT = qw/
 
 sub localize {
     my $self              = shift;
+    my @original_strings  = @_;
     my @localized_strings = ();
 
     $self->add_default_localize_object
         if !$self->{has_default_localize_object};
 
-    #warn "* looking for ". join ',', @_;
+    @original_strings = grep { defined $_ } @original_strings;
+
+    #warn "* looking for ". join ',', @original_strings;
 
     foreach my $localize_data ( @{ $self->{localize_data} } ) {
         my $localize_object = $self->get_localize_object($localize_data);
 
         #warn "  processing ". ref $localize_object;
 
-        eval { @localized_strings = $localize_object->localize(@_); };
+        eval { @localized_strings = $localize_object->localize( @original_strings ); };
 
         #warn "  no match" if $@;
 
@@ -43,8 +46,8 @@ sub localize {
         # that we just got a result from Locale::Maketext with AUTO = 1 seams
         # to be save when localize returns the same string as handed over.
         if (   !$localize_data->{dies_on_missing_key}
-            && scalar(@_) == scalar(@localized_strings)
-            && scalar( grep { !$_ } pairwise { $a eq $b } @_,
+            && scalar(@original_strings) == scalar(@localized_strings)
+            && scalar( grep { !$_ } pairwise { $a eq $b } @original_strings,
                 @localized_strings ) == 0 )
         {
 
@@ -56,7 +59,8 @@ sub localize {
         last;
     }
 
-    @localized_strings = @_ if ( not scalar @localized_strings );
+    @localized_strings = @original_strings
+        if ( not scalar @localized_strings );
 
     return wantarray ? @localized_strings : $localized_strings[0];
 }
@@ -75,8 +79,10 @@ sub add_localize_object {
                 $localize_object);
         }
 
-    #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
-        unshift @{ $self->{localize_data} },
+        #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
+
+        # add external localize object to the end of the list
+        push @{ $self->{localize_data} },
             {
             localize_object     => $localize_object,
             dies_on_missing_key => $dies_on_missing_key,
@@ -127,7 +133,8 @@ sub add_default_localize_object {
         = $self->get_localize_object_from_class( $self->localize_class );
     my $dies_on_missing_key = 1;
 
-    push @{ $self->{localize_data} },
+    # put FormFu localize object in first place
+    unshift @{ $self->{localize_data} },
         {
         localize_object     => $localize_object,
         dies_on_missing_key => $dies_on_missing_key,
