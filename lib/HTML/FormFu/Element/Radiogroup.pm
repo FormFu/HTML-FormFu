@@ -140,7 +140,7 @@ YAML config:
 
     ---
     elements:
-      - type: RadioGroup
+      - type: Radiogroup
         name: sex
         options:
           - [ 'm', 'Male' ]
