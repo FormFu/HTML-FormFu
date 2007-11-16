@@ -11,6 +11,8 @@
 	  nested_name() method. Field elements have new nested(), nested_name() 
 	  and nested_names() methods. Doesn't require CGI::Expand or 
 	  Catalyst::Plugin::NestedParams
+    - New Checkboxgroup element. Works much like Radiogroup, but with
+      checkboxes
 
 0.01006 2007-10-23
 
