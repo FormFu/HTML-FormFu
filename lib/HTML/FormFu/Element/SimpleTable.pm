@@ -69,7 +69,7 @@ sub rows {
     return $self;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $odd  = $self->odd_class;
@@ -98,7 +98,7 @@ sub render {
 
     my $render = $self->next::method(@_);
 
-    append_xml_attribute( $render->attributes, 'class', lc $self->type );
+    append_xml_attribute( $render->{attributes}, 'class', lc $self->type );
 
     return $render;
 }

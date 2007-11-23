@@ -60,7 +60,7 @@ our @form_and_element = qw/
     /;
 
 our @EXPORT_OK = (qw/
-    _render_class _coerce populate
+    _coerce populate
     deflator 
     load_config_file form insert_before insert_after clone name stash
     constraints_from_dbic parent nested_name nested_names get_nested_hash_value
@@ -365,29 +365,6 @@ sub _load_single_document {
     return;
 }
 
-sub _render_class {
-    my ( $self, $dir ) = @_;
-    my $class;
-
-    if ( defined $self->render_class ) {
-        $class = $self->render_class;
-    }
-    elsif ( defined $dir && defined $self->render_class_suffix ) {
-        $class
-            = $self->render_class_prefix . "::" 
-            . $dir . "::"
-            . $self->render_class_suffix;
-    }
-    elsif ( defined $dir ) {
-        $class = $self->render_class_prefix . "::" . $dir;
-    }
-    else {
-        $class = $self->render_class_prefix . "::" . $self->render_class_suffix;
-    }
-
-    return $class;
-}
-
 # create a map of errors to processors, so we can reassociate the new cloned
 # errors with the new cloned processors
 
@@ -433,15 +410,13 @@ sub _coerce {
     croak "element cannot be coerced to type '$args{type}'"
         if !$element->isa( $args{package} );
 
-    my $render = $element->render;
-
-    $render->{value} = $self->value;
+    $element->value( $self->value );
 
     # because $element goes out of scope at the end of this subroutine,
     # we need an unweakened reference, so bypass parent() method
-    $render->{parent} = $element;
+#    $element->{parent} = $element;
 
-    return $render;
+    return $element;
 }
 
 sub _coerce_processors_and_errors {
@@ -498,11 +473,11 @@ sub clone {
 
     my %new = %$self;
 
-    $new{_elements}         = [ map { $_->clone } @{ $self->_elements } ];
-    $new{attributes}        = dclone $self->attributes;
-    $new{render_class_args} = dclone $self->render_class_args;
-    $new{element_defaults}  = dclone $self->element_defaults;
-    $new{languages}         = dclone $self->languages;
+    $new{_elements}        = [ map { $_->clone } @{ $self->_elements } ];
+    $new{attributes}       = dclone $self->attributes;
+    $new{tt_args}      = dclone $self->tt_args;
+    $new{element_defaults} = dclone $self->element_defaults;
+    $new{languages}        = dclone $self->languages;
 
     return bless \%new, ref $self;
 }

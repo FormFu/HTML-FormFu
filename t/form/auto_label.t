@@ -6,7 +6,7 @@ use Test::More tests => 2;
 use HTML::FormFu;
 use lib 't/lib';
 
-my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->localize_class('HTMLFormFu::I18N')->id('form')->auto_label('label_%n');
 

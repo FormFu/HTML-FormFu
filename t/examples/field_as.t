@@ -6,7 +6,7 @@ use Test::More tests => 2;
 use HTML::FormFu;
 use Template;
 
-my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Password')->name('foo')->label('Foo')
     ->label_attributes( { class => 'my_label' } )->comment('Comment')
@@ -92,11 +92,11 @@ EOF
 
 __DATA__
 <html>
-<body>[% render = form.render %]
-[% render.start_form %]
-[% render.field('foo') %]
-[% render.field('foo').as('Text', 'disabled', 'disabled') %]
-[% render.field('submit') %]
-[% render.end_form %]
+<body>
+[% form.start_form %]
+[% form.get_field('foo') %]
+[% form.get_field('foo').as('Text', 'disabled', 'disabled') %]
+[% form.get_field('submit') %]
+[% form.end_form %]
 </body>
 </html>

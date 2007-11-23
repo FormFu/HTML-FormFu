@@ -3,7 +3,7 @@ name: unicode
 
 'Controller::HTML::FormFu':
   constructor:
-    render_class_args:
+    tt_args:
       ENCODING: UTF-8
 
 'View::TT':

@@ -53,7 +53,7 @@ sub tt_alloy : Local : FormConfig('index.yml') {
     
     $self->_common( $c );
     
-    $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
+    $c->stash->{form}->tt_args->{TEMPLATE_ALLOY} = 1;
     
     $c->forward('View::TT::Alloy');
 }
@@ -63,7 +63,7 @@ sub tt_cross : Local : FormConfig('index.yml') {
     
     $self->_common( $c );
     
-    $c->stash->{form}->render_class_args->{TEMPLATE_ALLOY} = 1;
+    $c->stash->{form}->tt_args->{TEMPLATE_ALLOY} = 1;
     
     $c->forward('View::TT');
 }

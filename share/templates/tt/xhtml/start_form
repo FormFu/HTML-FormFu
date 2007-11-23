@@ -1,4 +1,4 @@
-<form[% process_attrs(self.attrs) %]>[% INCLUDE form_error_message %][% IF self.javascript_src.defined %][% FOREACH src = self.javascript_src.list %]
+<form[% process_attrs(self.attributes) %]>[% INCLUDE form_error_message %][% IF self.javascript_src.defined %][% FOREACH src = self.javascript_src.list %]
 <script type="text/javascript" src="[% src %]">
 </script>[% END %][% END %][% IF self.javascript.defined %]
 <script type="text/javascript">

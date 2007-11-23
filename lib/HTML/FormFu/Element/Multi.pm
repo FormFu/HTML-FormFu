@@ -43,12 +43,11 @@ sub new {
     $self->label_attributes( {} );
     $self->label_filename('label');
     $self->container_tag('span');
-    $self->render_class_suffix('multi');
 
     return $self;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $render = $self->next::method( {

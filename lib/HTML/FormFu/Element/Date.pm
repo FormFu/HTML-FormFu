@@ -53,7 +53,6 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->is_field(0);
-    $self->render_class_suffix('multi');
     $self->strftime("%d-%m-%Y");
     $self->day( {
             type   => '_DateSelect',
@@ -336,7 +335,7 @@ sub process_input {
     return $self->next::method($input);
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     $self->_add_elements;

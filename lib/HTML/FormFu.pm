@@ -1,5 +1,6 @@
 package HTML::FormFu;
 use strict;
+use base 'HTML::FormFu::base';
 
 use HTML::FormFu::Attribute qw/
     mk_attrs mk_attr_accessors
@@ -15,7 +16,7 @@ use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_BLOCK
     :FORM_AND_ELEMENT
     populate load_config_file insert_before insert_after form
-    _render_class clone stash constraints_from_dbic parent
+    clone stash constraints_from_dbic parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
     split_name _parse_args /;
@@ -43,8 +44,8 @@ __PACKAGE__->mk_accessors(
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
-        render_class_suffix _output_processors 
-        nested_name nested_subscript /
+        _output_processors tt_module
+        nested_name nested_subscript share_dir /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -53,13 +54,11 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
         auto_constraint_class auto_inflator_class auto_validator_class
         auto_transformer_class
-        render_class render_class_prefix
-        render_method
-        render_processed_value force_errors repeatable_count /
+        render_method render_processed_value force_errors repeatable_count /
 );
 
 __PACKAGE__->mk_inherited_merging_accessors(
-    qw/ render_class_args config_callback /);
+    qw/ tt_args config_callback /);
 
 *elements          = \&element;
 *constraints       = \&constraint;
@@ -76,6 +75,20 @@ $VERSION = eval $VERSION;
 
 Class::C3::initialize();
 
+our $SHARE_DIR;
+
+eval {
+    # dist_dir() doesn't reliably return the directory our files are in.
+    # find the path of one of our files, then get the directory from that
+    
+    my $path = dist_file( 'HTML-FormFu', 'templates/tt/xhtml/form' );
+    
+    my ( $volume, $dirs, $file ) = File::Spec->splitpath( $path );
+    
+    $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
+};
+# ignore $@
+
 sub new {
     my $class = shift;
 
@@ -86,26 +99,28 @@ sub new {
     my $self = bless {}, $class;
 
     my %defaults = (
-        _elements           => [],
-        _output_processors  => [],
-        _valid_names        => [],
-        _processed_params   => {},
-        input               => {},
-        stash               => {},
-        action              => '',
-        method              => 'post',
-        render_class_prefix => 'HTML::FormFu::Render',
-        render_class_suffix => 'Form',
-        render_class_args   => {},
-        filename            => 'form',
-        element_defaults    => {},
-        render_method       => 'xhtml',
-        query_type          => 'CGI',
-        languages           => ['en'],
-        localize_class      => 'HTML::FormFu::I18N',
-        auto_error_class    => 'error_%s_%t',
-        auto_error_message  => 'form_%s_%t',
+        _elements          => [],
+        _output_processors => [],
+        _valid_names       => [],
+        _processed_params  => {},
+        input              => {},
+        stash              => {},
+        action             => '',
+        method             => 'post',
+        filename           => 'form',
+        element_defaults   => {},
+        render_method      => 'tt',
+        tt_args            => {},
+        tt_module          => 'Template',
+        query_type         => 'CGI',
+        languages          => ['en'],
+        localize_class     => 'HTML::FormFu::I18N',
+        auto_error_class   => 'error_%s_%t',
+        auto_error_message => 'form_%s_%t',
     );
+    
+    $defaults{share_dir} = $SHARE_DIR
+        if defined $SHARE_DIR;
 
     $self->populate( \%defaults );
 
@@ -710,38 +725,32 @@ sub add_valid {
     return $value;
 }
 
-sub render {
+sub render_data {
     my ($self) = @_;
 
-    my $class = $self->_render_class;
-    require_class($class);
+    my %render = (
+        filename            => $self->filename,
+        javascript          => $self->javascript,
+        javascript_src      => $self->javascript_src,
+        has_errors          => ( $self->has_errors ? 1 : 0 ),
+        force_error_message => $self->force_error_message,
+        form_error_message  => xml_escape( $self->form_error_message ),
+        attributes          => xml_escape( $self->attributes ),
+        stash               => $self->stash,
+        elements            => [ map { $_->render_data } @{ $self->_elements } ],
+        @_ ? %{ $_[0] } : () );
 
-    my $render = $class->new( {
-            render_class_args   => $self->render_class_args,
-            render_class_suffix => $self->render_class_suffix,
-            render_method       => $self->render_method,
-            filename            => $self->filename,
-            javascript          => $self->javascript,
-            javascript_src      => $self->javascript_src,
-            force_error_message => $self->force_error_message,
-            form_error_message  => xml_escape( $self->form_error_message ),
-            _elements           => [ map { $_->render } @{ $self->_elements } ],
-        } );
+    weaken( $render{self} );
 
-    $render->parent($self);
-
-    $render->attributes( xml_escape $self->attributes );
-    $render->stash( $self->stash );
-
-    return $render;
+    return \%render;
 }
 
 sub start_form {
-    return shift->render->start_form;
+    return shift->render('start_form')
 }
 
 sub end_form {
-    return shift->render->end_form;
+    return shift->render('end_form');
 }
 
 sub hidden_fields {
@@ -2077,41 +2086,25 @@ Deletes all errors from a submitted form.
 
 =head2 render
 
-Return Value: $render_object
+Return Value: $string
 
-Returns a C<$render> object which can either be printed, or used for more 
-advanced custom rendering.
+=head2 tt
 
-Using a C<$form> object in string context (for example, printing it) 
-automatically calls L</render>.
-
-The default class of the returned render object is 
-L<HTML::FormFu::Render::Form>.
+The default renderer, automatically called by L</render>.
+See L</render_method>.
 
 =head2 start_form
 
 Return Value: $string
 
-Convenience method for returning L<HTML::FormFu::Render::Form/start_form>.
-
 Returns the form start tag, and any output of L</form_error_message> and 
 L</javascript>.
-
-Equivalent to:
-
-    $form->render->start_form;
 
 =head2 end_form
 
 Return Value: $string
 
-Convenience method for returning L<HTML::FormFu::Render::Form/end_form>.
-
 Returns the form end tag.
-
-Equivalent to:
-
-    $form->render->end_form;
 
 =head2 hidden_fields
 
@@ -2127,52 +2120,17 @@ Change the template filename used for the form.
 
 Default Value: "form"
 
-=head2 render_class
-
-Set the classname used to create a form render object. If set, the values of 
-L</render_class_prefix> and L</render_class_suffix> are ignored.
-
-Default Value: none
-
-This method is a special 'inherited accessor', which means it can be set on 
-the form, a block element or a single element. When the value is read, if 
-no value is defined it automatically traverses the element's hierarchy of 
-parents, through any block elements and up to the form, searching for a 
-defined value.
-
-=head2 render_class_prefix
-
-Set the prefix used to generate the classname of the form render object and 
-all Element render objects.
-
-Default Value: "HTML::FormFu::Render"
-
-This method is a special 'inherited accessor', which means it can be set on 
-the form, a block element or a single element. When the value is read, if 
-no value is defined it automatically traverses the element's hierarchy of 
-parents, through any block elements and up to the form, searching for a 
-defined value.
-
-=head2 render_class_suffix
-
-Set the suffix used to generate the classname of the form render object.
-
-Default Value: "Form"
-
-=head2 render_class_args
+=head2 tt_args
 
 Arguments: [\%constructor_arguments]
 
-Accepts a hash-ref of arguments passed to the render object constructor for 
-the form and all elements.
+Accepts a hash-ref of arguments passed to L</render_method>, which is called
+internally by L</render>.
 
-The default render class (L<HTML::FormFu::Render::base>) passes these 
-arguments to the L<TT|Template> constructor.
+Within L</tt>, the keys C<RELATIVE> and C<RECURSION> are overridden to always 
+be true, as these are a basic requirement for the L<Template> engine.
 
-The keys C<RELATIVE> and C<RECURSION> are overridden to always be true, as 
-these are a basic requirement for the L<Template> engine.
-
-The systen directory containing HTML::FormFu's template files is always 
+The system directory containing HTML::FormFu's template files is always 
 added to the end of C<INCLUDE_PATH>, so that the core template files will be 
 found. You only need to set this yourself if you have your own copy of the 
 template files for customisation purposes.
@@ -2183,20 +2141,18 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a 
 defined value.
 
-=head2 add_render_class_args
+=head2 add_tt_args
 
 Arguments: [\%constructor_arguments]
 
 Ensures that the hash-ref argument is merged with any existing hash-ref 
-value of L</render_class_args>.
+value of L</tt_args>.
 
 =head2 render_method
 
 Arguments: [$method_name]
 
-The method named called by L<HTML::FormFu::Render::base/output>.
-
-Default Value: 'xhtml'
+Default Value: 'tt'
 
 This method is a special 'inherited accessor', which means it can be set on 
 the form, a block element or a single element. When the value is read, if 

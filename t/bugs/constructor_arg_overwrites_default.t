@@ -21,6 +21,6 @@ $form->element( {
 is( $form->get_field('foo')->label_filename, 'foofile' );
 is( $form->get_field('bar')->label_filename, 'barfile' );
 
-is( $form->get_field('foo')->render->{label_filename}, 'foofile' );
-is( $form->get_field('bar')->render->{label_filename}, 'barfile' );
+is( $form->get_field('foo')->render_data->{label_filename}, 'foofile' );
+is( $form->get_field('bar')->render_data->{label_filename}, 'barfile' );
 

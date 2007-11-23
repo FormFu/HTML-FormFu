@@ -8,7 +8,7 @@ use DateTime;
 
 my $dt = DateTime->new( day => 6, month => 8, year => 2007 );
 
-my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->auto_fieldset( { nested_name => 'date' } );
 
@@ -176,16 +176,16 @@ ok( !ref $bar );
 is( $foo, "06/30/2007" );
 is( $bar, "01-07-2007" );
 
-my $foo_xhtml = $form->get_field('foo')->render->xhtml;
-my $bar_xhtml = $form->get_field('bar')->render->xhtml;
+my $foo_field = $form->get_field('foo');
+my $bar_field = $form->get_field('bar');
 
-like( $foo_xhtml, qr/\Q<option value="30" selected="selected">/ );
-like( $foo_xhtml, qr/\Q<option value="6" selected="selected">/ );
-like( $foo_xhtml, qr/\Q<option value="2007" selected="selected">/ );
+like( $foo_field, qr/\Q<option value="30" selected="selected">/ );
+like( $foo_field, qr/\Q<option value="6" selected="selected">/ );
+like( $foo_field, qr/\Q<option value="2007" selected="selected">/ );
 
-like( $bar_xhtml, qr/\Q<option value="1" selected="selected">/ );
-like( $bar_xhtml, qr/\Q<option value="7" selected="selected">/ );
-like( $bar_xhtml, qr/\Q<option value="2007" selected="selected">/ );
+like( $bar_field, qr/\Q<option value="1" selected="selected">/ );
+like( $bar_field, qr/\Q<option value="7" selected="selected">/ );
+like( $bar_field, qr/\Q<option value="2007" selected="selected">/ );
 
 # incorrect date
 

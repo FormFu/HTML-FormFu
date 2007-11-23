@@ -57,7 +57,7 @@ directories.
 If you have a local copy of the template files, you can set the path with the 
 following YAML config:
 
-    render_class_args:
+    tt_args:
       INCLUDE_PATH: "/path/to/templates"
 
 If you're using L<Catalyst::Controller::HTML::FormFu> and don't have the 
@@ -67,10 +67,10 @@ Catalyst configuration file:
 
     'Controller::HTML::FormFu':
       constructor:
-        render_class_args:
+        tt_args:
           INCLUDE_PATH: "/path/to/templates"
 
-In this case, C<render_class_args> will be passed to the constructor of 
+In this case, C<tt_args> will be passed to the constructor of 
 every form created by the C<Form>, C<FormConfig> and C<FormMethod> 
 Catalyst action attributes.
 
@@ -247,7 +247,6 @@ value is valid, or false otherwise.
 
     package My::Custom::Validator;
     use strict;
-    use warnings;
     use base 'HTML::FormFu::Validator';
     
     sub validate_value {
@@ -413,9 +412,9 @@ You can also use L<Template::Alloy> instead of
 L<Template::Toolkit|Template>, it's mostly compatible, and in many cases 
 provides a reasonable speed increase. You can do this either by setting the 
 C<HTML_FORMFU_TEMPLATE_ALLOY> environment variable to a true value, or by 
-passing C<TEMPLATE_ALLOY> to L<HTML::FormFu/render_class_args>:
+passing C<TEMPLATE_ALLOY> to L<HTML::FormFu/tt_args>:
 
-    render_class_args:
+    tt_args:
       TEMPLATE_ALLOY: 1
       COMPILE_DIR: /tmp
       COMPILE_PERL: 1

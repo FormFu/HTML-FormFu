@@ -38,7 +38,6 @@ sub new {
 
     $self->_elements( [] );
     $self->element_defaults( {} );
-    $self->render_class_suffix('block');
     $self->filename('block');
     $self->tag('div');
 
@@ -53,24 +52,28 @@ sub process {
     return;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $render = $self->next::method( {
             tag       => $self->tag,
             content   => xml_escape( $self->content ),
-            _elements => [ map { $_->render } @{ $self->_elements } ],
+            elements => [ map { $_->render_data } @{ $self->_elements } ],
             @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
 
 sub start {
-    return shift->render->start;
+    my ($self) = @_;
+
+    return $self->render('start_block');
 }
 
 sub end {
-    return shift->render->end;
+    my ($self) = @_;
+
+    return $self->render('end_block');
 }
 
 sub clone {

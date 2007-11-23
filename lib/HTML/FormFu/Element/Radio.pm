@@ -34,19 +34,19 @@ sub prepare_attrs {
         : undef;
 
     if ( $submitted && defined $value && $value eq $original ) {
-        $render->attributes( 'checked', 'checked' );
+        $render->{attributes}{checked} = 'checked';
     }
     elsif ($submitted
         && $self->retain_default
         && ( !defined $value || $value eq "" ) )
     {
-        $render->attributes( 'checked' => 'checked' );
+        $render->{attributes}{checked} = 'checked';
     }
     elsif ($submitted) {
-        delete $render->attributes->{checked};
+        delete $render->{attributes}{checked};
     }
     elsif ( defined $default && $default eq $original ) {
-        $render->attributes( 'checked' => 'checked' );
+        $render->{attributes}{checked} = 'checked';
     }
 
     $self->next::method($render);

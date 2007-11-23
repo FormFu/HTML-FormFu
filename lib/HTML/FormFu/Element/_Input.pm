@@ -20,7 +20,7 @@ sub new {
     return $self;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $render = $self->next::method( {

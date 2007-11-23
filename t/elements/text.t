@@ -1,11 +1,11 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 ok( my $element = $form->element('Text')->name('foo') );
 is( $element->name, 'foo' );
@@ -19,7 +19,6 @@ my $expected_field_xhtml = qq{<span class="text">
 <input name="foo" type="text" />
 </span>};
 
-is( $element->render, $expected_field_xhtml );
 is( "$element", $expected_field_xhtml );
 
 my $expected_form_xhtml = <<EOF;
@@ -34,7 +33,4 @@ $expected_field_xhtml
 </form>
 EOF
 
-ok( my $form_renderer = $form->render );
-is( $form_renderer->output, $expected_form_xhtml );
-is( "$form_renderer",       $expected_form_xhtml );
-is( "$form",                $expected_form_xhtml );
+is( "$form", $expected_form_xhtml );

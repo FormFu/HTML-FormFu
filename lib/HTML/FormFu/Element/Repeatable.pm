@@ -60,7 +60,7 @@ sub repeat {
                 next unless $field->is_field;
                 my $name = $field->name;
                 if ( defined $name && $name =~ /0/ ) {
-                    $name =~ s/0/$rep/e;
+                    $name =~ s/0/$rep/;
                     $field->name($name);
                 }
             }

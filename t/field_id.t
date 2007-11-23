@@ -6,7 +6,7 @@ use Test::More tests => 5;
 use HTML::FormFu;
 
 {    # element has explicit id
-    my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+    my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
     $form->element('Text')->name('foo')->id('fid')->label('Foo');
 
@@ -19,7 +19,7 @@ use HTML::FormFu;
 }
 
 {    # auto_id
-    my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+    my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
     
     $form->auto_fieldset(1);
     $form->auto_id('%n');
@@ -43,7 +43,7 @@ HTML
 }
 
 {    # auto_id
-    my $form = HTML::FormFu->new( { render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+    my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
     
     $form->auto_fieldset(1);
     $form->id('my_form');

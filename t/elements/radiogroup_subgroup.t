@@ -5,7 +5,7 @@ use Test::More tests => 3;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element('Radiogroup')->name('foo')->default(2)->options( [
         { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
@@ -73,7 +73,7 @@ is( "$form", $expected_form_xhtml );
 {
     $form->process( { foo => 'foo3_1', } );
 
-    my $xml = $form->get_field('foo')->render->xhtml;
+    my $xml = $form->get_field('foo');
 
     like( "$xml", qr/value="foo3_1" checked="checked"/ );
 

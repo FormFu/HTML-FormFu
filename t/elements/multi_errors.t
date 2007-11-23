@@ -20,7 +20,7 @@ my $form = HTML::FormFu->new( {
         constraints => ['Required'],
     } );
 
-$form->render_class_args( { INCLUDE_PATH => 'share/templates/tt/xhtml' } );
+$form->tt_args( { INCLUDE_PATH => 'share/templates/tt/xhtml' } );
 $form->indicator( sub {1} );
 $form->process(       {} );
 

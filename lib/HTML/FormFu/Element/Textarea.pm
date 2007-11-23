@@ -9,7 +9,6 @@ __PACKAGE__->mk_attr_accessors(qw/ cols rows /);
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->render_class_suffix('field');
     $self->filename('input');
     $self->field_filename('textarea_tag');
     $self->multi_filename('multi_ltr');

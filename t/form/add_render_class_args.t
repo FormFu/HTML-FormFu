@@ -5,14 +5,14 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ render_class_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-$form->render_class_args( { INCLUDE_PATH => ['root'], } );
+$form->tt_args( { INCLUDE_PATH => ['root'], } );
 
-$form->add_render_class_args( { TEMPLATE_ALLOY => 1, } );
+$form->add_tt_args( { TEMPLATE_ALLOY => 1, } );
 
 is_deeply(
-    $form->render_class_args,
+    $form->tt_args,
     {   INCLUDE_PATH   => ['root'],
         TEMPLATE_ALLOY => 1,
     } );

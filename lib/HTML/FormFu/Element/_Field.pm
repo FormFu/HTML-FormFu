@@ -69,7 +69,6 @@ sub new {
     $self->label_filename('label');
     $self->container_tag('span');
     $self->is_field(1);
-    $self->render_class_suffix('field');
 
     return $self;
 }
@@ -453,7 +452,7 @@ sub process_value {
     return $new;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -729,6 +728,18 @@ sub _render_error_class {
     }
 
     return;
+}
+
+sub label_tag {
+    my ($self) = @_;
+
+    return $self->render( $self->{label_filename} );
+}
+
+sub field_tag {
+    my ($self) = @_;
+
+    return $self->render( $self->{field_filename} );
 }
 
 sub clone {

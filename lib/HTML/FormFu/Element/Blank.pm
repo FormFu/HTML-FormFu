@@ -10,9 +10,16 @@ sub new {
     $self->filename('blank');
     $self->field_filename('blank');
     $self->multi_filename('blank');
-    $self->render_class_suffix('blank');
 
     return $self;
+}
+
+sub label_tag {
+    return "";
+}
+
+sub field_tag {
+    return "";
 }
 
 1;

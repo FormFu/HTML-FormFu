@@ -111,7 +111,7 @@ sub _render_label {
     return;
 }
 
-sub render {
+sub render_data {
     my $self = shift;
 
     my $render = $self->next::method( {
