@@ -1,22 +1,28 @@
 ---
+tt_args:
+  TEMPLATE_ALLOY: 1
+  COMPILE_DIR: 'benchmarks/cache'
+  COMPILE_PERL: 1
+  INCLUDE_PATH: 'share/templates/tt/xhtml'
+
 auto_fieldset: 1
 
 elements:
-  - type: text
+  - type: Text
     name: username
     size: 10
     label: Username
     constraints:
       - type: Required
 
-  - type: password
+  - type: Password
     name: password
     size: 10
     label: Password
     constraints:
       - type: Required
 
-  - type: submit
+  - type: Submit
     name: _submit
 
 indicator: username

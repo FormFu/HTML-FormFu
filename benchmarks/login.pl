@@ -32,10 +32,10 @@ my $output = "$formfu";
 print "No submit\n";
 
 cmpthese(
-    500,
+    100,
     {
         'HTML::FormFu' => sub {
-            $output = $formfu->render->output;
+            $output = "$formfu";
         },
         'HTML::Widget' => sub {
             $output = $widget->process->as_xml;
@@ -46,17 +46,19 @@ cmpthese(
     }
 );
 
-my $query = HTML::FormFu::FakeQuery->new({
-    _submitted => 1,
-    username   => 'only me',
-    password   => 'secret',
-    _submit    => 'Submit',
-});
+my $query = HTML::FormFu::FakeQuery->new(
+    $formfu,
+    {
+        _submitted => 1,
+        username   => 'only me',
+        password   => 'secret',
+        _submit    => 'Submit',
+    });
 
 print "\nConstruction + submission\n";
 
 cmpthese(
-    500,
+    100,
     {
         'HTML::FormFu' => sub {
             my $formfu = HTML::FormFu->new

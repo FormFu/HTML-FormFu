@@ -15,12 +15,13 @@ my $builder = builder();
 #print $widget->process;
 #print "\n\n**********\n\n";
 #print $builder->render;
+#exit;
 
 # make sure TT has loaded/cached everything
 my $output = "$formfu";
 
 cmpthese(
-    500,
+    100,
     {
         'HTML::FormFu' => sub {
             $output = "$formfu";
@@ -37,7 +38,24 @@ cmpthese(
 sub formfu {
     my $form = HTML::FormFu->new;
     
-    $form->load_from_config('tobias.yml');
+    $form->tt_args({
+        TEMPLATE_ALLOY => 1,
+        COMPILE_DIR    => 'benchmarks/cache',
+        COMPILE_PERL   => 1,
+        INCLUDE_PATH   => 'share/templates/tt/xhtml',
+    });
+    
+    for (1..10) {
+        $form->element({ type => 'Text', name => "text$_" })
+            ->label("text & $_")
+            ->size(10);
+    }
+    
+    $form->element({ type => 'Select', name => 'select' })
+        ->values( [1907 .. 2007] )
+        ->default(2007);
+    
+    $form->element({ type => 'Submit', name => 'submit' });
     
     return $form;
 }
@@ -45,21 +63,15 @@ sub formfu {
 sub widget {
     my $form = HTML::Widget->new;
     
-    $form->element( "Textfield", "motto" )->label("Motto:")->maxlength(80);
-    $form->element( "Textarea", "about" )->label("About me:")->rows(6)->cols(50);
+    for (1..10) {
+        $form->element( "Textfield", "text$_" )
+            ->label("text & $_")
+            ->size(10);
+    }
     
-    $form->element( "Textfield", "city" )->label("City:")->maxlength(32);
-    $form->element( "Select", "zip_codes" )->label("Zipcode:")
-        ->comment("Select how many zipcode digits you want to display to other users.");
-    
-    $form->element( "Textfield", "daystart" )->label("My morning starts with:")
-        ->maxlength(255);
-    $form->element( "Textfield", "" )->label("")->maxlength();
-    $form->element( "Textfield", "" )->label("")->maxlength();
-    $form->element( "Textfield", "" )->label("")->maxlength();
-    $form->element( "Textfield", "" )->label("")->maxlength();
-    
-    $form->element( "Select", "" )->label("");
+    $form->element( "Select", "select" )
+        ->options( map { $_, $_ } 1907 .. 2007 )
+        ->selected(2007);
     
     $form->element( "Submit", "submit" );
     
@@ -73,7 +85,7 @@ sub builder {
         $form->field(
             name  => "text$_",
             size  => 10,
-            label => "text & $_",
+            label => "text &amp; $_",
         );
     }
     
