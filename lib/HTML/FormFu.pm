@@ -109,7 +109,7 @@ sub new {
         method             => 'post',
         filename           => 'form',
         element_defaults   => {},
-        render_method      => 'tt',
+        render_method      => 'string',
         tt_args            => {},
         tt_module          => 'Template',
         query_type         => 'CGI',
