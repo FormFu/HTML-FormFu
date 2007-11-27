@@ -8,9 +8,25 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->field_type('hidden');
-    $self->filename('hidden');
+    $self->filename('input_tag');
 
     return $self;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
+    
+    # input template
+    
+    my $html .= $self->_string_field( $render );
+    
+    return $html;
 }
 
 1;

@@ -93,10 +93,10 @@ EOF
 __DATA__
 <html>
 <body>
-[% form.start_form %]
+[% form.start %]
 [% form.get_field('foo') %]
 [% form.get_field('foo').as('Text', 'disabled', 'disabled') %]
 [% form.get_field('submit') %]
-[% form.end_form %]
+[% form.end %]
 </body>
 </html>

@@ -1,9 +1,11 @@
 ---
-tt_args:
-  TEMPLATE_ALLOY: 1
-  COMPILE_DIR: 'benchmarks/cache'
-  COMPILE_PERL: 1
-  INCLUDE_PATH: 'share/templates/tt/xhtml'
+#tt_args:
+#  TEMPLATE_ALLOY: 1
+#  COMPILE_DIR: 'benchmarks/cache'
+#  COMPILE_PERL: 1
+#  INCLUDE_PATH: 'share/templates/tt/xhtml'
+
+render_method: string
 
 auto_fieldset: 1
 

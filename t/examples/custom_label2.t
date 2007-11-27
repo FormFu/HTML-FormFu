@@ -44,10 +44,10 @@ is( $output, $xhtml );
 __DATA__
 <html>
 <body>
-[% form.start_form %][% FOREACH fieldset = form.get_elements %]
+[% form.start %][% FOREACH fieldset = form.get_elements %]
 [% fieldset.start %][% FOREACH field = fieldset.get_fields %]
-[% IF field.label.defined %][% field.label_tag %]: [% field.field_tag %][% ELSE %][% field %][% END %][% END %]
+[% IF field.label.defined %][% field.render_label %]: [% field.render_field %][% ELSE %][% field %][% END %][% END %]
 [% fieldset.end %][% END %]
-[% form.end_form %]
+[% form.end %]
 </body>
 </html>

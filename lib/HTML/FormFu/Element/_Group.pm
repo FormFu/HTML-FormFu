@@ -149,7 +149,7 @@ sub prepare_attrs {
     return;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -157,6 +157,30 @@ sub render_data {
             @_ ? %{ $_[0] } : () } );
 
     return $render;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
+    
+    # field wrapper template - start
+    
+    my $html = $self->_string_field_start( $render );
+    
+    # input_tag template
+    
+    $html .= $self->_string_field( $render );
+    
+    # field wrapper template - end
+    
+    $html .= $self->_string_field_end( $render );
+    
+    return $html;
 }
 
 sub as {

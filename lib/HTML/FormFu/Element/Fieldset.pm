@@ -14,7 +14,7 @@ sub new {
     return $self;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {

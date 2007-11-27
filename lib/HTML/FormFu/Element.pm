@@ -29,7 +29,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(
     qw/
-        name type filename multi_filename is_field
+        name type filename is_field
         /
 );
 
@@ -122,6 +122,10 @@ sub clone {
 }
 
 sub render_data {
+    return shift->render_data_non_recursive(@_);
+}
+
+sub render_data_non_recursive {
     my $self = shift;
 
     my %render = (
@@ -129,7 +133,6 @@ sub render_data {
         attributes          => xml_escape( $self->attributes ),
         type                => $self->type,
         filename            => $self->filename,
-        multi_filename      => $self->multi_filename,
         is_field            => $self->is_field,
         stash               => $self->stash,
         parent              => $self->parent,
@@ -343,16 +346,6 @@ Default Value: none
 
 This value identifies which template file should be used by 
 L</render> to render the element.
-
-=head2 multi_filename
-
-This value identifies which template file should be used to render the 
-element when the element is within a 
-L<multi element|HTML::FormFu::Element::Multi>.
-
-This value is generally either C<multi_ltr> or C<multi_rtl> depending on 
-whether the field and label should be displayed from left-to-right or 
-right-to-left.
 
 =head2 prepare_id
 

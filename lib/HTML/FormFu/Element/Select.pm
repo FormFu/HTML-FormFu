@@ -4,16 +4,15 @@ use strict;
 use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 
-use HTML::FormFu::Util qw( append_xml_attribute );
+use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 
 __PACKAGE__->mk_attr_accessors(qw/ multiple size /);
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename('select');
+    $self->filename('input');
     $self->field_filename('select_tag');
-    $self->multi_filename('multi_ltr');
 
     return $self;
 }
@@ -46,6 +45,49 @@ sub _prepare_attrs {
         $option->{attributes}{selected} = 'selected';
     }
     return;
+}
+
+sub _string_field {
+    my ( $self, $render ) = @_;
+    
+    # select_tag template
+    
+    my $html .= sprintf qq{<select name="%s"%s>\n}, 
+        $render->{nested_name}, 
+        process_attrs( $render->{attributes} );
+    
+    for my $option (@{ $render->{options} }) {
+        if ( exists $option->{group} ) {
+            $html .= "<optgroup";
+            
+            if ( defined $option->{label} ) {
+                $html .= sprintf qq{ label="%s"}, 
+                    $option->{label};
+            }
+            
+            $html .= sprintf "%s>\n", 
+                process_attrs( $option->{attributes} );
+            
+            for my $item (@{ $option->{group} }) {
+                $html .= sprintf qq{<option value="%s"%s>%s</option>\n}, 
+                    $item->{value}, 
+                    process_attrs( $item->{attributes} ), 
+                    $item->{label};
+            }
+            
+            $html .= "</optgroup>\n";
+        }
+        else {
+            $html .= sprintf qq{<option value="%s"%s>%s</option>\n}, 
+                $option->{value}, 
+                process_attrs( $option->{attributes} ), 
+                $option->{label};
+        }
+    }
+    
+    $html .= "</select>";
+    
+    return $html;
 }
 
 1;

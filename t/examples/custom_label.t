@@ -44,13 +44,13 @@ is( $output, $xhtml );
 __DATA__
 <html>
 <body>
-[% form.start_form %]
+[% form.start %]
 [% form.get_element('type', 'Fieldset').start %]
-[% form.get_field('foo').label_tag %]: [% form.get_field('foo').field_tag %]
-[% form.get_field('bar').label_tag %]: [% form.get_field('bar').field_tag %]
+[% form.get_field('foo').render_label %]: [% form.get_field('foo').render_field %]
+[% form.get_field('bar').render_label %]: [% form.get_field('bar').render_field %]
 [% form.get_field('baz') %]
 [% form.get_field('submit') %]
 [% form.get_element('type', 'Fieldset').end %]
-[% form.end_form %]
+[% form.end %]
 </body>
 </html>

@@ -5,8 +5,10 @@ use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
 use HTML::FormFu::Element::_Field qw/
-    _render_container_class _render_comment_class _render_label /;
-use HTML::FormFu::Util qw/ append_xml_attribute xml_escape /;
+    _render_container_class _render_comment_class _render_label
+    _string_field_start _string_field_end _string_label /;
+
+use HTML::FormFu::Util qw/ append_xml_attribute xml_escape process_attrs /;
 use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
 
@@ -16,6 +18,7 @@ __PACKAGE__->mk_accessors(
         label_filename
         javascript
         container_tag
+        label_tag
         /
 );
 
@@ -42,12 +45,13 @@ sub new {
     $self->filename('multi');
     $self->label_attributes( {} );
     $self->label_filename('label');
+    $self->label_tag('label');
     $self->container_tag('span');
 
     return $self;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -58,6 +62,7 @@ sub render_data {
             label                => xml_escape( $self->label ),
             field_filename       => $self->field_filename,
             label_filename       => $self->label_filename,
+            label_tag            => $self->label_tag,
             container_tag        => $self->container_tag,
             javascript           => $self->javascript,
             @_ ? %{ $_[0] } : () } );
@@ -95,6 +100,56 @@ sub _render_error_class {
     }
 
     return;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data_non_recursive;
+    
+    # field wrapper template - start
+    
+    my $html = $self->_string_field_start( $render );
+    
+    # multi template
+    
+    $html .= sprintf "<span%s>\n", 
+        process_attrs( $render->{attributes} );
+    
+    for my $elem (@{ $self->get_elements }) {
+        my $render = $elem->render_data;
+        
+        next if !defined $render;
+        
+        if ( $elem->reverse_multi ) {
+            $html .= $elem->_string_field( $render );
+            
+            if ( defined $elem->label ) {
+                $html .= "\n" . $elem->_string_label( $render );
+            }
+        }
+        else {
+            if ( defined $elem->label ) {
+                $html .= $elem->_string_label( $render ) . "\n";
+            }
+            
+            $html .= $elem->_string_field( $render );
+        }
+        
+        $html .= "\n";
+    }
+    
+    $html .= "</span>";
+
+    # field wrapper template - end
+    
+    $html .= $self->_string_field_end( $render );
+    
+    return $html;
 }
 
 sub clone {

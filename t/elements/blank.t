@@ -20,7 +20,6 @@ my $form_xhtml = <<EOF;
 <span class="text">
 <input name="foo" type="text" />
 </span>
-
 </form>
 EOF
 

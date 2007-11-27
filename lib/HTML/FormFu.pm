@@ -19,7 +19,7 @@ use HTML::FormFu::ObjectUtil qw/
     clone stash constraints_from_dbic parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
-    split_name _parse_args /;
+    split_name _parse_args process_attrs /;
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
@@ -726,31 +726,111 @@ sub add_valid {
 }
 
 sub render_data {
-    my ($self) = @_;
+    my $self = shift;
+    
+    my $render = $self->render_data_non_recursive( {
+        elements => [ map { $_->render_data } @{ $self->_elements } ],
+        @_ ? %{ $_[0] } : () } );
+    
+    return $render;
+}
+
+sub render_data_non_recursive {
+    my $self = shift;
 
     my %render = (
         filename            => $self->filename,
         javascript          => $self->javascript,
         javascript_src      => $self->javascript_src,
-        has_errors          => ( $self->has_errors ? 1 : 0 ),
-        force_error_message => $self->force_error_message,
-        form_error_message  => xml_escape( $self->form_error_message ),
         attributes          => xml_escape( $self->attributes ),
         stash               => $self->stash,
-        elements            => [ map { $_->render_data } @{ $self->_elements } ],
         @_ ? %{ $_[0] } : () );
 
     weaken( $render{self} );
+    
+    if ( $self->force_error_message
+         || ( $self->has_errors && defined $self->form_error_message ) )
+    {
+        $render{form_error_message} = xml_escape( $self->form_error_message );
+    }
 
     return \%render;
 }
 
-sub start_form {
-    return shift->render('start_form')
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    # start_form template
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data_non_recursive;
+    
+    my $html = sprintf "<form%s>", 
+        process_attrs( $render->{attributes} );
+    
+    if ( defined $render->{form_error_message} ) {
+        $html .= sprintf qq{\n<div class="form_error_message">%s</div>}, 
+            $render->{form_error_message};
+    }
+    
+    if ( defined $render->{javascript_src} ) {
+        my $src = $render->{javascript_src};
+        
+        $src = [$src] if ref $src ne 'ARRAY';
+        
+        for my $file (@$src) {
+            $html .= sprintf 
+                qq{\n<script type="text/javascript" src="%s">\n</script>}, 
+                $file;
+        }
+    }
+    
+    if ( defined $render->{javascript} ) {
+        $html .= sprintf 
+            qq{\n<script type="text/javascript">\n%s\n</script>}, 
+            $render->{javascript};
+    }
+    
+    # form template
+    
+    $html .= "\n";
+    
+    for my $elem (@{ $self->get_elements }) {
+        # call render, so that child elements can use a different renderer
+        my $elem_html = $elem->render;
+        
+        # skip Blank fields
+        if ( length $elem_html ) {
+            $html .= $elem_html . "\n";
+        }
+    }
+    
+    # end_form template
+    
+    $html .= "</form>\n";
+    
+    return $html;
 }
 
-sub end_form {
-    return shift->render('end_form');
+sub start {
+    my ($self) = @_;
+    
+    return $self->tt({
+        filename => 'start_form',
+        render_data => $self->render_data_non_recursive,
+    });
+}
+
+sub end {
+    my ($self) = @_;
+    
+    return $self->tt({
+        filename => 'end_form',
+        render_data => $self->render_data_non_recursive,
+    });
 }
 
 sub hidden_fields {

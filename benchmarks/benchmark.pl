@@ -38,12 +38,14 @@ cmpthese(
 sub formfu {
     my $form = HTML::FormFu->new;
     
-    $form->tt_args({
-        TEMPLATE_ALLOY => 1,
-        COMPILE_DIR    => 'benchmarks/cache',
-        COMPILE_PERL   => 1,
-        INCLUDE_PATH   => 'share/templates/tt/xhtml',
-    });
+    $form->render_method('string');
+    
+#    $form->tt_args({
+#        TEMPLATE_ALLOY => 1,
+#        COMPILE_DIR    => 'benchmarks/cache',
+#        COMPILE_PERL   => 1,
+#        INCLUDE_PATH   => 'share/templates/tt/xhtml',
+#    });
     
     for (1..10) {
         $form->element({ type => 'Text', name => "text$_" })

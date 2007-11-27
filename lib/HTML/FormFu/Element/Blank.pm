@@ -2,17 +2,6 @@ package HTML::FormFu::Element::Blank;
 
 use strict;
 use base 'HTML::FormFu::Element::_Input';
-use Class::C3;
-
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->filename('blank');
-    $self->field_filename('blank');
-    $self->multi_filename('blank');
-
-    return $self;
-}
 
 sub label_tag {
     return "";
@@ -20,6 +9,14 @@ sub label_tag {
 
 sub field_tag {
     return "";
+}
+
+sub render {
+    return "";
+}
+
+sub render_data_non_recursive {
+    return ();
 }
 
 1;

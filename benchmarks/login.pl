@@ -32,7 +32,7 @@ my $output = "$formfu";
 print "No submit\n";
 
 cmpthese(
-    100,
+    500,
     {
         'HTML::FormFu' => sub {
             $output = "$formfu";
@@ -58,7 +58,7 @@ my $query = HTML::FormFu::FakeQuery->new(
 print "\nConstruction + submission\n";
 
 cmpthese(
-    100,
+    500,
     {
         'HTML::FormFu' => sub {
             my $formfu = HTML::FormFu->new

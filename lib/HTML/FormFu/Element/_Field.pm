@@ -9,14 +9,15 @@ use HTML::FormFu::ObjectUtil qw/
     get_error _require_constraint set_nested_hash_value nested_hash_key_exists
     get_nested_hash_value /;
 use HTML::FormFu::Util qw/
-    _parse_args append_xml_attribute xml_escape require_class /;
+    _parse_args append_xml_attribute xml_escape require_class process_attrs /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 use Exporter qw/ import /;
 
 # used by multi.pm
 our @EXPORT_OK = qw/
-    _render_container_class _render_comment_class _render_label /;
+    _render_container_class _render_comment_class _render_label
+    _string_field_start _string_field_end _string_label /;
 
 __PACKAGE__->mk_attrs(
     qw/
@@ -30,8 +31,8 @@ __PACKAGE__->mk_accessors(
     qw/
         _constraints _filters _inflators _deflators _validators _transformers
         _errors container_tag
-        field_filename label_filename retain_default force_default
-        javascript non_param /
+        field_filename label_filename label_tag retain_default force_default
+        javascript non_param reverse_multi /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -67,6 +68,7 @@ sub new {
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
     $self->label_filename('label');
+    $self->label_tag('label');
     $self->container_tag('span');
     $self->is_field(1);
 
@@ -452,7 +454,7 @@ sub process_value {
     return $new;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -464,7 +466,9 @@ sub render_data {
             label                => xml_escape( $self->label ),
             field_filename       => $self->field_filename,
             label_filename       => $self->label_filename,
+            label_tag            => $self->label_tag,
             container_tag        => $self->container_tag,
+            reverse_multi        => $self->reverse_multi,
             javascript           => $self->javascript,
             @_ ? %{ $_[0] } : () } );
 
@@ -509,7 +513,7 @@ sub _render_label {
 
     if ( defined $render->{label} ) {
         append_xml_attribute( $render->{container_attributes},
-            'class', 'label' );
+            'class', $self->label_tag );
     }
 
     # label "for" attribute
@@ -730,16 +734,92 @@ sub _render_error_class {
     return;
 }
 
-sub label_tag {
+sub render_label {
     my ($self) = @_;
-
-    return $self->render( $self->{label_filename} );
+    
+    return $self->tt({ filename => $self->{label_filename} });
 }
 
-sub field_tag {
+sub render_field {
     my ($self) = @_;
+    
+    return $self->tt({ filename => $self->{field_filename} });
+}
 
-    return $self->render( $self->{field_filename} );
+sub _string_field_start {
+    my ( $self, $render ) = @_;
+    
+    # field wrapper template - start
+    
+    my $html = '';
+    
+    if ( defined $render->{container_tag} ) {
+        $html .= sprintf '<%s%s>', 
+            $render->{container_tag}, 
+            process_attrs( $render->{container_attributes} );
+    }
+    
+    if ( defined $render->{label} && $render->{label_tag} eq 'legend' ) {
+        $html .= "\n". $self->_string_label( $render );
+    }
+    
+    if ( $render->{errors} ) {
+        for my $error (@{ $render->{errors} }) {
+            $html .= "\n" . sprintf '<span class="error_message %s">%s</span>', 
+                $error->class, 
+                $error->message;
+        }
+    }
+    
+    if ( defined $render->{label} && $render->{label_tag} ne 'legend' ) {
+        $html .= "\n" . $self->_string_label( $render );
+    }
+    
+    if ( defined $render->{container_tag} ) {
+        $html .= "\n";
+    }
+    
+    return $html;
+}
+
+sub _string_label {
+    my ( $self, $render ) = @_;
+    
+    # label template
+    
+    my $html = sprintf "<%s%s>%s</%s>", 
+        $render->{label_tag}, 
+        process_attrs( $render->{label_attributes} ), 
+        $render->{label}, 
+        $render->{label_tag};
+    
+    return $html;
+}
+
+sub _string_field_end {
+    my ( $self, $render ) = @_;
+    
+    # field wrapper template - end
+    
+    my $html = '';
+    
+    if ( defined $render->{comment} ) {
+        $html .= sprintf "\n<span%s>\n%s\n</span>",
+            process_attrs( $render->{comment_attributes} ), 
+            $render->{comment};
+    }
+    
+    if ( defined $render->{container_tag} ) {
+        $html .= sprintf "\n</%s>", 
+            $render->{container_tag};
+    }
+    
+    if ( defined $render->{javascript} ) {
+        $html .= sprintf 'qq{\n<script type="text/javascript">\n%s\n</script>}', 
+            $render->{javascript};
+    }
+    
+    return $html;
 }
 
 sub clone {
@@ -1026,6 +1106,18 @@ the field will have it's value set to it's default value.
 If the default value is being changed after FormFu->process is being called
 the later default value is respected for rendering, *but* nevertheless the
 input value doesn't respect that, it will remain the first value.
+
+Default Value: C<false>
+
+=head2 reverse_multi
+
+If true, then when the field is used within a 
+L<Multi|HTML::FormFu::Element::Multi> block, the field's label should be 
+rendered to the right of the field control
+
+The default value is C<false>, causing the label to be rendered to the left
+of the field control (or to be explicit: the markup for the label comes 
+before the field control in the source).
 
 Default Value: C<false>
 

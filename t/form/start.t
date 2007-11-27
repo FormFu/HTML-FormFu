@@ -7,6 +7,6 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-my $end_form = qq{</form>};
+my $start_form = qq{<form action="" method="post">};
 
-is( $form->end_form, $end_form );
+is( $form->start, $start_form );

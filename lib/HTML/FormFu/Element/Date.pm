@@ -335,7 +335,7 @@ sub process_input {
     return $self->next::method($input);
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     $self->_add_elements;

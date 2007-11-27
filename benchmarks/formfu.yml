@@ -1,0 +1,196 @@
+---
+id: form
+auto_id: %n
+auto_fieldset: { legend: A fieldset }
+
+elements:
+  - type: Hidden
+    name: hidden1
+
+  - type: Text
+    name: text1
+    label: Text field
+    constraints:
+      - Required
+
+  - type: Text
+    name: text2
+    label: Text with a comment
+    comment: the comment!
+    constraints:
+      - Required
+      - Integer
+      - type: Length
+        min: 2
+
+  - type: Text
+    name: text3
+    comment: Text with no label
+    constraints:
+      - Required
+
+  - type: Text
+    name: text4
+    value: no label no comment
+    constraints:
+      - Required
+
+  - type: Password
+    name: password1
+    label: Password
+    constraints:
+      - Required
+
+  - type: File
+    name: file1
+    constraints:
+      - Required
+
+  - type: Textarea
+    name: textarea1
+    label: Textarea
+    constraints:
+      - Required
+
+  - type: Textarea
+    name: textarea2
+    label: Textarea styled fullwidth
+    container_attrs: { class: fullwidth }
+    constraints:
+      - Required
+
+  - type: Select
+    name: select1
+    label: Select
+    values: [one, two, three]
+    constraints:
+      - Required
+
+  - type: Select
+    name: select2
+    label: Select with optgroups
+    options: 
+      - group: [[1, one], [2, two]]
+        label: opt1
+      - [3, non-optgroup]
+      - group: [[4, four], [5, five]]
+        label: opt2
+    constraints:
+      - Required
+
+  - type: Fieldset
+  - type: Radio
+    name: radio4
+    label: Radio
+    constraints:
+      - Required
+
+  - type: Checkbox
+    name: checkbox1
+    label: Checkbox
+    constraints:
+      - Required
+
+  - type: Fieldset
+  - type: Radiogroup
+    name: radiogroup1
+    label: RadioGroup
+    values: [one, two]
+    constraints:
+      - Required
+
+  - type: Radiogroup
+    name: radiogroup2
+    label: RadioGroup styled vertically
+    container_attrs: { class: vertical }
+    values: [one, two]
+    constraints:
+      - Required
+
+  - type: Radiogroup
+    name: radiogroup3
+    label: RadioGroup, vertical, with subgroups
+    container_attrs: { class: vertical }
+    options: 
+      - group: [[1, one], [2, two]]
+        label: opt1
+      - group: [[3, three], [4, four]]
+        label: opt2
+    constraints:
+      - Required
+
+  - type: Radiogroup
+    name: radiogroup4
+    label: RadioGroup non-legend
+    label_filename: label
+    values: [one, two]
+    constraints:
+      - Required
+
+  - type: Fieldset
+  - type: Multi
+    label: Multi containing Radio fields
+    elements: 
+      - type: Radio
+        name: radio1
+        label: One
+        constraints:
+          - Required
+      - type: Radio
+        name: radio1
+        label: Two
+      - type: Radio
+        name: radio1
+        label: Three
+
+  - type: Multi
+    label: Multi, Radio, vertical
+    container_attrs:
+      class: vertical
+    elements: 
+      - type: Radio
+        name: radio2
+        label: One
+        constraints:
+          - Required
+      - type: Radio
+        name: radio2
+        label: Two
+      - type: Radio
+        name: radio2
+        label: Three
+
+  - type: Multi
+    label: Multi, 3 Select fields
+    elements: 
+      - type: Select
+        name: select2
+        label: a
+        values: ['', one, two]
+      - type: Select
+        name: select3
+        label: b
+        values: ['', one, two]
+      - type: Select
+        name: select4
+        label: c
+        values: ['', one, two]
+    constraints:
+      - Required
+
+  - type: Multi
+    label: Another Multi
+    elements: 
+      - type: Checkbox
+        name: checkbox2
+      - type: Text
+        name: text5
+      - type: Textarea
+        name: textarea3
+    constraints: 
+      - Required
+
+  - type: Fieldset
+
+  - type: Submit
+    name: submit

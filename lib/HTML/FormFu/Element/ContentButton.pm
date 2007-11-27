@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
-use HTML::FormFu::Util qw/ xml_escape /;
+use HTML::FormFu::Util qw/ xml_escape process_attrs /;
 
 __PACKAGE__->mk_accessors(qw/ field_type /);
 __PACKAGE__->mk_output_accessors(qw/ content /);
@@ -13,13 +13,12 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->filename('content_button');
-    $self->multi_filename('multi_ltr');
     $self->field_type('button');
 
     return $self;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -28,6 +27,51 @@ sub render_data {
             @_ ? %{ $_[0] } : () } );
 
     return $render;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
+    
+    # field wrapper template - start
+    
+    my $html = $self->_string_field_start( $render );
+    
+    # input_tag template
+    
+    $html .= $self->_string_field( $render );
+    
+    # field wrapper template - end
+    
+    $html .= $self->_string_field_end( $render );
+    
+    return $html;
+}
+
+sub _string_field {
+    my ( $self, $render ) = @_;
+    
+    # content_button template
+    
+    my $html .= sprintf qq{<button name="%s" type="%s"}, 
+        $render->{nested_name}, 
+        $render->{field_type};
+    
+    if ( defined $render->{value} ) {
+        $html .= sprintf qq{ value="%s"}, 
+            $render->{value};
+    }
+    
+    $html .= sprintf "%s>%s</button>", 
+        process_attrs( $render->{attributes} ),
+        ( defined $render->{content} ? $render->{content} : '' );
+    
+    return $html;
 }
 
 1;

@@ -96,6 +96,26 @@ sub content {
     
     croak "Repeatable elements do not support the content() method"
         if @_;
+    
+    return;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data_non_recursive;
+    
+    # block template
+    
+    my @divs = map { $_->render } @{ $self->get_elements };
+    
+    my $html = join "\n", @divs;
+    
+    return $html;
 }
 
 1;

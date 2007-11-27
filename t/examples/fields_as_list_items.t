@@ -35,10 +35,10 @@ is( $output, $xhtml );
 __DATA__
 <html>
 <body>
-[% form.start_form %]
+[% form.start %]
 <ul>[% FOREACH field = form.get_fields %]
-    <li>[% field.field_tag %]</li>[% END %]
+    <li>[% field.render_field %]</li>[% END %]
 </ul>
-[% form.end_form %]
+[% form.end %]
 </body>
 </html>

@@ -24,9 +24,12 @@ sub render {
 }
 
 sub tt {
-    my $self = shift;
+    my ( $self, $args ) = @_;
     
-    my $filename = @_ ? shift : $self->filename; 
+    $args ||= {};
+    
+    $args->{filename}    = $self->filename    if !exists $args->{filename};
+    $args->{render_data} = $self->render_data if !exists $args->{render_data};
     
     my $form      = $self->form;
     my $share_dir = $form->share_dir;
@@ -67,11 +70,11 @@ sub tt {
     
     my $output;
     my %vars = (
-        self          => $self->render_data,
+        self          => $args->{render_data},
         process_attrs => \&process_attrs,
     );
     
-    if (!$template->process( $filename, \%vars, \$output )) {
+    if (!$template->process( $args->{filename}, \%vars, \$output )) {
         
         my $error = $template->error;
         

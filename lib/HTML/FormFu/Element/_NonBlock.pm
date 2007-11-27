@@ -4,6 +4,8 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
+use HTML::FormFu::Util qw/ process_attrs /;
+
 __PACKAGE__->mk_accessors(qw/ tag /);
 
 sub new {
@@ -14,7 +16,7 @@ sub new {
     return $self;
 }
 
-sub render_data {
+sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
@@ -22,6 +24,24 @@ sub render_data {
             @_ ? %{ $_[0] } : () } );
 
     return $render;
+}
+
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
+    
+    # non_block template
+    
+    my $html = sprintf "<%s%s />", 
+        $render->{tag}, 
+        process_attrs( $render->{attributes} );
+    
+    return $html;
 }
 
 1;

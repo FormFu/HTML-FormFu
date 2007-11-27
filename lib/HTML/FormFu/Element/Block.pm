@@ -8,7 +8,7 @@ use HTML::FormFu::Attribute qw/ mk_output_accessors /;
 use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_BLOCK
     insert_before insert_after /;
-use HTML::FormFu::Util qw/ _get_elements xml_escape /;
+use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
@@ -54,26 +54,95 @@ sub process {
 
 sub render_data {
     my $self = shift;
+    
+    my $render = $self->render_data_non_recursive( {
+        elements => [ map { $_->render_data } @{ $self->_elements } ],
+        @_ ? %{ $_[0] } : () } );
+    
+    return $render;
+}
+
+sub render_data_non_recursive {
+    my $self = shift;
 
     my $render = $self->next::method( {
             tag       => $self->tag,
             content   => xml_escape( $self->content ),
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
             @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
 
+sub string {
+    my ( $self, $args ) = @_;
+    
+    $args ||= {};
+    
+    my $render = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data_non_recursive;
+    
+    # start_block template
+    
+    my $html = '';
+    
+    if ( defined $render->{tag} ) {
+        $html .= sprintf "<%s%s>", 
+            $render->{tag}, 
+            process_attrs( $render->{attributes} );
+    }
+    
+    if ( defined $render->{legend} ) {
+        $html .= sprintf "\n<legend>%s</legend>", 
+            $render->{legend};
+    }
+    
+    # block template
+    
+    $html .= "\n";
+    
+    if ( defined $render->{content} ) {
+        $html .= sprintf "%s\n", 
+            $render->{content};
+    }
+    else {
+        for my $elem (@{ $self->get_elements }) {
+            # call render, so that child elements can use a different renderer
+            my $elem_html = $elem->render;
+            
+            # skip Blank fields
+            if ( length $elem_html ) {
+                $html .= $elem_html . "\n";
+            }
+        }
+    }
+    
+    # end_block template
+    
+    if ( defined $render->{tag} ) {
+        $html .= sprintf "</%s>", 
+            $render->{tag};
+    }
+    
+    return $html;
+}
+
 sub start {
     my ($self) = @_;
-
-    return $self->render('start_block');
+    
+    return $self->tt({
+        filename => 'start_block',
+        render_data => $self->render_data_non_recursive,
+    });
 }
 
 sub end {
     my ($self) = @_;
-
-    return $self->render('end_block');
+    
+    return $self->tt({
+        filename => 'end_block',
+        render_data => $self->render_data_non_recursive,
+    });
 }
 
 sub clone {

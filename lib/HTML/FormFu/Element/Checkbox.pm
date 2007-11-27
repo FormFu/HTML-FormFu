@@ -17,7 +17,7 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->field_type('checkbox');
-    $self->multi_filename('multi_rtl');
+    $self->reverse_multi(1);
 
     return $self;
 }
@@ -82,6 +82,10 @@ HTML::FormFu::Element::Checkbox - Checkbox form field
 Checkbox form field.
 
 =head1 METHODS
+
+=head2 reverse_multi
+
+Overrides the default value, so it's C<true>.
 
 =head1 SEE ALSO
 
