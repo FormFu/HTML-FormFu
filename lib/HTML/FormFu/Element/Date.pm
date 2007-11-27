@@ -335,12 +335,18 @@ sub process_input {
     return $self->next::method($input);
 }
 
+sub render_data {
+    return shift->render_data_non_recursive(@_);
+}
+
 sub render_data_non_recursive {
     my $self = shift;
 
     $self->_add_elements;
 
-    my $render = $self->next::method(@_);
+    my $render = $self->next::method( {
+        elements => [ map { $_->render_data } @{ $self->_elements } ],
+        @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
