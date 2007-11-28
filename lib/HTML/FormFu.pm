@@ -20,6 +20,7 @@ use HTML::FormFu::ObjectUtil qw/
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
     split_name _parse_args process_attrs /;
+
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
@@ -45,7 +46,7 @@ __PACKAGE__->mk_accessors(
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
         _output_processors tt_module
-        nested_name nested_subscript share_dir /
+        nested_name nested_subscript /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -74,20 +75,6 @@ our $VERSION = '0.01006';
 $VERSION = eval $VERSION;
 
 Class::C3::initialize();
-
-our $SHARE_DIR;
-
-eval {
-    # dist_dir() doesn't reliably return the directory our files are in.
-    # find the path of one of our files, then get the directory from that
-    
-    my $path = dist_file( 'HTML-FormFu', 'templates/tt/xhtml/form' );
-    
-    my ( $volume, $dirs, $file ) = File::Spec->splitpath( $path );
-    
-    $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
-};
-# ignore $@
 
 sub new {
     my $class = shift;
@@ -119,9 +106,6 @@ sub new {
         auto_error_message => 'form_%s_%t',
     );
     
-    $defaults{share_dir} = $SHARE_DIR
-        if defined $SHARE_DIR;
-
     $self->populate( \%defaults );
 
     $self->populate( \%attrs );

@@ -5,6 +5,9 @@ use Class::C3;
 use HTML::FormFu::Util qw/ process_attrs /;
 use Carp qw/ croak /;
 
+our $SHARE_DIR;
+our $SHARE_ERROR;
+
 sub render {
     my $self = shift;
     
@@ -32,7 +35,7 @@ sub tt {
     $args->{render_data} = $self->render_data if !exists $args->{render_data};
     
     my $form      = $self->form;
-    my $share_dir = $form->share_dir;
+    my $share_dir = _share_dir();
     
     my %args = %{ $self->tt_args };
     
@@ -78,15 +81,15 @@ sub tt {
         
         my $error = $template->error;
         
-        if ( $error->type() eq 'file' && $error =~ /not found/ ) {
+        if ( $error->type() eq 'file' && $error =~ /not found/i ) {
             croak <<ERROR;
 $error
 The template files should have been installed somewhere in \@INC as part of
-the installation process, please report this bug.
-See Catalyst::Helper::HTML::FormFu if you're using Catalyst.
+the installation process.
+If you're using Catalyst, see Catalyst::Helper::HTML::FormFu.
 Alternatively, you can create a local copy of the files by running 
     `html_formfu_deploy.pl`.
-Then set \$form->tt_args->{INCLUDE_PATH} to point to that location.
+Then set \$form->tt_args->{INCLUDE_PATH} to point to the template directory.
 ERROR
 
         }
@@ -96,6 +99,36 @@ ERROR
     }
 
     return $output;
+}
+
+sub _share_dir {
+    
+    return $SHARE_DIR if defined $SHARE_DIR;
+    
+    return if $SHARE_ERROR;
+    
+    eval {
+        require 'File/ShareDir.pm';
+        require 'File/Spec.pm';
+        
+        # dist_dir() doesn't reliably return the directory our files are in.
+        # find the path of one of our files, then get the directory from that
+        
+        my $path = File::ShareDir::dist_file(
+            'HTML-FormFu', 'templates/tt/xhtml/form' );
+        
+        my ( $volume, $dirs, $file ) = File::Spec->splitpath( $path );
+        
+        $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
+    };
+    
+    if ($@) {
+        $SHARE_DIR   = undef;
+        $SHARE_ERROR = 1;
+        return;
+    }
+    
+    return $SHARE_DIR;
 }
 
 1;

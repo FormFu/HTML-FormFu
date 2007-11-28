@@ -1,10 +1,19 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More;
+
+eval { require 'Template' };
+
+if ($@) {
+    plan skip_all => 'Template.pm required';
+    exit;
+}
+else {
+    plan tests => 1;
+}
 
 use HTML::FormFu;
-use Template;
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 

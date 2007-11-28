@@ -22,13 +22,18 @@ requires 'Module::Pluggable';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
-requires 'Template' => '2.19';
 requires 'YAML::Syck';
 
-my $msg = "Use Template::Alloy for improved performance over Template.pm ?
-(see docs for enabling this at runtime)";
+my $msg = <<MSG;
+If you want to use the template files to customise your forms,
+you'll need to install one of the following modules:
+MSG
 
-feature $msg, 
+feature "${msg}Template",
+    -default => 0,
+    'Template' => '2.19';
+
+feature "Template::Alloy",
     -default => 0,
     'Template::Alloy' => '1.005';
 
