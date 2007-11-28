@@ -3,14 +3,14 @@ use warnings;
 
 use Test::More;
 
-eval { require 'Template' };
+eval { require Template; };
 
 if ($@) {
     plan skip_all => 'Template.pm required';
     exit;
 }
 else {
-    plan tests => 1;
+    plan tests => 2;
 }
 
 use HTML::FormFu;

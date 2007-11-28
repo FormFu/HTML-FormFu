@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-eval { require 'Template' };
+eval { require Template; };
 
 if ($@) {
     plan skip_all => 'Template.pm required';
