@@ -29,7 +29,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(
     qw/
-        name type filename is_field
+        name type filename is_field is_repeatable db
         /
 );
 
@@ -50,6 +50,7 @@ sub new {
 
     $self->attributes( {} );
     $self->stash(      {} );
+    $self->db(         {} );
 
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );

@@ -46,7 +46,7 @@ __PACKAGE__->mk_accessors(
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
         _output_processors tt_module
-        nested_name nested_subscript /
+        nested_name nested_subscript model_class _model /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -104,6 +104,7 @@ sub new {
         localize_class     => 'HTML::FormFu::I18N',
         auto_error_class   => 'error_%s_%t',
         auto_error_message => 'form_%s_%t',
+        model_class         => 'DBIC',
     );
     
     $self->populate( \%defaults );
@@ -145,6 +146,34 @@ sub default_values {
     }
     
     return $self;
+}
+
+sub model {
+    my ($self) = @_;
+    
+    if ( defined ( my $model = $self->_model ) ) {
+        return $model;
+    }
+    
+    my $class = "HTML::FormFu::Model::" . $self->model_class;
+    
+    require_class($class);
+    
+    $self->_model( $class );
+    
+    return $class;
+}
+
+sub values_from_model {
+    my $self = shift;
+    
+    return $self->model->values_from_model( $self, @_ );
+}
+
+sub save_to_model {
+    my $self = shift;
+    
+    return $self->model->save_to_model( $self, @_ );
 }
 
 sub process {

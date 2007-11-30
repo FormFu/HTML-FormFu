@@ -1,0 +1,12 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: text_col
+  
+  - type: Submit
+    name: submit

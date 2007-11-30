@@ -1,0 +1,16 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Select
+    name: bands
+    multiple: 1
+  
+  - type: Submit
+    name: submit

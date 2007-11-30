@@ -76,9 +76,7 @@ sub _prepare_attrs {
 
     if (   $submitted
         && defined $value
-        && (ref $value eq 'ARRAY'
-            ? grep { $_ eq $option->{value} } @$value
-            : $value eq $option->{value} ) )
+        && $value eq $option->{value} )
     {
         $option->{attributes}{checked} = 'checked';
     }

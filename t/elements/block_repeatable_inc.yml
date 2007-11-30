@@ -5,7 +5,7 @@ elements:
   - type: Repeatable
     increment_field_names: 1
     elements:
-      - name: foo0
-      - name: bar0
+      - name: foo
+      - name: bar
   - type: Submit
     name: submit

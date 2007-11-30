@@ -32,7 +32,7 @@ __PACKAGE__->mk_accessors(
         _constraints _filters _inflators _deflators _validators _transformers
         _errors container_tag
         field_filename label_filename label_tag retain_default force_default
-        javascript non_param reverse_multi /
+        javascript non_param reverse_multi multi_value original_name /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ comment label value /);
@@ -143,6 +143,20 @@ sub nested_names {
    }
    
    return ( $self->name );
+}
+
+sub nested_base {
+    my $self = shift;
+    
+    croak 'cannot set nested_base' if @_;
+    
+    my $parent = $self;
+    
+    while ( defined $parent->parent ) {
+        $parent = $parent->parent;
+        
+        return $parent->nested_name if defined $parent->nested_name;
+    }
 }
 
 sub deflator {

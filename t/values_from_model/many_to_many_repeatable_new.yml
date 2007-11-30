@@ -1,0 +1,29 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Repeatable
+    nested_name: bands
+    increment_field_names: 1
+    query_param: count
+    db:
+      new_empty_row: band
+    
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: band
+  
+  - type: Hidden
+    name: count
+  
+  - type: Submit
+    name: submit

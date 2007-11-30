@@ -1,0 +1,21 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: text_col
+  
+  - type: Block
+    nested_name: user
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: name
+  
+  - type: Submit
+    name: submit

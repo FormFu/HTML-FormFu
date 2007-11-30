@@ -26,10 +26,10 @@ is( $form, <<HTML );
 <fieldset>
 <div>
 <span class="text">
-<input name="foo1" type="text" />
+<input name="foo_1" type="text" />
 </span>
 <span class="text">
-<input name="bar1" type="text" />
+<input name="bar_1" type="text" />
 </span>
 </div>
 <span class="submit">

@@ -29,6 +29,21 @@ sub nested_names {
    return ( $self->name );
 }
 
+sub nested_base {
+    my $self = shift;
+    
+    croak 'cannot set nested_base' if @_;
+    
+    # ignore immediate parent
+     my $parent = $self->parent;
+    
+    while ( defined $parent->parent ) {
+        $parent = $parent->parent;
+        
+        return $parent->nested_name if defined $parent->nested_name;
+    }
+}
+
 1;
 
 __END__

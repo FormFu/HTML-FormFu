@@ -13,6 +13,7 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->filename('repeatable');
+    $self->is_repeatable(1);
 
     return $self;
 }
@@ -47,8 +48,6 @@ sub repeat {
         my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
         
-        map { $_->parent($block) } @clones;
-        
         $block->_elements(\@clones);
         $block->attributes( $self->attributes );
         $block->tag( $self->tag );
@@ -58,12 +57,26 @@ sub repeat {
         if ( $self->increment_field_names ) {
             for my $field ( @{ $block->get_all_elements } ) {
                 next unless $field->is_field;
-                my $name = $field->name;
-                if ( defined $name && $name =~ /0/ ) {
-                    $name =~ s/0/$rep/;
+                
+                if ( defined( my $name = $field->name ) ) {
+                    $field->original_name($name);
+                    
+                    $name .= "_$rep";
                     $field->name($name);
                 }
             }
+        }
+        
+        _reparent_children( $block );
+        
+        for my $field (@{ $block->get_fields }) {
+            map { $_->parent($field) }
+                @{ $field->_deflators },
+                @{ $field->_filters },
+                @{ $field->_constraints },
+                @{ $field->_inflators },
+                @{ $field->_validators },
+                @{ $field->_transformers };
         }
         
         push @return, $block;
@@ -71,6 +84,18 @@ sub repeat {
     }
     
     return \@return;
+}
+
+sub _reparent_children {
+    my $self = shift;
+    
+    return if $self->is_field;
+    
+    for my $child (@{ $self->get_elements }) {
+        $child->parent( $self );
+        
+        _reparent_children( $child );
+    }
 }
 
 sub process {

@@ -41,6 +41,8 @@ test_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';
 
+no_index directory => 'examples';
+
 install_script('bin/html_formfu_deploy.pl');
 install_share();
 

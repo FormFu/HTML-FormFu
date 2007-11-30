@@ -6,7 +6,7 @@ elements:
     increment_field_names: 1
     query_param: count
     elements:
-      - name: foo0
-      - name: bar0
+      - name: foo
+      - name: bar
   - type: Submit
     name: submit

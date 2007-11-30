@@ -44,6 +44,18 @@ sub new {
     return $self;
 }
 
+sub values_from_model {
+    my $self = shift;
+    
+    return $self->form->model->values_from_model(@_);
+}
+
+sub save_to_model {
+    my $self = shift;
+    
+    return $self->form->model->save_to_model(@_);
+}
+
 sub process {
     my ($self) = @_;
 

@@ -1,0 +1,34 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Repeatable
+    nested_name: addresses
+    increment_field_names: 1
+    query_param: count
+    
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: address
+      
+      - type: Checkbox
+        name: delete
+        value: 1
+        db:
+          delete_if_true: 1
+  
+  - type: Hidden
+    name: count
+  
+  - type: Submit
+    name: submit
+
