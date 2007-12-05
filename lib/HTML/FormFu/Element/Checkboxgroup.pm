@@ -13,6 +13,7 @@ sub new {
     $self->field_filename('checkboxgroup_tag');
     $self->label_tag('legend');
     $self->container_tag('fieldset');
+    $self->multi_value(1);
 
     return $self;
 }
