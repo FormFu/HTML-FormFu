@@ -843,10 +843,12 @@ sub clone {
 
     for my $list (
         qw/ _filters _constraints _inflators _validators _transformers
-        _deflators /
+        _deflators _errors /
         )
     {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
+        
+        map { $_->parent($clone) } @{ $clone->$list };
     }
 
     $clone->comment_attributes( dclone $self->comment_attributes );

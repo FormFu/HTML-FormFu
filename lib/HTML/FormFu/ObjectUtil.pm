@@ -475,11 +475,15 @@ sub clone {
 
     $new{_elements}        = [ map { $_->clone } @{ $self->_elements } ];
     $new{attributes}       = dclone $self->attributes;
-    $new{tt_args}      = dclone $self->tt_args;
+    $new{tt_args}          = dclone $self->tt_args;
     $new{element_defaults} = dclone $self->element_defaults;
     $new{languages}        = dclone $self->languages;
 
-    return bless \%new, ref $self;
+    my $obj =  bless \%new, ref $self;
+
+    map { $_->parent($obj) } @{ $new{_elements} };
+
+    return $obj;
 }
 
 sub name {

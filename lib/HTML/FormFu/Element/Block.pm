@@ -163,6 +163,8 @@ sub clone {
     my $clone = $self->next::method(@_);
 
     $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
+    
+    map { $_->parent($clone) } @{ $clone->_elements };
 
     $clone->element_defaults( dclone $self->element_defaults );
 
