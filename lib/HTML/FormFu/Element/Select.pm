@@ -28,6 +28,9 @@ sub process {
         my $model = $context->model( $args->{schema} );
         return if !defined $model;
         
+        $model = $model->resultset( $args->{resultset} )
+            if defined $args->{resultset};
+        
         my $rs    = $model->result_source;
         my $id    = $args->{id_column};
         my $label = $args->{label_column};
@@ -39,7 +42,7 @@ sub process {
         if ( !defined $label ) {
             # use first text column
             ($label) = grep {
-                $rs->column_info($_)->{data_type} =~ /text/i
+                $rs->column_info($_)->{data_type} =~ /text|varchar/i
             } $rs->columns;
         }
         return if !defined $label;
