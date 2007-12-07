@@ -1,0 +1,16 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    nested_name: rep
+    increment_field_names: 1
+    query_param: count
+    elements:
+      - name: foo
+        constraints:
+          - type: Equal
+            others: bar
+      
+      - name: bar

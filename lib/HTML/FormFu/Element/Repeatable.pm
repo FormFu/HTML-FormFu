@@ -79,6 +79,34 @@ sub repeat {
                 @{ $field->_transformers };
         }
         
+        my $block_fields = $block->get_fields;
+        
+        my @others_constraints = 
+            grep { $_->can('others') }
+            map { @{ $_->_constraints } }
+                @$block_fields;
+        
+        for my $constraint (@others_constraints) {
+            my $others = $constraint->others;
+            $others = [$others] if !ref $others;
+            my @new_others;
+            
+            for my $name (@$others) {
+                my ($field) =
+                    grep { $_->original_name eq $name }
+                    @$block_fields;
+                
+                if ( defined $field ) {
+                    push @new_others, $field->nested_name;
+                }
+                else {
+                    push @new_others, $name;
+                }
+            }
+            
+            $constraint->others(\@new_others);
+        }
+        
         push @return, $block;
         
     }
