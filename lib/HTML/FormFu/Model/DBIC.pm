@@ -307,7 +307,13 @@ sub _save_relationships {
             
         }
         elsif ( ref $params eq 'HASH' ) {
-            my $target = $dbic->find_or_new_related( $rel, {} );
+            my $target = $dbic->find_related( $rel, {} );
+            
+            if ( !defined $target && grep { length $_ } values %$params ) {
+                $target = $dbic->create_related( $rel, {} );
+            }
+            
+            next if !defined $target;;
             
             save_to_model(
                 $self,
