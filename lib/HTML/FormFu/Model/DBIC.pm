@@ -527,7 +527,9 @@ sub _save_multi_value_fields_many_to_many {
             
             my @values = $form->param($nested_name);
             
-            my ($pk) = $dbic->$name->result_source->primary_columns;
+            my ($pk) = exists $field->db->{default_column}
+                ? $field->db->{default_column}
+                : $dbic->$name->result_source->primary_columns;
             
             my @rows = $dbic->$name->result_source->resultset
                 ->search( { "me.$pk" => { -in => \@values } } )->all;
@@ -657,7 +659,7 @@ sub _delete_many_to_many {
     my ( $form, $dbic, $row, $rel, $rep ) = @_;
     
     my ($del_field) = grep {
-        $_->db->{unrelate_if_true}
+        $_->db->{delete_if_true}
     } @{ $rep->get_fields };
     
     return if !defined $del_field;
@@ -684,7 +686,7 @@ HTML::FormFu::Model::DBIC - Integrate HTML::FormFu with DBIx::Class
 
 =head1 SYNOPSIS
 
-Set a form's default values from a DBIx::Class row object:
+Set a forms' default values from a DBIx::Class row object:
 
     my $row = $resultset->find( $id );
     
@@ -706,6 +708,156 @@ Arguments: $dbic_row, [\%config]
 
 Return Value: $form
 
+Set a form' default values from a DBIx::Class row.
+
+Any form fields with a name matching a column name will have their default
+value set with the column value.
+
+=head3 might_have and has_one relationships
+
+Set field values from a related row with a C<might_have> or C<has_one> 
+relationship by placing the fields within a 
+L<Block|HTML::FormFu::Element::Block> (or any element that inherits from 
+Block, such as L<Fieldset|HTML::FormFu::Element::Fieldset>) with its
+L<HTML::FormFu/nested_name> set to the relationships name.
+
+For the following DBIx::Class schemas:
+
+    package MySchema::Book;
+    use strict;
+    use warnings;
+    
+    use base 'DBIx::Class';
+    
+    __PACKAGE__->load_components(qw/ Core /);
+    
+    __PACKAGE__->table("book");
+    
+    __PACKAGE__->add_columns(
+        id    => { data_type => "INTEGER" },
+        title => { data_type => "TEXT" },
+    );
+    
+    __PACKAGE__->set_primary_key("id");
+    
+    __PACKAGE__->might_have( review => 'MySchema::Review', 'book' );
+    
+    1;
+
+
+    package MySchema::Review;
+    use strict;
+    use warnings;
+    
+    use base 'DBIx::Class';
+    
+    __PACKAGE__->load_components(qw/ Core /);
+    
+    __PACKAGE__->table("review");
+    
+    __PACKAGE__->add_columns(
+        id     => { data_type => "INTEGER" },
+        book   => { data_type => "INTEGER" },
+        review => { data_type => "TEXT" },
+    );
+    
+    __PACKAGE__->set_primary_key("id");
+    
+    __PACKAGE__->belongs_to( book => 'MySchema::Book', 'id' );
+    
+    1;
+
+
+A suitable form for this would be:
+
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: title
+      
+      - type: Block
+        elements:
+          - type: Hidden
+            name: id
+          
+          - type: Text
+            name: review
+
+=head3 has_many and many_to_many relationships
+
+To edit fields in related rows with C<has_many> and C<many_to_many>
+relationships, the fields must be placed within a 
+L<Repeatable|HTML::FormFu::Element::Repeatable> element.
+This will output a repetition of the entire block for each row returned.
+L<HTML::FormFu::Element::Repeatable/increment_field_names> must be set on
+the Repeatable block.
+
+The block's L<nested_name|HTML::FormFu::Element::Repeatable/nested_name>
+must be set to the name of the relationship.
+
+If you want an extra, empty, copy of the block to be output, to allow the
+user to add a new row of data, set the C<new_empty_row> key of the field's
+L<db|HTML::FormFu::Element/db> hashref. The value must be a column name, or
+arrayref of column names that must be filled in for the row to be added.
+
+    ---
+    element:
+      - type: Repeatable
+        nested_name: authors
+        increment_field_names: 1
+        db: 
+          new_empty_row: author
+        
+        elements:
+          - type: Text
+            name: author
+
+If you want to provide a L<Checkbox|HTML::FormFu::Element::Checkbox> or
+similar field, to allow the user to select whether given rows should be 
+deleted (or, in the case of C<many_to_many> relationships, unrelated),
+set C<delete_if_true> on the block's L<db|HTML::FormFu::Element/db> 
+hashref to the name of that field.
+
+    ---
+    element:
+      - type: Repeatable
+        nested_name: authors
+        increment_field_names: 1
+        db: 
+          delete_if_true: delete
+        
+        elements:
+          - type: Text
+            name: author
+          
+          - type: Checkbox
+            name: delete
+
+=head3 many_to_many selection
+
+To select / deselect rows from a C<many_to_many> relationship, you must use
+a multi-valued element, such as a 
+L<Checkboxgroup|HTML::FormFu::Element::Checkboxgroup> or a
+L<Select|HTML::FormFu::Element::Select> with 
+L<multiple|HTML::FormFu::Element::Select/multiple> set.
+
+The field's L<name|HTML::FormFu::Element::_Field/name> must be set to the 
+name of the C<many_to_many> relationship.
+
+If you want to search / associate the related table by a column other it's
+primary key, set the C<default_column> key on the field's 
+L<db|HTML::FormFu::Element/db> hashref.
+
+    ---
+    element:
+        - type: Checkboxgroup
+          name: authors
+          db:
+            default_column: foo
+
+
 =head2 save_to_model
 
 Arguments: $dbic_row, [\%config]
@@ -715,59 +867,8 @@ Return Value: $dbic_row
 Update the database with the submitted form values. Uses 
 L<update_or_insert|DBIx::Class::Row/update_or_insert>.
 
-=head2 Example
-
-A single form containing 2 addresses, both of which should be stored in the 
-same database table:
-
-    ---
-    elements:
-      - type: Fieldset
-        nested_name: home
-        elements:
-          - name: street
-          - name: city
-          - name: code
-      - type: Fieldset
-        nested_name: office
-        elements:
-          - name: street
-          - name: city
-          - name: code
-
-This will result in the form fields being named:
-
-    home.street
-    home.city
-    home.code
-    office.street
-    office.city
-    office.code
-
-The form could then be used like so:
-
-    my $home = $user->new_related( 'address', { type => 'home' } );
-    
-    $home->populate_from_formfu( $form, { nested_base => 'home' } );
-    
-    my $office = $user->new_related( 'address', { type => 'home' } );
-    
-    $office->populate_from_formfu( $form, { nested_base => 'office' } );
-
-=head1 FREQUENTLY ASKED QUESTIONS (FAQ)
-
-=head2 Add extra values not in the form
-
-To send extra values to the database, which weren't submitted to the form, 
-you can first add them to the form with L<add_valid|HTML::FormFu/add_valid>.
-
-    my $passwd = generate_passwd();
-    
-    $form->add_valid( passwd => $passwd );
-    
-    $row->populate_from_formfu( $form );
-
-C<add_valid> works for fieldnames that don't exist in the form.
+See L</values_from_model> for specifics about what relationships are supported
+and how to structure your forms.
 
 =head1 CAVEATS
 
