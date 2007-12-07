@@ -266,9 +266,11 @@ sub save_to_model {
     my @rels  = $rs->relationships;
     my @cols  = $rs->columns;
     
-    _save_relationships( $self, $base, $dbic, $form, $rs, $attrs, \@rels );
-    
     _save_columns( $base, $dbic, $form, $attrs, \%checkbox, \@rels, \@cols );
+    
+    $dbic->update_or_insert;
+    
+    _save_relationships( $self, $base, $dbic, $form, $rs, $attrs, \@rels );
     
     _save_multi_value_fields_many_to_many(
         $base, $dbic, $form, $attrs, \@rels, \@cols );
@@ -276,8 +278,6 @@ sub save_to_model {
     _save_repeatable_many_to_many(
         $self, $base, $dbic, $form, $attrs, \@rels, \@cols );
     
-    $dbic->update_or_insert;
-
     return $dbic;
 }
 
