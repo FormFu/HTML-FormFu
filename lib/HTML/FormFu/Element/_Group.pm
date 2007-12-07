@@ -9,7 +9,7 @@ use HTML::FormFu::Util qw/ append_xml_attribute /;
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ _options /);
+__PACKAGE__->mk_accessors(qw/ _options empty_first /);
 
 sub new {
     my $self = shift->next::method(@_);
@@ -29,6 +29,15 @@ sub options {
     if ( defined $arg ) {
         eval { @options = @$arg };
         croak "options argument must be an array-ref" if $@;
+
+        if ( $self->empty_first ) {
+            push @new, {
+                value => '',
+                label => '',
+                attributes => {},
+                label_attributes => {},
+            };
+        }
 
         for my $item (@options) {
             push @new, $self->_parse_option($item);
@@ -90,6 +99,10 @@ sub values {
         croak "values argument must be an array-ref" if $@;
     }
 
+    if ( $self->empty_first ) {
+        unshift @values, '';
+    }
+
     @new = (
         map { { value            => $_,
                 label            => ucfirst $_,
@@ -119,6 +132,10 @@ sub value_range {
 
     my $end   = pop @values;
     my $start = pop @values;
+
+    if ( $self->empty_first ) {
+        unshift @values, '';
+    }
 
     return $self->values( [ @values, $start .. $end ] );
 }
@@ -303,6 +320,12 @@ Arguments: \@values
 Similar to L</values>, but the last 2 values are expanded to a range. Any 
 preceeding values are used literally, allowing the common empty first item 
 in select menus.
+
+=head2 empty_first
+
+If true, then a blank option will be inserted at the start of the option list
+(regardless of whether L</options>, L</values> or L</value_range> was used to
+populate the options).
 
 =head1 SEE ALSO
 
