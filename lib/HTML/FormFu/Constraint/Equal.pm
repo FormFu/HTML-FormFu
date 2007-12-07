@@ -45,6 +45,8 @@ sub _values_eq {
     # so the value is either a string or an arrayref of strings
 
     return 1 if !defined $v1 && !defined $v2;
+    
+    return if !defined $v1 || !defined $v2;
 
     if ( !ref $v1 && !ref $v2 ) {
         return 1 if $v1 eq $v2;
