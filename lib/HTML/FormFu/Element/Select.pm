@@ -18,45 +18,6 @@ sub new {
     return $self;
 }
 
-sub process {
-    my ($self) = @_;
-    
-    my $context = $self->form->stash->{context};
-    my $args    = $self->db;
-    
-    if ( $args && $args->{schema} && $context ) {
-        my $model = $context->model( $args->{schema} );
-        return if !defined $model;
-        
-        $model = $model->resultset( $args->{resultset} )
-            if defined $args->{resultset};
-        
-        my $rs    = $model->result_source;
-        my $id    = $args->{id_column};
-        my $label = $args->{label_column};
-        
-        if ( !defined $id ) {
-            ($id) = $rs->primary_columns;
-        }
-        
-        if ( !defined $label ) {
-            # use first text column
-            ($label) = grep {
-                $rs->column_info($_)->{data_type} =~ /text|varchar/i
-            } $rs->columns;
-        }
-        return if !defined $label;
-        
-        my $result = $model->search( {}, { -columns => [$id, $label] } );
-        
-        my @defaults = map {
-            [ $_->$id, $_->$label ]
-        } $result->all;
-        
-        $self->options( \@defaults );
-    }
-}
-
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;
 
