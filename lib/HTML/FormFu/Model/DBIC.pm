@@ -266,7 +266,8 @@ sub save_to_model {
     my @rels  = $rs->relationships;
     my @cols  = $rs->columns;
     
-    _save_columns( $base, $dbic, $form, $attrs, \%checkbox, \@rels, \@cols );
+    _save_columns( $base, $dbic, $form, $attrs, \%checkbox, \@rels, \@cols )
+        or return;
     
     $dbic->update_or_insert;
     
@@ -474,6 +475,14 @@ sub _save_columns {
                 ? $form->param( $col )
                 : undef;
 
+        if ( defined $field && $field->db->{delete_if_empty}
+            && ( !defined $value || !length $value ) )
+        {
+            $dbic->discard_changes if $dbic->is_changed;
+            $dbic->delete;
+            return;
+        }
+
         if ( ( $is_nullable
             || $data_type =~ m/^timestamp|date|int|float|numeric/i
             )
@@ -507,6 +516,8 @@ sub _save_columns {
             $dbic->$col($value);
         }
     }
+    
+    return 1;
 }
 
 sub _save_multi_value_fields_many_to_many {
@@ -762,14 +773,13 @@ For the following DBIx::Class schemas:
     __PACKAGE__->table("review");
     
     __PACKAGE__->add_columns(
-        id     => { data_type => "INTEGER" },
         book   => { data_type => "INTEGER" },
         review => { data_type => "TEXT" },
     );
     
-    __PACKAGE__->set_primary_key("id");
+    __PACKAGE__->set_primary_key("book");
     
-    __PACKAGE__->belongs_to( book => 'MySchema::Book', 'id' );
+    __PACKAGE__->belongs_to( book => 'MySchema::Book' );
     
     1;
 
@@ -785,11 +795,29 @@ A suitable form for this would be:
       
       - type: Block
         elements:
-          - type: Hidden
-            name: id
-          
           - type: Text
             name: review
+
+For C<might_have> and C<has_one> relationships, you generally shouldn't need
+to have a field for the related table's primary key, as DBIx::Class will
+handle retrieving the correct row automatically.
+
+If you want the related row deleted if a particular field is empty, set
+set C<delete_if_empty> on the field's L<db|HTML::FormFu::Element/db>. 
+
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: title
+      
+      - type: Block
+        elements:
+          - type: Text
+            name: review
+            db:
+              delete_if_empty: 1
 
 =head3 has_many and many_to_many relationships
 
