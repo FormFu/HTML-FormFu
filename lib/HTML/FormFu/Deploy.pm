@@ -2,6 +2,7 @@ package HTML::FormFu::Deploy;
 
 use strict;
 
+use Cwd qw( getcwd );
 use Fatal qw( open binmode close mkdir );
 use File::Copy qw( copy move );
 use File::Find qw( find );
@@ -14,7 +15,9 @@ our $SHARE_DIR;
 if ( -f 'MANIFEST.SKIP' && -d 'share/templates/tt/xhtml' ) {
     warn "Running as a developer, using the local, not installed templates\n\n";
     
-    $SHARE_DIR = 'share/templates/tt/xhtml';
+    my $cwd = getcwd();
+    
+    $SHARE_DIR = File::Spec->catfile( $cwd, 'share/templates/tt/xhtml' );
 }
 else {
     # dist_dir() doesn't reliably return the directory our files are in.
@@ -34,6 +37,9 @@ sub file_list {
         return if /^\./;                          # skip files beginning with "."
         return unless -f $File::Find::name;       # skip non-files
 
+        # necessary when using dev files
+        return if $File::Find::name =~ m|/\.svn|; 
+
         push @dir, $_;
     };
     
@@ -48,7 +54,7 @@ sub file_source {
 
     my $path = File::Spec->catfile( $SHARE_DIR, $filename );
 
-    croak "unknown filename" unless -f $path;
+    croak "unknown filename: '$path'" unless -f $path;
 
     open my $fh, '<', $path;
     
