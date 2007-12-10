@@ -8,7 +8,7 @@ elements:
   - type: Repeatable
     nested_name: rep
     increment_field_names: 1
-    query_param: count
+    counter_name: count
     elements:
       - name: foo
       - name: bar

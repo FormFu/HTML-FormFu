@@ -6,7 +6,7 @@ use Class::C3;
 use Carp qw/ croak /;
 
 __PACKAGE__->mk_accessors(
-    qw/ _original_elements increment_field_names query_param /
+    qw/ _original_elements increment_field_names counter_name /
 );
 
 sub new {
@@ -132,8 +132,8 @@ sub process {
     my $form  = $self->form;
     my $count = 1;
     
-    if ( defined $self->query_param && defined $form->query ) {
-        my $input = $form->query->param( $self->query_param );
+    if ( defined $self->counter_name && defined $form->query ) {
+        my $input = $form->query->param( $self->counter_name );
         
         $count = $input
             if defined $input && $input =~ /^[1-9][0-9]*\z/;
@@ -237,7 +237,7 @@ C<< $element->repeat(2) >> on a Repeatable element containing 2 Text fields
 would return 2 L<Block|HTML::FormFu::Element::Block> elements, each 
 containing a copy of the 2 Text fields.
 
-=head2 query_param
+=head2 counter_name
 
 Arguments: $name
 
@@ -278,7 +278,7 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
         <input name="bar_2" type="text" />
     </div>
 
-See also L</query_param>.
+See also L</counter_name>.
 
 =head2 repeatable_count
 

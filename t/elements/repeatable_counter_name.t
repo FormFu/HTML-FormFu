@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-$form->load_config_file('t/elements/block_repeatable_query_param.yml');
+$form->load_config_file('t/elements/repeatable_counter_name.yml');
 
 my $fs = $form->get_element;
 my $block = $fs->get_element;

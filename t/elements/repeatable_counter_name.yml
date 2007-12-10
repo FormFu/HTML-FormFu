@@ -4,7 +4,7 @@ auto_fieldset: 1
 elements:
   - type: Repeatable
     increment_field_names: 1
-    query_param: count
+    counter_name: count
     elements:
       - name: foo
       - name: bar

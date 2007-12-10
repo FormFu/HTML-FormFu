@@ -11,7 +11,7 @@ elements:
   - type: Repeatable
     nested_name: bands
     increment_field_names: 1
-    query_param: count
+    counter_name: count
     
     elements:
       - type: Hidden

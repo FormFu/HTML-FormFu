@@ -87,7 +87,7 @@ sub _fill_relationships {
             
             # set the counter field to the number of rows
             
-            if ( defined ( my $param_name = $block->query_param ) ) {
+            if ( defined ( my $param_name = $block->counter_name ) ) {
                 my $field = $form->get_field($param_name);
                 
                 $field->default( $count )
@@ -235,7 +235,7 @@ sub _fill_repeatable_many_to_many {
             
             # set the counter field to the number of rows
             
-            if ( defined ( my $param_name = $block->query_param ) ) {
+            if ( defined ( my $param_name = $block->counter_name ) ) {
                 my $field = $form->get_field($param_name);
                 
                 $field->default( $count )
