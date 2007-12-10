@@ -21,9 +21,9 @@ sub values_from_model {
     my @rels = $rs->relationships;
     my @cols = $rs->columns;
 
-    _fill_relationships( $self, $base, $dbic, $form, $rs, $attrs, \@rels );
-    
     _fill_columns( $base, $dbic, $attrs, \@rels, \@cols );
+    
+    _fill_relationships( $self, $base, $dbic, $form, $rs, $attrs, \@rels );
     
     _fill_multi_value_fields_many_to_many(
         $base, $dbic, $attrs, \@rels, \@cols );

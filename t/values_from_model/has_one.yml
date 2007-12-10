@@ -11,9 +11,6 @@ elements:
   - type: Block
     nested_name: user
     elements:
-      - type: Hidden
-        name: id
-      
       - type: Text
         name: name
   

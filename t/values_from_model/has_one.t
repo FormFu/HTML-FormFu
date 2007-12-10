@@ -9,7 +9,7 @@ BEGIN {
     }
 }
 
-plan tests => 4;
+plan tests => 3;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -59,7 +59,6 @@ my $rs = $schema->resultset('Master');
     
     my $block = $form->get_all_element({ nested_name => 'user' });
     
-    is( $block->get_field('id')->render_data->{value}, 2 );
     is( $block->get_field('name')->render_data->{value}, 'bar' );
     
 }
