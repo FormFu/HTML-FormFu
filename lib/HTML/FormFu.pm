@@ -965,6 +965,41 @@ L<mailing list|/SUPPORT>.
         $template->param( form => $form );
     }
 
+If you're using L<Catalyst>, a more suitable example might be:
+
+    package MyApp::Controller::User;
+    use strict;
+    use base 'Catalyst::Controller::HTML::FormFu';
+    
+    sub user : Chained CaptureArgs(1) {
+        my ( $self, $c, $id ) = @_;
+        
+        my $rs = $c->model('Schema')->resultset('User');
+        
+        $c->stash->{user} = $rs->find( $id );
+        
+        return;
+    }
+    
+    sub edit : Chained('user') Args(0) FormConfig {
+        my ( $self, $c ) = @_;
+        
+        my $form = $c->stash->{form};
+        my $user = $c->stash->{user};
+        
+        if ( $form->submitted_and_valid ) {
+            
+            $form->save_to_model( $user );
+            
+            $c->res->redirect( $c->uri_for( "/user/$id" ) );
+            return;
+        }
+        
+        $form->values_from_model( $user )
+            if ! $form->submitted;
+        
+    }
+
 Here's an example of a config file to create a basic login form (all examples 
 here are L<YAML>, but you can use any format supported by L<Config::Any>), 
 you can also create forms directly in your perl code, rather than using an 

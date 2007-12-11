@@ -737,7 +737,7 @@ Arguments: $dbic_row, [\%config]
 
 Return Value: $form
 
-Set a form' default values from a DBIx::Class row.
+Set a form's default values from a DBIx::Class row.
 
 Any form fields with a name matching a column name will have their default
 value set with the column value.
@@ -915,6 +915,21 @@ L<update_or_insert|DBIx::Class::Row/update_or_insert>.
 
 See L</values_from_model> for specifics about what relationships are supported
 and how to structure your forms.
+
+=head1 FAQ
+
+=head2 Add extra values not in the form
+
+To save values to the database which weren't submitted to the form, 
+you can first add them to the form with L<add_valid|HTML::FormFu/add_valid>.
+
+    my $passwd = generate_passwd();
+    
+    $form->add_valid( passwd => $passwd );
+    
+    $form->save_to_model( $row );
+
+C<add_valid> works for fieldnames that don't exist in the form.
 
 =head1 CAVEATS
 

@@ -132,6 +132,10 @@ See L<HTML::FormFu::Element::_Group/values>.
 
 See L<HTML::FormFu::Element::_Group/value_range>.
 
+=head2 empty_first
+
+See L<HTML::FormFu::Element::_Group/empty_first>.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 

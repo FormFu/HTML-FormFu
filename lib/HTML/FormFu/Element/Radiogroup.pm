@@ -200,6 +200,10 @@ See L<HTML::FormFu::Element::_Group/values>.
 
 See L<HTML::FormFu::Element::_Group/value_range>.
 
+=head2 empty_first
+
+See L<HTML::FormFu::Element::_Group/empty_first>.
+
 =head2 auto_id
 
 In addition to the substitutions documented by L<HTML::FormFu/auto_id>, 
