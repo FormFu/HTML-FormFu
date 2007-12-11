@@ -26,7 +26,8 @@ sub process {
     my $context = $self->form->stash->{context};
     my $args    = $self->db;
 
-    if ( $args && $args->{model} && $context ) {
+    if ( $args && $args->{model} && defined $context ) {
+        
         my $model = $context->model( $args->{model} );
         return if !defined $model;
 

@@ -15,7 +15,7 @@ use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_BLOCK
     :FORM_AND_ELEMENT
-    populate load_config_file insert_before insert_after form
+    populate load_config_file form
     clone stash constraints_from_dbic parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape

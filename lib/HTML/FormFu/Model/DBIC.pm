@@ -240,6 +240,20 @@ sub _fill_repeatable_many_to_many {
                 $field->default($count)
                     if defined $field;
             }
+            
+            # remove 'delete' checkbox from the last repetition ?
+            
+            if ( $block->db->{new_empty_row} ) {
+                my $last_rep = $block->get_elements->[-1];
+                
+                my ( $del_field ) = 
+                    grep { $_->db->{delete_if_true} }
+                    @{ $last_rep->get_fields };
+                
+                if ( defined $del_field ) {
+                    $last_rep->remove_element( $del_field );
+                }
+            }
         }
     }
     return;

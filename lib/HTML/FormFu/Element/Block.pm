@@ -5,9 +5,7 @@ use base 'HTML::FormFu::Element';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_output_accessors /;
-use HTML::FormFu::ObjectUtil qw/
-    :FORM_AND_BLOCK
-    insert_before insert_after /;
+use HTML::FormFu::ObjectUtil qw/ :FORM_AND_BLOCK /;
 use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
 use Storable qw( dclone );
 use Carp qw/croak/;

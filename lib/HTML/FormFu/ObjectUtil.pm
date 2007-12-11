@@ -43,6 +43,9 @@ our @form_and_block = qw/
     get_error
     get_errors
     clear_errors
+    insert_before
+    insert_after
+    remove_element
     /;
 
 our @form_and_element = qw/
@@ -65,7 +68,7 @@ our @EXPORT_OK = (
         deflator
         load_config_file form insert_before insert_after clone name stash
         constraints_from_dbic parent nested_name nested_names get_nested_hash_value
-        set_nested_hash_value nested_hash_key_exists
+        set_nested_hash_value nested_hash_key_exists remove_element
         /,
     @form_and_block,
     @form_and_element
@@ -303,6 +306,21 @@ sub insert_after {
     }
 
     croak 'position element not found';
+}
+
+sub remove_element {
+    my ( $self, $object ) = @_;
+    
+    for my $i ( 0 .. @{ $self->_elements } - 1 ) {
+        if ( refaddr( $self->_elements->[$i] ) eq refaddr($object) ) {
+            splice @{ $self->_elements }, $i, 1;
+            undef $object->{parent};
+            undef $object;
+            return;
+        }
+    }
+
+    croak 'element not found';
 }
 
 sub load_config_file {
