@@ -395,6 +395,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Checkbox>
 
+=item L<HTML::FormFu::Element::Checkboxgroup>
+
 =item L<HTML::FormFu::Element::ContentButton>
 
 =item L<HTML::FormFu::Element::Date>
@@ -436,6 +438,8 @@ See L<HTML::FormFu/render_method> for details.
 =item L<HTML::FormFu::Element::Hr>
 
 =item L<HTML::FormFu::Element::Multi>
+
+=item L<HTML::FormFu::Element::Repeatable>
 
 =item L<HTML::FormFu::Element::SimpleTable>
 
