@@ -27,33 +27,46 @@ sub process {
     my $args    = $self->db;
 
     if ( $args && $args->{model} && defined $context ) {
-        
+
         my $model = $context->model( $args->{model} );
         return if !defined $model;
 
         $model = $model->resultset( $args->{resultset} )
             if defined $args->{resultset};
 
-        my $rs    = $model->result_source;
-        my $id    = $args->{id_column};
-        my $label = $args->{label_column};
+        my $rs         = $model->result_source;
+        my $id_col     = $args->{id_column};
+        my $label_col  = $args->{label_column};
+        my $condition  = $args->{condition};
+        my $attributes = $args->{attributes} || {};
 
-        if ( !defined $id ) {
-            ($id) = $rs->primary_columns;
+        if ( !defined $id_col ) {
+            ($id_col) = $rs->primary_columns;
         }
 
-        if ( !defined $label ) {
+        if ( !defined $label_col ) {
 
             # use first text column
-            ($label)
+            ($label_col)
                 = grep { $rs->column_info($_)->{data_type} =~ /text|varchar/i }
                 $rs->columns;
         }
-        return if !defined $label;
+        $label_col = $id_col if !defined $label_col;
 
-        my $result = $model->search( {}, { -columns => [ $id, $label ] } );
+        $attributes->{'-columns'} = [ $id_col, $label_col ];
 
-        my @defaults = map { [ $_->$id, $_->$label ] } $result->all;
+        my $result = $model->search( $condition, $attributes );
+
+        my @defaults;
+
+        if ( $args->{localize_label} ) {
+            @defaults
+                = map { { value => $_->id_col, label_loc => $_->label_col, } }
+                $result->all;
+        }
+        else {
+            @defaults = map { [ $_->$id_col, $_->$label_col ] } $result->all;
+        }
 
         $self->options( \@defaults );
     }
