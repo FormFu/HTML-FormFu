@@ -211,7 +211,7 @@ sub _fill_repeatable_many_to_many {
             my ($pk) = $dbic->$rel->result_source->primary_columns;
             
             next unless grep {
-                $_->name eq $pk
+                $pk eq ( defined $_->original_name ? $_->original_name : $_->name )
             } @{ $block->get_fields({ type => 'Hidden' }) };
             
             my @rows   = $dbic->$rel->all;
@@ -665,7 +665,7 @@ sub _insert_many_to_many {
         return if !length $value;
     }
     
-    my $row = $dbic->$rel->result_source->new( {} );
+    my $row = $dbic->$rel->new( {} );
     
     # add_to_* will be called later, after save_to_model is called on this row
     
