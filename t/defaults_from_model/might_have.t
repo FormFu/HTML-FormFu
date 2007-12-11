@@ -20,7 +20,7 @@ new_db();
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/values_from_model/might_have.yml');
+$form->load_config_file('t/defaults_from_model/might_have.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
@@ -53,7 +53,7 @@ my $note_rs = $schema->resultset('Note');
 {
     my $row = $rs->find(3);
     
-    $form->values_from_model( $row );
+    $form->defaults_from_model( $row );
     
     is( $form->get_field('id')->render_data->{value}, 3 );
     is( $form->get_field('text_col')->render_data->{value}, 'a' );

@@ -40,10 +40,10 @@ sub new {
     return $self;
 }
 
-sub values_from_model {
+sub defaults_from_model {
     my $self = shift;
 
-    return $self->form->model->values_from_model(@_);
+    return $self->form->model->defaults_from_model(@_);
 }
 
 sub save_to_model {

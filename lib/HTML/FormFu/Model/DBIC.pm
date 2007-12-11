@@ -5,7 +5,7 @@ use warnings;
 use Storable qw( dclone );
 use Carp qw( croak );
 
-sub values_from_model {
+sub defaults_from_model {
     my ( $self, $base, $dbic, $attrs ) = @_;
 
     $attrs ||= {};
@@ -77,7 +77,7 @@ sub _fill_relationships {
             my $blocks = $block->repeat($count);
 
             for my $rep ( 0 .. $#rows ) {
-                values_from_model(
+                defaults_from_model(
                     $self,
                     $blocks->[$rep],
                     $rows[$rep],
@@ -101,7 +101,7 @@ sub _fill_relationships {
             # Handle 'might_have' and 'has_one'
 
             if ( defined( my $row = $dbic->$rel ) ) {
-                values_from_model( $self, $block, $row,
+                defaults_from_model( $self, $block, $row,
                     { %$attrs, nested_base => $rel, } );
             }
         }
@@ -222,7 +222,7 @@ sub _fill_repeatable_many_to_many {
             my $blocks = $block->repeat($count);
 
             for my $rep ( 0 .. $#rows ) {
-                values_from_model(
+                defaults_from_model(
                     $self,
                     $blocks->[$rep],
                     $rows[$rep],
@@ -719,7 +719,7 @@ Set a forms' default values from a DBIx::Class row object:
 
     my $row = $resultset->find( $id );
     
-    $form->values_from_model( $row );
+    $form->defaults_from_model( $row );
 
 Update the database from a submitted form:
 
@@ -731,7 +731,7 @@ Update the database from a submitted form:
 
 =head1 METHODS
 
-=head2 values_from_model
+=head2 defaults_from_model
 
 Arguments: $dbic_row, [\%config]
 
@@ -913,7 +913,7 @@ Return Value: $dbic_row
 Update the database with the submitted form values. Uses 
 L<update_or_insert|DBIx::Class::Row/update_or_insert>.
 
-See L</values_from_model> for specifics about what relationships are supported
+See L</defaults_from_model> for specifics about what relationships are supported
 and how to structure your forms.
 
 =head1 FAQ

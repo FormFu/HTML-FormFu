@@ -9,7 +9,7 @@ BEGIN {
     }
 }
 
-plan tests => 3;
+plan tests => 4;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -20,11 +20,12 @@ new_db();
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/values_from_model/has_one.yml');
+$form->load_config_file('t/defaults_from_model/might_have.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
 my $rs = $schema->resultset('Master');
+my $note_rs = $schema->resultset('Note');
 
 {
     # insert some entries we'll ignore, so our rels don't have same ids
@@ -34,8 +35,8 @@ my $rs = $schema->resultset('Master');
     # test id 2
     my $t2 = $rs->new_result({ text_col => 'yyy' });
     $t2->insert;
-    # user id 1
-    my $n1 = $t2->new_related( 'user', { name => 'foo' } );
+    # note id 1
+    my $n1 = $t2->new_related( 'note', { note => 'zzz' } );
     $n1->insert;
     
     # should get test id 3
@@ -44,22 +45,21 @@ my $rs = $schema->resultset('Master');
         });
     $master->insert;
     
-    # should get note id 2
-    my $user = $master->new_related( 'user', { name => 'bar' } );
-    $user->insert;
+    # no note
 }
 
 {
     my $row = $rs->find(3);
     
-    $form->values_from_model( $row );
+    $form->defaults_from_model( $row );
     
     is( $form->get_field('id')->render_data->{value}, 3 );
     is( $form->get_field('text_col')->render_data->{value}, 'a' );
     
-    my $block = $form->get_all_element({ nested_name => 'user' });
+    my $block = $form->get_all_element({ nested_name => 'note' });
     
-    is( $block->get_field('name')->render_data->{value}, 'bar' );
+    is( $block->get_field('id')->render_data->{value}, undef );
+    is( $block->get_field('note')->render_data->{value}, undef );
     
 }
 

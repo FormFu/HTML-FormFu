@@ -20,7 +20,7 @@ new_db();
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/values_from_model/many_to_many_select.yml');
+$form->load_config_file('t/defaults_from_model/many_to_many_select.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
@@ -47,7 +47,7 @@ my $band_rs = $schema->resultset('Band');
 {
     my $row = $user_rs->find(2);
     
-    $form->values_from_model( $row );
+    $form->defaults_from_model( $row );
     
     is( $form->get_field('id')->default, 2 );
     is( $form->get_field('name')->default, 'Paul' );

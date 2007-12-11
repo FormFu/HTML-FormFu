@@ -163,10 +163,10 @@ sub model {
     return $class;
 }
 
-sub values_from_model {
+sub defaults_from_model {
     my $self = shift;
 
-    return $self->model->values_from_model( $self, @_ );
+    return $self->model->defaults_from_model( $self, @_ );
 }
 
 sub save_to_model {
@@ -995,7 +995,7 @@ If you're using L<Catalyst>, a more suitable example might be:
             return;
         }
         
-        $form->values_from_model( $user )
+        $form->defaults_from_model( $user )
             if ! $form->submitted;
         
     }

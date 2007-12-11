@@ -20,7 +20,7 @@ new_db();
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/values_from_model/nested.yml');
+$form->load_config_file('t/defaults_from_model/nested.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
@@ -43,7 +43,7 @@ my $rs = $schema->resultset('Master');
 {
     my $row = $rs->find(1);
     
-    $form->values_from_model( $row, { nested_base => 'foo' } );
+    $form->defaults_from_model( $row, { nested_base => 'foo' } );
     
     my $fs = $form->get_element;
     

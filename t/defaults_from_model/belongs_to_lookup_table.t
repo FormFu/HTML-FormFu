@@ -20,7 +20,7 @@ new_db();
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/values_from_model/belongs_to_lookup_table.yml');
+$form->load_config_file('t/defaults_from_model/belongs_to_lookup_table.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
@@ -38,7 +38,7 @@ my $rs = $schema->resultset('Master');
 {
     my $row = $rs->find(1);;
     
-    $form->values_from_model($row);
+    $form->defaults_from_model($row);
     
     is( $form->get_field('id')->render_data->{value}, 1 );
     
