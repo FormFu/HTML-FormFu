@@ -22,39 +22,38 @@ sub new {
 
 sub process {
     my ($self) = @_;
-    
+
     my $context = $self->form->stash->{context};
     my $args    = $self->db;
-    
+
     if ( $args && $args->{model} && $context ) {
         my $model = $context->model( $args->{model} );
         return if !defined $model;
-        
+
         $model = $model->resultset( $args->{resultset} )
             if defined $args->{resultset};
-        
+
         my $rs    = $model->result_source;
         my $id    = $args->{id_column};
         my $label = $args->{label_column};
-        
+
         if ( !defined $id ) {
             ($id) = $rs->primary_columns;
         }
-        
+
         if ( !defined $label ) {
+
             # use first text column
-            ($label) = grep {
-                $rs->column_info($_)->{data_type} =~ /text|varchar/i
-            } $rs->columns;
+            ($label)
+                = grep { $rs->column_info($_)->{data_type} =~ /text|varchar/i }
+                $rs->columns;
         }
         return if !defined $label;
-        
-        my $result = $model->search( {}, { -columns => [$id, $label] } );
-        
-        my @defaults = map {
-            [ $_->$id, $_->$label ]
-        } $result->all;
-        
+
+        my $result = $model->search( {}, { -columns => [ $id, $label ] } );
+
+        my @defaults = map { [ $_->$id, $_->$label ] } $result->all;
+
         $self->options( \@defaults );
     }
 }
@@ -70,12 +69,13 @@ sub options {
         croak "options argument must be an array-ref" if $@;
 
         if ( $self->empty_first ) {
-            push @new, {
-                value => '',
-                label => '',
-                attributes => {},
+            push @new,
+                {
+                value            => '',
+                label            => '',
+                attributes       => {},
                 label_attributes => {},
-            };
+                };
         }
 
         for my $item (@options) {
@@ -109,7 +109,7 @@ sub _parse_option {
         }
         $item->{attributes}       = {} if !exists $item->{attributes};
         $item->{label_attributes} = {} if !exists $item->{label_attributes};
-        $item->{label}            = $self->form->localize( $item->{label_loc} )
+        $item->{label} = $self->form->localize( $item->{label_loc} )
             if defined $item->{label_loc};
         return $item;
     }
@@ -217,25 +217,26 @@ sub render_data_non_recursive {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data;
-    
+
     # field wrapper template - start
-    
-    my $html = $self->_string_field_start( $render );
-    
+
+    my $html = $self->_string_field_start($render);
+
     # input_tag template
-    
-    $html .= $self->_string_field( $render );
-    
+
+    $html .= $self->_string_field($render);
+
     # field wrapper template - end
-    
-    $html .= $self->_string_field_end( $render );
-    
+
+    $html .= $self->_string_field_end($render);
+
     return $html;
 }
 

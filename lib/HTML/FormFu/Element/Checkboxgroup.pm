@@ -51,7 +51,7 @@ sub _prepare_id {
         my $id = $self->auto_id;
         $id =~ s/%([fn])/$string{$1}/g;
         $id =~ s/%c/ ++$$count_ref /gex;
-        
+
         if ( defined( my $count = $self->repeatable_count ) ) {
             $id =~ s/%r/$count/g;
         }
@@ -91,10 +91,12 @@ sub _prepare_attrs {
     elsif ($submitted) {
         delete $option->{attributes}{checked};
     }
-    elsif ( defined $default
+    elsif (
+        defined $default
         && (ref $default eq 'ARRAY'
             ? grep { $_ eq $option->{value} } @$default
-            : $default eq $option->{value} ) ) {
+            : $default eq $option->{value} ) )
+    {
         $option->{attributes}{checked} = 'checked';
     }
     return;
@@ -117,48 +119,47 @@ sub render_data_non_recursive {
 
 sub _string_field {
     my ( $self, $render ) = @_;
-    
+
     # radiogroup_tag template
-    
-    my $html .= sprintf "<span%s>\n", 
-        process_attrs( $render->{attributes} );
-    
-    for my $option (@{ $render->{options} }) {
+
+    my $html .= sprintf "<span%s>\n", process_attrs( $render->{attributes} );
+
+    for my $option ( @{ $render->{options} } ) {
         if ( defined $option->{group} ) {
-            $html .= sprintf "<span%s>\n", 
+            $html .= sprintf "<span%s>\n",
                 process_attrs( $option->{attributes} );
-            
-            for my $item (@{ $option->{group} }) {
+
+            for my $item ( @{ $option->{group} } ) {
                 $html .= sprintf
-                    qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />}, 
-                    $render->{nested_name}, 
-                    $item->{value}, 
+                    qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />},
+                    $render->{nested_name},
+                    $item->{value},
                     process_attrs( $item->{attributes} );
-                
+
                 $html .= sprintf
-                    "\n<label%s>%s</label>\n</span>\n", 
-                    process_attrs( $item->{label_attributes} ), 
+                    "\n<label%s>%s</label>\n</span>\n",
+                    process_attrs( $item->{label_attributes} ),
                     $item->{label};
             }
-            
+
             $html .= "</span>\n";
         }
         else {
             $html .= sprintf
-                qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />}, 
-                $render->{nested_name}, 
-                $option->{value}, 
+                qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />},
+                $render->{nested_name},
+                $option->{value},
                 process_attrs( $option->{attributes} );
-            
+
             $html .= sprintf
-                "\n<label%s>%s</label>\n</span>\n", 
-                process_attrs( $option->{label_attributes} ), 
+                "\n<label%s>%s</label>\n</span>\n",
+                process_attrs( $option->{label_attributes} ),
                 $option->{label};
         }
     }
-    
+
     $html .= "</span>";
-    
+
     return $html;
 }
 

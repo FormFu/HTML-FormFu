@@ -37,12 +37,10 @@ sub process {
     # don't run filters on invalid input
     return if $result->has_errors($name);
 
-    my $value = $self->get_nested_hash_value(
-        $params,
-        $name );
+    my $value = $self->get_nested_hash_value( $params, $name );
 
     my $filtered;
-    
+
     if ( ref $value eq 'ARRAY' ) {
         $filtered = [ map { $self->filter( $_, $params ); } @$value ];
     }

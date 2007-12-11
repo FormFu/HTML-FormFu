@@ -32,8 +32,8 @@ use overload
     'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
-    '""'     => sub { return shift->render },
-    bool     => sub {1},
+    '""' => sub { return shift->render },
+    bool => sub {1},
     fallback => 1;
 
 __PACKAGE__->mk_attrs(qw/ attributes /);
@@ -58,8 +58,7 @@ __PACKAGE__->mk_inherited_accessors(
         render_method render_processed_value force_errors repeatable_count /
 );
 
-__PACKAGE__->mk_inherited_merging_accessors(
-    qw/ tt_args config_callback /);
+__PACKAGE__->mk_inherited_merging_accessors(qw/ tt_args config_callback /);
 
 *elements          = \&element;
 *constraints       = \&constraint;
@@ -104,9 +103,9 @@ sub new {
         localize_class     => 'HTML::FormFu::I18N',
         auto_error_class   => 'error_%s_%t',
         auto_error_message => 'form_%s_%t',
-        model_class         => 'DBIC',
+        model_class        => 'DBIC',
     );
-    
+
     $self->populate( \%defaults );
 
     $self->populate( \%attrs );
@@ -132,47 +131,47 @@ sub auto_fieldset {
 
 sub default_values {
     my $self = shift;
-    
+
     my %values;
     eval { %values = %{ $_[0] } };
     croak "default_values argument must be a hashref" if $@;
-    
-    for my $field (@{ $self->get_fields }) {
+
+    for my $field ( @{ $self->get_fields } ) {
         my $name = $field->nested_name;
         next unless defined $name;
         next unless exists $values{$name};
-        
+
         $field->default( $values{$name} );
     }
-    
+
     return $self;
 }
 
 sub model {
     my ($self) = @_;
-    
-    if ( defined ( my $model = $self->_model ) ) {
+
+    if ( defined( my $model = $self->_model ) ) {
         return $model;
     }
-    
+
     my $class = "HTML::FormFu::Model::" . $self->model_class;
-    
+
     require_class($class);
-    
-    $self->_model( $class );
-    
+
+    $self->_model($class);
+
     return $class;
 }
 
 sub values_from_model {
     my $self = shift;
-    
+
     return $self->model->values_from_model( $self, @_ );
 }
 
 sub save_to_model {
     my $self = shift;
-    
+
     return $self->model->save_to_model( $self, @_ );
 }
 
@@ -219,22 +218,22 @@ sub process {
     my %param;
     my @params = $query->param;
 
-    for my $field (@{ $self->get_fields }) {
-        my $name  = $field->nested_name;
-        
+    for my $field ( @{ $self->get_fields } ) {
+        my $name = $field->nested_name;
+
         next if !defined $name;
-        next if !grep {$name eq $_} @params;
-        
+        next if !grep { $name eq $_ } @params;
+
         if ( $field->nested ) {
             my @values = $query->param($name);
-            
+
             my $value = @values > 1 ? \@values : $values[0];
-            
+
             $self->set_nested_hash_value( \%param, $name, $value );
         }
         else {
             my @values = $query->param($name);
-            
+
             $param{$name} = @values > 1 ? \@values : $values[0];
         }
     }
@@ -261,7 +260,7 @@ sub _submitted {
     }
     elsif ( !defined $indi ) {
         my @names = uniq(
-            grep      { defined }
+            grep    {defined}
                 map { $_->nested_name } @{ $self->get_fields } );
 
         $code = sub {
@@ -308,13 +307,13 @@ sub _build_params {
 
     for my $field ( @{ $self->get_fields } ) {
         my $name = $field->nested_name;
-        
+
         next if !defined $name;
         next if exists $params{$name};
         next if !$self->nested_hash_key_exists( $self->input, $name );
 
         my $input = $self->get_nested_hash_value( $self->input, $name );
-        
+
         if ( ref $input eq 'ARRAY' ) {
 
             # can't clone upload filehandles
@@ -322,7 +321,7 @@ sub _build_params {
             $input = [@$input];
         }
 
-        $self->set_nested_hash_value( \%params, $name, $input, $name )
+        $self->set_nested_hash_value( \%params, $name, $input, $name );
     }
 
     $self->_processed_params( \%params );
@@ -335,7 +334,7 @@ sub _process_file_uploads {
 
     my @names = uniq(
         sort
-            grep { defined }
+            grep {defined}
             map  { $_->nested_name }
             grep { $_->isa('HTML::FormFu::Element::File') }
             @{ $self->get_fields } );
@@ -366,10 +365,10 @@ sub _filter_input {
     my ($self) = @_;
 
     my $params = $self->_processed_params;
-    
+
     for my $filter ( @{ $self->get_filters } ) {
         my $name = $filter->nested_name;
-        
+
         next if !defined $name;
         next if !$self->nested_hash_key_exists( $params, $name );
 
@@ -397,7 +396,7 @@ sub _constrain_input {
 
         for my $error (@errors) {
             $error->parent( $constraint->parent ) if !$error->parent;
-            $error->constraint($constraint)       if !$error->constraint;
+            $error->constraint($constraint) if !$error->constraint;
 
             $error->parent->add_error($error);
         }
@@ -414,18 +413,16 @@ sub _inflate_input {
     for my $inflator ( @{ $self->get_inflators } ) {
         my $name = $inflator->nested_name;
         next if !defined $name;
-        
+
         next if !$self->nested_hash_key_exists( $params, $name );
         next if grep {defined} @{ $inflator->parent->get_errors };
 
-        my $value = $self->get_nested_hash_value(
-            $params,
-            $name );
+        my $value = $self->get_nested_hash_value( $params, $name );
 
         my @errors;
 
         ( $value, @errors ) = eval { $inflator->process($value) };
-            
+
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Inflator') ) {
             push @errors, $@;
         }
@@ -435,7 +432,7 @@ sub _inflate_input {
 
         for my $error (@errors) {
             $error->parent( $inflator->parent ) if !$error->parent;
-            $error->inflator($inflator)         if !$error->inflator;
+            $error->inflator($inflator) if !$error->inflator;
 
             $error->parent->add_error($error);
         }
@@ -468,7 +465,7 @@ sub _validate_input {
 
         for my $error (@errors) {
             $error->parent( $validator->parent ) if !$error->parent;
-            $error->validator($validator)        if !$error->validator;
+            $error->validator($validator) if !$error->validator;
 
             $error->parent->add_error($error);
         }
@@ -488,17 +485,13 @@ sub _transform_input {
         next if !$self->nested_hash_key_exists( $params, $name );
         next if grep {defined} @{ $transformer->parent->get_errors };
 
-        my $value = $self->get_nested_hash_value(
-            $params,
-            $name );
+        my $value = $self->get_nested_hash_value( $params, $name );
 
         my @errors;
 
-        ( $value, @errors )
-            = eval { $transformer->process( $value, $params ) };
+        ( $value, @errors ) = eval { $transformer->process( $value, $params ) };
 
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') )
-        {
+        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
             push @errors, $@;
         }
         elsif ($@) {
@@ -507,7 +500,7 @@ sub _transform_input {
 
         for my $error (@errors) {
             $error->parent( $transformer->parent ) if !$error->parent;
-            $error->transformer($transformer)      if !$error->transformer;
+            $error->transformer($transformer) if !$error->transformer;
 
             $error->parent->add_error($error);
         }
@@ -525,11 +518,11 @@ sub _build_valid_names {
     my @errors = $self->has_errors;
     my @names;
     my %non_param;
-    
+
     for my $field ( @{ $self->get_fields } ) {
         my $name = $field->nested_name;
         next if !defined $name;
-        
+
         if ( $field->non_param ) {
             $non_param{$name} = 1;
         }
@@ -537,7 +530,7 @@ sub _build_valid_names {
             push @names, $name;
         }
     }
-    
+
     push @names, grep { ref $params->{$_} ne 'HASH' }
         grep { !exists $non_param{$_} }
         keys %$params;
@@ -561,47 +554,47 @@ CHECK: for my $name (@names) {
 sub _hash_keys {
     my ( $hash, $subscript ) = @_;
     my @names;
-    
+
     for my $key ( keys %$hash ) {
         if ( ref $hash->{$key} eq 'HASH' ) {
-            push @names, map {
-                $subscript ? "${key}[${_}]" : "$key.$_"
-            } _hash_keys( $hash->{$key}, $subscript );
+            push @names,
+                map { $subscript ? "${key}[${_}]" : "$key.$_" }
+                _hash_keys( $hash->{$key}, $subscript );
         }
         elsif ( ref $hash->{$key} eq 'ARRAY' ) {
-            push @names, map {
-                $subscript ? "${key}[${_}]" : "$key.$_"
-            } _array_indices( $hash->{$key}, $subscript );
+            push @names,
+                map { $subscript ? "${key}[${_}]" : "$key.$_" }
+                _array_indices( $hash->{$key}, $subscript );
         }
         else {
             push @names, $key;
         }
     }
-    
+
     return @names;
 }
 
 sub _array_indices {
     my ( $array, $subscript ) = @_;
-    
+
     my @names;
-    
+
     for my $i ( 0 .. $#{$array} ) {
         if ( ref $array->[$i] eq 'HASH' ) {
-            push @names, map {
-                $subscript ? "${i}[${_}]" : "$i.$_"
-            } _hash_keys( $array->[$i], $subscript );
+            push @names,
+                map { $subscript ? "${i}[${_}]" : "$i.$_" }
+                _hash_keys( $array->[$i], $subscript );
         }
         elsif ( ref $array->[$i] eq 'ARRAY' ) {
-            push @names, map {
-                $subscript ? "${i}[${_}]" : "$i.$_"
-            } _array_indices( $array->[$i], $subscript );
+            push @names,
+                map { $subscript ? "${i}[${_}]" : "$i.$_" }
+                _array_indices( $array->[$i], $subscript );
         }
         else {
             push @names, $i;
         }
     }
-    
+
     return @names;
 }
 
@@ -621,7 +614,7 @@ sub params {
 
     for my $name (@names) {
         my @values = $self->param($name);
-        
+
         if ( @values > 1 ) {
             $self->set_nested_hash_value( \%params, $name, \@values );
         }
@@ -645,9 +638,8 @@ sub param {
         # only return a valid value
         my $name  = shift;
         my $valid = $self->valid($name);
-        my $value = $self->get_nested_hash_value(
-            $self->_processed_params,
-            $name );
+        my $value
+            = $self->get_nested_hash_value( $self->_processed_params, $name );
 
         if ( !defined $valid || !defined $value ) {
             return;
@@ -674,29 +666,27 @@ sub valid {
 
     if (@_) {
         my $name = shift;
-        
+
         return 1 if grep { $name eq $_ } @valid;
-        
+
         # not found - see if it's the name of a nested block
         my $parent;
         if ( defined $self->nested_name && $self->nested_name eq $name ) {
             $parent = $self;
         }
         else {
-            ($parent) = grep { $_->isa('HTML::FormFu::Element::Block') }
-                @{ $self->get_all_elements({
-                    nested_name => $name,
-                }) };
+            ($parent)
+                = grep { $_->isa('HTML::FormFu::Element::Block') }
+                @{ $self->get_all_elements( { nested_name => $name, } ) };
         }
-        
+
         if ( defined $parent ) {
             my $fail = grep {defined}
-                map { @{ $_->get_errors } }
-                @{ $parent->get_fields };
+                map { @{ $_->get_errors } } @{ $parent->get_fields };
 
             return 1 if !$fail;
         }
-        
+
         return;
     }
 
@@ -740,11 +730,11 @@ sub add_valid {
 
 sub render_data {
     my $self = shift;
-    
+
     my $render = $self->render_data_non_recursive( {
-        elements => [ map { $_->render_data } @{ $self->_elements } ],
-        @_ ? %{ $_[0] } : () } );
-    
+            elements => [ map { $_->render_data } @{ $self->_elements } ],
+            @_ ? %{ $_[0] } : () } );
+
     return $render;
 }
 
@@ -752,17 +742,17 @@ sub render_data_non_recursive {
     my $self = shift;
 
     my %render = (
-        filename            => $self->filename,
-        javascript          => $self->javascript,
-        javascript_src      => $self->javascript_src,
-        attributes          => xml_escape( $self->attributes ),
-        stash               => $self->stash,
+        filename       => $self->filename,
+        javascript     => $self->javascript,
+        javascript_src => $self->javascript_src,
+        attributes     => xml_escape( $self->attributes ),
+        stash          => $self->stash,
         @_ ? %{ $_[0] } : () );
 
     weaken( $render{self} );
-    
+
     if ( $self->force_error_message
-         || ( $self->has_errors && defined $self->form_error_message ) )
+        || ( $self->has_errors && defined $self->form_error_message ) )
     {
         $render{form_error_message} = xml_escape( $self->form_error_message );
     }
@@ -772,78 +762,79 @@ sub render_data_non_recursive {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
+
     # start_form template
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data_non_recursive;
-    
-    my $html = sprintf "<form%s>", 
-        process_attrs( $render->{attributes} );
-    
+
+    my $html = sprintf "<form%s>", process_attrs( $render->{attributes} );
+
     if ( defined $render->{form_error_message} ) {
-        $html .= sprintf qq{\n<div class="form_error_message">%s</div>}, 
+        $html .= sprintf qq{\n<div class="form_error_message">%s</div>},
             $render->{form_error_message};
     }
-    
+
     if ( defined $render->{javascript_src} ) {
         my $src = $render->{javascript_src};
-        
+
         $src = [$src] if ref $src ne 'ARRAY';
-        
+
         for my $file (@$src) {
-            $html .= sprintf 
-                qq{\n<script type="text/javascript" src="%s">\n</script>}, 
+            $html .= sprintf
+                qq{\n<script type="text/javascript" src="%s">\n</script>},
                 $file;
         }
     }
-    
+
     if ( defined $render->{javascript} ) {
-        $html .= sprintf 
-            qq{\n<script type="text/javascript">\n%s\n</script>}, 
+        $html .= sprintf
+            qq{\n<script type="text/javascript">\n%s\n</script>},
             $render->{javascript};
     }
-    
+
     # form template
-    
+
     $html .= "\n";
-    
-    for my $elem (@{ $self->get_elements }) {
+
+    for my $elem ( @{ $self->get_elements } ) {
+
         # call render, so that child elements can use a different renderer
         my $elem_html = $elem->render;
-        
+
         # skip Blank fields
         if ( length $elem_html ) {
             $html .= $elem_html . "\n";
         }
     }
-    
+
     # end_form template
-    
+
     $html .= "</form>\n";
-    
+
     return $html;
 }
 
 sub start {
     my ($self) = @_;
-    
-    return $self->tt({
-        filename => 'start_form',
-        render_data => $self->render_data_non_recursive,
-    });
+
+    return $self->tt( {
+            filename    => 'start_form',
+            render_data => $self->render_data_non_recursive,
+        } );
 }
 
 sub end {
     my ($self) = @_;
-    
-    return $self->tt({
-        filename => 'end_form',
-        render_data => $self->render_data_non_recursive,
-    });
+
+    return $self->tt( {
+            filename    => 'end_form',
+            render_data => $self->render_data_non_recursive,
+        } );
 }
 
 sub hidden_fields {
@@ -865,7 +856,7 @@ sub output_processor {
     }
 
     return @return == 1 ? $return[0] : @return;
-};
+}
 
 sub _single_output_processor {
     my ( $self, $arg ) = @_;
@@ -885,7 +876,7 @@ sub _single_output_processor {
     my $new = $self->_require_output_processor( $type, $arg );
 
     push @{ $self->_output_processors }, $new;
-    
+
     return $new;
 }
 
@@ -907,14 +898,14 @@ sub _require_output_processor {
     require_class($class);
 
     my $object = $class->new( {
-        type   => $type,
-        parent => $self,
+            type   => $type,
+            parent => $self,
         } );
 
-    $object->populate( $opt );
+    $object->populate($opt);
 
     return $object;
-};
+}
 
 sub get_output_processors {
     my $self = shift;

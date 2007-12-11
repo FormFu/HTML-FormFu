@@ -7,7 +7,7 @@ sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return unless $self->_process_when( $params );
+    return unless $self->_process_when($params);
 
     my $others = $self->others;
     return if !defined $others;
@@ -17,11 +17,9 @@ sub process {
     my @failed;
 
     for my $name (@names) {
-        my $value = $self->get_nested_hash_value(
-            $params,
-            $name );
-        
-        my $seen  = 0;
+        my $value = $self->get_nested_hash_value( $params, $name );
+
+        my $seen = 0;
         if ( ref $value ) {
             eval { my @x = @$value };
             croak $@ if $@;

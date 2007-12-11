@@ -11,7 +11,7 @@ sub constrain_value {
     my $callback = $self->callback || sub {1};
 
     no strict 'refs';
-    
+
     my $ok = $callback->( $value, $params );
 
     return $ok;

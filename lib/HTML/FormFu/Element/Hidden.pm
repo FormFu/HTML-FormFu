@@ -15,17 +15,18 @@ sub new {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data;
-    
+
     # input template
-    
-    my $html .= $self->_string_field( $render );
-    
+
+    my $html .= $self->_string_field($render);
+
     return $html;
 }
 

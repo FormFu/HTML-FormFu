@@ -9,7 +9,7 @@ sub filter {
     my ( $self, $value ) = @_;
 
     return $value
-        if (defined $value && length $value);
+        if ( defined $value && length $value );
 
     my $field_name = $self->field
         or die "Parameter 'field' is not defined.";
@@ -17,7 +17,7 @@ sub filter {
     my $parent = $self->parent
         or die "Can't determine my parent.";
 
-    my $field_value = $parent->form->input->{ $field_name };
+    my $field_value = $parent->form->input->{$field_name};
 
     return $field_value;
 }

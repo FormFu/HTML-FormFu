@@ -6,40 +6,41 @@ use Carp qw/ croak /;
 
 sub nested_names {
     my $self = shift;
-    
-    croak 'cannot set nested_names' if @_;
-    
-    if ( defined $self->name ) {
-       my @names;
-       # ignore immediate parent
-       my $parent = $self->parent;
-       
-       while ( defined $parent->parent ) {
-           $parent = $parent->parent;
 
-           push @names, $parent->nested_name
-               if defined $parent->nested_name;
-       }
-       
-       if (@names) {
-           return reverse(@names), $self->name;
-       }
-   }
-   
-   return ( $self->name );
+    croak 'cannot set nested_names' if @_;
+
+    if ( defined $self->name ) {
+        my @names;
+
+        # ignore immediate parent
+        my $parent = $self->parent;
+
+        while ( defined $parent->parent ) {
+            $parent = $parent->parent;
+
+            push @names, $parent->nested_name
+                if defined $parent->nested_name;
+        }
+
+        if (@names) {
+            return reverse(@names), $self->name;
+        }
+    }
+
+    return ( $self->name );
 }
 
 sub nested_base {
     my $self = shift;
-    
+
     croak 'cannot set nested_base' if @_;
-    
+
     # ignore immediate parent
-     my $parent = $self->parent;
-    
+    my $parent = $self->parent;
+
     while ( defined $parent->parent ) {
         $parent = $parent->parent;
-        
+
         return $parent->nested_name if defined $parent->nested_name;
     }
 }

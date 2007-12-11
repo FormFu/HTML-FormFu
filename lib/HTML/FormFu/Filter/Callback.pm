@@ -11,7 +11,7 @@ sub filter {
     my $callback = $self->callback || sub { $_[0] };
 
     no strict 'refs';
-    
+
     return $callback->($value);
 }
 

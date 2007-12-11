@@ -51,7 +51,7 @@ sub process {
     }
 
     my $iter
-        = HTML::FormFu::OutputProcessor::StripWhitespace::_iter->new( @tokens );
+        = HTML::FormFu::OutputProcessor::StripWhitespace::_iter->new(@tokens);
 
     my @collapse    = @{ $self->collapse_tags };
     my @consecutive = @{ $self->collapse_consecutive_tags };

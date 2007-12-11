@@ -28,19 +28,20 @@ sub render_data_non_recursive {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data;
-    
+
     # non_block template
-    
-    my $html = sprintf "<%s%s />", 
-        $render->{tag}, 
+
+    my $html = sprintf "<%s%s />",
+        $render->{tag},
         process_attrs( $render->{attributes} );
-    
+
     return $html;
 }
 

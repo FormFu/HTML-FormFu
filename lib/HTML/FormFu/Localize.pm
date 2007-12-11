@@ -34,7 +34,9 @@ sub localize {
 
         #warn "  processing ". ref $localize_object;
 
-        eval { @localized_strings = $localize_object->localize( @original_strings ); };
+        eval {
+            @localized_strings = $localize_object->localize(@original_strings);
+        };
 
         #warn "  no match" if $@;
 
@@ -48,7 +50,8 @@ sub localize {
         if (   !$localize_data->{dies_on_missing_key}
             && scalar(@original_strings) == scalar(@localized_strings)
             && scalar( grep { !$_ } pairwise { $a eq $b } @original_strings,
-                @localized_strings ) == 0 )
+                @localized_strings ) == 0
+            )
         {
 
             #warn "  invalid match";
@@ -79,7 +82,7 @@ sub add_localize_object {
                 $localize_object);
         }
 
-        #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
+    #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
 
         # add external localize object to the end of the list
         push @{ $self->{localize_data} },

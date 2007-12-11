@@ -77,84 +77,84 @@ sub new {
 
 sub name {
     my $self = shift;
-    
+
     if ( @_ && $_[0] =~ /[\.\[\]]/ ) {
-        croak "field names may not contain periods or square brackets\n".
-            "see documentation on nested_names() for details";
+        croak "field names may not contain periods or square brackets\n"
+            . "see documentation on nested_names() for details";
     }
-    
+
     return $self->next::method(@_);
 }
 
 sub nested {
     my $self = shift;
-    
+
     croak 'cannot set nested' if @_;
-    
+
     if ( defined $self->name ) {
-       while ( defined $self->parent ) {
-           $self = $self->parent;
-           
-           return 1 if defined $self->nested_name;
-       }
-   }
-   
-   return;
+        while ( defined $self->parent ) {
+            $self = $self->parent;
+
+            return 1 if defined $self->nested_name;
+        }
+    }
+
+    return;
 }
 
 sub nested_name {
-   my $self = shift;
+    my $self = shift;
 
-   croak 'cannot set nested_name' if @_;
+    croak 'cannot set nested_name' if @_;
 
     return if !defined $self->name;
 
-   my @names = $self->nested_names;
+    my @names = $self->nested_names;
 
-   if ( $self->form->nested_subscript ) {
-       my $name = shift @names;
-       map { $name .= "[$_]" } @names;
-       return $name;
-   }
-   else {
-       return join ".", @names;
-   }
+    if ( $self->form->nested_subscript ) {
+        my $name = shift @names;
+        map { $name .= "[$_]" } @names;
+        return $name;
+    }
+    else {
+        return join ".", @names;
+    }
 }
 
 sub nested_names {
     my $self = shift;
-    
-    croak 'cannot set nested_names' if @_;
-    
-    if ( defined $self->name ) {
-       my @names;
-       my $parent = $self;
-       
-       while ( defined $parent->parent ) {
-           $parent = $parent->parent;
 
-           push @names, $parent->nested_name
-               if defined $parent->nested_name;
-       }
-       
-       if (@names) {
-           return reverse(@names), $self->name;
-       }
-   }
-   
-   return ( $self->name );
+    croak 'cannot set nested_names' if @_;
+
+    if ( defined $self->name ) {
+        my @names;
+        my $parent = $self;
+
+        while ( defined $parent->parent ) {
+            $parent = $parent->parent;
+
+            push @names, $parent->nested_name
+                if defined $parent->nested_name;
+        }
+
+        if (@names) {
+            return reverse(@names), $self->name;
+        }
+    }
+
+    return ( $self->name );
 }
 
 sub nested_base {
     my $self = shift;
-    
+
     croak 'cannot set nested_base' if @_;
-    
+
     my $parent = $self;
-    
+
     while ( defined $parent->parent ) {
         $parent = $parent->parent;
-        
+
         return $parent->nested_name if defined $parent->nested_name;
     }
 }
@@ -258,7 +258,7 @@ sub get_deflators {
     }
 
     return \@x;
-};
+}
 
 sub get_filters {
     my $self = shift;
@@ -275,7 +275,7 @@ sub get_filters {
     }
 
     return \@x;
-};
+}
 
 sub get_constraints {
     my $self = shift;
@@ -292,7 +292,7 @@ sub get_constraints {
     }
 
     return \@x;
-};
+}
 
 sub get_inflators {
     my $self = shift;
@@ -309,7 +309,7 @@ sub get_inflators {
     }
 
     return \@x;
-};
+}
 
 sub get_validators {
     my $self = shift;
@@ -326,7 +326,7 @@ sub get_validators {
     }
 
     return \@x;
-};
+}
 
 sub get_transformers {
     my $self = shift;
@@ -343,7 +343,7 @@ sub get_transformers {
     }
 
     return \@x;
-};
+}
 
 sub get_errors {
     my $self = shift;
@@ -396,17 +396,25 @@ sub process_input {
 
     # set input to default value (defined before calling FormFu->process)
     if ( $submitted && $self->force_default && defined $default ) {
-        $self->set_nested_hash_value( $input, $name, $default )
+        $self->set_nested_hash_value( $input, $name, $default );
     }
+
     # checkbox, radio
     elsif ( $submitted && $self->force_default && $self->checked ) {
+
         # the checked attribute is set, so force input to be the original value
-        $self->set_nested_hash_value( $input, $name, $original )
+        $self->set_nested_hash_value( $input, $name, $original );
     }
+
     # checkbox, radio
-    elsif ( $submitted && $self->force_default && !defined $default && defined $original ) {
-        # default and value are not equal, so this element is not checked by default
-        $self->set_nested_hash_value( $input, $name, undef )
+    elsif ($submitted
+        && $self->force_default
+        && !defined $default
+        && defined $original )
+    {
+
+    # default and value are not equal, so this element is not checked by default
+        $self->set_nested_hash_value( $input, $name, undef );
     }
 
     return;
@@ -415,7 +423,7 @@ sub process_input {
 sub prepare_id {
     my ( $self, $render ) = @_;
 
-    if (   !defined $render->{attributes}{id}
+    if (  !defined $render->{attributes}{id}
         && defined $self->auto_id
         && length $self->auto_id )
     {
@@ -426,7 +434,7 @@ sub prepare_id {
 
         my $id = $self->auto_id;
         $id =~ s/%([fn])/$string{$1}/g;
-        
+
         if ( defined( my $count = $self->repeatable_count ) ) {
             $id =~ s/%r/$count/g;
         }
@@ -446,8 +454,8 @@ sub process_value {
     my $new
         = $submitted
         ? defined $value
-        ? $value
-        : defined $default ? ""
+            ? $value
+            : defined $default ? ""
         : undef
         : $default;
 
@@ -510,7 +518,7 @@ sub render_data_non_recursive {
 sub _render_label {
     my ( $self, $render ) = @_;
 
-    if (   !defined $render->{label}
+    if (  !defined $render->{label}
         && defined $self->auto_label
         && length $self->auto_label )
     {
@@ -557,17 +565,19 @@ sub _render_comment_class {
 sub _render_value {
     my ( $self, $render ) = @_;
 
-    my $form  = $self->form;
-    my $name  = $self->nested_name;
+    my $form = $self->form;
+    my $name = $self->nested_name;
     my $render_processed;
 
-    my $input = (
-        $self->form->submitted
+    my $input
+        = (    $self->form->submitted
             && defined $name
             && $self->nested_hash_key_exists( $form->input, $name ) )
         ? $self->render_processed_value
             ? ( $render_processed = 1
-                && $self->get_nested_hash_value( $form->_processed_params, $name ) )
+                    && $self->get_nested_hash_value(
+                    $form->_processed_params, $name
+                    ) )
             : $self->get_nested_hash_value( $form->input, $name )
         : undef;
 
@@ -731,7 +741,7 @@ sub _render_transformer_class {
 sub _render_error_class {
     my ( $self, $render ) = @_;
 
-    my @errors = @{ $self->get_errors({ forced => 1 }) };
+    my @errors = @{ $self->get_errors( { forced => 1 } ) };
 
     if (@errors) {
         $render->{errors} = \@errors;
@@ -750,89 +760,88 @@ sub _render_error_class {
 
 sub render_label {
     my ($self) = @_;
-    
-    return $self->tt({ filename => $self->{label_filename} });
+
+    return $self->tt( { filename => $self->{label_filename} } );
 }
 
 sub render_field {
     my ($self) = @_;
-    
-    return $self->tt({ filename => $self->{field_filename} });
+
+    return $self->tt( { filename => $self->{field_filename} } );
 }
 
 sub _string_field_start {
     my ( $self, $render ) = @_;
-    
+
     # field wrapper template - start
-    
+
     my $html = '';
-    
+
     if ( defined $render->{container_tag} ) {
-        $html .= sprintf '<%s%s>', 
-            $render->{container_tag}, 
+        $html .= sprintf '<%s%s>',
+            $render->{container_tag},
             process_attrs( $render->{container_attributes} );
     }
-    
+
     if ( defined $render->{label} && $render->{label_tag} eq 'legend' ) {
-        $html .= "\n". $self->_string_label( $render );
+        $html .= "\n" . $self->_string_label($render);
     }
-    
+
     if ( $render->{errors} ) {
-        for my $error (@{ $render->{errors} }) {
-            $html .= "\n" . sprintf '<span class="error_message %s">%s</span>', 
-                $error->class, 
+        for my $error ( @{ $render->{errors} } ) {
+            $html .= "\n" . sprintf '<span class="error_message %s">%s</span>',
+                $error->class,
                 $error->message;
         }
     }
-    
+
     if ( defined $render->{label} && $render->{label_tag} ne 'legend' ) {
-        $html .= "\n" . $self->_string_label( $render );
+        $html .= "\n" . $self->_string_label($render);
     }
-    
+
     if ( defined $render->{container_tag} ) {
         $html .= "\n";
     }
-    
+
     return $html;
 }
 
 sub _string_label {
     my ( $self, $render ) = @_;
-    
+
     # label template
-    
-    my $html = sprintf "<%s%s>%s</%s>", 
-        $render->{label_tag}, 
-        process_attrs( $render->{label_attributes} ), 
-        $render->{label}, 
+
+    my $html = sprintf "<%s%s>%s</%s>",
+        $render->{label_tag},
+        process_attrs( $render->{label_attributes} ),
+        $render->{label},
         $render->{label_tag};
-    
+
     return $html;
 }
 
 sub _string_field_end {
     my ( $self, $render ) = @_;
-    
+
     # field wrapper template - end
-    
+
     my $html = '';
-    
+
     if ( defined $render->{comment} ) {
         $html .= sprintf "\n<span%s>\n%s\n</span>",
-            process_attrs( $render->{comment_attributes} ), 
+            process_attrs( $render->{comment_attributes} ),
             $render->{comment};
     }
-    
+
     if ( defined $render->{container_tag} ) {
-        $html .= sprintf "\n</%s>", 
-            $render->{container_tag};
+        $html .= sprintf "\n</%s>", $render->{container_tag};
     }
-    
+
     if ( defined $render->{javascript} ) {
-        $html .= sprintf 'qq{\n<script type="text/javascript">\n%s\n</script>}', 
+        $html .= sprintf 'qq{\n<script type="text/javascript">\n%s\n</script>}',
             $render->{javascript};
     }
-    
+
     return $html;
 }
 
@@ -847,7 +856,7 @@ sub clone {
         )
     {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
-        
+
         map { $_->parent($clone) } @{ $clone->$list };
     }
 
@@ -877,7 +886,7 @@ sub _single_deflator {
     push @{ $self->_deflators }, $new;
 
     return $new;
-};
+}
 
 sub _single_filter {
     my ( $self, $arg ) = @_;
@@ -898,7 +907,7 @@ sub _single_filter {
     push @{ $self->_filters }, $new;
 
     return $new;
-};
+}
 
 sub _single_constraint {
     my ( $self, $arg ) = @_;
@@ -919,7 +928,7 @@ sub _single_constraint {
     push @{ $self->_constraints }, $new;
 
     return $new;
-};
+}
 
 sub _single_inflator {
     my ( $self, $arg ) = @_;
@@ -940,7 +949,7 @@ sub _single_inflator {
     push @{ $self->_inflators }, $new;
 
     return $new;
-};
+}
 
 sub _single_validator {
     my ( $self, $arg ) = @_;
@@ -961,7 +970,7 @@ sub _single_validator {
     push @{ $self->_validators }, $new;
 
     return $new;
-};
+}
 
 sub _single_transformer {
     my ( $self, $arg ) = @_;
@@ -982,7 +991,7 @@ sub _single_transformer {
     push @{ $self->_transformers }, $new;
 
     return $new;
-};
+}
 
 1;
 

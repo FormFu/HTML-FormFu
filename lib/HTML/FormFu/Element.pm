@@ -6,7 +6,7 @@ use Class::C3;
 use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors
     mk_output_accessors mk_inherited_accessors mk_accessors
     mk_inherited_merging_accessors /;
-use HTML::FormFu::ObjectUtil qw/ 
+use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_ELEMENT
     load_config_file populate form stash parent /;
 use HTML::FormFu::Util qw/ require_class xml_escape /;
@@ -19,8 +19,8 @@ use overload
     'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
-    '""'     => sub { return shift->render },
-    bool     => sub {1},
+    '""' => sub { return shift->render },
+    bool => sub {1},
     fallback => 1;
 
 __PACKAGE__->mk_attrs(qw/ attributes /);
@@ -33,9 +33,7 @@ __PACKAGE__->mk_accessors(
         /
 );
 
-__PACKAGE__->mk_inherited_accessors(
-    qw/ tt_args render_method /
-);
+__PACKAGE__->mk_inherited_accessors( qw/ tt_args render_method / );
 
 __PACKAGE__->mk_inherited_merging_accessors(qw/ config_callback /);
 
@@ -130,21 +128,21 @@ sub render_data_non_recursive {
     my $self = shift;
 
     my %render = (
-        name                => xml_escape( $self->name ),
-        attributes          => xml_escape( $self->attributes ),
-        type                => $self->type,
-        filename            => $self->filename,
-        is_field            => $self->is_field,
-        stash               => $self->stash,
-        parent              => $self->parent,
-        form                => sub { return shift->{parent}->form },
+        name       => xml_escape( $self->name ),
+        attributes => xml_escape( $self->attributes ),
+        type       => $self->type,
+        filename   => $self->filename,
+        is_field   => $self->is_field,
+        stash      => $self->stash,
+        parent     => $self->parent,
+        form       => sub { return shift->{parent}->form },
         @_ ? %{ $_[0] } : () );
 
     weaken( $render{parent} );
 
-    $self->prepare_id(\%render);
+    $self->prepare_id( \%render );
 
-    $self->prepare_attrs(\%render);
+    $self->prepare_attrs( \%render );
 
     return \%render;
 }

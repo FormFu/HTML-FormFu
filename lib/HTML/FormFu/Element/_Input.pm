@@ -31,49 +31,46 @@ sub render_data_non_recursive {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data;
-    
+
     # field wrapper template - start
-    
-    my $html = $self->_string_field_start( $render );
-    
+
+    my $html = $self->_string_field_start($render);
+
     # input_tag template
-    
-    $html .= $self->_string_field( $render );
-    
+
+    $html .= $self->_string_field($render);
+
     # field wrapper template - end
-    
-    $html .= $self->_string_field_end( $render );
-    
+
+    $html .= $self->_string_field_end($render);
+
     return $html;
 }
 
 sub _string_field {
     my ( $self, $render ) = @_;
-    
+
     my $html .= "<input";
-    
+
     if ( defined $render->{nested_name} ) {
-        $html .= sprintf qq{ name="%s"}, 
-            $render->{nested_name};
+        $html .= sprintf qq{ name="%s"}, $render->{nested_name};
     }
-    
-    $html .= sprintf qq{ type="%s"}, 
-        $render->{field_type};
-    
+
+    $html .= sprintf qq{ type="%s"}, $render->{field_type};
+
     if ( defined $render->{value} ) {
-        $html .= sprintf qq{ value="%s"}, 
-            $render->{value};
+        $html .= sprintf qq{ value="%s"}, $render->{value};
     }
-    
-    $html .= sprintf "%s />", 
-        process_attrs( $render->{attributes} );
-    
+
+    $html .= sprintf "%s />", process_attrs( $render->{attributes} );
+
     return $html;
 }
 

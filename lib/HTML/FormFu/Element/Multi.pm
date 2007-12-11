@@ -104,51 +104,51 @@ sub _render_error_class {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data_non_recursive;
-    
+
     # field wrapper template - start
-    
-    my $html = $self->_string_field_start( $render );
-    
+
+    my $html = $self->_string_field_start($render);
+
     # multi template
-    
-    $html .= sprintf "<span%s>\n", 
-        process_attrs( $render->{attributes} );
-    
-    for my $elem (@{ $self->get_elements }) {
+
+    $html .= sprintf "<span%s>\n", process_attrs( $render->{attributes} );
+
+    for my $elem ( @{ $self->get_elements } ) {
         my $render = $elem->render_data;
-        
+
         next if !defined $render;
-        
+
         if ( $elem->reverse_multi ) {
-            $html .= $elem->_string_field( $render );
-            
+            $html .= $elem->_string_field($render);
+
             if ( defined $elem->label ) {
-                $html .= "\n" . $elem->_string_label( $render );
+                $html .= "\n" . $elem->_string_label($render);
             }
         }
         else {
             if ( defined $elem->label ) {
-                $html .= $elem->_string_label( $render ) . "\n";
+                $html .= $elem->_string_label($render) . "\n";
             }
-            
-            $html .= $elem->_string_field( $render );
+
+            $html .= $elem->_string_field($render);
         }
-        
+
         $html .= "\n";
     }
-    
+
     $html .= "</span>";
 
     # field wrapper template - end
-    
-    $html .= $self->_string_field_end( $render );
-    
+
+    $html .= $self->_string_field_end($render);
+
     return $html;
 }
 

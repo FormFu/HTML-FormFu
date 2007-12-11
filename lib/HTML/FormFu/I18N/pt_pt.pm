@@ -12,7 +12,8 @@ our %Lexicon = (
     form_constraint_autoset   => 'Campo contém uma escolha inválida',
     form_constraint_bool      => 'Campo tem de ser um valor booleano',
     form_constraint_dependon  => 'Erro',
-    form_constraint_email     => 'Este campo tem de conter um endereço de email válido',
+    form_constraint_email =>
+        'Este campo tem de conter um endereço de email válido',
     form_constraint_equal     => 'Erro',
     form_constraint_integer   => 'Este campo tem de conter um número inteiro',
     form_constraint_length    => 'Entrada inválida',

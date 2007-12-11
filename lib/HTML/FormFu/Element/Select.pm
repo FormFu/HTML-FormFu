@@ -39,10 +39,12 @@ sub _prepare_attrs {
     elsif ($submitted) {
         delete $option->{attributes}{selected};
     }
-    elsif ( defined $default
+    elsif (
+        defined $default
         && (ref $default eq 'ARRAY'
             ? grep { $_ eq $option->{value} } @$default
-            : $default eq $option->{value} ) ) {
+            : $default eq $option->{value} ) )
+    {
         $option->{attributes}{selected} = 'selected';
     }
     return;
@@ -50,44 +52,42 @@ sub _prepare_attrs {
 
 sub _string_field {
     my ( $self, $render ) = @_;
-    
+
     # select_tag template
-    
-    my $html .= sprintf qq{<select name="%s"%s>\n}, 
-        $render->{nested_name}, 
+
+    my $html .= sprintf qq{<select name="%s"%s>\n},
+        $render->{nested_name},
         process_attrs( $render->{attributes} );
-    
-    for my $option (@{ $render->{options} }) {
+
+    for my $option ( @{ $render->{options} } ) {
         if ( exists $option->{group} ) {
             $html .= "<optgroup";
-            
+
             if ( defined $option->{label} ) {
-                $html .= sprintf qq{ label="%s"}, 
-                    $option->{label};
+                $html .= sprintf qq{ label="%s"}, $option->{label};
             }
-            
-            $html .= sprintf "%s>\n", 
-                process_attrs( $option->{attributes} );
-            
-            for my $item (@{ $option->{group} }) {
-                $html .= sprintf qq{<option value="%s"%s>%s</option>\n}, 
-                    $item->{value}, 
-                    process_attrs( $item->{attributes} ), 
+
+            $html .= sprintf "%s>\n", process_attrs( $option->{attributes} );
+
+            for my $item ( @{ $option->{group} } ) {
+                $html .= sprintf qq{<option value="%s"%s>%s</option>\n},
+                    $item->{value},
+                    process_attrs( $item->{attributes} ),
                     $item->{label};
             }
-            
+
             $html .= "</optgroup>\n";
         }
         else {
-            $html .= sprintf qq{<option value="%s"%s>%s</option>\n}, 
-                $option->{value}, 
-                process_attrs( $option->{attributes} ), 
+            $html .= sprintf qq{<option value="%s"%s>%s</option>\n},
+                $option->{value},
+                process_attrs( $option->{attributes} ),
                 $option->{label};
         }
     }
-    
+
     $html .= "</select>";
-    
+
     return $html;
 }
 

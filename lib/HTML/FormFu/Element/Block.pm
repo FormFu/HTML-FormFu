@@ -12,9 +12,7 @@ use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors(
-    qw/ tag _elements element_defaults nested_name /
-);
+__PACKAGE__->mk_accessors( qw/ tag _elements element_defaults nested_name / );
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
@@ -46,13 +44,13 @@ sub new {
 
 sub values_from_model {
     my $self = shift;
-    
+
     return $self->form->model->values_from_model(@_);
 }
 
 sub save_to_model {
     my $self = shift;
-    
+
     return $self->form->model->save_to_model(@_);
 }
 
@@ -66,11 +64,11 @@ sub process {
 
 sub render_data {
     my $self = shift;
-    
+
     my $render = $self->render_data_non_recursive( {
-        elements => [ map { $_->render_data } @{ $self->_elements } ],
-        @_ ? %{ $_[0] } : () } );
-    
+            elements => [ map { $_->render_data } @{ $self->_elements } ],
+            @_ ? %{ $_[0] } : () } );
+
     return $render;
 }
 
@@ -78,8 +76,8 @@ sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
-            tag       => $self->tag,
-            content   => xml_escape( $self->content ),
+            tag     => $self->tag,
+            content => xml_escape( $self->content ),
             @_ ? %{ $_[0] } : () } );
 
     return $render;
@@ -87,74 +85,73 @@ sub render_data_non_recursive {
 
 sub string {
     my ( $self, $args ) = @_;
-    
+
     $args ||= {};
-    
-    my $render = exists $args->{render_data}
+
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data_non_recursive;
-    
+
     # start_block template
-    
+
     my $html = '';
-    
+
     if ( defined $render->{tag} ) {
-        $html .= sprintf "<%s%s>", 
-            $render->{tag}, 
+        $html .= sprintf "<%s%s>",
+            $render->{tag},
             process_attrs( $render->{attributes} );
     }
-    
+
     if ( defined $render->{legend} ) {
-        $html .= sprintf "\n<legend>%s</legend>", 
-            $render->{legend};
+        $html .= sprintf "\n<legend>%s</legend>", $render->{legend};
     }
-    
+
     # block template
-    
+
     $html .= "\n";
-    
+
     if ( defined $render->{content} ) {
-        $html .= sprintf "%s\n", 
-            $render->{content};
+        $html .= sprintf "%s\n", $render->{content};
     }
     else {
-        for my $elem (@{ $self->get_elements }) {
+        for my $elem ( @{ $self->get_elements } ) {
+
             # call render, so that child elements can use a different renderer
             my $elem_html = $elem->render;
-            
+
             # skip Blank fields
             if ( length $elem_html ) {
                 $html .= $elem_html . "\n";
             }
         }
     }
-    
+
     # end_block template
-    
+
     if ( defined $render->{tag} ) {
-        $html .= sprintf "</%s>", 
-            $render->{tag};
+        $html .= sprintf "</%s>", $render->{tag};
     }
-    
+
     return $html;
 }
 
 sub start {
     my ($self) = @_;
-    
-    return $self->tt({
-        filename => 'start_block',
-        render_data => $self->render_data_non_recursive,
-    });
+
+    return $self->tt( {
+            filename    => 'start_block',
+            render_data => $self->render_data_non_recursive,
+        } );
 }
 
 sub end {
     my ($self) = @_;
-    
-    return $self->tt({
-        filename => 'end_block',
-        render_data => $self->render_data_non_recursive,
-    });
+
+    return $self->tt( {
+            filename    => 'end_block',
+            render_data => $self->render_data_non_recursive,
+        } );
 }
 
 sub clone {
@@ -163,7 +160,7 @@ sub clone {
     my $clone = $self->next::method(@_);
 
     $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
-    
+
     map { $_->parent($clone) } @{ $clone->_elements };
 
     $clone->element_defaults( dclone $self->element_defaults );

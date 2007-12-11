@@ -13,14 +13,12 @@ __PACKAGE__->mk_accessors(qw/ not force_errors when /);
 sub process {
     my ( $self, $params ) = @_;
 
-    my $value = $self->get_nested_hash_value(
-        $params,
-        $self->nested_name );
+    my $value = $self->get_nested_hash_value( $params, $self->nested_name );
 
     my @errors;
 
     # check when condition
-    return unless $self->_process_when( $params );
+    return unless $self->_process_when($params);
 
     if ( ref $value ) {
         eval { my @x = @$value };
@@ -101,6 +99,7 @@ sub mk_error {
 
 sub _process_when {
     my ( $self, $params ) = @_;
+
     # returns 1 if when condition is fullfilled or not defined
     # returns 0 if when condition is defined and not fullfilled
 

@@ -41,7 +41,7 @@ sub process {
 
             $count++
                 unless defined $token->get_attrseq->[-1]
-                && $token->get_attrseq->[-1] eq "/";
+                    && $token->get_attrseq->[-1] eq "/";
         }
         elsif ( $token->is_end_tag ) {
             my $tag = $token->get_tag;

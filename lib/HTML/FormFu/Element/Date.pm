@@ -297,17 +297,20 @@ sub process_input {
     my $month_name = _build_month_name($self);
     my $year_name  = _build_year_name($self);
 
-    $day_name   = $self->get_element({ name => $day_name })->nested_name;
-    $month_name = $self->get_element({ name => $month_name })->nested_name;
-    $year_name  = $self->get_element({ name => $year_name })->nested_name;
+    $day_name   = $self->get_element( { name => $day_name } )->nested_name;
+    $month_name = $self->get_element( { name => $month_name } )->nested_name;
+    $year_name  = $self->get_element( { name => $year_name } )->nested_name;
 
     my $day   = $self->get_nested_hash_value( $input, $day_name );
     my $month = $self->get_nested_hash_value( $input, $month_name );
     my $year  = $self->get_nested_hash_value( $input, $year_name );
 
-    if (   defined $day   && length $day
-        && defined $month && length $month
-        && defined $year  && length $year )
+    if (   defined $day
+        && length $day
+        && defined $month
+        && length $month
+        && defined $year
+        && length $year )
     {
         my $dt;
 
@@ -327,9 +330,8 @@ sub process_input {
         else {
             $value = $dt->strftime( $self->strftime );
         }
-        
-        $self->set_nested_hash_value(
-            $input, $self->nested_name, $value );
+
+        $self->set_nested_hash_value( $input, $self->nested_name, $value );
     }
 
     return $self->next::method($input);
@@ -345,8 +347,8 @@ sub render_data_non_recursive {
     $self->_add_elements;
 
     my $render = $self->next::method( {
-        elements => [ map { $_->render_data } @{ $self->_elements } ],
-        @_ ? %{ $_[0] } : () } );
+            elements => [ map { $_->render_data } @{ $self->_elements } ],
+            @_ ? %{ $_[0] } : () } );
 
     return $render;
 }
