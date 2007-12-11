@@ -923,9 +923,9 @@ and how to structure your forms.
 To save values to the database which weren't submitted to the form, 
 you can first add them to the form with L<add_valid|HTML::FormFu/add_valid>.
 
-    my $passwd = generate_passwd();
+    my $passwd = generate_passwd();
     
-    $form->add_valid( passwd => $passwd );
+    $form->add_valid( passwd => $passwd );
     
     $form->save_to_model( $row );
 
