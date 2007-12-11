@@ -1,18 +1,49 @@
-0.02000
+0.02000 2007-12-12
 
-	- Template files now installed into @INC path - you only need a local 
-	  copy if you want to customise them
-	- INCLUDE_PATH no longer defaults to 'root'
-	- Date element now uses names of the form "date_day" instead of 
-	  "date.day", so as to not conflict with the new nested-params. This 
-	  should only affect you if your client-side code (CSS, JS) references 
-	  the field names
+	- New HTML::FormFu::Model::DBIC module to replace DBIx::Class::HTML::FormFu
+	
+	- New Repeatable block element
+	
 	- New "nested" params support. Form and Block elements have a new 
 	  nested_name() method. Field elements have new nested(), nested_name() 
 	  and nested_names() methods. Doesn't require CGI::Expand or 
 	  Catalyst::Plugin::NestedParams
-    - New Checkboxgroup element. Works much like Radiogroup, but with
+	
+	- Uses new "string" renderer by default - doesn't use template files,
+	  Generated markup still exactly the same,
+	  Set render_method("tt") to use the template files (old behaviour),
+	  render_class_args() renamed to tt_args(),
+	  Template files now installed into @INC path by File::ShareDir,
+	  INCLUDE_PATH no longer set by default
+	
+	- New Checkboxgroup element. Works much like Radiogroup, but with
       checkboxes
+    
+    - Support multiple yaml documents in a single file - calls populate()
+      once for each document
+	
+	- Date element now uses names of the form "date_day" instead of 
+	  "date.day", so as to not conflict with the new nested-params. This 
+	  should only affect you if your client-side code (CSS, JS) references 
+	  the field names
+    
+    - Group elements (Select, Radiogroup, Checkboxgroup) now support a
+      'label_loc' argument, to provide the item labels via localize()
+    
+    - *_loc() methods now accept an arrayref argument, to allowing setting
+      in YAML config files
+    
+    - render() now returns a string, not an object.
+	  $form->render->start_form() must be changed to $form->start(),
+	  $form->render->end_form() must be changed to $form->end,
+	  $form->render->field('foo') must be changed to $form->get_field('foo'),
+	  $form->render->hidden_fields() must be changed to $form->hidden_fields()
+    
+    - Bugfix: OutputProcessor::Indent was indenting closing tag, when it's
+      value was empty (RT 30239)
+    
+    - Bugfix: Objects were getting wrong parents during clone() and
+      auto_fieldset()
 
 0.01006 2007-10-23
 
