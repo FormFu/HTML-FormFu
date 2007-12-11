@@ -455,12 +455,7 @@ sub _save_columns {
 
     my @valid = $form->valid;
 
-    my @pk = $dbic->result_source->primary_columns;
-
     for my $col (@$cols) {
-
-        # don't edit primary key columns
-        next if grep { $col eq $_ } @pk;
 
         my $col_info    = $dbic->column_info($col);
         my $is_nullable = $col_info->{is_nullable} || 0;
