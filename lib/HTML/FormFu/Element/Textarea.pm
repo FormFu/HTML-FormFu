@@ -4,6 +4,8 @@ use strict;
 use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
+use HTML::FormFu::Util qw/ process_attrs /;
+
 __PACKAGE__->mk_attr_accessors(qw/ cols rows /);
 
 sub new {

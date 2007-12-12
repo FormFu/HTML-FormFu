@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 
-use HTML::FormFu::Util qw( append_xml_attribute );
+use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 
 __PACKAGE__->mk_accessors(qw/ radiogroup_filename /);
 

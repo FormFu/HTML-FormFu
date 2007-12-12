@@ -1,6 +1,10 @@
+0.02002 2007-12-12
+
+	- Fixes required for perl 5.10.0
+
 0.02001 2007-12-12
 
-    - Bugfix for save_to_model() in HTML::FormFu::Model::DBIC
+	- Bugfix for save_to_model() in HTML::FormFu::Model::DBIC
 
 0.02000 2007-12-12
 
