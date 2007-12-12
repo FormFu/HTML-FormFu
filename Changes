@@ -1,5 +1,9 @@
 0.02000 2007-12-12
 
+    - Bugfix for save_to_model() in HTML::FormFu::Model::DBIC
+
+0.02000 2007-12-12
+
 	- New HTML::FormFu::Model::DBIC module to replace DBIx::Class::HTML::FormFu
 	
 	- New Repeatable block element
