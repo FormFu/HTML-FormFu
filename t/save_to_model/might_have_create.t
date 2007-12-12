@@ -32,7 +32,6 @@ my $note_rs = $schema->resultset('Note');
 $form->process({
     "id"       => 3,
     "text_col" => 'a',
-    "note.id"   => '',
     "note.note" => 'abc',
     });
 

@@ -31,7 +31,6 @@ my $rs = $schema->resultset('Master');
 $form->process({
     "id"       => 3,
     "text_col" => 'a',
-    "user.id"   => '',
     "user.name" => 'bar',
     });
 

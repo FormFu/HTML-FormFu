@@ -477,9 +477,15 @@ sub _save_columns {
         my $nested_name = defined $field ? $field->nested_name : undef;
 
         my $value
-            = defined $field ? $form->param( $field->nested_name )
-            : ( grep { $col eq $_ } @valid ) ? $form->param($col)
-            :                                  undef;
+            = defined $field
+            ? $form->param( $field->nested_name )
+            : ( grep { defined $attrs->{nested_base} 
+                    ? defined $nested_name
+                        ? $nested_name eq $_
+                        : 0
+                    : $col eq $_ } @valid )
+                ? $form->param($col)
+                : undef;
 
         if (   defined $field
             && $field->db->{delete_if_empty}
