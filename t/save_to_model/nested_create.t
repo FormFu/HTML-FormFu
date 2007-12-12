@@ -6,8 +6,8 @@ BEGIN {
     eval "use DBIx::Class 0.08002";
     if ($@) {
         plan skip_all => 'DBIx::Class required';
+        exit;
     }
-    exit;
 }
 
 plan tests => 6;
