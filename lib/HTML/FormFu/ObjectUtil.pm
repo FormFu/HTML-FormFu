@@ -9,7 +9,6 @@ use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
 use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
-use YAML::Syck qw/ LoadFile /;
 use Carp qw/ croak /;
 
 our @form_and_block = qw/
@@ -338,10 +337,8 @@ sub load_config_file {
         croak "file not found: '$_'" if !-f $_;
     }
 
-    # ignore $@, Config::Any will take care of loading YAML.pm if necessary.
     # ImplicitUnicode ensures that values won't be double-encoded when we
     # encode() our output
-    eval { require YAML::Syck };
     local $YAML::Syck::ImplicitUnicode = 1;
 
     my $config_callback = $self->config_callback;
@@ -353,35 +350,27 @@ sub load_config_file {
     }
 
     for my $file (@filenames) {
+        my $config = Config::Any->load_files( {
+                files   => [$file],
+                use_ext => 1,
+            } );
 
-        if ( $file =~ /\.ya?ml\z/i ) {
-            for my $data ( YAML::Syck::LoadFile($file) ) {
-                _load_single_document( $self, $data_visitor, $data );
-            }
-        }
-        else {
-            my $config = Config::Any->load_files( {
-                    files   => [$file],
-                    use_ext => 1,
-                } );
-
-            _load_single_document( $self, $data_visitor,
-                $config->[0]->{$file} );
-        }
+        _load_file(
+            $self, $data_visitor, $config->[0]->{$file} );
     }
 
     return $self;
 }
 
-sub _load_single_document {
+sub _load_file {
     my ( $self, $data_visitor, $data ) = @_;
 
     if ( defined $data_visitor ) {
         $data_visitor->visit($data);
     }
 
-    $self->populate($data);
-
+    $self->populate($_) for ( ref $data eq 'ARRAY' ? @$data : $data );
+    
     return;
 }
 
