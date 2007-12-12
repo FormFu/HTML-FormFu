@@ -7,6 +7,7 @@ BEGIN {
     if ($@) {
         plan skip_all => 'DBIx::Class required';
     }
+    exit;
 }
 
 plan tests => 6;

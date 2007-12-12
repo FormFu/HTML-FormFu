@@ -6,6 +6,12 @@ BEGIN {
     eval "use DBIx::Class 0.08002";
     if ($@) {
         plan skip_all => 'DBIx::Class required';
+        exit;
+    }
+    eval "use DateTime::Format::MySQL";
+    if ($@) {
+        plan skip_all => 'DateTime::Format::MySQL required';
+        exit;
     }
 }
 
