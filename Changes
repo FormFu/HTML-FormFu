@@ -1,3 +1,7 @@
+0.02002 XXXX
+
+        - Fixed javascript rendering in _Field
+
 0.02002 2007-12-12
 
 	- Fixes required for perl 5.10.0

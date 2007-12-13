@@ -838,7 +838,7 @@ sub _string_field_end {
     }
 
     if ( defined $render->{javascript} ) {
-        $html .= sprintf 'qq{\n<script type="text/javascript">\n%s\n</script>}',
+        $html .= sprintf qq{\n<script type="text/javascript">\n%s\n</script>},
             $render->{javascript};
     }
 
