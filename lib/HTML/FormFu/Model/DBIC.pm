@@ -65,7 +65,11 @@ sub _fill_relationships {
             my ($pk) = $rs->related_source($rel)->primary_columns;
 
             next
-                unless grep { $_->name eq $pk }
+                unless grep {
+                    $pk eq defined $_->original_name
+                        ? $_->original_name
+                        : $_->name
+                }
                 @{ $block->get_fields( { type => 'Hidden' } ) };
 
             my @rows = $dbic->related_resultset($rel)->all;
@@ -858,6 +862,9 @@ arrayref of column names that must be filled in for the row to be added.
           new_empty_row: author
         
         elements:
+          - type: Hidden
+            name: id
+          
           - type: Text
             name: author
 
@@ -876,6 +883,9 @@ hashref to the name of that field.
           delete_if_true: delete
         
         elements:
+          - type: Hidden
+            name: id
+          
           - type: Text
             name: author
           
