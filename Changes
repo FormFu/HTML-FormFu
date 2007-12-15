@@ -1,43 +1,44 @@
 0.02002 XXXX
 
-        - Fixed javascript rendering in _Field
+    - Repeatable element, increment_field_names() is now true by default
+    - Fixed javascript rendering in _Field
 
 0.02002 2007-12-12
 
-	- Fixes required for perl 5.10.0
+    - Fixes required for perl 5.10.0
 
 0.02001 2007-12-12
 
-	- Bugfix for save_to_model() in HTML::FormFu::Model::DBIC
+    - Bugfix for save_to_model() in HTML::FormFu::Model::DBIC
 
 0.02000 2007-12-12
 
-	- New HTML::FormFu::Model::DBIC module to replace DBIx::Class::HTML::FormFu
-	
-	- New Repeatable block element
-	
-	- New "nested" params support. Form and Block elements have a new 
-	  nested_name() method. Field elements have new nested(), nested_name() 
-	  and nested_names() methods. Doesn't require CGI::Expand or 
-	  Catalyst::Plugin::NestedParams
-	
-	- Uses new "string" renderer by default - doesn't use template files,
-	  Generated markup still exactly the same,
-	  Set render_method("tt") to use the template files (old behaviour),
-	  render_class_args() renamed to tt_args(),
-	  Template files now installed into @INC path by File::ShareDir,
-	  INCLUDE_PATH no longer set by default
-	
-	- New Checkboxgroup element. Works much like Radiogroup, but with
+    - New HTML::FormFu::Model::DBIC module to replace DBIx::Class::HTML::FormFu
+    
+    - New Repeatable block element
+    
+    - New "nested" params support. Form and Block elements have a new 
+      nested_name() method. Field elements have new nested(), nested_name() 
+      and nested_names() methods. Doesn't require CGI::Expand or 
+      Catalyst::Plugin::NestedParams
+    
+    - Uses new "string" renderer by default - doesn't use template files,
+      Generated markup still exactly the same,
+      Set render_method("tt") to use the template files (old behaviour),
+      render_class_args() renamed to tt_args(),
+      Template files now installed into @INC path by File::ShareDir,
+      INCLUDE_PATH no longer set by default
+    
+    - New Checkboxgroup element. Works much like Radiogroup, but with
       checkboxes
     
     - Support multiple yaml documents in a single file - calls populate()
       once for each document
-	
-	- Date element now uses names of the form "date_day" instead of 
-	  "date.day", so as to not conflict with the new nested-params. This 
-	  should only affect you if your client-side code (CSS, JS) references 
-	  the field names
+    
+    - Date element now uses names of the form "date_day" instead of 
+      "date.day", so as to not conflict with the new nested-params. This 
+      should only affect you if your client-side code (CSS, JS) references 
+      the field names
     
     - Group elements (Select, Radiogroup, Checkboxgroup) now support a
       'label_loc' argument, to provide the item labels via localize()
@@ -46,10 +47,10 @@
       in YAML config files
     
     - render() now returns a string, not an object.
-	  $form->render->start_form() must be changed to $form->start(),
-	  $form->render->end_form() must be changed to $form->end,
-	  $form->render->field('foo') must be changed to $form->get_field('foo'),
-	  $form->render->hidden_fields() must be changed to $form->hidden_fields()
+      $form->render->start_form() must be changed to $form->start(),
+      $form->render->end_form() must be changed to $form->end,
+      $form->render->field('foo') must be changed to $form->get_field('foo'),
+      $form->render->hidden_fields() must be changed to $form->hidden_fields()
     
     - Bugfix: OutputProcessor::Indent was indenting closing tag, when it's
       value was empty (RT 30239)
@@ -59,63 +60,63 @@
 
 0.01006 2007-10-23
 
-	- render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not 
-	  set - previously was only set if the entire render_class_args hashref 
-	  was empty
-	- New StripWhitespace OutputProcessor
-	- New CopyValue Filter
-	- New Cookbook and Unicode manual pages
-	- New unicode example Catalyst application
-	- New portuguese I18N translation
-	- Callback Filters, Constraints and Validators now accept a fully 
-	  qualified subroutine name instead of a code-ref
-	- Date element month names from DateTime::Locale are run through ucfirst
-	- Documentation improvements
-	- Bugfix: forced errors are now displayed
+    - render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not 
+      set - previously was only set if the entire render_class_args hashref 
+      was empty
+    - New StripWhitespace OutputProcessor
+    - New CopyValue Filter
+    - New Cookbook and Unicode manual pages
+    - New unicode example Catalyst application
+    - New portuguese I18N translation
+    - Callback Filters, Constraints and Validators now accept a fully 
+      qualified subroutine name instead of a code-ref
+    - Date element month names from DateTime::Locale are run through ucfirst
+    - Documentation improvements
+    - Bugfix: forced errors are now displayed
 
 0.01005 2007-09-21
 
-	- New Indent "output processor" to pretty-print output
-	- New force_default() method on fields
-	- New when() method for all Constraints
-	- Behaviour change for MinMaxFields Constraint
+    - New Indent "output processor" to pretty-print output
+    - New force_default() method on fields
+    - New when() method for all Constraints
+    - Behaviour change for MinMaxFields Constraint
 
 0.01004 2007-09-12
 
-	- New html_formfu_deploy.pl helper program
-	- AutoSet Constraint now works with Select optgroups
-	- Added vertically-aligned CSS example
-	- Fix circular reference / memory leak
-	- Documentations fixes / additions
-	- require v0.7901 of DateTime::Format::Builder to fix memory leak
+    - New html_formfu_deploy.pl helper program
+    - AutoSet Constraint now works with Select optgroups
+    - Added vertically-aligned CSS example
+    - Fix circular reference / memory leak
+    - Documentations fixes / additions
+    - require v0.7901 of DateTime::Format::Builder to fix memory leak
 
-0.01003	2007-08-22
+0.01003    2007-08-22
 
-	- Add missing prereq to Makefile.PL
+    - Add missing prereq to Makefile.PL
 
-0.01002	2007-08-22
+0.01002    2007-08-22
 
-	- Fixed missing imports causing errors with perl 5.9.x
+    - Fixed missing imports causing errors with perl 5.9.x
 
-0.01001	2007-08-22
+0.01001    2007-08-22
 
-	- First non-dev release
-	- All Element names now follow CamelCase convention
-	- Key format of I18N files changed
-	- New Date element
-	- Use Class::C3 instead of SUPER
-	- Automatically set UTF-8 encoding on TT
-	- Support for Template::Alloy instead of TT
+    - First non-dev release
+    - All Element names now follow CamelCase convention
+    - Key format of I18N files changed
+    - New Date element
+    - Use Class::C3 instead of SUPER
+    - Automatically set UTF-8 encoding on TT
+    - Support for Template::Alloy instead of TT
 
-0.01000_02	2007-07-02
+0.01000_02    2007-07-02
 
-	- Updated templates in tt_files.pm - 0.01000_02 was out of date
+    - Updated templates in tt_files.pm - 0.01000_02 was out of date
 
-0.01000_02	2007-07-02
+0.01000_02    2007-07-02
 
-	- Added YAML::Syck to dependencies
-	- Pod fix
+    - Added YAML::Syck to dependencies
+    - Pod fix
 
-0.01000_01	2007-06-29
+0.01000_01    2007-06-29
 
-	- First CPAN dev release
+    - First CPAN dev release

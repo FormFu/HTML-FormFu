@@ -13,6 +13,7 @@ sub new {
 
     $self->filename('repeatable');
     $self->is_repeatable(1);
+    $self->increment_field_names(1);
 
     return $self;
 }
@@ -245,7 +246,7 @@ L<HTML::FormFu/process> for a parameter with the given name. The value for
 that parameter will be passed to L</repeat>, to automatically create the 
 new copies.
 
-If you're using L</increment_field_names>, this is essential: if the 
+If L</increment_field_names> is true (the default), this is essential: if the
 elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not 
 present on the form during L<HTML::FormFu/process>, no Processors 
 (Constraints, etc.) will be run on the fields, and their values will not 
@@ -254,6 +255,8 @@ be returned by L<HTML::FormFu/params> or L<HTML::FormFu/param>.
 =head2 increment_field_names
 
 Arguments: $bool
+
+Default Value: 1
 
 If true, then any copies of fields whose name contains a C<0>, will have 
 the C<0> replaced by it's L</repeatable_count> value.

@@ -10,7 +10,6 @@ elements:
   
   - type: Repeatable
     nested_name: addresses
-    increment_field_names: 1
     counter_name: count
     
     elements:

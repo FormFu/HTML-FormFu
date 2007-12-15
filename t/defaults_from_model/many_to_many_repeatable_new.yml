@@ -10,7 +10,6 @@ elements:
   
   - type: Repeatable
     nested_name: bands
-    increment_field_names: 1
     counter_name: count
     db:
       new_empty_row: band

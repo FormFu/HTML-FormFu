@@ -19,18 +19,18 @@ is( $form, <<HTML );
 <fieldset>
 <div class="repeat">
 <span class="text">
-<input name="foo" type="text" />
+<input name="foo_1" type="text" />
 </span>
 <span class="text">
-<input name="bar" type="text" />
+<input name="bar_1" type="text" />
 </span>
 </div>
 <div class="repeat">
 <span class="text">
-<input name="foo" type="text" />
+<input name="foo_2" type="text" />
 </span>
 <span class="text">
-<input name="bar" type="text" />
+<input name="bar_2" type="text" />
 </span>
 </div>
 <span class="submit">

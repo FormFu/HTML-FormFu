@@ -3,7 +3,10 @@ auto_fieldset: 1
 
 elements:
   - type: Repeatable
-    increment_field_names: 1
+
+# it's now the default behaviour
+#    increment_field_names: 1
+
     elements:
       - name: foo
       - name: bar

@@ -842,8 +842,8 @@ To edit fields in related rows with C<has_many> and C<many_to_many>
 relationships, the fields must be placed within a 
 L<Repeatable|HTML::FormFu::Element::Repeatable> element.
 This will output a repetition of the entire block for each row returned.
-L<HTML::FormFu::Element::Repeatable/increment_field_names> must be set on
-the Repeatable block.
+L<HTML::FormFu::Element::Repeatable/increment_field_names> must be true
+(which is the default value).
 
 The block's L<nested_name|HTML::FormFu::Element::Repeatable/nested_name>
 must be set to the name of the relationship.
@@ -857,7 +857,6 @@ arrayref of column names that must be filled in for the row to be added.
     element:
       - type: Repeatable
         nested_name: authors
-        increment_field_names: 1
         db: 
           new_empty_row: author
         
@@ -878,7 +877,6 @@ hashref to the name of that field.
     element:
       - type: Repeatable
         nested_name: authors
-        increment_field_names: 1
         db: 
           delete_if_true: delete
         
