@@ -203,6 +203,7 @@ sub _fill_repeatable_many_to_many {
     for my $block (@blocks) {
         my $rel = $block->nested_name;
 
+	next unless $rel;
         next if grep { $rel eq $_ } @$rels, @$cols;
 
         if ( $dbic->can($rel) ) {
