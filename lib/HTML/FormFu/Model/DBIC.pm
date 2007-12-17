@@ -196,14 +196,17 @@ sub _fill_multi_value_fields_many_to_many {
 sub _fill_repeatable_many_to_many {
     my ( $self, $base, $dbic, $form, $rs, $attrs, $rels, $cols ) = @_;
 
-    my @blocks
-        = grep { !$_->is_field && $_->is_repeatable && $_->increment_field_names }
+    my @blocks = grep {
+            !$_->is_field 
+            && $_->is_repeatable 
+            && $_->increment_field_names
+            && defined $_->nested_name
+        }
         @{ $base->get_all_elements };
 
     for my $block (@blocks) {
         my $rel = $block->nested_name;
 
-	next unless $rel;
         next if grep { $rel eq $_ } @$rels, @$cols;
 
         if ( $dbic->can($rel) ) {
