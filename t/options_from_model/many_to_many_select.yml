@@ -1,0 +1,18 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Select
+    name: bands
+    multiple: 1
+    db: 
+      model: Bands
+  
+  - type: Submit
+    name: submit
