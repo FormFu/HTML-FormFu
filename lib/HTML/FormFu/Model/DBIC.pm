@@ -5,6 +5,57 @@ use warnings;
 use Storable qw( dclone );
 use Carp qw( croak );
 
+sub options_from_model {
+    my ( $self, $base, $attrs ) = @_;
+
+    $attrs ||= {};
+
+    my $form = $base->form;
+    my $context = $form->stash->{context};
+
+    my $model = $context->model( $attrs->{model} );
+    return if !defined $model;
+
+    $model = $model->resultset( $attrs->{resultset} )
+        if defined $attrs->{resultset};
+
+    my $rs         = $model->result_source;
+    my $id_col     = $attrs->{id_column};
+    my $label_col  = $attrs->{label_column};
+    my $condition  = $attrs->{condition};
+    my $attributes = $attrs->{attributes} || {};
+
+    if ( !defined $id_col ) {
+        ($id_col) = $rs->primary_columns;
+    }
+
+    if ( !defined $label_col ) {
+
+        # use first text column
+        ($label_col)
+            = grep { $rs->column_info($_)->{data_type} =~ /text|varchar/i }
+            $rs->columns;
+    }
+    $label_col = $id_col if !defined $label_col;
+
+    $attributes->{'-columns'} = [ $id_col, $label_col ];
+
+    my $result = $model->search( $condition, $attributes );
+
+    my @defaults;
+
+    if ( $attrs->{localize_label} ) {
+        @defaults
+            = map { { value => $_->id_col, label_loc => $_->label_col, } }
+            $result->all;
+    }
+    else {
+        @defaults = map { [ $_->$id_col, $_->$label_col ] } $result->all;
+    }
+
+    return @defaults;
+}
+
 sub defaults_from_model {
     my ( $self, $base, $dbic, $attrs ) = @_;
 
