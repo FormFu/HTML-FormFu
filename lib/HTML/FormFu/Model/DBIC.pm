@@ -12,8 +12,9 @@ sub options_from_model {
 
     my $form = $base->form;
     my $context = $form->stash->{context};
-
-    my $model = $context->model( $attrs->{model} );
+    my $schema  = $form->stash->{schema};
+    return if !defined $context and !defined $schema;
+    my $model = defined $schema ? $schema : $context->model( $attrs->{model} );
     return if !defined $model;
 
     $model = $model->resultset( $attrs->{resultset} )

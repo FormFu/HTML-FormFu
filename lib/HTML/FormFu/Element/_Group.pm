@@ -37,12 +37,10 @@ sub new {
 sub process {
     my ($self) = @_;
 
-    my $context = $self->form->stash->{context};
-    my $args    = $self->db;
+    my $args = $self->db;
 
-    if ( $args && $args->{model} && defined $context ) {
-
-       $self->options( [ $self->form->model->options_from_model( $self, $args ) ] );
+    if ( $args and keys %$args ) {
+        $self->options( [ $self->form->model->options_from_model( $self, $args ) ] );
     }
 }
 
