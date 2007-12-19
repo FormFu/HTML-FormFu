@@ -5,11 +5,25 @@ use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
-use HTML::FormFu::Util qw/ append_xml_attribute /;
+use HTML::FormFu::Util qw/ append_xml_attribute literal /;
 use Storable qw( dclone );
 use Carp qw( croak );
 
 __PACKAGE__->mk_accessors(qw/ _options empty_first /);
+
+my @ALLOWED_OPTION_KEYS = qw/
+    group
+    value
+    label
+    attributes
+    attrs
+    attributes_xml
+    attrs_xml
+    label_attributes
+    label_attrs
+    label_attributes_xml
+    label_attrs_xml
+/;
 
 sub new {
     my $self = shift->next::method(@_);
@@ -66,30 +80,17 @@ sub _parse_option {
     my ( $self, $item ) = @_;
 
     eval { my %x = %$item };
-    if ( !$@ ) {
-        if ( exists $item->{group} ) {
-            my @group = @{ $item->{group} };
-            my @new;
-            for my $groupitem (@group) {
-                push @new, $self->_parse_option($groupitem);
-            }
-            my %group = ( group => \@new );
-            $group{label} = $item->{label};
-            $group{label} = $self->form->localize( $item->{label_loc} )
-                if defined $item->{label_loc};
-            $group{attributes} = $item->{attributes} || {};
 
-            return \%group;
-        }
-        $item->{attributes}       = {} if !exists $item->{attributes};
-        $item->{label_attributes} = {} if !exists $item->{label_attributes};
-        $item->{label} = $self->form->localize( $item->{label_loc} )
-            if defined $item->{label_loc};
-        return $item;
+    if ( !$@ ) {
+        # was passed a hashref
+        
+        return $self->_parse_option_hashref($item);
     }
 
     eval { my @x = @$item };
     if ( !$@ ) {
+        # was passed an arrayref
+        
         return {
             value            => $item->[0],
             label            => $item->[1],
@@ -99,6 +100,88 @@ sub _parse_option {
     }
 
     croak "each options argument must be a hash-ref or array-ref";
+}
+
+sub _parse_option_hashref {
+    my ( $self, $item ) = @_;
+    
+    # sanity check options
+    my @keys = keys %$item;
+    
+    for my $key (@keys) {
+        croak "unknown option argument: '$key'"
+            if !grep {$key eq $_} @ALLOWED_OPTION_KEYS;
+        
+        my $short = $key;
+        
+        if ( $short =~ s/attributes/attrs/ ) {
+            for my $cmp (@keys) {
+                next if $cmp eq $key;
+                croak "cannot use both '$key' and '$short' arguments"
+                    if $cmp eq $short;
+            }
+        }
+    }
+    
+    if ( exists $item->{group} ) {
+        my @group = @{ $item->{group} };
+        my @new;
+        for my $groupitem (@group) {
+            push @new, $self->_parse_option($groupitem);
+        }
+        my %group = ( group => \@new );
+        $group{label} = $item->{label};
+        $group{label} = $self->form->localize( $item->{label_loc} )
+            if defined $item->{label_loc};
+        $group{attributes} = $item->{attributes} || {};
+
+        return \%group;
+    }
+    
+    if ( !exists $item->{attributes} ) {
+        $item->{attributes} = exists $item->{attrs}
+            ? $item->{attrs}
+            : {};
+    }
+    
+    if ( exists $item->{attributes_xml} ) {
+        for my $key ( keys %{ $item->{attributes_xml} } ) {
+            $item->{attributes}{$key} = 
+                literal( $item->{attributes_xml}{$key} ); 
+        }
+    }
+    elsif ( exists $item->{attrs_xml} ) {
+        for my $key ( keys %{ $item->{attrs_xml} } ) {
+            $item->{attributes}{$key} = 
+                literal( $item->{attrs_xml}{$key} ); 
+        }
+    }
+    
+    if ( !exists $item->{label_attributes} ) {
+        $item->{label_attributes} = exists $item->{label_attrs}
+            ? $item->{label_attrs}
+            : {};
+    }
+    
+    if ( exists $item->{label_attributes_xml} ) {
+        for my $key ( keys %{ $item->{label_attributes_xml} } ) {
+            $item->{label_attributes}{$key} = 
+                literal( $item->{label_attributes_xml}{$key} ); 
+        }
+    }
+    elsif ( exists $item->{label_attrs_xml} ) {
+        for my $key ( keys %{ $item->{label_attrs_xml} } ) {
+            $item->{label_attributes}{$key} = 
+                literal( $item->{label_attrs_xml}{$key} ); 
+        }
+    }
+    
+    $item->{label} = $self->form->localize( $item->{label_loc} )
+        if defined $item->{label_loc};
+    
+    $item->{value} = '' if !defined $item->{value};
+    
+    return $item;
 }
 
 sub values {
