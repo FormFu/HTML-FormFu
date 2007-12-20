@@ -432,7 +432,7 @@ sub _save_has_many {
 
         next if !defined $pk_field;
 
-        my $value = $form->param( $pk_field->nested_name );
+        my $value = $form->param_value( $pk_field->nested_name );
         my $row;
 
         if (   ( !defined $value || $value eq '' )
@@ -483,7 +483,7 @@ sub _insert_has_many {
         my $nested_name = $field->nested_name;
         return if !$form->valid($nested_name);
 
-        my $value = $form->param($nested_name);
+        my $value = $form->param_value($nested_name);
         return if !length $value;
     }
 
@@ -503,7 +503,7 @@ sub _delete_has_many {
 
     return
         unless $form->valid($nested_name)
-            && $form->param($nested_name);
+            && $form->param_value($nested_name);
 
     $row->delete;
 
@@ -538,13 +538,13 @@ sub _save_columns {
 
         my $value
             = defined $field
-            ? $form->param( $field->nested_name )
+            ? $form->param_value( $field->nested_name )
             : ( grep { defined $attrs->{nested_base} 
                     ? defined $nested_name
                         ? $nested_name eq $_
                         : 0
                     : $col eq $_ } @valid )
-                ? $form->param($col)
+                ? $form->param_value($col)
                 : undef;
 
         if (   defined $field
@@ -617,7 +617,7 @@ sub _save_multi_value_fields_many_to_many {
 
             next unless $form->valid($nested_name);
 
-            my @values = $form->param($nested_name);
+            my @values = $form->param_list($nested_name);
 
             my ($pk)
                 = exists $field->db->{default_column}
@@ -669,7 +669,7 @@ sub _save_repeatable_many_to_many {
 
                 next if !defined $pk_field;
 
-                my $value = $form->param( $pk_field->nested_name );
+                my $value = $form->param_value( $pk_field->nested_name );
                 my $row;
                 my $is_new;
 
@@ -735,7 +735,7 @@ sub _insert_many_to_many {
         my $nested_name = $field->nested_name;
         return if !$form->valid($nested_name);
 
-        my $value = $form->param($nested_name);
+        my $value = $form->param_value($nested_name);
         return if !length $value;
     }
 
@@ -757,7 +757,7 @@ sub _delete_many_to_many {
 
     return
         unless $form->valid($nested_name)
-            && $form->param($nested_name);
+            && $form->param_value($nested_name);
 
     my $remove = "remove_from_$rel";
 

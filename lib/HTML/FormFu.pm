@@ -627,23 +627,20 @@ sub params {
 }
 
 sub param {
-    my $self = shift;
+    my ( $self, $name ) = @_;
 
-    croak 'param method is readonly' if @_ > 1;
+    croak 'param method is readonly' if @_ > 2;
 
     return if !$self->submitted;
 
-    if ( @_ == 1 ) {
-
-        # only return a valid value
-        my $name  = shift;
-        my $valid = $self->valid($name);
-        my $value
-            = $self->get_nested_hash_value( $self->_processed_params, $name );
-
-        if ( !defined $valid || !defined $value ) {
-            return;
-        }
+    if ( @_ == 2 ) {
+        return if !$self->valid($name);
+        
+        my $value = 
+            $self->get_nested_hash_value( $self->_processed_params, $name );
+        
+        
+        return if !defined $value;
 
         if ( ref $value eq 'ARRAY' ) {
             return wantarray ? @$value : $value->[0];
@@ -655,6 +652,61 @@ sub param {
 
     # return a list of valid names, if no $name arg
     return $self->valid;
+}
+
+sub param_value {
+    my ( $self, $name ) = @_;
+
+    croak 'name parameter required' if @_ != 2;
+
+    # ignore $form->valid($name) and $form->submitted
+    # this is guaranteed to always return a single value
+    # or undef
+    
+    my $value = 
+        $self->get_nested_hash_value( $self->_processed_params, $name );
+
+    return ref $value eq 'ARRAY'
+        ? $value->[0]
+        : $value;
+}
+
+sub param_array {
+    my ( $self, $name ) = @_;
+
+    croak 'name parameter required' if @_ != 2;
+
+    # guaranteed to always return an arrayref
+
+    return [] if !$self->valid($name);
+    
+    my $value = 
+        $self->get_nested_hash_value( $self->_processed_params, $name );
+    
+    return [] if !defined $value;
+
+    return ref $value eq 'ARRAY'
+        ? $value
+        : [$value];
+}
+
+sub param_list {
+    my ( $self, $name ) = @_;
+
+    croak 'name parameter required' if @_ != 2;
+
+    # guaranteed to always return an arrayref
+    
+    return if !$self->valid($name);
+    
+    my $value = 
+        $self->get_nested_hash_value( $self->_processed_params, $name );
+    
+    return if !defined $value;
+
+    return ref $value eq 'ARRAY'
+        ? @$value
+        : $value;
 }
 
 sub valid {
@@ -2090,6 +2142,36 @@ Return Value: \%params
 
 Returns a hash-ref of all valid input for which there were no errors.
 
+=head2 param_value
+
+Arguments: $field_name
+
+A more reliable, recommended version of L</param>. Guaranteed to always return a 
+single value, regardless of whether it's called in list context or not. If 
+multiple values were submitted, this only returns the first value. If the value 
+is invalid or the form was not submitted, it returns C<undef>. This makes it 
+suitable for use in list context, where a single value is required.
+
+    $db->update({
+        name    => $form->param_value('name'),
+        address => $form->param_value('address),
+    });
+
+=head2 param_array
+
+Arguments: $field_name
+
+Guaranteed to always return an array-ref of values, regardless of context and 
+regardless of whether multiple values were submitted or not. If the value is
+invalid or the form was not submitted, it returns an empty array-ref.
+
+=head2 param_list
+
+Arguments: $field_name
+
+Guaranteed to always return a list of values, regardless of context. If the value is
+invalid or the form was not submitted, it returns an empty list.
+
 =head2 param
 
 Arguments: [$field_name]
@@ -2098,7 +2180,10 @@ Return Value: $input_value
 
 Return Value: @valid_names
 
-A (readonly) L<CGI> compatible method.
+No longer recommended for use, as its behaviour is hard to predict. Use 
+L<param_value>, L<param_array> or L<param_list> instead.
+
+A (readonly) method similar to that of L<CGI's|CGI>.
 
 If a field name is given, in list-context returns any valid values submitted 
 for that field, and in scalar-context returns only the first of any valid 
