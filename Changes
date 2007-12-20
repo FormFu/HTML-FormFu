@@ -1,5 +1,7 @@
-0.02002 XXXX
+0.02003 2007-12-20
 
+    - Bugfix for has-many rels in defaults_from_model()
+    - Added Template.pm back into prereqs
     - Repeatable element, increment_field_names() is now true by default
     - Fixed javascript rendering in _Field
 
