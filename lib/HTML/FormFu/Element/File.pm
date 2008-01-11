@@ -24,11 +24,31 @@ HTML::FormFu::Element::File - File upload form field
 
 =head1 SYNOPSIS
 
-    my $e = $form->element( File => 'foo' );
+    ---
+    elements:
+      type: File
+      name: photo
+
+    my $photo = $form->param('photo');
+    
+    my $blob = $photo->slurp;
 
 =head1 DESCRIPTION
 
 File upload form field.
+
+See the documentation relevant to the L<query_type|HTML::FormFu/query_type> 
+you're using:
+
+=over
+
+=item L<HTML::FormFu::QueryType::CGI>
+
+=item L<HTML::FormFu::QueryType::Catalyst>
+
+=item L<HTML::FormFu::QueryType::CGI::Simple>
+
+=back
 
 =head1 METHODS
 

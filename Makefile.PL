@@ -16,6 +16,7 @@ requires 'Email::Valid';
 requires 'File::ShareDir';
 requires 'HTML::Scrubber';
 requires 'HTML::TokeParser::Simple' => '3.14';
+requires 'HTTP::Headers' => '1.64';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';

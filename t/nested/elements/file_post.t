@@ -77,9 +77,9 @@ $form->process($q);
     is( $v1, 'foo' );
 
     isa_ok( $v2, 'HTML::FormFu::Upload' );
-    is( $v2->filename,                    'one.txt' );
-    is( $v2->headers->{'Content-Length'}, 4 );
-    is( $v2->headers->{'Content-Type'},   'text/plain' );
-    is( $v2->slurp,                       "One\n" );
+    is( $v2->filename, 'one.txt' );
+    is( $v2->size, 4 );
+    is( $v2->type, 'text/plain' );
+    is( $v2->slurp, "One\n" );
 }
 

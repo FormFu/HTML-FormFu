@@ -240,8 +240,8 @@ See L<HTML::FormFu/force_errors> for details.
 
 =head2 parent
 
-Returns the L<HTML::FormFu::Element::_Field> object that the constraint is 
-associated with.
+Returns the L<field|HTML::FormFu::Element::_Field> object that the constraint 
+is associated with.
 
 =head2 form
 

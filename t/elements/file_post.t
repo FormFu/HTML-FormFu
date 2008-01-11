@@ -10,7 +10,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 18;
+plan tests => 20;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -80,14 +80,18 @@ $form->process($q);
 
     isa_ok( $m2, 'HTML::FormFu::Upload' );
     is( $m2->filename,                    'one.txt' );
-    is( $m2->headers->{'Content-Length'}, 4 );
-    is( $m2->headers->{'Content-Type'},   'text/plain' );
+    is( $m2->headers->content_length, 4 );
+    is( $m2->headers->content_type,   'text/plain' );
     is( $m2->slurp,                       "One\n" );
+    
+    # new Cat-compatable methods
+    is( $m2->size, 4 );
+    is( $m2->type, 'text/plain' );
 
     isa_ok( $m3, 'HTML::FormFu::Upload' );
     is( $m3->filename,                    'two.txt' );
-    is( $m3->headers->{'Content-Length'}, 5 );
-    is( $m3->headers->{'Content-Type'},   'text/plain' );
+    is( $m3->headers->content_length, 5 );
+    is( $m3->headers->content_type,   'text/plain' );
     is( $m3->slurp,                       "Two!\n" );
 }
 
@@ -96,8 +100,8 @@ $form->process($q);
 
     isa_ok( $value, 'HTML::FormFu::Upload' );
     is( $value->filename,                    'hello_world.txt' );
-    is( $value->headers->{'Content-Length'}, 13 );
-    is( $value->headers->{'Content-Type'},   'text/plain' );
+    is( $value->headers->content_length, 13 );
+    is( $value->headers->content_type,   'text/plain' );
     is( $value->slurp,                       "Hello World!\n" );
 }
 

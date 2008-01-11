@@ -1,3 +1,28 @@
+0.02004
+
+    - Incompatible Change: $upload->headers no longer returns a hashref, it now
+      returns a HTTP::Headers object.
+      Tests for $upload->headers->{'Content-Type'} changed to 
+      $upload->headers->content_type.
+      Tests for $upload->headers->{'Content-Length'} changed to 
+      $upload->headers->content_length.
+    
+    - Catalyst upload object now provides basename(), copy_to(), link_to(), 
+      size(), tempname() and type() methods which delegate to the 
+      Catalyst::Request::Upload object.
+    
+    - The original Catalyst::Request::Upload objects can be retrived with the 
+      catalyst_upload() method.
+    
+    - CGI and CGI::Simple upload objects provide size() and type() methods.
+    
+    - Spanish I18N added.
+    
+    - Fixed test failures due to hardcoded date element output expecting the
+      year 2007.
+    
+    - Fixed circular references in upload objects.
+
 0.02003 2007-12-20
 
     - Bugfix for has-many rels in defaults_from_model()
