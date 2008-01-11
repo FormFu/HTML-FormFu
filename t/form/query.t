@@ -7,7 +7,7 @@ use HTML::FormFu;
 use lib 't/lib';
 use HTMLFormFu::TestLib;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');

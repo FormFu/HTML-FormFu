@@ -5,7 +5,7 @@ use Test::More tests => 6;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 my $field = $form->element('Radio')->name('foo')->value('foox');
 

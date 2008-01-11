@@ -13,7 +13,7 @@ SKIP: {
 
     skip 'DBIx::Class needed', $count if $@;
 
-    my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+    my $form = HTML::FormFu->new;
 
     $form->element( { name => 'title' } );
     $form->element( { name => 'name' } );

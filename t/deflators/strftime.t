@@ -12,7 +12,7 @@ my $value = DateTime->new(
     year  => 2006,
 );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 my $e = $form->element('Text')->name('foo')->default($value);
 

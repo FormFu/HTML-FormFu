@@ -5,7 +5,7 @@ use Test::More tests => 17;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('MinMaxFields')
     ->others(qw/ bar baz boz/)->min(1)->max(2)->force_errors(1);

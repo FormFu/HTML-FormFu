@@ -5,7 +5,7 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 ok( my $element = $form->element('Text')->name('foo') );
 is( $element->name, 'foo' );

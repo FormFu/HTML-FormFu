@@ -5,7 +5,7 @@ use Test::More tests => 6;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Integer')->force_errors(1);
 $form->element('Text')->name('bar')->constraint('Integer')->force_errors(1);

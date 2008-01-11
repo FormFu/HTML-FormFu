@@ -5,7 +5,7 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Callback')->callback(\&cb);
 $form->element('Text')->name('bar')->constraint('Callback')->callback("main::cb");

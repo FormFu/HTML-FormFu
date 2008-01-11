@@ -6,7 +6,7 @@ use Test::NoWarnings;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->default('a')->retain_default(1);
 $form->element('Text')->name('bar')->default('b');

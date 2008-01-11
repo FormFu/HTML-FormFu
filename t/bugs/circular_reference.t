@@ -14,7 +14,7 @@ if ($@) {
 
 plan( tests => 2 );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/bugs/circular_reference.yml');
 

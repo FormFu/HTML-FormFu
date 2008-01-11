@@ -6,7 +6,7 @@ use Test::More tests => 6;
 use HTML::FormFu;
 use lib 'lib';
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->filter('Callback')
     ->callback( sub { $_[0] =~ s/(\d)(\d)/$2$1/g; shift; } );

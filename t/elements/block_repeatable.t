@@ -5,7 +5,7 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/elements/block_repeatable.yml');
 

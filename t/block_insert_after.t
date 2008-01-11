@@ -6,7 +6,7 @@ use Test::More tests => 3;
 use HTML::FormFu;
 use Storable qw/ dclone /;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 my $fs = $form->element('Fieldset');
 my $e1 = $fs->element('Text')->name('foo');

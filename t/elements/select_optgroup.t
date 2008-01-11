@@ -5,7 +5,7 @@ use Test::More tests => 3;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Select')->name('foo')->value(2)->options( [
         { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },

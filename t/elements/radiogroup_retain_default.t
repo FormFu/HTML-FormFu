@@ -6,7 +6,7 @@ use Test::NoWarnings;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Radiogroup')->name('foo')->values( [qw/ one two three /] )
     ->default('two')->retain_default(1);

@@ -5,7 +5,7 @@ use Test::More tests => 38;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Integer');
 $form->element('Text')->name('bar')->constraint('Required')->when( { field => 'foo', value  => 1 } );

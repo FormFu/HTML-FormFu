@@ -6,7 +6,7 @@ use Test::NoWarnings;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'cb' } );
 
