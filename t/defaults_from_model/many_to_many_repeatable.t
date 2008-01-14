@@ -25,48 +25,58 @@ $form->load_config_file('t/defaults_from_model/many_to_many_repeatable.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
-my $user_rs = $schema->resultset('User');
-my $band_rs = $schema->resultset('Band');
+my $rs = $schema->resultset('User');
 
+# filler
 
 {
-    # insert some entries we'll ignore, so our rels don't have same ids
-    # user 1
-    my $u1 = $user_rs->new_result({ name => 'foo' });
-    $u1->insert;
-    # band 1
-    my $b1 = $band_rs->new_result({ band => 'a' });
-    $b1->insert;
-    $u1->add_to_bands($b1);
+    my $user = $rs->create({
+        name => 'filler',
+    });
     
-    # should get user id 2
-    my $u2 = $user_rs->new_result({
+    $user->add_to_bands({
+        band => 'a',
+    });
+    
+    $rs->create({
+        name => 'filler2',
+    });
+    
+    $rs->create({
+        name => 'filler3',
+    });
+    
+    $rs->create({
+        name => 'filler4',
+    });
+}
+
+# row we're going to use
+
+{
+    my $user = $rs->create({
         name => 'nick',
-        });
-    $u2->insert;
+    });
     
-    # should get band id 2
-    my $b2 = $band_rs->new_result({ band => 'b' });
-    $b2->insert;
-    $u2->add_to_bands($b2);
+    $user->add_to_bands({
+        band => 'b',
+    });
     
-    # should get band id 3
-    my $b3 = $band_rs->new_result({ band => 'c' });
-    $b3->insert;
-    $u2->add_to_bands($b3);
+    $user->add_to_bands({
+        band => 'c',
+    });
     
-    # should get band id 4
-    my $b4 = $band_rs->new_result({ band => 'd' });
-    $b4->insert;
-    $u2->add_to_bands($b4);
+    $user->add_to_bands({
+        band => 'd',
+    });
 }
 
 {
-    my $row = $user_rs->find(2);
+    my $row = $rs->find(5);
     
     $form->defaults_from_model( $row );
     
-    is( $form->get_field('id')->default, '2' );
+    is( $form->get_field('id')->default, '5' );
     is( $form->get_field('name')->default, 'nick' );
     is( $form->get_field('count')->default, '3' );
     

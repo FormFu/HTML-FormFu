@@ -32,28 +32,32 @@ my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
 my $rs = $schema->resultset('Master');
 
-{
-    my $row = $rs->new_result({
-        text_col       => 'a',
-        password_col   => 'b',
-        checkbox_col   => 'foo',
-        select_col     => '2',
-        radio_col      => 'yes',
-        radiogroup_col => '3',
-        date_col       => '2006-12-31'
-        });
-    
-    $row->insert;
-}
+# filler row
+
+$rs->create({
+    text_col => 'filler',
+});
+
+# row we're going to use
+
+$rs->create({
+    text_col       => 'a',
+    password_col   => 'b',
+    checkbox_col   => 'foo',
+    select_col     => '2',
+    radio_col      => 'yes',
+    radiogroup_col => '3',
+    date_col       => '2006-12-31'
+});
 
 {
-    my $row = $rs->find(1);
+    my $row = $rs->find(2);
     
     $form->defaults_from_model( $row );
     
     my $fs = $form->get_element;
     
-    is( $fs->get_field('id')->render_data->{value}, 1 );
+    is( $fs->get_field('id')->render_data->{value}, 2 );
     is( $fs->get_field('text_col')->render_data->{value}, 'a');
     is( $fs->get_field('password_col')->render_data->{value}, undef);
     

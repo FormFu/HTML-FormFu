@@ -25,40 +25,47 @@ $form->load_config_file('t/defaults_from_model/has_many_repeatable.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
-my $user_rs = $schema->resultset('User');
-my $address_rs = $schema->resultset('Address');
+my $rs = $schema->resultset('User');
 
+# filler
+
+$rs->create({
+    name => 'filler',
+    addresses => [
+    {
+        address => 'somewhere',
+    }
+    ]
+});
+
+$rs->create({
+    name => 'filler2',
+});
+
+$rs->create({
+    name => 'filler3',
+});
+
+# row we're going to use
+
+$rs->create({
+    name => 'nick',
+    addresses => [
+    {
+        address => 'home',
+    },
+    {
+        address => 'office',
+    }
+    ]
+});
 
 {
-    # insert some entries we'll ignore, so our rels don't have same ids
-    # user 1
-    my $u1 = $user_rs->new_result({ name => 'foo' });
-    $u1->insert;
-    # address 1
-    my $a1 = $u1->new_related( 'addresses' => { address => 'somewhere' } );
-    $a1->insert;
-    
-    # should get user id 2
-    my $u2 = $user_rs->new_result({
-        name => 'nick',
-        });
-    $u2->insert;
-    
-    # should get address id 2
-    my $a2 = $u2->new_related( 'addresses', { address => 'home' } );
-    $a2->insert;
-    
-    # should get address id 3
-    my $a3 = $u2->new_related( 'addresses', { address => 'office' } );
-    $a3->insert;
-}
-
-{
-    my $row = $user_rs->find(2);
+    my $row = $rs->find(4);
     
     $form->defaults_from_model( $row );
     
-    is( $form->get_field('id')->default, '2' );
+    is( $form->get_field('id')->default, '4' );
     is( $form->get_field('name')->default, 'nick' );
     is( $form->get_field('count')->default, '2' );
     
