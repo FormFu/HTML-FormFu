@@ -65,255 +65,120 @@ sub defaults_from_model {
     my $form = $base->form;
 
     $base = $form->get_all_element( { nested_name => $attrs->{nested_base} } )
-        if !defined $attrs->{repeat_base}
-            && defined $attrs->{nested_base}
+        if defined $attrs->{nested_base}
             && ( !defined $base->nested_name
                 || $base->nested_name ne $attrs->{nested_base} );
 
     my $rs   = $dbic->result_source;
-    my @rels = $rs->relationships;
-    my @cols = $rs->columns;
 
-    _fill_columns( $base, $dbic, $attrs, \@rels, \@cols );
-
-    _fill_relationships( $self, $base, $dbic, $form, $rs, $attrs, \@rels );
-
-    _fill_multi_value_fields_many_to_many( $base, $dbic, $attrs, \@rels,
-        \@cols );
-
-    _fill_repeatable_many_to_many( $self, $base, $dbic, $form, $rs, $attrs,
-        \@rels, \@cols );
+    _fill_in_fields( $base, $dbic, );
+    _fill_nested( $self, $base, $dbic, );
 
     return $form;
 }
 
-sub _fill_relationships {
-    my ( $self, $base, $dbic, $form, $rs, $attrs, $rels ) = @_;
+# returns 0 if there is a node with nested_name set on the path from $field to $base
+sub is_direct_child {
+    my ( $base, $field ) = @_;
 
-    for my $rel (@$rels) {
-        if ( defined $attrs->{from}
-            && $attrs->{from} eq $rs->related_source($rel)->result_class )
-        {
-            next;
-        }
+    while ( defined $field->parent ) {
+        $field = $field->parent;
 
-        my ($block)
-            = grep { !$_->is_field }
-            @{ $base->get_all_elements( { nested_name => $rel } ) };
-
-        my ($field) = grep {
-            defined $attrs->{nested_base}
-                ? $_->parent->nested_name eq $attrs->{nested_base}
-                : !$_->nested
-        } @{ $base->get_fields( { name => $rel } ) };
-
-        if ( defined $block && $block->is_repeatable ) {
-
-            # Handle has_many
-
-            next unless $block->increment_field_names;
-
-            # check there's a field name matching the PK
-
-            my ($pk) = $rs->related_source($rel)->primary_columns;
-
-            next
-                unless grep {
-                    $pk eq defined $_->original_name
-                        ? $_->original_name
-                        : $_->name
-                }
-                @{ $block->get_fields( { type => 'Hidden' } ) };
-
-            my @rows = $dbic->related_resultset($rel)->all;
-            my $count
-                = $block->db->{new_empty_row}
-                ? scalar @rows + 1
-                : scalar @rows;
-
-            my $blocks = $block->repeat($count);
-
-            for my $rep ( 0 .. $#rows ) {
-                defaults_from_model(
-                    $self,
-                    $blocks->[$rep],
-                    $rows[$rep],
-                    {   %$attrs,
-                        repeat_base => $rel,
-                        from        => $rs->result_class,
-                    } );
-            }
-
-            # set the counter field to the number of rows
-
-            if ( defined( my $param_name = $block->counter_name ) ) {
-                my $field = $form->get_field($param_name);
-
-                $field->default($count)
-                    if defined $field;
-            }
-        }
-        elsif ( defined $block ) {
-
-            # Handle 'might_have' and 'has_one'
-
-            if ( defined( my $row = $dbic->$rel ) ) {
-                defaults_from_model( $self, $block, $row,
-                    { %$attrs, nested_base => $rel, } );
-            }
-        }
-
-        #        elsif ( defined $field && !grep { $rel eq $_ } @cols ) {
-        #            # Handle 'belongs_to' relationships
-        #
-        #            if ( defined( my $row = $dbic->$rel ) ) {
-        #                # will break with multi-column PKs
-        #
-        #                my $rel  = $rs->related_source($rel);
-        #                my ($pk) = $rel->primary_columns;
-        #
-        #                $field->default( $row->$pk );
-        #            }
-        #        }
+        return 1 if $base == $field;
+        return 0 if defined $field->nested_name;
     }
-    return;
 }
 
-sub _fill_columns {
-    my ( $base, $dbic, $attrs, $rels, $cols ) = @_;
-
-    for my $col (@$cols) {
-        my $field;
-        if ( defined $attrs->{repeat_base} ) {
-            for my $f ( @{ $base->get_fields } ) {
-                next unless $f->nested_base eq $attrs->{repeat_base};
-                my $orig = $f->original_name;
-                next unless defined $orig && $orig eq $col;
-                $field = $f;
-                last;
-            }
-        }
-        else {
-            ($field) = grep {
-                defined $attrs->{nested_base}
-                    ? $_->nested_base eq $attrs->{nested_base}
-                    : !$_->nested
-            } @{ $base->get_fields( { name => $col } ) };
-        }
-
-        next if !defined $field;
-
-        if ( grep { $col eq $_ } @$rels ) {
-
-            # relationship of the same name, can't use accessor
-
-            $field->default( $dbic->get_column($col) );
-        }
-        else {
-            $field->default( $dbic->$col );
-        }
-    }
-    return;
-}
-
-sub _fill_multi_value_fields_many_to_many {
-    my ( $base, $dbic, $attrs, $rels, $cols ) = @_;
-
-    my @fields = grep {
-        defined $attrs->{nested_base}
-            ? $_->parent->nested_name eq $attrs->{nested_base}
-            : !$_->nested
-        }
-        grep { $_->multi_value }
-        grep { defined $_->name } @{ $base->get_fields };
-
-    for my $field (@fields) {
+# fills in values for all direct children fields of $base
+sub _fill_in_fields {
+    my ( $base, $dbic, ) = @_;
+    for my $field ( @{ $base->get_fields } ) {
         my $name = $field->name;
+        next if not defined $name;
+        next if not is_direct_child( $base, $field );
 
-        next if grep { $name eq $_ } @$rels, @$cols;
+        $name = $field->original_name if $field->original_name;
 
         if ( $dbic->can($name) ) {
-            my ($col)
-                = exists $field->db->{default_column}
-                ? $field->db->{default_column}
-                : $dbic->$name->result_source->primary_columns;
-
-            my @defaults = $dbic->$name->get_column($col)->all;
-
-            $field->default( \@defaults );
+            if( $dbic->result_source->has_column( $name ) ){
+                $field->default( $dbic->get_column($name) );
+            }
+            elsif( $field->multi_value ){ 
+                my ($col)
+                    = defined $field->db && exists $field->db->{default_column}
+                    ? $field->db->{default_column}
+                    : $dbic->$name->result_source->primary_columns;
+    
+                my $info = $dbic->result_source->relationship_info($name);
+                if( !defined $info or $info->{attrs}{accessor} eq 'multi' ){
+                    my @defaults = $dbic->$name->get_column($col)->all;
+                    $field->default( \@defaults );
+                }
+            }
         }
     }
-    return;
 }
 
-sub _fill_repeatable_many_to_many {
-    my ( $self, $base, $dbic, $form, $rs, $attrs, $rels, $cols ) = @_;
+# loop over all child blocks with nested_name that is a method on the DBIC row
+# and recurse
+sub _fill_nested {
+    my ( $self, $base, $dbic ) = @_;
 
-    my @blocks = grep {
-            !$_->is_field 
-            && $_->is_repeatable 
-            && $_->increment_field_names
-            && defined $_->nested_name
-        }
-        @{ $base->get_all_elements };
-
-    for my $block (@blocks) {
+    for my $block (@{ $base->get_all_elements } ) {
+        next if $block->is_field;
         my $rel = $block->nested_name;
-
-        next if grep { $rel eq $_ } @$rels, @$cols;
-
-        if ( $dbic->can($rel) ) {
-
-            # check there's a field name matching the PK
-
-            my ($pk) = $dbic->$rel->result_source->primary_columns;
-
-            next
-                unless grep {
-                $pk eq
-                    ( defined $_->original_name ? $_->original_name : $_->name )
-                } @{ $block->get_fields( { type => 'Hidden' } ) };
-
-            my @rows = $dbic->$rel->all;
-            my $count
-                = $block->db->{new_empty_row}
-                ? scalar @rows + 1
-                : scalar @rows;
-
-            my $blocks = $block->repeat($count);
-
-            for my $rep ( 0 .. $#rows ) {
-                defaults_from_model(
-                    $self,
-                    $blocks->[$rep],
-                    $rows[$rep],
-                    {   %$attrs,
-                        repeat_base => $rel,
-                        from        => $rs->result_class,
-                    } );
-            }
-
-            # set the counter field to the number of rows
-
-            if ( defined( my $param_name = $block->counter_name ) ) {
-                my $field = $form->get_field($param_name);
-
-                $field->default($count)
-                    if defined $field;
-            }
-            
-            # remove 'delete' checkbox from the last repetition ?
-            
-            if ( $block->db->{new_empty_row} ) {
-                my $last_rep = $block->get_elements->[-1];
-                
-                my ( $del_field ) = 
-                    grep { $_->db->{delete_if_true} }
-                    @{ $last_rep->get_fields };
-                
-                if ( defined $del_field ) {
-                    $last_rep->remove_element( $del_field );
+        next unless defined $rel and $dbic->can($rel);
+        if ( $block->is_repeatable && $block->increment_field_names ){
+                # check there's a field name matching the PK
+                my ($pk) = $dbic->$rel->result_source->primary_columns;
+                next
+                    unless grep {
+                    $pk eq
+                        ( defined $_->original_name ? $_->original_name : $_->name )
+                    } @{ $block->get_fields( { type => 'Hidden' } ) };
+    
+                my @rows = $dbic->$rel->all;
+                my $count
+                    = $block->db->{new_empty_row}
+                    ? scalar @rows + 1
+                    : scalar @rows;
+    
+                my $blocks = $block->repeat($count);
+    
+                for my $rep ( 0 .. $#rows ) {
+                    defaults_from_model(
+                        $self,
+                        $blocks->[$rep],
+                        $rows[$rep],
+                    );
                 }
+    
+                # set the counter field to the number of rows
+    
+                if ( defined( my $param_name = $block->counter_name ) ) {
+                    my $field = $base->get_field($param_name);
+    
+                    $field->default($count)
+                        if defined $field;
+                }
+                
+                # remove 'delete' checkbox from the last repetition ?
+                
+                if ( $block->db->{new_empty_row} ) {
+                    my $last_rep = $block->get_elements->[-1];
+                    
+                    my ( $del_field ) = 
+                        grep { $_->db->{delete_if_true} }
+                        @{ $last_rep->get_fields };
+                    
+                    if ( defined $del_field ) {
+                        $last_rep->remove_element( $del_field );
+                    }
+                }
+        }
+        else {
+            if ( defined( my $row = $dbic->$rel ) ) {
+                defaults_from_model( $self, $block, $row );
             }
         }
     }
