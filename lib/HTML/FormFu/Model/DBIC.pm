@@ -65,7 +65,8 @@ sub defaults_from_model {
     my $form = $base->form;
 
     $base = $form->get_all_element( { nested_name => $attrs->{nested_base} } )
-        if defined $attrs->{nested_base}
+        if !defined $attrs->{repeat_base}
+            && defined $attrs->{nested_base}
             && ( !defined $base->nested_name
                 || $base->nested_name ne $attrs->{nested_base} );
 
