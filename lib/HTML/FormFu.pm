@@ -635,11 +635,10 @@ sub param {
 
     if ( @_ == 2 ) {
         return if !$self->valid($name);
-        
-        my $value = 
-            $self->get_nested_hash_value( $self->_processed_params, $name );
-        
-        
+
+        my $value
+            = $self->get_nested_hash_value( $self->_processed_params, $name );
+
         return if !defined $value;
 
         if ( ref $value eq 'ARRAY' ) {
@@ -662,9 +661,8 @@ sub param_value {
     # ignore $form->valid($name) and $form->submitted
     # this is guaranteed to always return a single value
     # or undef
-    
-    my $value = 
-        $self->get_nested_hash_value( $self->_processed_params, $name );
+
+    my $value = $self->get_nested_hash_value( $self->_processed_params, $name );
 
     return ref $value eq 'ARRAY'
         ? $value->[0]
@@ -679,10 +677,9 @@ sub param_array {
     # guaranteed to always return an arrayref
 
     return [] if !$self->valid($name);
-    
-    my $value = 
-        $self->get_nested_hash_value( $self->_processed_params, $name );
-    
+
+    my $value = $self->get_nested_hash_value( $self->_processed_params, $name );
+
     return [] if !defined $value;
 
     return ref $value eq 'ARRAY'
@@ -696,12 +693,11 @@ sub param_list {
     croak 'name parameter required' if @_ != 2;
 
     # guaranteed to always return an arrayref
-    
+
     return if !$self->valid($name);
-    
-    my $value = 
-        $self->get_nested_hash_value( $self->_processed_params, $name );
-    
+
+    my $value = $self->get_nested_hash_value( $self->_processed_params, $name );
+
     return if !defined $value;
 
     return ref $value eq 'ARRAY'

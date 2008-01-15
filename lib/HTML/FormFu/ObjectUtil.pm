@@ -309,7 +309,7 @@ sub insert_after {
 
 sub remove_element {
     my ( $self, $object ) = @_;
-    
+
     for my $i ( 0 .. @{ $self->_elements } - 1 ) {
         if ( refaddr( $self->_elements->[$i] ) eq refaddr($object) ) {
             splice @{ $self->_elements }, $i, 1;
@@ -355,8 +355,7 @@ sub load_config_file {
                 use_ext => 1,
             } );
 
-        _load_file(
-            $self, $data_visitor, $config->[0]->{$file} );
+        _load_file( $self, $data_visitor, $config->[0]->{$file} );
     }
 
     return $self;
@@ -370,7 +369,7 @@ sub _load_file {
     }
 
     $self->populate($_) for ( ref $data eq 'ARRAY' ? @$data : $data );
-    
+
     return;
 }
 

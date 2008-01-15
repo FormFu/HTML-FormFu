@@ -10,7 +10,7 @@ sub options_from_model {
 
     $attrs ||= {};
 
-    my $form = $base->form;
+    my $form    = $base->form;
     my $context = $form->stash->{context};
     my $schema  = $form->stash->{schema};
     return if !defined $context and !defined $schema;
@@ -46,8 +46,7 @@ sub options_from_model {
     my @defaults;
 
     if ( $attrs->{localize_label} ) {
-        @defaults
-            = map { { value => $_->id_col, label_loc => $_->label_col, } }
+        @defaults = map { { value => $_->id_col, label_loc => $_->label_col, } }
             $result->all;
     }
     else {
@@ -69,7 +68,7 @@ sub defaults_from_model {
             && ( !defined $base->nested_name
                 || $base->nested_name ne $attrs->{nested_base} );
 
-    my $rs   = $dbic->result_source;
+    my $rs = $dbic->result_source;
 
     _fill_in_fields( $base, $dbic, );
     _fill_nested( $self, $base, $dbic, );
@@ -100,17 +99,17 @@ sub _fill_in_fields {
         $name = $field->original_name if $field->original_name;
 
         if ( $dbic->can($name) ) {
-            if( $dbic->result_source->has_column( $name ) ){
+            if ( $dbic->result_source->has_column($name) ) {
                 $field->default( $dbic->get_column($name) );
             }
-            elsif( $field->multi_value ){ 
+            elsif ( $field->multi_value ) {
                 my ($col)
                     = defined $field->db && exists $field->db->{default_column}
                     ? $field->db->{default_column}
                     : $dbic->$name->result_source->primary_columns;
-    
+
                 my $info = $dbic->result_source->relationship_info($name);
-                if( !defined $info or $info->{attrs}{accessor} eq 'multi' ){
+                if ( !defined $info or $info->{attrs}{accessor} eq 'multi' ) {
                     my @defaults = $dbic->$name->get_column($col)->all;
                     $field->default( \@defaults );
                 }
@@ -124,57 +123,54 @@ sub _fill_in_fields {
 sub _fill_nested {
     my ( $self, $base, $dbic ) = @_;
 
-    for my $block (@{ $base->get_all_elements } ) {
+    for my $block ( @{ $base->get_all_elements } ) {
         next if $block->is_field;
         my $rel = $block->nested_name;
         next unless defined $rel and $dbic->can($rel);
-        if ( $block->is_repeatable && $block->increment_field_names ){
-                # check there's a field name matching the PK
-                my ($pk) = $dbic->$rel->result_source->primary_columns;
-                next
-                    unless grep {
-                    $pk eq
-                        ( defined $_->original_name ? $_->original_name : $_->name )
-                    } @{ $block->get_fields( { type => 'Hidden' } ) };
-    
-                my @rows = $dbic->$rel->all;
-                my $count
-                    = $block->db->{new_empty_row}
-                    ? scalar @rows + 1
-                    : scalar @rows;
-    
-                my $blocks = $block->repeat($count);
-    
-                for my $rep ( 0 .. $#rows ) {
-                    defaults_from_model(
-                        $self,
-                        $blocks->[$rep],
-                        $rows[$rep],
-                    );
+        if ( $block->is_repeatable && $block->increment_field_names ) {
+
+            # check there's a field name matching the PK
+            my ($pk) = $dbic->$rel->result_source->primary_columns;
+            next
+                unless grep {
+                $pk eq
+                    ( defined $_->original_name ? $_->original_name : $_->name )
+                } @{ $block->get_fields( { type => 'Hidden' } ) };
+
+            my @rows = $dbic->$rel->all;
+            my $count
+                = $block->db->{new_empty_row}
+                ? scalar @rows + 1
+                : scalar @rows;
+
+            my $blocks = $block->repeat($count);
+
+            for my $rep ( 0 .. $#rows ) {
+                defaults_from_model( $self, $blocks->[$rep], $rows[$rep], );
+            }
+
+            # set the counter field to the number of rows
+
+            if ( defined( my $param_name = $block->counter_name ) ) {
+                my $field = $base->get_field($param_name);
+
+                $field->default($count)
+                    if defined $field;
+            }
+
+            # remove 'delete' checkbox from the last repetition ?
+
+            if ( $block->db->{new_empty_row} ) {
+                my $last_rep = $block->get_elements->[-1];
+
+                my ($del_field)
+                    = grep { $_->db->{delete_if_true} }
+                    @{ $last_rep->get_fields };
+
+                if ( defined $del_field ) {
+                    $last_rep->remove_element($del_field);
                 }
-    
-                # set the counter field to the number of rows
-    
-                if ( defined( my $param_name = $block->counter_name ) ) {
-                    my $field = $base->get_field($param_name);
-    
-                    $field->default($count)
-                        if defined $field;
-                }
-                
-                # remove 'delete' checkbox from the last repetition ?
-                
-                if ( $block->db->{new_empty_row} ) {
-                    my $last_rep = $block->get_elements->[-1];
-                    
-                    my ( $del_field ) = 
-                        grep { $_->db->{delete_if_true} }
-                        @{ $last_rep->get_fields };
-                    
-                    if ( defined $del_field ) {
-                        $last_rep->remove_element( $del_field );
-                    }
-                }
+            }
         }
         else {
             if ( defined( my $row = $dbic->$rel ) ) {
@@ -279,7 +275,7 @@ sub _save_has_many {
 
     return
         unless grep { $_->original_name eq $pk }
-        @{ $block->get_fields( { type => 'Hidden' } ) };
+            @{ $block->get_fields( { type => 'Hidden' } ) };
 
     my @blocks = @{ $block->get_elements };
     my $max    = $#blocks;
@@ -405,13 +401,17 @@ sub _save_columns {
         my $value
             = defined $field
             ? $form->param_value( $field->nested_name )
-            : ( grep { defined $attrs->{nested_base} 
+            : (
+            grep {
+                      defined $attrs->{nested_base}
                     ? defined $nested_name
                         ? $nested_name eq $_
                         : 0
-                    : $col eq $_ } @valid )
-                ? $form->param_value($col)
-                : undef;
+                    : $col eq $_
+                } @valid
+            )
+            ? $form->param_value($col)
+            : undef;
 
         if (   defined $field
             && $field->db->{delete_if_empty}

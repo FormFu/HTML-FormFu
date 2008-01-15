@@ -99,13 +99,13 @@ sub type {
 
 sub catalyst_upload {
     my $self = shift;
-    
-    if ( @_ ) {
+
+    if (@_) {
         $self->{catalyst_upload} = shift;
-        
+
         weaken( $self->{catalyst_upload} );
     }
-    
+
     return $self->{catalyst_upload};
 }
 

@@ -22,13 +22,13 @@ sub new {
 
 sub _param {
     my $self = shift;
-    
-    if ( @_ ) {
+
+    if (@_) {
         $self->{_param} = shift;
-        
+
         weaken( $self->{_param} );
     }
-    
+
     return $self->{_param};
 }
 

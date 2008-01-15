@@ -13,19 +13,19 @@ sub parse_uploads {
     for my $param (@params) {
         if ( my $file = $query->upload($param) ) {
             my $filename = $param;
-            
+
             $param = $class->new( {
-                    _param    => $file,
-                    filename  => $filename,
-                    parent    => $form,
+                    _param   => $file,
+                    filename => $filename,
+                    parent   => $form,
                 } );
-            
+
             my $headers = HTTP::Headers->new(
                 'Content-Type'   => $query->upload_info( $filename, 'mime' ),
                 'Content-Length' => $query->upload_info( $filename, 'size' ),
-                );
-            
-            $param->headers( $headers );
+            );
+
+            $param->headers($headers);
         }
         push @new, $param;
     }

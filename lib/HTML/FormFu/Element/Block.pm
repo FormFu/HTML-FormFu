@@ -10,7 +10,7 @@ use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors( qw/ tag _elements element_defaults nested_name / );
+__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults nested_name /);
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 

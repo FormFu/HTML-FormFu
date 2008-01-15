@@ -56,7 +56,7 @@ sub tt {
     $args{RECURSION} = 1;
 
     my $tt_module = $form->tt_module;
-    
+
     $tt_module = $ENV{HTML_FORMFU_TT_MODULE}
         if defined $ENV{HTML_FORMFU_TT_MODULE}
             && length $ENV{HTML_FORMFU_TT_MODULE};

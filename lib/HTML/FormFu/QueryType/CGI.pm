@@ -19,18 +19,17 @@ sub parse_uploads {
     for my $param (@params) {
         if ( blessed $param ) {
             my $filename = $param;
-            
+
             $param = $class->new( {
                     _param   => $param,
                     filename => sprintf( "%s", $filename ),
                     parent   => $form,
                 } );
-            
-            my $headers = HTTP::Headers->new(
-                %{ $query->uploadInfo( $filename ) }
-                );
-            
-            $param->headers( $headers );
+
+            my $headers
+                = HTTP::Headers->new( %{ $query->uploadInfo($filename) } );
+
+            $param->headers($headers);
         }
 
         push @new, $param;
@@ -61,13 +60,13 @@ sub slurp {
 
 sub size {
     my ($self) = @_;
-    
+
     return $self->headers->content_length;
 }
 
 sub type {
     my ($self) = @_;
-    
+
     return $self->headers->content_type;
 }
 
