@@ -801,6 +801,9 @@ sub render_data_non_recursive {
         stash          => $self->stash,
         @_ ? %{ $_[0] } : () );
 
+    $render{form} = \%render;
+    weaken( $render{form} );
+
     weaken( $render{self} );
 
     if ( $self->force_error_message
