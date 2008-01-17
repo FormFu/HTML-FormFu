@@ -24,10 +24,7 @@ sub process {
 
         my $ok = 0;
 
-        if ( ref $value ) {
-            eval { my @x = @$value };
-            croak $@ if $@;
-
+        if ( ref $value eq 'ARRAY' ) {
             my @err = eval { $self->constrain_values( $value, $params ); };
             $ok = 1 if !@err && !$@;
         }

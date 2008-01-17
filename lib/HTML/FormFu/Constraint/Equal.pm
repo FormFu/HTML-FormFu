@@ -47,7 +47,7 @@ sub _values_eq {
     if ( !ref $v1 && !ref $v2 ) {
         return 1 if $v1 eq $v2;
     }
-    elsif ( ref $v1 && ref $v2 ) {
+    elsif ( ( ref $v1 eq 'ARRAY' ) && ( ref $v2 eq 'ARRAY' ) ) {
         return _arrays_eq( $v1, $v2 );
     }
 

@@ -1,0 +1,13 @@
+---
+action: 'http://www.perl.org/test.cgi'
+
+elements:
+  - type: File
+    name: multiple
+  
+  - type: File
+    name: hello_world
+
+constraints:
+  - type: Required
+

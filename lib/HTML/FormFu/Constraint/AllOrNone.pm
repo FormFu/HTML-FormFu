@@ -20,10 +20,7 @@ sub process {
         my $value = $self->get_nested_hash_value( $params, $name );
 
         my $seen = 0;
-        if ( ref $value ) {
-            eval { my @x = @$value };
-            croak $@ if $@;
-
+        if ( ref $value eq 'ARRAY' ) {
             my @errors = eval { $self->constrain_values( $value, $params ); };
             $seen = 1 if !@errors && !$@;
         }

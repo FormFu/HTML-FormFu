@@ -20,10 +20,7 @@ sub process {
     # check when condition
     return unless $self->_process_when($params);
 
-    if ( ref $value ) {
-        eval { my @x = @$value };
-        croak $@ if $@;
-
+    if ( ref $value eq 'ARRAY' ) {
         push @errors, eval { $self->constrain_values( $value, $params ); };
         if ($@) {
             push @errors,

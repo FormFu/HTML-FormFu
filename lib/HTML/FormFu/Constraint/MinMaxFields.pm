@@ -41,10 +41,7 @@ sub process {
     for my $name (@names) {
         my $value = $self->get_nested_hash_value( $params, $name );
 
-        if ( ref $value ) {
-            eval { my @x = @$value };
-            croak $@ if $@;
-
+        if ( ref $value eq 'ARRAY' ) {
             my @errors = eval { $self->constrain_values( $value, $params ); };
             $count++ if !@errors && !$@;
         }
