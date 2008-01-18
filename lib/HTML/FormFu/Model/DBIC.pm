@@ -106,8 +106,16 @@ sub _fill_in_fields {
             $field->default( $dbic->$accessor );
         }
         elsif ( $dbic->can($name) ) {
-            if ( $dbic->result_source->has_column($name) ) {
+            my $has_col = $dbic->result_source->has_column($name);
+            my $has_rel = $dbic->result_source->has_relationship($name);
+
+            if ( $has_col && $has_rel ) {
+
+                # can't use direct accessor, if there's a rel of the same name
                 $field->default( $dbic->get_column($name) );
+            }
+            elsif ( $has_col ) {
+                $field->default( $dbic->$name );
             }
             elsif ( $field->multi_value ) {
                 my ($col)
