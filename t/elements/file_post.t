@@ -10,7 +10,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 20;
+plan tests => 25;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -103,5 +103,15 @@ $form->process($q);
     is( $value->headers->content_length, 13 );
     is( $value->headers->content_type,   'text/plain' );
     is( $value->slurp,                       "Hello World!\n" );
+}
+
+{
+    my $value = $form->params->{does_not_exist_gif};
+
+    isa_ok( $value, 'HTML::FormFu::Upload' );
+    is( $value->filename,                'does_not_exist.gif' );
+    is( $value->headers->content_length, undef );
+    is( $value->headers->content_type,   'application/octet-stream' );
+    is( $value->slurp,                   '' );
 }
 

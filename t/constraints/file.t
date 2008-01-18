@@ -10,7 +10,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 6;
+plan tests => 10;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -62,9 +62,11 @@ $form->process($q);
 {
     ok( $form->submitted );
 
-    ok( ! $form->has_errors );
+    ok( ! $form->has_errors('hello_world') );
+    ok( ! $form->has_errors('does_not_exist_gif') );
 
     ok( $form->valid('hello_world') );
+    ok( $form->valid('does_not_exist_gif') );
 }
 
 $form->process({
@@ -75,6 +77,8 @@ $form->process({
     ok( $form->submitted );
 
     ok( $form->has_errors('hello_world') );
+    ok( ! $form->has_errors('does_not_exist_gif') );
 
     ok( ! $form->valid('hello_world') );
+    ok( ! $form->valid('does_not_exist_gif') );
 }

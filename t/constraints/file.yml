@@ -4,6 +4,9 @@ action: 'http://www.perl.org/test.cgi'
 elements:
   - type: File
     name: hello_world
+  
+  - type: File
+    name: does_not_exist_gif
 
 constraints:
   - type: File
