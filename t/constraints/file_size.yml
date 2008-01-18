@@ -1,0 +1,17 @@
+---
+action: 'http://www.perl.org/test.cgi'
+
+elements:
+  - type: File
+    name: hello_world
+    constraints:
+      - type: File::Size
+        min: 1
+        max: 15
+  
+  - type: File
+    name: does_not_exist_gif
+    constraints:
+      - type: File::Size
+        min: 1
+        max: 15
