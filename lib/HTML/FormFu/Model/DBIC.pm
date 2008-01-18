@@ -98,8 +98,7 @@ sub _fill_in_fields {
 
         $name = $field->original_name if $field->original_name;
 
-        my $accessor = 
-            ( exists $field->{db} && exists $field->{db}{accessor} )
+        my $accessor = exists $field->{db}{accessor}
             ? $field->{db}{accessor}
             : undef;
             
@@ -211,6 +210,8 @@ sub save_to_model {
 
     _save_columns( $base, $dbic, $form, $attrs, \%checkbox, \@rels, \@cols )
         or return;
+
+    _save_non_columns( $base, $dbic, $form );
 
     $dbic->update_or_insert;
 
@@ -403,6 +404,10 @@ sub _save_columns {
         else {
             $field = $base->get_field( { name => $col } );
         }
+        
+        next if defined $field
+            && exists $field->{db}{accessor}
+            && defined $field->{db}{accessor};
 
         my $nested_name = defined $field ? $field->nested_name : undef;
 
@@ -468,6 +473,35 @@ sub _save_columns {
     }
 
     return 1;
+}
+
+sub _save_non_columns {
+    my ( $base, $dbic, $form, $attrs, $checkbox, $rels, $cols ) = @_;
+
+    my @fields =
+        grep { exists $_->{db}{accessor} && defined $_->{db}{accessor} } 
+        @{ $base->get_fields };
+
+    for my $field (@fields) {
+
+        my $value = $form->param_value( $field->nested_name );
+
+        if (   $field->db->{delete_if_empty}
+            && ( !defined $value || !length $value ) )
+        {
+            $dbic->discard_changes if $dbic->is_changed;
+            $dbic->delete;
+            return;
+        }
+
+        next if !defined $value;
+        
+        my $accessor = $field->{db}{accessor};
+
+        $dbic->$accessor($value);
+    }
+
+    return;
 }
 
 sub _save_multi_value_fields_many_to_many {

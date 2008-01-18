@@ -27,6 +27,22 @@ __PACKAGE__->many_to_many( bands => 'user_bands', 'band' );
 
 sub fullname {
     my $self = shift;
+
+    if (@_) {
+        my $fullname = shift;
+        
+        my $match = qr/
+            (?: ( \w+ ) \s+ )?
+            ( .* )
+            /x;
+        
+        my ($title, $name) = $fullname =~ $match;
+        
+        $self->set_column( 'title', $title );
+        $self->set_column( 'name', $name );
+        
+        return $fullname;
+    }
     
     my $title = $self->get_column('title');
     my $name  = $self->get_column('name');
