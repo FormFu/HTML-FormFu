@@ -51,6 +51,8 @@ Ensure that an uploaded file meets minimum or maximum size constraints.
 
 =head2 min
 
+Optional.
+
 The minimum file size in bytes.
 
 L</min> is an alias for L</minimum>.
@@ -58,6 +60,8 @@ L</min> is an alias for L</minimum>.
 =head2 maximum
 
 =head2 max
+
+Optional.
 
 The maximum file size in bytes.
 

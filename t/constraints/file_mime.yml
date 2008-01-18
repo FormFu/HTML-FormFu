@@ -1,0 +1,15 @@
+---
+action: 'http://www.perl.org/test.cgi'
+
+elements:
+  - type: File
+    name: hello_world
+    constraints:
+      - type: File::MIME
+        types: ['text/rtf', 'text/plain']
+  
+  - type: File
+    name: 100x100_gif
+    constraints:
+      - type: File::MIME
+        regex: '^ image/.* \z'
