@@ -98,7 +98,15 @@ sub _fill_in_fields {
 
         $name = $field->original_name if $field->original_name;
 
-        if ( $dbic->can($name) ) {
+        my $accessor = 
+            ( exists $field->{db} && exists $field->{db}{accessor} )
+            ? $field->{db}{accessor}
+            : undef;
+            
+        if ( defined $accessor ) {
+            $field->default( $dbic->$accessor );
+        }
+        elsif ( $dbic->can($name) ) {
             if ( $dbic->result_source->has_column($name) ) {
                 $field->default( $dbic->get_column($name) );
             }

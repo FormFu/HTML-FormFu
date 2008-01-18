@@ -1,0 +1,14 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+    
+  - type: Text
+    name: fullname
+    db:
+      accessor: fullname
+    
+  - type: Submit
+    name: submit

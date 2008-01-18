@@ -49,7 +49,8 @@ SQL
 CREATE TABLE user (
 	id     INTEGER PRIMARY KEY,
 	master INTEGER,
-	name   TEXT
+	name   TEXT,
+	title  TEXT
 );
 SQL
     
