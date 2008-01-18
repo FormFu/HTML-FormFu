@@ -22,7 +22,7 @@ __PACKAGE__->add_columns(
     select_col     => { data_type => "TEXT" },
     radio_col      => { data_type => "TEXT" },
     radiogroup_col => { data_type => "TEXT" },
-    date_col       => { data_type => "DATE" },
+    date_col       => { data_type => "DATETIME" },
     type           => { data_type => "INTEGER" },
     not_in_form    => { data_type => "TEXT" },
 );

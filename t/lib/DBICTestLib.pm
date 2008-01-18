@@ -31,7 +31,7 @@ CREATE TABLE master (
 	select_col     TEXT,
 	radio_col      TEXT,
 	radiogroup_col TEXT,
-	date_col       DATE,
+	date_col       DATETIME,
 	type           INTEGER,
 	not_in_form    TEXT
 );

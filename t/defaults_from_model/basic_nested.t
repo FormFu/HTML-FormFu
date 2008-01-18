@@ -15,7 +15,7 @@ BEGIN {
     }
 }
 
-plan tests => 24;
+plan tests => 25;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -47,7 +47,7 @@ $rs->create({
     select_col     => '2',
     radio_col      => 'yes',
     radiogroup_col => '3',
-    date_col       => '2006-12-31'
+    date_col       => '2006-12-31 00:00:00'
 });
 
 {
@@ -100,10 +100,12 @@ $rs->create({
     is( $rg_option[2]->{attributes}{checked}, 'checked' );
     
     # column is inflated
-    my $date = $fs->get_field({ nested_name => 'foo.date_col' })->render_data->{value};
+    my $date = $fs->get_field({ nested_name => 'foo.date_col' })->default;
     
-    like( $date, qr/31/ );
-    like( $date, qr/12/ );
-    like( $date, qr/2006/ );
+    isa_ok( $date, 'DateTime' );
+    
+    is( $date->day, '31' );
+    is( $date->month, '12' );
+    is( $date->year, '2006' );
 }
 
