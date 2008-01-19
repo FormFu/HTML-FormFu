@@ -34,7 +34,7 @@ elements:
     name: radiogroup_col
     values: [1, 2, 3]
     
-  - type: Text
+  - type: Date
     name: date_col
     
   - type: Text

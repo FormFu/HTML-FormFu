@@ -141,7 +141,10 @@ sub _fill_nested {
     for my $block ( @{ $base->get_all_elements } ) {
         next if $block->is_field;
         my $rel = $block->nested_name;
-        next unless defined $rel and $dbic->can($rel);
+        next unless defined $rel and ( 
+            $dbic->result_source->relationship_info($rel) or    
+            $dbic->can( $rel ) & $dbic->can( 'add_to_' . $rel ) # many_to_many 
+        ); 
         if ( $block->is_repeatable && $block->increment_field_names ) {
 
             # check there's a field name matching the PK

@@ -6,13 +6,14 @@ elements:
     name: id
   
   - type: Text
-    name: text_col
+    name: name
   
   - type: Select
-    name: type
-
-  - type: Select
-    name: type2_id
+    name: addresses
+    db:
+  
+  - type: Hidden
+    name: count
   
   - type: Submit
     name: submit
