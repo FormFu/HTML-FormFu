@@ -141,6 +141,7 @@ sub _fill_nested {
     for my $block ( @{ $base->get_all_elements } ) {
         next if $block->is_field;
         my $rel = $block->nested_name;
+        # recursing only when $rel is a relation on $dbic
         next unless defined $rel and ( 
             $dbic->result_source->relationship_info($rel) or    
             $dbic->can( $rel ) & $dbic->can( 'add_to_' . $rel ) # many_to_many 
