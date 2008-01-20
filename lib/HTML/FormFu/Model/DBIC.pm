@@ -144,7 +144,7 @@ sub _fill_nested {
         # recursing only when $rel is a relation on $dbic
         next unless defined $rel and ( 
             $dbic->result_source->relationship_info($rel) or    
-            $dbic->can( $rel ) & $dbic->can( 'add_to_' . $rel ) # many_to_many 
+            $dbic->can( $rel ) && $dbic->can( 'add_to_' . $rel ) # many_to_many 
         ); 
         if ( $block->is_repeatable && $block->increment_field_names ) {
 
@@ -451,6 +451,8 @@ sub _save_columns {
                 || $data_type =~ m/^timestamp|date|int|float|numeric/i
             )
             && defined $value
+            # comparing to '' does not work for inflated objects
+            && ! ref $value 
             && $value eq ''
             )
         {
