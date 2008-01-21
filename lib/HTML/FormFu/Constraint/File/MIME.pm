@@ -25,7 +25,7 @@ sub constrain_value {
     }
     
     if ( defined $regex ) {
-        return $input =~ /$input/x;
+        return $input =~ /$regex/x;
     }
     
     return;
