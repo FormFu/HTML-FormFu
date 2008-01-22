@@ -88,11 +88,11 @@ sub _add_elements {
 
     $self->_elements( [] );
 
-    _date_defaults($self);
+    $self->_date_defaults;
 
-    _add_day($self);
-    _add_month($self);
-    _add_year($self);
+    $self->_add_day;
+    $self->_add_month;
+    $self->_add_year;
 
     if ( $self->auto_inflate
         && !@{ $self->get_inflators( { type => "DateTime" } ) } )
