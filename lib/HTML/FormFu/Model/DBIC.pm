@@ -891,6 +891,19 @@ L<db|HTML::FormFu::Element/db> hashref.
             default_column: foo
 
 
+=head3 non-column accessors
+
+To make a form field correspond to a method in your DBIx::Class schema, that 
+isn't a database column or relationship, set the C<accessor> key of the 
+field's L<db|HTML::FormFu::Element/db> hashref.
+
+    ---
+    element:
+      - type: Text
+        name: foo
+        db:
+          accessor: method_name
+
 =head2 save_to_model
 
 Arguments: $dbic_row, [\%config]
