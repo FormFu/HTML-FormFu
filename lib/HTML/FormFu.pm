@@ -70,7 +70,7 @@ __PACKAGE__->mk_inherited_merging_accessors(qw/ tt_args config_callback /);
 *output_processors = \&output_processor;
 *loc               = \&localize;
 
-our $VERSION = '0.02003';
+our $VERSION = '0.02004';
 $VERSION = eval $VERSION;
 
 Class::C3::initialize();

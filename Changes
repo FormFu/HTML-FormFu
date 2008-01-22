@@ -1,4 +1,4 @@
-0.02004
+0.02004 2008-02-22
 
     - Incompatible Change: $upload->headers no longer returns a hashref, it now
       returns a HTTP::Headers object.
@@ -16,7 +16,14 @@
     
     - CGI and CGI::Simple upload objects provide size() and type() methods.
     
+    - New Constraints: File::Size, File::MIME and File.
+    
+    - 'Required' and other constraints now work with file uploads.
+    
     - Spanish I18N added.
+    
+    - Support for DBIx::Class schema methods which don't correspond to a 
+      database column or relationship.
     
     - Fixed test failures due to hardcoded date element output expecting the
       year 2007.
@@ -26,8 +33,11 @@
 0.02003 2007-12-20
 
     - Bugfix for has-many rels in defaults_from_model()
+    
     - Added Template.pm back into prereqs
+    
     - Repeatable element, increment_field_names() is now true by default
+    
     - Fixed javascript rendering in _Field
 
 0.02002 2007-12-12
