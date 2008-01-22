@@ -56,7 +56,7 @@ sub repeat {
         $block->repeatable_count($rep);
 
         if ( $self->increment_field_names ) {
-            for my $field ( @{ $block->get_all_elements } ) {
+            for my $field ( @{ $block->get_fields } ) {
                 next unless $field->is_field;
 
                 if ( defined( my $name = $field->name ) ) {

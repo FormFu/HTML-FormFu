@@ -1,0 +1,8 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Repeatable
+    elements:
+      - name: foo
+        type: Date
