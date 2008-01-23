@@ -23,22 +23,13 @@ our @EXPORT_OK = qw/
 sub _get_elements {
     my ( $args, $elements ) = @_;
 
-    if ( exists $args->{name} ) {
-        @$elements
-            = grep { defined $_->name && $_->name eq $args->{name} } @$elements;
-    }
-
-    if ( exists $args->{type} ) {
-        @$elements = grep { $_->type eq $args->{type} } @$elements;
-    }
-
-    if ( exists $args->{nested_name} ) {
-        my $nn;
+    for my $name ( keys %$args ) {
+        my $value;
 
         @$elements = grep {
-                   $_->can('nested_name')
-                && defined( $nn = $_->nested_name )
-                && $nn eq $args->{nested_name}
+               $_->can( $name )
+            && defined ( $value = $_->$name )
+            && $value eq $args->{ $name }
         } @$elements;
     }
 
