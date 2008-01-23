@@ -1,3 +1,8 @@
+0.02005
+
+    - Bugfix: save_to_model() many_to_many multi-value fields where 
+      'default_column' included the table name (or 'me.') failed.
+
 0.02004 2008-02-22
 
     - Incompatible Change: $upload->headers no longer returns a hashref, it now

@@ -546,8 +546,10 @@ sub _save_multi_value_fields_many_to_many {
                 ? $field->db->{default_column}
                 : $dbic->$name->result_source->primary_columns;
 
+            $pk = "me.$pk" unless $pk =~ /\./;
+
             my @rows = $dbic->$name->result_source->resultset->search(
-                { "me.$pk" => { -in => \@values } } )->all;
+                { $pk => { -in => \@values } } )->all;
 
             my $set_method = "set_$name";
 
