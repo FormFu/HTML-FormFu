@@ -15,10 +15,27 @@ our @EXPORT_OK = qw/
     require_class
     xml_escape
     literal
+    _filter_components
     _get_elements
     process_attrs
     split_name
     /;
+
+sub _filter_components {
+    my ( $args, $components ) = @_;
+
+    for my $name ( keys %$args ) {
+        my $value;
+
+        @$components = grep {
+               $_->can( $name )
+            && defined ( $value = $_->$name )
+            && $value eq $args->{ $name }
+        } @$components;
+    }
+
+    return $components;
+}
 
 sub _get_elements {
     my ( $args, $elements ) = @_;

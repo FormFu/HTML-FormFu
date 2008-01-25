@@ -7,6 +7,8 @@ all_from 'lib/HTML/FormFu.pm';
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
 requires 'Config::Any' => '0.10'; # supports multi-doc config files
+requires 'Crypt::CBC';
+requires 'Crypt::DES';
 requires 'Data::Visitor::Callback';
 requires 'Date::Calc';
 requires 'DateTime::Format::Builder' => '0.7901'; # fixes memory leaks

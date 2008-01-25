@@ -3,7 +3,8 @@ package HTML::FormFu::ObjectUtil;
 use strict;
 use Exporter qw/ import /;
 
-use HTML::FormFu::Util qw/ _parse_args require_class _get_elements split_name /;
+use HTML::FormFu::Util 
+    qw/ _parse_args require_class _get_elements split_name _filter_components /;
 use Config::Any;
 use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
@@ -1092,29 +1093,13 @@ sub _single_transformer {
     return @return;
 }
 
-sub _filter_components {
-    my ( $args, @components ) = @_;
-
-    for my $name ( keys %$args ) {
-        my $value;
-
-        @components = grep {
-               $_->can( $name )
-            && defined ( $value = $_->$name )
-            && $value eq $args->{ $name }
-        } @components;
-    }
-
-    return \@components;
-}
-
 sub get_deflators {
     my $self = shift;
     my %args = _parse_args(@_);
 
     my @x = map { @{ $_->get_deflators(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub get_filters {
@@ -1123,7 +1108,7 @@ sub get_filters {
 
     my @x = map { @{ $_->get_filters(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub get_constraints {
@@ -1132,7 +1117,7 @@ sub get_constraints {
 
     my @x = map { @{ $_->get_constraints(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub get_inflators {
@@ -1141,7 +1126,7 @@ sub get_inflators {
 
     my @x = map { @{ $_->get_inflators(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub get_validators {
@@ -1150,7 +1135,7 @@ sub get_validators {
 
     my @x = map { @{ $_->get_validators(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub get_transformers {
@@ -1159,7 +1144,7 @@ sub get_transformers {
 
     my @x = map { @{ $_->get_transformers(@_) } } @{ $self->_elements };
 
-    return _filter_components( \%args, @x );
+    return _filter_components( \%args, \@x );
 }
 
 sub _require_deflator {

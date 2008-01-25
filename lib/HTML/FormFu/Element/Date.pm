@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::Util qw/ _get_elements _parse_args /;
+use HTML::FormFu::Util qw/ _filter_components _parse_args /;
 use DateTime;
 use DateTime::Format::Builder;
 use DateTime::Locale;
@@ -39,7 +39,7 @@ for my $method (
         my @x        = @{ $self->$accessor };
         push @x, map { @{ $_->$get_method(@_) } } @{ $self->_elements };
 
-        return _get_elements( \%args, \@x );
+        return _filter_components( \%args, \@x );
     };
 
     my $name = __PACKAGE__ . "::get_${method}s";
