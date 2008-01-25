@@ -9,7 +9,7 @@ use HTML::FormFu::Attribute qw/
 use HTML::FormFu::ObjectUtil qw/
     populate load_config_file form
     clone stash parent
-    get_nested_hash_value set_nested_hash_value /;
+    get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 
 use HTML::FormFu::FakeQuery;
 use Carp qw/ croak /;
@@ -201,7 +201,11 @@ sub _load_current_form {
     
     if ( defined $data && $self->combine_params ) {
         
+        my $params = $current_form->params;
+        
         for my $name ( @{ $data->{valid_names} } ) {
+            
+            next if $self->nested_hash_key_exists( $params, $name );
             
             my $value = $self->get_nested_hash_value(
                 $data->{params}, $name );
