@@ -766,9 +766,9 @@ sub add_valid {
 
     croak 'add_valid requires arguments ($key, $value)' unless @_ == 3;
 
-    $self->input->{$key} = $value;
+    $self->set_nested_hash_value( $self->input, $key, $value );
 
-    $self->_processed_params->{$key} = $value;
+    $self->set_nested_hash_value( $self->_processed_params, $key, $value );
 
     push @{ $self->_valid_names }, $key
         if !grep { $_ eq $key } @{ $self->_valid_names };
