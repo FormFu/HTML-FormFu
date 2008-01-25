@@ -27,9 +27,9 @@ requires 'Regexp::Common';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
-requires 'Test::MockObject';
 requires 'YAML::Syck';
 
+test_requires 'Test::MockObject';
 test_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';
