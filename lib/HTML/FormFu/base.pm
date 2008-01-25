@@ -11,12 +11,7 @@ our $SHARE_ERROR;
 sub render {
     my $self = shift;
 
-    my $render_method = $self->render_method;
-
-    $render_method = $ENV{HTML_FORMFU_RENDER_METHOD}
-        if defined $ENV{HTML_FORMFU_RENDER_METHOD}
-            && length $ENV{HTML_FORMFU_RENDER_METHOD};
-
+    my $render_method = $ENV{HTML_FORMFU_RENDER_METHOD} || $self->render_method;
     my $output = $self->$render_method(@_);
 
     for my $proc ( @{ $self->form->get_output_processors } ) {
