@@ -14,7 +14,6 @@ use HTML::FormFu::ObjectUtil qw/
 use HTML::FormFu::FakeQuery;
 use Carp qw/ croak /;
 use Crypt::CBC;
-use Perl6::Junction qw/ any /;
 use Scalar::Util qw/ blessed /;
 use Storable qw/ dclone nfreeze thaw /;
 
