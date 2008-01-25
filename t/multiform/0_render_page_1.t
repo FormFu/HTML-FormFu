@@ -3,11 +3,11 @@ use warnings;
 
 use Test::More tests => 2;
 
-use HTML::FormFu::MultiPage;
+use HTML::FormFu::MultiForm;
 
-my $multi = HTML::FormFu::MultiPage->new;
+my $multi = HTML::FormFu::MultiForm->new;
 
-$multi->load_config_file('t/multipage-no-combine/multipage.yml');
+$multi->load_config_file('t/multiform/multiform.yml');
 
 $multi->process;
 

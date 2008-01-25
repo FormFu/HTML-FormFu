@@ -2,13 +2,13 @@
 id: form
 auto_fieldset: 1
 
-multipage_hidden_name: crypt
+multiform_hidden_name: crypt
 
 crypt_args:
   -key: 'my secret'
 
-pages:
-  # page 1
+forms:
+  # form 1
   -
     indicator: foo
     
@@ -21,7 +21,7 @@ pages:
       - type: Submit
         name: submit
   
-  # page 2
+  # form 2
   -
     indicator: bar
     
@@ -34,7 +34,7 @@ pages:
       - type: Submit
         name: submit
   
-  # page 3
+  # form 3
   -
     indicator: baz
     

@@ -1,4 +1,4 @@
-package HTML::FormFu::MultiPage;
+package HTML::FormFu::MultiForm;
 use strict;
 
 use HTML::FormFu;
@@ -41,8 +41,8 @@ our @ACCESSORS = qw/
 
 __PACKAGE__->mk_accessors(
     @ACCESSORS, 
-    qw/ query pages _current_page current_form complete
-        multipage_hidden_name combine_params /
+    qw/ query forms _current_form current_form complete
+        multiform_hidden_name combine_params /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -79,7 +79,7 @@ sub new {
         tt_args            => {},
         languages          => ['en'],
         combine_params     => 1,
-        multipage_hidden_name => '_multipage_field',
+        multiform_hidden_name => '_multiform',
     );
 
     $self->populate( \%defaults );
@@ -104,39 +104,39 @@ sub process {
     }
     
     if ( defined $query && blessed($query) ) {
-        $input = $query->param( $self->multipage_hidden_name );
+        $input = $query->param( $self->multiform_hidden_name );
     }
     elsif ( defined $query ) {
         # it's not an object, just a hashref
         
         $input = $self->get_nested_hash_value(
-            $query, $self->multipage_hidden_name
+            $query, $self->multiform_hidden_name
         );
     }
     
     my $data = $self->_process_get_data( $input );
-    my $current_page;
-    my @pages;
+    my $current_form_num;
+    my @forms;
     
-    eval { @pages = @{ $self->pages } };
-    croak "pages() must be an arrayref" if $@;
+    eval { @forms = @{ $self->forms } };
+    croak "forms() must be an arrayref" if $@;
     
     if ( defined $data ) {
-        $current_page = $data->{current_page};
+        $current_form_num = $data->{current_form};
         
-        my $current_form = $self->_load_current_form( $current_page, $data );
+        my $current_form = $self->_load_current_form( $current_form_num, $data );
         
-        # are we on the last page?
+        # are we on the last form?
         # are we complete?
         
-        if ( ( $current_page == $#pages ) 
+        if ( ( $current_form_num == $#forms ) 
             && $current_form->submitted_and_valid )
         {
             $self->complete(1);
         }
     }
     else {
-        # default to first page
+        # default to first form
         
         $self->_load_current_form( 0 );
     }
@@ -172,11 +172,11 @@ sub _process_get_data {
 }
 
 sub _load_current_form {
-    my ( $self, $current_page, $data ) = @_;
+    my ( $self, $current_form_num, $data ) = @_;
     
     my $current_form = HTML::FormFu->new;
     
-    my $current_data = dclone( $self->pages->[ $current_page ] );
+    my $current_data = dclone( $self->forms->[ $current_form_num ] );
     
     for my $key (
         @ACCESSORS,
@@ -211,7 +211,7 @@ sub _load_current_form {
         }
     }
     
-    $self->_current_page( $current_page );
+    $self->_current_form( $current_form_num );
     $self->current_form( $current_form );
     
     return $current_form;
@@ -227,18 +227,18 @@ sub render {
     
     if ( $self->complete ) {
         # why would you render if it's complete?
-        # anyway, just show the last page
+        # anyway, just show the last form
         
         return $form->render(@_);
     }
     
     if ( $form->submitted_and_valid ) {
-        # return the next page
+        # return the next form
         
         return $self->next_form->render(@_);
     }
     
-    # return the current page
+    # return the current form
     
     return $form->render(@_);
 }
@@ -248,11 +248,11 @@ sub next_form {
     
     my $form = $self->current_form;
     
-    croak "process() must be called before next_page()"
+    croak "process() must be called before next_form()"
         if !defined $form;
     
-    my $current_page = $self->_current_page;
-    my $page_data    = dclone( $self->pages->[ $current_page + 1 ] );
+    my $current_form_num = $self->_current_form;
+    my $form_data        = dclone( $self->forms->[ $current_form_num + 1 ] );
     
     my $next_form = HTML::FormFu->new;
     
@@ -273,20 +273,20 @@ sub next_form {
         $next_form->$key( $attrs->{$key} );
     }
     
-    $next_form->populate( $page_data );
+    $next_form->populate( $form_data );
     $next_form->process;
     
     # encrypt params in hidden field
-    $self->_save_hidden_data( $current_page, $next_form, $form );
+    $self->_save_hidden_data( $current_form_num, $next_form, $form );
     
     return $next_form;
 }
 
 sub _save_hidden_data {
-    my ( $self, $current_page, $next_form, $form ) = @_;
+    my ( $self, $current_form_num, $next_form, $form ) = @_;
     
     my @valid_names = $form->valid;
-    my $hidden_name = $self->multipage_hidden_name;
+    my $hidden_name = $self->multiform_hidden_name;
     
     # don't include the hidden-field's name in valid_names
     @valid_names = grep{ $_ ne $hidden_name } @valid_names;
@@ -304,7 +304,7 @@ sub _save_hidden_data {
     );
     
     my $data = {
-        current_page => $current_page + 1,
+        current_form => $current_form_num + 1,
         valid_names  => \@valid_names,
         params       => \%params,
     };
@@ -329,7 +329,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::MultiPage
+HTML::FormFu::MultiForm
 
 =head1 AUTHOR
 

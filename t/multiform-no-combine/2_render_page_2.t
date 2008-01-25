@@ -3,14 +3,14 @@ use warnings;
 
 use Test::More tests => 7;
 
-use HTML::FormFu::MultiPage;
+use HTML::FormFu::MultiForm;
 use Crypt::CBC ();
 use Storable qw/ thaw /;
 use YAML::Syck qw/ LoadFile /;
 
-my $yaml_file = 't/multipage-no-combine/multipage.yml';
+my $yaml_file = 't/multiform-no-combine/multiform.yml';
 
-my $multi = HTML::FormFu::MultiPage->new;
+my $multi = HTML::FormFu::MultiForm->new;
 
 $multi->load_config_file( $yaml_file );
 
@@ -26,9 +26,9 @@ like( "$multi", qr|<input name="bar" type="text" />| );
 # internals alert!
 # decrypt the hidden value, and check it contains the expected data
 
-my $page2 = $multi->next_form;
+my $form2 = $multi->next_form;
 
-my $value = $page2->get_field({ name => 'crypt' })->default;
+my $value = $form2->get_field({ name => 'crypt' })->default;
 
 my $yaml = LoadFile( $yaml_file );
 
@@ -38,7 +38,7 @@ my $decrypted = $cbc->decrypt_hex( $value );
 
 my $data = thaw( $decrypted );
 
-is( $data->{current_page}, 1 );
+is( $data->{current_form}, 1 );
 
 ok( grep { $_ eq 'foo' }    @{ $data->{valid_names} } );
 ok( grep { $_ eq 'submit' } @{ $data->{valid_names} } );

@@ -3,15 +3,15 @@ use warnings;
 
 use Test::More tests => 6;
 
-use HTML::FormFu::MultiPage;
+use HTML::FormFu::MultiForm;
 
-# submit page 1
+# submit form 1
 
-my $yaml_file = 't/multipage/multipage.yml';
-my $page2_hidden_value;
+my $yaml_file = 't/multiform/multiform.yml';
+my $form2_hidden_value;
 
 {
-    my $multi = HTML::FormFu::MultiPage->new;
+    my $multi = HTML::FormFu::MultiForm->new;
     
     $multi->load_config_file( $yaml_file );
     
@@ -22,22 +22,22 @@ my $page2_hidden_value;
     
     ok( $multi->current_form->submitted_and_valid );
     
-    my $page2 = $multi->next_form;
+    my $form2 = $multi->next_form;
     
-    my $hidden_field = $page2->get_field({ name => 'crypt' });
+    my $hidden_field = $form2->get_field({ name => 'crypt' });
     
-    $page2_hidden_value = $hidden_field->default;
+    $form2_hidden_value = $hidden_field->default;
 }
 
-# submit page 2
+# submit form 2
 
 {
-    my $multi = HTML::FormFu::MultiPage->new;
+    my $multi = HTML::FormFu::MultiForm->new;
     
     $multi->load_config_file( $yaml_file );
     
     $multi->process({
-        crypt  => $page2_hidden_value,
+        crypt  => $form2_hidden_value,
         bar    => 'def',
         submit => 'Submit',
     });
@@ -52,7 +52,7 @@ my $page2_hidden_value;
     is( $params->{bar},    'def' );
     is( $params->{submit}, 'Submit' );
     
-    # does page 3 render ok?
+    # does form 3 render ok?
     
     like( "$multi", qr|<input name="baz" type="text" />| );
 }
