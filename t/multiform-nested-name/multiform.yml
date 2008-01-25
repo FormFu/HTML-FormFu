@@ -1,0 +1,63 @@
+---
+id: form
+auto_fieldset: 1
+
+multiform_hidden_name: crypt
+
+crypt_args:
+  -key: 'my secret'
+
+forms:
+  # form 1
+  -
+    indicator: foo
+    
+    elements:
+      - type: Hidden
+        name: crypt
+      
+      - name: foo
+      
+      - type: Block
+        nested_name: block
+        elements:
+          - name: foo
+      
+      - type: Submit
+        name: submit
+  
+  # form 2
+  -
+    indicator: bar
+    
+    elements:
+      - type: Hidden
+        name: crypt
+      
+      - name: bar
+      
+      - type: Block
+        nested_name: block
+        elements:
+          - name: bar
+      
+      - type: Submit
+        name: submit
+  
+  # form 3
+  -
+    indicator: baz
+    
+    elements:
+      - type: Hidden
+        name: crypt
+      
+      - name: baz
+      
+      - type: Block
+        nested_name: block
+        elements:
+          - name: baz
+      
+      - type: Submit
+        name: submit
