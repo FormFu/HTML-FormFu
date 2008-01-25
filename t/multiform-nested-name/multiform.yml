@@ -13,9 +13,6 @@ forms:
     indicator: foo
     
     elements:
-      - type: Hidden
-        name: crypt
-      
       - name: foo
       
       - type: Block

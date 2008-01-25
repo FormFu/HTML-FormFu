@@ -14,7 +14,6 @@ $multi->process;
 my $html = <<HTML;
 <form action="" id="form" method="post">
 <fieldset>
-<input name="crypt" type="hidden" />
 <span class="text">
 <input name="foo" type="text" />
 </span>
