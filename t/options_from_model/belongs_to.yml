@@ -1,0 +1,21 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: text_col
+  
+  - type: Select
+    name: type
+    db: 
+      aaa : aaa
+  - type: Select
+    name: type2_id
+    db: 
+      resultset: Type2
+
+  - type: Submit
+    name: submit

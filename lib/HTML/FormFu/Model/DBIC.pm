@@ -7,52 +7,52 @@ use Carp qw( croak );
 
 sub options_from_model {
     my ( $self, $base, $attrs ) = @_;
-
     $attrs ||= {};
-
     my $form    = $base->form;
     my $context = $form->stash->{context};
     my $schema  = $form->stash->{schema};
-    return if !defined $context and !defined $schema;
-    my $model = defined $schema ? $schema : $context->model( $attrs->{model} );
-    return if !defined $model;
-
-    $model = $model->resultset( $attrs->{resultset} )
-        if defined $attrs->{resultset};
-
-    my $rs         = $model->result_source;
+    my $rs;
+    if( defined $schema ){
+        my $rs_name = $attrs->{resultset} || ucfirst $base->{name};
+        $rs = $schema->resultset( $rs_name );
+    }
+    else{
+        my $context = $form->stash->{context};
+        return if !defined $context;
+        my $model = $context->model( $attrs->{model} );
+        $rs = $model;
+        $schema = $model->result_source->schema;
+    }
+    my $source     = $rs->result_source;
     my $id_col     = $attrs->{id_column};
     my $label_col  = $attrs->{label_column};
     my $condition  = $attrs->{condition};
     my $attributes = $attrs->{attributes} || {};
 
     if ( !defined $id_col ) {
-        ($id_col) = $rs->primary_columns;
+        ($id_col) = $source->primary_columns;
     }
 
     if ( !defined $label_col ) {
 
         # use first text column
         ($label_col)
-            = grep { $rs->column_info($_)->{data_type} =~ /text|varchar/i }
-            $rs->columns;
+            = grep { $source->column_info($_)->{data_type} =~ /text|varchar/i }
+            $source->columns;
     }
     $label_col = $id_col if !defined $label_col;
 
     $attributes->{'-columns'} = [ $id_col, $label_col ];
+    my $result = $rs->search( $condition, $attributes );
 
-    my $result = $model->search( $condition, $attributes );
-
-    my @defaults;
-
+    my @defaults = $result->all;
     if ( $attrs->{localize_label} ) {
         @defaults = map { { value => $_->id_col, label_loc => $_->label_col, } }
-            $result->all;
+            @defaults;
     }
     else {
-        @defaults = map { [ $_->$id_col, $_->$label_col ] } $result->all;
+        @defaults = map { [ $_->$id_col, $_->$label_col ] } @defaults;
     }
-
     return @defaults;
 }
 
