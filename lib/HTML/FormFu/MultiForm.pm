@@ -180,6 +180,7 @@ sub _load_current_form {
 
     my $current_data = dclone( $self->forms->[ $current_form_num - 1 ] );
 
+    # merge constructor args
     for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
         @INHERITED_MERGING_ACCESSORS )
     {
@@ -193,6 +194,12 @@ sub _load_current_form {
 
     for my $key ( keys %$attrs ) {
         $current_form->$key( $attrs->{$key} );
+    }
+
+    my $stash = $self->stash;
+
+    for my $key ( keys %$stash ) {
+        $current_form->stash->{$key} = $stash->{$key}
     }
 
     $current_form->populate($current_data);
@@ -212,6 +219,7 @@ sub _load_current_form {
     $current_form->query( $self->query );
     $current_form->process;
 
+    # combine params
     if ( defined $data && $self->combine_params ) {
 
         my $params = $current_form->params;
@@ -273,6 +281,7 @@ sub next_form {
 
     my $next_form = HTML::FormFu->new;
 
+    # merge constructor args
     for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
         @INHERITED_MERGING_ACCESSORS )
     {
@@ -286,6 +295,12 @@ sub next_form {
 
     for my $key ( keys %$attrs ) {
         $next_form->$key( $attrs->{$key} );
+    }
+
+    my $stash = $self->stash;
+
+    for my $key ( keys %$stash ) {
+        $next_form->stash->{$key} = $stash->{$key};
     }
 
     $next_form->populate($form_data);
