@@ -11,8 +11,8 @@ $form->element('Text')->name('name');
 $form->element('Text')->name('age');
 
 $form->constraint( Required => 'name', 'age' );
-$form->constraint( Word   => 'name' );
-$form->constraint( Number => 'age' );
+$form->constraint( Word     => 'name' );
+$form->constraint( Number   => 'age' );
 
 {
     my @constraints = $form->get_constraint;

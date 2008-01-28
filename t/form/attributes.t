@@ -5,10 +5,10 @@ use Test::More tests => 6;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->id('foo')->action('/bar')->enctype('unknown')
-    ->method('get');
+$form->id('foo')->action('/bar')->enctype('unknown')->method('get');
 
 is( $form->id,      'foo',     'form id' );
 is( $form->action,  '/bar',    'form action' );

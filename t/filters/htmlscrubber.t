@@ -22,10 +22,10 @@ $form->process( {
     } );
 
 # foo is quoted
-is( $form->param('foo'), $filtered_foo, 'foo filtered' );
+is( $form->param('foo'),  $filtered_foo, 'foo filtered' );
 is( $form->params->{foo}, $filtered_foo, 'foo filtered' );
 
 # bar is filtered
-is( $form->param('bar'), $filtered_bar, 'bar filtered' );
+is( $form->param('bar'),  $filtered_bar, 'bar filtered' );
 is( $form->params->{bar}, $filtered_bar, 'bar filtered' );
 

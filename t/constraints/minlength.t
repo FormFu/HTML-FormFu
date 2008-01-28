@@ -29,7 +29,7 @@ $form->element('Text')->name('bar')->constraint('MinLength')->min(3);
         } );
 
     ok( !$form->valid('foo'), 'foo not valid' );
-    ok( $form->valid('bar'), 'bar valid' );
+    ok( $form->valid('bar'),  'bar valid' );
 
     is( $form->get_error('foo')->message,
         'Must be at least 3 characters long' );

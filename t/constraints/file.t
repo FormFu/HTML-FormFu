@@ -62,23 +62,21 @@ $form->process($q);
 {
     ok( $form->submitted );
 
-    ok( ! $form->has_errors('hello_world') );
-    ok( ! $form->has_errors('does_not_exist_gif') );
+    ok( !$form->has_errors('hello_world') );
+    ok( !$form->has_errors('does_not_exist_gif') );
 
     ok( $form->valid('hello_world') );
     ok( $form->valid('does_not_exist_gif') );
 }
 
-$form->process({
-    hello_world => 'not a file',
-});
+$form->process( { hello_world => 'not a file', } );
 
 {
     ok( $form->submitted );
 
     ok( $form->has_errors('hello_world') );
-    ok( ! $form->has_errors('does_not_exist_gif') );
+    ok( !$form->has_errors('does_not_exist_gif') );
 
-    ok( ! $form->valid('hello_world') );
-    ok( ! $form->valid('does_not_exist_gif') );
+    ok( !$form->valid('hello_world') );
+    ok( !$form->valid('does_not_exist_gif') );
 }

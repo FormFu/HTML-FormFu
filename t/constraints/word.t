@@ -33,7 +33,7 @@ $form->constraint('Word');
             bar => 'b c',
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'foo valid' );
 
     ok( grep  { $_ eq 'foo' } $form->valid );
@@ -47,7 +47,7 @@ $form->constraint('Word');
             bar => "b\nc",
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'foo valid' );
 
     ok( grep  { $_ eq 'foo' } $form->valid );

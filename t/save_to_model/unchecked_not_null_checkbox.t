@@ -28,10 +28,8 @@ my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 my $rs = $schema->resultset('Master');
 
 {
-    my $row = $rs->new_result({
-        checkbox_col => 'xyzfoo',
-        });
-    
+    my $row = $rs->new_result( { checkbox_col => 'xyzfoo', } );
+
     $row->insert;
 }
 
@@ -39,19 +37,17 @@ my $rs = $schema->resultset('Master');
 # this is a problem for NOT NULL columns
 # ensure the column's default value gets inserted
 
-$form->process({
-    id => 1,
-    });
+$form->process( { id => 1, } );
 
 {
     my $row = $rs->find(1);
-    
+
     $form->save_to_model($row);
 }
 
 {
     my $row = $rs->find(1);
-    
+
     is( $row->checkbox_col, '0' );
 }
 

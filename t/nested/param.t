@@ -54,10 +54,8 @@ $form->process( {
 
 is_deeply(
     $form->param('foo'),
-    {
-        bar => 1,
+    {   bar => 1,
         baz => [ 2, 3 ],
         bag => 9,
-    }
-);
+    } );
 

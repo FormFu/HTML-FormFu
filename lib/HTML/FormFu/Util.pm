@@ -28,9 +28,9 @@ sub _filter_components {
         my $value;
 
         @$components = grep {
-               $_->can( $name )
-            && defined ( $value = $_->$name )
-            && $value eq $args->{ $name }
+                   $_->can($name)
+                && defined( $value = $_->$name )
+                && $value eq $args->{$name}
         } @$components;
     }
 
@@ -44,9 +44,9 @@ sub _get_elements {
         my $value;
 
         @$elements = grep {
-               $_->can( $name )
-            && defined ( $value = $_->$name )
-            && $value eq $args->{ $name }
+                   $_->can($name)
+                && defined( $value = $_->$name )
+                && $value eq $args->{$name}
         } @$elements;
     }
 

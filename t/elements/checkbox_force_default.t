@@ -10,10 +10,14 @@ my $form = HTML::FormFu->new;
 
 $form->element('Checkbox')->name('foo')->value('a')->force_default(1);
 $form->element('Checkbox')->name('fox')->value('b')->force_default(1);
-$form->element('Checkbox')->name('bar')->value('c')->default('c')->force_default(1);
-$form->element('Checkbox')->name('bax')->value('d')->default('d')->force_default(1);
-$form->element('Checkbox')->name('moo')->value('e')->checked('checked')->force_default(1);
-$form->element('Checkbox')->name('mox')->value('f')->checked('checked')->force_default(1);
+$form->element('Checkbox')->name('bar')->value('c')->default('c')
+    ->force_default(1);
+$form->element('Checkbox')->name('bax')->value('d')->default('d')
+    ->force_default(1);
+$form->element('Checkbox')->name('moo')->value('e')->checked('checked')
+    ->force_default(1);
+$form->element('Checkbox')->name('mox')->value('f')->checked('checked')
+    ->force_default(1);
 
 $form->process( {
         foo => '',

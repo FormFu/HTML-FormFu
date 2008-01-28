@@ -32,7 +32,7 @@ $form->constraint('Required');
 {
     $form->process( { foo => 'yada', } );
 
-    ok( $form->valid('foo'), 'foo value' );
+    ok( $form->valid('foo'),  'foo value' );
     ok( !$form->valid('bar'), 'bar not valid' );
 
     ok( grep  { $_ eq 'foo' } $form->valid );
@@ -47,7 +47,7 @@ $form->constraint('Required');
         } );
 
     ok( !$form->valid('foo'), 'foo not valid' );
-    ok( $form->valid('bar'), 'bar valid' );
+    ok( $form->valid('bar'),  'bar valid' );
 
     ok( !grep { $_ eq 'foo' } $form->valid );
     ok( grep  { $_ eq 'bar' } $form->valid );

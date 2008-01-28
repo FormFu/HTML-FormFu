@@ -25,9 +25,9 @@ $form->process( {
     } );
 
 # foo
-is( $form->param('foo'), $escaped_foo, 'quoted' );
+is( $form->param('foo'),  $escaped_foo, 'quoted' );
 is( $form->params->{foo}, $escaped_foo, 'quoted' );
 
 # bar
-is( $form->param('bar'), $escaped_bar, 'quoted' );
+is( $form->param('bar'),  $escaped_bar, 'quoted' );
 is( $form->params->{bar}, $escaped_bar, 'quoted' );

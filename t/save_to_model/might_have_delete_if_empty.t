@@ -24,38 +24,41 @@ $form->load_config_file('t/save_to_model/might_have_delete_if_empty.yml');
 
 my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 
-my $rs = $schema->resultset('Master');
+my $rs      = $schema->resultset('Master');
 my $note_rs = $schema->resultset('Note');
 
 # Fake submitted form
-$form->process({
-    "id"       => 3,
-    "text_col" => 'a',
-    "note.note" => '',
-    });
+$form->process( {
+        "id"        => 3,
+        "text_col"  => 'a',
+        "note.note" => '',
+    } );
 
 {
+
     # insert some entries we'll ignore, so our rels don't have same ids
     # test id 1
-    my $t1 = $rs->new_result({ text_col => 'xxx' });
+    my $t1 = $rs->new_result( { text_col => 'xxx' } );
     $t1->insert;
+
     # test id 2
-    my $t2 = $rs->new_result({ text_col => 'yyy' });
+    my $t2 = $rs->new_result( { text_col => 'yyy' } );
     $t2->insert;
+
     # note id 1
     my $n1 = $t2->new_related( 'note', { note => 'zzz' } );
     $n1->insert;
 
     # should get master id 3
-    my $master = $rs->new({ text_col => 'b' });
-    
+    my $master = $rs->new( { text_col => 'b' } );
+
     $master->insert;
-    
+
     # should get note id 2
     my $note = $master->new_related( 'note', { note => 'abc' } );
-    
+
     $note->insert;
-    
+
     $form->save_to_model($master);
 }
 
@@ -63,9 +66,9 @@ $form->process({
     my $row = $rs->find(3);
 
     is( $row->text_col, 'a' );
-    
+
     my $note = $row->note;
-    
+
     ok( !defined $note );
 }
 

@@ -14,7 +14,7 @@ $multi->element('Hidden')->name('baz');
 $multi->element('Radio')->name('dot')->label('My radio');
 $multi->element('Blank')->name('gzz');
 
-$form->element({ type => 'Submit' });
+$form->element( { type => 'Submit' } );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">

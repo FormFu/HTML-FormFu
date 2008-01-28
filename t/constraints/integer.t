@@ -20,7 +20,7 @@ $form->constraint('Integer');
             bar => "12\n",
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar valid' );
 
     ok( grep  { $_ eq 'foo' } $form->valid );
@@ -35,7 +35,7 @@ $form->constraint('Integer');
             bar => "0\n",
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'foo valid' );
 
     ok( grep  { $_ eq 'foo' } $form->valid );

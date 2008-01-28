@@ -30,7 +30,7 @@ $form->constraint('Bool');
             bar => 'a',
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 }
 

@@ -9,16 +9,16 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')->validator('Callback')->callback(\&cb);
+$form->element('Text')->name('bar')->validator('Callback')->callback( \&cb );
 
 $form->element('Text')->name('baz');
 
 # attached via form
-$form->validator({
-    type => 'Callback',
-    name => 'foo.baz',
-    callback => 'main::cb',
-});
+$form->validator( {
+        type     => 'Callback',
+        name     => 'foo.baz',
+        callback => 'main::cb',
+    } );
 
 sub cb {
     my $value = shift;
@@ -35,11 +35,8 @@ sub cb {
 
     ok( $form->valid('foo.bar') );
     ok( $form->valid('foo.baz') );
-    
+
     is( $form->param('foo.bar'), 1 );
-    
-    is_deeply(
-        [ $form->param('foo.baz') ],
-        [ 0, 'a', 'b' ]
-    );
+
+    is_deeply( [ $form->param('foo.baz') ], [ 0, 'a', 'b' ] );
 }

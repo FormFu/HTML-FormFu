@@ -61,7 +61,7 @@ $form->process($q);
 
 ok( $form->submitted );
 
-ok( ! $form->has_errors );
+ok( !$form->has_errors );
 
 ok( $form->valid('multiple') );
 ok( $form->valid('hello_world') );

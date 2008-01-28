@@ -19,8 +19,9 @@ use HTML::FormFu;
 }
 
 {    # auto_id
-    my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
-    
+    my $form = HTML::FormFu->new(
+        { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
     $form->auto_fieldset(1);
     $form->auto_id('%n');
 
@@ -32,7 +33,7 @@ use HTML::FormFu;
 </span>};
 
     is( $form->get_field('foo'), $field_xhtml );
-    
+
     is( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
@@ -43,8 +44,9 @@ HTML
 }
 
 {    # auto_id
-    my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
-    
+    my $form = HTML::FormFu->new(
+        { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
     $form->auto_fieldset(1);
     $form->id('my_form');
 
@@ -56,7 +58,7 @@ HTML
 </span>};
 
     is( $form->get_field('foo'), $field_xhtml );
-    
+
     is( "$form", <<HTML );
 <form action="" id="my_form" method="post">
 <fieldset>

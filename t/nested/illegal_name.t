@@ -7,9 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-eval {
-    $form->element({ name => 'foo.bar' });
-};
+eval { $form->element( { name => 'foo.bar' } ); };
 
 # died
 

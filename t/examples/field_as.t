@@ -15,7 +15,8 @@ else {
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Password')->name('foo')->label('Foo')
     ->label_attributes( { class => 'my_label' } )->comment('Comment')

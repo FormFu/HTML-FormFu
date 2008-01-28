@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/elements/block_repeatable_attrs.yml');
 
-my $fs = $form->get_element;
+my $fs    = $form->get_element;
 my $block = $fs->get_element;
 
 $block->repeat(2);

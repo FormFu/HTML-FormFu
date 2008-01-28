@@ -15,6 +15,6 @@ my $filtered_foo = "&amp;escape &quot;this&quot;";
 $form->process( { foo => $original_foo, } );
 
 # foo is filtered
-is( $form->param('foo'), $filtered_foo, 'foo filtered' );
+is( $form->param('foo'),  $filtered_foo, 'foo filtered' );
 is( $form->params->{foo}, $filtered_foo, 'foo filtered' );
 

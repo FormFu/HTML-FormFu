@@ -5,7 +5,8 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->action('/foo/bar')->id('form');
 
@@ -33,7 +34,8 @@ $fs->filter('HTMLEscape');
 
 # load_config_file
 
-my $alt_form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $alt_form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $alt_form->load_config_file('t/load_config_file_form.yml');
 

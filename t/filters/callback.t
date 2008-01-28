@@ -32,28 +32,28 @@ $form->process( {
     } );
 
 # foo is quoted
-is( $form->param('foo'), $filtered_foo, 'foo filtered' );
+is( $form->param('foo'),  $filtered_foo, 'foo filtered' );
 is( $form->params->{foo}, $filtered_foo, 'foo filtered' );
 
 # bar is filtered
-is( $form->param('bar'), $filtered_bar, 'bar filtered' );
+is( $form->param('bar'),  $filtered_bar, 'bar filtered' );
 is( $form->params->{bar}, $filtered_bar, 'bar filtered' );
 
 # baz is filtered
-is( $form->param('baz'), $filtered_baz, 'baz filtered' );
+is( $form->param('baz'),  $filtered_baz, 'baz filtered' );
 is( $form->params->{baz}, $filtered_baz, 'baz filtered' );
 
 {
+
     package FilterCallback;
     use strict;
     use warnings;
-    
-    
+
     sub my_filter {
         my ($value) = @_;
-        
+
         $value =~ tr/abc/ABC/;
-        
+
         return $value;
     }
 }

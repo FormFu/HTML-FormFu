@@ -11,7 +11,7 @@ $form->auto_fieldset( { nested_name => 'text' } );
 
 my $element = $form->element('Text')->name('foo');
 
-is ( "$form", <<EOF );
+is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
 <span class="text">
@@ -21,13 +21,11 @@ is ( "$form", <<EOF );
 </form>
 EOF
 
-$form->process({
-    "text.foo" => 42,
-});
+$form->process( { "text.foo" => 42, } );
 
 is( $form->param('text.foo'), 42 );
 
-is ( "$form", <<EOF );
+is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
 <span class="text">

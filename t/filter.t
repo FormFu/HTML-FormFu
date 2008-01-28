@@ -28,11 +28,11 @@ $form->process( {
     } );
 
 # foo isn't quoted
-is( $form->param('foo'), $original_foo );
+is( $form->param('foo'),  $original_foo );
 is( $form->params->{foo}, $original_foo );
 
 # bar
-is( $form->param('bar'), $escaped_bar );
+is( $form->param('bar'),  $escaped_bar );
 is( $form->params->{bar}, $escaped_bar );
 
 # bif

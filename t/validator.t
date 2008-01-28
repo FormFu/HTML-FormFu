@@ -31,7 +31,7 @@ $form->validator('+HTMLFormFu::MyValidator');
             bar => 'foo',
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 
     my ($error) = @{ $form->get_errors };

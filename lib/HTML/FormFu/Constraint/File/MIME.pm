@@ -13,21 +13,21 @@ sub constrain_value {
     return 1 if !defined $value || $value eq '';
 
     return unless blessed($value) && $value->isa('HTML::FormFu::Upload');
-    
+
     my $input = $value->headers->content_type;
     my $types = $self->types;
     my $regex = $self->regex;
-    
+
     if ( defined $types ) {
         $types = [$types] unless ref $types eq 'ARRAY';
-        
+
         return 1 if grep { $input eq $_ } @$types;
     }
-    
+
     if ( defined $regex ) {
         return $input =~ /$regex/x;
     }
-    
+
     return;
 }
 

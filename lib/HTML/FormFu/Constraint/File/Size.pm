@@ -14,12 +14,12 @@ sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 1 if !defined $value || $value eq '';
-    
+
     return unless blessed($value) && $value->isa('HTML::FormFu::Upload');
 
     my $min = $self->minimum;
     my $max = $self->maximum;
-    
+
     my $size = $value->size || 0;
 
     if ( defined $min ) {

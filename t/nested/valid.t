@@ -22,11 +22,11 @@ $form->process( {
 
 is_deeply(
     [ sort( $form->valid ) ],
-    [qw/
-        foo.bar
-        foo.baz
-    /]
-);
+    [   qw/
+            foo.bar
+            foo.baz
+            /
+    ] );
 
 ok( $form->valid('foo.bar') );
 ok( $form->valid('foo.baz') );

@@ -54,11 +54,9 @@ my $q;
 }
 
 my $form = HTML::FormFu->new( {
-        action   => 'http://www.perl.org/test.cgi',
-        auto_fieldset => {
-            nested_name => 'foo',
-        },
-        elements => [
+        action        => 'http://www.perl.org/test.cgi',
+        auto_fieldset => { nested_name => 'foo', },
+        elements      => [
             { type => 'Text', name => 'bar' },
             { type => 'File', name => 'bar' },
         ],
@@ -78,8 +76,8 @@ $form->process($q);
 
     isa_ok( $v2, 'HTML::FormFu::Upload' );
     is( $v2->filename, 'one.txt' );
-    is( $v2->size, 4 );
-    is( $v2->type, 'text/plain' );
-    is( $v2->slurp, "One\n" );
+    is( $v2->size,     4 );
+    is( $v2->type,     'text/plain' );
+    is( $v2->slurp,    "One\n" );
 }
 

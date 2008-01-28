@@ -26,7 +26,6 @@ EOF
 
 is( "$form", $xhtml );
 
-
 $form = HTML::FormFu->new;
 
 $form->element('Select')->name('foo')->values( [qw/ one two three /] )

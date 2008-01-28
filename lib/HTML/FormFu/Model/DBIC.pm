@@ -12,15 +12,15 @@ sub options_from_model {
     my $context = $form->stash->{context};
     my $schema  = $form->stash->{schema};
     my $rs;
-    if( defined $schema ){
+    if ( defined $schema ) {
         my $rs_name = $attrs->{resultset} || ucfirst $base->{name};
-        $rs = $schema->resultset( $rs_name );
+        $rs = $schema->resultset($rs_name);
     }
-    else{
+    else {
         my $context = $form->stash->{context};
         return if !defined $context;
         my $model = $context->model( $attrs->{model} );
-        $rs = $model;
+        $rs     = $model;
         $schema = $model->result_source->schema;
     }
     my $source     = $rs->result_source;
@@ -98,10 +98,11 @@ sub _fill_in_fields {
 
         $name = $field->original_name if $field->original_name;
 
-        my $accessor = exists $field->{db}{accessor}
+        my $accessor
+            = exists $field->{db}{accessor}
             ? $field->{db}{accessor}
             : undef;
-            
+
         if ( defined $accessor ) {
             $field->default( $dbic->$accessor );
         }
@@ -114,7 +115,7 @@ sub _fill_in_fields {
                 # can't use direct accessor, if there's a rel of the same name
                 $field->default( $dbic->get_column($name) );
             }
-            elsif ( $has_col ) {
+            elsif ($has_col) {
                 $field->default( $dbic->$name );
             }
             elsif ( $field->multi_value ) {
@@ -141,11 +142,13 @@ sub _fill_nested {
     for my $block ( @{ $base->get_all_elements } ) {
         next if $block->is_field;
         my $rel = $block->nested_name;
+
         # recursing only when $rel is a relation on $dbic
-        next unless defined $rel and ( 
-            $dbic->result_source->relationship_info($rel) or    
-            $dbic->can( $rel ) && $dbic->can( 'add_to_' . $rel ) # many_to_many 
-        ); 
+        next
+            unless defined $rel and (
+               $dbic->result_source->relationship_info($rel)
+            or $dbic->can($rel) && $dbic->can( 'add_to_' . $rel ) # many_to_many
+            );
         if ( $block->is_repeatable && $block->increment_field_names ) {
 
             # check there's a field name matching the PK
@@ -416,10 +419,11 @@ sub _save_columns {
         else {
             $field = $base->get_field( { name => $col } );
         }
-        
-        next if defined $field
-            && exists $field->{db}{accessor}
-            && defined $field->{db}{accessor};
+
+        next
+            if defined $field
+                && exists $field->{db}{accessor}
+                && defined $field->{db}{accessor};
 
         my $nested_name = defined $field ? $field->nested_name : undef;
 
@@ -451,8 +455,9 @@ sub _save_columns {
                 || $data_type =~ m/^timestamp|date|int|float|numeric/i
             )
             && defined $value
+
             # comparing to '' does not work for inflated objects
-            && ! ref $value 
+            && !ref $value 
             && $value eq ''
             )
         {
@@ -492,15 +497,15 @@ sub _save_columns {
 sub _save_non_columns {
     my ( $base, $dbic, $form, $attrs, $checkbox, $rels, $cols ) = @_;
 
-    my @fields =
-        grep { exists $_->{db}{accessor} && defined $_->{db}{accessor} } 
+    my @fields
+        = grep { exists $_->{db}{accessor} && defined $_->{db}{accessor} }
         @{ $base->get_fields };
 
     for my $field (@fields) {
 
         my $value = $form->param_value( $field->nested_name );
 
-        if (   $field->db->{delete_if_empty}
+        if ( $field->db->{delete_if_empty}
             && ( !defined $value || !length $value ) )
         {
             $dbic->discard_changes if $dbic->is_changed;
@@ -509,7 +514,7 @@ sub _save_non_columns {
         }
 
         next if !defined $value;
-        
+
         my $accessor = $field->{db}{accessor};
 
         $dbic->$accessor($value);

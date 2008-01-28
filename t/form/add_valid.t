@@ -24,29 +24,23 @@ is_deeply(
 
 like( $form->get_field('bar'), qr/value="b"/ );
 
-
 # nested names
 
 $form->add_valid( 'block.foo', 'abc' );
 
 is_deeply(
     $form->params,
-    {   foo => 1,
-        bar => 'b',
-        block => {
-            foo => 'abc',
-        }
-    } );
-
+    {   foo   => 1,
+        bar   => 'b',
+        block => { foo => 'abc', } } );
 
 $form->add_valid( 'block.bar', 'def' );
 
 is_deeply(
     $form->params,
-    {   foo => 1,
-        bar => 'b',
+    {   foo   => 1,
+        bar   => 'b',
         block => {
             foo => 'abc',
             bar => 'def',
-        }
-    } );
+        } } );

@@ -79,30 +79,30 @@ $form->process($q);
     is( $m1, 'foo' );
 
     isa_ok( $m2, 'HTML::FormFu::Upload' );
-    is( $m2->filename,                    'one.txt' );
+    is( $m2->filename,                'one.txt' );
     is( $m2->headers->content_length, 4 );
     is( $m2->headers->content_type,   'text/plain' );
-    is( $m2->slurp,                       "One\n" );
-    
+    is( $m2->slurp,                   "One\n" );
+
     # new Cat-compatable methods
     is( $m2->size, 4 );
     is( $m2->type, 'text/plain' );
 
     isa_ok( $m3, 'HTML::FormFu::Upload' );
-    is( $m3->filename,                    'two.txt' );
+    is( $m3->filename,                'two.txt' );
     is( $m3->headers->content_length, 5 );
     is( $m3->headers->content_type,   'text/plain' );
-    is( $m3->slurp,                       "Two!\n" );
+    is( $m3->slurp,                   "Two!\n" );
 }
 
 {
     my $value = $form->params->{hello_world};
 
     isa_ok( $value, 'HTML::FormFu::Upload' );
-    is( $value->filename,                    'hello_world.txt' );
+    is( $value->filename,                'hello_world.txt' );
     is( $value->headers->content_length, 13 );
     is( $value->headers->content_type,   'text/plain' );
-    is( $value->slurp,                       "Hello World!\n" );
+    is( $value->slurp,                   "Hello World!\n" );
 }
 
 {

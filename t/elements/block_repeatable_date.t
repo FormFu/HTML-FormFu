@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/elements/block_repeatable_date.yml');
 
-my $fs = $form->get_element;
+my $fs         = $form->get_element;
 my $repeatable = $fs->get_element;
 
 my $return = $repeatable->repeat(1);

@@ -12,8 +12,8 @@ $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 
 $form->process( {
-        foo     => 'a',
-        bar     => ['b', 'c'],
+        foo => 'a',
+        bar => [ 'b', 'c' ],
     } );
 
 is( $form->param_value('foo'), 'a' );
@@ -26,6 +26,6 @@ my @baz = $form->param_value('baz');
 
 ok( @baz == 1 );
 
-# it was undef 
+# it was undef
 
 is( $baz[0], undef );

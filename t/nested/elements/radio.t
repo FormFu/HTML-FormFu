@@ -22,9 +22,7 @@ is( "$form", <<EOF );
 EOF
 
 {
-    $form->process( {
-            'radio.foo' => 'foox',
-        } );
+    $form->process( { 'radio.foo' => 'foox', } );
 
     ok( $form->valid('radio.foo') );
 

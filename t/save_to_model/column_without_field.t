@@ -28,34 +28,34 @@ my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 my $rs = $schema->resultset('Master');
 
 {
-    my $row = $rs->new_result({
-        text_col     => 'a',
-        password_col => 'd',
-        checkbox_col => 'g'
-        });
-    
+    my $row = $rs->new_result( {
+            text_col     => 'a',
+            password_col => 'd',
+            checkbox_col => 'g'
+        } );
+
     $row->insert;
 }
 
 # Fake submitted form
-$form->process({
-    id       => 1,
-    text_col => 'abc',
-    });
+$form->process( {
+        id       => 1,
+        text_col => 'abc',
+    } );
 
 {
     my $row = $rs->find(1);
-    
-    $form->save_to_model( $row );
+
+    $form->save_to_model($row);
 }
 
 {
     my $row = $rs->find(1);
-    
+
     is( $row->text_col, 'abc' );
-    
+
     # original values still there
-    
+
     is( $row->password_col, 'd' );
     is( $row->checkbox_col, 'g' );
 }

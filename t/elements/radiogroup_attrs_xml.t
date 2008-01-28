@@ -7,17 +7,13 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $field = $form->element('Radiogroup')->name('foo')
-    ->options( [
-    {
-        label => 'One',
-        attrs => { class => 'foo' },
-        attrs_xml => { onsubmit => '<dont-quote>' },
-    }
-    ] );
+my $field = $form->element('Radiogroup')->name('foo')->options( [ {
+            label     => 'One',
+            attrs     => { class => 'foo' },
+            attrs_xml => { onsubmit => '<dont-quote>' },
+        } ] );
 
-
-is ( "$form", <<EOF );
+is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset class="radiogroup">
 <span>

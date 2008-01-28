@@ -28,7 +28,7 @@ $form->element('Text')->name('bar')->constraint('MaxLength')->max(5);
             bar => 'abcdef',
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 
     is( $form->get_error('bar')->message,

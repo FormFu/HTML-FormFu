@@ -14,20 +14,20 @@ $form->element('Text')->name('bar')->constraint('Equal')->others('foo.baz');
 $form->element('Text')->name('baz');
 
 {
-    $form->process({
-        'foo.bar' => 'x',
-        'foo.baz' => 'x',
-    });
+    $form->process( {
+            'foo.bar' => 'x',
+            'foo.baz' => 'x',
+        } );
 
     ok( !$form->has_errors('foo.bar') );
     ok( !$form->has_errors );
 }
 
 {
-    $form->process({
-        'foo.bar' => 'x',
-        'foo.baz' => 'y',
-    });
+    $form->process( {
+            'foo.bar' => 'x',
+            'foo.baz' => 'y',
+        } );
 
     ok( !$form->has_errors('foo.bar') );
 }

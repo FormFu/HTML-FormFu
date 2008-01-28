@@ -19,12 +19,11 @@ $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
     }
     )->year( {
         prefix => '-- Year --',
-        list => [2007..2017],
-        } )->default($dt)->auto_inflate(1)
-    ->constraint('Required');
+        list   => [ 2007 .. 2017 ],
+    } )->default($dt)->auto_inflate(1)->constraint('Required');
 
 $form->element('Date')->name('bar')->default('14-08-2007')
-    ->year({ list => [2007..2017] });
+    ->year( { list => [ 2007 .. 2017 ] } );
 
 is( "$form", <<HTML );
 <form action="" method="post">
@@ -165,8 +164,9 @@ is( "$form", <<HTML );
 HTML
 
 $form->process( {
-        'date.foo_day', 30, 'date.foo_month', 6, 'date.foo_year', 2007,
-        'date.bar_day', 1,  'date.bar_month', 7, 'date.bar_year', 2007,
+        'date.foo_day',   30,   'date.foo_month', 6,
+        'date.foo_year',  2007, 'date.bar_day',   1,
+        'date.bar_month', 7,    'date.bar_year',  2007,
     } );
 
 ok( $form->submitted_and_valid );
@@ -193,7 +193,8 @@ like( $bar_field, qr/\Q<option value="2007" selected="selected">/ );
 
 # incorrect date
 
-$form->process( { 'date.foo_day', 29, 'date.foo_month', 2, 'date.foo_year', 2007, } );
+$form->process(
+    { 'date.foo_day', 29, 'date.foo_month', 2, 'date.foo_year', 2007, } );
 
 ok( $form->submitted );
 ok( $form->has_errors );

@@ -10,9 +10,9 @@ my $data = {
     b => {
         c => 2,
         d => 3,
-        },
+    },
     e => [ 4, 5 ],
-    };
+};
 
 {
     my @names = HTML::FormFu::_hash_keys($data);
@@ -20,14 +20,14 @@ my $data = {
 
     is_deeply(
         \@names,
-        [qw/
-            a
-            b.c
-            b.d 
-            e.0
-            e.1
-        /]
-    );
+        [   qw/
+                a
+                b.c
+                b.d
+                e.0
+                e.1
+                /
+        ] );
 }
 
 {
@@ -36,13 +36,13 @@ my $data = {
 
     is_deeply(
         \@names,
-        [qw/
-            a
-            b[c]
-            b[d] 
-            e[0]
-            e[1]
-        /]
-    );
+        [   qw/
+                a
+                b[c]
+                b[d]
+                e[0]
+                e[1]
+                /
+        ] );
 }
 

@@ -6,7 +6,8 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->action('/foo/bar')->id('form')->auto_id('%n');
 
@@ -66,7 +67,8 @@ is_deeply( $yml_hash, $alt_hash );
 my $alt_form = HTML::FormFu->new($alt_hash);
 $alt_form->tt_args( { INCLUDE_PATH => 'share/templates/tt/xhtml' } );
 
-my $yml_form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $yml_form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 $yml_form->load_config_file('t/04basic.yml');
 
 my $xhtml = <<EOF;

@@ -11,18 +11,9 @@ $form->auto_fieldset( { nested_name => 'foo' } );
 
 my $bar = $form->element('Text')->name('bar');
 
-$form->process({
-    'foo.bar' => 'x',
-    foo => {
-        bar => 'x',
-    },
-});
+$form->process( {
+        'foo.bar' => 'x',
+        foo       => { bar => 'x', },
+    } );
 
-is_deeply(
-    $form->_processed_params,
-    {
-        foo => {
-            bar => 'x',
-        },
-    }, 
-);
+is_deeply( $form->_processed_params, { foo => { bar => 'x', }, }, );

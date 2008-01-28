@@ -62,23 +62,21 @@ $form->process($q);
 {
     ok( $form->submitted );
 
-    ok( ! $form->has_errors('hello_world') );
-    ok( ! $form->has_errors('100x100_gif') );
+    ok( !$form->has_errors('hello_world') );
+    ok( !$form->has_errors('100x100_gif') );
 
     ok( $form->valid('hello_world') );
     ok( $form->valid('100x100_gif') );
 }
 
-$form->process({
-    hello_world => 'not a file',
-});
+$form->process( { hello_world => 'not a file', } );
 
 {
     ok( $form->submitted );
 
     ok( $form->has_errors('hello_world') );
-    ok( ! $form->has_errors('100x100_gif') );
+    ok( !$form->has_errors('100x100_gif') );
 
-    ok( ! $form->valid('hello_world') );
-    ok( ! $form->valid('100x100_gif') );
+    ok( !$form->valid('hello_world') );
+    ok( !$form->valid('100x100_gif') );
 }

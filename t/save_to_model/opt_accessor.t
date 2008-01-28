@@ -34,25 +34,23 @@ my $rs = $schema->resultset('User');
 
 # filler row
 
-$rs->create({
-    name => 'foo',
-});
+$rs->create( { name => 'foo', } );
 
 # Fake submitted form
-$form->process({
-    id       => 2,
-    fullname => 'mr billy bob',
-    });
+$form->process( {
+        id       => 2,
+        fullname => 'mr billy bob',
+    } );
 
 {
-    my $row = $rs->new({});
-    
-    $form->save_to_model( $row );
+    my $row = $rs->new( {} );
+
+    $form->save_to_model($row);
 }
 
 {
     my $row = $rs->find(2);
-    
+
     is( $row->title,    'mr' );
     is( $row->name,     'billy bob' );
     is( $row->fullname, 'mr billy bob' );

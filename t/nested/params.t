@@ -22,11 +22,9 @@ $form->process( {
 
 is_deeply(
     $form->params,
-    {
-        foo => {
+    {   foo => {
             bar => 1,
             baz => [ 2, 3 ],
         },
-    }
-);
+    } );
 

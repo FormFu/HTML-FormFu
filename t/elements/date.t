@@ -17,12 +17,11 @@ $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
     }
     )->year( {
         prefix => '-- Year --',
-        list => [2007 .. 2017],
-        } )->default($dt)->auto_inflate(1)
-    ->constraint('Required');
+        list   => [ 2007 .. 2017 ],
+    } )->default($dt)->auto_inflate(1)->constraint('Required');
 
 $form->element('Date')->name('bar')->default('14-08-2007')
-    ->year({ list => [ 2007 .. 2017] });
+    ->year( { list => [ 2007 .. 2017 ] } );
 
 is( "$form", <<HTML );
 <form action="" method="post">

@@ -19,5 +19,5 @@ my $filtered_foo = encode( 'euc-jp', $utf8_foo );
 $form->process( { foo => $original_foo, } );
 
 # foo is filtered
-is( decode( 'euc-jp', $form->param('foo') ), $utf8_foo, 'foo filtered' );
+is( decode( 'euc-jp', $form->param('foo') ),  $utf8_foo, 'foo filtered' );
 is( decode( 'euc-jp', $form->params->{foo} ), $utf8_foo, 'foo filtered' );

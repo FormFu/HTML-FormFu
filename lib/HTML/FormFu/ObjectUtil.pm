@@ -3,7 +3,7 @@ package HTML::FormFu::ObjectUtil;
 use strict;
 use Exporter qw/ import /;
 
-use HTML::FormFu::Util 
+use HTML::FormFu::Util
     qw/ _parse_args require_class _get_elements split_name _filter_components /;
 use Config::Any;
 use Data::Visitor::Callback;

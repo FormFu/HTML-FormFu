@@ -15,9 +15,10 @@ else {
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->auto_fieldset({ legend => 'Foo' });
+$form->auto_fieldset( { legend => 'Foo' } );
 
 $form->element('Text')->name('foo')->label('Foo');
 $form->element('Text')->name('bar')->label('Bar');

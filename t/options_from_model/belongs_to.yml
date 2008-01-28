@@ -12,10 +12,11 @@ elements:
     name: type
     db: 
       aaa : aaa
+  
   - type: Select
     name: type2_id
     db: 
       resultset: Type2
-
+  
   - type: Submit
     name: submit

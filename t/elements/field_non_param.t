@@ -7,7 +7,6 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-
 $form->element('Text')->name('foo');
 $form->element('Submit')->name('submit')->non_param(1);
 
@@ -25,17 +24,10 @@ $form->process( {
 is( $form->param('foo'), 1 );
 ok( !$form->param('submit') );
 
-is_deeply(
-    [ $form->valid ],
-    ['foo']
-    );
+is_deeply( [ $form->valid ], ['foo'] );
 
 ok( $form->valid('foo') );
 ok( !$form->valid('submit') );
 
-is_deeply(
-    $form->params, 
-    {
-        foo => 1,
-    });
+is_deeply( $form->params, { foo => 1, } );
 

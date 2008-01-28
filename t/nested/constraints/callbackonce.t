@@ -21,11 +21,10 @@ $form->element('Text')->name('baz')->constraint('CallbackOnce')->callback(
         return 1;
     } );
 
-
-$form->process({
-    'foo.bar' => 'x',
-    'foo.baz' => [1, 2],
-});
+$form->process( {
+        'foo.bar' => 'x',
+        'foo.baz' => [ 1, 2 ],
+    } );
 
 ok( !$form->has_errors('foo.bar') );
 ok( !$form->has_errors('foo.baz') );

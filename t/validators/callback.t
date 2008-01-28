@@ -7,8 +7,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->validator('Callback')->callback(\&cb);
-$form->element('Text')->name('bar')->validator('Callback')->callback("main::cb");
+$form->element('Text')->name('foo')->validator('Callback')->callback( \&cb );
+$form->element('Text')->name('bar')->validator('Callback')
+    ->callback("main::cb");
 
 sub cb {
     my $value = shift;

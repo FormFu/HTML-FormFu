@@ -7,7 +7,8 @@ use HTML::FormFu;
 use lib 't/lib';
 use HTMLFormFu::TestLib;
 
-my $form = HTML::FormFu->new( { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->id('form')->auto_id('%n%c');
 

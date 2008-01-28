@@ -11,38 +11,35 @@ $form->indicator('submit');
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')
-    ->constraint('AllOrNone')->others('foo.baz');
+$form->element('Text')->name('bar')->constraint('AllOrNone')->others('foo.baz');
 
 $form->element('Text')->name('baz');
 
 $form->element('Submit')->name('submit');
 
 {
-    $form->process({
-        'foo.bar' => 'x',
-        'foo.baz' => 'y',
-        'submit'  => 'Submit',
-    });
+    $form->process( {
+            'foo.bar' => 'x',
+            'foo.baz' => 'y',
+            'submit'  => 'Submit',
+        } );
 
     ok( !$form->has_errors('foo.bar') );
     ok( !$form->has_errors );
 }
 
 {
-    $form->process({
-        'submit'  => 'Submit',
-    });
+    $form->process( { 'submit' => 'Submit', } );
 
     ok( !$form->has_errors('foo.bar') );
     ok( !$form->has_errors );
 }
 
 {
-    $form->process({
-        'foo.bar' => 'x',
-        'submit'  => 'Submit',
-    });
+    $form->process( {
+            'foo.bar' => 'x',
+            'submit'  => 'Submit',
+        } );
 
     ok( $form->has_errors('foo.baz') );
 }

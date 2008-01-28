@@ -31,9 +31,7 @@ is( "$form", <<EOF );
 </form>
 EOF
 
-$form->process( {
-        "rg.foo" => 1,
-    } );
+$form->process( { "rg.foo" => 1, } );
 
 is( $form->param('rg.foo'), 1 );
 

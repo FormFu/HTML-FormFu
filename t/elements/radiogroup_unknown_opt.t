@@ -10,14 +10,11 @@ my $form = HTML::FormFu->new;
 # dies
 
 eval {
-    $form->element('Radiogroup')->name('foo')
-        ->options( [
-        {
-            label => 'fu',
-            value => '1',
-            unknown => 'dies',
-        }
-        ] );
+    $form->element('Radiogroup')->name('foo')->options( [ {
+                label   => 'fu',
+                value   => '1',
+                unknown => 'dies',
+            } ] );
 };
 
-ok( $@ );
+ok($@);

@@ -16,7 +16,7 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset(1);
 
-my $foo = $form->element({ name => 'foo' });
+my $foo = $form->element( { name => 'foo' } );
 
 ok( $foo->parent == $form->get_element );
 

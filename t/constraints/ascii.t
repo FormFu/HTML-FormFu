@@ -30,7 +30,7 @@ $form->constraint('ASCII');
             bar => '日本語',
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 }
 

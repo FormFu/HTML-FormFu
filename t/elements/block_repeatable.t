@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/elements/block_repeatable.yml');
 
-my $fs = $form->get_element;
+my $fs         = $form->get_element;
 my $repeatable = $fs->get_element;
 
 {
@@ -22,7 +22,7 @@ my $repeatable = $fs->get_element;
 
 {
     my $elems = $repeatable->get_elements;
-    
+
     ok( scalar @$elems == 2 );
     isa_ok( $elems->[0], 'HTML::FormFu::Element::Block' );
     isa_ok( $elems->[1], 'HTML::FormFu::Element::Block' );

@@ -16,12 +16,12 @@ $form->element('Text')->name('bar')->inflator('DateTime')
 $form->element('Text')->name('baz');
 
 # attach via form
-$form->inflator({
-        type => 'DateTime',
-        name => 'foo.baz',
-        parser => { strptime => '%d/%m/%Y' },
+$form->inflator( {
+        type     => 'DateTime',
+        name     => 'foo.baz',
+        parser   => { strptime => '%d/%m/%Y' },
         strptime => { pattern => '%m-%d-%Y' },
-    });
+    } );
 
 $form->process( {
         'foo.bar' => '31/12/2006',
@@ -30,14 +30,14 @@ $form->process( {
 
 {
     my $value = $form->param('foo.bar');
-    
+
     isa_ok( $value, 'DateTime' );
     is( $value, "31/12/2006" );
 }
 
 {
     my $value = $form->param('foo.baz');
-    
+
     isa_ok( $value, 'DateTime' );
     is( $value, "07-01-2007" );
 }

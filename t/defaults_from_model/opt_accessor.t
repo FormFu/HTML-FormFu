@@ -34,25 +34,23 @@ my $rs = $schema->resultset('User');
 
 # filler row
 
-$rs->create({
-    name => 'foo',
-});
+$rs->create( { name => 'foo', } );
 
 # row we're going to use
 
-$rs->create({
-    title => 'mr',
-    name  => 'billy bob',
-});
+$rs->create( {
+        title => 'mr',
+        name  => 'billy bob',
+    } );
 
 {
     my $row = $rs->find(2);
-    
-    $form->defaults_from_model( $row );
-    
+
+    $form->defaults_from_model($row);
+
     my $fs = $form->get_element;
-    
-    is( $fs->get_field('id')->render_data->{value}, 2 );
-    is( $fs->get_field('fullname')->render_data->{value}, 'mr billy bob');
+
+    is( $fs->get_field('id')->render_data->{value},       2 );
+    is( $fs->get_field('fullname')->render_data->{value}, 'mr billy bob' );
 }
 

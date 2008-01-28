@@ -7,14 +7,15 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->transformer('Callback')->callback(\&cb);
-$form->element('Text')->name('bar')->transformer('Callback')->callback("main::cb");
+$form->element('Text')->name('foo')->transformer('Callback')->callback( \&cb );
+$form->element('Text')->name('bar')->transformer('Callback')
+    ->callback("main::cb");
 
 sub cb {
     my $value = shift;
-    
+
     $value =~ s/a/A/;
-    
+
     return $value;
 }
 
@@ -27,10 +28,7 @@ sub cb {
 
     ok( $form->submitted_and_valid );
 
-    is ( $form->param('foo'), 1 );
+    is( $form->param('foo'), 1 );
 
-    is_deeply(
-        [ $form->param('bar') ],
-        [ 0, 'A', 'b' ]
-    );
+    is_deeply( [ $form->param('bar') ], [ 0, 'A', 'b' ] );
 }

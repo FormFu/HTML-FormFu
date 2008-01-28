@@ -28,24 +28,26 @@ my $schema = MySchema->connect('dbi:SQLite:dbname=t/test.db');
 my $rs = $schema->resultset('Master');
 
 # Fake submitted form
-$form->process({
-    "id"       => 3,
-    "text_col" => 'a',
-    'type'     => '1',
-    'type2_id' => '1',
-    });
+$form->process( {
+        "id"       => 3,
+        "text_col" => 'a',
+        'type'     => '1',
+        'type2_id' => '1',
+    } );
 
 my $master;
 {
+
     # insert some entries we'll ignore, so our rels don't have same ids
     # test id 1
-    my $t1 = $rs->create({ text_col => 'xxx' });
+    my $t1 = $rs->create( { text_col => 'xxx' } );
+
     # test id 2
-    my $t2 = $rs->create({ text_col => 'yyy' });
+    my $t2 = $rs->create( { text_col => 'yyy' } );
 
     # should get master id 3
-    $master = $rs->create({ text_col => 'b', type => 2, type2_id => 2 });
-    
+    $master = $rs->create( { text_col => 'b', type => 2, type2_id => 2 } );
+
     $form->save_to_model($master);
 }
 
@@ -54,6 +56,6 @@ my $master;
 
     is( $row->type->id, '1' );
     is( $row->type2_id, '1' );
-    
+
 }
 

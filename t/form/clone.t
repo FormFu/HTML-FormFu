@@ -16,27 +16,15 @@ $field->constraint('Required');
 
 my $clone = $form->clone;
 
-$clone->process({ foo => '' });
+$clone->process( { foo => '' } );
 
-is(
-    refaddr( $clone->get_element->parent ),
-    refaddr( $clone ),
-);
+is( refaddr( $clone->get_element->parent ), refaddr($clone), );
 
-is(
-    refaddr( $clone->get_field->parent ),
-    refaddr( $clone->get_element ),
-);
+is( refaddr( $clone->get_field->parent ), refaddr( $clone->get_element ), );
 
-is(
-    refaddr( $clone->get_constraint->parent ),
-    refaddr( $clone->get_field ),
-);
+is( refaddr( $clone->get_constraint->parent ), refaddr( $clone->get_field ), );
 
-is(
-    refaddr( $clone->get_error->parent ),
-    refaddr( $clone->get_field ),
-);
+is( refaddr( $clone->get_error->parent ), refaddr( $clone->get_field ), );
 
 =pod
 
