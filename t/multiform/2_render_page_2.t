@@ -38,7 +38,7 @@ my $decrypted = $cbc->decrypt_hex($value);
 
 my $data = thaw($decrypted);
 
-is( $data->{current_form}, 1 );
+is( $data->{current_form}, 2 );
 
 ok( grep { $_ eq 'foo' } @{ $data->{valid_names} } );
 ok( grep { $_ eq 'submit' } @{ $data->{valid_names} } );

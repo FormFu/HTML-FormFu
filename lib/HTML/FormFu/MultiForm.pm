@@ -40,7 +40,7 @@ our @ACCESSORS = qw/
 
 __PACKAGE__->mk_accessors(
     @ACCESSORS,
-    qw/ query forms _current_form current_form complete
+    qw/ query forms current_form_number current_form complete
         multiform_hidden_name combine_params /
 );
 
@@ -129,7 +129,7 @@ sub process {
         # are we on the last form?
         # are we complete?
 
-        if ( ( $current_form_num == $#forms )
+        if ( ( $current_form_num == scalar @forms )
             && $current_form->submitted_and_valid )
         {
             $self->complete(1);
@@ -139,7 +139,7 @@ sub process {
 
         # default to first form
 
-        $self->_load_current_form(0);
+        $self->_load_current_form(1);
     }
 
     #
@@ -176,7 +176,7 @@ sub _load_current_form {
 
     my $current_form = HTML::FormFu->new;
 
-    my $current_data = dclone( $self->forms->[$current_form_num] );
+    my $current_data = dclone( $self->forms->[ $current_form_num - 1 ] );
 
     for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
         @INHERITED_MERGING_ACCESSORS )
@@ -212,7 +212,7 @@ sub _load_current_form {
         }
     }
 
-    $self->_current_form($current_form_num);
+    $self->current_form_number($current_form_num);
     $self->current_form($current_form);
 
     return $current_form;
@@ -254,8 +254,8 @@ sub next_form {
     croak "process() must be called before next_form()"
         if !defined $form;
 
-    my $current_form_num = $self->_current_form;
-    my $form_data        = dclone( $self->forms->[ $current_form_num + 1 ] );
+    my $current_form_num = $self->current_form_number;
+    my $form_data        = dclone( $self->forms->[ $current_form_num ] );
 
     my $next_form = HTML::FormFu->new;
 
