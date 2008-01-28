@@ -45,7 +45,7 @@ __PACKAGE__->mk_accessors(
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names
-        _output_processors tt_module
+        _output_processors tt_module params_ignore_underscore
         nested_name nested_subscript model_class _model /
 );
 
@@ -514,14 +514,17 @@ sub _transform_input {
 sub _build_valid_names {
     my ($self) = @_;
 
-    my $params = $self->_processed_params;
-    my @errors = $self->has_errors;
+    my $params       = $self->_processed_params;
+    my $skip_private = $self->params_ignore_underscore;
+    my @errors       = $self->has_errors;
     my @names;
     my %non_param;
 
     for my $field ( @{ $self->get_fields } ) {
         my $name = $field->nested_name;
         next if !defined $name;
+
+        next if $skip_private && $field->name =~ /^_/;
 
         if ( $field->non_param ) {
             $non_param{$name} = 1;
@@ -532,6 +535,7 @@ sub _build_valid_names {
     }
 
     push @names, grep { ref $params->{$_} ne 'HASH' }
+        grep { !( $skip_private && /^_/ ) }
         grep { !exists $non_param{$_} }
         keys %$params;
 

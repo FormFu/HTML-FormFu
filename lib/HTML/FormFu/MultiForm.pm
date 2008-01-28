@@ -35,7 +35,7 @@ our @ACCESSORS = qw/
     element_defaults query_type languages force_error_message
     localize_class tt_module
     nested_name nested_subscript model_class
-    auto_fieldset
+    auto_fieldset params_ignore_underscore
     /;
 
 __PACKAGE__->mk_accessors(
@@ -146,9 +146,7 @@ sub process {
         $self->_load_current_form(1);
     }
 
-    #
-
-    #    return $form->process( defined $query ? $query : () );
+    return;
 }
 
 sub _process_get_data {
