@@ -1740,6 +1740,16 @@ is read, if no value is defined it automatically traverses the element's
 hierarchy of parents, through any block elements and up to the form, 
 searching for a defined value.
 
+=head2 params_ignore_underscore
+
+If true, causes L</params>, L</param> and L</valid> to ignore any fields
+whose name starts with an underscore C<_>.
+
+The field is still processed as normal, and errors will cause 
+L</submitted_and_valid> to return false.
+
+Default Value: false
+
 =head1 FORM ATTRIBUTES
 
 All attributes are added to the rendered form's start tag.
