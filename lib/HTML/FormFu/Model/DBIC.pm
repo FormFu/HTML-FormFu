@@ -7,11 +7,14 @@ use Carp qw( croak );
 
 sub options_from_model {
     my ( $self, $base, $attrs ) = @_;
+
     $attrs ||= {};
+
     my $form    = $base->form;
     my $context = $form->stash->{context};
     my $schema  = $form->stash->{schema};
     my $rs;
+
     if ( defined $schema ) {
         my $rs_name = $attrs->{resultset} || ucfirst $base->{name};
         $rs = $schema->resultset($rs_name);
@@ -23,6 +26,7 @@ sub options_from_model {
         $rs     = $model;
         $schema = $model->result_source->schema;
     }
+
     my $source     = $rs->result_source;
     my $id_col     = $attrs->{id_column};
     my $label_col  = $attrs->{label_column};
@@ -43,9 +47,11 @@ sub options_from_model {
     $label_col = $id_col if !defined $label_col;
 
     $attributes->{'-columns'} = [ $id_col, $label_col ];
+
     my $result = $rs->search( $condition, $attributes );
 
     my @defaults = $result->all;
+
     if ( $attrs->{localize_label} ) {
         @defaults = map { { value => $_->id_col, label_loc => $_->label_col, } }
             @defaults;
@@ -53,6 +59,7 @@ sub options_from_model {
     else {
         @defaults = map { [ $_->$id_col, $_->$label_col ] } @defaults;
     }
+
     return @defaults;
 }
 
