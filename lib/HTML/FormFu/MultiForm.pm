@@ -41,7 +41,7 @@ our @ACCESSORS = qw/
 __PACKAGE__->mk_accessors(
     @ACCESSORS,
     qw/ query forms current_form_number current_form complete
-        multiform_hidden_name combine_params /
+        multiform_hidden_name default_multiform_hidden_name combine_params /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -78,7 +78,7 @@ sub new {
         tt_args               => {},
         languages             => ['en'],
         combine_params        => 1,
-        multiform_hidden_name => '_multiform',
+        default_multiform_hidden_name => '_multiform',
     );
 
     $self->populate( \%defaults );
@@ -101,16 +101,20 @@ sub process {
     else {
         $query = $self->query;
     }
+    
+    my $name = $self->multiform_hidden_name;
+
+    $name = $self->default_multiform_hidden_name
+        if !defined $name;
 
     if ( defined $query && blessed($query) ) {
-        $input = $query->param( $self->multiform_hidden_name );
+        $input = $query->param( $name );
     }
     elsif ( defined $query ) {
 
         # it's not an object, just a hashref
 
-        $input = $self->get_nested_hash_value( $query,
-            $self->multiform_hidden_name );
+        $input = $self->get_nested_hash_value( $query, $name );
     }
 
     my $data = $self->_process_get_data($input);
@@ -194,6 +198,18 @@ sub _load_current_form {
     }
 
     $current_form->populate($current_data);
+    
+    # add hidden field
+    if ( ( !defined $self->multiform_hidden_name ) && $current_form_num > 1 ) {
+        my $field = $current_form->element({
+            type => 'Hidden',
+            name => $self->default_multiform_hidden_name,
+        });
+        
+        $field->constraint({
+            type => 'Required',
+        });
+    }
 
     $current_form->query( $self->query );
     $current_form->process;
@@ -275,6 +291,19 @@ sub next_form {
     }
 
     $next_form->populate($form_data);
+    
+    # add hidden field
+    if ( !defined $self->multiform_hidden_name ) {
+        my $field = $next_form->element({
+            type => 'Hidden',
+            name => $self->default_multiform_hidden_name,
+        });
+        
+        $field->constraint({
+            type => 'Required',
+        });
+    }
+    
     $next_form->process;
 
     # encrypt params in hidden field
@@ -288,6 +317,9 @@ sub _save_hidden_data {
 
     my @valid_names = $form->valid;
     my $hidden_name = $self->multiform_hidden_name;
+    
+    $hidden_name = $self->default_multiform_hidden_name
+        if !defined $hidden_name;
 
     # don't include the hidden-field's name in valid_names
     @valid_names = grep { $_ ne $hidden_name } @valid_names;
