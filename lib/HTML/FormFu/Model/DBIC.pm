@@ -32,6 +32,17 @@ sub options_from_model {
     }
     $label_col = $id_col if !defined $label_col;
 
+    if ( defined( my $from_stash = $attrs->{condition_from_stash} ) ) {
+        for my $name ( keys %$from_stash ) {
+            my $value = $form->stash->{ $from_stash->{$name} };
+
+            croak "input value must not be a reference"
+                if ref $value;
+
+            $condition->{$name} = $value;
+        }
+    }
+
     $attributes->{'-columns'} = [ $id_col, $label_col ];
 
     my $result = $resultset->search( $condition, $attributes );
