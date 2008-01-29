@@ -429,7 +429,7 @@ sub prepare_id {
     {
         my %string = (
             f => defined $self->form->id ? $self->form->id : '',
-            n => defined $render->{name} ? $render->{name} : '',
+            n => $render->{ nested_name } || '',
         );
 
         my $id = $self->auto_id;

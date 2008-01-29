@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use HTML::FormFu;
 
@@ -15,3 +15,18 @@ my $baz_fs = $form->get_element( { type => 'Fieldset' } )
     ->get_element( { type => 'Block' } );
 
 is( $baz_fs->get_field('0')->nested_name, 'foo.baz.0' );
+
+is( "$form", <<EO_RENDER );
+<form action="" method="post">
+<fieldset>
+<span class="text">
+<input name="foo.bar" type="text" id="foo.bar" />
+</span>
+<div>
+<span class="text">
+<input name="foo.baz.0" type="text" id="foo.baz.0" />
+</span>
+</div>
+</fieldset>
+</form>
+EO_RENDER
