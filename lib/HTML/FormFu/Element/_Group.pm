@@ -34,7 +34,7 @@ sub new {
     return $self;
 }
 
-sub process {
+sub post_process {
     my ($self) = @_;
 
     my $args = $self->db;

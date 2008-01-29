@@ -60,6 +60,14 @@ sub process {
     return;
 }
 
+sub post_process {
+    my ($self) = @_;
+
+    map { $_->post_process } @{ $self->_elements };
+
+    return;
+}
+
 sub render_data {
     my $self = shift;
 

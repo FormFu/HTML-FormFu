@@ -213,38 +213,43 @@ sub process {
 
     $self->submitted($submitted);
 
-    return if !$submitted;
+    if ( $submitted ) {
+        my %param;
+        my @params = $query->param;
 
-    my %param;
-    my @params = $query->param;
+        for my $field ( @{ $self->get_fields } ) {
+            my $name = $field->nested_name;
 
-    for my $field ( @{ $self->get_fields } ) {
-        my $name = $field->nested_name;
+            next if !defined $name;
+            next if !grep { $name eq $_ } @params;
 
-        next if !defined $name;
-        next if !grep { $name eq $_ } @params;
+            if ( $field->nested ) {
+                my @values = $query->param($name);
 
-        if ( $field->nested ) {
-            my @values = $query->param($name);
+                my $value = @values > 1 ? \@values : $values[0];
 
-            my $value = @values > 1 ? \@values : $values[0];
+                $self->set_nested_hash_value( \%param, $name, $value );
+            }
+            else {
+                my @values = $query->param($name);
 
-            $self->set_nested_hash_value( \%param, $name, $value );
+                $param{$name} = @values > 1 ? \@values : $values[0];
+            }
         }
-        else {
-            my @values = $query->param($name);
 
-            $param{$name} = @values > 1 ? \@values : $values[0];
+        for my $field ( @{ $self->get_fields } ) {
+            $field->process_input( \%param );
         }
+
+        $self->input( \%param );
+
+        $self->_process_input;
     }
 
-    for my $field ( @{ $self->get_fields } ) {
-        $field->process_input( \%param );
+    # post_process
+    for my $elem ( @{ $self->get_elements } ) {
+        $elem->post_process;
     }
-
-    $self->input( \%param );
-
-    $self->_process_input;
 
     return;
 }

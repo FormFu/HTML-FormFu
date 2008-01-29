@@ -91,6 +91,8 @@ sub clear_errors { }
 
 sub process { }
 
+sub post_process { }
+
 sub prepare_id { }
 
 sub prepare_attrs { }
