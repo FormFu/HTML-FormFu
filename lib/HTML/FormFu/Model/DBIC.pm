@@ -10,24 +10,10 @@ sub options_from_model {
 
     $attrs ||= {};
 
-    my $form    = $base->form;
-    my $context = $form->stash->{context};
-    my $schema  = $form->stash->{schema};
-    my $rs;
+    my $form      = $base->form;
+    my $resultset = _get_resultset( $base, $form, $attrs );
+    my $source    = $resultset->result_source;
 
-    if ( defined $schema ) {
-        my $rs_name = $attrs->{resultset} || ucfirst $base->{name};
-        $rs = $schema->resultset($rs_name);
-    }
-    else {
-        my $context = $form->stash->{context};
-        return if !defined $context;
-        my $model = $context->model( $attrs->{model} );
-        $rs     = $model;
-        $schema = $model->result_source->schema;
-    }
-
-    my $source     = $rs->result_source;
     my $id_col     = $attrs->{id_column};
     my $label_col  = $attrs->{label_column};
     my $condition  = $attrs->{condition};
@@ -48,7 +34,7 @@ sub options_from_model {
 
     $attributes->{'-columns'} = [ $id_col, $label_col ];
 
-    my $result = $rs->search( $condition, $attributes );
+    my $result = $resultset->search( $condition, $attributes );
 
     my @defaults = $result->all;
 
@@ -61,6 +47,29 @@ sub options_from_model {
     }
 
     return @defaults;
+}
+
+sub _get_resultset {
+    my ( $base, $form, $attrs ) = @_;
+    
+    my $schema  = $form->stash->{schema};
+    my $context = $form->stash->{context};
+
+    if ( defined $schema ) {
+        my $rs_name = $attrs->{resultset} || ucfirst $base->name;
+
+        return $schema->resultset($rs_name);
+    }
+    elsif ( defined $context && defined $attrs->{model} ) {
+
+        return $context->model( $attrs->{model} );
+    }
+    elsif ( defined $context ) {
+
+        return $context->model;
+    }
+
+    croak "need a schema or context";
 }
 
 sub defaults_from_model {
