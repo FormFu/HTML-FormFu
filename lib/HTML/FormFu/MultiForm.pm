@@ -30,6 +30,7 @@ __PACKAGE__->mk_attrs(qw/ attributes crypt_args /);
 
 __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 
+# accessors shared with HTML::FormFu
 our @ACCESSORS = qw/
     indicator filename javascript javascript_src
     element_defaults query_type languages force_error_message
@@ -40,12 +41,14 @@ our @ACCESSORS = qw/
 
 __PACKAGE__->mk_accessors(
     @ACCESSORS,
-    qw/ query forms current_form_number current_form complete
-        multiform_hidden_name default_multiform_hidden_name combine_params /
+    qw/ query forms current_form_number current_form complete persist_stash
+        multiform_hidden_name default_multiform_hidden_name combine_params
+        _data /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
 
+# accessors shared with HTML::FormFu
 our @INHERITED_ACCESSORS = qw/
     auto_id auto_label auto_error_class auto_error_message
     auto_constraint_class auto_inflator_class auto_validator_class
@@ -55,6 +58,7 @@ our @INHERITED_ACCESSORS = qw/
 
 __PACKAGE__->mk_inherited_accessors(@INHERITED_ACCESSORS);
 
+# accessors shared with HTML::FormFu
 our @INHERITED_MERGING_ACCESSORS = qw/ tt_args config_callback /;
 
 __PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
@@ -77,6 +81,7 @@ sub new {
         tt_args               => {},
         stash                 => {},
         stash_valid           => [],
+        persist_stash         => [],
         languages             => ['en'],
         combine_params        => 1,
         default_multiform_hidden_name => '_multiform',
@@ -139,6 +144,8 @@ sub process {
         {
             $self->complete(1);
         }
+        
+        $self->_data($data);
     }
     else {
 
@@ -191,18 +198,28 @@ sub _load_current_form {
             if defined $value;
     }
 
+    # copy attrs
     my $attrs = $self->attrs;
 
     for my $key ( keys %$attrs ) {
         $current_form->$key( $attrs->{$key} );
     }
 
+    # copy stash
     my $stash = $self->stash;
 
     for my $key ( keys %$stash ) {
         $current_form->stash->{$key} = $stash->{$key}
     }
 
+    # persist_stash
+    if ( defined $data ) {
+        for my $key ( @{ $self->persist_stash } ) {
+            $current_form->stash->{$key} = $data->{persist_stash}{$key};
+        }
+    }
+
+    # build form
     $current_form->populate($current_data);
     
     # add hidden field
@@ -278,7 +295,11 @@ sub next_form {
         if !defined $form;
 
     my $current_form_num = $self->current_form_number;
-    my $form_data        = dclone( $self->forms->[ $current_form_num ] );
+
+    # is there a next form defined?
+    return if $current_form_num >= scalar @{ $self->forms };
+
+    my $form_data = dclone( $self->forms->[ $current_form_num ] );
 
     my $next_form = HTML::FormFu->new;
 
@@ -292,18 +313,27 @@ sub next_form {
             if defined $value;
     }
 
+    # copy attrs
     my $attrs = $self->attrs;
 
     for my $key ( keys %$attrs ) {
         $next_form->$key( $attrs->{$key} );
     }
 
-    my $stash = $self->stash;
+    # copy stash
+    my $current_form  = $self->current_form;
+    my $current_stash = $current_form->stash;
 
-    for my $key ( keys %$stash ) {
-        $next_form->stash->{$key} = $stash->{$key};
+    for my $key ( keys %$current_stash ) {
+        $next_form->stash->{$key} = $current_stash->{$key};
     }
 
+    # persist_stash
+    for my $key ( @{ $self->persist_stash } ) {
+        $next_form->stash->{$key} = $current_form->stash->{$key};
+    }
+
+    # build the form
     $next_form->populate($form_data);
     
     # add hidden field
@@ -317,7 +347,8 @@ sub next_form {
             type => 'Required',
         });
     }
-    
+
+    $next_form->query( $self->query );
     $next_form->process;
 
     # encrypt params in hidden field
@@ -349,10 +380,16 @@ sub _save_hidden_data {
     my $crypt = Crypt::CBC->new( %{ $self->crypt_args } );
 
     my $data = {
-        current_form => $current_form_num + 1,
-        valid_names  => \@valid_names,
-        params       => \%params,
+        current_form  => $current_form_num + 1,
+        valid_names   => \@valid_names,
+        params        => \%params,
+        persist_stash => {},
     };
+
+    # persist_stash
+    for my $key ( @{ $self->persist_stash } ) {
+        $data->{persist_stash}{$key} = $form->stash->{$key};
+    }
 
     local $Storable::canonicle = 1;
     $data = nfreeze($data);
