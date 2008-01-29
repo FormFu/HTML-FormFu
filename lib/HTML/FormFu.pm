@@ -44,7 +44,7 @@ __PACKAGE__->mk_accessors(
     qw/ indicator filename javascript javascript_src
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
-        _elements _processed_params _valid_names
+        _elements _processed_params _valid_names stash_valid
         _output_processors tt_module params_ignore_underscore
         nested_name nested_subscript model_class _model /
 );
@@ -91,6 +91,7 @@ sub new {
         _processed_params  => {},
         input              => {},
         stash              => {},
+        stash_valid        => [],
         action             => '',
         method             => 'post',
         filename           => 'form',
@@ -244,6 +245,15 @@ sub process {
         $self->input( \%param );
 
         $self->_process_input;
+    }
+
+    # handle stash_valid
+    my @valid = $self->valid;
+
+    for my $name ( @{ $self->stash_valid } ) {
+        next if !grep { $name eq $_ } @valid;
+
+        $self->stash->{$name} = $self->param($name);
     }
 
     # post_process

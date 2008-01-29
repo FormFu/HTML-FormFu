@@ -35,7 +35,7 @@ our @ACCESSORS = qw/
     element_defaults query_type languages force_error_message
     localize_class tt_module
     nested_name nested_subscript model_class
-    auto_fieldset params_ignore_underscore
+    auto_fieldset params_ignore_underscore stash_valid
     /;
 
 __PACKAGE__->mk_accessors(
@@ -73,9 +73,10 @@ sub new {
     my $self = bless {}, $class;
 
     my %defaults = (
-        stash                 => {},
         element_defaults      => {},
         tt_args               => {},
+        stash                 => {},
+        stash_valid           => [],
         languages             => ['en'],
         combine_params        => 1,
         default_multiform_hidden_name => '_multiform',
