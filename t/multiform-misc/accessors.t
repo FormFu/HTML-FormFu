@@ -7,7 +7,7 @@ use HTML::FormFu::MultiForm;
 
 my $multi = HTML::FormFu::MultiForm->new;
 
-$multi->load_config_file('t/multiform-accessors/multiform.yml');
+$multi->load_config_file('t/multiform-misc/accessors.yml');
 
 $multi->process;
 

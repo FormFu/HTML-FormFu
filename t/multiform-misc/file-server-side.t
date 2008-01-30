@@ -44,7 +44,7 @@ plan tests => 15;
 my $q;
 
 {
-    my $file = 't/multiform-file/file_post.txt';
+    my $file = 't/multiform-misc/file-server-side.txt';
     local *STDIN;
     open STDIN,
         "<", $file
@@ -64,7 +64,7 @@ ok( -d $tmpdir );
 
 # submit form 1
 
-my $yaml_file = 't/multiform-file/multiform.yml';
+my $yaml_file = 't/multiform-misc/file-server-side.yml';
 my $form2_hidden_value;
 
 {
