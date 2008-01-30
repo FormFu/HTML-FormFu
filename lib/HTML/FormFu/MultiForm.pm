@@ -14,6 +14,7 @@ use HTML::FormFu::ObjectUtil qw/
 use HTML::FormFu::FakeQuery;
 use Carp qw/ croak /;
 use Crypt::CBC;
+use List::MoreUtils qw( uniq );
 use Scalar::Util qw/ blessed /;
 use Storable qw/ dclone nfreeze thaw /;
 
@@ -43,7 +44,7 @@ __PACKAGE__->mk_accessors(
     @ACCESSORS,
     qw/ query forms current_form_number current_form complete persist_stash
         multiform_hidden_name default_multiform_hidden_name combine_params
-        _data /
+        _data _file_fields /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -82,6 +83,7 @@ sub new {
         stash                 => {},
         stash_valid           => [],
         persist_stash         => [],
+        _file_fields          => [],
         languages             => ['en'],
         combine_params        => 1,
         default_multiform_hidden_name => '_multiform',
@@ -170,6 +172,8 @@ sub _process_get_data {
 
     if ( defined $data ) {
         $data = thaw($data);
+
+        $self->_file_fields( $data->{_file_fields} );
     }
     else {
 
@@ -248,6 +252,11 @@ sub _load_current_form {
 
             my $value = $self->get_nested_hash_value( $data->{params}, $name );
 
+            # need to set upload object's parent manually
+            # for now, parent points to the form
+            # when formfu fixes this, this code will need updated
+            _reparent_upload( $value, $current_form );
+
             $current_form->add_valid( $name, $value );
         }
     }
@@ -256,6 +265,21 @@ sub _load_current_form {
     $self->current_form($current_form);
 
     return $current_form;
+}
+
+sub _reparent_upload {
+    my ( $value, $form ) = @_;
+
+    if ( ref $value eq 'ARRAY' ) {
+        for my $value ( @$value ) {
+            _reparent_upload( $value, $form );
+        }
+    }
+    elsif ( blessed($value) && $value->isa('HTML::FormFu::Upload') ) {
+        $value->parent($form);
+    }
+
+    return;
 }
 
 sub render {
@@ -370,12 +394,25 @@ sub _save_hidden_data {
     @valid_names = grep { $_ ne $hidden_name } @valid_names;
 
     my %params;
+    my @file_fields = @{ $self->_file_fields || [] };
 
     for my $name (@valid_names) {
         my $value = $form->param_value($name);
 
         $self->set_nested_hash_value( \%params, $name, $value );
+
+        # populate @file_field
+        $value = [$value] if ref $value ne 'ARRAY';
+
+        for my $value (@$value) {
+            if ( blessed($value) && $value->isa('HTML::FormFu::Upload') ) {
+                push @file_fields, $name;
+                last;
+            }
+        }
     }
+
+    @file_fields = sort uniq(@file_fields);
 
     my $crypt = Crypt::CBC->new( %{ $self->crypt_args } );
 
@@ -384,6 +421,7 @@ sub _save_hidden_data {
         valid_names   => \@valid_names,
         params        => \%params,
         persist_stash => {},
+        file_fields   => \@file_fields,
     };
 
     # persist_stash
@@ -391,15 +429,37 @@ sub _save_hidden_data {
         $data->{persist_stash}{$key} = $form->stash->{$key};
     }
 
+    # save file_fields
+    $self->_file_fields(\@file_fields);
+
+    # to freeze, we need to remove any file handles in the form
+    # make sure we restore them, after freezing
+    my $current_form = $self->current_form;
+
+    my $input            = $current_form->input;
+    my $query            = $current_form->query;
+    my $processed_params = $current_form->_processed_params;
+    
+    $current_form->input({});
+    $current_form->query({});
+    $current_form->_processed_params({});
+
+    # freeze
     local $Storable::canonicle = 1;
     $data = nfreeze($data);
 
+    # store data in hidden field
     $data = $crypt->encrypt_hex($data);
 
     my $hidden_field
         = $next_form->get_field( { nested_name => $hidden_name, } );
 
     $hidden_field->default($data);
+
+    # restore form file handles
+    $current_form->input($input);
+    $current_form->query($query);
+    $current_form->_processed_params($processed_params);
 
     return;
 }

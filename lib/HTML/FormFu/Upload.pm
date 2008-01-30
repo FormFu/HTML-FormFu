@@ -4,7 +4,7 @@ use strict;
 use Carp qw( croak );
 
 use HTML::FormFu::ObjectUtil qw( form parent populate );
-use Scalar::Util qw/ weaken /;
+use HTML::FormFu::UploadParam;
 
 sub new {
     my $class = shift;
@@ -24,12 +24,14 @@ sub _param {
     my $self = shift;
 
     if (@_) {
-        $self->{_param} = shift;
+        my $param = shift;
 
-        weaken( $self->{_param} );
+        $param = HTML::FormFu::UploadParam->new( $param );
+
+        $self->{_param} = $param;
     }
 
-    return $self->{_param};
+    return defined $self->{_param} ? $self->{_param}->value : ();
 }
 
 1;

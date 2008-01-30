@@ -1,0 +1,17 @@
+---
+auto_fieldset: 1
+
+crypt_args:
+  -key: 'my secret'
+
+forms:
+  # form 1
+  -
+    elements:
+      - type: File
+        name: hello_world
+  
+  # form 2
+  -
+    elements:
+      - name: bar

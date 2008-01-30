@@ -24,6 +24,10 @@ sub parse_uploads {
                     _param   => $param,
                     filename => sprintf( "%s", $filename ),
                     parent   => $form,
+                    # TODO: for now, parent points to the form
+                    # pointing to a field will require handling multiple
+                    # fields of the same name
+                    # if fixed, other QueryTypes and MultiForm will need updating
                 } );
 
             my $headers
@@ -50,6 +54,8 @@ sub slurp {
     my ($self) = @_;
 
     my $fh = $self->fh;
+
+    return if !defined $fh;
 
     binmode $fh;
 
