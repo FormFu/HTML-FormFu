@@ -1,0 +1,20 @@
+---
+id: form
+auto_fieldset: 1
+
+crypt_args:
+  -key: 'my secret'
+
+forms:
+  # form 1
+  -
+    attrs:
+      onclick: foo
+    
+    elements:
+      - name: foo
+  
+  # form 2
+  -
+    elements:
+      - name: bar
