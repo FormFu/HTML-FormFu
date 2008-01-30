@@ -5,7 +5,7 @@ use Carp qw( croak );
 
 use HTML::FormFu::Attribute qw( mk_accessors );
 use File::Temp qw( tempfile );
-use Scalar::Util qw( weaken );
+use Scalar::Util qw( blessed weaken );
 use Storable qw/ nfreeze thaw /;
 
 __PACKAGE__->mk_accessors(qw/ param filename /);
@@ -43,11 +43,13 @@ sub STORABLE_freeze {
 
     return if $cloning;
 
-    my $fh = $self->{param};
+    my $fh = $self->{param}->can('fh')
+        ? $self->{param}->fh
+        : $self->{param};
     
     seek $fh, 0, 0;
     
-    local $\ = undef;
+    local $/ = undef;
     my $data = <$fh>;
 
     if ( defined( my $dir = $self->form->tmp_upload_dir ) ) {
