@@ -28,7 +28,7 @@ like( "$multi", qr|<input name="bar" type="text" />| );
 
 my $form2 = $multi->next_form;
 
-my $value = $form2->get_field( { name => 'crypt' } )->default;
+my $value = $form2->get_field( { name => $multi->default_multiform_hidden_name } )->default;
 
 my $yaml = LoadFile($yaml_file);
 

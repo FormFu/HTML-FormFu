@@ -24,7 +24,7 @@ my $form2_hidden_value;
 
     my $form2 = $multi->next_form;
 
-    my $hidden_field = $form2->get_field( { name => 'crypt' } );
+    my $hidden_field = $form2->get_field( { name => $multi->default_multiform_hidden_name } );
 
     $form2_hidden_value = $hidden_field->default;
 }
@@ -39,7 +39,7 @@ my $form3_hidden_value;
     $multi->load_config_file($yaml_file);
 
     $multi->process( {
-            crypt  => $form2_hidden_value,
+            $multi->default_multiform_hidden_name => $form2_hidden_value,
             bar    => 'def',
             submit => 'Submit',
         } );
@@ -50,7 +50,7 @@ my $form3_hidden_value;
 
     my $form3 = $multi->next_form;
 
-    my $hidden_field = $form3->get_field( { name => 'crypt' } );
+    my $hidden_field = $form3->get_field( { name => $multi->default_multiform_hidden_name } );
 
     $form3_hidden_value = $hidden_field->default;
 }
@@ -63,7 +63,7 @@ my $form3_hidden_value;
     $multi->load_config_file($yaml_file);
 
     $multi->process( {
-            crypt  => $form3_hidden_value,
+            $multi->default_multiform_hidden_name => $form3_hidden_value,
             baz    => 'ghi',
             submit => 'Submit',
         } );
