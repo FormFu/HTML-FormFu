@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw( mk_accessors );
 use HTTP::Headers;
 use Scalar::Util qw/ blessed /;
 
-__PACKAGE__->mk_accessors(qw/ filename headers /);
+__PACKAGE__->mk_accessors(qw/ filename /);
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

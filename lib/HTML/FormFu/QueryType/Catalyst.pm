@@ -27,6 +27,7 @@ sub parse_uploads {
                 _param          => $upload,
                 catalyst_upload => $upload,
                 parent          => $form,
+                headers         => $upload->headers,
             } );
 
         push @new, $param;
@@ -35,12 +36,6 @@ sub parse_uploads {
     return if !@new;
 
     return @new == 1 ? $new[0] : \@new;
-}
-
-sub headers {
-    my ($self) = @_;
-
-    return $self->_param->headers;
 }
 
 sub filename {
