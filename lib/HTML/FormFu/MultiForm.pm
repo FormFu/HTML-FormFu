@@ -12,10 +12,11 @@ use HTML::FormFu::ObjectUtil qw/
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 
 use HTML::FormFu::FakeQuery;
+use HTML::FormFu::QueryType::CGI;
 use Carp qw/ croak /;
 use Crypt::CBC;
 use List::MoreUtils qw( uniq );
-use Scalar::Util qw/ blessed /;
+use Scalar::Util qw/ blessed refaddr /;
 use Storable qw/ dclone nfreeze thaw /;
 
 use overload
@@ -173,7 +174,14 @@ sub _process_get_data {
     if ( defined $data ) {
         $data = thaw($data);
 
-        $self->_file_fields( $data->{_file_fields} );
+        $self->_file_fields( $data->{file_fields} );
+
+        # rebless all file uploads as basic CGI objects
+        for my $name ( @{ $data->{file_fields} } ) {
+            my $value = $self->get_nested_hash_value( $data->{params}, $name );
+
+            _rebless_upload( $value );
+        }
     }
     else {
 
@@ -183,6 +191,21 @@ sub _process_get_data {
     }
 
     return $data;
+}
+
+sub _rebless_upload {
+    my ( $value ) = @_;
+
+    if ( ref $value eq 'ARRAY' ) {
+        for my $value ( @$value ) {
+            _rebless_upload( $value );
+        }
+    }
+    elsif ( blessed($value) ) {
+        bless $value, 'HTML::FormFu::QueryType::CGI';
+    }
+
+    return;
 }
 
 sub _load_current_form {
@@ -372,7 +395,6 @@ sub next_form {
         });
     }
 
-    $next_form->query( $self->query );
     $next_form->process;
 
     # encrypt params in hidden field
@@ -432,21 +454,54 @@ sub _save_hidden_data {
     # save file_fields
     $self->_file_fields(\@file_fields);
 
-    # to freeze, we need to remove any file handles in the form
+    # to freeze, we need to remove anything that might have a 
+    # file handle or code block
     # make sure we restore them, after freezing
     my $current_form = $self->current_form;
 
     my $input            = $current_form->input;
     my $query            = $current_form->query;
     my $processed_params = $current_form->_processed_params;
+    my $parent           = $current_form->parent;
+    my $stash            = $current_form->stash;
     
     $current_form->input({});
     $current_form->query({});
     $current_form->_processed_params({});
+    $current_form->parent({});
+
+    %{ $current_form->stash } = ();
+
+    # save a map of upload refaddrs to their parent
+    my %upload_parent;
+    
+    for my $name (@file_fields) {
+        next if ! $self->nested_hash_key_exists( \%params, $name );
+
+        my $value = $self->get_nested_hash_value( \%params, $name );
+
+        _save_upload_parent( \%upload_parent, $value );
+    }
 
     # freeze
     local $Storable::canonicle = 1;
     $data = nfreeze($data);
+
+    # restore form
+    $current_form->input($input);
+    $current_form->query($query);
+    $current_form->_processed_params($processed_params);
+    $current_form->parent($parent);
+
+    %{ $current_form->stash } = %$stash;
+
+    for my $name (@file_fields) {
+        next if ! $self->nested_hash_key_exists( \%params, $name );
+
+        my $value = $self->get_nested_hash_value( \%params, $name );
+
+        _restore_upload_parent( \%upload_parent, $value );
+    }
 
     # store data in hidden field
     $data = $crypt->encrypt_hex($data);
@@ -456,10 +511,41 @@ sub _save_hidden_data {
 
     $hidden_field->default($data);
 
-    # restore form file handles
-    $current_form->input($input);
-    $current_form->query($query);
-    $current_form->_processed_params($processed_params);
+    return;
+}
+
+sub _save_upload_parent {
+    my ( $upload_parent, $value ) = @_;
+
+    if ( ref $value eq 'ARRAY' ) {
+        for my $value ( @$value ) {
+            _save_upload_parent( $upload_parent, $value );
+        }
+    }
+    elsif ( blessed($value) && $value->isa('HTML::FormFu::Upload') ) {
+        my $refaddr = refaddr($value);
+
+        $upload_parent->{$refaddr} = $value->parent;
+
+        $value->parent(undef);
+    }
+
+    return;
+}
+
+sub _restore_upload_parent {
+    my ( $upload_parent, $value ) = @_;
+
+    if ( ref $value eq 'ARRAY' ) {
+        for my $value ( @$value ) {
+            _restore_upload_parent( $upload_parent, $value );
+        }
+    }
+    elsif ( blessed($value) && $value->isa('HTML::FormFu::Upload') ) {
+        my $refaddr = refaddr($value);
+
+        $value->parent( $upload_parent->{$refaddr} );
+    }
 
     return;
 }
