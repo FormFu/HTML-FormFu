@@ -3,58 +3,103 @@ package HTML::FormFu::UploadParam;
 use strict;
 use Carp qw( croak );
 
-#use HTML::FormFu::ObjectUtil qw( form parent populate );
-#use Scalar::Util qw/ weaken /;
+use HTML::FormFu::Attribute qw( mk_accessors );
 use File::Temp qw( tempfile );
+use Scalar::Util qw( weaken );
 use Storable qw/ nfreeze thaw /;
 
+__PACKAGE__->mk_accessors(qw/ param filename /);
+
 sub new {
-    my ( $class, $value ) = @_;
+    my $class = shift;
 
-    croak "new() only accepts a single \$value argument"
-        if @_ != 2;
+    my %attrs;
+    eval { %attrs = %{ $_[0] } if @_ };
+    croak "attributes argument must be a hashref" if $@;
 
-    return bless { _value => $value }, $class;
+    for (qw/ param /) {
+        croak "$_ attribute required" if !exists $attrs{$_};
+    }
+
+    my $self = bless \%attrs, $class;
+
+    return $self;
 }
 
-sub value {
+sub form {
     my $self = shift;
-    
-    croak "cannot use value() as a setter" if @_;
-    
-    return $self->{_value};
+
+    if (@_) {
+        $self->{form} = shift;
+
+        weaken( $self->{form} );
+    }
+
+    return $self->{form};
 }
 
 sub STORABLE_freeze {
-    my ( $obj, $cloning ) = @_;
+    my ( $self, $cloning ) = @_;
 
     return if $cloning;
 
-    my $fh = $obj->{_value};
+    my $fh = $self->{param};
     
     seek $fh, 0, 0;
     
     local $\ = undef;
     my $data = <$fh>;
-    
-    return nfreeze({ _value => $data });
+
+    if ( defined( my $dir = $self->form->tmp_upload_dir ) ) {
+        my ( $fh, $filename ) = tempfile( DIR => $dir, UNLINK => 0 );
+
+        print $fh $data;
+
+        close $fh;
+
+        return nfreeze({ filename => $filename });
+    }
+    else {
+        return nfreeze({ param => $data });
+    }
 }
 
 sub STORABLE_thaw {
-    my ( $obj, $cloning, $serialized ) = @_;
+    my ( $self, $cloning, $serialized ) = @_;
 
     return if $cloning;
 
     my $data = thaw($serialized);
 
-    my ($fh) = tempfile();
+    my $filename = $data->{filename};
 
-    print $fh $data->{_value};
+    if ( $filename ) {
+        open my $fh, '<', $filename
+            or croak "could not open file in tmp dir: '$filename'";
 
-    seek $fh, 0, 0;
+        $self->{param}    = $fh;
+        $self->{filename} = $filename;
+    }
+    else {
+        my ($fh) = tempfile();
 
-    $obj->{_value} = $fh;
-    
+        print $fh $data->{param};
+
+        seek $fh, 0, 0;
+
+        $self->{param} = $fh;
+    }
+
+    return;
+}
+
+sub DESTROY {
+    my ($self) = @_;
+
+    my $filename = $self->filename;
+
+    unlink $filename if defined $filename && -e $filename;
+
     return;
 }
 

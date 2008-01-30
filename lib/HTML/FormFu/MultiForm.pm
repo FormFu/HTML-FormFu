@@ -37,7 +37,7 @@ our @ACCESSORS = qw/
     element_defaults query_type languages force_error_message
     localize_class tt_module
     nested_name nested_subscript model_class
-    auto_fieldset params_ignore_underscore stash_valid
+    auto_fieldset params_ignore_underscore stash_valid tmp_upload_dir
     /;
 
 __PACKAGE__->mk_accessors(

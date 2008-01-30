@@ -1,6 +1,5 @@
 ---
 auto_fieldset: 1
-tmp_upload_dir: 't/tmp'
 
 crypt_args:
   -key: 'my secret'

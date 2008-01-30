@@ -26,12 +26,15 @@ sub _param {
     if (@_) {
         my $param = shift;
 
-        $param = HTML::FormFu::UploadParam->new( $param );
+        $param = HTML::FormFu::UploadParam->new({
+            param => $param,
+            form  => $self->form,
+        });
 
         $self->{_param} = $param;
     }
 
-    return defined $self->{_param} ? $self->{_param}->value : ();
+    return defined $self->{_param} ? $self->{_param}->param : ();
 }
 
 1;

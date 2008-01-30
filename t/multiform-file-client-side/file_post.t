@@ -10,7 +10,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 15;
+plan tests => 13;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -44,7 +44,7 @@ plan tests => 15;
 my $q;
 
 {
-    my $file = 't/multiform-file/file_post.txt';
+    my $file = 't/multiform-file-client-side/file_post.txt';
     local *STDIN;
     open STDIN,
         "<", $file
@@ -53,18 +53,9 @@ my $q;
     $q = CGI->new;
 }
 
-# create tmp dir
-
-my $tmpdir = 't/tmp';
-
-# ignore any mkdir error, in case it's left behind by a previously failed test
-mkdir $tmpdir;
-
-ok( -d $tmpdir );
-
 # submit form 1
 
-my $yaml_file = 't/multiform-file/multiform.yml';
+my $yaml_file = 't/multiform-file-client-side/multiform.yml';
 my $form2_hidden_value;
 
 {
@@ -123,9 +114,4 @@ my $form2_hidden_value;
 
     ok( $file->parent == $form );
 }
-
-# cleanup tmp dir
-# will only pass if the tmp file was correctly deleted
-
-ok( rmdir $tmpdir );
 
