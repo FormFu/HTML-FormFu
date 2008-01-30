@@ -2,6 +2,8 @@
 id: form
 auto_fieldset: 1
 
+multiform_hidden_name: crypt
+
 crypt_args:
   -key: 'my secret'
 
@@ -26,6 +28,9 @@ forms:
     indicator: bar
     
     elements:
+      - type: Hidden
+        name: crypt
+      
       - name: bar
       
       - type: Block
@@ -41,6 +46,9 @@ forms:
     indicator: baz
     
     elements:
+      - type: Hidden
+        name: crypt
+      
       - name: baz
       
       - type: Block
