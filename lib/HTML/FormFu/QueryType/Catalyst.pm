@@ -28,6 +28,7 @@ sub parse_uploads {
                 catalyst_upload => $upload,
                 parent          => $form,
                 headers         => $upload->headers,
+                filename        => $upload->filename,
             } );
 
         # Catalyst::Upload doesn't set a Content-Length header,
@@ -40,12 +41,6 @@ sub parse_uploads {
     return if !@new;
 
     return @new == 1 ? $new[0] : \@new;
-}
-
-sub filename {
-    my ($self) = @_;
-
-    return $self->_param->filename;
 }
 
 sub fh {
