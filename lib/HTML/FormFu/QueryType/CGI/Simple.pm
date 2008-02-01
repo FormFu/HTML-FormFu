@@ -26,6 +26,8 @@ sub parse_uploads {
             );
 
             $param->headers($headers);
+            $param->size( $headers->content_length );
+            $param->type( $headers->content_type );
         }
         push @new, $param;
     }

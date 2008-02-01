@@ -32,6 +32,8 @@ sub parse_uploads {
                 = HTTP::Headers->new( %{ $query->uploadInfo($filename) } );
 
             $param->headers($headers);
+            $param->size( $headers->content_length );
+            $param->type( $headers->content_type );
         }
 
         push @new, $param;
@@ -60,18 +62,6 @@ sub slurp {
     local $/;
 
     return <$fh>;
-}
-
-sub size {
-    my ($self) = @_;
-
-    return $self->headers->content_length;
-}
-
-sub type {
-    my ($self) = @_;
-
-    return $self->headers->content_type;
 }
 
 1;
