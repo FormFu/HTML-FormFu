@@ -30,6 +30,10 @@ sub parse_uploads {
                 headers         => $upload->headers,
             } );
 
+        # Catalyst::Upload doesn't set a Content-Length header,
+        # set it so size() will work for frozen/thawed objects
+        $param->headers->header( 'Content-Length' => $upload->size );
+
         push @new, $param;
     }
 
