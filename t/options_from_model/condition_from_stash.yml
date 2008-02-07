@@ -4,7 +4,8 @@ auto_fieldset: 1
 elements:
   - type: Select
     name: user
-    db: 
-      resultset: User
-      condition_from_stash:
-        master: master_id
+    model_config:
+      DBIC: 
+        resultset: User
+        condition_from_stash:
+          master: master_id

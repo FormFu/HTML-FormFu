@@ -11,8 +11,9 @@ elements:
   - type: Select
     name: bands
     multiple: 1
-    db: 
-      model: Bands
+    model_config:
+      DBIC: 
+        model: Bands
   
   - type: Submit
     name: submit

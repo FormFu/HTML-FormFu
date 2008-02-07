@@ -125,10 +125,7 @@ sub _fill_in_fields {
 
         $name = $field->original_name if $field->original_name;
 
-        my $accessor
-            = exists $field->{db}{accessor}
-            ? $field->{db}{accessor}
-            : undef;
+        my $accessor = $field->model_config->{DBIC}{accessor};
 
         if ( defined $accessor ) {
             $field->default( $dbic->$accessor );
@@ -146,10 +143,8 @@ sub _fill_in_fields {
                 $field->default( $dbic->$name );
             }
             elsif ( $field->multi_value ) {
-                my ($col)
-                    = defined $field->db && exists $field->db->{default_column}
-                    ? $field->db->{default_column}
-                    : $dbic->$name->result_source->primary_columns;
+                my ($col) = $field->model_config->{DBIC}{default_column}
+                    || $dbic->$name->result_source->primary_columns;
 
                 my $info = $dbic->result_source->relationship_info($name);
                 if ( !defined $info or $info->{attrs}{accessor} eq 'multi' ) {
@@ -188,7 +183,7 @@ sub _fill_nested {
 
             my @rows = $dbic->$rel->all;
             my $count
-                = $block->db->{new_empty_row}
+                = $block->model_config->{DBIC}{new_empty_row}
                 ? scalar @rows + 1
                 : scalar @rows;
 
@@ -209,11 +204,11 @@ sub _fill_nested {
 
             # remove 'delete' checkbox from the last repetition ?
 
-            if ( $block->db->{new_empty_row} ) {
+            if ( $block->model_config->{DBIC}{new_empty_row} ) {
                 my $last_rep = $block->get_elements->[-1];
 
                 my ($del_field)
-                    = grep { $_->db->{delete_if_true} }
+                    = grep { $_->model_config->{DBIC}{delete_if_true} }
                     @{ $last_rep->get_fields };
 
                 if ( defined $del_field ) {
@@ -350,7 +345,7 @@ sub _save_has_many {
 
         if (   ( !defined $value || $value eq '' )
             && $i == $max
-            && $block->db->{new_empty_row} )
+            && $block->model_config->{DBIC}{new_empty_row} )
         {
 
             # insert a new row
@@ -382,10 +377,9 @@ sub _save_has_many {
 sub _insert_has_many {
     my ( $dbic, $form, $outer, $repetition, $rel ) = @_;
 
-    my $rows
-        = ref $outer->db->{new_empty_row} eq 'ARRAY'
-        ? $outer->db->{new_empty_row}
-        : [ $outer->db->{new_empty_row} ];
+    my $rows = $outer->model_config->{DBIC}{new_empty_row};
+
+    $rows = [$rows] if ref $rows ne 'ARRAY';
 
     for my $name (@$rows) {
         my ($field)
@@ -408,7 +402,7 @@ sub _insert_has_many {
 sub _delete_has_many {
     my ( $form, $row, $rep ) = @_;
 
-    my ($del_field) = grep { $_->db->{delete_if_true} } @{ $rep->get_fields };
+    my ($del_field) = grep { $_->model_config->{DBIC}{delete_if_true} } @{ $rep->get_fields };
 
     return if !defined $del_field;
 
@@ -447,10 +441,7 @@ sub _save_columns {
             $field = $base->get_field( { name => $col } );
         }
 
-        next
-            if defined $field
-                && exists $field->{db}{accessor}
-                && defined $field->{db}{accessor};
+        next if defined $field && $field->model_config->{DBIC}{accessor};
 
         my $nested_name = defined $field ? $field->nested_name : undef;
 
@@ -470,7 +461,7 @@ sub _save_columns {
             : undef;
 
         if (   defined $field
-            && $field->db->{delete_if_empty}
+            && $field->model_config->{DBIC}{delete_if_empty}
             && ( !defined $value || !length $value ) )
         {
             $dbic->discard_changes if $dbic->is_changed;
@@ -525,14 +516,14 @@ sub _save_non_columns {
     my ( $base, $dbic, $form, $attrs, $checkbox, $rels, $cols ) = @_;
 
     my @fields
-        = grep { exists $_->{db}{accessor} && defined $_->{db}{accessor} }
+        = grep { $_->model_config->{DBIC}{accessor} }
         @{ $base->get_fields };
 
     for my $field (@fields) {
 
         my $value = $form->param_value( $field->nested_name );
 
-        if ( $field->db->{delete_if_empty}
+        if ( $field->model_config->{DBIC}{delete_if_empty}
             && ( !defined $value || !length $value ) )
         {
             $dbic->discard_changes if $dbic->is_changed;
@@ -542,7 +533,7 @@ sub _save_non_columns {
 
         next if !defined $value;
 
-        my $accessor = $field->{db}{accessor};
+        my $accessor = $field->model_config->{DBIC}{accessor};
 
         $dbic->$accessor($value);
     }
@@ -573,10 +564,8 @@ sub _save_multi_value_fields_many_to_many {
 
             my @values = $form->param_list($nested_name);
 
-            my ($pk)
-                = exists $field->db->{default_column}
-                ? $field->db->{default_column}
-                : $dbic->$name->result_source->primary_columns;
+            my ($pk) = $field->model_config->{DBIC}{default_column}
+                || $dbic->$name->result_source->primary_columns;
 
             $pk = "me.$pk" unless $pk =~ /\./;
 
@@ -631,7 +620,7 @@ sub _save_repeatable_many_to_many {
 
                 if (   ( !defined $value || $value eq '' )
                     && $i == $max
-                    && $block->db->{new_empty_row} )
+                    && $block->model_config->{DBIC}{new_empty_row} )
                 {
 
                     # insert a new row
@@ -677,10 +666,9 @@ sub _save_repeatable_many_to_many {
 sub _insert_many_to_many {
     my ( $dbic, $form, $outer, $repetition, $rel ) = @_;
 
-    my $rows
-        = ref $outer->db->{new_empty_row} eq 'ARRAY'
-        ? $outer->db->{new_empty_row}
-        : [ $outer->db->{new_empty_row} ];
+    my $rows = $outer->model_config->{DBIC}{new_empty_row};
+
+    $rows = [$rows] if ref $rows ne 'ARRAY';
 
     for my $name (@$rows) {
         my ($field)
@@ -705,7 +693,7 @@ sub _insert_many_to_many {
 sub _delete_many_to_many {
     my ( $form, $dbic, $row, $rel, $rep ) = @_;
 
-    my ($del_field) = grep { $_->db->{delete_if_true} } @{ $rep->get_fields };
+    my ($del_field) = grep { $_->model_config->{DBIC}{delete_if_true} } @{ $rep->get_fields };
 
     return if !defined $del_field;
 
@@ -832,7 +820,7 @@ to have a field for the related table's primary key, as DBIx::Class will
 handle retrieving the correct row automatically.
 
 If you want the related row deleted if a particular field is empty, set
-set C<delete_if_empty> on the field's L<db|HTML::FormFu::Element/db>. 
+set C<< $field->model_config->{DBIC}{delete_if_empty} >> to true. 
 
     elements:
       - type: Hidden
@@ -845,8 +833,9 @@ set C<delete_if_empty> on the field's L<db|HTML::FormFu::Element/db>.
         elements:
           - type: Text
             name: review
-            db:
-              delete_if_empty: 1
+            model_config:
+              dbic:
+                delete_if_empty: 1
 
 =head3 has_many and many_to_many relationships
 
@@ -861,16 +850,18 @@ The block's L<nested_name|HTML::FormFu::Element::Repeatable/nested_name>
 must be set to the name of the relationship.
 
 If you want an extra, empty, copy of the block to be output, to allow the
-user to add a new row of data, set the C<new_empty_row> key of the field's
-L<db|HTML::FormFu::Element/db> hashref. The value must be a column name, or
-arrayref of column names that must be filled in for the row to be added.
+user to add a new row of data, set 
+C<< $block->model_config->{DBIC}{new_empty_row} >>. The value must be a
+column name, or arrayref of column names that must be filled in for the row
+to be added.
 
     ---
     element:
       - type: Repeatable
         nested_name: authors
-        db: 
-          new_empty_row: author
+        model_config:
+          dbic: 
+            new_empty_row: author
         
         elements:
           - type: Hidden
@@ -882,15 +873,16 @@ arrayref of column names that must be filled in for the row to be added.
 If you want to provide a L<Checkbox|HTML::FormFu::Element::Checkbox> or
 similar field, to allow the user to select whether given rows should be 
 deleted (or, in the case of C<many_to_many> relationships, unrelated),
-set C<delete_if_true> on the block's L<db|HTML::FormFu::Element/db> 
-hashref to the name of that field.
+set C<< $block->model_config->{DBIC}{delete_if_true} >> to the name of that
+field.
 
     ---
     element:
       - type: Repeatable
         nested_name: authors
-        db: 
-          delete_if_true: delete
+        model_config:
+          dbic:
+            delete_if_true: delete
         
         elements:
           - type: Hidden
@@ -914,29 +906,30 @@ The field's L<name|HTML::FormFu::Element::_Field/name> must be set to the
 name of the C<many_to_many> relationship.
 
 If you want to search / associate the related table by a column other it's
-primary key, set the C<default_column> key on the field's 
-L<db|HTML::FormFu::Element/db> hashref.
+primary key, set C<< $field->model_config->{DBIC}{default_column} >>.
 
     ---
     element:
         - type: Checkboxgroup
           name: authors
-          db:
-            default_column: foo
+          model_config:
+            dbic:
+              default_column: foo
 
 
 =head3 non-column accessors
 
 To make a form field correspond to a method in your DBIx::Class schema, that 
-isn't a database column or relationship, set the C<accessor> key of the 
-field's L<db|HTML::FormFu::Element/db> hashref.
+isn't a database column or relationship, set
+C<< $field->model_config->{DBIC}{accessor} >>.
 
     ---
     element:
       - type: Text
         name: foo
-        db:
-          accessor: method_name
+        model_config:
+          dbic:
+            accessor: method_name
 
 =head2 save_to_model
 

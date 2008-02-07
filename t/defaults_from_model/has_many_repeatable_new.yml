@@ -11,8 +11,9 @@ elements:
   - type: Repeatable
     nested_name: addresses
     counter_name: count
-    db:
-      new_empty_row: address
+    model_config:
+      DBIC:
+        new_empty_row: address
     
     elements:
       - type: Hidden

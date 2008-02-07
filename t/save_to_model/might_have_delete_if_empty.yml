@@ -13,8 +13,9 @@ elements:
     elements:
       - type: Textarea
         name: note
-        db:
-          delete_if_empty: 1
+        model_config:
+          DBIC:
+            delete_if_empty: 1
   
   - type: Submit
     name: submit

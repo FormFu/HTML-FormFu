@@ -10,13 +10,15 @@ elements:
   
   - type: Select
     name: type
-    db: 
-      aaa : aaa
+    model_config:
+      DBIC: 
+        aaa : aaa
   
   - type: Select
     name: type2_id
-    db: 
-      resultset: Type2
+    model_config:
+      DBIC: 
+        resultset: Type2
   
   - type: Submit
     name: submit

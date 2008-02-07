@@ -29,7 +29,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(
     qw/
-        name type filename is_field is_repeatable db
+        name type filename is_field is_repeatable model_config
         /
 );
 
@@ -46,9 +46,9 @@ sub new {
 
     my $self = bless {}, $class;
 
-    $self->attributes( {} );
-    $self->stash(      {} );
-    $self->db(         {} );
+    $self->attributes(  {} );
+    $self->stash(       {} );
+    $self->model_config( {} );
 
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );
@@ -57,6 +57,28 @@ sub new {
     $self->populate( \%attrs );
 
     return $self;
+}
+
+sub db {
+    my $self = shift;
+
+    warn "db() method deprecated and is provided for compatibilty only: "
+        . "use model_config->{dbic} instead as this will be removed";
+
+    if (@_) {
+        my $args = shift;
+
+        $self->model_config->{DBIC} = {}
+            if !exists $self->model_config->{DBIC};
+
+        my $dbic = $self->model_config->{DBIC};
+
+        for ( keys %$args ) {
+            $dbic->{$_} = $args->{$_};
+        }
+    }
+
+    return $self->model_config->{DBIC};
 }
 
 sub setup { }
@@ -117,7 +139,8 @@ sub clone {
     $new{tt_args} = dclone $self->{tt_args}
         if $self->{tt_args};
 
-    $new{attributes} = dclone $self->attributes;
+    $new{attributes}  = dclone $self->attributes;
+    $new{model_config} = dclone $self->model_config;
 
     return bless \%new, ref $self;
 }

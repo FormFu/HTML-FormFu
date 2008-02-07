@@ -46,7 +46,8 @@ __PACKAGE__->mk_accessors(
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names stash_valid
         _output_processors tt_module params_ignore_underscore
-        nested_name nested_subscript model_class _model tmp_upload_dir /
+        nested_name nested_subscript model_class _model tmp_upload_dir
+        model_config/
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -91,6 +92,7 @@ sub new {
         _processed_params  => {},
         input              => {},
         stash              => {},
+        model_config       => {},
         stash_valid        => [],
         action             => '',
         method             => 'post',

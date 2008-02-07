@@ -11,8 +11,9 @@ elements:
   - type: Repeatable
     nested_name: bands
     counter_name: count
-    db:
-      new_empty_row: band
+    model_config:
+      DBIC:
+        new_empty_row: band
     
     elements:
       - type: Hidden

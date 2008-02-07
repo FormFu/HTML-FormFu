@@ -37,7 +37,7 @@ sub new {
 sub post_process {
     my ($self) = @_;
 
-    my $args = $self->db;
+    my $args = $self->model_config->{DBIC};
 
     if ( $args and keys %$args ) {
         $self->options(

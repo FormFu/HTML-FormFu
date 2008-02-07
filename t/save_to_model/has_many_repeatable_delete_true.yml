@@ -22,8 +22,9 @@ elements:
       - type: Checkbox
         name: delete
         value: 1
-        db:
-          delete_if_true: 1
+        model_config:
+          DBIC:
+            delete_if_true: 1
   
   - type: Hidden
     name: count

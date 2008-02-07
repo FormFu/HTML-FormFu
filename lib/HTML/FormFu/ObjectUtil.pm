@@ -487,6 +487,7 @@ sub clone {
     $new{tt_args}          = dclone $self->tt_args;
     $new{element_defaults} = dclone $self->element_defaults;
     $new{languages}        = dclone $self->languages;
+    $new{model_config}      = dclone $self->model_config;
 
     my $obj = bless \%new, ref $self;
 
