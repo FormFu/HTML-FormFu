@@ -43,13 +43,13 @@ sub new {
 sub defaults_from_model {
     my $self = shift;
 
-    return $self->form->model->defaults_from_model(@_);
+    return $self->form->model->defaults_from_model( $self, @_ );
 }
 
 sub save_to_model {
     my $self = shift;
 
-    return $self->form->model->save_to_model(@_);
+    return $self->form->model->save_to_model( $self, @_ );
 }
 
 sub process {
