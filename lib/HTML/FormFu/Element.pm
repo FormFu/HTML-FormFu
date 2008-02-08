@@ -29,8 +29,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(
     qw/
-        name type filename is_field is_repeatable model_config
-        /
+        name type filename is_field is_repeatable /
 );
 
 __PACKAGE__->mk_inherited_accessors(qw/ tt_args render_method /);
@@ -48,7 +47,6 @@ sub new {
 
     $self->attributes(  {} );
     $self->stash(       {} );
-    $self->model_config( {} );
 
     if ( exists $attrs{parent} ) {
         $self->parent( delete $attrs{parent} );

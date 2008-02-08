@@ -60,6 +60,7 @@ our @form_and_element = qw/
     get_inflator
     get_validator
     get_transformer
+    model_config
     /;
 
 our @EXPORT_OK = (
@@ -1329,6 +1330,42 @@ sub get_transformer {
     my $x = $self->get_transformers(@_);
 
     return @$x ? $x->[0] : ();
+}
+
+sub model_config {
+    my ( $self, $config ) = @_;
+
+    $self->{model_config} = {}
+        if !defined $self->{model_config};
+
+    $self->{model_config} = _merge_hashes( $self->{model_config}, $config );
+
+    return $self->{model_config};
+}
+
+# sub _merge_hashes copied from Catalyst::Utils::merge_hashes()
+# redistributed under the same terms as Perl
+
+sub _merge_hashes {
+    my ( $lefthash, $righthash ) = @_;
+
+    return $lefthash unless defined $righthash;
+    
+    my %merged = %$lefthash;
+    for my $key ( keys %$righthash ) {
+        my $right_ref = ( ref $righthash->{ $key } || '' ) eq 'HASH';
+        my $left_ref  = ( ( exists $lefthash->{ $key } && ref $lefthash->{ $key } ) || '' ) eq 'HASH';
+        if( $right_ref and $left_ref ) {
+            $merged{ $key } = _merge_hashes(
+                $lefthash->{ $key }, $righthash->{ $key }
+            );
+        }
+        else {
+            $merged{ $key } = $righthash->{ $key };
+        }
+    }
+    
+    return \%merged;
 }
 
 1;

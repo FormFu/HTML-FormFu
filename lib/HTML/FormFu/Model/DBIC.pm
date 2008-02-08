@@ -241,6 +241,20 @@ sub save_to_model {
         grep { defined $_->name }
         @{ $base->get_fields( { type => 'Checkbox' } ) || [] };
 
+    if ( !defined $dbic ) {
+        my $schema = $form->stash->{schema}
+            or croak 'schema required on form stash, if no row object provided';
+
+        my $resultset = $attrs->{resultset}
+            || $base->model_config->{DBIC}{resultset}
+            || $form->model_config->{DBIC}{resultset}
+            or croak 'could not find resultset name';
+
+        $resultset = $schema->resultset($resultset);
+
+        $dbic = $resultset->new_result({});
+    }
+
     my $rs   = $dbic->result_source;
     my @rels = $rs->relationships;
     my @cols = $rs->columns;
@@ -933,7 +947,7 @@ C<< $field->model_config->{DBIC}{accessor} >>.
 
 =head2 save_to_model
 
-Arguments: $dbic_row, [\%config]
+Arguments: [$dbic_row], [\%config]
 
 Return Value: $dbic_row
 
@@ -942,6 +956,35 @@ L<update_or_insert|DBIx::Class::Row/update_or_insert>.
 
 See L</defaults_from_model> for specifics about what relationships are supported
 and how to structure your forms.
+
+=head3 Automatically creating a new row object
+
+If you're using L</save_to_model> to create a new row object, you don't 
+need to create one yourself, as long as the L<DBIx::Class> Schema is on the
+form L</stash>, and the ResultSet name is set in either the C<%config>
+argument, the Form's L<HTML::FormFu/model_config>, or the Block's
+L<HTML::FormFu/model_config> (if L</save_to_model> is called on a Block
+element).
+
+If you're using L<Catalyst::Controller::HTML::FormFu>, it can automatically
+place the schema on the Form's stash, by using the following Catalyst config
+(where C<MySchema> is the name of your Catalyst model).
+
+    'Controller::HTML::FormFu':
+      model_stash:
+        schema: MySchema
+
+An example of setting the ResultSet name on a Form:
+
+    ---
+    model_config:
+      DBIC:
+        resultset: FooTable
+
+Note that if you still want to pass a C<%config> argument, you must pass
+C<undef> in place of the row:
+
+    $form->save_to_model( undef, \%config );
 
 =head1 FAQ
 
