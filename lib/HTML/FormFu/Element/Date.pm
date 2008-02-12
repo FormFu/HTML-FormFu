@@ -344,8 +344,6 @@ sub render_data {
 sub render_data_non_recursive {
     my $self = shift;
 
-    $self->_add_elements;
-
     my $render = $self->next::method( {
             elements => [ map { $_->render_data } @{ $self->_elements } ],
             @_ ? %{ $_[0] } : () } );
