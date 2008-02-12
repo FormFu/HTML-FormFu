@@ -27,7 +27,10 @@ sub options_from_model {
 
         # use first text column
         ($label_col)
-            = grep { $source->column_info($_)->{data_type} =~ /text|varchar/i }
+            = grep {
+                my $data_type = $source->column_info($_)->{data_type};
+                defined $data_type && $data_type =~ /text|varchar/i
+            }
             $source->columns;
     }
     $label_col = $id_col if !defined $label_col;
