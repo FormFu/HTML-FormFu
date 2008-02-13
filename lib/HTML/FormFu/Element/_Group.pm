@@ -6,10 +6,12 @@ use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
 use HTML::FormFu::Util qw/ append_xml_attribute literal /;
+use HTML::FormFu::Attribute qw/ mk_output_accessors /;
 use Storable qw( dclone );
 use Carp qw( croak );
 
 __PACKAGE__->mk_accessors(qw/ _options empty_first /);
+__PACKAGE__->mk_output_accessors(qw/ empty_first_label/);
 
 my @ALLOWED_OPTION_KEYS = qw/
     group
@@ -56,13 +58,7 @@ sub options {
         croak "options argument must be an array-ref" if $@;
 
         if ( $self->empty_first ) {
-            push @new,
-                {
-                value            => '',
-                label            => '',
-                attributes       => {},
-                label_attributes => {},
-                };
+            push @new, $self->_get_empty_first_option;
         }
 
         for my $item (@options) {
@@ -74,7 +70,16 @@ sub options {
 
     return $self;
 }
-
+sub _get_empty_first_option {
+    my ( $self ) = @_;
+    my $l = $self->empty_first_label || '';
+    return {
+        value            => '',
+        label            => $l,
+        attributes       => {},
+        label_attributes => {},
+    };
+}
 sub _parse_option {
     my ( $self, $item ) = @_;
 
@@ -197,10 +202,6 @@ sub values {
         croak "values argument must be an array-ref" if $@;
     }
 
-    if ( $self->empty_first ) {
-        unshift @values, '';
-    }
-
     @new = (
         map { { value            => $_,
                 label            => ucfirst $_,
@@ -209,6 +210,9 @@ sub values {
             }
             } @values
     );
+    if ( $self->empty_first ) {
+        unshift @new, $self->_get_empty_first_option;
+    }
 
     $self->_options( \@new );
 
@@ -230,10 +234,6 @@ sub value_range {
 
     my $end   = pop @values;
     my $start = pop @values;
-
-    if ( $self->empty_first ) {
-        unshift @values, '';
-    }
 
     return $self->values( [ @values, $start .. $end ] );
 }
