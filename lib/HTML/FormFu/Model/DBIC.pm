@@ -533,7 +533,7 @@ sub _save_non_columns {
     my ( $base, $dbic, $form, $attrs, $checkbox, $rels, $cols ) = @_;
 
     my @fields
-        = grep { $_->model_config->{DBIC}{accessor} }
+        = grep { $_->model_config->{DBIC}{accessor} && is_direct_child( $base, $_ ) }
         @{ $base->get_fields };
 
     for my $field (@fields) {
