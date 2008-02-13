@@ -179,84 +179,6 @@ sub save_to_model {
     return $self->model->save_to_model( $self, @_ );
 }
 
-sub plugin {
-    my ( $self, $arg ) = @_;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        map { $self->_single_plugin($_) } @$arg;
-    }
-    else {
-        $self->_single_plugin($arg);
-    }
-
-    return $self;
-}
-
-sub _single_plugin {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_plugin( $type, $arg );
-    
-    push @{ $self->_plugins }, $new;
-
-    return;
-}
-
-sub _require_plugin {
-    my ( $self, $type, $arg ) = @_;
-
-    croak 'required arguments: $self, $type, \%options' if @_ != 3;
-
-    eval { my %x = %$arg };
-    croak "options argument must be hash-ref" if $@;
-
-    my $abs   = $type =~ s/^\+//;
-    my $class = $type;
-
-    if ( !$abs ) {
-        $class = "HTML::FormFu::Plugin::$class";
-    }
-
-    $type =~ s/^\+//;
-
-    require_class($class);
-
-    my $plugin = $class->new( {
-            type   => $type,
-            parent => $self,
-            %$arg
-        } );
-
-    return $plugin;
-}
-
-sub get_plugins {
-    my $self = shift;
-    my %args = _parse_args(@_);
-
-    return _filter_components( \%args, $self->_plugins );
-}
-
-sub get_plugin {
-    my $self = shift;
-
-    my $x = $self->get_plugins(@_);
-
-    return @$x ? $x->[0] : ();
-}
-
 sub process {
     my $self = shift;
 
@@ -283,7 +205,7 @@ sub process {
     my $plugins = $self->get_plugins;
 
     for my $plugin ( @$plugins ) {
-        $plugin->pre_process( $self );
+        $plugin->process;
     }
 
     for my $elem ( @{ $self->get_elements } ) {
@@ -340,7 +262,7 @@ sub process {
     }
 
     for my $plugin ( @$plugins ) {
-        $plugin->post_process( $self );
+        $plugin->post_process;
     }
 
     return;
@@ -877,19 +799,59 @@ sub add_valid {
     return $value;
 }
 
+sub _single_plugin {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
+        croak 'invalid args';
+    }
+
+    my $type = delete $arg->{type};
+    my @return;
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+
+    if (@names) {
+        # add plugins to appropriate fields
+        for my $x (@names) {
+            for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
+                my $new = $field->_require_plugin( $type, $arg );
+                push @{ $field->_plugins }, $new;
+                push @return, $new;
+            }
+        }
+    }
+    else {
+        # add plugin directly to form
+        my $new = $self->_require_plugin( $type, $arg );
+
+        push @{ $self->_plugins }, $new;
+        push @return, $new;
+    }
+
+    return @return;
+}
+
 sub render {
     my $self = shift;
 
     my $plugins = $self->get_plugins;
 
     for my $plugin ( @$plugins ) {
-        $plugin->pre_render( $self );
+        $plugin->pre_render;
     }
 
     my $output = $self->next::method(@_);
 
     for my $plugin ( @$plugins ) {
-        $plugin->post_render( $self, \$output );
+        $plugin->post_render( \$output );
     }
 
     return $output;

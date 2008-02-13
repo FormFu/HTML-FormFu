@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/plugins/stashvalid.yml');
+$form->load_config_file('t/plugins/stashvalid_on_field.yml');
 
 $form->process( {
         foo => 'a',

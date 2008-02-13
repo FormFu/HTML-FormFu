@@ -1,0 +1,9 @@
+---
+elements:
+  - name: foo
+  
+  - name: bar
+
+plugins:
+  - type: StashValid
+    name: foo

@@ -30,7 +30,7 @@ __PACKAGE__->mk_attrs(
 __PACKAGE__->mk_accessors(
     qw/
         _constraints _filters _inflators _deflators _validators _transformers
-        _errors container_tag
+        _plugins _errors container_tag
         field_filename label_filename label_tag retain_default force_default
         javascript non_param reverse_multi multi_value original_name /
 );
@@ -63,6 +63,7 @@ sub new {
     $self->_inflators(    [] );
     $self->_validators(   [] );
     $self->_transformers( [] );
+    $self->_plugins(      [] );
     $self->_errors(       [] );
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
@@ -243,6 +244,20 @@ sub transformer {
     return @return == 1 ? $return[0] : @return;
 }
 
+sub plugin {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { _single_plugin( $self, $_) } @$arg;
+    }
+    else {
+        push @return, _single_plugin( $self, $arg );
+    }
+
+    return @return == 1 ? $return[0] : @return;
+}
+
 sub get_deflators {
     my $self = shift;
     my %args = _parse_args(@_);
@@ -382,6 +397,30 @@ sub clear_errors {
     my ($self) = @_;
 
     $self->_errors( [] );
+
+    return;
+}
+
+sub process {
+    my $self = shift;
+
+    $self->next::method(@_);
+
+    for my $plugin ( @{ $self->_plugins } ) {
+        $plugin->process;
+    }
+
+    return;
+}
+
+sub post_process {
+    my $self = shift;
+
+    $self->next::method(@_);
+
+    for my $plugin ( @{ $self->_plugins } ) {
+        $plugin->post_process;
+    }
 
     return;
 }
@@ -989,6 +1028,27 @@ sub _single_transformer {
     my $new = $self->_require_transformer( $type, $arg );
 
     push @{ $self->_transformers }, $new;
+
+    return $new;
+}
+
+sub _single_plugin {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg ne 'HASH' ) {
+        croak 'invalid args';
+    }
+
+    my @return;
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_plugin( $type, $arg );
+
+    push @{ $self->_plugins }, $new;
 
     return $new;
 }

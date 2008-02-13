@@ -20,6 +20,7 @@ our @form_and_block = qw/
     inflator
     validator
     transformer
+    plugin
     _single_element
     _single_deflator
     _single_filter
@@ -36,6 +37,7 @@ our @form_and_block = qw/
     get_inflators
     get_validators
     get_transformers
+    get_plugins
     get_all_element
     get_all_elements
     get_field
@@ -54,12 +56,14 @@ our @form_and_element = qw/
     _require_inflator
     _require_validator
     _require_transformer
+    _require_plugin
     get_deflator
     get_filter
     get_constraint
     get_inflator
     get_validator
     get_transformer
+    get_plugin
     model_config
     /;
 
@@ -261,6 +265,7 @@ sub populate {
         default_values
         filter filters constraint constraints inflator inflators
         deflator deflators query validator validators transformer transformers
+        plugins
     );
 
     my %defer;
@@ -839,6 +844,20 @@ sub transformer {
     return @return == 1 ? $return[0] : @return;
 }
 
+sub plugin {
+    my ( $self, $arg ) = @_;
+    my @return;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        push @return, map { $self->_single_plugin($_) } @$arg;
+    }
+    else {
+        push @return, $self->_single_plugin($arg);
+    }
+
+    return @return == 1 ? $return[0] : @return;
+}
+
 sub _single_element {
     my ( $self, $arg ) = @_;
 
@@ -1149,6 +1168,13 @@ sub get_transformers {
     return _filter_components( \%args, \@x );
 }
 
+sub get_plugins {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    return _filter_components( \%args, $self->_plugins );
+}
+
 sub _require_deflator {
     my ( $self, $type, $opt ) = @_;
 
@@ -1284,6 +1310,34 @@ sub _require_transformer {
     return $object;
 }
 
+sub _require_plugin {
+    my ( $self, $type, $arg ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$arg };
+    croak "options argument must be hash-ref" if $@;
+
+    my $abs   = $type =~ s/^\+//;
+    my $class = $type;
+
+    if ( !$abs ) {
+        $class = "HTML::FormFu::Plugin::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $plugin = $class->new( {
+            type   => $type,
+            parent => $self,
+            %$arg
+        } );
+
+    return $plugin;
+}
+
 sub get_deflator {
     my $self = shift;
 
@@ -1328,6 +1382,14 @@ sub get_transformer {
     my $self = shift;
 
     my $x = $self->get_transformers(@_);
+
+    return @$x ? $x->[0] : ();
+}
+
+sub get_plugin {
+    my $self = shift;
+
+    my $x = $self->get_plugins(@_);
 
     return @$x ? $x->[0] : ();
 }

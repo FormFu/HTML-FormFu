@@ -6,22 +6,13 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_accessors /;
 
-__PACKAGE__->mk_accessors(qw/ names /);
-
 sub post_process {
-    my ( $self, $form ) = @_;
+    my ( $self ) = @_;
 
-    my $names = $self->names;
+    my $form = $self->form;
+    my $name = $self->parent->nested_name;
 
-    $names = [$names] if ref $names ne 'ARRAY';
-
-    return if !@$names;
-
-    my @valid = $form->valid;
-
-    for my $name (@$names) {
-        next if !grep { $name eq $_ } @valid;
-
+    if ( $form->valid($name) ) {
         $form->stash->{$name} = $form->param($name);
     }
 
@@ -38,10 +29,17 @@ HTML::FormFu::Plugin::StashValid - place valid params on form stash
 
 =head1 SYNOPSIS
 
+    # called on a form or block
     ---
     plugins:
       - type: StashValid
         names: ['field-names']
+
+    # called on a field
+    ---
+    elements:
+      - name: foo
+        plugins: ['StashValid']
 
 =head1 METHODS
 

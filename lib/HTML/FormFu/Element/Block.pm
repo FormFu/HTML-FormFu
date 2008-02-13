@@ -28,6 +28,7 @@ __PACKAGE__->mk_inherited_accessors(
 *inflators    = \&inflator;
 *validators   = \&validator;
 *transformers = \&transformer;
+*plugins      = \&plugin;
 
 sub new {
     my $self = shift->next::method(@_);
@@ -38,6 +39,43 @@ sub new {
     $self->tag('div');
 
     return $self;
+}
+
+sub _single_plugin {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
+        croak 'invalid args';
+    }
+
+    my @names = map { ref $_ ? @$_ : $_ }
+        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+
+    @names = uniq(
+        grep    {defined}
+            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+
+    croak "no field names to add plugin to" if !@names;
+
+    my $type = delete $arg->{type};
+
+    my @return;
+
+    for my $x (@names) {
+        for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
+            my $new = $field->_require_plugin( $type, $arg );
+            push @{ $field->_plugins }, $new;
+            push @return, $new;
+        }
+    }
+
+    return @return;
 }
 
 sub defaults_from_model {
