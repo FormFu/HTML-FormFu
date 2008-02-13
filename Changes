@@ -1,4 +1,6 @@
 0.02005
+    - issue #22: add a END block to DBICTestLib that cleans up the t/test.db
+    
     _ issue #21: added methods to _Group for empty_first_label, and refactored
       item generation out of options, values, value_range to _get_empty_first_option,
       which the others call.

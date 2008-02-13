@@ -7,7 +7,11 @@ use DBI;
 use base 'Exporter';
 
 our @EXPORT_OK = qw/ new_db /;
-
+END {
+    if ( -f 't/test.db') {
+        unlink 't/test.db';
+    }
+}
 sub new_db {
     
     if ( -f 't/test.db' ) {
