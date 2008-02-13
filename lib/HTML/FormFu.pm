@@ -845,7 +845,7 @@ sub render {
     my $plugins = $self->get_plugins;
 
     for my $plugin ( @$plugins ) {
-        $plugin->pre_render;
+        $plugin->render;
     }
 
     my $output = $self->next::method(@_);
