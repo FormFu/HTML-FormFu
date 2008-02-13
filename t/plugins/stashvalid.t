@@ -7,7 +7,10 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->stash_valid( ['foo'] );
+$form->plugins({
+    type  => 'StashValid',
+    names => ['foo'],
+});
 
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');

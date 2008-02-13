@@ -38,7 +38,7 @@ our @ACCESSORS = qw/
     element_defaults query_type languages force_error_message
     localize_class tt_module
     nested_name nested_subscript model_class model_config
-    auto_fieldset params_ignore_underscore stash_valid tmp_upload_dir
+    auto_fieldset params_ignore_underscore tmp_upload_dir
     /;
 
 __PACKAGE__->mk_accessors(
@@ -83,7 +83,6 @@ sub new {
         tt_args               => {},
         stash                 => {},
         model_config          => {},
-        stash_valid           => [],
         persist_stash         => [],
         _file_fields          => [],
         languages             => ['en'],

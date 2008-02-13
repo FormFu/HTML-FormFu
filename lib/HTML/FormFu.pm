@@ -19,7 +19,7 @@ use HTML::FormFu::ObjectUtil qw/
     clone stash constraints_from_dbic parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
-    split_name _parse_args process_attrs /;
+    split_name _parse_args process_attrs _filter_components /;
 
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
@@ -44,9 +44,10 @@ __PACKAGE__->mk_accessors(
     qw/ indicator filename javascript javascript_src
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
-        _elements _processed_params _valid_names stash_valid
+        _elements _processed_params _valid_names 
         _output_processors tt_module params_ignore_underscore
-        nested_name nested_subscript model_class _model tmp_upload_dir /
+        nested_name nested_subscript model_class _model tmp_upload_dir
+        _plugins /
 );
 
 __PACKAGE__->mk_output_accessors(qw/ form_error_message /);
@@ -69,6 +70,8 @@ __PACKAGE__->mk_inherited_merging_accessors(qw/ tt_args config_callback /);
 *transformers      = \&transformer;
 *output_processors = \&output_processor;
 *loc               = \&localize;
+*plugins           = \&plugin;
+*add_plugins       = \&add_plugin;
 
 our $VERSION = '0.02004';
 $VERSION = eval $VERSION;
@@ -88,10 +91,10 @@ sub new {
         _elements          => [],
         _output_processors => [],
         _valid_names       => [],
+        _plugins           => [],
         _processed_params  => {},
         input              => {},
         stash              => {},
-        stash_valid        => [],
         action             => '',
         method             => 'post',
         filename           => 'form',
@@ -176,6 +179,84 @@ sub save_to_model {
     return $self->model->save_to_model( $self, @_ );
 }
 
+sub plugin {
+    my ( $self, $arg ) = @_;
+
+    if ( ref $arg eq 'ARRAY' ) {
+        map { $self->_single_plugin($_) } @$arg;
+    }
+    else {
+        $self->_single_plugin($arg);
+    }
+
+    return $self;
+}
+
+sub _single_plugin {
+    my ( $self, $arg ) = @_;
+
+    if ( !ref $arg ) {
+        $arg = { type => $arg };
+    }
+    elsif ( ref $arg eq 'HASH' ) {
+        $arg = dclone($arg);
+    }
+    else {
+        croak 'invalid args';
+    }
+
+    my $type = delete $arg->{type};
+
+    my $new = $self->_require_plugin( $type, $arg );
+    
+    push @{ $self->_plugins }, $new;
+
+    return;
+}
+
+sub _require_plugin {
+    my ( $self, $type, $arg ) = @_;
+
+    croak 'required arguments: $self, $type, \%options' if @_ != 3;
+
+    eval { my %x = %$arg };
+    croak "options argument must be hash-ref" if $@;
+
+    my $abs   = $type =~ s/^\+//;
+    my $class = $type;
+
+    if ( !$abs ) {
+        $class = "HTML::FormFu::Plugin::$class";
+    }
+
+    $type =~ s/^\+//;
+
+    require_class($class);
+
+    my $plugin = $class->new( {
+            type   => $type,
+            parent => $self,
+            %$arg
+        } );
+
+    return $plugin;
+}
+
+sub get_plugins {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    return _filter_components( \%args, $self->_plugins );
+}
+
+sub get_plugin {
+    my $self = shift;
+
+    my $x = $self->get_plugins(@_);
+
+    return @$x ? $x->[0] : ();
+}
+
 sub process {
     my $self = shift;
 
@@ -197,6 +278,12 @@ sub process {
         $query = HTML::FormFu::FakeQuery->new( $self, $query );
 
         $self->query($query);
+    }
+
+    my $plugins = $self->get_plugins;
+
+    for my $plugin ( @$plugins ) {
+        $plugin->pre_process( $self );
     }
 
     for my $elem ( @{ $self->get_elements } ) {
@@ -247,18 +334,13 @@ sub process {
         $self->_process_input;
     }
 
-    # handle stash_valid
-    my @valid = $self->valid;
-
-    for my $name ( @{ $self->stash_valid } ) {
-        next if !grep { $name eq $_ } @valid;
-
-        $self->stash->{$name} = $self->param($name);
-    }
-
     # post_process
     for my $elem ( @{ $self->get_elements } ) {
         $elem->post_process;
+    }
+
+    for my $plugin ( @$plugins ) {
+        $plugin->post_process( $self );
     }
 
     return;
@@ -793,6 +875,24 @@ sub add_valid {
         if !grep { $_ eq $key } @{ $self->_valid_names };
 
     return $value;
+}
+
+sub render {
+    my $self = shift;
+
+    my $plugins = $self->get_plugins;
+
+    for my $plugin ( @$plugins ) {
+        $plugin->pre_render( $self );
+    }
+
+    my $output = $self->next::method(@_);
+
+    for my $plugin ( @$plugins ) {
+        $plugin->post_render( $self, \$output );
+    }
+
+    return $output;
 }
 
 sub render_data {
