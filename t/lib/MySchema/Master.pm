@@ -50,5 +50,13 @@ sub method_test {
     }
     return $self->text_col;
 }
+sub method_select_test {
+    my ($self, $val) = @_;
+    if (defined $val) {
+        $self->select_col($val);
+    }
+    
+    return $self->select_col;
+}
 1;
 

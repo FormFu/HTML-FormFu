@@ -145,10 +145,13 @@ sub _fill_in_fields {
             elsif ($has_col) {
                 $field->default( $dbic->$name );
             }
-            elsif ($field->multi_value 
-                && (my ($col) = $field->model_config->{DBIC}{default_column}
-                || (ref $dbic->$name && $dbic->$name->result_source->primary_columns))  ) {
+            elsif ($field->multi_value
+                && ($field->model_config->{DBIC}{default_column} 
+                    || (ref($dbic->$name) && $dbic->$name->can('result_source')) )  ) {
 
+                my ($col) = $field->model_config->{DBIC}{default_column}
+                    || $dbic->$name->result_source->primary_columns;
+                
                 my $info = $dbic->result_source->relationship_info($name);
                 if ( !defined $info or $info->{attrs}{accessor} eq 'multi' ) {
                     my @defaults = $dbic->$name->get_column($col)->all;
@@ -264,7 +267,7 @@ sub save_to_model {
 
     my $rs   = $dbic->result_source;
     my @rels = $rs->relationships;
-    my @cols = $rs->columns;
+    my @cols = $rs->columns;    
 
     _save_columns( $base, $dbic, $form, $attrs, \%checkbox, \@rels, \@cols )
         or return;
@@ -557,7 +560,8 @@ sub _save_non_columns {
         if ($dbic->can($accessor)) {
             $dbic->$accessor($value);            
         } else {
-            croak "cannot call $accessor on $dbic";
+            # We should just ignore
+            #croak "cannot call $accessor on $dbic";
         }
     }
 
