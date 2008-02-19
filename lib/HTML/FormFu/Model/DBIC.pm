@@ -145,15 +145,19 @@ sub _fill_in_fields {
             elsif ($has_col) {
                 $field->default( $dbic->$name );
             }
-            elsif ( $field->multi_value ) {
-                my ($col) = $field->model_config->{DBIC}{default_column}
-                    || $dbic->$name->result_source->primary_columns;
+            elsif ($field->multi_value 
+                && (my ($col) = $field->model_config->{DBIC}{default_column}
+                || (ref $dbic->$name && $dbic->$name->result_source->primary_columns))  ) {
 
                 my $info = $dbic->result_source->relationship_info($name);
                 if ( !defined $info or $info->{attrs}{accessor} eq 'multi' ) {
                     my @defaults = $dbic->$name->get_column($col)->all;
                     $field->default( \@defaults );
                 }
+            }
+            else {
+                # This field is a method expected to return the value
+                $field->default($dbic->$name);
             }
         }
     }

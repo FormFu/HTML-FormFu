@@ -42,5 +42,13 @@ __PACKAGE__->belongs_to(
     type2 => 'MySchema::Type2',
     { 'foreign.id' => 'self.type2_id' } );
 
+
+sub method_test {
+    my ($self, $val) = @_;
+    if (defined $val) {
+        $self->text_col($val);
+    }
+    return $self->text_col;
+}
 1;
 
