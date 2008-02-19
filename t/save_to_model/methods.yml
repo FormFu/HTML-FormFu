@@ -1,0 +1,4 @@
+---
+elements:
+    - type: Text
+      name: method_test

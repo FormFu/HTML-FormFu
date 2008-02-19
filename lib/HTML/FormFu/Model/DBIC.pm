@@ -537,11 +537,10 @@ sub _save_non_columns {
     my ( $base, $dbic, $form, $attrs, $checkbox, $rels, $cols ) = @_;
 
     my @fields
-        = grep { $_->model_config->{DBIC}{accessor} && is_direct_child( $base, $_ ) }
+        = grep { is_direct_child( $base, $_ ) }
         @{ $base->get_fields };
 
     for my $field (@fields) {
-
         my $value = $form->param_value( $field->nested_name );
 
         if ( $field->model_config->{DBIC}{delete_if_empty}
@@ -554,9 +553,12 @@ sub _save_non_columns {
 
         next if !defined $value;
 
-        my $accessor = $field->model_config->{DBIC}{accessor};
-
-        $dbic->$accessor($value);
+        my $accessor = $field->model_config->{DBIC}{accessor} || $field->nested_name;
+        if ($dbic->can($accessor)) {
+            $dbic->$accessor($value);            
+        } else {
+            croak "cannot call $accessor on $dbic";
+        }
     }
 
     return;
