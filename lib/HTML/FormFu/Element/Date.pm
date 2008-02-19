@@ -109,22 +109,21 @@ sub _date_defaults {
     my $default = $self->default;
 
     if ( defined $default ) {
+        my $is_blessed = blessed( $default );
 
-        if ( blessed($default) && $default->isa('DateTime') ) {
-            $self->day->{default}   = $default->day;
-            $self->month->{default} = $default->month;
-            $self->year->{default}  = $default->year;
+        if( "$default" eq 'today' ) { # $default needs stringification
+            $default = DateTime->today;
         }
-        else {
+        elsif ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
             my $builder = DateTime::Format::Builder->new;
             $builder->parser( { strptime => $self->strftime } );
 
-            my $dt = $builder->parse_datetime($default);
-
-            $self->day->{default}   = $dt->day;
-            $self->month->{default} = $dt->month;
-            $self->year->{default}  = $dt->year;
+            $default = $builder->parse_datetime($default);
         }
+
+        $self->day->{default}   = $default->day;
+        $self->month->{default} = $default->month;
+        $self->year->{default}  = $default->year;
     }
 
     return;
