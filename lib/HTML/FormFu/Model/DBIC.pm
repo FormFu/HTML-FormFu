@@ -2,6 +2,7 @@ package HTML::FormFu::Model::DBIC;
 use strict;
 use warnings;
 
+use Scalar::Util qw( blessed );
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -585,18 +586,22 @@ sub _save_multi_value_fields_many_to_many {
         next if grep { $name eq $_ } @$rels, @$cols;
 
         if ( $dbic->can($name) ) {
+            my $related = $dbic->$name;
+
+            next if !blessed($related) || !$related->can('result_source');
+
             my $nested_name = $field->nested_name;
 
-            next unless $form->valid($nested_name);
+            next if $form->has_errors($nested_name);
 
             my @values = $form->param_list($nested_name);
 
             my ($pk) = $field->model_config->{DBIC}{default_column}
-                || $dbic->$name->result_source->primary_columns;
+                || $related->result_source->primary_columns;
 
             $pk = "me.$pk" unless $pk =~ /\./;
 
-            my @rows = $dbic->$name->result_source->resultset->search(
+            my @rows = $related->result_source->resultset->search(
                 { $pk => { -in => \@values } } )->all;
 
             my $set_method = "set_$name";
