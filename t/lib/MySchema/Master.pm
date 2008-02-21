@@ -44,19 +44,24 @@ __PACKAGE__->belongs_to(
 
 
 sub method_test {
-    my ($self, $val) = @_;
-    if (defined $val) {
-        $self->text_col($val);
+    my $self = shift;
+
+    if (@_) {
+        $self->text_col(shift);
     }
+
     return $self->text_col;
 }
+
 sub method_select_test {
-    my ($self, $val) = @_;
-    if (defined $val) {
-        $self->select_col($val);
+    my $self = shift;
+
+    if (@_) {
+        $self->select_col(shift);
     }
-    
+
     return $self->select_col;
 }
+
 1;
 
