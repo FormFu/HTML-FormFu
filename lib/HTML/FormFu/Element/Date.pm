@@ -8,6 +8,7 @@ use HTML::FormFu::Attribute qw/ mk_attrs /;
 use HTML::FormFu::Util qw/ _filter_components _parse_args /;
 use DateTime;
 use DateTime::Format::Builder;
+use DateTime::Format::Natural;
 use DateTime::Locale;
 use Scalar::Util qw/ blessed /;
 use Carp qw/ croak /;
@@ -20,7 +21,7 @@ __PACKAGE__->mk_attrs(
 
 __PACKAGE__->mk_accessors(
     qw/
-        strftime auto_inflate
+        strftime auto_inflate default_natural
         /
 );
 
@@ -106,21 +107,23 @@ sub _add_elements {
 sub _date_defaults {
     my $self = shift;
 
-    my $default = $self->default;
-
-    if ( defined $default ) {
+    my $default;
+    if( defined( $default = $self->default_natural ) ) {
+        my $parser = DateTime::Format::Natural->new;
+        $default = $parser->parse_datetime( $default );
+    }
+    elsif( defined( $default = $self->default ) ) {
         my $is_blessed = blessed( $default );
 
-        if( "$default" eq 'today' ) { # $default needs stringification
-            $default = DateTime->today;
-        }
-        elsif ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
+        if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
             my $builder = DateTime::Format::Builder->new;
             $builder->parser( { strptime => $self->strftime } );
 
             $default = $builder->parse_datetime($default);
         }
+    }
 
+    if ( defined $default ) {
         $self->day->{default}   = $default->day;
         $self->month->{default} = $default->month;
         $self->year->{default}  = $default->year;
