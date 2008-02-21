@@ -286,7 +286,7 @@ sub process {
 
     $self->_add_elements;
 
-    return;
+    return $self->next::method(@_);;
 }
 
 sub process_input {
