@@ -124,7 +124,7 @@ sub _fill_in_fields {
     my ( $base, $dbic, ) = @_;
     for my $field ( @{ $base->get_fields } ) {
         my $name = $field->name;
-        next if not defined $name;
+        next if not defined $name || $field->model_config->{DBIC}{accessor};
         next if not is_direct_child( $base, $field );
 
         $name = $field->original_name if $field->original_name;
@@ -554,9 +554,14 @@ sub _save_non_columns {
             $dbic->delete;
             return;
         }
-
-        next if !defined $value;
-
+        if ($field->isa('HTML::FormFu::Element::Checkbox')) {
+            # We are a checkbox.
+            unless (defined $value) {
+                $value = 0;
+            }
+        }
+        next unless defined $value;
+        
         my $accessor = $field->model_config->{DBIC}{accessor} || $field->nested_name;
         if ($dbic->can($accessor)) {
             $dbic->$accessor($value);            
