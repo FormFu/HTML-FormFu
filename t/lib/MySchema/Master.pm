@@ -63,5 +63,12 @@ sub method_select_test {
     return $self->select_col;
 }
 
+sub method_checkbox_test {
+    my ($self, $val) = @_;
+    if (defined $val) {
+        $self->checkbox_col($val);
+    }
+    return $self->checkbox_col;
+}
 1;
 
