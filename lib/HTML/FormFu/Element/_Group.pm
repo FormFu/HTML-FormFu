@@ -37,7 +37,9 @@ sub new {
 }
 
 sub post_process {
-    my ($self) = @_;
+    my $self = shift;
+
+    $self->next::method(@_);
 
     my $args = $self->model_config->{DBIC};
 
