@@ -72,9 +72,12 @@ sub options {
 
     return $self;
 }
+
 sub _get_empty_first_option {
-    my ( $self ) = @_;
+    my ($self) = @_;
+
     my $l = $self->empty_first_label || '';
+
     return {
         value            => '',
         label            => $l,
@@ -82,6 +85,7 @@ sub _get_empty_first_option {
         label_attributes => {},
     };
 }
+
 sub _parse_option {
     my ( $self, $item ) = @_;
 
