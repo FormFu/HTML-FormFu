@@ -43,7 +43,18 @@ sub post_process {
 
     my $args = $self->model_config->{DBIC};
 
-    if ( $args and keys %$args ) {
+    return unless $args && keys %$args;
+
+    # only call options_from_model if there's no options already
+    # and {options_from_model} isn't 0
+
+    my $option_count = scalar @{ $self->options };
+
+    my $option_flag = exists $args->{options_from_model}
+        ? $args->{options_from_model}
+        : 1;
+
+    if ( $option_count == 0 && $option_flag  != 0 ) {
         $self->options(
             [ $self->form->model->options_from_model( $self, $args ) ] );
     }
