@@ -17,6 +17,7 @@ my @ALLOWED_OPTION_KEYS = qw/
     group
     value
     label
+    label_loc
     attributes
     attrs
     attributes_xml
