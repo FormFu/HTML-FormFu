@@ -55,7 +55,7 @@ my $band_rs = $schema->resultset('Band');
 {
     $form->process;
     is_deeply(
-        $form->get_field('bands')->_options,
+        $form->get_field('bands')->options,
         [ {     'label_attributes' => {},
                 'value'            => '1',
                 'label'            => 'the beatles',

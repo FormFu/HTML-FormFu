@@ -51,7 +51,7 @@ my $user_rs   = $schema->resultset('User');
 $form->process;
 
 {
-    my $option = $form->get_field('user')->render_data->{options};
+    my $option = $form->get_field('user')->options;
     
     ok( @$option == 4 );
     

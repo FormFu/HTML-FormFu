@@ -46,7 +46,7 @@ my $type2_rs = $schema->resultset('Type2');
 $form->process;
 
 {
-    my $option = $form->get_field('type')->render_data->{options};
+    my $option = $form->get_field('type')->options;
     
     ok( @$option == 3 );
     
@@ -56,7 +56,7 @@ $form->process;
 }
 
 {
-    my $option = $form->get_field('type2_id')->render_data->{options};
+    my $option = $form->get_field('type2_id')->options;
     
     ok( @$option == 3 );
     

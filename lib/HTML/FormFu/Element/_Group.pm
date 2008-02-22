@@ -53,6 +53,8 @@ sub options {
     my ( $self, $arg ) = @_;
     my ( @options, @new );
 
+    return $self->_options if @_ == 1;
+
     croak "options argument must be a single array-ref" if @_ > 2;
 
     if ( defined $arg ) {
@@ -343,6 +345,8 @@ L<HTML::FormFu::Element::Select> fields.
 
 =head2 options
 
+Arguments: none
+
 Arguments: \@options
 
     ---
@@ -357,6 +361,8 @@ Arguments: \@options
             attributes:
               style: highlighted
           - [ 04, April ]
+
+If passed no arguments, it returns an arrayref of the currently set options.
 
 Use to set the list of items in the select menu / radiogroup.
 
