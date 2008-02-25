@@ -1,0 +1,16 @@
+---
+auto_fieldset:
+  nested_name: foo
+
+elements:
+  - type: Hidden
+    name: id
+    
+  - type: Text
+    name: fullname
+    model_config:
+      DBIC:
+        accessor: fullname
+    
+  - type: Submit
+    name: submit

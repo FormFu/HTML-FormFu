@@ -41,7 +41,7 @@ $rs->create( {
 {
     my $row = $rs->find(2);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     is( $form->get_field('id')->render_data->{value}, 2 );
 

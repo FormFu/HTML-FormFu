@@ -88,12 +88,13 @@ sub _get_resultset {
     croak "need a schema or context";
 }
 
-sub defaults_from_model {
-    my ( $self, $base, $dbic, $attrs ) = @_;
+sub defaults {
+    my ( $self, $dbic, $attrs ) = @_;
 
     $attrs ||= {};
 
-    my $form = $base->form;
+    my $form = $self->form;
+    my $base = defined $attrs->{base} ? delete $attrs->{base} : $form;
 
     $base = $form->get_all_element( { nested_name => $attrs->{nested_base} } )
         if defined $attrs->{nested_base}
@@ -202,7 +203,7 @@ sub _fill_nested {
             my $blocks = $block->repeat($count);
 
             for my $rep ( 0 .. $#rows ) {
-                defaults_from_model( $self, $blocks->[$rep], $rows[$rep], );
+                defaults( $self, $rows[$rep], { base => $blocks->[$rep] } );
             }
 
             # set the counter field to the number of rows
@@ -230,19 +231,20 @@ sub _fill_nested {
         }
         else {
             if ( defined( my $row = $dbic->$rel ) ) {
-                defaults_from_model( $self, $block, $row );
+                defaults( $self, $row, { base => $block } );
             }
         }
     }
     return;
 }
 
-sub save_to_model {
-    my ( $self, $base, $dbic, $attrs ) = @_;
+sub save {
+    my ( $self, $dbic, $attrs ) = @_;
 
     $attrs ||= {};
 
-    my $form = $base->form;
+    my $form = $self->form;
+    my $base = defined $attrs->{base} ? delete $attrs->{base} : $form;
 
     $base = $form->get_all_element( { nested_name => $attrs->{nested_base} } )
         if defined $attrs->{nested_base}
@@ -326,9 +328,10 @@ sub _save_relationships {
 
             next if !defined $target;
 
-            save_to_model(
-                $self, $block, $target,
+            save(
+                $self, $target,
                 {   %$attrs,
+                    base        => $block,
                     nested_base => $rel,
                     from        => $dbic->result_class,
                 } );
@@ -391,9 +394,10 @@ sub _save_has_many {
 
         next if _delete_has_many( $form, $row, $rep );
 
-        save_to_model(
-            $self, $rep, $row,
+        save(
+            $self, $row,
             {   %$attrs,
+                base        => $rep,
                 repeat_base => $rel,
                 from        => $dbic->result_class,
             } );
@@ -681,9 +685,10 @@ sub _save_repeatable_many_to_many {
 
                 next if _delete_many_to_many( $form, $dbic, $row, $rel, $rep );
 
-                save_to_model(
-                    $self, $rep, $row,
+                save(
+                    $self, $row,
                     {   %$attrs,
+                        base        => $rep,
                         repeat_base => $rel,
                         from        => $dbic->result_class,
                     } );
@@ -723,7 +728,7 @@ sub _insert_many_to_many {
 
     my $row = $dbic->$rel->new( {} );
 
-    # add_to_* will be called later, after save_to_model is called on this row
+    # add_to_* will be called later, after save is called on this row
 
     return $row;
 }
@@ -762,19 +767,19 @@ Set a forms' default values from a DBIx::Class row object:
 
     my $row = $resultset->find( $id );
     
-    $form->defaults_from_model( $row );
+    $form->defaults( $row );
 
 Update the database from a submitted form:
 
     if ( $form->submitted_and_valid ) {
         my $row = $resultset->find( $form->param('id') );
         
-        $form->save_to_model( $row );
+        $form->save( $row );
     }
 
 =head1 METHODS
 
-=head2 defaults_from_model
+=head2 defaults
 
 Arguments: $dbic_row, [\%config]
 
@@ -969,7 +974,7 @@ C<< $field->model_config->{DBIC}{accessor} >>.
           dbic:
             accessor: method_name
 
-=head2 save_to_model
+=head2 save
 
 Arguments: [$dbic_row], [\%config]
 
@@ -978,16 +983,16 @@ Return Value: $dbic_row
 Update the database with the submitted form values. Uses 
 L<update_or_insert|DBIx::Class::Row/update_or_insert>.
 
-See L</defaults_from_model> for specifics about what relationships are supported
+See L</defaults> for specifics about what relationships are supported
 and how to structure your forms.
 
 =head3 Automatically creating a new row object
 
-If you're using L</save_to_model> to create a new row object, you don't 
+If you're using L</save> to create a new row object, you don't 
 need to create one yourself, as long as the L<DBIx::Class> Schema is on the
 form L</stash>, and the ResultSet name is set in either the C<%config>
 argument, the Form's L<HTML::FormFu/model_config>, or the Block's
-L<HTML::FormFu/model_config> (if L</save_to_model> is called on a Block
+L<HTML::FormFu/model_config> (if L</save> is called on a Block
 element).
 
 If you're using L<Catalyst::Controller::HTML::FormFu>, it can automatically
@@ -1008,7 +1013,7 @@ An example of setting the ResultSet name on a Form:
 Note that if you still want to pass a C<%config> argument, you must pass
 C<undef> in place of the row:
 
-    $form->save_to_model( undef, \%config );
+    $form->save( undef, \%config );
 
 =head1 FAQ
 
@@ -1021,7 +1026,7 @@ you can first add them to the form with L<add_valid|HTML::FormFu/add_valid>.
     
     $form->add_valid( passwd => $passwd );
     
-    $form->save_to_model( $row );
+    $form->save( $row );
 
 C<add_valid> works for fieldnames that don't exist in the form.
 

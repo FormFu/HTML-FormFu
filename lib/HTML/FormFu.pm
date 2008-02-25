@@ -108,7 +108,6 @@ sub new {
         localize_class     => 'HTML::FormFu::I18N',
         auto_error_class   => 'error_%s_%t',
         auto_error_message => 'form_%s_%t',
-        default_model      => 'DBIC',
     );
 
     $self->populate( \%defaults );
@@ -183,7 +182,7 @@ sub model_class {
     my $self = shift;
 
     warn "model_class() method deprecated and is provided for compatibilty only, "
-        . "and will be removed: use default_model instead";
+        . "and will be removed: use default_model instead\n";
 
     return $self->default_model(@_);
 }
@@ -191,13 +190,25 @@ sub model_class {
 sub defaults_from_model {
     my $self = shift;
 
-    return $self->model->defaults_from_model( $self, @_ );
+    warn "defaults_from_model() method deprecated and is provided for compatibility only, "
+        . "and will be removed: use \$form->model('DBIC')->defaults() instead\n";
+
+    my $model = $self->default_model;
+    $model = 'DBIC' if !defined $model;
+
+    return $self->model($model)->defaults(@_);
 }
 
 sub save_to_model {
     my $self = shift;
 
-    return $self->model->save_to_model( $self, @_ );
+    warn "save_to_model() method deprecated and is provided for compatibility only, "
+        . "and will be removed: use \$form->model('DBIC')->save() instead\n";
+
+    my $model = $self->default_model;
+    $model = 'DBIC' if !defined $model;
+
+    return $self->model($model)->save(@_);
 }
 
 sub process {

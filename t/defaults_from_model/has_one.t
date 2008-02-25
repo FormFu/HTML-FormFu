@@ -54,7 +54,7 @@ my $rs = $schema->resultset('Master');
 {
     my $row = $rs->find(3);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     is( $form->get_field('id')->render_data->{value},       3 );
     is( $form->get_field('text_col')->render_data->{value}, 'a' );

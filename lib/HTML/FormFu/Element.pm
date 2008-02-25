@@ -61,7 +61,7 @@ sub db {
     my $self = shift;
 
     warn "db() method deprecated and is provided for compatibilty only: "
-        . "use model_config->{DBIC} instead as this will be removed";
+        . "use model_config->{DBIC} instead as this will be removed\n";
 
     if (@_) {
         my $args = shift;

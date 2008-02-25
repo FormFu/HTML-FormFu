@@ -57,7 +57,7 @@ my $rs = $schema->resultset('User');
 {
     my $row = $rs->find(5);
 
-    $form->defaults_from_model( $row, { nested_base => 'foo' } );
+    $form->model('DBIC')->defaults( $row, { nested_base => 'foo' } );
 
     is( $form->get_field( { nested_name => 'foo.id' } )->default,    '5' );
     is( $form->get_field( { nested_name => 'foo.name' } )->default,  'nick' );

@@ -41,7 +41,7 @@ $form->process( {
 {
     my $row = $rs->new( {} );
 
-    $form->save_to_model($row);
+    $form->model('DBIC')->save($row);
 }
 
 {

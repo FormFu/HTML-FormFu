@@ -1,0 +1,27 @@
+---
+auto_fieldset:
+    nested_name: foo
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Repeatable
+    nested_name: addresses
+    counter_name: count
+    
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: address
+  
+  - type: Hidden
+    name: count
+  
+  - type: Submit
+    name: submit

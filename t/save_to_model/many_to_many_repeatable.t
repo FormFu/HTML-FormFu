@@ -75,7 +75,7 @@ my $band_rs = $schema->resultset('Band');
 
     my $row = $user_rs->find(2);
 
-    $form->save_to_model($row);
+    $form->model('DBIC')->save($row);
 
     my $user = $user_rs->find(2);
 

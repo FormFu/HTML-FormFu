@@ -53,7 +53,7 @@ my $band_rs = $schema->resultset('Band');
 {
     my $row = $rs->find(4);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     is( $form->get_field('id')->default,   4 );
     is( $form->get_field('name')->default, 'Paul' );

@@ -36,7 +36,7 @@ $form->process( {
 {
     my $row = $rs->new( {} );
 
-    $form->save_to_model( $row, { nested_base => 'foo' } );
+    $form->model('DBIC')->save( $row, { nested_base => 'foo' } );
 }
 
 {

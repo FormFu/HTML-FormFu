@@ -42,7 +42,7 @@ $form->process( { id => 1, } );
 {
     my $row = $rs->find(1);
 
-    $form->save_to_model($row);
+    $form->model('DBIC')->save($row);
 }
 
 {

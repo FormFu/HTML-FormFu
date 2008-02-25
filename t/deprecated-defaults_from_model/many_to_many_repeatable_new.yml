@@ -1,0 +1,29 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+  
+  - type: Text
+    name: name
+  
+  - type: Repeatable
+    nested_name: bands
+    counter_name: count
+    model_config:
+      DBIC:
+        new_empty_row: band
+    
+    elements:
+      - type: Hidden
+        name: id
+      
+      - type: Text
+        name: band
+  
+  - type: Hidden
+    name: count
+  
+  - type: Submit
+    name: submit

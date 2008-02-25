@@ -54,7 +54,7 @@ $form->process( {
 
     $master->insert;
 
-    $form->save_to_model($master);
+    $form->model('DBIC')->save($master);
 }
 
 {

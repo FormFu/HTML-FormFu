@@ -1,0 +1,6 @@
+---
+elements:
+    - type: Text
+      name: method_test
+    - type: Select
+      name: method_select_test

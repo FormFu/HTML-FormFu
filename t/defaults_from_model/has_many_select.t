@@ -55,7 +55,7 @@ my $address_rs = $schema->resultset('Address');
 {
     my $row = $user_rs->find(2);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     is_deeply( $form->get_field('addresses')->default, [ 2, 3 ] );
 }

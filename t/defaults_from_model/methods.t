@@ -39,7 +39,7 @@ $rs->create( { text_col => 'filler', } );
 {
     my $row = $rs->find(1);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     my $field = $form->get_element('method_test');
 

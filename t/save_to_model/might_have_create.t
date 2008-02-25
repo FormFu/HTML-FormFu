@@ -57,7 +57,7 @@ $form->process( {
 
     # no note, but next id 2
 
-    $form->save_to_model($master);
+    $form->model('DBIC')->save($master);
 }
 
 {

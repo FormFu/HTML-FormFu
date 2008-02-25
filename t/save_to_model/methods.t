@@ -36,7 +36,7 @@ my $rs = $schema->resultset('Master');
     {
         my $row = $rs->new( {} );
 
-        $form->save_to_model($row);
+        $form->model('DBIC')->save($row);
     }
 
     {
@@ -58,7 +58,7 @@ my $rs = $schema->resultset('Master');
         method_test => 'apejens2',
     });
     my $row = $rs->find(1);
-    $form->save_to_model($row);
+    $form->model('DBIC')->save($row);
     
     is( $row->text_col,                 'apejens2' );
     is( $row->checkbox_col,             0);

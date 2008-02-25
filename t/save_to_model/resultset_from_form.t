@@ -41,7 +41,7 @@ $form->process( {
 
 {
     # no resultset arg
-    $form->save_to_model;
+    $form->model('DBIC')->save;
 }
 
 {

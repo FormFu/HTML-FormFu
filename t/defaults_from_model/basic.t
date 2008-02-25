@@ -51,7 +51,7 @@ $rs->create( {
 {
     my $row = $rs->find(2);
 
-    $form->defaults_from_model($row);
+    $form->model('DBIC')->defaults($row);
 
     my $fs = $form->get_element;
 
