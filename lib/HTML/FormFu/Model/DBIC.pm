@@ -1,6 +1,7 @@
 package HTML::FormFu::Model::DBIC;
 use strict;
 use warnings;
+use base 'HTML::FormFu::Model';
 
 use Scalar::Util qw( blessed );
 use Storable qw( dclone );

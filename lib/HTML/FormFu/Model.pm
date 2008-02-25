@@ -1,0 +1,58 @@
+package HTML::FormFu::Model;
+
+use strict;
+use Class::C3;
+
+use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::ObjectUtil qw( form parent );
+use Scalar::Util qw( refaddr );
+use Carp qw( croak );
+
+__PACKAGE__->mk_accessors(qw/ type /);
+
+sub new {
+    my $class = shift;
+
+    my %attrs;
+    eval { %attrs = %{ $_[0] } if @_ };
+    croak "attributes argument must be a hashref" if $@;
+
+    my $self = bless {}, $class;
+
+    for my $arg (qw/ parent type /) {
+        croak "$arg attribute required" if !exists $attrs{$arg};
+
+        $self->$arg( $attrs{$arg} );
+    }
+
+    return $self;
+}
+
+sub clone {
+    my ($self) = @_;
+
+    my %new = %$self;
+
+    return bless \%new, ref $self;
+}
+
+1;
+
+__END__
+
+=head1 NAME
+
+HTML::FormFu::Model - base class for models
+
+=head1 SEE ALSO
+
+L<HTML::FormFu::Model::DBIC>
+
+=head1 AUTHOR
+
+Carl Franks, C<cfranks@cpan.org>
+
+=head1 LICENSE
+
+This library is free software, you can redistribute it and/or modify it under
+the same terms as Perl itself.

@@ -44,9 +44,9 @@ __PACKAGE__->mk_accessors(
     qw/ indicator filename javascript javascript_src
         element_defaults query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
-        _elements _processed_params _valid_names 
+        _elements _processed_params _valid_names  _models
         _output_processors tt_module params_ignore_underscore
-        nested_name nested_subscript model_class _model tmp_upload_dir
+        nested_name nested_subscript default_model tmp_upload_dir
         _plugins /
 );
 
@@ -92,6 +92,7 @@ sub new {
         _output_processors => [],
         _valid_names       => [],
         _plugins           => [],
+        _models            => [],
         _processed_params  => {},
         input              => {},
         stash              => {},
@@ -107,7 +108,7 @@ sub new {
         localize_class     => 'HTML::FormFu::I18N',
         auto_error_class   => 'error_%s_%t',
         auto_error_message => 'form_%s_%t',
-        model_class        => 'DBIC',
+        default_model      => 'DBIC',
     );
 
     $self->populate( \%defaults );
@@ -152,19 +153,39 @@ sub default_values {
 }
 
 sub model {
-    my ($self) = @_;
+    my ( $self, $model_name ) = @_;
 
-    if ( defined( my $model = $self->_model ) ) {
-        return $model;
+    $model_name = $self->default_model
+        if !defined $model_name;
+
+    for my $model (@{ $self->_models }) {
+        return $model
+            if $model->type =~ /$model_name^/;
     }
 
-    my $class = "HTML::FormFu::Model::" . $self->model_class;
+    # class not found, try require-ing it
+
+    my $class = "HTML::FormFu::Model::$model_name";
 
     require_class($class);
 
-    $self->_model($class);
+    my $model = $class->new({
+       type   => $model_name,
+       parent => $self, 
+    });
 
-    return $class;
+    push @{ $self->_models }, $model;
+
+    return $model;
+}
+
+sub model_class {
+    my $self = shift;
+
+    warn "model_class() method deprecated and is provided for compatibilty only, "
+        . "and will be removed: use default_model instead";
+
+    return $self->default_model(@_);
 }
 
 sub defaults_from_model {
