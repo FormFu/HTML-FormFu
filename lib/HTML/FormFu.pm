@@ -196,7 +196,7 @@ sub defaults_from_model {
     my $model = $self->default_model;
     $model = 'DBIC' if !defined $model;
 
-    return $self->model($model)->defaults(@_);
+    return $self->model($model)->default_values(@_);
 }
 
 sub save_to_model {
@@ -208,7 +208,7 @@ sub save_to_model {
     my $model = $self->default_model;
     $model = 'DBIC' if !defined $model;
 
-    return $self->model($model)->save(@_);
+    return $self->model($model)->update(@_);
 }
 
 sub process {
