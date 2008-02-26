@@ -30,7 +30,6 @@ requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
 requires 'YAML::Syck';
 
-test_requires 'Test::MockObject';
 test_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';

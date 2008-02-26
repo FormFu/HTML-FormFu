@@ -7,7 +7,6 @@
 ^client-side-constraint
 ^t\b.*\.disabled
 ^t\b.*CatalystApp
-^t\/test\.db$
 
 ^\.perltidyrc$
 
