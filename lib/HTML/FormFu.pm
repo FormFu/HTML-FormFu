@@ -191,7 +191,7 @@ sub defaults_from_model {
     my $self = shift;
 
     warn "defaults_from_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model('DBIC')->defaults() instead\n";
+        . "and will be removed: use \$form->model('DBIC')->default_values() instead\n";
 
     my $model = $self->default_model;
     $model = 'DBIC' if !defined $model;
@@ -203,7 +203,7 @@ sub save_to_model {
     my $self = shift;
 
     warn "save_to_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model('DBIC')->save() instead\n";
+        . "and will be removed: use \$form->model('DBIC')->update() instead\n";
 
     my $model = $self->default_model;
     $model = 'DBIC' if !defined $model;
