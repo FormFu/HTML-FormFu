@@ -375,7 +375,9 @@ sub _load_file {
         $data_visitor->visit($data);
     }
 
-    $self->populate($_) for ( ref $data eq 'ARRAY' ? @$data : $data );
+    for my $config ( ref $data eq 'ARRAY' ? @$data : $data ) {
+        $self->populate( dclone( $config ) );
+    }
 
     return;
 }
