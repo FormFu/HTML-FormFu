@@ -22,26 +22,26 @@ bar
 </tr>
 <tr>
 <td>
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
+</div>
 </td>
 <td>
-<span class="text">
+<div class="text">
 <input name="bar" type="text" />
-</span>
+</div>
 </td>
 </tr>
 <tr>
 <td>
-<span class="radio">
+<div class="radio">
 <input name="foo" type="radio" />
-</span>
+</div>
 </td>
 <td>
-<span class="radio">
+<div class="radio">
 <input name="bar" type="radio" />
-</span>
+</div>
 </td>
 </tr>
 </table>

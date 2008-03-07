@@ -14,17 +14,17 @@ $multi->process;
 my $html = <<HTML;
 <form action="" id="form" method="post">
 <fieldset>
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
-<div>
-<span class="text">
-<input name="block.foo" type="text" />
-</span>
 </div>
-<span class="submit">
+<div>
+<div class="text">
+<input name="block.foo" type="text" />
+</div>
+</div>
+<div class="submit">
 <input name="submit" type="submit" />
-</span>
+</div>
 </fieldset>
 </form>
 HTML

@@ -19,11 +19,11 @@ my $form = HTML::FormFu->new({
     }
     ]);
 
-    my $field_xhtml = qq{<span class="select">
+    my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="foo">Foo label</option>
 </select>
-</span>};
+</div>};
 
     is( "$field", $field_xhtml, 'stringified field' );
     

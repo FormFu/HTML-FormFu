@@ -20,7 +20,7 @@ is ( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
 <div>
-<span class="date date">
+<div class="date date">
 <span class="elements">
 <select name="foo_day">
 <option value="1">1</option>
@@ -83,7 +83,7 @@ is ( "$form", <<HTML );
 <option value="2018">2018</option>
 </select>
 </span>
-</span>
+</div>
 </div>
 </fieldset>
 </form>

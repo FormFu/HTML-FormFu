@@ -14,15 +14,15 @@ $form->constraint( Number   => 'foo' );
 $form->constraint( Word     => 'bar' );
 $form->constraint( Required => 'foo', 'bar' );
 
-my $foo_xhtml = qq{<span class="text label">
+my $foo_xhtml = qq{<div class="text label">
 <label>My Foo</label>
 <input name="foo" type="text" />
-</span>};
+</div>};
 
 is( "$foo", $foo_xhtml );
 
-my $bar_xhtml = qq{<span class="text">
+my $bar_xhtml = qq{<div class="text">
 <input name="bar" type="text" />
-</span>};
+</div>};
 
 is( "$bar", $bar_xhtml );

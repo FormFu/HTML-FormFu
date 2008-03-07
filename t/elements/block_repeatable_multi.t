@@ -25,16 +25,16 @@ is( $form, <<HTML );
 <form action="" method="post">
 <fieldset>
 <div>
-<span class="text">
+<div class="text">
 <input name="foo_1" type="text" />
-</span>
-<span class="text">
-<input name="bar_1" type="text" />
-</span>
 </div>
-<span class="submit">
+<div class="text">
+<input name="bar_1" type="text" />
+</div>
+</div>
+<div class="submit">
 <input name="submit" type="submit" />
-</span>
+</div>
 </fieldset>
 </form>
 HTML

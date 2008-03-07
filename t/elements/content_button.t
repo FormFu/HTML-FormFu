@@ -15,24 +15,24 @@ $form->element('ContentButton')->name('baz')->content('x')
     ->field_type('submit');
 $form->element('ContentButton')->name('baf')->field_type('reset');
 
-my $field_xhtml = qq{<span class="contentbutton">
+my $field_xhtml = qq{<div class="contentbutton">
 <button name="foo" type="button"></button>
-</span>};
+</div>};
 
 is( "$field", $field_xhtml, 'stringified field' );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<span class="contentbutton">
+<div class="contentbutton">
 <button name="bar" type="button"><p>button</p></button>
-</span>
-<span class="contentbutton">
+</div>
+<div class="contentbutton">
 <button name="baz" type="submit">x</button>
-</span>
-<span class="contentbutton">
+</div>
+<div class="contentbutton">
 <button name="baf" type="reset"></button>
-</span>
+</div>
 </form>
 EOF
 

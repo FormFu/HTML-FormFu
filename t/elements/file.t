@@ -9,9 +9,9 @@ my $form = HTML::FormFu->new;
 
 my $element = $form->element('File')->name('foo');
 
-my $field_xhtml = qq{<span class="file">
+my $field_xhtml = qq{<div class="file">
 <input name="foo" type="file" />
-</span>};
+</div>};
 
 is( "$element", $field_xhtml );
 

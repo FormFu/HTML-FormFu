@@ -38,9 +38,9 @@ my $xhtml = <<EOF;
 <input name="bar" type="radio" />
 </span>
 </span>
-<span class="submit">
+<div class="submit">
 <input type="submit" />
-</span>
+</div>
 </form>
 EOF
 

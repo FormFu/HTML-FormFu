@@ -70,7 +70,7 @@ sub new {
     $self->label_attributes(     {} );
     $self->label_filename('label');
     $self->label_tag('label');
-    $self->container_tag('span');
+    $self->container_tag('div');
     $self->is_field(1);
 
     return $self;

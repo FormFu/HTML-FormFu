@@ -14,13 +14,13 @@ $form->process( { foo => [qw/ one three /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<span class="select">
+<div class="select">
 <select name="foo" multiple="1">
 <option value="one" selected="selected">One</option>
 <option value="two">Two</option>
 <option value="three" selected="selected">Three</option>
 </select>
-</span>
+</div>
 </form>
 EOF
 

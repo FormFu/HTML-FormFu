@@ -13,21 +13,21 @@ my $field = $form->element('Image')->name('foo');
 $form->element('Image')->name('bar')->src('foo.jpg');
 $form->element('Image')->name('baz')->src('/bar')->width(120)->height(32);
 
-my $field_xhtml = qq{<span class="image">
+my $field_xhtml = qq{<div class="image">
 <input name="foo" type="image" src="" />
-</span>};
+</div>};
 
 is( "$field", $field_xhtml, 'stringified field' );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<span class="image">
+<div class="image">
 <input name="bar" type="image" src="foo.jpg" />
-</span>
-<span class="image">
+</div>
+<div class="image">
 <input name="baz" type="image" height="32" src="/bar" width="120" />
-</span>
+</div>
 </form>
 EOF
 

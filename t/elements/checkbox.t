@@ -16,24 +16,24 @@ my $moo
 my $fad
     = $form->element('Checkbox')->name('fad')->value('fadx')->default('fadx');
 
-my $field_xhtml = qq{<span class="checkbox">
+my $field_xhtml = qq{<div class="checkbox">
 <input name="foo" type="checkbox" value="foox" />
-</span>};
+</div>};
 
 is( "$foo", $field_xhtml, 'field xhtml' );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<span class="checkbox">
+<div class="checkbox">
 <input name="bar" type="checkbox" value="barx" />
-</span>
-<span class="checkbox">
+</div>
+<div class="checkbox">
 <input name="moo" type="checkbox" value="moox" checked="checked" />
-</span>
-<span class="checkbox">
+</div>
+<div class="checkbox">
 <input name="fad" type="checkbox" value="fadx" checked="checked" />
-</span>
+</div>
 </form>
 EOF
 

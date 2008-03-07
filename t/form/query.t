@@ -16,12 +16,12 @@ $form->element('Text')->name('bar');
 {
     is( "$form", <<EOF, 'stringified form' );
 <form action="" method="post">
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
-<span class="text">
+</div>
+<div class="text">
 <input name="bar" type="text" />
-</span>
+</div>
 </form>
 EOF
 }
@@ -38,12 +38,12 @@ EOF
 
     is( "$form", <<EOF, 'stringified form' );
 <form action="" method="post">
-<span class="text">
+<div class="text">
 <input name="foo" type="text" value="yada" />
-</span>
-<span class="text">
+</div>
+<div class="text">
 <input name="bar" type="text" value="23" />
-</span>
+</div>
 </form>
 EOF
 }

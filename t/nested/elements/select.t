@@ -15,12 +15,12 @@ my $field = $form->element('Select')->name('bar')
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<span class="select">
+<div class="select">
 <select name="foo.bar">
 <option value="1">One</option>
 <option value="2">Two</option>
 </select>
-</span>
+</div>
 </fieldset>
 </form>
 EOF
@@ -32,12 +32,12 @@ is( $form->param("foo.bar"), 2 );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<span class="select">
+<div class="select">
 <select name="foo.bar">
 <option value="1">One</option>
 <option value="2" selected="selected">Two</option>
 </select>
-</span>
+</div>
 </fieldset>
 </form>
 EOF

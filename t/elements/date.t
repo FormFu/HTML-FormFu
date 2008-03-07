@@ -27,7 +27,7 @@ $form->process;
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<span class="date date">
+<div class="date date">
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>
@@ -93,8 +93,8 @@ is( "$form", <<HTML );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
-<span class="date date">
+</div>
+<div class="date date">
 <span class="elements">
 <select name="bar_day">
 <option value="1">1</option>
@@ -157,7 +157,7 @@ is( "$form", <<HTML );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
+</div>
 </form>
 HTML
 
@@ -179,7 +179,7 @@ is( $bar, "01-07-2007" );
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<span class="date date">
+<div class="date date">
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>
@@ -245,8 +245,8 @@ is( "$form", <<HTML );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
-<span class="date date">
+</div>
+<div class="date date">
 <span class="elements">
 <select name="bar_day">
 <option value="1" selected="selected">1</option>
@@ -309,7 +309,7 @@ is( "$form", <<HTML );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
+</div>
 </form>
 HTML
 
@@ -323,7 +323,7 @@ ok( !defined $form->params->{foo} );
 
 is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
-<span class="date error error_inflator_datetime date error error_inflator_datetime">
+<div class="date error error_inflator_datetime date error error_inflator_datetime">
 <span class="error_message error_inflator_datetime">Invalid date</span>
 <span class="elements">
 <select name="foo_day">
@@ -390,8 +390,8 @@ is( "$form", <<HTML_ERRORS );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
-<span class="date date">
+</div>
+<div class="date date">
 <span class="elements">
 <select name="bar_day">
 <option value="1">1</option>
@@ -454,7 +454,7 @@ is( "$form", <<HTML_ERRORS );
 <option value="2017">2017</option>
 </select>
 </span>
-</span>
+</div>
 </form>
 HTML_ERRORS
 

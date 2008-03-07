@@ -28,9 +28,9 @@ my $form_xhtml = <<EOF;
 <label>My radio</label>
 </span>
 </span>
-<span class="submit">
+<div class="submit">
 <input type="submit" />
-</span>
+</div>
 </form>
 EOF
 

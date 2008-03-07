@@ -16,13 +16,13 @@ my $form = HTML::FormFu->new({
     $field->empty_first_label('empty_label');
     $field->options([ [ 1 => 'One' ], [ 2 => 'Two' ] ]);
 
-    my $field_xhtml = qq{<span class="select">
+    my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="">empty_label</option>
 <option value="1">One</option>
 <option value="2">Two</option>
 </select>
-</span>};
+</div>};
 
     is( "$field", $field_xhtml, 'stringified field' );
     
@@ -34,13 +34,13 @@ my $form = HTML::FormFu->new({
     $field->empty_first_label('empty_label');
     $field->values([qw/one two/]);
 
-    my $field_xhtml = qq{<span class="select">
+    my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="">empty_label</option>
 <option value="one">One</option>
 <option value="two">Two</option>
 </select>
-</span>};
+</div>};
 
     is( "$field", $field_xhtml, 'stringified field' );
     
@@ -51,13 +51,13 @@ my $form = HTML::FormFu->new({
     $field->empty_first_label('empty_label');
     $field->value_range([1, 2]);
 
-    my $field_xhtml = qq{<span class="select">
+    my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="">empty_label</option>
 <option value="1">1</option>
 <option value="2">2</option>
 </select>
-</span>};
+</div>};
 
     is( "$field", $field_xhtml, 'stringified field' );
     
@@ -68,13 +68,13 @@ my $form = HTML::FormFu->new({
     $field->empty_first_label_loc('test_label');
     $field->options([ [ 1 => 'One' ], [ 2 => 'Two' ] ]);
 
-    my $field_xhtml = qq{<span class="select">
+    my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="">My Label</option>
 <option value="1">One</option>
 <option value="2">Two</option>
 </select>
-</span>};
+</div>};
 
     is( "$field", $field_xhtml, 'stringified field' );
     

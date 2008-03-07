@@ -34,6 +34,7 @@ sub new {
     $self->collapse_consecutive_tags( [
             qw/
                 span
+                div
                 /
         ] );
 

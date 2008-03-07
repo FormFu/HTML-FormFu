@@ -37,23 +37,23 @@ my $xhtml = <<EOF;
 <html>
 <body>
 <form action="" method="post">
-<span class="password comment label">
+<div class="password comment label">
 <label class="my_label">Foo</label>
 <input name="foo" type="password" />
 <span class="comment">
 Comment
 </span>
-</span>
-<span class="text comment label">
+</div>
+<div class="text comment label">
 <label class="my_label">Foo</label>
 <input name="foo" type="text" disabled="disabled" />
 <span class="comment">
 Comment
 </span>
-</span>
-<span class="submit">
+</div>
+<div class="submit">
 <input name="submit" type="submit" />
-</span>
+</div>
 </form>
 </body>
 </html>
@@ -67,25 +67,25 @@ is( $output, $xhtml );
 <html>
 <body>
 <form action="" method="post">
-<span class="password comment label error error_constraint_required">
+<div class="password comment label error error_constraint_required">
 <span class="error_message error_constraint_required">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" value="" />
 <span class="comment">
 Comment
 </span>
-</span>
-<span class="text comment label error error_constraint_required">
+</div>
+<div class="text comment label error error_constraint_required">
 <span class="error_message error_constraint_required">This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" value="" disabled="disabled" />
 <span class="comment">
 Comment
 </span>
-</span>
-<span class="submit">
+</div>
+<div class="submit">
 <input name="submit" type="submit" value="Submit" />
-</span>
+</div>
 </form>
 </body>
 </html>

@@ -18,32 +18,32 @@ $form->element('Select')->name('foo2')->options( [
 $form->element('Select')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('Bar')->attrs( { id => 'bar' } );
 
-my $field_xhtml = qq{<span class="select">
+my $field_xhtml = qq{<div class="select">
 <select name="foo">
 <option value="1">One</option>
 <option value="2">Two</option>
 </select>
-</span>};
+</div>};
 
 is( "$field", $field_xhtml, 'stringified field' );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<span class="select">
+<div class="select">
 <select name="foo2">
 <option value="1">Ein</option>
 <option value="2" class="foobar">Zwei</option>
 </select>
-</span>
-<span class="select label">
+</div>
+<div class="select label">
 <label for="bar">Bar</label>
 <select name="bar" id="bar">
 <option value="one">One</option>
 <option value="two" selected="selected">Two</option>
 <option value="three">Three</option>
 </select>
-</span>
+</div>
 </form>
 EOF
 
@@ -53,14 +53,14 @@ is( "$form", $form_xhtml, 'stringified form' );
 {
     $form->process( { bar => 'three', } );
 
-    my $bar_xhtml = qq{<span class="select label">
+    my $bar_xhtml = qq{<div class="select label">
 <label for="bar">Bar</label>
 <select name="bar" id="bar">
 <option value="one">One</option>
 <option value="two">Two</option>
 <option value="three" selected="selected">Three</option>
 </select>
-</span>};
+</div>};
 
     my $bar = $form->get_field('bar');
 

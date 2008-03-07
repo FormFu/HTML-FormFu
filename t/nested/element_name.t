@@ -19,13 +19,13 @@ is( $baz_fs->get_field('0')->nested_name, 'foo.baz.0' );
 is( "$form", <<EO_RENDER );
 <form action="" method="post">
 <fieldset>
-<span class="text">
+<div class="text">
 <input name="foo.bar" type="text" id="foo.bar" />
-</span>
+</div>
 <div>
-<span class="text">
+<div class="text">
 <input name="foo.baz.0" type="text" id="foo.baz.0" />
-</span>
+</div>
 </div>
 </fieldset>
 </form>

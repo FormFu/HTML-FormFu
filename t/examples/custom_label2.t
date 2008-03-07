@@ -39,9 +39,9 @@ my $xhtml = <<EOF;
 <label>Foo</label>: <input name="foo" type="text" />
 <label>Bar</label>: <input name="bar" type="text" />
 <input name="baz" type="hidden" />
-<span class="submit">
+<div class="submit">
 <input name="submit" type="submit" />
-</span>
+</div>
 </fieldset>
 </form>
 </body>

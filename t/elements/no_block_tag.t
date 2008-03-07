@@ -12,9 +12,9 @@ $form->load_config_file('t/elements/no_block_tag.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
+</div>
 
 </form>
 EOF

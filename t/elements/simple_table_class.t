@@ -19,23 +19,23 @@ foo
 </tr>
 <tr class="x">
 <td>
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
+</div>
 </td>
 </tr>
 <tr class="y">
 <td>
-<span class="text">
+<div class="text">
 <input name="bar" type="text" />
-</span>
+</div>
 </td>
 </tr>
 <tr class="x">
 <td>
-<span class="text">
+<div class="text">
 <input name="baz" type="text" />
-</span>
+</div>
 </td>
 </tr>
 </table>

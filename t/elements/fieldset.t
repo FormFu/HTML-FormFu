@@ -19,9 +19,9 @@ my $foo = $outer->element('Text')->name('foo');
 is( $foo->name, 'foo' );
 is( $foo->type, 'Text' );
 
-my $field_xhtml = qq{<span class="text">
+my $field_xhtml = qq{<div class="text">
 <input name="foo" type="text" />
-</span>};
+</div>};
 
 is( "$foo", $field_xhtml );
 

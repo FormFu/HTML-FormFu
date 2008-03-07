@@ -29,22 +29,22 @@ is_deeply(
 # add more elements to test accessor output
 $form->element('Text')->name('bar')->container_attributes( { class => 'bar' } );
 
-my $expected_field_xhtml = qq{<span class="text comment label">
+my $expected_field_xhtml = qq{<div class="text comment label">
 <label>Foo</label>
 <input name="foo" type="text" value="bar" maxlength="50" size="30" />
 <span class="comment">
 Whatever
 </span>
-</span>};
+</div>};
 
 is( "$element", $expected_field_xhtml, 'stringified field' );
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 $expected_field_xhtml
-<span class="bar text">
+<div class="bar text">
 <input name="bar" type="text" />
-</span>
+</div>
 </form>
 EOF
 

@@ -9,9 +9,9 @@ my $form = HTML::FormFu->new;
 
 my $field = $form->element('Submit')->name('foo');
 
-my $field_xhtml = qq{<span class="submit">
+my $field_xhtml = qq{<div class="submit">
 <input name="foo" type="submit" />
-</span>};
+</div>};
 
 is( "$field", $field_xhtml, 'stringified field' );
 

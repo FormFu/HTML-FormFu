@@ -19,12 +19,12 @@ $form->element('Text')->name('bar');
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<span class="text">
+<div class="text">
 <input name="foo" type="text" />
-</span>
-<span class="text">
+</div>
+<div class="text">
 <input name="bar" type="text" />
-</span>
+</div>
 </form>
 EOF
 

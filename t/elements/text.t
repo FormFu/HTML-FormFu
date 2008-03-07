@@ -15,21 +15,21 @@ is( $element->type, 'Text' );
 $form->element('Text')->name('bar')->size(10);
 $form->element('Text')->name('baz')->size(15)->maxlength(20);
 
-my $expected_field_xhtml = qq{<span class="text">
+my $expected_field_xhtml = qq{<div class="text">
 <input name="foo" type="text" />
-</span>};
+</div>};
 
 is( "$element", $expected_field_xhtml );
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 $expected_field_xhtml
-<span class="text">
+<div class="text">
 <input name="bar" type="text" size="10" />
-</span>
-<span class="text">
+</div>
+<div class="text">
 <input name="baz" type="text" maxlength="20" size="15" />
-</span>
+</div>
 </form>
 EOF
 
