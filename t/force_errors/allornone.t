@@ -53,5 +53,5 @@ $form->element('Text')->name('bif');
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('bif') );
 
-    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
 }

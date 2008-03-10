@@ -21,8 +21,8 @@ $form->element('Text')->name('bar')->constraint('Integer');
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
 
-    ok( $form->get_errors( { name => 'foo', forced => 1 } ) );
-    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
+    ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
 
     ok( $form->valid('foo') );
     ok( $form->valid('bar') );
@@ -41,7 +41,7 @@ $form->element('Text')->name('bar')->constraint('Integer');
     ok( !$form->has_errors('foo') );
     ok( $form->has_errors('bar') );
 
-    ok( $form->get_errors( { name => 'foo', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
 
     ok( $form->valid('foo') );
     ok( !$form->valid('bar') );

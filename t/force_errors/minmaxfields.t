@@ -28,7 +28,7 @@ $form->element('Text')->name('boz');
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
 
-    ok( $form->get_errors( { name => 'foo', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
 }
 
 {
@@ -46,7 +46,7 @@ $form->element('Text')->name('boz');
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
 
-    ok( $form->get_errors( { name => 'foo', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
 }
 
 {

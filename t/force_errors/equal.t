@@ -23,8 +23,8 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
-    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
-    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
+    ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
 {
@@ -38,8 +38,8 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
-    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
-    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
+    ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
 {
@@ -53,8 +53,8 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
-    ok( $form->get_errors( { name => 'bar', forced => 1 } ) );
-    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
+    ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
 {
@@ -68,7 +68,7 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('bar') );
     ok( $form->has_errors('baz') );
 
-    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
 {
@@ -82,5 +82,5 @@ $form->element('Text')->name('baz');
     ok( !$form->has_errors('bar') );
     ok( $form->has_errors('baz') );
 
-    ok( $form->get_errors( { name => 'baz', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }

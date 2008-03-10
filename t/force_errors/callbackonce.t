@@ -28,5 +28,5 @@ $form->element('Text')->name('bar')->constraint('CallbackOnce')->force_errors(1)
     ok( !$form->has_errors('foo') );
     ok( $form->has_errors('bar') );
 
-    ok( $form->get_errors( { name => 'foo', forced => 1 } ) );
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
 }
