@@ -14,6 +14,8 @@
     - add default_natural() to Date element, allowing the use of 
       DateTime::Format::Natural to parse dates such as "today" or "yesterday."
 
+    - New Split filter.
+
 0.02004 2008-02-22
 
     - Incompatible Change: $upload->headers no longer returns a hashref, it now

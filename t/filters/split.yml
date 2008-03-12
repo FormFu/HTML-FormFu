@@ -1,0 +1,11 @@
+---
+elements:
+  - name: foo
+    filters:
+      - type: Split
+  
+  - name: bar
+    filters:
+      - type: Split
+        regex: '-'
+        limit: 2
