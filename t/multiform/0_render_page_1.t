@@ -5,7 +5,7 @@ use Test::More tests => 2;
 
 use HTML::FormFu::MultiForm;
 
-my $multi = HTML::FormFu::MultiForm->new;
+my $multi = HTML::FormFu::MultiForm->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $multi->load_config_file('t/multiform/multiform.yml');
 

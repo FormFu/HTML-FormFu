@@ -7,7 +7,8 @@ use Test::More tests => 4;
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new({
-    localize_class => 'HTMLFormFu::I18N',   
+    localize_class => 'HTMLFormFu::I18N',
+    tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' },
 });
 
 {

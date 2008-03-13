@@ -10,7 +10,7 @@ use YAML::Syck qw/ LoadFile /;
 
 my $yaml_file = 't/multiform-no-combine/multiform.yml';
 
-my $multi = HTML::FormFu::MultiForm->new;
+my $multi = HTML::FormFu::MultiForm->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $multi->load_config_file($yaml_file);
 

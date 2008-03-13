@@ -5,7 +5,7 @@ use Test::More tests => 4;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
 $form->element_defaults( {
         Password => { render_value => 1, },
