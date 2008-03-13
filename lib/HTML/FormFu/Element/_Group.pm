@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw/ _coerce /;
-use HTML::FormFu::Util qw/ append_xml_attribute literal /;
+use HTML::FormFu::Util qw/ append_xml_attribute literal xml_escape /;
 use HTML::FormFu::Attribute qw/ mk_output_accessors /;
 use Storable qw( dclone );
 use Carp qw( croak );
@@ -16,7 +16,10 @@ __PACKAGE__->mk_output_accessors(qw/ empty_first_label/);
 my @ALLOWED_OPTION_KEYS = qw/
     group
     value
+    value_xml
+    value_loc
     label
+    label_xml
     label_loc
     attributes
     attrs
@@ -155,13 +158,7 @@ sub _parse_option_hashref {
         for my $groupitem (@group) {
             push @new, $self->_parse_option($groupitem);
         }
-        my %group = ( group => \@new );
-        $group{label} = $item->{label};
-        $group{label} = $self->form->localize( $item->{label_loc} )
-            if defined $item->{label_loc};
-        $group{attributes} = $item->{attributes} || {};
-
-        return \%group;
+        $item->{group} = \@new;
     }
 
     if ( !exists $item->{attributes} ) {
@@ -203,8 +200,19 @@ sub _parse_option_hashref {
         }
     }
 
-    $item->{label} = $self->form->localize( $item->{label_loc} )
-        if defined $item->{label_loc};
+    if ( defined $item->{label_xml} ) {
+        $item->{label} = literal( $item->{label_xml} );
+    }
+    elsif ( defined $item->{label_loc} ) {
+        $item->{label} = $self->form->localize( $item->{label_loc} );
+    }
+
+    if ( defined $item->{value_xml} ) {
+        $item->{value} = literal( $item->{value_xml} );
+    }
+    elsif ( defined $item->{value_loc} ) {
+        $item->{value} = $self->form->localize( $item->{value_loc} );
+    }
 
     $item->{value} = '' if !defined $item->{value};
 
@@ -291,7 +299,21 @@ sub render_data_non_recursive {
             options => dclone( $self->_options ),
             @_ ? %{ $_[0] } : () } );
 
+    $self->_quote_options( $render->{options} );
+
     return $render;
+}
+
+sub _quote_options {
+    my ( $self, $options ) = @_;
+
+    foreach my $opt (@$options) {
+        $opt->{label} = xml_escape( $opt->{label} );
+        $opt->{value} = xml_escape( $opt->{value} );
+
+        $self->_quote_options( $opt->{group} )
+            if exists $opt->{group};
+    }
 }
 
 sub string {
@@ -404,8 +426,10 @@ An example of Select optgroups:
               - [2a, 'item 2a']
               - [2b, 'item 2b']
 
-The usage of label_loc instead of label is supported to translate a given
-string. label_loc is supported for items and option groups.
+When using the hash-ref construct, the C<label_xml> and C<label_loc> 
+variants of C<label> are supported, as are the C<value_xml> and C<value_loc> 
+variants of C<value>, the C<attributes_xml> variant of C<attributes> and the 
+C<label_attributes_xml> variant of C<label_attributes>.
 
 =head2 values
 
