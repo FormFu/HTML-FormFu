@@ -17,13 +17,13 @@ sub process {
     if ( ref $values eq 'ARRAY' ) {
         my @return;
         for my $value (@$values) {
-            my ($return) = eval { $self->inflator($value); };
+            ($return) = eval { $self->inflator($value); };
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
             }
             else {
-                push @return, $value;
+                push @return, $return;
             }
         }
         $return = \@return;
