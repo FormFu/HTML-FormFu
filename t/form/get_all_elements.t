@@ -18,10 +18,10 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 4 );
 
-    is( $elems->[0], $fs );
-    is( $elems->[1], $e1 );
-    is( $elems->[2], $e2 );
-    is( $elems->[3], $e3 );
+    ok( $elems->[0] == $fs );
+    ok( $elems->[1] == $e1 );
+    ok( $elems->[2] == $e2 );
+    ok( $elems->[3] == $e3 );
 }
 
 {
@@ -29,15 +29,15 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 1 );
 
-    is( $elems->[0], $fs );
+    ok( $elems->[0] == $fs );
 
     my $fs_elems = $elems->[0]->get_all_elements;
 
     is( @$fs_elems, 3 );
 
-    is( $fs_elems->[0], $e1 );
-    is( $fs_elems->[1], $e2 );
-    is( $fs_elems->[2], $e3 );
+    ok( $fs_elems->[0] == $e1 );
+    ok( $fs_elems->[1] == $e2 );
+    ok( $fs_elems->[2] == $e3 );
 
     my $e1_elems = $e1->get_all_elements;
     is( @$e1_elems, 0 );
@@ -54,8 +54,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 2 );
 
-    is( $elems->[0], $e1 );
-    is( $elems->[1], $e2 );
+    ok( $elems->[0] == $e1 );
+    ok( $elems->[1] == $e2 );
 }
 
 {
@@ -63,8 +63,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 2 );
 
-    is( $elems->[0], $e1 );
-    is( $elems->[1], $e2 );
+    ok( $elems->[0] == $e1 );
+    ok( $elems->[1] == $e2 );
 }
 
 {
@@ -72,8 +72,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 2 );
 
-    is( $elems->[0], $e2 );
-    is( $elems->[1], $e3 );
+    ok( $elems->[0] == $e2 );
+    ok( $elems->[1] == $e3 );
 }
 
 {
@@ -84,5 +84,5 @@ my $e3 = $fs->element('Hidden')->name('bar');
 
     is( @$elems, 1 );
 
-    is( $elems->[0], $e2 );
+    ok( $elems->[0] == $e2 );
 }

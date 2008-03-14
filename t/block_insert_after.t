@@ -18,6 +18,6 @@ $fs->insert_after( $e3, $e2 );
 
 my $elems = $fs->get_elements;
 
-is( $elems->[0], $e1 );
-is( $elems->[1], $e2 );
-is( $elems->[2], $e3 );
+ok( $elems->[0] == $e1 );
+ok( $elems->[1] == $e2 );
+ok( $elems->[2] == $e3 );

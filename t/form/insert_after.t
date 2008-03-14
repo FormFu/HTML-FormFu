@@ -16,6 +16,6 @@ $form->insert_after( $e3, $e1 );
 
 my $elems = $form->get_elements;
 
-is( $elems->[0], $e1 );
-is( $elems->[1], $e3 );
-is( $elems->[2], $e2 );
+ok( $elems->[0] == $e1 );
+ok( $elems->[1] == $e3 );
+ok( $elems->[2] == $e2 );
