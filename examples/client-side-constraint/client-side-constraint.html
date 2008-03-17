@@ -36,70 +36,75 @@ fieldset .label .comment {
 }
 </style>
 
-<script type="text/javascript">
-	djConfig = { isDebug: true };
-</script>
-
 </head>
 <body>
 <form action="" enctype="multipart/form-data" id="form" method="post" onsubmit="formfu.id.filter_trimedges('form_username'); formfu.id.reset(); formfu.id.constraint_required('form_username','form_username_constraint_required','form_username_container'); formfu.id.constraint_maxlength('form_username','form_username_constraint_maxlength','form_username_container',8); formfu.id.check_field('form_username','form_username_container'); formfu.id.constraint_required('form_password','form_password_constraint_required','form_password_container'); formfu.id.constraint_minlength('form_password','form_password_constraint_minlength','form_password_container',3); formfu.id.check_field('form_password','form_password_container'); return formfu.id.check_form('form_error_message');">
 
 <div class="disabled_form_error_message" id="form_error_message">
 </div>
-<script type="text/javascript" src="dojo/dojo.js">
-</script>
-<script type="text/javascript">
-/* load required libraries */
-dojo.require("dojo.dom");
-dojo.require("dojo.html.common");
-dojo.require("dojo.html.util"); // for createNodesFromText()
-dojo.require("dojo.collections.Dictionary");
-
+<script type="text/javascript;version=1.1">
 /* our global variable */
 var formfu = formfu ? formfu : new Object;
 formfu.id = new Object;
-formfu.id.errors = new dojo.collections.Dictionary();
+formfu.id.errors = new Object;
 
 /* functions */
 formfu.id.reset = function ( field_id ) {
 	if ( field_id == undefined ) {
-		formfu.id.errors = new dojo.collections.Dictionary();
+		formfu.id.errors = new Object;
 	}
 	else {
-		formfu.id.errors.add(field_id, 0);
+		formfu.id.errors[field_id] = 0;
 	}
 }
 
 formfu.id.check_field = function ( field_id, container_id ) {
-	var container = dojo.byId( container_id );
-	var errors    = formfu.id.errors.item(field_id);
+	var container = document.getElementById( container_id );
+	var errors    = formfu.id.errors[field_id];
 	
 	if ( errors ) {
-		dojo.html.replaceClass(container, 'error', 'disabled_error');
+		var class = container.attributes['class'];
+		class.value = class.value.replace(/\bdisabled_error\b/, 'error');
 		return false;
 	}
 
-	dojo.html.replaceClass(container, 'disabled_error', 'error');
+	var class = container.attributes['class'];
+	class.value = class.value.replace(/\berror\b/, 'disabled_error');
 	return true;
 }
 
 formfu.id.check_form = function ( message_id ) {
-	var errors  = formfu.id.errors.getKeyList();
-	var message = dojo.byId(message_id);
+	var errors  = formfu.id.errors;
+	var message = document.getElementById(message_id);
 	
-	for ( i=0; i<=errors.length-1; i+=1 ) {
-		if ( formfu.id.errors.item( errors[i] ) > 0 ) {
-			dojo.html.replaceClass(message, 'form_error_message', 'disabled_form_error_message');
+	for ( var key in errors ) {
+		if ( errors[key] > 0 ) {
+			var class = message.attributes['class'];
+			class.value = class.value.replace(/\bdisabled_form_error_message\b/, 'form_error_message');
 			return false;
 		}
 	}
 
-	dojo.html.replaceClass(message, 'disabled_form_error_message', 'form_error_message');
+	var class = message.attributes['class'];
+	class.value = class.value.replace(/\bform_error_message\b/, 'disabled_form_error_message');
 	return true;
 }
 
+formfu.id.set_error = function ( field_id, message_id, container_id ) {
+	var class = document.getElementById(message_id).attributes['class'];
+	class.value = class.value.replace(/\bdisabled_error_message\b/, 'error_message');
+	
+	var error = (formfu.id.errors[field_id] ? formfu.id.errors[field_id] : 0);
+	formfu.id.errors[field_id] = error + 1;
+}
+
+formfu.id.clear_error = function ( field_id, message_id, container_id ) {
+	var class = document.getElementById(message_id).attributes['class'];
+	class.value = class.value.replace(/\berror_message\b/, 'disabled_error_message');
+}
+
 formfu.id.filter_trimedges = function ( field_id ) {
-	var field = dojo.byId( field_id );
+	var field = document.getElementById( field_id );
 	var value = field.value
 	
 	value = value.replace(/^\s+/, '');
@@ -109,98 +114,77 @@ formfu.id.filter_trimedges = function ( field_id ) {
 }
 
 formfu.id.constraint_required = function ( field_id, message_id, container_id ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
-	var value   = field.value;
+	var value = document.getElementById(field_id).value;
 	
-	if ( field.value == '' ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+	if ( value == '' ) {
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.constraint_integer = function ( field_id, message_id, container_id ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
-	var value   = field.value;
-	var regex   = /^\d*$/;
+	var value = document.getElementById(field_id).value;
+	var regex = /^\d*$/;
 	
-	if ( field.value != '' && ! regex.exec( value ) ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+	if ( value != '' && ! regex.exec( value ) ) {
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.constraint_min = function ( field_id, message_id, container_id, min ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
+	var value = document.getElementById(field_id).value;
 	
-	if ( field.value != '' && field.value < min ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+	if ( value != '' && value < min ) {
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.constraint_minlength = function ( field_id, message_id, container_id, min ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
+	var value = document.getElementById(field_id).value;
 	
-	if ( field.value != '' && field.value.length < min ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+	if ( value != '' && value.length < min ) {
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.constraint_maxlength = function ( field_id, message_id, container_id, max ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
+	var value = document.getElementById(field_id).value;
 	
-	if ( field.value != '' && field.value.length > max ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+	if ( value != '' && value.length > max ) {
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.constraint_equal = function ( field_id, message_id, container_id, target_id ) {
-	var field   = dojo.byId( field_id );
-	var target  = dojo.byId( target_id );
-	var message = dojo.byId( message_id );
+	var value  = document.getElementById(field_id).value;
+	var target = document.getElementById(target_id).value;
 	
-	if ( field.value == target.value ) {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+	if ( value == target ) {
+		formfu.id.clear_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id.errors.contains(field_id) ? formfu.id.errors.item(field_id) : 0);
-		formfu.id.errors.add(field_id, (error + 1));
+		formfu.id.set_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id.append_error_message = function ( message_id, message ) {
-	var target = dojo.byId(message_id);
-	var nodes  = dojo.html.createNodesFromText(message);
-	for ( i=0; i<=nodes.length-1; i+=1 )
-		target.appendChild(nodes[i]);
+	var text = document.createTextNode(message);
+	
+	document.getElementById(message_id).appendChild( text );
 }
 
 /* form_error_message */
@@ -221,7 +205,7 @@ formfu.id.append_error_message('form_error_message','There were errors with your
 filters[trimedges], constraints[required, maxlength(8)]
 </span>
 </span>
-<script type="text/javascript">
+<script type="text/javascript;version=1.1">
 formfu.id.append_error_message('form_username_constraint_required', 'This field is required');
 formfu.id.append_error_message('form_username_constraint_maxlength', 'Maximum length of 8 characters');
 </script>
@@ -237,7 +221,7 @@ formfu.id.append_error_message('form_username_constraint_maxlength', 'Maximum le
 constraints[required, minlength(3)]
 </span>
 </span>
-<script type="text/javascript">
+<script type="text/javascript;version=1.1">
 formfu.id.append_error_message('form_password_constraint_required', 'This field is required');
 formfu.id.append_error_message('form_password_constraint_minlength', 'Minimum length of 3 characters');
 </script>
@@ -251,7 +235,7 @@ formfu.id.append_error_message('form_password_constraint_minlength', 'Minimum le
 constraints[equal(password)]
 </span>
 </span>
-<script type="text/javascript">
+<script type="text/javascript;version=1.1">
 formfu.id.append_error_message('form_repeat_password_constraint_equal', 'Must be the same as \'Password\'');
 </script>
 
@@ -271,14 +255,11 @@ formfu.id.append_error_message('form_repeat_password_constraint_equal', 'Must be
 constraints[required, integer, min(18)]
 </span>
 </span>
-<script type="text/javascript">
+<script type="text/javascript;version=1.1">
 formfu.id.append_error_message('form_age_constraint_required', 'This field is required');
 formfu.id.append_error_message('form_age_constraint_integer', 'This field must be an integer');
 formfu.id.append_error_message('form_age_constraint_min', 'Must be at least 18');
 </script>
-
-</fieldset>
-<fieldset>
 
 </fieldset>
 <fieldset>
@@ -294,92 +275,93 @@ formfu.id.append_error_message('form_age_constraint_min', 'Must be at least 18')
 
 <div class="disabled_form_error_message" id="form2_error_message">
 </div>
-<script type="text/javascript" src="dojo/dojo.js">
-</script>
 <script type="text/javascript">
-/* load required libraries */
-dojo.require("dojo.dom");
-dojo.require("dojo.html.common");
-dojo.require("dojo.html.util"); // for createNodesFromText()
-dojo.require("dojo.collections.Dictionary");
-
 /* our global variable */
 var formfu = formfu ? formfu : new Object;
 formfu.id2 = new Object;
-formfu.id2.errors = new dojo.collections.Dictionary();
+formfu.id2.errors = new Object;
 
 /* functions */
 formfu.id2.reset = function ( field_id ) {
 	if ( field_id == undefined ) {
-		formfu.id2.errors = new dojo.collections.Dictionary();
+		formfu.id2.errors = new Object;
 	}
 	else {
-		formfu.id2.errors.add(field_id, 0);
+		formfu.id2.errors[field_id] = 0;
 	}
 }
 
 formfu.id2.check_field = function ( field_id, container_id ) {
-	var container = dojo.byId( container_id );
-	var errors    = formfu.id2.errors.item(field_id);
+	var container = document.getElementById( container_id );
+	var errors    = formfu.id2.errors[field_id];
 	
 	if ( errors ) {
-		dojo.html.replaceClass(container, 'error', 'disabled_error');
+		var class = container.attributes['class'];
+		class.value = class.value.replace(/\bdisabled_error\b/, 'error');
 		return false;
 	}
 
-	dojo.html.replaceClass(container, 'disabled_error', 'error');
+	var class = container.attributes['class'];
+	class.value = class.value.replace(/\berror\b/, 'disabled_error');
 	return true;
 }
 
 formfu.id2.check_form = function ( message_id ) {
-	var errors  = formfu.id2.errors.getKeyList();
-	var message = dojo.byId(message_id);
+	var errors  = formfu.id2.errors;
+	var message = document.getElementById(message_id);
 	
-	for ( i=0; i<=errors.length-1; i+=1 ) {
-		if ( formfu.id2.errors.item( errors[i] ) > 0 ) {
-			dojo.html.replaceClass(message, 'form_error_message', 'disabled_form_error_message');
+	for ( var key in errors ) {
+		if ( errors[key] > 0 ) {
+			var class = message.attributes['class'];
+			class.value = class.value.replace(/\bdisabled_form_error_message\b/, 'form_error_message');
 			return false;
 		}
 	}
 
-	dojo.html.replaceClass(message, 'disabled_form_error_message', 'form_error_message');
+	var class = message.attributes['class'];
+	class.value = class.value.replace(/\bform_error_message\b/, 'disabled_form_error_message');
 	return true;
 }
 
+formfu.id2.set_error = function ( field_id, message_id, container_id ) {
+	var class = document.getElementById(message_id).attributes['class'];
+	class.value = class.value.replace(/\bdisabled_error_message\b/, 'error_message');
+	
+	var error = (formfu.id2.errors[field_id] ? formfu.id2.errors[field_id] : 0);
+	formfu.id2.errors[field_id] = error + 1;
+}
+
+formfu.id2.clear_error = function ( field_id, message_id, container_id ) {
+	var class = document.getElementById(message_id).attributes['class'];
+	class.value = class.value.replace(/\berror_message\b/, 'disabled_error_message');
+}
+
 formfu.id2.constraint_required = function ( field_id, message_id, container_id ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
-	var value   = field.value;
+	var value = document.getElementById(field_id).value;
 	
 	if ( value.length == 0 ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id2.errors.contains(field_id) ? formfu.id2.errors.item(field_id) : 0);
-		formfu.id2.errors.add(field_id, (error + 1));
+		formfu.id2.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id2.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id2.constraint_maxlength = function ( field_id, message_id, container_id, max ) {
-	var field   = dojo.byId( field_id );
-	var message = dojo.byId( message_id );
+	var value = document.getElementById(field_id).value;
 	
-	if ( field.value.length > max ) {
-		dojo.html.replaceClass(message, 'error_message', 'disabled_error_message');
-		var error = (formfu.id2.errors.contains(field_id) ? formfu.id2.errors.item(field_id) : 0);
-		formfu.id2.errors.add(field_id, (error + 1));
+	if ( value.length > max ) {
+		formfu.id2.set_error( field_id, message_id, container_id );
 	}
 	else {
-		dojo.html.replaceClass(message, 'disabled_error_message', 'error_message');
+		formfu.id2.clear_error( field_id, message_id, container_id );
 	}
 }
 
 formfu.id2.append_error_message = function ( message_id, message ) {
-	var target = dojo.byId(message_id);
-	var nodes  = dojo.html.createNodesFromText(message);
-	for ( i=0; i<=nodes.length-1; i+=1 )
-		target.appendChild(nodes[i]);
+		var text = document.createTextNode(message);
+		
+		document.getElementById(message_id).appendChild( text );
 }
 
 /* form2_error_message */
