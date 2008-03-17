@@ -4,7 +4,7 @@
 ^benchmarks\b
 ^dojo\b
 ^examples\/repeatable\b
-^client-side-constraint
+^examples\/client-side-constraint\b
 ^t\b.*\.disabled
 ^t\b.*CatalystApp
 
