@@ -26,11 +26,11 @@ $form->constraint('Bool');
 # Invalid
 {
     $form->process( {
-            foo => '1',
+            foo => '01',
             bar => 'a',
         } );
 
-    ok( $form->valid('foo'),  'foo valid' );
+    ok( !$form->valid('foo'), 'foo not valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 }
 

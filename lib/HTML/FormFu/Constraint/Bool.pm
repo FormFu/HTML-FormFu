@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint::Regex';
 
 sub regex {
-    return qr/^[01]*\z/;
+    return qr/^[01]?\z/;
 }
 
 1;
