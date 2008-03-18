@@ -78,8 +78,8 @@ HTML::FormFu::Constraint::Equal - Multi-field Equality Constraint
 =head1 SYNOPSIS
 
     type: Equal
-    name: password
-    others: repeat_password
+    name: repeat_password
+    others: password
 
 =head1 DESCRIPTION
 
