@@ -9,15 +9,19 @@ use HTML::FormFu::ObjectUtil qw/
     get_error _require_constraint set_nested_hash_value nested_hash_key_exists
     get_nested_hash_value /;
 use HTML::FormFu::Util qw/
-    _parse_args append_xml_attribute xml_escape require_class process_attrs /;
+    _parse_args append_xml_attribute xml_escape require_class process_attrs
+    _filter_components /;
+use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
 use Carp qw/ croak /;
 use Exporter qw/ import /;
 
 # used by multi.pm
 our @EXPORT_OK = qw/
-    _render_container_class _render_comment_class _render_label
-    _string_field_start _string_field_end _string_label /;
+    nested_name add_error 
+    deflator filter constraint inflator validator transformer plugin /;
+
+our %EXPORT_TAGS = ( FIELD => \@EXPORT_OK );
 
 __PACKAGE__->mk_attrs(
     qw/
@@ -264,15 +268,7 @@ sub get_deflators {
 
     my @x = @{ $self->_deflators };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_filters {
@@ -281,15 +277,7 @@ sub get_filters {
 
     my @x = @{ $self->_filters };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_constraints {
@@ -298,15 +286,7 @@ sub get_constraints {
 
     my @x = @{ $self->_constraints };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_inflators {
@@ -315,15 +295,7 @@ sub get_inflators {
 
     my @x = @{ $self->_inflators };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_validators {
@@ -332,15 +304,7 @@ sub get_validators {
 
     my @x = @{ $self->_validators };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_transformers {
@@ -349,40 +313,22 @@ sub get_transformers {
 
     my @x = @{ $self->_transformers };
 
-    if ( exists $args{name} ) {
-        @x = grep { $_->name eq $args{name} } @x;
-    }
-
-    if ( exists $args{type} ) {
-        @x = grep { $_->type eq $args{type} } @x;
-    }
-
-    return \@x;
+    return _filter_components( \%args, \@x );
 }
 
 sub get_errors {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my @e = @{ $self->_errors };
+    my @x = @{ $self->_errors };
 
-    if ( exists $args{name} ) {
-        @e = grep { $_->name eq $args{name} } @e;
-    }
-
-    if ( exists $args{type} ) {
-        @e = grep { $_->type eq $args{type} } @e;
-    }
-
-    if ( exists $args{stage} ) {
-        @e = grep { $_->stage eq $args{stage} } @e;
-    }
+    _filter_components( \%args, \@x );
 
     if ( !$args{forced} ) {
-        @e = grep { !$_->forced } @e;
+        @x = grep { !$_->forced } @x;
     }
 
-    return \@e;
+    return \@x;
 }
 
 sub add_error {
@@ -788,9 +734,11 @@ sub _render_error_class {
         append_xml_attribute( $render->{container_attributes},
             'class', 'error' );
 
-        for my $error (@errors) {
+        my @class = uniq sort map { $_->class } @errors;
+
+        for my $class (@class) {
             append_xml_attribute( $render->{container_attributes},
-                'class', $error->class );
+                'class', $class );
         }
     }
 

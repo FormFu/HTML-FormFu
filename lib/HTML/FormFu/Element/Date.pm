@@ -1,7 +1,7 @@
 package HTML::FormFu::Element::Date;
 
 use strict;
-use base 'HTML::FormFu::Element::_Field', 'HTML::FormFu::Element::Multi';
+use base 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
 use HTML::FormFu::Attribute qw/ mk_attrs /;
@@ -53,7 +53,6 @@ for my $method (
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->is_field(0);
     $self->strftime("%d-%m-%Y");
     $self->day( {
             type   => '_DateSelect',
@@ -77,7 +76,7 @@ sub get_fields {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my $f = $self->HTML::FormFu::Element::Block::get_fields;
+    my $f = $self->next::method(@_);
 
     unshift @$f, $self;
 

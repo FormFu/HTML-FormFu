@@ -1,15 +1,11 @@
 package HTML::FormFu::Element::Multi;
 
 use strict;
-use base 'HTML::FormFu::Element::Block';
+use base 'HTML::FormFu::Element::Block', 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
-use HTML::FormFu::Element::_Field qw/
-    _render_container_class _render_comment_class _render_label
-    _string_field_start _string_field_end _string_label /;
-
+use HTML::FormFu::Element::_Field qw/ :FIELD /;
 use HTML::FormFu::Util qw/ append_xml_attribute xml_escape process_attrs /;
-use List::MoreUtils qw/ uniq /;
 use Storable qw/ dclone /;
 
 __PACKAGE__->mk_accessors(
@@ -46,60 +42,112 @@ sub new {
     $self->label_attributes( {} );
     $self->label_filename('label');
     $self->label_tag('label');
-    $self->container_tag('span');
+    $self->is_field(0);
 
     return $self;
+}
+
+sub get_deflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_deflators };
+
+    push @x, map { @{ $_->get_deflators(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_filters {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_filters };
+
+    push @x, map { @{ $_->get_filters(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_constraints {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_constraints };
+
+    push @x, map { @{ $_->get_constraints(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_inflators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_inflators };
+
+    push @x, map { @{ $_->get_inflators(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_validators {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_validators };
+
+    push @x, map { @{ $_->get_validators(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_transformers {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_transformers };
+
+    push @x, map { @{ $_->get_transformers(@_) } } @{ $self->_elements };
+
+    return _filter_components( \%args, \@x );
+}
+
+sub get_errors {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my @x = @{ $self->_errors };
+
+    push @x, map { @{ $_->get_errors(@_) } } @{ $self->_elements };
+
+    _filter_components( \%args, \@x );
+
+    if ( !$args{forced} ) {
+        @x = grep { !$_->forced } @x;
+    }
+
+    return \@x;
+}
+
+sub clear_errors {
+    my ($self) = @_;
+
+    $self->_errors( [] );
+
+    map { $_->clear_errors } @{ $self->_elements };
+
+    return;
 }
 
 sub render_data_non_recursive {
     my $self = shift;
 
-    my $render = $self->next::method( {
-            comment_attributes   => xml_escape( $self->comment_attributes ),
-            container_attributes => xml_escape( $self->container_attributes ),
-            label_attributes     => xml_escape( $self->label_attributes ),
-            comment              => xml_escape( $self->comment ),
-            label                => xml_escape( $self->label ),
-            field_filename       => $self->field_filename,
-            label_filename       => $self->label_filename,
-            label_tag            => $self->label_tag,
-            container_tag        => $self->container_tag,
-            javascript           => $self->javascript,
-            @_ ? %{ $_[0] } : () } );
-
-    $self->_render_container_class($render);
-
-    $self->_render_comment_class($render);
-
-    $self->_render_label($render);
-
-    $self->_render_error_class($render);
+    my $render = $self->next::method(@_);
 
     append_xml_attribute( $render->{attributes}, 'class', 'elements' );
 
     return $render;
-}
-
-sub _render_error_class {
-    my ( $self, $render ) = @_;
-
-    my @errors = map { @{ $_->get_errors } } @{ $self->_elements };
-
-    if (@errors) {
-        $render->{errors} = \@errors;
-
-        append_xml_attribute( $render->{container_attributes},
-            'class', 'error' );
-
-        my @class = uniq sort map { $_->class } @errors;
-
-        for my $class (@class) {
-            append_xml_attribute( $render->{container_attributes},
-                'class', $class );
-        }
-    }
-
-    return;
 }
 
 sub string {

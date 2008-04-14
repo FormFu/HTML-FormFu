@@ -25,6 +25,9 @@ sub _filter_components {
     my ( $args, $components ) = @_;
 
     for my $name ( keys %$args ) {
+        # get_errors() handles this itself
+        next if $name eq 'forced';
+
         my $value;
 
         @$components = grep {

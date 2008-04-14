@@ -40,12 +40,12 @@ bar
 </optgroup>
 </select>
 </div>
-<span class="multi">
+<div class="multi">
 <span class="elements">
 <input name="multi1" type="text" />
 <input name="multi2" type="text" />
 </span>
-</span>
+</div>
 <fieldset class="radiogroup">
 <span>
 <span>
@@ -144,11 +144,12 @@ bar
 <select name="select"><option value="a">A</option><option value="b">B</option><option value="d">D</option></select>
 </div><div class="select">
 <select name="select2"><option value="1">one</option><optgroup><option value="2">two</option><option value="3">three</option></optgroup></select>
-</div>
-<span class="multi"><span class="elements">
+</div><div class="multi">
+<span class="elements">
 <input name="multi1" type="text" />
 <input name="multi2" type="text" />
-</span></span><fieldset class="radiogroup"><span><span>
+</span>
+</div><fieldset class="radiogroup"><span><span>
 <input name="radiogroup" type="radio" value="a" />
 <label>A</label>
 </span><span>

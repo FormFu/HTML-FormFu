@@ -18,7 +18,7 @@ $form->element( { type => 'Submit' } );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<span class="multi label">
+<div class="multi label">
 <label>My multi</label>
 <span class="elements">
 <label>My text</label>
@@ -27,7 +27,7 @@ my $form_xhtml = <<EOF;
 <input name="dot" type="radio" />
 <label>My radio</label>
 </span>
-</span>
+</div>
 <div class="submit">
 <input type="submit" />
 </div>

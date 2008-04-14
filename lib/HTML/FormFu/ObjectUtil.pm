@@ -218,25 +218,15 @@ sub get_errors {
 
     return [] if !$self->form->submitted;
 
-    my @e = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
+    my @x = map { @{ $_->get_errors(@_) } } @{ $self->_elements };
 
-    if ( exists $args{name} ) {
-        @e = grep { $_->name eq $args{name} } @e;
-    }
-
-    if ( exists $args{type} ) {
-        @e = grep { $_->type eq $args{type} } @e;
-    }
-
-    if ( exists $args{stage} ) {
-        @e = grep { $_->stage eq $args{stage} } @e;
-    }
+    _filter_components( \%args, \@x );
 
     if ( !$args{forced} ) {
-        @e = grep { !$_->forced } @e;
+        @x = grep { !$_->forced } @x;
     }
 
-    return \@e;
+    return \@x;
 }
 
 sub get_error {

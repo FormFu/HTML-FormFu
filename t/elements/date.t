@@ -27,7 +27,7 @@ $form->process;
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>
@@ -94,7 +94,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="bar_day">
 <option value="1">1</option>
@@ -179,7 +179,7 @@ is( $bar, "01-07-2007" );
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>
@@ -246,7 +246,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="bar_day">
 <option value="1" selected="selected">1</option>
@@ -323,7 +323,7 @@ ok( !defined $form->params->{foo} );
 
 is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
-<div class="date error error_inflator_datetime date error error_inflator_datetime">
+<div class="date error error_inflator_datetime">
 <span class="error_message error_inflator_datetime">Invalid date</span>
 <span class="elements">
 <select name="foo_day">
@@ -391,7 +391,7 @@ is( "$form", <<HTML_ERRORS );
 </select>
 </span>
 </div>
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="bar_day">
 <option value="1">1</option>

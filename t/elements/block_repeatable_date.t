@@ -20,7 +20,7 @@ is ( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
 <div>
-<div class="date date">
+<div class="date">
 <span class="elements">
 <select name="foo_day">
 <option value="1">1</option>
