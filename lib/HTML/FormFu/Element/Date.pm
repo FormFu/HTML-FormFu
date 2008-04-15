@@ -25,6 +25,8 @@ __PACKAGE__->mk_accessors(
         /
 );
 
+*default = \&value;
+
 # build get_Xs methods
 for my $method (
     qw/
@@ -81,6 +83,25 @@ sub get_fields {
     unshift @$f, $self;
 
     return _get_elements( \%args, $f );
+}
+
+sub value {
+    my $self = shift;
+
+    if (@_) {
+        $self->{value} = shift;
+
+        # if we're already built - i.e. process () has ben called, 
+        # call $field->process() so the user doesn't have to
+
+        if ( @{ $self->_elements } ) {
+            $self->process;
+        }
+
+        return $self;
+    }
+
+    return $self->{value};
 }
 
 sub _add_elements {
