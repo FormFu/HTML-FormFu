@@ -91,11 +91,15 @@ sub value {
     if (@_) {
         $self->{value} = shift;
 
-        # if we're already built - i.e. process () has ben called, 
-        # call $field->process() so the user doesn't have to
+        # if we're already built - i.e. process() has ben called, 
+        # call default() on our children
 
         if ( @{ $self->_elements } ) {
-            $self->process;
+            $self->_date_defaults;
+
+            $self->_elements->[0]->default( $self->day->{default} );
+            $self->_elements->[1]->default( $self->month->{default} );
+            $self->_elements->[2]->default( $self->year->{default} );
         }
 
         return $self;
