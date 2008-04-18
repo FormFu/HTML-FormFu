@@ -74,22 +74,22 @@ sub new {
     return $self;
 }
 
-sub name {
-    my $self = shift;
-
-    if (@_) {
-        $self->{name} = shift;
-
-        # rebuild children, if they exist
-
-        if ( @{ $self->_elements } ) {
-            $self->process
-        }
-        return $self;
-    }
-
-    return $self->{name};
-}
+#sub name {
+#    my $self = shift;
+#
+#    if (@_) {
+#        $self->{name} = shift;
+#
+#        # rebuild children, if they exist
+#
+#        if ( @{ $self->_elements } ) {
+#            $self->process
+#        }
+#        return $self;
+#    }
+#
+#    return $self->{name};
+#}
 
 sub value {
     my $self = shift;
