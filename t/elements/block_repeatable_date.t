@@ -22,7 +22,7 @@ is ( "$form", <<HTML );
 <div>
 <div class="date">
 <span class="elements">
-<select name="foo_day">
+<select name="foo_1_day">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -55,7 +55,7 @@ is ( "$form", <<HTML );
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-<select name="foo_month">
+<select name="foo_1_month">
 <option value="1">January</option>
 <option value="2">February</option>
 <option value="3">March</option>
@@ -69,7 +69,7 @@ is ( "$form", <<HTML );
 <option value="11">November</option>
 <option value="12">December</option>
 </select>
-<select name="foo_year">
+<select name="foo_1_year">
 <option value="2008">2008</option>
 <option value="2009">2009</option>
 <option value="2010">2010</option>

@@ -57,7 +57,6 @@ sub repeat {
 
         if ( $self->increment_field_names ) {
             for my $field ( @{ $block->get_fields } ) {
-                next unless $field->is_field;
 
                 if ( defined( my $name = $field->name ) ) {
                     $field->original_name($name);

@@ -47,6 +47,17 @@ sub new {
     return $self;
 }
 
+sub get_fields {
+    my $self = shift;
+    my %args = _parse_args(@_);
+
+    my $f = $self->next::method(@_);
+
+    unshift @$f, $self;
+
+    return _get_elements( \%args, $f );
+}
+
 sub get_deflators {
     my $self = shift;
     my %args = _parse_args(@_);

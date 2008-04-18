@@ -74,15 +74,21 @@ sub new {
     return $self;
 }
 
-sub get_fields {
+sub name {
     my $self = shift;
-    my %args = _parse_args(@_);
 
-    my $f = $self->next::method(@_);
+    if (@_) {
+        $self->{name} = shift;
 
-    unshift @$f, $self;
+        # rebuild children, if they exist
 
-    return _get_elements( \%args, $f );
+        if ( @{ $self->_elements } ) {
+            $self->process
+        }
+        return $self;
+    }
+
+    return $self->{name};
 }
 
 sub value {
