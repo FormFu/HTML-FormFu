@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Element::Block', 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
 use HTML::FormFu::Element::_Field qw/ :FIELD /;
-use HTML::FormFu::Util qw/ append_xml_attribute xml_escape process_attrs /;
+use HTML::FormFu::Util qw/ append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components /;
 use Storable qw/ dclone /;
 
 __PACKAGE__->mk_accessors(
