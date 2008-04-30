@@ -24,6 +24,11 @@ use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
 use List::MoreUtils qw/ uniq /;
 use Scalar::Util qw/ blessed refaddr weaken /;
 use Storable qw/ dclone /;
+
+# make dclone() work with code-refs
+$Storable::Deparse = 1;
+$Storable::Eval    = 1;
+
 use Regexp::Copy;
 use Carp qw/ croak /;
 
