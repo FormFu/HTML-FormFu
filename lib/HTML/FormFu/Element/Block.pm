@@ -24,7 +24,7 @@ __PACKAGE__->mk_inherited_accessors(
 *elements     = \&element;
 *constraints  = \&constraint;
 *deflators    = \&deflator;
-*filters      = \&filters;
+*filters      = \&filter;
 *inflators    = \&inflator;
 *validators   = \&validator;
 *transformers = \&transformer;
