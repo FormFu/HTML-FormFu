@@ -1,0 +1,15 @@
+---
+
+elements:
+  - type: Multi
+    name: dob
+    
+    elements:
+      - name: m
+      - name: d
+      - name: y
+    
+    inflators:
+      type: CompoundDateTime
+      strptime: '%m-%d-%Y'
+      field_order: ['month', 'day', 'year']

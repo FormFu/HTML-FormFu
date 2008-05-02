@@ -1,0 +1,14 @@
+---
+
+elements:
+  - type: Multi
+    name: dob
+    
+    elements:
+      - name: day
+      - name: month
+      - name: year
+    
+    inflators:
+      type: CompoundDateTime
+      strptime: '%d-%m-%Y'

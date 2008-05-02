@@ -1,0 +1,14 @@
+---
+
+elements:
+  - type: Multi
+    name: dob
+    
+    elements:
+      - name: m
+      - name: d
+      - name: y
+    
+    deflator:
+      - type: CompoundDateTime
+        field_order: ['month', 'day', 'year']
