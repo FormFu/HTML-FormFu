@@ -19,7 +19,8 @@ use Exporter qw/ import /;
 # used by multi.pm
 our @EXPORT_OK = qw/
     nested_name add_error 
-    deflator filter constraint inflator validator transformer plugin /;
+    deflator filter constraint inflator validator transformer plugin
+    deflators filters constraints inflators validators transformers plugins /;
 
 our %EXPORT_TAGS = ( FIELD => \@EXPORT_OK );
 
