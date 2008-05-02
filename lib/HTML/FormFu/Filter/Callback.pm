@@ -6,13 +6,13 @@ use base 'HTML::FormFu::Filter';
 __PACKAGE__->mk_accessors(qw/callback/);
 
 sub filter {
-    my ( $self, $value ) = @_;
+    my ( $self, $value, $params ) = @_;
 
-    my $callback = $self->callback || sub { $_[0] };
+    my $callback = $self->callback || sub { $value };
 
     no strict 'refs';
 
-    return $callback->($value);
+    return $callback->( $value, $params );
 }
 
 1;
