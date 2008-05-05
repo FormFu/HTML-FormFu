@@ -110,8 +110,9 @@ sub render_data {
     my $self = shift;
 
     my $render = $self->render_data_non_recursive( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
             @_ ? %{ $_[0] } : () } );
+
+    $render->{elements} = [ map { $_->render_data } @{ $self->_elements } ];
 
     return $render;
 }

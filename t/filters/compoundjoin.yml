@@ -1,0 +1,12 @@
+---
+
+elements:
+  - type: Multi
+    name: address
+    
+    elements:
+      - name: number
+      - name: street
+    
+    filters:
+      type: CompoundJoin

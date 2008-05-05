@@ -2,7 +2,6 @@ package HTML::FormFu::Deflator::CompoundDateTime;
 
 use strict;
 use base 'HTML::FormFu::Deflator';
-use Class::C3;
 
 use DateTime;
 use Carp qw( croak );

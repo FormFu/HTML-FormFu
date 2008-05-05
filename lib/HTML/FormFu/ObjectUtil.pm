@@ -607,12 +607,16 @@ sub nested_hash_key_exists {
         }
         else {
             if ( $i == $#names ) {
+                return unless ref $$ref && ref($$ref) eq 'HASH';
+                
                 return exists $$ref->{$part} ? 1 : 0;
             }
 
             $ref = \( $$ref->{$part} );
         }
     }
+    
+    return;
 }
 
 sub stash {
