@@ -159,12 +159,14 @@ sub model {
 
     for my $model (@{ $self->_models }) {
         return $model
-            if $model->type =~ /$model_name^/;
+            if $model->type =~ /\Q$model_name\E$/;
     }
 
     # class not found, try require-ing it
 
-    my $class = "HTML::FormFu::Model::$model_name";
+    my $class = $model_name =~ s/^\+// 
+        ? $model_name
+        : "HTML::FormFu::Model::$model_name";
 
     require_class($class);
 
