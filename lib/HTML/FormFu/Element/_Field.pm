@@ -560,7 +560,7 @@ sub _render_value {
             && defined $name
             && $self->nested_hash_key_exists( $form->input, $name ) )
         ? $self->render_processed_value
-            ? ( $render_processed = 1
+            ? ( do { $render_processed = 1 }
                     && $self->get_nested_hash_value(
                     $form->_processed_params, $name
                     ) )

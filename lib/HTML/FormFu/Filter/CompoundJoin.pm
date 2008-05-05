@@ -15,14 +15,24 @@ sub filter {
     
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
     
-    if ( defined ( my $order = $self->field_order ) ) {
-        die "not yet implemented";
-    }
-    else {
-        my @names = map { $_->name } @fields;
+    if ( my $order = $self->field_order ) {
+        my @new_order;
         
-        $value = join $join, map { defined $_ ? $_ : '' } @{$value}{@names};
+FIELD:  for my $i ( @$order ) {
+            for my $field ( @fields ) {
+                if ( $field->name eq $i ) {
+                    push @new_order, $field;
+                    next FIELD;
+                }
+            }
+        }
+        
+        @fields = @new_order;
     }
+    
+    my @names = map { $_->name } @fields;
+    
+    $value = join $join, map { defined $_ ? $_ : '' } @{$value}{@names};
     
     return $value;
 }
@@ -33,11 +43,65 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::CompoundJoin
+HTML::FormFu::Filter::CompoundJoin - CompoundJoin filter
+
+=head1 SYNOPSIS
+
+    ---
+    element:
+      - type: Multi
+        name: address
+        
+        elements:
+          - name: number
+          - name: street
+        
+        filter:
+          - type: CompoundJoin
+
+    # get the compound-value
+    
+    my $address = $form->param_value('address');
 
 =head1 DESCRIPTION
 
+For use with a L<HTML::FormFu::Element::Multi> group of fields.
+
+Joins the input from several fields into a single value.
+
 =head1 METHODS
+
+=head2 join
+
+Arguments: $string
+
+Default Value: C<' '>
+
+String used to join the individually submitted parts. Defaults to a single 
+space.
+
+=head2 field_order
+
+Arguments: \@order
+
+If the submitted parts should be joined in an order different that that of the 
+order of the fields, you must provide an arrayref containing the names, in the 
+order they should be joined.
+
+    ---
+    element:
+      - type: Multi
+        name: address
+        
+        elements:
+          - name: street
+          - name: number
+        
+        filter:
+          - type: CompoundJoin
+            field_order:
+              - number
+              - street
 
 =head1 AUTHOR
 

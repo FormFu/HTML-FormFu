@@ -1,0 +1,14 @@
+---
+
+elements:
+  - type: Multi
+    name: sortcode
+    
+    elements:
+      - name: p1
+      - name: p2
+      - name: p3
+    
+    deflators:
+      type: CompoundSplit
+      split: '-'

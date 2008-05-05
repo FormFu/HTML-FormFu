@@ -1,0 +1,15 @@
+---
+
+elements:
+  - type: Multi
+    name: address
+    
+    elements:
+      - name: street
+      - name: number
+    
+    filters:
+      type: CompoundJoin
+      field_order:
+        - number
+        - street
