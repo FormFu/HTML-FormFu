@@ -1,29 +1,30 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 5;
 
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->render_processed_value(1);
+$form->load_config_file('t/form/render_processed_value.yml');
 
-my $e = $form->element('Text')->name('foo');
-
-$e->deflator('Strftime')->strftime('%d/%m/%Y');
-$e->filter('Regex')->match(2007)->replace(2006);
-$e->inflator('DateTime')->parser( strptime => '%d/%m/%Y' );
-
-$form->process( { foo => '27/04/2007', } );
+$form->process( {
+    foo => '27/04/2007',
+    bar => 'hello',
+} );
 
 # inflator has run
 isa_ok( $form->params->{foo}, 'DateTime' );
 
 # filter has run
 is( $form->params->{foo}->year, '2006' );
+is( $form->params->{bar}, 'HELLO' );
 
 # deflator is run during render()
 # maintains filtered value
-like( $e->render, qr|value="27/04/2006"| );
+like( $form->get_field('foo')->render, qr|value="27/04/2006"| );
+
+# maintains filtered value
+like( $form->get_field('bar')->render, qr/value="HELLO"/ );

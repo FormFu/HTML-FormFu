@@ -1,0 +1,23 @@
+---
+render_processed_value: 1
+
+elements:
+  - name: foo
+    deflator:
+      - type: Strftime
+        strftime: '%d/%m/%Y'
+    
+    filter:
+      - type: Regex
+        match: 2007
+        replace: 2006
+    
+    inflator:
+      - type: DateTime
+        parser:
+          strptime: '%d/%m/%Y'
+  
+  - name: bar
+    filter:
+      - UpperCase
+          

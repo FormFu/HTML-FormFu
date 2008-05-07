@@ -553,15 +553,13 @@ sub _render_value {
 
     my $form = $self->form;
     my $name = $self->nested_name;
-    my $render_processed;
 
     my $input
         = (    $self->form->submitted
             && defined $name
             && $self->nested_hash_key_exists( $form->input, $name ) )
         ? $self->render_processed_value
-            ? ( do { $render_processed = 1 }
-                    && $self->get_nested_hash_value(
+            ? ( $self->get_nested_hash_value(
                     $form->_processed_params, $name
                     ) )
             : $self->get_nested_hash_value( $form->input, $name )
@@ -578,7 +576,7 @@ sub _render_value {
 
     my $value = $self->process_value($input);
 
-    if ( !$self->form->submitted || $render_processed ) {
+    if ( !$self->form->submitted || ( $self->render_processed_value && defined $value ) ) {
         for my $deflator ( @{ $self->_deflators } ) {
             $value = $deflator->process($value);
         }
