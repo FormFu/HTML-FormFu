@@ -13,14 +13,14 @@ use HTML::FormFu;
     
     my $e3 = $e1->clone;
     
-    $form->insert_after( $e3, $e1 );
+    $form->insert_before( $e3, $e1 );
     
     my $elems = $form->get_elements;
     
     is( scalar(@$elems), 3 );
     
-    ok( $elems->[0] == $e1 );
-    ok( $elems->[1] == $e3 );
+    ok( $elems->[0] == $e3 );
+    ok( $elems->[1] == $e1 );
     ok( $elems->[2] == $e2 );
 }
 
@@ -32,7 +32,7 @@ use HTML::FormFu;
     my $e1 = $form->element({ name => 'foo' });
     my $e2 = $form->element({ name => 'bar' });
     
-    $form->insert_after( $e1, $e2 );
+    $form->insert_before( $e2, $e1 );
     
     my $elems = $form->get_elements;
     

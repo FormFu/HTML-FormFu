@@ -277,9 +277,18 @@ sub populate {
 sub insert_before {
     my ( $self, $object, $position ) = @_;
 
-    for my $i ( 1 .. @{ $self->_elements } ) {
-        if ( refaddr( $self->_elements->[ $i - 1 ] ) eq refaddr($position) ) {
-            splice @{ $self->_elements }, $i - 1, 0, $object;
+    # if $position is already a child of $object, remove it first
+
+    for my $i ( 0 .. $#{ $self->_elements } ) {
+        if ( refaddr( $self->_elements->[ $i ] ) eq refaddr($object) ) {
+            splice @{ $self->_elements }, $i, 1;
+            last;
+        }
+    }
+
+    for my $i ( 0 .. $#{ $self->_elements } ) {
+        if ( refaddr( $self->_elements->[ $i ] ) eq refaddr($position) ) {
+            splice @{ $self->_elements }, $i, 0, $object;
             $object->{parent} = $position->{parent};
             weaken $object->{parent};
             return $object;
@@ -292,9 +301,18 @@ sub insert_before {
 sub insert_after {
     my ( $self, $object, $position ) = @_;
 
-    for my $i ( 1 .. @{ $self->_elements } ) {
-        if ( refaddr( $self->_elements->[ $i - 1 ] ) eq refaddr($position) ) {
-            splice @{ $self->_elements }, $i, 0, $object;
+    # if $position is already a child of $object, remove it first
+
+    for my $i ( 0 .. $#{ $self->_elements } ) {
+        if ( refaddr( $self->_elements->[ $i ] ) eq refaddr($object) ) {
+            splice @{ $self->_elements }, $i, 1;
+            last;
+        }
+    }
+
+    for my $i ( 0 .. $#{ $self->_elements } ) {
+        if ( refaddr( $self->_elements->[ $i ] ) eq refaddr($position) ) {
+            splice @{ $self->_elements }, $i + 1, 0, $object;
             $object->{parent} = $position->{parent};
             weaken $object->{parent};
             return $object;
@@ -307,12 +325,11 @@ sub insert_after {
 sub remove_element {
     my ( $self, $object ) = @_;
 
-    for my $i ( 0 .. @{ $self->_elements } - 1 ) {
+    for my $i ( 0 .. $#{ $self->_elements } ) {
         if ( refaddr( $self->_elements->[$i] ) eq refaddr($object) ) {
             splice @{ $self->_elements }, $i, 1;
             undef $object->{parent};
-            undef $object;
-            return;
+            return $object;
         }
     }
 

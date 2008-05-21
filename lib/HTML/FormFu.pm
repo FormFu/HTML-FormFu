@@ -1636,7 +1636,18 @@ you must use C<clone>:
     
     $form2->insert_after( $new, $position );
 
-=head2 insert_after
+=head2 remove_element
+
+Arguments: $element
+
+Return Value: $element
+
+Removes the C<$element> from the form or block's array of children.
+
+    $form->remove_element( $element );
+
+The orphaned element cannot be usefully used for anything until it is 
+re-attached to a form or block with L</insert_before> or L</insert_after>.
 
 =head1 FORM LOGIC AND VALIDATION
 

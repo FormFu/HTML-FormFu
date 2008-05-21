@@ -1,9 +1,14 @@
 0.02005
+
     - issue #22: add a END block to DBICTestLib that cleans up the t/test.db
     
     - issue #21: added methods to _Group for empty_first_label, and refactored
       item generation out of options, values, value_range to _get_empty_first_option,
       which the others call.
+
+    - Bugfix: insert_before() and insert_after() now check if the object is 
+      already a child, and if so, removes it first. Reported by Ferruccio 
+      Zamuner.
       
     - Bugfix: save_to_model() many_to_many multi-value fields where 
       'default_column' included the table name (or 'me.') failed.

@@ -1,23 +1,45 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 7;
 
 use HTML::FormFu;
-use Storable qw/ dclone /;
 
-my $form = HTML::FormFu->new;
+{
+    my $form = HTML::FormFu->new;
+    
+    my $fs = $form->element('Fieldset');
+    my $e1 = $fs->element('Text')->name('foo');
+    my $e2 = $fs->element('Hidden')->name('foo');
+    
+    my $e3 = $e1->clone;
+    
+    $fs->insert_before( $e3, $e1 );
+    
+    my $elems = $fs->get_elements;
+    
+    is( scalar(@$elems), 3 );
+    
+    ok( $elems->[0] == $e3 );
+    ok( $elems->[1] == $e1 );
+    ok( $elems->[2] == $e2 );
+}
 
-my $fs = $form->element('Fieldset');
-my $e1 = $fs->element('Text')->name('foo');
-my $e2 = $fs->element('Hidden')->name('foo');
+# ensure elements only occur once
 
-my $e3 = $e1->clone;
-
-$fs->insert_before( $e3, $e2 );
-
-my $elems = $fs->get_elements;
-
-ok( $elems->[0] == $e1 );
-ok( $elems->[1] == $e3 );
-ok( $elems->[2] == $e2 );
+{
+    my $form = HTML::FormFu->new;
+    
+    my $fs = $form->element('Fieldset');
+    my $e1 = $fs->element({ name => 'foo' });
+    my $e2 = $fs->element({ name => 'bar' });
+    
+    $fs->insert_before( $e2, $e1 );
+    
+    my $elems = $fs->get_elements;
+    
+    is( scalar(@$elems), 2 );
+    
+    ok( $elems->[0] == $e2 );
+    ok( $elems->[1] == $e1 );
+}
