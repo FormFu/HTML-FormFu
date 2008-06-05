@@ -20,6 +20,8 @@
       DateTime::Format::Natural to parse dates such as "today" or "yesterday."
 
     - New Split filter.
+    
+    - when() method for Constraints can now accept a callback
 
 0.02004 2008-02-22
 
