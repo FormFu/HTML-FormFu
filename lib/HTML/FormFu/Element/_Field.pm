@@ -1132,7 +1132,7 @@ Set the comment using a L10N key.
 Set which tag-name should be used to contain the various field parts (field, 
 label, comment, errors, etc.).
 
-Default Value: 'span'
+Default Value: 'div'
 
 =head2 javascript
 

@@ -1,5 +1,8 @@
 0.02005
 
+    - Field container_tag() now defaults to 'div' rather than 'span' to provide
+      better layout without CSS.
+    
     - issue #22: add a END block to DBICTestLib that cleans up the t/test.db
     
     - issue #21: added methods to _Group for empty_first_label, and refactored

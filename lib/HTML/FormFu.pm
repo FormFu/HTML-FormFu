@@ -1375,12 +1375,12 @@ A few examples and their output, to demonstrate:
         name: bar
 
     <form action="" method="post">
-      <span class="text">
+      <div class="text">
         <input name="foo" type="text" />
-      </span>
-      <span class="text">
+      </div>
+      <div class="text">
         <input name="bar" type="text" />
-      </span>
+      </div>
     </form>
 
 2 elements with an L</auto_fieldset>.
@@ -1395,12 +1395,12 @@ A few examples and their output, to demonstrate:
 
     <form action="" method="post">
       <fieldset>
-        <span class="text">
+        <div class="text">
           <input name="foo" type="text" />
-        </span>
-        <span class="text">
+        </div>
+        <div class="text">
           <input name="bar" type="text" />
-        </span>
+        </div>
       </fieldset>
     </form>
 
@@ -1419,17 +1419,17 @@ The 3rd element is within a new fieldset
 
     <form action="" method="post">
       <fieldset id="fs">
-        <span class="text">
+        <div class="text">
           <input name="foo" type="text" />
-        </span>
-        <span class="text">
+        </div>
+        <div class="text">
           <input name="bar" type="text" />
-        </span>
+        </div>
       </fieldset>
       <fieldset>
-        <span class="text">
+        <div class="text">
           <input name="baz" type="text" />
-        </span>
+        </div>
       </fieldset>
     </form>
 
