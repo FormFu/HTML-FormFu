@@ -840,7 +840,7 @@ sub _single_plugin {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';

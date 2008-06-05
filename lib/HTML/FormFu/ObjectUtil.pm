@@ -500,9 +500,10 @@ sub clone {
     $new{_elements}        = [ map { $_->clone } @{ $self->_elements } ];
     $new{attributes}       = dclone $self->attributes;
     $new{tt_args}          = dclone $self->tt_args;
-    $new{element_defaults} = dclone $self->element_defaults;
     $new{languages}        = dclone $self->languages;
-    $new{model_config}      = dclone $self->model_config;
+    $new{model_config}     = dclone $self->model_config;
+
+    $new{element_defaults} = $self->element_defaults;
 
     my $obj = bless \%new, ref $self;
 
@@ -912,7 +913,7 @@ sub _single_deflator {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
@@ -949,7 +950,7 @@ sub _single_filter {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
@@ -986,7 +987,7 @@ sub _single_constraint {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
@@ -1023,7 +1024,7 @@ sub _single_inflator {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
@@ -1060,7 +1061,7 @@ sub _single_validator {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
@@ -1097,7 +1098,7 @@ sub _single_transformer {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = { %$arg }; # shallow clone
     }
     else {
         croak 'invalid args';
