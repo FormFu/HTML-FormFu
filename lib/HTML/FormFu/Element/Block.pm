@@ -77,19 +77,6 @@ sub _single_plugin {
 
     return @return;
 }
-
-sub defaults_from_model {
-    my $self = shift;
-
-    return $self->form->model->defaults_from_model( $self, @_ );
-}
-
-sub save_to_model {
-    my $self = shift;
-
-    return $self->form->model->save_to_model( $self, @_ );
-}
-
 sub process {
     my ($self) = @_;
 
