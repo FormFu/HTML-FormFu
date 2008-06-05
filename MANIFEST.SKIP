@@ -15,6 +15,9 @@
 ^\.includepath$
 ^\.settings\b
 
+# Komodo project file
+\.kpf$
+
 # Avoid version control files.
 \bRCS\b
 \bCVS\b

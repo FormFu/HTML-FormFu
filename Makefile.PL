@@ -1,4 +1,4 @@
-use inc::Module::Install;
+use inc::Module::Install 0.75;
 
 name 'HTML-FormFu';
 perl_version '5.008001';
