@@ -6,13 +6,13 @@ use base 'HTML::FormFu::Transformer';
 __PACKAGE__->mk_accessors(qw/ callback /);
 
 sub transformer {
-    my ( $self, $value ) = @_;
+    my ( $self, $value, $params ) = @_;
 
     my $callback = $self->callback || sub {1};
 
     no strict 'refs';
 
-    my $return = $callback->($value);
+    my $return = $callback->($value, $params);
 
     return $return;
 }
@@ -39,7 +39,9 @@ HTML::FormFu::Transformer::Callback - Callback transformer
 
 =head1 DESCRIPTION
 
-Callback transformer.
+The first argument passed to the callback is the submitted value for the 
+associated field. The second argument passed to the callback is a hashref of 
+name/value pairs for all input fields.
 
 =head1 METHODS
 
