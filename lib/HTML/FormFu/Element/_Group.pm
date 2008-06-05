@@ -472,7 +472,17 @@ in select menus.
 
 If true, then a blank option will be inserted at the start of the option list
 (regardless of whether L</options>, L</values> or L</value_range> was used to
-populate the options).
+populate the options).  See also L</empty_first_label>.
+
+=head2 empty_first_label
+
+=head2 empty_first_label_xml
+
+=head2 empty_first_label_loc
+
+If L</empty_first> is true, and C<empty_first_label> is set, this value will
+be used as the label for the first option - so only the first option's value
+will be empty.
 
 =head1 SEE ALSO
 
