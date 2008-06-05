@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 38;
+use Test::More tests => 47;
 
 use HTML::FormFu;
 
@@ -15,6 +15,14 @@ $form->element('Text')->name('moo')->constraint('Required')
 $form->element('Text')->name('zoo')->constraint('Required')
     ->when( { field => 'foo', value => 5, not => 1 } );
 
+# When triggered depending on callback
+my $when_closure = sub {
+    my $params = shift;
+    return 1 if defined $params->{foo} && $params->{foo} eq '1';
+};
+$form->element('Text')->name('coo')->constraint('Number')
+    ->when( { callback => $when_closure } );
+
 # Valid
 {
     $form->process( {
@@ -22,6 +30,7 @@ $form->element('Text')->name('zoo')->constraint('Required')
             bar => 'bar_value',
             moo => undef,
             zoo => 'zoo_value',
+            coo => 4,
         } );
 
     # if 'moo' does not *exist* in process params
@@ -31,17 +40,20 @@ $form->element('Text')->name('zoo')->constraint('Required')
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('moo'), 'moo valid' );
     ok( $form->valid('zoo'), 'zoo valid' );
+    ok( $form->valid('coo'), 'coo valid' );
 
     ok( grep { $_ eq 'foo' } $form->valid );
     ok( grep { $_ eq 'bar' } $form->valid );
     ok( grep { $_ eq 'moo' } $form->valid );
     ok( grep { $_ eq 'zoo' } $form->valid );
+    ok( grep { $_ eq 'coo' } $form->valid );
 
     $form->process( {
             foo => 2,
             bar => undef,
             moo => 'moo_value',
             zoo => 'zoo_value',
+            coo => 'not_a_number',
         } );
 
     # if 'bar' does not *exist* in process params
@@ -51,17 +63,20 @@ $form->element('Text')->name('zoo')->constraint('Required')
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('moo'), 'moo valid' );
     ok( $form->valid('zoo'), 'zoo valid' );
+    ok( $form->valid('coo'), 'coo valid' );
 
     ok( grep { $_ eq 'foo' } $form->valid );
     ok( grep { $_ eq 'bar' } $form->valid );
     ok( grep { $_ eq 'moo' } $form->valid );
     ok( grep { $_ eq 'zoo' } $form->valid );
+    ok( grep { $_ eq 'coo' } $form->valid );
 
     $form->process( {
             foo => 5,
             bar => undef,
             moo => undef,
             zoo => undef,
+            coo => undef,
         } );
 
     # if 'bar' does not *exist* in process params
@@ -71,11 +86,13 @@ $form->element('Text')->name('zoo')->constraint('Required')
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('moo'), 'moo valid' );
     ok( $form->valid('zoo'), 'zoo valid' );
+    ok( $form->valid('coo'), 'coo valid' );
 
     ok( grep { $_ eq 'foo' } $form->valid );
     ok( grep { $_ eq 'bar' } $form->valid );
     ok( grep { $_ eq 'moo' } $form->valid );
     ok( grep { $_ eq 'zoo' } $form->valid );
+    ok( grep { $_ eq 'coo' } $form->valid );
 }
 
 # Invalid
@@ -83,6 +100,7 @@ $form->element('Text')->name('zoo')->constraint('Required')
     $form->process( {
             foo => 1,
             moo => undef,
+            coo => 'not_a_number',
         } );
 
     ok( $form->has_errors );
@@ -91,12 +109,14 @@ $form->element('Text')->name('zoo')->constraint('Required')
     ok( !$form->valid('bar'), 'bar not valid' );
     ok( $form->valid('moo'),  'moo valid' );
     ok( !$form->valid('zoo'), 'zoo not valid' );
+    ok( !$form->valid('coo'), 'coo not valid' );
 
     $form->process( {
             foo => 'false value',
             bar => undef,
             moo => undef,
             zoo => 'zoo_value',
+            coo => 'not_a_number',
         } );
 
     # if 'bar' and 'moo' does not *exist* in process params
@@ -108,9 +128,11 @@ $form->element('Text')->name('zoo')->constraint('Required')
     ok( $form->valid('bar'),  'bar valid' );
     ok( $form->valid('moo'),  'moo valid' );
     ok( $form->valid('zoo'),  'zoo valid' );
+    ok( $form->valid('coo'),  'coo valid' );
 
     ok( !grep { $_ eq 'foo' } $form->valid );
     ok( grep  { $_ eq 'bar' } $form->valid );
     ok( grep  { $_ eq 'moo' } $form->valid );
     ok( grep  { $_ eq 'zoo' } $form->valid );
+    ok( grep  { $_ eq 'coo' } $form->valid );
 }

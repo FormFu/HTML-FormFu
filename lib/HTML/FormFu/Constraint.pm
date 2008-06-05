@@ -99,6 +99,8 @@ sub _process_when {
 
     # returns 1 if when condition is fullfilled or not defined
     # returns 0 if when condition is defined and not fullfilled
+	# If it's a callback, return callback's return value (so when
+	# condition is met if callback returns a true value)
 
     # get when condition
     my $when = $self->when;
@@ -107,9 +109,16 @@ sub _process_when {
     # check type of 'when'
     croak "Parameter 'when' is not a hash ref" if ref $when ne 'HASH';
 
-    # field must be defined
+    # field or callback must be defined
     my $when_field = $when->{field};
-    croak "Parameter 'field' is not defined" if !defined $when_field;
+    my $when_callback = $when->{callback};
+    croak "Parameter 'field' or 'callback' is not defined"
+        if !defined $when_field && !defined $when_callback;
+
+    # Callback will be the preferred thing
+    if ( $when_callback ) {
+        return $when_callback->($params);
+    }
 
     # nothing to constrain if field doesn't exist
     my $when_field_value = $params->{$when_field};
@@ -259,6 +268,10 @@ This method expects a hashref with the following keys:
   value: expected value in the form field 'field'
   values: Array of multiple values, one must match to fullfill the condition
   not: inverse the when condition - value(s) must not match
+  callback: a callback can be supplied to perform complex checks. An hashref
+    of all parameters is passed. In this case all other keys are ignored,
+    including not. Return a true value for the constraint to be valid or
+    a false value to not apply it.
 
 =head1 CORE CONSTRAINTS
 
