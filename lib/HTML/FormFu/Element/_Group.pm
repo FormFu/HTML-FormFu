@@ -40,7 +40,7 @@ sub new {
     return $self;
 }
 
-sub post_process {
+sub process {
     my $self = shift;
 
     $self->next::method(@_);
@@ -49,19 +49,19 @@ sub post_process {
 
     return unless $args && keys %$args;
 
-    # only call options_from_model if there's no options already
-    # and {options_from_model} isn't 0
+    return if @{ $self->options };
 
-    my $option_count = scalar @{ $self->options };
+    # don't run if {options_from_model} is set and is 0
 
     my $option_flag = exists $args->{options_from_model}
         ? $args->{options_from_model}
         : 1;
 
-    if ( $option_count == 0 && $option_flag  != 0 ) {
-        $self->options(
-            [ $self->form->model->options_from_model( $self, $args ) ] );
-    }
+    return if !$option_flag;
+    
+    $self->options( [ $self->form->model->options_from_model( $self, $args ) ] );
+    
+    return;
 }
 
 sub options {
