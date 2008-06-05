@@ -23,7 +23,7 @@
     
     - when() method for Constraints can now accept a callback
     
-    - Transformer callbacks now get $params as second arguments (as Constraints
+    - Transformer callbacks now get $params as second argument (as Constraints
       aready were getting)
 
 0.02004 2008-02-22

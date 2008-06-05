@@ -117,6 +117,7 @@ sub _process_when {
 
     # Callback will be the preferred thing
     if ( $when_callback ) {
+        no strict 'refs';
         return $when_callback->($params);
     }
 

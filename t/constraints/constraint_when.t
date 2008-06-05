@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 47;
+use Test::More tests => 49;
 
 use HTML::FormFu;
 
@@ -22,6 +22,10 @@ my $when_closure = sub {
 };
 $form->element('Text')->name('coo')->constraint('Number')
     ->when( { callback => $when_closure } );
+# Just to test we can provide strings as callbacks
+$form->element('Text')->name('coo2')->constraint('Integer')
+    ->when( { callback => "main::when_string_callback" } );
+sub when_string_callback { return 1 }
 
 # Valid
 {
@@ -31,6 +35,7 @@ $form->element('Text')->name('coo')->constraint('Number')
             moo => undef,
             zoo => 'zoo_value',
             coo => 4,
+            coo2 => 5,
         } );
 
     # if 'moo' does not *exist* in process params
@@ -41,12 +46,14 @@ $form->element('Text')->name('coo')->constraint('Number')
     ok( $form->valid('moo'), 'moo valid' );
     ok( $form->valid('zoo'), 'zoo valid' );
     ok( $form->valid('coo'), 'coo valid' );
+    ok( $form->valid('coo2'), 'coo2 valid' );
 
     ok( grep { $_ eq 'foo' } $form->valid );
     ok( grep { $_ eq 'bar' } $form->valid );
     ok( grep { $_ eq 'moo' } $form->valid );
     ok( grep { $_ eq 'zoo' } $form->valid );
     ok( grep { $_ eq 'coo' } $form->valid );
+    ok( grep { $_ eq 'coo2' } $form->valid );
 
     $form->process( {
             foo => 2,
