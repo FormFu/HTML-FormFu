@@ -22,8 +22,8 @@ sub new {
 sub prepare_id {
     my ( $self, $render ) = @_;
 
-    my $form_id    = defined $self->form->id ? $self->form->id : '';
-    my $field_name = $self->nested_name || '';
+    my $form_id    = defined $self->form->id    ? $self->form->id    : '';
+    my $field_name = defined $self->nested_name ? $self->nested_name : '';
     my $count      = 0;
 
     for my $option ( @{ $render->{options} } ) {
