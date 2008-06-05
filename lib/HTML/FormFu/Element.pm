@@ -61,22 +61,22 @@ sub db {
     my $self = shift;
 
     warn "db() method deprecated and is provided for compatibilty only: "
-        . "use model_config->{DBIC} instead as this will be removed\n";
+        . "use model_config() instead as this will be removed\n";
 
     if (@_) {
         my $args = shift;
 
-        $self->model_config->{DBIC} = {}
-            if !exists $self->model_config->{DBIC};
+        $self->model_config = {}
+            if !$self->model_config;
 
-        my $dbic = $self->model_config->{DBIC};
+        my $conf = $self->model_config;
 
         for ( keys %$args ) {
-            $dbic->{$_} = $args->{$_};
+            $conf->{$_} = $args->{$_};
         }
     }
 
-    return $self->model_config->{DBIC};
+    return $self->model_config;
 }
 
 sub setup { }

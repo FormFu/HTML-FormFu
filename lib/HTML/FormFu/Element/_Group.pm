@@ -45,7 +45,7 @@ sub post_process {
 
     $self->next::method(@_);
 
-    my $args = $self->model_config->{DBIC};
+    my $args = $self->model_config;
 
     return unless $args && keys %$args;
 
@@ -60,7 +60,7 @@ sub post_process {
 
     if ( $option_count == 0 && $option_flag  != 0 ) {
         $self->options(
-            [ $self->form->model('DBIC')->options_from_model( $self, $args ) ] );
+            [ $self->form->model->options_from_model( $self, $args ) ] );
     }
 }
 

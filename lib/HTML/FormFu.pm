@@ -105,6 +105,7 @@ sub new {
         tt_module          => 'Template',
         query_type         => 'CGI',
         languages          => ['en'],
+        default_model      => 'DBIC',
         localize_class     => 'HTML::FormFu::I18N',
         auto_error_class   => 'error_%s_%t',
         auto_error_message => 'form_%s_%t',
@@ -193,24 +194,18 @@ sub defaults_from_model {
     my $self = shift;
 
     warn "defaults_from_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model('DBIC')->default_values() instead\n";
+        . "and will be removed: use \$form->model->default_values() instead\n";
 
-    my $model = $self->default_model;
-    $model = 'DBIC' if !defined $model;
-
-    return $self->model($model)->default_values(@_);
+    return $self->model->default_values(@_);
 }
 
 sub save_to_model {
     my $self = shift;
 
     warn "save_to_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model('DBIC')->update() instead\n";
+        . "and will be removed: use \$form->model->update() instead\n";
 
-    my $model = $self->default_model;
-    $model = 'DBIC' if !defined $model;
-
-    return $self->model($model)->update(@_);
+    return $self->model->update(@_);
 }
 
 sub process {
