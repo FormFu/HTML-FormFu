@@ -4,8 +4,6 @@ use strict;
 use base 'HTML::FormFu::Plugin';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_accessors /;
-
 sub post_process {
     my ( $self ) = @_;
 
