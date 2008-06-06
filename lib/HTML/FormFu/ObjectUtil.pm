@@ -4,7 +4,8 @@ use strict;
 use Exporter qw/ import /;
 
 use HTML::FormFu::Util
-    qw/ _parse_args require_class _get_elements split_name _filter_components /;
+    qw/ _parse_args require_class _get_elements split_name _filter_components
+        _merge_hashes /;
 use Config::Any;
 use Data::Visitor::Callback;
 use Scalar::Util qw/ refaddr weaken blessed /;
@@ -1411,37 +1412,11 @@ sub get_plugin {
 sub model_config {
     my ( $self, $config ) = @_;
 
-    $self->{model_config} = {}
-        if !defined $self->{model_config};
+    $self->{model_config} ||= {};
 
     $self->{model_config} = _merge_hashes( $self->{model_config}, $config );
 
     return $self->{model_config};
-}
-
-# sub _merge_hashes copied from Catalyst::Utils::merge_hashes()
-# redistributed under the same terms as Perl
-
-sub _merge_hashes {
-    my ( $lefthash, $righthash ) = @_;
-
-    return $lefthash unless defined $righthash;
-    
-    my %merged = %$lefthash;
-    for my $key ( keys %$righthash ) {
-        my $right_ref = ( ref $righthash->{ $key } || '' ) eq 'HASH';
-        my $left_ref  = ( ( exists $lefthash->{ $key } && ref $lefthash->{ $key } ) || '' ) eq 'HASH';
-        if( $right_ref and $left_ref ) {
-            $merged{ $key } = _merge_hashes(
-                $lefthash->{ $key }, $righthash->{ $key }
-            );
-        }
-        else {
-            $merged{ $key } = $righthash->{ $key };
-        }
-    }
-    
-    return \%merged;
 }
 
 1;
