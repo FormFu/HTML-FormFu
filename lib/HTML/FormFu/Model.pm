@@ -28,6 +28,22 @@ sub new {
     return $self;
 }
 
+sub default_values {
+    croak "'default_values' method not implemented by Model class";
+}
+
+sub update {
+    croak "'update' method not implemented by Model class";
+}
+
+sub create {
+    croak "'create' method not implemented by Model class";
+}
+
+sub options_from_model {
+    croak "'options_from_model' method not implemented by Model class";
+}
+
 sub clone {
     my ($self) = @_;
 
@@ -47,6 +63,8 @@ HTML::FormFu::Model - base class for models
 =head1 SEE ALSO
 
 L<HTML::FormFu::Model::DBIC>
+
+L<HTML::FormFu::Model::LDAP>
 
 =head1 AUTHOR
 
