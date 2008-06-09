@@ -1107,6 +1107,11 @@ L<mailing list|/SUPPORT>.
 
 =head1 SYNOPSIS
 
+Note: These examples make use of L<HTML::FormFu::Model::DBIC>. As of
+C<HTML::FormFu> v02.005, the L<HTML::FormFu::Model::DBIC> module is
+not bundled with C<HTML::FormFu> and is available in a stand-alone
+distribution.
+
     use HTML::FormFu;
 
     my $form = HTML::FormFu->new;
