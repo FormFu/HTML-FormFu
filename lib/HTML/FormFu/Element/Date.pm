@@ -74,23 +74,6 @@ sub new {
     return $self;
 }
 
-#sub name {
-#    my $self = shift;
-#
-#    if (@_) {
-#        $self->{name} = shift;
-#
-#        # rebuild children, if they exist
-#
-#        if ( @{ $self->_elements } ) {
-#            $self->process
-#        }
-#        return $self;
-#    }
-#
-#    return $self->{name};
-#}
-
 sub value {
     my $self = shift;
 
@@ -433,6 +416,16 @@ Arguments: $date_string
 Accepts either a L<DateTime> object, or a string containing a date, matching 
 the L</strftime> format. Overwrites any default value set in L</day>, 
 L</month> or L</year>.
+
+=head2 default_natural
+
+Arguments: $date_string
+
+    - type: Date
+      default_natural: 'today'
+
+Accepts a date/time string suitable for passing to
+L<DateTime::Format::Natural/parse_datetime>.
 
 =head2 strftime
 
