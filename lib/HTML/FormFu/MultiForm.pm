@@ -37,7 +37,7 @@ our @ACCESSORS = qw/
     indicator filename javascript javascript_src
     element_defaults query_type languages force_error_message
     localize_class tt_module
-    nested_name nested_subscript model_class model_config
+    nested_name nested_subscript default_model model_config
     auto_fieldset params_ignore_underscore tmp_upload_dir
     /;
 
