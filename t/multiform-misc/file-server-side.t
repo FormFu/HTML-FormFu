@@ -4,6 +4,11 @@ use warnings;
 use Test::More;
 use HTML::FormFu::MultiForm;
 
+if ( $^O =~ /mswin/i ) {
+    plan skip_all => "'tmp_upload_dir' doesn't yet work under MS Windows";
+    exit;
+}
+
 eval "use CGI";
 if ($@) {
     plan skip_all => 'CGI required';
