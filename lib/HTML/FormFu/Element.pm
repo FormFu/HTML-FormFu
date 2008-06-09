@@ -362,6 +362,14 @@ Get or set the element's DOM id.
 
 Default Value: none
 
+=head1 MODEL / DATABASE INTERACTION
+
+See L<HTML::FormFu::Model> for further details and available models.
+
+=head2 model_config
+
+Arguments: \%config
+
 =head1 RENDERING
 
 =head2 filename
@@ -487,6 +495,15 @@ used directly.
 =item L<HTML::FormFu::Element::NonBlock>
 
 =back
+
+=head1 DEPRECATED METHODS
+
+=head2 db
+
+Is deprecated and provided only for backwards compatability. Will be removed
+at some point in the future.
+
+Use L</model_config> instead.
 
 =head1 AUTHOR
 

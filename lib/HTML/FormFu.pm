@@ -1097,10 +1097,9 @@ HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
 =head1 BETA SOFTWARE
 
-Please note that this is beta software.
-
 There may be API changes required before the 1.0 release. Any incompatible 
 changes will first be discussed on the L<mailing list|/SUPPORT>.
+See L</DEPRECATION POLICY> for further details.
 
 Work is still needed on the documentation, if you come across any errors or 
 find something confusing, please give feedback via the 
@@ -1148,13 +1147,13 @@ If you're using L<Catalyst>, a more suitable example might be:
         
         if ( $form->submitted_and_valid ) {
             
-            $form->save_to_model( $user );
+            $form->model->update( $user );
             
             $c->res->redirect( $c->uri_for( "/user/$id" ) );
             return;
         }
         
-        $form->defaults_from_model( $user )
+        $form->model->default_values( $user )
             if ! $form->submitted;
         
     }
@@ -2379,6 +2378,26 @@ Return Value: $error
 Accepts the same arguments as L</get_errors>, but only returns the first 
 error found.
 
+=head1 MODEL / DATABASE INTERACTION
+
+See L<HTML::FormFu::Model> for further details and available models.
+
+=head2 default_model
+
+Arguments: $model_name
+
+Default Value: 'DIBC'
+
+=head2 model
+
+Arguments: [$model_name]
+
+Return Value: $model
+
+=head2 model_config
+
+Arguments: \%config
+
 =head1 MODIFYING A SUBMITTED FORM
 
 =head2 add_valid
@@ -2810,6 +2829,40 @@ Returns a deep clone of the <$form> object.
 
 Because of scoping issues, code references (such as in Callback constraints) 
 are copied instead of cloned.
+
+=head1 DEPRECATED METHODS
+
+=head2 model_class
+
+Is deprecated and provided only for backwards compatability. Will be removed
+at some point in the future.
+
+Use L</default_model> instead.
+
+=head2 defaults_from_model
+
+Is deprecated and provided only for backwards compatability. Will be removed
+at some point in the future.
+
+Use L<HTML::FormFu::Model/default_values> instead.
+
+    $form->model->default_values( $object, \%config )
+
+=head2 save_to_model
+
+Is deprecated and provided only for backwards compatability. Will be removed
+at some point in the future.
+
+Use L<HTML::FormFu::Model/update> instead.
+
+    $form->model->update( $object, \%config )
+
+=head1 DEPRECATION POLICY
+
+We try our best to not make incompatable changes, but if they're required
+we'll make every effort possible to provide backwards compatibility for
+several release-cycles, issuing a warnings about the changes, before removing
+the legacy features.
 
 =head1 BEST PRACTICES
 

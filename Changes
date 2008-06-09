@@ -3,34 +3,80 @@
     - Field container_tag() now defaults to 'div' rather than 'span' to provide
       better layout without CSS.
     
-    - issue #22: add a END block to DBICTestLib that cleans up the t/test.db
+    - Multi block no longer sets container_tag() to 'span' - defaults to 'div'.
     
-    - issue #21: added methods to _Group for empty_first_label, and refactored
-      item generation out of options, values, value_range to _get_empty_first_option,
-      which the others call.
+    - HTML::FormFu::Model::DBIC moved out into a separate distribution.
     
-    - _Group field options() now supports value_xml, value_loc, label_xml and
-      label_loc values.
+    - Models now accessed through new form method: model(), with accompanying
+      methods: default_model() and model_config.
+    
+    - Deprecated form methods: model_class(), defaults_from_model(),
+      save_to_model().
+    
+    - Model methods renamed to: default_model(), default_values() and update().
+    
+    - New model method: create().
+    
+    - Deprecated element method: db().
+    
+    - Bugfixes for perl 5.10.0 (missing imports).
     
     - Bugfix: insert_before() and insert_after() now check if the object is 
       already a child, and if so, removes it first. Reported by Ferruccio 
       Zamuner.
-      
-    - Bugfix: save_to_model() many_to_many multi-value fields where 
-      'default_column' included the table name (or 'me.') failed.
-
-    - get_* (fields, elements, constraints, etc) now accept any valid method
-      as a search parameter rather than a limited subset.
-
-    - add default_natural() to Date element, allowing the use of 
-      DateTime::Format::Natural to parse dates such as "today" or "yesterday."
-
-    - New Split filter.
     
+    - Bugfix: update() many_to_many multi-value fields where 
+      'default_column' included the table name (or 'me.') failed.
+    
+    - Bugfix: make inflators work with multiple submitted values.
+    
+    - Bugfix for Bool constraint: use '?' quantifier, not '*'.
+    
+    - Bugfix in Email constraint: ensure Email::Valid->address() is called in
+      scalar context.
+    
+    - New Split and CompoundJoin filters.
+    
+    - New CompoundDateTime inflator.
+    
+    - New CompoundSplit and CompoundDateTime deflators.
+    
+    - New Plugin system (see tests, not yet documented) and StashValid plugin.
+    
+    - New MultiForm system for multi-page forms (see tests, not yet documented).
+    
+    - New form methods: stash_valid(), params_ignore_underscore() and
+      tmp_upload_dir().
+    
+    - New method for _Group fields: empty_first_label().
+    
+    - Multi->render_data() now builds itself before it's children, so that
+      deflators on the Multi work.
+    
+    - insert_before() and insert_after() now first removes the object if it's
+      already a child of the target.
+    
+    - Callback filter and transformers now receive $params as a 2nd argument.
+    
+    - _Group field options() now supports value_xml, value_loc, label_xml and
+      label_loc args.
+    
+    - get_* methods (fields, elements, constraints, etc) now accept any valid
+      method-name as a search parameter.
+
+    - add default_natural() method to Date element, allowing the use of 
+      DateTime::Format::Natural to parse dates such as "today" or "yesterday".
+
     - when() method for Constraints can now accept a callback
     
     - Transformer callbacks now get $params as second argument (as Constraints
       aready were getting)
+    
+    - Form method add_valid() now expects a full nested-name.
+    
+    - auto_id() now translates "%n" into the full nested-name.
+    
+    - Add a END block to DBICTestLib that cleans up the t/test.db
 
 0.02004 2008-02-22
 
