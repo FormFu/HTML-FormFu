@@ -42,7 +42,8 @@ HTML::FormFu::Plugin::StashValid - place valid params on form stash
 
 =head1 DESCRIPTION
 
-Run during the C<post_process> hook (called during C<< $form->process >>).
+Run during the L<HTML::FormFu::Plugin/post_process> hook (called during
+L<HTML::FormFu/process>).
 If the named field(s) have a valid value after processing, that value is 
 placed on the form stash, using the field-name as the stash-key.
 

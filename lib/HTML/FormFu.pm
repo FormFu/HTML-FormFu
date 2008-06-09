@@ -2448,6 +2448,13 @@ Return Value: $string
 
 Returns all hidden form fields.
 
+=head1 PLUGIN SYSTEM
+
+C<HTML::FormFu> provides a plugin-system that allows plugins to be easily
+added to a form or element, to change the default behaviour or output.
+
+See L<HTML::FormFu::Plugin> for details.
+
 =head1 ADVANCED CUSTOMISATION
 
 By default, formfu renders "XHTML 1.0 Strict" compliant markup, with as
