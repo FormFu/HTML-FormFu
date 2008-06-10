@@ -1,6 +1,18 @@
 # Don't know if it's getting kept
 ^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 
+# not ready yet
+^lib\/HTML\/FormFu\/Manual\.pod$
+^lib\/HTML\/FormFu\/MultiForm\.pm$
+^t\/multiform
+
+^lib\/HTML\/FormFu\/Inflator\/ComposedDate\.pm$
+^lib\/HTML\/FormFu\/Element\/Composed\.pm$
+^lib\/HTML\/FormFu\/Element\/SelectMonth\.pm$
+^lib\/HTML\/FormFu\/Element\/SelectYear\.pm$
+^lib\/HTML\/FormFu\/Element\/DateTime\.pm\.disabled$
+^t\/datetime
+
 ^benchmarks\b
 ^dojo\b
 ^examples\/repeatable\b
