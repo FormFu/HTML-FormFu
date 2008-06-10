@@ -2,6 +2,9 @@ use strict;
 use warnings;
 
 use Test::More;
+use Cwd qw( getcwd );
+use Fatal qw( mkdir opendir unlink );
+use File::Spec;
 use HTML::FormFu::MultiForm;
 
 if ( $^O =~ /mswin/i ) {
@@ -15,7 +18,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 15;
+plan tests => 14;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -58,14 +61,36 @@ my $q;
     $q = CGI->new;
 }
 
+my $cwd = getcwd();
+
 # create tmp dir
 
-my $tmpdir = 't/tmp';
+my $tmpdir = File::Spec->catdir( $cwd, 't', 'tmp' );
 
-# ignore any mkdir error, in case it's left behind by a previously failed test
-mkdir $tmpdir;
+# make sure $tmpdir is empty
+if ( -d $tmpdir ) {
+    opendir my($dir), $tmpdir;
+    
+    my @files =
+        map { File::Spec->catfile( $tmpdir, $_ ) }
+        grep { $_ !~ /^\.\.?\z/ } readdir($dir);
+    
+    unlink @files;
+    
+}
+else {
+    mkdir $tmpdir;
+}
 
 ok( -d $tmpdir );
+
+my $config_callback = {
+     plain_value => sub {
+        return if !defined $_;
+        s{__CWD\((.+?)\)__}
+        { scalar File::Spec->catdir( $cwd, split( '/', $1 ) ) }eg;
+    },
+};
 
 # submit form 1
 
@@ -74,6 +99,8 @@ my $form2_hidden_value;
 
 {
     my $multi = HTML::FormFu::MultiForm->new;
+
+    $multi->config_callback($config_callback);
 
     $multi->load_config_file($yaml_file);
 
@@ -105,6 +132,8 @@ my $form2_hidden_value;
 {
     my $multi = HTML::FormFu::MultiForm->new;
 
+    $multi->config_callback($config_callback);
+
     $multi->load_config_file($yaml_file);
 
     $multi->process( {
@@ -118,7 +147,7 @@ my $form2_hidden_value;
 
     is( $form->param('bar'), 'def' );
 
-    # still got uploaded file
+    # still got uploaded file from form 1
     my $file = $form->param('hello_world');
 
     is( $file->filename,                'hello_world.txt' );
@@ -127,6 +156,12 @@ my $form2_hidden_value;
     is( $file->slurp,                   "Hello World!\n" );
 
     ok( $file->parent == $form );
+    
+    # peek into internals to remove file
+    
+    my $filename = $file->{_param}->filename;
+    
+    ok( unlink $filename );
 }
 
 # cleanup tmp dir

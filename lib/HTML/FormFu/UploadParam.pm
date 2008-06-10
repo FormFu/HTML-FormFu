@@ -17,9 +17,7 @@ sub new {
     eval { %attrs = %{ $_[0] } if @_ };
     croak "attributes argument must be a hashref" if $@;
 
-    for (qw/ param /) {
-        croak "$_ attribute required" if !exists $attrs{$_};
-    }
+    croak "param attribute required" if !exists $attrs{param};
 
     my $self = bless \%attrs, $class;
 
@@ -91,16 +89,6 @@ sub STORABLE_thaw {
 
         $self->{param} = $fh;
     }
-
-    return;
-}
-
-sub DESTROY {
-    my ($self) = @_;
-
-    my $filename = $self->filename;
-
-    unlink $filename if defined $filename && -e $filename;
 
     return;
 }

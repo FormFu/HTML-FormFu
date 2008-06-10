@@ -31,8 +31,9 @@ sub _param {
 
         $param = HTML::FormFu::UploadParam->new({
             param => $param,
-            form  => $self->form,
         });
+
+        $param->form($self->form);
 
         $self->{_param} = $param;
     }
