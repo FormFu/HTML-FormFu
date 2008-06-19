@@ -19,6 +19,7 @@
 ^examples\/client-side-constraint\b
 ^t\b.*\.disabled
 ^t\b.*CatalystApp
+^xt\/
 
 ^\.perltidyrc$
 
