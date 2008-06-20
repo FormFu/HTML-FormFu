@@ -18,7 +18,7 @@ if ($@) {
     exit;
 }
 
-plan tests => 14;
+plan tests => 16;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
