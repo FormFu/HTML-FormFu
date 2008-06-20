@@ -1,3 +1,7 @@
+0.03001 2008-06-20
+
+    - Require version 0.38 of DateTime, for string overloading support.
+
 0.03000 2008-06-19
 
     - Field container_tag() now defaults to 'div' rather than 'span' to provide
