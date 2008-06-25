@@ -2250,12 +2250,12 @@ Arguments: [$query_object]
 
 Arguments: [\%params]
 
-Process the provided query object or input values. This must be called 
+Process the provided query object or input values. C<process> must be called 
 before calling any of the methods listed under 
 L</"SUBMITTED FORM VALUES AND ERRORS"> and L</"MODIFYING A SUBMITTED FORM">.
 
-It's not necessary to call L</process> before printing the form or calling 
-L</render>.
+C<process> must also be called at least once before printing the form or
+calling L</render> or L</render_data>.
 
 =head1 SUBMITTED FORM VALUES AND ERRORS
 
@@ -2425,6 +2425,9 @@ Deletes all errors from a submitted form.
 
 Return Value: $string
 
+You must call L</process> once after building the form, and before calling
+L</render>.
+
 =head2 start
 
 Return Value: $string
@@ -2558,6 +2561,9 @@ defined value.
 
 Usually called implicitly by L</render>. Returns the data structure that
 would normally be passed onto the C<string> or C<tt> render-methods.
+
+As with L</render>, you must call L</process> once after building the form,
+and before calling L</render_data>.
 
 
 =head2 render_data_non_recursive
