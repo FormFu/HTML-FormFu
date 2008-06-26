@@ -10,6 +10,7 @@ our %Lexicon = (
     form_constraint_ascii     => 'Field contains invalid characters',
     form_constraint_autoset   => 'Field contains an invalid choice',
     form_constraint_bool      => 'Field must be a boolean value',
+    form_constraint_callback  => 'Invalid input',
     form_constraint_datetime  => 'Invalid date',
     form_constraint_dependon  => 'Error',
     form_constraint_email     => 'This field must contain an email address',
@@ -32,6 +33,8 @@ our %Lexicon = (
     form_constraint_word        => 'Field contains invalid characters',
     form_inflator_compounddatetime => 'Invalid date',
     form_inflator_datetime      => 'Invalid date',
+    form_validator_callback   => 'Validator error',
+    form_transformer_callback => 'Transformer error',
 
     form_inflator_imager       => 'Error opening image file',
     form_validator_imager_size => 'Image upload too large',
