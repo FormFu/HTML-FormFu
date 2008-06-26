@@ -2,6 +2,10 @@
 
     - Documented that process() must be called before render() - this has
       been the case since 0.03000.
+    
+    - New CompoundSprintf filter.
+    
+    - New DateTime constraint.
 
 0.03001 2008-06-20
 
