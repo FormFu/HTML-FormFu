@@ -1,0 +1,18 @@
+---
+
+elements:
+  - type: Multi
+    name: date
+    
+    elements:
+      - name: month
+      - name: day
+      - name: year
+    
+    filters:
+      type: CompoundSprintf
+      sprintf: '%02d-%02d-%04d'
+      field_order:
+        - day
+        - month
+        - year

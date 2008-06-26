@@ -1,21 +1,23 @@
-package HTML::FormFu::Filter::CompoundJoin;
+package HTML::FormFu::Filter::CompoundSprintf;
 
 use strict;
 use base 'HTML::FormFu::Filter::_Compound';
+use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ join /);
+__PACKAGE__->mk_accessors(qw/ sprintf /);
 
 sub filter {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
     
-    my $join = $self->join;
-    $join = ' ' if !defined $join;
+    my $sprintf = $self->sprintf;
+    
+    croak 'sprintf pattern required' if !defined $sprintf;
     
     my @values = $self->_get_values($value);
     
-    $value = join $join, @values;
+    $value = CORE::sprintf( $sprintf, @values );
     
     return $value;
 }
@@ -26,42 +28,43 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::CompoundJoin - CompoundJoin filter
+HTML::FormFu::Filter::CompoundSprintf - CompoundSprintf filter
 
 =head1 SYNOPSIS
 
     ---
     element:
       - type: Multi
-        name: address
+        name: date
         
         elements:
-          - name: number
-          - name: street
+          - name: day
+          - name: month
+          - name: year
         
         filter:
-          - type: CompoundJoin
+          - type: CompoundSprintf
+            sprintf: '%02d-%02d-%04d'
 
     # get the compound-value
     
-    my $address = $form->param_value('address');
+    my $date = $form->param_value('date');
 
 =head1 DESCRIPTION
 
 For use with a L<HTML::FormFu::Element::Multi> group of fields.
 
-Joins the input from several fields into a single value.
+Uses a sprintf pattern to join the input from several fields into a single
+value.
 
 =head1 METHODS
 
-=head2 join
+=head2 sprintf
 
 Arguments: $string
 
-Default Value: C<' '>
-
-String used to join the individually submitted parts. Defaults to a single 
-space.
+C<sprintf> pattern used to join the individually submitted parts.
+The pattern is passed to the perl-core C<sprintf> function.
 
 =head2 field_order
 
@@ -70,17 +73,19 @@ Inherited. See L<HTML::FormFu::Filter::_Compound/field_order> for details.
     ---
     element:
       - type: Multi
-        name: address
+        name: date
         
         elements:
-          - name: street
-          - name: number
+          - name: month
+          - name: day
+          - name year
         
         filter:
-          - type: CompoundJoin
+          - type: CompoundSprintf
             field_order:
-              - number
-              - street
+              - day
+              - month
+              - year
 
 =head1 AUTHOR
 
