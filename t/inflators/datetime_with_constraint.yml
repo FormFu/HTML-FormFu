@@ -1,0 +1,12 @@
+---
+elements:
+    - name: foo
+      
+      constraints:
+        - type: DateTime
+          parser: &PARSER
+            strptime: '%d-%m-%Y'
+      
+      inflators:
+        - type: DateTime
+          parser: *PARSER
