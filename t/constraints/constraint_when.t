@@ -7,24 +7,18 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->constraint('Integer');
-$form->element('Text')->name('bar')->constraint('Required')
-    ->when( { field => 'foo', value => 1 } );
-$form->element('Text')->name('moo')->constraint('Required')
-    ->when( { field => 'foo', values => [ 2, 3, 4 ] } );
-$form->element('Text')->name('zoo')->constraint('Required')
-    ->when( { field => 'foo', value => 5, not => 1 } );
+$form->load_config_file('t/constraints/constraint_when.yml');
 
 # When triggered depending on callback
 my $when_closure = sub {
     my $params = shift;
     return 1 if defined $params->{foo} && $params->{foo} eq '1';
 };
-$form->element('Text')->name('coo')->constraint('Number')
-    ->when( { callback => $when_closure } );
+
+$form->get_element('coo')->get_constraint->when({ callback => $when_closure });
+
 # Just to test we can provide strings as callbacks
-$form->element('Text')->name('coo2')->constraint('Integer')
-    ->when( { callback => "main::when_string_callback" } );
+# used by "coo2" field
 sub when_string_callback { return 1 }
 
 # Valid
