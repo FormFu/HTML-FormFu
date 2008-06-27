@@ -83,6 +83,10 @@ Checkbox form field.
 
 =head1 METHODS
 
+=head2 default_empty_value
+
+Inherited. See L<HTML::FormFu/default_empty_value> for details.
+
 =head2 reverse_multi
 
 Overrides the default value, so it's C<true>.

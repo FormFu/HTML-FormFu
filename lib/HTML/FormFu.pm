@@ -358,7 +358,9 @@ sub _build_params {
 
         next if !defined $name;
         next if exists $params{$name};
-        next if !$self->nested_hash_key_exists( $self->input, $name );
+        
+        next if !$self->nested_hash_key_exists( $self->input, $name )
+            && !$field->default_empty_value;
 
         my $input = $self->get_nested_hash_value( $self->input, $name );
 
@@ -367,6 +369,9 @@ sub _build_params {
             # can't clone upload filehandles
             # so create new arrayref of values
             $input = [@$input];
+        }
+        elsif ( !defined $input && $field->default_empty_value ) {
+            $input = '';
         }
 
         $self->set_nested_hash_value( \%params, $name, $input, $name );

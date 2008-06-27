@@ -46,7 +46,7 @@ __PACKAGE__->mk_inherited_accessors(
     qw/ auto_id auto_label auto_error_class auto_error_message
         auto_constraint_class auto_inflator_class auto_validator_class
         auto_transformer_class render_processed_value force_errors
-        repeatable_count /
+        repeatable_count default_empty_value /
 );
 
 *constraints  = \&constraint;
@@ -1159,6 +1159,14 @@ the field will have it's value set to it's default value.
 If the default value is being changed after FormFu->process is being called
 the later default value is respected for rendering, *but* nevertheless the
 input value doesn't respect that, it will remain the first value.
+
+Default Value: C<false>
+
+=head2 default_empty_value
+
+Designed for use by Checkbox fields. Normally if a checkbox is not checked,
+no value is submitted for that field. If C<default_empty_value> is true,
+the Checkbox field is given an empty value during L</process>.
 
 Default Value: C<false>
 
