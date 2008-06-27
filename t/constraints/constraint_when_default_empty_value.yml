@@ -1,0 +1,13 @@
+---
+elements:
+    - name: foo
+      type: Checkbox
+      default_empty_value: 1
+    
+    - name: bar
+      constraints:
+          - type: Required
+            when:
+                field: foo
+                value: 1
+                not: 1
