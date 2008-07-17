@@ -243,7 +243,31 @@ You can also test for a negative condition using the C<not> attribute:
 Now the constraint will be processed only if the value of field "bar" is NOT 1,
 3 or 5.
 
-Both the above attributes are documented further in L<HTML::FormFu::Constraint>.
+Please read L<HTML::FormFu::Constraint> for futher information.
+
+=head2 Constrain one form field based on the return value of a callback
+
+You can use the C<when> attribute of a constraint also to decide using a
+callback if the constraint should be applied.
+
+For instance, the following (code) example shows a constraint being applied
+only if the value of another field contains a pattern
+
+    my $apply_if_pattern = sub {
+        my $params = shift;
+        return 1 if $params->{other_field} =~ m/\A ice_cream \z/xms;
+        return 0;
+    }
+
+    $field->{constraints} = {
+        type    => 'Required',
+        when    => {
+            callback    => $apply_if_pattern,
+        }
+    }
+
+
+Please read L<HTML::FormFu::Constraint> for futher information.
 
 =head1 HTML MARKUP
 

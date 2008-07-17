@@ -270,9 +270,9 @@ This method expects a hashref with the following keys:
   values: Array of multiple values, one must match to fullfill the condition
   not: inverse the when condition - value(s) must not match
   callback: a callback can be supplied to perform complex checks. An hashref
-    of all parameters is passed. In this case all other keys are ignored,
-    including not. Return a true value for the constraint to be valid or
-    a false value to not apply it.
+    of all parameters is passed to the callback sub. In this case all other
+    keys are ignored, including not. You need to return a true value for
+    the constraint to be applied or a false value to not apply it.
 
 =head1 CORE CONSTRAINTS
 
