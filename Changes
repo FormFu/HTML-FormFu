@@ -1,5 +1,7 @@
 0.03002
 
+    - Added time_zone support to Inflator::DateTime
+
     - New CompoundSprintf filter.
     
     - New DateTime constraint.
