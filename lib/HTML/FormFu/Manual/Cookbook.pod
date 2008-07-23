@@ -317,21 +317,21 @@ Example config:
     ---
     elements:
       - type: Text
-      - name: email
-      - constraints:
-        type: Callback
+      - name: email
+      - constraints:
+        type: Callback
         message: 'Email address already in use'
 
 Example usage:
 
-	if ( $@ =~ m/duplicate entry for key 'email'/i ) {
+    if ( $@ =~ m/duplicate entry for key 'email'/i ) {
         
         $form->get_field('email')
              ->get_constraint({ type => 'Callback' })
              ->force_errors(1);
         
-        $form->process;
-        # then redisplay the form as normal
+        $form->process;
+        # then redisplay the form as normal
     }
 
 =head2 Add a popup hint to a field
