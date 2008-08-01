@@ -18,9 +18,13 @@ sub new {
 }
 
 sub parser {
-    my $self = shift;
-
-    $self->_builder->parser(@_);
+    my ( $self, $arg ) = @_;
+    
+    if ( exists $arg->{regex} && !ref $arg->{regex} ) {
+        $arg->{regex} = qr/$arg->{regex}/;
+    }
+    
+    $self->_builder->parser($arg);
 
     return $self;
 }
