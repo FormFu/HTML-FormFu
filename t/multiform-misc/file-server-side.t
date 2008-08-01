@@ -75,7 +75,7 @@ if ( -d $tmpdir ) {
         map { File::Spec->catfile( $tmpdir, $_ ) }
         grep { $_ !~ /^\.\.?\z/ } readdir($dir);
     
-    unlink @files;
+    unlink @files if @files;
     
 }
 else {
