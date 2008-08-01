@@ -1,7 +1,11 @@
 0.03002
 
+    - Deprecate element_defaults() method.
+    
+    - New default_args() method.
+    
     - Added time_zone support to Inflator::DateTime
-
+    
     - New CompoundSprintf filter.
     
     - New DateTime constraint.

@@ -10,7 +10,7 @@ use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
 use Storable qw( dclone );
 use Carp qw/croak/;
 
-__PACKAGE__->mk_accessors(qw/ tag _elements element_defaults nested_name /);
+__PACKAGE__->mk_accessors(qw/ tag _elements nested_name /);
 
 __PACKAGE__->mk_output_accessors(qw/ content /);
 
@@ -34,7 +34,7 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->_elements( [] );
-    $self->element_defaults( {} );
+    $self->default_args( {} );
     $self->filename('block');
     $self->tag('div');
 
@@ -195,7 +195,7 @@ sub clone {
 
     map { $_->parent($clone) } @{ $clone->_elements };
 
-    $clone->element_defaults( dclone $self->element_defaults );
+    $clone->default_args( dclone $self->default_args );
 
     return $clone;
 }

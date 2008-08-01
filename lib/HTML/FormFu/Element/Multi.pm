@@ -37,7 +37,6 @@ sub new {
 
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
-    $self->element_defaults(     {} );
     $self->filename('multi');
     $self->label_attributes( {} );
     $self->label_filename('label');

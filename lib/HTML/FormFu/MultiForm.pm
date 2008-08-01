@@ -35,7 +35,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 # accessors shared with HTML::FormFu
 our @ACCESSORS = qw/
     indicator filename javascript javascript_src
-    element_defaults query_type languages force_error_message
+    element_defaults default_args query_type languages force_error_message
     localize_class tt_module
     nested_name nested_subscript default_model model_config
     auto_fieldset params_ignore_underscore tmp_upload_dir
@@ -79,7 +79,7 @@ sub new {
     my $self = bless {}, $class;
 
     my %defaults = (
-        element_defaults      => {},
+        default_args          => {},
         tt_args               => {},
         stash                 => {},
         model_config          => {},

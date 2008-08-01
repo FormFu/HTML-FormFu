@@ -42,7 +42,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
 
 __PACKAGE__->mk_accessors(
     qw/ indicator filename javascript javascript_src
-        element_defaults query_type languages force_error_message
+        query_type languages force_error_message
         localize_class submitted query input _auto_fieldset
         _elements _processed_params _valid_names  _models
         _output_processors tt_module params_ignore_underscore
@@ -99,7 +99,7 @@ sub new {
         action             => '',
         method             => 'post',
         filename           => 'form',
-        element_defaults   => {},
+        default_args       => {},
         render_method      => 'string',
         tt_args            => {},
         tt_module          => 'Template',
@@ -1066,6 +1066,13 @@ sub _require_output_processor {
             parent => $self,
         } );
 
+    # handle default_args
+    my $parent = $self->parent;
+
+    if ( $parent && exists $parent->default_args->{output_processor}{$type} ) {
+        %$opt = ( %{ $parent->default_args->{output_processer}{$type} }, %$opt );
+    }
+
     $object->populate($opt);
 
     return $object;
@@ -1478,23 +1485,52 @@ file.
 If true, forces the L</form_error_message> to be displayed even if there are 
 no field errors.
 
-=head2 element_defaults
+=head2 default_args
 
 Arguments: \%defaults
 
-Set defaults which will be added to every element of that type which is added 
-to the form.
+Set defaults which will be added to every element, constraint, etc. of the
+listed type which is added to the form.
 
-For example, to make every C<text> element automatically have a 
-L<size|HTML::FormFu::Element/size> of C<10>, and make every C<textarea> 
-element automatically get a class-name of C<bigbox>:
+For example, to make every C<Text> element automatically have a 
+L<size|HTML::FormFu::Element/size> of C<10>, and make every C<Strftime> 
+deflator automatically get it's strftime set to C<%d/%m/%Y>:
 
-    element_defaults:
-      Text:
-        size: 10
-      Textarea:
-        add_attributes:
-          class: bigbox
+    element_args:
+        elements:
+            Text:
+                size: 10
+        deflators:
+            Strftime:
+                strftime: '%d/%m/%Y'
+
+To take it even further, you can even make all DateTime elements automatically
+get an appropriate Strftime deflator and a DateTime inflator:
+
+    element_args:
+        elements:
+            DateTime:
+                deflators:
+                    type: Strftime
+                    strftime: '%d-%m-%Y'
+                inflators:
+                    type: DateTime
+                    parser: 
+                        strptime: '%d-%m-%Y'
+
+Note: Unlike the proper methods which have aliases, for example L</elements>
+which is an alias for L</element> - the keys given to C<default_args> must
+be of the plural form, e.g.:
+
+    element_args:
+        elements:          {}
+        deflators:         {}
+        filters:           {}
+        constraints:       {}
+        inflators:         {}
+        validators:        {}
+        transformers:      {}
+        output_processors: {}
 
 =head2 javascript
 
@@ -2854,6 +2890,13 @@ Because of scoping issues, code references (such as in Callback constraints)
 are copied instead of cloned.
 
 =head1 DEPRECATED METHODS
+
+=head2 element_defaults
+
+Is deprecated and provided only for backwards compatability. Will be removed
+at some point in the future.
+
+See L</default_args> instead.
 
 =head2 model_class
 

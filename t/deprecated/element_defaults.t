@@ -38,11 +38,11 @@ $form->populate( {
 
 is( $form->get_field('foo')->render_value, 1 );
 
-like( $form->get_field('bar'), qr/name="bar" .* class="custom"/x );
+like( $form->get_field('bar'), qr/name="bar" [^>]* class="custom"/x );
 
 is( $form->get_field('bar')->get_constraint->type, 'Regex' );
 
-like( $form->get_element( { type => 'Block' } ), qr/div .* class="block"/x );
+like( $form->get_element( { type => 'Block' } ), qr/div [^>]* class="block"/x );
 
 like( $form->get_element( { type => 'Block' } )->get_field('baz'),
     qr/name="baz" .* class="custom"/x );
