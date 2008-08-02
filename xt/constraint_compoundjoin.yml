@@ -1,0 +1,16 @@
+---
+
+elements:
+  - type: Multi
+    name: end
+    constraints:
+      - Required
+    elements:
+      - type: Text
+        name: enddate
+        constraints:
+        - Required
+      - type: Text
+        name: endtime
+    filter:
+      - type: CompoundJoin

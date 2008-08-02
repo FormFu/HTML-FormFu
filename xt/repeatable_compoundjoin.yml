@@ -1,16 +1,24 @@
 ---
 
 elements:
-  - type: Multi
-    name: end
-    constraints:
-      - Required
+  - type: Hidden
+    name: counter
+  - type: Repeatable
+    nested_name: nested
+    counter_name: counter
     elements:
-      - type: Text
-        name: enddate
-        constraints:
+    - type: Text
+      name: test
+      constraints:
         - Required
-      - type: Text
-        name: endtime
-    filter:
-      - type: CompoundJoin
+    - type: Multi
+      name: end
+      constraints:
+        - Required
+      elements:
+        - type: Text
+          name: enddate
+        - type: Text
+          name: endtime
+      filter:
+        - type: CompoundJoin

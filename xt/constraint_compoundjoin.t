@@ -6,10 +6,8 @@ my $form = HTML::FormFu->new;
 $form->load_config_file('xt/repeatable_compoundjoin.yml');
 $form->process(
 	{
-		"nested.end_1.enddate" => 1,
-		"nested.end_1.endtime" => 1,
-		"nested.test_1" => 1,
-		counter => 1,
+		"end.enddate" => 1,    #required
+		"end.endtime" => 1,
 	}
 );
 ok( $form->submitted_and_valid );
