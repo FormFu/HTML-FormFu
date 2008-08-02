@@ -3,7 +3,7 @@ use warnings;
 use Test::More tests => 2;
 use HTML::FormFu;
 my $form = HTML::FormFu->new;
-$form->load_config_file('xt/repeatable_compoundjoin.yml');
+$form->load_config_file('xt/constraint_compoundjoin.yml');
 $form->process(
 	{
 		"end.enddate" => 1,    #required
