@@ -29,7 +29,7 @@ requires 'Regexp::Common';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
-requires 'YAML::Syck';
+requires 'YAML::Syck' => '1.05';
 
 test_requires 'Test::NoWarnings';
 
