@@ -616,7 +616,7 @@ sub get_nested_hash_value {
             $ref = \( $$ref->[$1] );
         }
         else {
-            return if !exists $$ref->{$_};
+            return if ref $$ref ne 'HASH' || !exists $$ref->{$_};
 
             $ref = \( $$ref->{$_} );
         }
