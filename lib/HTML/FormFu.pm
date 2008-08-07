@@ -1296,7 +1296,19 @@ Arguments: \%options
 
 If defined, the arguments are used to create a L<Data::Visitor::Callback> 
 object during L</load_config_file> which may be used to pre-process the 
-config before it is sent to L</populate>
+config before it is sent to L</populate>.
+
+For example, the code below adds a callback to a form that will dynamically
+alter any config value ending in ".yml" to end in ".yaml" when you call
+L</load_config_file>:
+
+    $form->config_callback({
+      plain_value => sub {
+        my( $visitor, $data ) = @_;
+        s/\.yml/.yaml/;
+      }
+    });
+
 
 Default Value: not defined
 
