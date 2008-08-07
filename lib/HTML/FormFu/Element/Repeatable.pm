@@ -136,7 +136,9 @@ sub process {
             if defined $input && $input =~ /^[1-9][0-9]*\z/;
     }
 
-    $self->repeat($count);
+    unless( $self->_original_elements ) {
+		$self->repeat($count);
+	}
 
     return $self->next::method(@_);
 }
@@ -199,7 +201,7 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
 
 =head1 DESCRIPTION
 
-Provides a way to extend a form at run-time, by copying and repeating it's 
+Provides a way to extend a form at run-time, by copying and repeating its 
 child elements.
 
 The elements intended for copying must be added before L</repeat> is called.
@@ -222,8 +224,10 @@ Return Value: $arrayref_of_new_child_blocks
 This method creates C<$count> number of copies of the child elements.
 If no argument C<$count> is provided, it defaults to C<1>.
 
-L</repeat> is automatically called during C<< $form->process >>, to ensure 
-the initial child elements are correctly setup.
+Note that C<< $form->process >> will call L</repeat> automatically to ensure the
+initial child elements are correctly set up - unless you call L</repeat>
+manually first, in which case the child elements you created will be left
+untouched (otherwise L</process> would overwrite your changes).
 
 Any subsequent call to L</repeat> will delete the previously copied elements 
 before creating new copies - this means you cannot make repeated calls to 
