@@ -129,7 +129,11 @@ Shorthand for C<< $filter->parent->name >>
 
 =item L<HTML::FormFu::Filter::Callback>
 
-=item L<HTML::FormFu::Filter::Default>
+=item L<HTML::FormFu::Filter::CompoundJoin>
+
+=item L<HTML::FormFu::Filter::CompoundSprintf>
+
+=item L<HTML::FormFu::Filter::CopyValue>
 
 =item L<HTML::FormFu::Filter::Encode>
 

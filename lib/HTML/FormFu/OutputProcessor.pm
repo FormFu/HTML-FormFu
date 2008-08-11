@@ -57,6 +57,8 @@ Post-process a form or element's HTML.
 
 =item L<HTML::FormFu::OutputProcessor::Indent>
 
+=item L<HTML::FormFu::OutputProcessor::StripWhitespace>
+
 =back
 
 =head1 AUTHOR

@@ -78,6 +78,16 @@ Contains names of params to inflator.
 
 Arguments: $form_result, \%params
 
+=head1 CORE INFLATORS
+
+=over
+
+=item L<HTML::FormFu::Inflator::CompoundDateTime>
+
+=item L<HTML::FormFu::Inflator::DateTime>
+
+=back
+
 =head1 AUTHOR
 
 Carl Franks, C<cfranks@cpan.org>

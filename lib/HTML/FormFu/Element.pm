@@ -441,9 +441,9 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Password>
 
-=item L<HTML::FormFu::Element::Radiogroup>
-
 =item L<HTML::FormFu::Element::Radio>
+
+=item L<HTML::FormFu::Element::Radiogroup>
 
 =item L<HTML::FormFu::Element::Reset>
 

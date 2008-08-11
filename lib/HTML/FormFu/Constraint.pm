@@ -290,11 +290,19 @@ This method expects a hashref with the following keys:
 
 =item L<HTML::FormFu::Constraint::CallbackOnce>
 
+=item L<HTML::FormFu::Constraint::DateTime>
+
 =item L<HTML::FormFu::Constraint::DependOn>
 
 =item L<HTML::FormFu::Constraint::Email>
 
 =item L<HTML::FormFu::Constraint::Equal>
+
+=item L<HTML::FormFu::Constraint::File>
+
+=item L<HTML::FormFu::Constraint::File::MIME>
+
+=item L<HTML::FormFu::Constraint::File::Size>
 
 =item L<HTML::FormFu::Constraint::Integer>
 

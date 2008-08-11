@@ -82,6 +82,12 @@ HTML::FormFu::Validator - Validator Base Class
 
 =head1 CORE VALIDATORS
 
+=over
+
+=item L<HTML::FormFu::Validator::Callback>
+
+=back
+
 =head1 AUTHOR
 
 Carl Franks, C<cfranks@cpan.org>

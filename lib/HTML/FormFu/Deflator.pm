@@ -72,6 +72,18 @@ Contains names of params to deflator.
 
 Arguments: $form_result, \%params
 
+=head1 CORE DEFLATORS
+
+=over
+
+=item L<HTML::FormFu::Deflator::CompoundDateTime>
+
+=item L<HTML::FormFu::Deflator::CompoundSplit>
+
+=item L<HTML::FormFu::Deflator::Strftime>
+
+=back
+
 =head1 AUTHOR
 
 Carl Franks, C<cfranks@cpan.org>
