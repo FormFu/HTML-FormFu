@@ -4,13 +4,15 @@
     
     - New default_args() method.
     
-    - Added time_zone support to Inflator::DateTime
-    
     - New CompoundSprintf filter.
     
     - New DateTime constraint.
     
     - New field method default_empty_value().
+    
+    - New I18N translations for Danish, French and Italian.
+    
+    - Added time_zone support to Inflator::DateTime
     
     - Documented that process() must be called before render() - this has
       been the case since 0.03000.
