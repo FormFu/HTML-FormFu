@@ -41,12 +41,13 @@ sub STORABLE_freeze {
 
     return if $cloning;
 
-    my $fh = $self->{param}->can('fh')
+    my $fh
+        = $self->{param}->can('fh')
         ? $self->{param}->fh
         : $self->{param};
-    
+
     seek $fh, 0, 0;
-    
+
     local $/ = undef;
     my $data = <$fh>;
 
@@ -57,10 +58,10 @@ sub STORABLE_freeze {
 
         close $fh;
 
-        return nfreeze({ filename => $filename });
+        return nfreeze( { filename => $filename } );
     }
     else {
-        return nfreeze({ param => $data });
+        return nfreeze( { param => $data } );
     }
 }
 
@@ -73,7 +74,7 @@ sub STORABLE_thaw {
 
     my $filename = $data->{filename};
 
-    if ( $filename ) {
+    if ($filename) {
         open my $fh, '<', $filename
             or croak "could not open file in tmp dir: '$filename'";
 

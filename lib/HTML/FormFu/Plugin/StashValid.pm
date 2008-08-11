@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Plugin';
 use Class::C3;
 
 sub post_process {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $form = $self->form;
     my $name = $self->parent->nested_name;

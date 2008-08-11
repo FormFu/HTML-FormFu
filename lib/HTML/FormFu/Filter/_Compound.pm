@@ -7,27 +7,27 @@ __PACKAGE__->mk_accessors(qw/ field_order /);
 
 sub _get_values {
     my ( $self, $value ) = @_;
-    
+
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
-    
+
     if ( my $order = $self->field_order ) {
         my @new_order;
-        
-FIELD:  for my $i ( @$order ) {
-            for my $field ( @fields ) {
+
+    FIELD: for my $i (@$order) {
+            for my $field (@fields) {
                 if ( $field->name eq $i ) {
                     push @new_order, $field;
                     next FIELD;
                 }
             }
         }
-        
+
         @fields = @new_order;
     }
-    
-    my @names  = map { $_->name } @fields;
-    
-    return map { defined $_ ? $_ : '' } @{$value}{@names};;
+
+    my @names = map { $_->name } @fields;
+
+    return map { defined $_ ? $_ : '' } @{$value}{@names};
 }
 
 1;

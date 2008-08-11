@@ -32,7 +32,7 @@ sub new {
 sub process {
     my ( $self, $result, $params ) = @_;
 
-    my $name  = $self->nested_name;
+    my $name = $self->nested_name;
     my $value = $self->get_nested_hash_value( $params, $name );
 
     my $filtered;

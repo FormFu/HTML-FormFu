@@ -136,9 +136,9 @@ sub process {
             if defined $input && $input =~ /^[1-9][0-9]*\z/;
     }
 
-    unless( $self->_original_elements ) {
-		$self->repeat($count);
-	}
+    unless ( $self->_original_elements ) {
+        $self->repeat($count);
+    }
 
     return $self->next::method(@_);
 }

@@ -14,41 +14,38 @@ sub deflator {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
-    
+
     # do we have a DateTime object?
-    
-    eval {
-        $value->$_ for @known_fields
-    };
-    
+
+    eval { $value->$_ for @known_fields };
+
     return $value if $@;
-    
+
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
-    
+
     if ( defined( my $order = $self->field_order ) ) {
         for my $order (@$order) {
             croak "unknown DateTime field_order name"
                 unless grep { $order eq $_ } @known_fields;
-            
+
             my $field = shift @fields;
-            
+
             $field->default( $value->$order );
         }
     }
     else {
         for my $field (@fields) {
             my $name = $field->name;
-            
+
             croak "unknown DateTime field name"
                 unless grep { $name eq $_ } @known_fields;
-            
+
             $field->default( $value->$name );
         }
     }
-    
+
     return;
 }
-
 
 1;
 

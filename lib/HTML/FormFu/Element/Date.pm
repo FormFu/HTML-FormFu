@@ -80,7 +80,7 @@ sub value {
     if (@_) {
         $self->{value} = shift;
 
-        # if we're already built - i.e. process() has ben called, 
+        # if we're already built - i.e. process() has ben called,
         # call default() on our children
 
         if ( @{ $self->_elements } ) {
@@ -121,12 +121,12 @@ sub _date_defaults {
     my $self = shift;
 
     my $default;
-    if( defined( $default = $self->default_natural ) ) {
+    if ( defined( $default = $self->default_natural ) ) {
         my $parser = DateTime::Format::Natural->new;
-        $default = $parser->parse_datetime( $default );
+        $default = $parser->parse_datetime($default);
     }
-    elsif( defined( $default = $self->default ) ) {
-        my $is_blessed = blessed( $default );
+    elsif ( defined( $default = $self->default ) ) {
+        my $is_blessed = blessed($default);
 
         if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
             my $builder = DateTime::Format::Builder->new;
@@ -302,7 +302,7 @@ sub process {
 
     $self->_add_elements;
 
-    return $self->next::method(@_);;
+    return $self->next::method(@_);
 }
 
 sub process_input {

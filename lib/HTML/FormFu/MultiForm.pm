@@ -79,14 +79,14 @@ sub new {
     my $self = bless {}, $class;
 
     my %defaults = (
-        default_args          => {},
-        tt_args               => {},
-        stash                 => {},
-        model_config          => {},
-        persist_stash         => [],
-        _file_fields          => [],
-        languages             => ['en'],
-        combine_params        => 1,
+        default_args                  => {},
+        tt_args                       => {},
+        stash                         => {},
+        model_config                  => {},
+        persist_stash                 => [],
+        _file_fields                  => [],
+        languages                     => ['en'],
+        combine_params                => 1,
         default_multiform_hidden_name => '_multiform',
     );
 
@@ -110,14 +110,14 @@ sub process {
     else {
         $query = $self->query;
     }
-    
+
     my $name = $self->multiform_hidden_name;
 
     $name = $self->default_multiform_hidden_name
         if !defined $name;
 
     if ( defined $query && blessed($query) ) {
-        $input = $query->param( $name );
+        $input = $query->param($name);
     }
     elsif ( defined $query ) {
 
@@ -147,7 +147,7 @@ sub process {
         {
             $self->complete(1);
         }
-        
+
         $self->_data($data);
     }
     else {
@@ -180,7 +180,7 @@ sub _process_get_data {
         for my $name ( @{ $data->{file_fields} } ) {
             my $value = $self->get_nested_hash_value( $data->{params}, $name );
 
-            _rebless_upload( $value );
+            _rebless_upload($value);
         }
     }
     else {
@@ -194,11 +194,11 @@ sub _process_get_data {
 }
 
 sub _rebless_upload {
-    my ( $value ) = @_;
+    my ($value) = @_;
 
     if ( ref $value eq 'ARRAY' ) {
-        for my $value ( @$value ) {
-            _rebless_upload( $value );
+        for my $value (@$value) {
+            _rebless_upload($value);
         }
     }
     elsif ( blessed($value) ) {
@@ -236,7 +236,7 @@ sub _load_current_form {
     my $stash = $self->stash;
 
     for my $key ( keys %$stash ) {
-        $current_form->stash->{$key} = $stash->{$key}
+        $current_form->stash->{$key} = $stash->{$key};
     }
 
     # persist_stash
@@ -248,17 +248,15 @@ sub _load_current_form {
 
     # build form
     $current_form->populate($current_data);
-    
+
     # add hidden field
     if ( ( !defined $self->multiform_hidden_name ) && $current_form_num > 1 ) {
-        my $field = $current_form->element({
-            type => 'Hidden',
-            name => $self->default_multiform_hidden_name,
-        });
-        
-        $field->constraint({
-            type => 'Required',
-        });
+        my $field = $current_form->element( {
+                type => 'Hidden',
+                name => $self->default_multiform_hidden_name,
+            } );
+
+        $field->constraint( { type => 'Required', } );
     }
 
     $current_form->query( $self->query );
@@ -294,7 +292,7 @@ sub _reparent_upload {
     my ( $value, $form ) = @_;
 
     if ( ref $value eq 'ARRAY' ) {
-        for my $value ( @$value ) {
+        for my $value (@$value) {
             _reparent_upload( $value, $form );
         }
     }
@@ -346,7 +344,7 @@ sub next_form {
     # is there a next form defined?
     return if $current_form_num >= scalar @{ $self->forms };
 
-    my $form_data = dclone( $self->forms->[ $current_form_num ] );
+    my $form_data = dclone( $self->forms->[$current_form_num] );
 
     my $next_form = HTML::FormFu->new;
 
@@ -382,17 +380,15 @@ sub next_form {
 
     # build the form
     $next_form->populate($form_data);
-    
+
     # add hidden field
     if ( !defined $self->multiform_hidden_name ) {
-        my $field = $next_form->element({
-            type => 'Hidden',
-            name => $self->default_multiform_hidden_name,
-        });
-        
-        $field->constraint({
-            type => 'Required',
-        });
+        my $field = $next_form->element( {
+                type => 'Hidden',
+                name => $self->default_multiform_hidden_name,
+            } );
+
+        $field->constraint( { type => 'Required', } );
     }
 
     $next_form->process;
@@ -408,7 +404,7 @@ sub _save_hidden_data {
 
     my @valid_names = $form->valid;
     my $hidden_name = $self->multiform_hidden_name;
-    
+
     $hidden_name = $self->default_multiform_hidden_name
         if !defined $hidden_name;
 
@@ -452,9 +448,9 @@ sub _save_hidden_data {
     }
 
     # save file_fields
-    $self->_file_fields(\@file_fields);
+    $self->_file_fields( \@file_fields );
 
-    # to freeze, we need to remove anything that might have a 
+    # to freeze, we need to remove anything that might have a
     # file handle or code block
     # make sure we restore them, after freezing
     my $current_form = $self->current_form;
@@ -464,19 +460,19 @@ sub _save_hidden_data {
     my $processed_params = $current_form->_processed_params;
     my $parent           = $current_form->parent;
     my $stash            = $current_form->stash;
-    
-    $current_form->input({});
-    $current_form->query({});
-    $current_form->_processed_params({});
-    $current_form->parent({});
+
+    $current_form->input(             {} );
+    $current_form->query(             {} );
+    $current_form->_processed_params( {} );
+    $current_form->parent(            {} );
 
     %{ $current_form->stash } = ();
 
     # save a map of upload refaddrs to their parent
     my %upload_parent;
-    
+
     for my $name (@file_fields) {
-        next if ! $self->nested_hash_key_exists( \%params, $name );
+        next if !$self->nested_hash_key_exists( \%params, $name );
 
         my $value = $self->get_nested_hash_value( \%params, $name );
 
@@ -496,7 +492,7 @@ sub _save_hidden_data {
     %{ $current_form->stash } = %$stash;
 
     for my $name (@file_fields) {
-        next if ! $self->nested_hash_key_exists( \%params, $name );
+        next if !$self->nested_hash_key_exists( \%params, $name );
 
         my $value = $self->get_nested_hash_value( \%params, $name );
 
@@ -518,7 +514,7 @@ sub _save_upload_parent {
     my ( $upload_parent, $value ) = @_;
 
     if ( ref $value eq 'ARRAY' ) {
-        for my $value ( @$value ) {
+        for my $value (@$value) {
             _save_upload_parent( $upload_parent, $value );
         }
     }
@@ -537,7 +533,7 @@ sub _restore_upload_parent {
     my ( $upload_parent, $value ) = @_;
 
     if ( ref $value eq 'ARRAY' ) {
-        for my $value ( @$value ) {
+        for my $value (@$value) {
             _restore_upload_parent( $upload_parent, $value );
         }
     }

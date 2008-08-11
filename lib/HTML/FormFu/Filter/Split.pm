@@ -13,7 +13,7 @@ sub filter {
     my $regex = $self->regex;
     my $limit = $self->limit || 0;
 
-    $regex = ''if !defined $regex;
+    $regex = '' if !defined $regex;
 
     my @values = split /$regex/, $value, $limit;
 

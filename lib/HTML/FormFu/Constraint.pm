@@ -99,8 +99,8 @@ sub _process_when {
 
     # returns 1 if when condition is fullfilled or not defined
     # returns 0 if when condition is defined and not fullfilled
-	# If it's a callback, return callback's return value (so when
-	# condition is met if callback returns a true value)
+    # If it's a callback, return callback's return value (so when
+    # condition is met if callback returns a true value)
 
     # get when condition
     my $when = $self->when;
@@ -110,13 +110,13 @@ sub _process_when {
     croak "Parameter 'when' is not a hash ref" if ref $when ne 'HASH';
 
     # field or callback must be defined
-    my $when_field = $when->{field};
+    my $when_field    = $when->{field};
     my $when_callback = $when->{callback};
     croak "Parameter 'field' or 'callback' is not defined"
         if !defined $when_field && !defined $when_callback;
 
     # Callback will be the preferred thing
-    if ( $when_callback ) {
+    if ($when_callback) {
         no strict 'refs';
         return $when_callback->($params);
     }

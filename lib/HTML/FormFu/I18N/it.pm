@@ -9,7 +9,8 @@ our %Lexicon = (
     form_constraint_allornone => 'Errore',
     form_constraint_ascii     => 'Il campo contiene caratteri non validi',
     form_constraint_autoset   => 'Il campo contiene una scelta non valida',
-    form_constraint_bool      => 'Il campo deve contenere un valore booleano (vero o falso)',
+    form_constraint_bool =>
+        'Il campo deve contenere un valore booleano (vero o falso)',
     form_constraint_callback  => 'Dato non valido',
     form_constraint_datetime  => 'Data non valida',
     form_constraint_dependon  => 'Errore',
@@ -29,16 +30,16 @@ our %Lexicon = (
     form_constraint_regex     => 'Dato non valido',
     form_constraint_required  => 'Questo campo è obbligatorio',
     form_constraint_set       => 'Il campo contiene una scelta non valida',
-    form_constraint_singlevalue => 'Il campo accetta solo valori singoli',
-    form_constraint_word        => 'Il campo contiene caratteri non validi',
+    form_constraint_singlevalue    => 'Il campo accetta solo valori singoli',
+    form_constraint_word           => 'Il campo contiene caratteri non validi',
     form_inflator_compounddatetime => 'Data non valida',
-    form_inflator_datetime      => 'Data non valida',
-    form_validator_callback   => 'Errore nel Validator',
-    form_transformer_callback => 'Errore nel Transformer',
+    form_inflator_datetime         => 'Data non valida',
+    form_validator_callback        => 'Errore nel Validator',
+    form_transformer_callback      => 'Errore nel Transformer',
 
     form_inflator_imager       => 'Impossibile aprire il file dell\'immagine',
     form_validator_imager_size => 'L\'immagine inviata è troppo grande',
-    form_transformer_imager    => 'Impossibile elaborare il file dell\'immagine',
+    form_transformer_imager => 'Impossibile elaborare il file dell\'immagine',
 );
 
 1;

@@ -16,18 +16,18 @@ sub inflator {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
-    
+
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
     my %input;
-    
-    if ( defined ( my $order = $self->field_order ) ) {
+
+    if ( defined( my $order = $self->field_order ) ) {
         for my $order (@$order) {
             croak "unknown DateTime field_order name"
                 unless grep { $order eq $_ } @known_fields;
-            
+
             my $field = shift @fields;
             my $name  = $field->name;
-            
+
             $input{$order} = $value->{$name};
         }
     }
@@ -36,16 +36,16 @@ sub inflator {
             croak "unknown DateTime field name"
                 unless grep { $name eq $_ } @known_fields;
         }
-        
+
         %input = %$value;
     }
-    
+
     my $dt;
-    
+
     eval { $dt = DateTime->new(%input) };
-    
+
     return $value if $@;
-    
+
     if ( defined $self->strptime ) {
         my $strptime = $self->strptime;
         my %args;
@@ -59,10 +59,9 @@ sub inflator {
 
         $dt->set_formatter($formatter);
     }
-    
+
     return $dt;
 }
-
 
 1;
 

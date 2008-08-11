@@ -26,6 +26,7 @@ sub _filter_components {
     my ( $args, $components ) = @_;
 
     for my $name ( keys %$args ) {
+
         # get_errors() handles this itself
         next if $name eq 'forced';
 
@@ -371,21 +372,22 @@ sub _merge_hashes {
     my ( $lefthash, $righthash ) = @_;
 
     return $lefthash unless defined $righthash;
-    
+
     my %merged = %$lefthash;
     for my $key ( keys %$righthash ) {
-        my $right_ref = ( ref $righthash->{ $key } || '' ) eq 'HASH';
-        my $left_ref  = ( ( exists $lefthash->{ $key } && ref $lefthash->{ $key } ) || '' ) eq 'HASH';
-        if( $right_ref and $left_ref ) {
-            $merged{ $key } = _merge_hashes(
-                $lefthash->{ $key }, $righthash->{ $key }
-            );
+        my $right_ref = ( ref $righthash->{$key} || '' ) eq 'HASH';
+        my $left_ref
+            = ( ( exists $lefthash->{$key} && ref $lefthash->{$key} ) || '' ) eq
+            'HASH';
+        if ( $right_ref and $left_ref ) {
+            $merged{$key}
+                = _merge_hashes( $lefthash->{$key}, $righthash->{$key} );
         }
         else {
-            $merged{ $key } = $righthash->{ $key };
+            $merged{$key} = $righthash->{$key};
         }
     }
-    
+
     return \%merged;
 }
 

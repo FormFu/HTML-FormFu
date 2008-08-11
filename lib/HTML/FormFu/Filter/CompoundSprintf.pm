@@ -10,15 +10,15 @@ sub filter {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
-    
+
     my $sprintf = $self->sprintf;
-    
+
     croak 'sprintf pattern required' if !defined $sprintf;
-    
+
     my @values = $self->_get_values($value);
-    
+
     $value = CORE::sprintf( $sprintf, @values );
-    
+
     return $value;
 }
 

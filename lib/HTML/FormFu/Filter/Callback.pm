@@ -8,7 +8,7 @@ __PACKAGE__->mk_accessors(qw/callback/);
 sub filter {
     my ( $self, $value, $params ) = @_;
 
-    my $callback = $self->callback || sub { $value };
+    my $callback = $self->callback || sub {$value};
 
     no strict 'refs';
 

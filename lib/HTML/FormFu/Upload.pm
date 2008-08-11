@@ -29,11 +29,9 @@ sub _param {
     if (@_) {
         my $param = shift;
 
-        $param = HTML::FormFu::UploadParam->new({
-            param => $param,
-        });
+        $param = HTML::FormFu::UploadParam->new( { param => $param, } );
 
-        $param->form($self->form);
+        $param->form( $self->form );
 
         $self->{_param} = $param;
     }

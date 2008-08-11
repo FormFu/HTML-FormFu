@@ -10,14 +10,14 @@ use Carp qw/ croak /;
 
 sub process {
     my ( $self, $values, $params ) = @_;
-    
+
     my $return;
     my @errors;
 
     if ( ref $values eq 'ARRAY' ) {
         my @return;
         for my $value (@$values) {
-            my ($return) = eval { $self->transformer($value, $params); };
+            my ($return) = eval { $self->transformer( $value, $params ); };
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
@@ -29,7 +29,7 @@ sub process {
         $return = \@return;
     }
     else {
-        ($return) = eval { $self->transformer($values, $params); };
+        ($return) = eval { $self->transformer( $values, $params ); };
         if ($@) {
             push @errors, $self->return_error($@);
         }

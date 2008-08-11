@@ -9,14 +9,14 @@ sub filter {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
-    
+
     my $join = $self->join;
     $join = ' ' if !defined $join;
-    
+
     my @values = $self->_get_values($value);
-    
+
     $value = join $join, @values;
-    
+
     return $value;
 }
 

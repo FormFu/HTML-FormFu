@@ -158,23 +158,24 @@ sub model {
     $model_name = $self->default_model
         if !defined $model_name;
 
-    for my $model (@{ $self->_models }) {
+    for my $model ( @{ $self->_models } ) {
         return $model
             if $model->type =~ /\Q$model_name\E$/;
     }
 
     # class not found, try require-ing it
 
-    my $class = $model_name =~ s/^\+// 
+    my $class
+        = $model_name =~ s/^\+//
         ? $model_name
         : "HTML::FormFu::Model::$model_name";
 
     require_class($class);
 
-    my $model = $class->new({
-       type   => $model_name,
-       parent => $self, 
-    });
+    my $model = $class->new( {
+            type   => $model_name,
+            parent => $self,
+        } );
 
     push @{ $self->_models }, $model;
 
@@ -184,7 +185,8 @@ sub model {
 sub model_class {
     my $self = shift;
 
-    warn "model_class() method deprecated and is provided for compatibilty only, "
+    warn
+        "model_class() method deprecated and is provided for compatibilty only, "
         . "and will be removed: use default_model instead\n";
 
     return $self->default_model(@_);
@@ -193,7 +195,8 @@ sub model_class {
 sub defaults_from_model {
     my $self = shift;
 
-    warn "defaults_from_model() method deprecated and is provided for compatibility only, "
+    warn
+        "defaults_from_model() method deprecated and is provided for compatibility only, "
         . "and will be removed: use \$form->model->default_values() instead\n";
 
     return $self->model->default_values(@_);
@@ -202,7 +205,8 @@ sub defaults_from_model {
 sub save_to_model {
     my $self = shift;
 
-    warn "save_to_model() method deprecated and is provided for compatibility only, "
+    warn
+        "save_to_model() method deprecated and is provided for compatibility only, "
         . "and will be removed: use \$form->model->update() instead\n";
 
     return $self->model->update(@_);
@@ -233,7 +237,7 @@ sub process {
 
     my $plugins = $self->get_plugins;
 
-    for my $plugin ( @$plugins ) {
+    for my $plugin (@$plugins) {
         $plugin->process;
     }
 
@@ -252,7 +256,7 @@ sub process {
 
     $self->submitted($submitted);
 
-    if ( $submitted ) {
+    if ($submitted) {
         my %param;
         my @params = $query->param;
 
@@ -290,7 +294,7 @@ sub process {
         $elem->post_process;
     }
 
-    for my $plugin ( @$plugins ) {
+    for my $plugin (@$plugins) {
         $plugin->post_process;
     }
 
@@ -358,9 +362,10 @@ sub _build_params {
 
         next if !defined $name;
         next if exists $params{$name};
-        
-        next if !$self->nested_hash_key_exists( $self->input, $name )
-            && !$field->default_empty_value;
+
+        next
+            if !$self->nested_hash_key_exists( $self->input, $name )
+                && !$field->default_empty_value;
 
         my $input = $self->get_nested_hash_value( $self->input, $name );
 
@@ -840,7 +845,7 @@ sub _single_plugin {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = { %$arg }; # shallow clone
+        $arg = {%$arg};    # shallow clone
     }
     else {
         croak 'invalid args';
@@ -853,6 +858,7 @@ sub _single_plugin {
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if (@names) {
+
         # add plugins to appropriate fields
         for my $x (@names) {
             for my $field ( @{ $self->get_fields( { nested_name => $x } ) } ) {
@@ -863,6 +869,7 @@ sub _single_plugin {
         }
     }
     else {
+
         # add plugin directly to form
         my $new = $self->_require_plugin( $type, $arg );
 
@@ -878,13 +885,13 @@ sub render {
 
     my $plugins = $self->get_plugins;
 
-    for my $plugin ( @$plugins ) {
+    for my $plugin (@$plugins) {
         $plugin->render;
     }
 
     my $output = $self->next::method(@_);
 
-    for my $plugin ( @$plugins ) {
+    for my $plugin (@$plugins) {
         $plugin->post_render( \$output );
     }
 
@@ -1070,7 +1077,8 @@ sub _require_output_processor {
     my $parent = $self->parent;
 
     if ( $parent && exists $parent->default_args->{output_processor}{$type} ) {
-        %$opt = ( %{ $parent->default_args->{output_processer}{$type} }, %$opt );
+        %$opt
+            = ( %{ $parent->default_args->{output_processer}{$type} }, %$opt );
     }
 
     $object->populate($opt);

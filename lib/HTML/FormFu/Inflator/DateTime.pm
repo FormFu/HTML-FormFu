@@ -19,11 +19,11 @@ sub new {
 
 sub parser {
     my ( $self, $arg ) = @_;
-    
+
     if ( exists $arg->{regex} && !ref $arg->{regex} ) {
         $arg->{regex} = qr/$arg->{regex}/;
     }
-    
+
     $self->_builder->parser($arg);
 
     return $self;
@@ -48,7 +48,7 @@ sub inflator {
         if ($@) {
             %args = ( pattern => $strptime );
         }
-        
+
         # Make strptime format the date with the specified time_zone,
         # this is most likely what the user wants
         if ( defined $self->time_zone ) {

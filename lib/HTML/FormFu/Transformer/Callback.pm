@@ -12,7 +12,7 @@ sub transformer {
 
     no strict 'refs';
 
-    my $return = $callback->($value, $params);
+    my $return = $callback->( $value, $params );
 
     return $return;
 }

@@ -9,55 +9,55 @@ sub deflator {
     my ( $self, $value ) = @_;
 
     return unless defined $value && $value ne "";
-    
+
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
-    
+
     my $split = $self->split;
     $split = qr/ +/, if !defined $split;
-    
+
     my $join = $self->join;
     $join = ' ' if !defined $join;
-    
+
     my @parts = CORE::split $split, $value;
-    
+
     if ( my $order = $self->field_order ) {
         my @new_order;
-        
-FIELD:  for my $i ( @$order ) {
-            for my $field ( @fields ) {
+
+    FIELD: for my $i (@$order) {
+            for my $field (@fields) {
                 if ( $field->name eq $i ) {
                     push @new_order, $field;
                     next FIELD;
                 }
             }
         }
-        
+
         @fields = @new_order;
     }
-    
+
     my %value;
 
     for my $i ( 0 .. $#fields ) {
+
         # if there are more parts than fields, join the extra ones
         # to make the final field's value
-            
+
         if ( $i == $#fields ) {
             my $default = CORE::join $join, @parts[ $i .. $#parts ];
-            
-            $fields[$i]->default( $default );
-            
+
+            $fields[$i]->default($default);
+
             $value{ $fields[$i]->name } = $default;
         }
         else {
             $fields[$i]->default( $parts[$i] );
-            
+
             $value{ $fields[$i]->name } = $parts[$i];
         }
     }
-    
+
     return \%value;
 }
-
 
 1;
 

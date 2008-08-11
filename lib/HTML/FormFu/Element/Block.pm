@@ -48,7 +48,7 @@ sub _single_plugin {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = { %$arg }; # shallow clone
+        $arg = {%$arg};    # shallow clone
     }
     else {
         croak 'invalid args';
@@ -77,6 +77,7 @@ sub _single_plugin {
 
     return @return;
 }
+
 sub process {
     my ($self) = @_;
 
@@ -96,8 +97,7 @@ sub post_process {
 sub render_data {
     my $self = shift;
 
-    my $render = $self->render_data_non_recursive( {
-            @_ ? %{ $_[0] } : () } );
+    my $render = $self->render_data_non_recursive( { @_ ? %{ $_[0] } : () } );
 
     $render->{elements} = [ map { $_->render_data } @{ $self->_elements } ];
 
@@ -108,8 +108,8 @@ sub render_data_non_recursive {
     my $self = shift;
 
     my $render = $self->next::method( {
-        tag     => $self->tag,
-        content => xml_escape( $self->content ),
+            tag     => $self->tag,
+            content => xml_escape( $self->content ),
             @_ ? %{ $_[0] } : () } );
 
     return $render;

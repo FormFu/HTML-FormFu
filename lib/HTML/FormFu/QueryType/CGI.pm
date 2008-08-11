@@ -6,7 +6,6 @@ use base 'HTML::FormFu::Upload';
 use HTTP::Headers;
 use Scalar::Util qw/ blessed /;
 
-
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;
 
@@ -22,10 +21,11 @@ sub parse_uploads {
                     _param   => $param,
                     filename => sprintf( "%s", $filename ),
                     parent   => $form,
-                    # TODO: for now, parent points to the form
-                    # pointing to a field will require handling multiple
-                    # fields of the same name
-                    # if fixed, other QueryTypes and MultiForm will need updating
+
+                   # TODO: for now, parent points to the form
+                   # pointing to a field will require handling multiple
+                   # fields of the same name
+                   # if fixed, other QueryTypes and MultiForm will need updating
                 } );
 
             my $headers

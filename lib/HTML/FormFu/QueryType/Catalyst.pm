@@ -27,13 +27,14 @@ sub parse_uploads {
                 _param          => $upload,
                 catalyst_upload => $upload,
                 parent          => $form,
-                # set the following now, rather than on demand from catalyst_upload
-                # so they'll still work if we're freeze/thawed and reblessed 
-                # as a HTML::FormFu::QueryType::CGI by MultiForm
-                headers         => $upload->headers,
-                filename        => $upload->filename,
-                size            => $upload->size,
-                type            => $upload->type
+
+             # set the following now, rather than on demand from catalyst_upload
+             # so they'll still work if we're freeze/thawed and reblessed
+             # as a HTML::FormFu::QueryType::CGI by MultiForm
+                headers  => $upload->headers,
+                filename => $upload->filename,
+                size     => $upload->size,
+                type     => $upload->type
             } );
 
         push @new, $param;
