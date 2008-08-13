@@ -12,4 +12,4 @@ $form->load_config_file('xt/circular_reference.yml');
 
 memory_cycle_ok($form);
 
-memory_cycle_ok( $form->render );
+memory_cycle_ok( $form->render_data );
