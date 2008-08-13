@@ -1,0 +1,1 @@
+[% WRAPPER field %][% INCLUDE $self.field_filename %][% IF self.object.get_constraint({type => 'Required'}) %] **[% END %][% END %]

@@ -1,3 +1,8 @@
+0.03003
+
+    - Form and elements inside template files now have access to original
+      object via self.object
+
 0.03002 2008-08-11
 
     - Deprecate element_defaults() method.

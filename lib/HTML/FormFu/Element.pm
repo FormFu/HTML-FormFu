@@ -159,6 +159,7 @@ sub render_data_non_recursive {
         stash      => $self->stash,
         parent     => $self->parent,
         form       => sub { return shift->{parent}->form },
+        object     => $self,
         @_ ? %{ $_[0] } : () );
 
     weaken( $render{parent} );

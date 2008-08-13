@@ -1,0 +1,2 @@
+[% FOREACH field = self.object.get_fields %][% field.name %]
+[% END %]

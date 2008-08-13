@@ -922,6 +922,8 @@ sub render_data_non_recursive {
     $render{form} = \%render;
     weaken( $render{form} );
 
+    $render{object} = $self;
+
     if ( $self->force_error_message
         || ( $self->has_errors && defined $self->form_error_message ) )
     {
