@@ -4,6 +4,11 @@ name 'HTML-FormFu';
 perl_version '5.008001';
 all_from 'lib/HTML/FormFu.pm';
 
+# this is the lowest version of Exporter I can identify that exports import()
+# it's bundled with perl 5.83
+# version 5.567 that ships with perl 5.82 is no good
+requires 'Exporter' => '5.57';
+
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
 requires 'Config::Any' => '0.10'; # supports multi-doc config files
