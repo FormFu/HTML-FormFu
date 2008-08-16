@@ -311,7 +311,7 @@ HTML::FormFu::Attribute
 
 =head1 AUTHOR
 
-Carl Franks, C<cfranks.org>
+Carl Franks, C<cfranks@cpan.org>
 
 Based on the original source code of L<HTML::Widget::Accessor>, by 
 Sebastian Riedel, C<sri@oook.de>.

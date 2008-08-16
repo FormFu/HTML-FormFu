@@ -59,7 +59,7 @@ L<HTML::FormFu::FormFu>
 
 =head1 AUTHOR
 
-Carl Franks, C<cfranks.org>
+Carl Franks, C<cfranks@cpan.org>
 
 =head1 LICENSE
 
