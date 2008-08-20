@@ -42,7 +42,6 @@ sub new {
     $self->label_attributes( {} );
     $self->label_filename('label');
     $self->label_tag('label');
-    $self->is_field(0);
 
     return $self;
 }

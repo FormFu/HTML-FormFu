@@ -37,6 +37,7 @@ sub new {
     $self->default_args( {} );
     $self->filename('block');
     $self->tag('div');
+    $self->is_block(1);
 
     return $self;
 }

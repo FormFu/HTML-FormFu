@@ -18,8 +18,14 @@ sub nested_names {
         while ( defined $parent->parent ) {
             $parent = $parent->parent;
 
-            push @names, $parent->nested_name
-                if defined $parent->nested_name;
+            if ( $parent->can('is_field') && $parent->is_field ) {
+                push @names, $parent->name
+                    if defined $parent->name;
+            }
+            else {
+                push @names, $parent->nested_name
+                    if defined $parent->nested_name;
+            }
         }
 
         if (@names) {

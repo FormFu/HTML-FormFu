@@ -114,7 +114,7 @@ sub repeat {
 sub _reparent_children {
     my $self = shift;
 
-    return if $self->is_field;
+    return if !$self->is_block;
 
     for my $child ( @{ $self->get_elements } ) {
         $child->parent($self);

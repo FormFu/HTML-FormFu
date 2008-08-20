@@ -29,7 +29,7 @@ __PACKAGE__->mk_attr_accessors(qw/ id /);
 
 __PACKAGE__->mk_accessors(
     qw/
-        name type filename is_field is_repeatable /
+        name type filename is_field is_block is_repeatable /
 );
 
 __PACKAGE__->mk_inherited_accessors(qw/ tt_args render_method /);
