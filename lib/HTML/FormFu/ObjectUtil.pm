@@ -204,8 +204,8 @@ sub get_fields {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my @e
-        = map { $_->is_field && !$_->is_block ? $_ : @{ $_->get_fields } } @{ $self->_elements };
+    my @e = map { $_->is_field && !$_->is_block ? $_ : @{ $_->get_fields } }
+        @{ $self->_elements };
 
     return _get_elements( \%args, \@e );
 }
