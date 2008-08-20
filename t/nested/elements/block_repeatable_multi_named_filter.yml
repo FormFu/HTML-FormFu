@@ -1,0 +1,18 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Repeatable
+    nested_name: nested
+    counter_name: counter
+    
+    elements:
+      - name: foo
+      
+      - type: Multi
+        name: multi
+        elements:
+          - name: bar
+          - name: baz
+        filter:
+          - CompoundJoin
