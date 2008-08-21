@@ -101,13 +101,13 @@ sub nested {
         my $parent = $self;
 
         while ( defined $parent->parent ) {
-            $parent = $self->parent;
+            $parent = $parent->parent;
 
             if ( $parent->can('is_field') && $parent->is_field ) {
-                return 1 if defined $self->name;
+                return 1 if defined $parent->name;
             }
             else {
-                return 1 if defined $self->nested_name;
+                return 1 if defined $parent->nested_name;
             }
         }
     }
