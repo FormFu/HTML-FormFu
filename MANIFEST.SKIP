@@ -6,6 +6,7 @@
 ^lib\/HTML\/FormFu\/MultiForm\.pm$
 ^t\/multiform
 
+^lib\/HTML\/FormFu\/Filter\/CompoundDateTime\.pm$
 ^lib\/HTML\/FormFu\/Inflator\/ComposedDate\.pm$
 ^lib\/HTML\/FormFu\/Element\/Composed\.pm$
 ^lib\/HTML\/FormFu\/Element\/SelectMonth\.pm$
