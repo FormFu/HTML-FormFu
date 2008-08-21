@@ -1,4 +1,4 @@
-0.03003
+0.03003 2008-08-21
 
     - Form and elements inside template files now have access to original
       object via self.object
@@ -8,6 +8,8 @@
     - New Element method is_block() which is true for Block elements.
     
     - Multi no longers sets is_field(0) - it's now true for both is_field() and is_block().
+    
+    - prereqs - set minimum version of Exporter.pm that exports import()
 
 0.03002 2008-08-11
 
