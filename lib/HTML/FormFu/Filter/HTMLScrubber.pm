@@ -39,7 +39,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::HTMLScrubber
+HTML::FormFu::Filter::HTMLScrubber - filter removing HTML markup
 
 =head1 DESCRIPTION
 

@@ -20,7 +20,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::TrimEdges
+HTML::FormFu::Filter::TrimEdges - filter timming whitespace
 
 =head1 DESCRIPTION
 

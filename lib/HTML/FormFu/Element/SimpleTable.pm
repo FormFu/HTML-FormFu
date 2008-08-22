@@ -115,7 +115,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::SimpleTable
+HTML::FormFu::Element::SimpleTable - simple table element
 
 =head1 SYNOPSIS
 

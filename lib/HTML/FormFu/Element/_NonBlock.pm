@@ -51,7 +51,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_NonBlock
+HTML::FormFu::Element::_NonBlock - base class for single-tag elements
 
 =head1 DESCRIPTION
 

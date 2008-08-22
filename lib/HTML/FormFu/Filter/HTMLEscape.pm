@@ -22,7 +22,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::HTMLEscape
+HTML::FormFu::Filter::HTMLEscape - filter escaping HTML
 
 =head1 DESCRIPTION
 

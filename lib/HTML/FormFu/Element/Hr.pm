@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Hr
+HTML::FormFu::Element::Hr - horizontal-rule element
 
 =head1 DESCRIPTION
 

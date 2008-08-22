@@ -11,7 +11,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::Whitespace
+HTML::FormFu::Filter::Whitespace - filter stripping all whitespace
 
 =head1 DESCRIPTION
 

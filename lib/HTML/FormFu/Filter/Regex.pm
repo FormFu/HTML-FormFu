@@ -26,7 +26,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::Regex
+HTML::FormFu::Filter::Regex - regexp-based match/replace filter
 
 =head1 SYNOPSIS
 

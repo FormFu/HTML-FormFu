@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Src
+HTML::FormFu::Element::Src - custom HTML element
 
 =head1 DESCRIPTION
 

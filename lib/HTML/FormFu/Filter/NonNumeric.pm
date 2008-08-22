@@ -11,7 +11,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::NonNumeric
+HTML::FormFu::Filter::NonNumeric - filter removing all non-numeric characters
 
 =head1 DESCRIPTION
 

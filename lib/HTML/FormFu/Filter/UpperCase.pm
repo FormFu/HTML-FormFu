@@ -17,7 +17,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::UpperCase
+HTML::FormFu::Filter::UpperCase - filter transforming to upper case
 
 =head1 DESCRIPTION
 

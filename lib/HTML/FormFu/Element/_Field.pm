@@ -1041,7 +1041,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_Field
+HTML::FormFu::Element::_Field - base class for all form-field elements
 
 =head1 DESCRIPTION
 

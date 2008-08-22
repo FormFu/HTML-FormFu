@@ -45,7 +45,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Upload
+HTML::FormFu::Upload - uploaded file
 
 =head1 DESCRIPTION
 
