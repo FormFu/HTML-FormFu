@@ -15,6 +15,8 @@ sub filter {
 
     my @values = $self->_get_values($value);
 
+    @values = grep { $_ ne '' } @values;
+
     $value = join $join, @values;
 
     return $value;
