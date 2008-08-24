@@ -41,7 +41,7 @@ L</min> is an alias for L</minimum>.
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Length>, 
 L<HTML::FormFu::Constraint>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

@@ -55,7 +55,7 @@ Arrayref of field names, whose valid values should be stashed.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Plugin>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

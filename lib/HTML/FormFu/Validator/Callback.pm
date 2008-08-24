@@ -53,7 +53,7 @@ Arguments: "subroutine-name"
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Validator>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

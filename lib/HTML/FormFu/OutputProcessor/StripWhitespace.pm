@@ -212,7 +212,7 @@ HTML::FormFu::OutputProcessor::StripWhitespace - Strip shitespace from HTML outp
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::OutputProcessor>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

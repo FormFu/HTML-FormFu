@@ -108,7 +108,7 @@ Returns the browser-submitted Content-Type of the uploaded file.
 Is a sub-class of, and inherits methods from 
 L<HTML::FormFu::Upload>
 
-L<HTML::FormFu::FormFu>, L<HTML::FormFu::Element::File>
+L<HTML::FormFu>, L<HTML::FormFu::Element::File>
 
 =head1 AUTHOR
 

@@ -116,7 +116,7 @@ An arrayref of tag names who's contents should not be processed.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::OutputProcessor>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

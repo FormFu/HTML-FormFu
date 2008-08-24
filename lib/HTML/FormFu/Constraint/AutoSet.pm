@@ -44,7 +44,7 @@ Ensures that the input value is one of the pre-defined element options.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint::Set>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

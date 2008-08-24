@@ -24,7 +24,7 @@ Value must be either 1 or 0.
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint::Regex>,
 L<HTML::FormFu::Constraint>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

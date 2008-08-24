@@ -43,7 +43,7 @@ L<min/HTML::FormFu::Constraint::File::Size/min> set to C<1>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

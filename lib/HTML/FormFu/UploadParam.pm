@@ -106,7 +106,7 @@ HTML::FormFu::UploadParam
 
 =head1 SEE ALSO
 
-L<HTML::FormFu::FormFu>, L<HTML::FormFu::Upload>
+L<HTML::FormFu>, L<HTML::FormFu::Upload>
 
 =head1 AUTHOR
 

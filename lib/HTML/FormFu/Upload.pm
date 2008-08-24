@@ -82,7 +82,7 @@ See L<HTML::FormFu/populate> for details.
 
 =head1 SEE ALSO
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

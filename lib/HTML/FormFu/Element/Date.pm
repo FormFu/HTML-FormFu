@@ -600,7 +600,7 @@ L<HTML::FormFu::Element::Multi>,
 L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

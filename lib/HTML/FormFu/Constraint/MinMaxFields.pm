@@ -124,7 +124,7 @@ Default Value: 1
 Is a sub-class of, and inherits methods from  
 L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

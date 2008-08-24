@@ -82,7 +82,7 @@ Inherited, see L<HTML::FormFu::QueryType::CGI/type> for details.
 Is a sub-class of, and inherits methods from 
 L<HTML::FormFu::QueryType::CGI>, L<HTML::FormFu::Upload>
 
-L<HTML::FormFu::FormFu>, L<HTML::FormFu::Element::File>
+L<HTML::FormFu>, L<HTML::FormFu::Element::File>
 
 =head1 AUTHOR
 

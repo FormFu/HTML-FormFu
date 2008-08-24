@@ -25,7 +25,7 @@ States that a value must be submitted. The empty string is not allowed.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 

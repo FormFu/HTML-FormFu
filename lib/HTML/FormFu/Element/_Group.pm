@@ -491,7 +491,7 @@ will be empty.
 Is a sub-class of, and inherits methods from 
 L<HTML::FormFu::Element::_Field>, L<HTML::FormFu::Element>
 
-L<HTML::FormFu::FormFu>
+L<HTML::FormFu>
 
 =head1 AUTHOR
 
