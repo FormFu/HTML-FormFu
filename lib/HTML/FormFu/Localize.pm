@@ -101,7 +101,10 @@ sub get_localize_object_from_class {
 
     require_class($class);
 
-    return $class->get_handle( @{ $self->languages } );
+    my $languages = $self->languages;
+    $languages = [$languages] if ref $languages ne 'ARRAY';
+
+    return $class->get_handle( @$languages );
 
 }
 
