@@ -9,6 +9,7 @@ all_from 'lib/HTML/FormFu.pm';
 # version 5.567 that ships with perl 5.82 is no good
 requires 'Exporter' => '5.57';
 
+requires 'Captcha::reCAPTCHA' => 0.92;
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
 requires 'Config::Any' => '0.10'; # supports multi-doc config files

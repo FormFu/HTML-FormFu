@@ -10,6 +10,7 @@ fieldset .image,
 fieldset .multi,
 fieldset .password,
 fieldset .radio,
+fieldset .recaptcha,
 fieldset .reset,
 fieldset .select,
 fieldset .submit,
@@ -24,6 +25,18 @@ fieldset .textarea
 	margin-left: 12em;
 }
 
+/* make the noscript textarea sit below the iframe
+*/
+fieldset .recaptcha noscript textarea {
+    display: block;
+}
+
+/* override the iframe's height="" - it's seems a bit big
+*/
+fieldset .recaptcha iframe {
+    height: 230px ! important;
+}
+
 fieldset .button.label,
 fieldset .checkbox.label,
 fieldset .contentbutton.label,
@@ -32,6 +45,7 @@ fieldset .image.label,
 fieldset .multi.label,
 fieldset .password.label,
 fieldset .radio.label,
+fieldset .recaptcha.label,
 fieldset .reset.label,
 fieldset .select.label,
 fieldset .submit.label,
@@ -72,6 +86,7 @@ fieldset .multi label,
 fieldset .password label,
 fieldset .radio label,
 fieldset .radiogroup label,
+fieldset .recaptcha label,
 fieldset .select label,
 fieldset .text label,
 fieldset .textarea label

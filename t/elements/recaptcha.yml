@@ -1,0 +1,8 @@
+---
+indicator: x
+
+elements:
+    - type: reCAPTCHA
+      name: recaptcha
+      public_key: xxx
+      private_key: yyy

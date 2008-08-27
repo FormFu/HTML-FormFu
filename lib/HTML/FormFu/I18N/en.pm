@@ -26,6 +26,7 @@ our %Lexicon = (
     form_constraint_number    => 'This field must be a number',
     form_constraint_printable => 'Field contains invalid characters',
     form_constraint_range     => 'Invalid input',
+    form_constraint_recaptcha => 'reCAPTCHA error',
     form_constraint_regex     => 'Invalid input',
     form_constraint_required  => 'This field is required',
     form_constraint_set       => 'Field contains an invalid choice',
