@@ -33,6 +33,10 @@ __PACKAGE__->mk_attrs(
         /
 );
 
+*default      = \&value;
+*default_xml  = \&value_xml;
+*default_loc  = \&value_loc;
+
 sub new {
     my $self = shift->next::method(@_);
 
