@@ -1,3 +1,25 @@
+0.03004
+
+    - New reCAPTCHA element.
+    
+    - New pt_br (Brazilian Portuguese) translation from Daniel Nicoletti.
+    
+    - Radio element now inherits from Checkbox, to remove duplicated code.
+    
+    - Radiogroup element now inherits from Checkboxgroup, to remove duplicated
+      code.
+    
+    - checkboxgroup_tag template file has been removed - Checkboxgroup now just
+      uses radiogroup_tag file.
+    
+    - Allow languages() to be a single value, rather than just an arrayref.
+    
+    - CompoundJoin filter now ignores empty values.
+    
+    - Stop warnings for undefined attributes - reported by Rod Taylor.
+    
+    - Documentation improvements by Ansgar Burchardt.
+
 0.03003 2008-08-21
 
     - Form and elements inside template files now have access to original
