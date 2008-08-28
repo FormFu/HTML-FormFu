@@ -30,6 +30,7 @@ requires 'HTTP::Headers' => '1.64';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';
+requires 'Readonly';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
