@@ -6,13 +6,6 @@ use Class::C3;
 
 __PACKAGE__->mk_output_accessors(qw/ default /);
 
-use HTML::FormFu::Util qw(
-    append_xml_attribute
-    has_xml_attribute
-    remove_xml_attribute
-    xml_escape
-);
-
 sub new {
     my $self = shift->next::method(@_);
 
@@ -24,6 +17,8 @@ sub new {
 
 sub process_value {
     my ( $self, $input ) = @_;
+
+    # ignore submitted input
 
     return $self->value;
 }

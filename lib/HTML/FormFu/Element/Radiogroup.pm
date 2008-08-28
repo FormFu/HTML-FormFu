@@ -1,7 +1,7 @@
 package HTML::FormFu::Element::Radiogroup;
 
 use strict;
-use base 'HTML::FormFu::Element::_Group';
+use base 'HTML::FormFu::Element::Checkboxgroup';
 use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
@@ -11,151 +11,9 @@ __PACKAGE__->mk_accessors(qw/ radiogroup_filename /);
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename('input');
-    $self->field_filename('radiogroup_tag');
-    $self->label_tag('legend');
-    $self->container_tag('fieldset');
+    $self->input_type('radio');
 
     return $self;
-}
-
-sub prepare_id {
-    my ( $self, $render ) = @_;
-
-    my $form_id    = defined $self->form->id    ? $self->form->id    : '';
-    my $field_name = defined $self->nested_name ? $self->nested_name : '';
-    my $count      = 0;
-
-    for my $option ( @{ $render->{options} } ) {
-        if ( exists $option->{group} ) {
-            for my $item ( @{ $option->{group} } ) {
-                $self->_prepare_id( $item, $form_id, $field_name, \$count );
-            }
-        }
-        else {
-            $self->_prepare_id( $option, $form_id, $field_name, \$count );
-        }
-    }
-
-    return;
-}
-
-sub _prepare_id {
-    my ( $self, $option, $form_id, $field_name, $count_ref ) = @_;
-
-    if ( !exists $option->{attributes}{id} && defined $self->auto_id ) {
-        my %string = (
-            f => $form_id,
-            n => $field_name,
-        );
-
-        my $id = $self->auto_id;
-        $id =~ s/%([fn])/$string{$1}/g;
-        $id =~ s/%c/ ++$$count_ref /gex;
-
-        if ( defined( my $count = $self->repeatable_count ) ) {
-            $id =~ s/%r/$count/g;
-        }
-
-        $option->{attributes}{id} = $id;
-    }
-
-    # label "for" attribute
-    if (   exists $option->{label}
-        && exists $option->{attributes}{id}
-        && !exists $option->{label_attributes}{for} )
-    {
-        $option->{label_attributes}{for} = $option->{attributes}{id};
-    }
-
-    return;
-}
-
-sub _prepare_attrs {
-    my ( $self, $submitted, $value, $default, $option ) = @_;
-
-    if (   $submitted
-        && defined $value
-        && $value eq $option->{value} )
-    {
-        $option->{attributes}{checked} = 'checked';
-    }
-    elsif ($submitted
-        && $self->retain_default
-        && ( !defined $value || $value eq "" )
-        && $self->value eq $option->{value} )
-    {
-        $option->{attributes}{checked} = 'checked';
-    }
-    elsif ($submitted) {
-        delete $option->{attributes}{checked};
-    }
-    elsif ( defined $default && $default eq $option->{value} ) {
-        $option->{attributes}{checked} = 'checked';
-    }
-
-    return;
-}
-
-sub render_data_non_recursive {
-    my $self = shift;
-
-    my $render = $self->next::method( {
-            field_filename => $self->field_filename,
-            @_ ? %{ $_[0] } : () } );
-
-    for my $item ( @{ $render->{options} } ) {
-        append_xml_attribute( $item->{attributes}, 'class', 'subgroup' )
-            if exists $item->{group};
-    }
-
-    return $render;
-}
-
-sub _string_field {
-    my ( $self, $render ) = @_;
-
-    # radiogroup_tag template
-
-    my $html .= sprintf "<span%s>\n", process_attrs( $render->{attributes} );
-
-    for my $option ( @{ $render->{options} } ) {
-        if ( defined $option->{group} ) {
-            $html .= sprintf "<span%s>\n",
-                process_attrs( $option->{attributes} );
-
-            for my $item ( @{ $option->{group} } ) {
-                $html .= sprintf
-                    qq{<span>\n<input name="%s" type="radio" value="%s"%s />},
-                    $render->{nested_name},
-                    $item->{value},
-                    process_attrs( $item->{attributes} );
-
-                $html .= sprintf
-                    "\n<label%s>%s</label>\n</span>\n",
-                    process_attrs( $item->{label_attributes} ),
-                    $item->{label};
-            }
-
-            $html .= "</span>\n";
-        }
-        else {
-            $html .= sprintf
-                qq{<span>\n<input name="%s" type="radio" value="%s"%s />},
-                $render->{nested_name},
-                $option->{value},
-                process_attrs( $option->{attributes} );
-
-            $html .= sprintf
-                "\n<label%s>%s</label>\n</span>\n",
-                process_attrs( $option->{label_attributes} ),
-                $option->{label};
-        }
-    }
-
-    $html .= "</span>";
-
-    return $html;
 }
 
 1;

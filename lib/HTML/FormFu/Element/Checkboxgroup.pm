@@ -6,6 +6,8 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 
+__PACKAGE__->mk_accessors(qw/ input_type /);
+
 sub new {
     my $self = shift->next::method(@_);
 
@@ -14,6 +16,7 @@ sub new {
     $self->label_tag('legend');
     $self->container_tag('fieldset');
     $self->multi_value(1);
+    $self->input_type('checkbox');
 
     return $self;
 }
@@ -107,6 +110,7 @@ sub render_data_non_recursive {
 
     my $render = $self->next::method( {
             field_filename => $self->field_filename,
+            input_type     => $self->input_type,
             @_ ? %{ $_[0] } : () } );
 
     for my $item ( @{ $render->{options} } ) {
@@ -131,8 +135,9 @@ sub _string_field {
 
             for my $item ( @{ $option->{group} } ) {
                 $html .= sprintf
-                    qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />},
+                    qq{<span>\n<input name="%s" type="%s" value="%s"%s />},
                     $render->{nested_name},
+                    $render->{input_type},
                     $item->{value},
                     process_attrs( $item->{attributes} );
 
@@ -146,8 +151,9 @@ sub _string_field {
         }
         else {
             $html .= sprintf
-                qq{<span>\n<input name="%s" type="checkbox" value="%s"%s />},
+                qq{<span>\n<input name="%s" type="%s" value="%s"%s />},
                 $render->{nested_name},
+                $render->{input_type},
                 $option->{value},
                 process_attrs( $option->{attributes} );
 
