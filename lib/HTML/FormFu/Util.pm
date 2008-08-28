@@ -4,8 +4,12 @@ use strict;
 
 use HTML::FormFu::Literal;
 use Scalar::Util qw( blessed );
+use Readonly;
 use Exporter qw/ import /;
 use Carp qw/ croak /;
+
+Readonly my $EMPTY_STR => q{};
+Readonly my $SPACE     => q{ };
 
 our @EXPORT_OK = qw/
     append_xml_attribute
@@ -313,10 +317,19 @@ sub process_attrs {
     my ($attrs) = @_;
 
     eval { my %attrs = %$attrs };
-    croak $@ if $@;
+    croak 'argument to process_attrs() must be a hashref' if $@;
 
-    my $xml = join " ", map { sprintf qq{%s="%s"}, $_, $attrs->{$_} }
-        sort keys %$attrs;
+    my @attribute_parts;
+    
+    for my $attribute ( sort keys %$attrs ) {
+        my $value = defined $attrs->{$attribute} ? $attrs->{$attribute}
+                  :                                $EMPTY_STR
+                  ;
+        
+        push @attribute_parts, sprintf '%s="%s"', $attribute, $value;
+    }
+
+    my $xml = join $SPACE, @attribute_parts;
 
     $xml = " $xml"
         if length $xml;
@@ -375,7 +388,7 @@ sub _merge_hashes {
 
     my %merged = %$lefthash;
     for my $key ( keys %$righthash ) {
-        my $right_ref = ( ref $righthash->{$key} || '' ) eq 'HASH';
+        my $right_ref = ( ref $righthash->{$key} || $EMPTY_STR ) eq 'HASH';
         my $left_ref
             = ( ( exists $lefthash->{$key} && ref $lefthash->{$key} ) || '' ) eq
             'HASH';
