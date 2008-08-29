@@ -1,4 +1,4 @@
-#!/home/cafranks/local/bin/perl -w
+#!/usr/bin/perl
 
 BEGIN { $ENV{CATALYST_ENGINE} ||= 'FastCGI' }
 
