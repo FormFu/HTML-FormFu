@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw/
     mk_inherited_accessors mk_output_accessors
     mk_inherited_merging_accessors mk_accessors /;
 use HTML::FormFu::ObjectUtil qw/
-    populate load_config_file form
+    populate load_config_file load_config_filestem form
     clone stash parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 

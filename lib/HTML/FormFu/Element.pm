@@ -255,6 +255,16 @@ Populate an element using a config file:
 
 See L<HTML::FormFu/load_config_file> for further details.
 
+=head2 load_config_filestem
+
+Arguments: $filestem
+
+Arguments: \@filestems
+
+Like L</load_config_file>, but you shouldn't include the file extension
+in the passed string. This allows you to change your config-file type,
+without having to change the code that loads the files.
+
 =head2 config_callback
 
 See L<HTML::FormFu/config_callback> for details.

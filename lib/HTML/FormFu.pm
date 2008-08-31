@@ -15,7 +15,7 @@ use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw/
     :FORM_AND_BLOCK
     :FORM_AND_ELEMENT
-    populate load_config_file form
+    populate load_config_file load_config_filestem form
     clone stash constraints_from_dbic parent
     get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
 use HTML::FormFu::Util qw/ require_class _get_elements xml_escape
@@ -1297,8 +1297,19 @@ If you're using the C<FormConfig> action controller in
 L<Catalyst::Controller::HTML::FormFu>, see 
 L<config_file_path|Catalyst::Controller::HTML::FormFu/config_file_path>. 
 
-
 See L</BEST PRACTICES> for advice on organising config files.
+
+=head2 load_config_filestem
+
+Arguments: $filestem
+
+Arguments: \@filestems
+
+Return Value: $form
+
+Like L</load_config_file>, but you shouldn't include the file extension
+in the passed string. This allows you to change your config-file type,
+without having to change the code that loads the files.
 
 =head2 config_callback
 

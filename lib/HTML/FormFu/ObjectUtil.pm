@@ -74,7 +74,7 @@ our @EXPORT_OK = (
     qw/
         _coerce populate
         deflator
-        load_config_file form insert_before insert_after clone name stash
+        load_config_file load_config_filestem form insert_before insert_after clone name stash
         constraints_from_dbic parent nested_name nested_names get_nested_hash_value
         set_nested_hash_value nested_hash_key_exists remove_element
         /,
@@ -398,18 +398,26 @@ sub remove_element {
 }
 
 sub load_config_file {
-    my $self = shift;
-    my @filenames;
+    my ( $self, @files ) = @_;
 
-    if ( @_ == 1 && ref $_[0] eq 'ARRAY' ) {
-        push @filenames, @{ $_[0] };
-    }
-    else {
-        push @filenames, @_;
-    }
+    my $use_stems = 0;
 
-    for (@filenames) {
-        croak "file not found: '$_'" if !-f $_;
+    return _load_config( $self, $use_stems, @files );
+}
+
+sub load_config_filestem {
+    my ( $self, @files ) = @_;
+
+    my $use_stems = 1;
+
+    return _load_config( $self, $use_stems, @files );
+}
+
+sub _load_config {
+    my ( $self, $use_stems, @filenames ) = @_;
+
+    if( scalar @filenames == 1 && ref $filenames[0] eq 'ARRAY' ) {
+        @filenames = @{$filenames[0]};
     }
 
     # ImplicitUnicode ensures that values won't be double-encoded when we
@@ -424,13 +432,21 @@ sub load_config_file {
             ignore_return_values => 1, );
     }
 
-    for my $file (@filenames) {
-        my $config = Config::Any->load_files( {
-                files   => [$file],
-                use_ext => 1,
-            } );
+    my $config_any_arg    = $use_stems ? 'stems'      : 'files';
+    my $config_any_method = $use_stems ? 'load_stems' : 'load_files';
 
-        _load_file( $self, $data_visitor, $config->[0]->{$file} );
+    for my $file (@filenames) {
+        my $config = Config::Any->$config_any_method( {
+            $config_any_arg => [$file],
+            use_ext         => 1,
+            driver_args     => {
+                General => { -UTF8 => 1 },
+            },
+        } );
+
+        my ( $filename, $filedata ) = %{ $config->[0] };
+        
+        _load_file( $self, $data_visitor, $filedata );
     }
 
     return $self;
