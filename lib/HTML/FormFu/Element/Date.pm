@@ -234,7 +234,12 @@ sub _build_month_list {
         @months = @{ $month->{names} };
     }
     else {
-        for my $lang ( @{ $self->form->languages } ) {
+        my $languages = $self->form->languages;
+        if ( ref $languages ne 'ARRAY' ) {
+            $languages = [$languages];
+        }
+        
+        for my $lang ( @$languages ) {
             my $loc;
             eval { $loc = DateTime::Locale->load($lang); };
             if ( !$@ ) {

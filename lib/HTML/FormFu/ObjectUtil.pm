@@ -577,8 +577,11 @@ sub clone {
     $new{_elements}    = [ map { $_->clone } @{ $self->_elements } ];
     $new{attributes}   = dclone $self->attributes;
     $new{tt_args}      = dclone $self->tt_args;
-    $new{languages}    = dclone $self->languages;
     $new{model_config} = dclone $self->model_config;
+    
+    $new{languages} = ref $self->languages ? dclone $self->languages
+                    :                        $self->languages
+                    ;
 
     $new{default_args} = $self->default_args;
 
