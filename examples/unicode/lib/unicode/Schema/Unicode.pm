@@ -5,7 +5,7 @@ use warnings;
 
 use base 'DBIx::Class';
 
-__PACKAGE__->load_components(qw/ UTF8Columns HTML::FormFu PK::Auto Core /);
+__PACKAGE__->load_components(qw/ UTF8Columns PK::Auto Core /);
 
 __PACKAGE__->table("unicode");
 

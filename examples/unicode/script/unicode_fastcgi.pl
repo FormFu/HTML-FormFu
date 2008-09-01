@@ -67,10 +67,9 @@ unicode_fastcgi.pl [options]
 
 Run a Catalyst application as fastcgi.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
-Maintained by the Catalyst Core Team.
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 

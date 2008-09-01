@@ -39,6 +39,7 @@ unicode_create.pl [options] model|view|controller name [helper] [options]
 
  Examples:
    unicode_create.pl controller My::Controller
+   unicode_create.pl controller My::Controller BindLex
    unicode_create.pl -mechanize controller My::Controller
    unicode_create.pl view My::View
    unicode_create.pl view MyView TT
@@ -61,10 +62,9 @@ Existing component files are not overwritten.  If any of the component files
 to be created already exist the file will be written with a '.new' suffix.
 This behavior can be suppressed with the C<-force> option.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
-Maintained by the Catalyst Core Team.
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 

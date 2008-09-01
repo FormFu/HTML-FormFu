@@ -1,1 +1,5 @@
-Run script/unicode_server.pl to test the application.
+Run `perl Makefile.PL` to check you've got all dependencies installed.
+
+Run `perl script/unicode_server.pl` to start the application.
+
+View the site in your web-browser.

@@ -26,72 +26,39 @@ unicode::Controller::Root - Root Controller for unicode
 
 =cut
 
-sub default : Private {
-    my ( $self, $c ) = @_;
-
-    $c->response->body( <<HTML );
-<html>
-<body>
-<a href="/tt">TT only</a><br />
-<a href="tt_alloy">Template::Alloy only</a><br />
-<a href="tt_cross">TT template, with HTML::FormFu using Template::Alloy</a><br />
-<a href="tt_alloy_cross">Template::Alloy template, with HTML::FormFu using TT</a>
-</body>
-HTML
-}
-
-sub tt : Local : FormConfig('index.yml') {
-    my ( $self, $c ) = @_;
-    
-    $self->_common( $c );
-    
-    $c->forward('View::TT');
-}
-
-sub tt_alloy : Local : FormConfig('index.yml') {
-    my ( $self, $c ) = @_;
-    
-    $self->_common( $c );
-    
-    $c->stash->{form}->tt_args->{TEMPLATE_ALLOY} = 1;
-    
-    $c->forward('View::TT::Alloy');
-}
-
-sub tt_cross : Local : FormConfig('index.yml') {
-    my ( $self, $c ) = @_;
-    
-    $self->_common( $c );
-    
-    $c->stash->{form}->tt_args->{TEMPLATE_ALLOY} = 1;
-    
-    $c->forward('View::TT');
-}
-
-sub tt_alloy_cross : Local : FormConfig('index.yml') {
-    my ( $self, $c ) = @_;
-    
-    $self->_common( $c );
-    
-    $c->forward('View::TT::Alloy');
-}
-
-sub _common : Private {
+sub index : Chained : PathPart('') : Args(0) : FormConfig {
     my ( $self, $c ) = @_;
     
     my $form = $c->stash->{form};
     
-    if ( $form->submitted ) {
-        $form->get_field('db')->comment("^ check this submitted value");
+    if ( $form->submitted_and_valid ) {
+        my $demo_form = $self->form;
+        
+        my $config_file = $c->path_to(
+            'root/forms/view'
+            . $form->param_value('config_file_ext')
+        );
+        
+        $demo_form->load_config_file( $config_file );
+        
+        $demo_form->render_method( $form->param_value('render_method') );
+        $demo_form->tt_module(     $form->param_value('tt_module') );
+        
+        my $db_row = $c->model('DB')->resultset('Unicode')->find(1);
+        
+        $demo_form->get_field('db')->default( $db_row->string );
+        
+        $demo_form->process({});
+        
+        $c->stash->{demo_form} = $demo_form;
+        $c->stash->{template}  = 'view.tt';
+        
+        $c->forward( $form->param_value('view_class' ) );
     }
-    
-    my $result = $c->model('DB')->resultset('Unicode')->find(1);
-    
-    $form->get_field('db')->default( $result->string );
-    
-    $c->stash->{template} = 'index.tt';
-    
-    return;
+    else {
+        $c->stash->{template} = 'index.tt';
+        $c->forward('View::TT');
+    }
 }
 
 =head1 AUTHOR

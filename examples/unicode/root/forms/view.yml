@@ -1,0 +1,21 @@
+---
+auto_fieldset:
+    legend: Demo Form
+languages: [de]
+
+elements:
+  - type: Text
+    name: yml
+    label: 'From the form config ->'
+    default: 'ü'
+  
+  - type: Text
+    name: db
+    label: 'From the database ->'
+  
+  - type: Date
+    name: date
+    label: 'From DateTime::Locale ->'
+  
+  - type: Submit
+    name: submit

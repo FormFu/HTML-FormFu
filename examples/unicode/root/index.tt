@@ -1,19 +1,9 @@
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-<title>Unicode Demo
-</title>
 <style type="text/css" media="all">
 	@import url("[% c.uri_for('/vertically-aligned.css') %]");
 </style>
 </head>
 <body>
-<p><a href="[% c.uri_for('/') %]">home</a></p>
-<p>From the template file -&gt; ü</p>
-<p>From the database, bypassing FormFu -&gt; [% c.model('DB').resultset('Unicode').find(1).string %]</p>
 [% form %]
-<p>Submit the form to check input params and error messages</p>
 </body>
-</html>
