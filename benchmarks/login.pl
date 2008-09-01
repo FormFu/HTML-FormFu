@@ -32,7 +32,7 @@ my $output = "$formfu";
 print "No submit\n";
 
 cmpthese(
-    100,
+    500,
     {
         'HTML::FormFu' => sub {
             $output = "$formfu";
@@ -58,11 +58,10 @@ my $query = HTML::FormFu::FakeQuery->new(
 print "\nConstruction + submission\n";
 
 cmpthese(
-    100,
+    500,
     {
         'HTML::FormFu' => sub {
-            my $formfu = HTML::FormFu->new
-                ->load_config_file($formfu_file);
+            my $formfu = formfu();
             
             $formfu->process($query);
             
@@ -74,12 +73,15 @@ cmpthese(
         'HTML::Widget' => sub {
             my $widget = widget();
             
-            $output = $widget->process->as_xml;
+            my $result = $widget->process($query);
+            
+            die "widget not submitted"
+                if !$result->submitted || $result->has_errors;
+            
+            $output = $result->as_xml;
         },
         'CGI::FormBuilder' => sub {
-            my $builder = CGI::FormBuilder->new(
-                source => $builder_file,
-                params => $query );
+            my $builder = builder( params => $query );
             
             die 'builder not submitted'
                 if ! $builder->submitted || ! $builder->validate;
@@ -117,7 +119,9 @@ sub widget {
 
 sub builder {
     my $form = CGI::FormBuilder->new(
-        source => $builder_file );
+        source => $builder_file,
+        @_,
+    );
     
     return $form;
 }
