@@ -3,7 +3,7 @@ package HTML::FormFu::Filter::Regex;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_accessors(qw/ match replace /);
+__PACKAGE__->mk_accessors(qw/ match replace eval /);
 
 sub filter {
     my ( $self, $value ) = @_;
@@ -15,7 +15,12 @@ sub filter {
     $match   = qr/./ if !defined $match;
     $replace = ''    if !defined $replace;
 
-    $value =~ s/$match/$replace/g;
+    if ( $self->eval ) {
+        $value =~ s/$match/$replace/gee;
+    }
+    else {
+        $value =~ s/$match/$replace/g;
+    }
 
     return $value;
 }
@@ -55,6 +60,15 @@ A string to be used in the "right-hand side" of a C<s///g> regular
 expression. The string will replace every occurance of L</match>.
 
 Default Value: ''
+
+=head2 eval
+
+Arguments: $bool
+
+If true, the regex modifier C</e> is used, so that the contents of the
+L</replace> string are C<eval>'d.
+
+This allows the use of variables such as C<$1> or any other perl expression.
 
 =head1 AUTHOR
 

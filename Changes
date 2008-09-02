@@ -20,6 +20,10 @@
     - load_config_file() now switches on Config-General's UTF8, so that files
       are correctly decoded.
     
+    - Regex filter now has an eval() method, which if true, eval's the
+      contents of replace(), to allow the use of $1 variables or any other
+      perl expression.
+    
     - Allow languages() to be a single value, rather than just an arrayref.
     
     - CompoundJoin filter now ignores empty values.

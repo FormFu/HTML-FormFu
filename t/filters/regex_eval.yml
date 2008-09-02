@@ -1,0 +1,8 @@
+---
+elements:
+  - name: foo
+    filters:
+      - type: Regex
+        match: '\A.*?([0-9]+(?:\.[0-9]+)?).*\z'
+        replace: '$1'
+        eval: 1
