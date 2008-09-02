@@ -38,7 +38,6 @@ __PACKAGE__->mk_attrs( qw( attributes ) );
 __PACKAGE__->mk_attr_accessors( qw( id ) );
 
 __PACKAGE__->mk_accessors( qw(
-    name
     type
     filename
     is_field
@@ -90,6 +89,26 @@ WARNING
     }
 
     return $self->model_config;
+}
+
+sub name {
+    my ( $self, $name ) = @_;
+
+    if ( @_ > 1 ) {
+        
+        if ( $name =~ /[\.\[\]]/ ) {
+            croak <<'ERROR_MESSAGE';
+element names may not contain periods or square brackets
+see documentation on nested_names() for details
+ERROR_MESSAGE
+        }
+        
+        $self->{name} = $name;
+
+        return $self;
+    }
+
+    return $self->{name};
 }
 
 sub setup { }
