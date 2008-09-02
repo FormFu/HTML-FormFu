@@ -52,9 +52,15 @@ L</HTML::FormFu Template Configuration>.
 
 =head2 HTML::FormFu form configuration files
 
-If you have L<YAML::Syck> installed, your YAML format form configuration 
-files will automatically be decoded by L<HTML::FormFu/load_config_file>, 
-which automatically sets C<$YAML::Syck::ImplicitUnicode = 1>.
+If you're using C<YAML> config files, your files will automatically be
+decoded by C<load_config_file|HTML::FormFu/load_config_file> and
+C<load_config_filestem|HTML::FormFu/load_config_filestem>, which
+automatically sets C<< $YAML::Syck::ImplicitUnicode = 1 >>.
+
+If you have L<Config::General> config files, your files will automatically
+be decoded by C<load_config_file|HTML::FormFu/load_config_file> and
+C<load_config_filestem|HTML::FormFu/load_config_filestem>, which
+automatically sets L<Config::General's|Config::General> C<-UTF8> setting.
 
 =head2 Your perl source code
 
