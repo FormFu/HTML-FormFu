@@ -4,6 +4,9 @@
     
     - New pt_br (Brazilian Portuguese) translation from Daniel Nicoletti.
     
+    - New load_config_filestem() method for loading config files without
+      having to specify the file extension.
+    
     - Radio element now inherits from Checkbox, to remove duplicated code.
     
     - Radiogroup element now inherits from Checkboxgroup, to remove duplicated
@@ -12,9 +15,18 @@
     - checkboxgroup_tag template file has been removed - Checkboxgroup now just
       uses radiogroup_tag file.
     
+    - All non-english I18N packages now correctly "use utf8;"
+    
+    - load_config_file() now switches on Config-General's UTF8, so that files
+      are correctly decoded.
+    
     - Allow languages() to be a single value, rather than just an arrayref.
     
     - CompoundJoin filter now ignores empty values.
+    
+    - examples/unicode updated.
+    
+    - Manual-Unicode cat. config examples changed to use MyApp->config().
     
     - Stop warnings for undefined attributes - reported by Rod Taylor.
     

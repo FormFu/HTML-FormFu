@@ -94,20 +94,64 @@ Pass each column name that will store unicode to C<utf8_columns()>:
 =head2 TT Configuration
 
 Tell TT to decode all template files, by adding the following to your 
-C<myapp.yml> Catalyst configuration file:
+application config in MyApp.pm
 
-    'View::TT':
-      ENCODING: UTF-8
+    package MyApp;
+    use strict;
+    use parent 'Catalyst';
+    use Catalyst qw( ConfigLoader );
+    
+    MyApp->config({
+        'View::TT' => {
+            ENCODING => 'UTF-8',
+        },
+    });
+    
+    1;
 
 =head2 HTML::FormFu Template Configuration
 
 Make C<HTML::FormFu> tell TT to decode all template files, by adding the 
 following to your C<myapp.yml> Catalyst configuration file:
 
-    'Controller::HTML::FormFu':
-      constructor:
-        tt_args:
-          ENCODING: UTF-8
+    package MyApp;
+    use strict;
+    use parent 'Catalyst';
+    use Catalyst qw( ConfigLoader );
+    
+    MyApp->config({
+        'Controller::HTML::FormFu' => {
+            constructor => {
+                tt_args => {
+                    ENCODING => 'UTF-8',
+                },
+            },
+        },
+    });
+    
+    1;
+
+These above 2 examples should be combined, like so:
+
+    package MyApp;
+    use strict;
+    use parent 'Catalyst';
+    use Catalyst qw( ConfigLoader );
+    
+    MyApp->config({
+        'Controller::HTML::FormFu' => {
+            constructor => {
+                tt_args => {
+                    ENCODING => 'UTF-8',
+                },
+            },
+        },
+        'View::TT' => {
+            ENCODING => 'UTF-8',
+        },
+    });
+    
+    1;
 
 =head1 AUTHORS
 
