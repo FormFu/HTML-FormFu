@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Constraint';
 
 use Regexp::Common;
 
-__PACKAGE__->mk_accessors(qw/ regex common /);
+__PACKAGE__->mk_accessors( qw( regex common ) );
 
 sub constrain_value {
     my ( $self, $value ) = @_;
@@ -13,11 +13,13 @@ sub constrain_value {
     return 1 if !defined $value || $value eq '';
 
     my $regex;
+    
     if ( defined $self->regex ) {
         $regex = $self->regex;
     }
     elsif ( defined $self->common ) {
-        my @common = ref $self->common ? @{ $self->common } : ( $self->common );
+        my @common = ref $self->common ? @{ $self->common }
+                   :                     $self->common;
 
         $regex = shift @common;
         $regex = $RE{$regex};

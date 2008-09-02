@@ -4,22 +4,23 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_output_accessors /;
-use HTML::FormFu::ObjectUtil qw/ :FORM_AND_BLOCK /;
-use HTML::FormFu::Util qw/ _get_elements xml_escape process_attrs /;
+use HTML::FormFu::Attribute qw( mk_output_accessors );
+use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );
+use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
+use List::MoreUtils qw( uniq );
 use Storable qw( dclone );
-use Carp qw/croak/;
+use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ tag _elements nested_name /);
+__PACKAGE__->mk_accessors( qw( tag _elements nested_name ) );
 
-__PACKAGE__->mk_output_accessors(qw/ content /);
+__PACKAGE__->mk_output_accessors( qw( content ) );
 
-__PACKAGE__->mk_inherited_accessors(
-    qw/ auto_id auto_label auto_error_class auto_error_message
-        auto_constraint_class auto_inflator_class auto_validator_class
-        auto_transformer_class render_processed_value force_errors
-        repeatable_count /
-);
+__PACKAGE__->mk_inherited_accessors( qw(
+    auto_id auto_label auto_error_class auto_error_message
+    auto_constraint_class auto_inflator_class auto_validator_class
+    auto_transformer_class render_processed_value force_errors
+    repeatable_count
+) );
 
 *elements     = \&element;
 *constraints  = \&constraint;
@@ -33,11 +34,11 @@ __PACKAGE__->mk_inherited_accessors(
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->_elements( [] );
+    $self->_elements   ( [] );
     $self->default_args( {} );
-    $self->filename('block');
-    $self->tag('div');
-    $self->is_block(1);
+    $self->filename    ( 'block' );
+    $self->tag         ( 'div' );
+    $self->is_block    ( 1 );
 
     return $self;
 }
@@ -56,12 +57,17 @@ sub _single_plugin {
     }
 
     my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+        grep { defined } ( delete $arg->{name}, delete $arg->{names} );
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
-
+    if ( !@names ) {
+        @names
+            = uniq
+              grep { defined }
+              map { $_->nested_name }
+                 @{ $self->get_fields }
+             ;
+    }
+    
     croak "no field names to add plugin to" if !@names;
 
     my $type = delete $arg->{type};
@@ -106,12 +112,13 @@ sub render_data {
 }
 
 sub render_data_non_recursive {
-    my $self = shift;
+    my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-            tag     => $self->tag,
-            content => xml_escape( $self->content ),
-            @_ ? %{ $_[0] } : () } );
+        tag     => $self->tag,
+        content => xml_escape( $self->content ),
+        $args ? %$args : (),
+    } );
 
     return $render;
 }
@@ -121,10 +128,9 @@ sub string {
 
     $args ||= {};
 
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data_non_recursive;
+    my $render = exists $args->{render_data} ? $args->{render_data}
+               :                             $self->render_data_non_recursive
+               ;
 
     # start_block template
 
@@ -133,7 +139,8 @@ sub string {
     if ( defined $render->{tag} ) {
         $html .= sprintf "<%s%s>",
             $render->{tag},
-            process_attrs( $render->{attributes} );
+            process_attrs( $render->{attributes} ),
+            ;
     }
 
     if ( defined $render->{legend} ) {

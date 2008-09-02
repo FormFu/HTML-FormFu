@@ -3,17 +3,17 @@ package HTML::FormFu::Filter::Regex;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_accessors(qw/ match replace eval /);
+use HTML::FormFu::Constants qw( $EMPTY_STR );
+
+__PACKAGE__->mk_accessors( qw( match replace eval ) );
 
 sub filter {
     my ( $self, $value ) = @_;
 
     return if !defined $value;
 
-    my $match   = $self->match;
-    my $replace = $self->replace;
-    $match   = qr/./ if !defined $match;
-    $replace = ''    if !defined $replace;
+    my $match   = defined $self->match   ? $self->match   : qr/./;
+    my $replace = defined $self->replace ? $self->replace : $EMPTY_STR ;
 
     if ( $self->eval ) {
         $value =~ s/$match/$replace/gee;

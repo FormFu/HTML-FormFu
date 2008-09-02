@@ -7,13 +7,14 @@ sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     my $others = $self->others;
     return if !defined $others;
 
     my @names = ( $self->nested_name );
     push @names, ref $others ? @{$others} : $others;
+    
     my @failed;
 
     for my $name (@names) {
@@ -21,16 +22,23 @@ sub process {
 
         my $seen = 0;
         if ( ref $value eq 'ARRAY' ) {
-            my @errors = eval { $self->constrain_values( $value, $params ); };
-            $seen = 1 if !@errors && !$@;
+            my @errors = eval { $self->constrain_values( $value, $params ) };
+            
+            if ( !@errors && !$@ ) {
+                $seen = 1;
+            }
         }
         else {
-            my $ok = eval { $self->constrain_value($value); };
-            $seen = 1 if $ok && !$@;
+            my $ok = eval { $self->constrain_value($value) };
+            
+            if ( $ok && !$@ ) {
+                $seen = 1;
+            }
         }
 
-        push @failed, $name
-            if !$seen;
+        if ( !$seen ) {
+            push @failed, $name;
+        }
     }
 
     return $self->mk_errors( {

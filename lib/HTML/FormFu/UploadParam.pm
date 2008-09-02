@@ -6,9 +6,9 @@ use Carp qw( croak );
 use HTML::FormFu::Attribute qw( mk_accessors );
 use File::Temp qw( tempfile );
 use Scalar::Util qw( blessed weaken );
-use Storable qw/ nfreeze thaw /;
+use Storable qw( nfreeze thaw );
 
-__PACKAGE__->mk_accessors(qw/ param filename /);
+__PACKAGE__->mk_accessors( qw( param filename ) );
 
 sub new {
     my $class = shift;
@@ -41,10 +41,9 @@ sub STORABLE_freeze {
 
     return if $cloning;
 
-    my $fh
-        = $self->{param}->can('fh')
-        ? $self->{param}->fh
-        : $self->{param};
+    my $fh = $self->{param}->can('fh') ? $self->{param}->fh
+           :                             $self->{param}
+           ;
 
     seek $fh, 0, 0;
 

@@ -5,10 +5,11 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Constraint;
-use Scalar::Util qw/ blessed /;
-use Carp qw/ croak /;
+use List::MoreUtils qw( any );
+use Scalar::Util qw( blessed );
+use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ not force_errors when /);
+__PACKAGE__->mk_accessors( qw( not force_errors when ) );
 
 sub process {
     my ( $self, $params ) = @_;
@@ -18,10 +19,11 @@ sub process {
     my @errors;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     if ( ref $value eq 'ARRAY' ) {
-        push @errors, eval { $self->constrain_values( $value, $params ); };
+        push @errors, eval { $self->constrain_values( $value, $params ) };
+        
         if ($@) {
             push @errors,
                 $self->mk_errors( {
@@ -31,7 +33,7 @@ sub process {
         }
     }
     else {
-        my $ok = eval { $self->constrain_value( $value, $params ); };
+        my $ok = eval { $self->constrain_value( $value, $params ) };
         push @errors,
             $self->mk_errors( {
                 pass => ( $@ || !$ok ) ? 0 : 1,
@@ -48,7 +50,7 @@ sub constrain_values {
     my @errors;
 
     for my $value (@$values) {
-        my $ok = eval { $self->constrain_value( $value, $params ); };
+        my $ok = eval { $self->constrain_value( $value, $params ) };
 
         push @errors,
             $self->mk_errors( {
@@ -128,13 +130,21 @@ sub _process_when {
     # a compare value must be defined
     my @values;
     my $compare_value = $when->{value};
-    push @values, $compare_value if defined $compare_value;
+    
+    if ( defined $compare_value ) {
+        push @values, $compare_value;
+    }
+    
     my $compare_values = $when->{values};
-    push @values, @$compare_values if ref $compare_values eq 'ARRAY';
-    croak "Parameter 'value' or 'values' are not defined" unless @values;
+    
+    if ( ref $compare_values eq 'ARRAY' ) {
+        push @values, @$compare_values;
+    }
+    
+    croak "Parameter 'value' or 'values' are not defined" if !@values;
 
     # determine if condition is fullfilled
-    my $fullfilled = grep { $when_field_value eq $_ } @values;
+    my $fullfilled = any { $when_field_value eq $_ } @values;
 
     # invert when condition if asked for
     $fullfilled = $when->{not} ? !$fullfilled : $fullfilled;

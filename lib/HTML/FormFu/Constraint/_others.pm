@@ -4,38 +4,42 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 
-use Storable qw/ dclone /;
+use List::MoreUtils qw( any );
+use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors(
-    qw/
-        others
-        attach_errors_to_base
-        attach_errors_to_others
-        attach_errors_to /
-);
+__PACKAGE__->mk_accessors( qw(
+    others
+    attach_errors_to_base
+    attach_errors_to_others
+    attach_errors_to
+) );
 
 sub mk_errors {
     my ( $self, $args ) = @_;
 
     my $pass   = $args->{pass};
     my @failed = $args->{failed} ? @{ $args->{failed} } : ();
-    my @names  = $args->{names} ? @{ $args->{names} } : ();
+    my @names  = $args->{names}  ? @{ $args->{names} }  : ();
 
     my $force = $self->force_errors || $self->parent->force_errors;
     my @attach;
 
     if ( $self->attach_errors_to ) {
-        push @attach, @{ $self->attach_errors_to }
-            if !$pass || $force;
+        if ( !$pass || $force ) {
+            push @attach, @{ $self->attach_errors_to };
+        }
     }
     elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
-        push @attach, $self->nested_name
-            if $self->attach_errors_to_base
-                && ( !$pass || $force );
+        if ( $self->attach_errors_to_base && ( !$pass || $force ) ) {
+            push @attach, $self->nested_name;
+        }
 
-        push @attach, ref $self->others ? @{ $self->others } : $self->others
-            if $self->attach_errors_to_others
-                && ( !$pass || $force );
+        if ( $self->attach_errors_to_others && ( !$pass || $force ) ) {
+            push @attach,
+                  ref $self->others ? @{ $self->others }
+                :                     $self->others
+                ;
+        }
     }
     elsif ($force) {
         push @attach, @names;
@@ -54,9 +58,12 @@ sub mk_errors {
 
         $error->parent($field);
 
-        $error->forced(1)
-            if ( $pass && $force && grep { $name eq $_ } @names )
-            || !grep { $name eq $_ } @failed;
+        if (    ( $pass && $force && any { $name eq $_ } @names )
+                || !any { $name eq $_ } @failed
+            )
+        {
+            $error->forced(1);
+        }
 
         push @errors, $error;
     }
@@ -69,8 +76,9 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->others( dclone $self->others )
-        if ref $self->others;
+    if ( ref $self->others ) {
+        $clone->others( dclone $self->others );
+    }
 
     return $clone;
 }

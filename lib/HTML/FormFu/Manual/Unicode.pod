@@ -84,18 +84,18 @@ application to the browser - see L</Catalyst Configuration>.
 
 Add L<Catalyst::Plugin::Unicode> to the list of Catalyst plugins:
 
-    use Catalyst qw/ ConfigLoader Static::Simple Unicode /;
+    use Catalyst qw( ConfigLoader Static::Simple Unicode );
 
 =head2 DBIx::Class Configuration
 
 Add L<DBIx::Class::UTF8Columns> to the list of components loaded, for each 
 table that has columns storing unicode:
 
-    __PACKAGE__->load_components(qw/ UTF8Columns HTML::FormFu PK::Auto Core /);
+    __PACKAGE__->load_components( qw( UTF8Columns HTML::FormFu PK::Auto Core ) );
 
 Pass each column name that will store unicode to C<utf8_columns()>:
 
-    __PACKAGE__->utf8_columns(qw/ lastname firstname /);
+    __PACKAGE__->utf8_columns( qw( lastname firstname ) );
 
 =head2 TT Configuration
 

@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name parent );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ type /);
+__PACKAGE__->mk_accessors( qw( type ) );
 
 sub new {
     my $class = shift;
@@ -27,7 +27,7 @@ sub process {
     my ( $self, $values ) = @_;
 
     if ( ref $values eq 'ARRAY' ) {
-        return [ map { $self->deflator($_); } @$values ];
+        return [ map { $self->deflator($_) } @$values ];
     }
     else {
         return $self->deflator($values);

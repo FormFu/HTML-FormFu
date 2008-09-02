@@ -2,6 +2,7 @@ package HTML::FormFu::Deploy;
 
 use strict;
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Cwd qw( getcwd );
 use Fatal qw( open binmode close mkdir );
 use File::Copy qw( copy move );
@@ -36,7 +37,7 @@ sub file_list {
 
     my $wanted = sub {
         return if /^\./;    # skip files beginning with "."
-        return unless -f $File::Find::name;    # skip non-files
+        return if !-f $File::Find::name;    # skip non-files
 
         # necessary when using dev files
         return if $File::Find::name =~ m|/\.svn|;
@@ -55,13 +56,13 @@ sub file_source {
 
     my $path = File::Spec->catfile( $SHARE_DIR, $filename );
 
-    croak "unknown filename: '$path'" unless -f $path;
+    croak "unknown filename: '$path'" if !-f $path;
 
     open my $fh, '<', $path;
 
     my $data = do { local $/; <$fh> };
 
-    $data = "" if !defined $data;
+    $data = $EMPTY_STR if !defined $data;
 
     close $fh;
 

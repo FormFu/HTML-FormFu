@@ -4,34 +4,27 @@ use strict;
 use base 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_attrs /;
-use HTML::FormFu::Util qw/ _filter_components _parse_args /;
+use HTML::FormFu::Attribute qw( mk_attrs );
+use HTML::FormFu::Util qw( _filter_components _parse_args );
 use DateTime;
 use DateTime::Format::Builder;
 use DateTime::Format::Natural;
 use DateTime::Locale;
-use Scalar::Util qw/ blessed /;
-use Carp qw/ croak /;
+use Scalar::Util qw( blessed );
+use Carp qw( croak );
 
-__PACKAGE__->mk_attrs(
-    qw/
-        day month year
-        /
-);
+__PACKAGE__->mk_attrs( qw( day  month  year ) );
 
-__PACKAGE__->mk_accessors(
-    qw/
-        strftime auto_inflate default_natural
-        /
-);
+__PACKAGE__->mk_accessors( qw( strftime auto_inflate default_natural ) );
 
 *default = \&value;
 
 # build get_Xs methods
-for my $method (
-    qw/
-    deflator filter constraint inflator validator transformer /
-    )
+for my $method ( qw(
+    deflator        filter
+    constraint      inflator
+    validator       transformer
+) )
 {
     my $sub = sub {
         my $self       = shift;
@@ -56,14 +49,17 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->strftime("%d-%m-%Y");
+    
     $self->day( {
             type   => '_DateSelect',
             prefix => [],
         } );
+    
     $self->month( {
             type   => '_DateSelect',
             prefix => [],
         } );
+    
     $self->year( {
             type   => '_DateSelect',
             prefix => [],
@@ -75,10 +71,10 @@ sub new {
 }
 
 sub value {
-    my $self = shift;
+    my ( $self, $value ) = @_;
 
-    if (@_) {
-        $self->{value} = shift;
+    if ( @_ > 1 ) {
+        $self->{value} = $value;
 
         # if we're already built - i.e. process() has ben called,
         # call default() on our children
@@ -98,7 +94,7 @@ sub value {
 }
 
 sub _add_elements {
-    my $self = shift;
+    my ( $self ) = @_;
 
     $self->_elements( [] );
 
@@ -118,9 +114,10 @@ sub _add_elements {
 }
 
 sub _date_defaults {
-    my $self = shift;
+    my ( $self ) = @_;
 
     my $default;
+    
     if ( defined( $default = $self->default_natural ) ) {
         my $parser = DateTime::Format::Natural->new;
         $default = $parser->parse_datetime($default);
@@ -152,17 +149,19 @@ sub _add_day {
 
     my $day_name = _build_day_name($self);
 
-    my @day_prefix = map { [ '', $_ ] }
-        ref $day->{prefix} ? @{ $day->{prefix} } : $day->{prefix};
+    my @day_prefix = ref $day->{prefix} ? @{ $day->{prefix} }
+                   :                      $day->{prefix}
+                   ;
+    
+    @day_prefix = map { [ '', $_ ] } @day_prefix;
 
     $self->element( {
-            type    => $day->{type},
-            name    => $day_name,
-            options => [ @day_prefix, map { [ $_, $_ ] } 1 .. 31 ],
-            defined $day->{default}
-            ? ( default => $day->{default} )
-            : (),
-        } );
+        type    => $day->{type},
+        name    => $day_name,
+        options => [ @day_prefix, map { [ $_, $_ ] } 1 .. 31 ],
+        
+        defined $day->{default} ? ( default => $day->{default} ) : (),
+    } );
 
     return;
 }
@@ -176,17 +175,20 @@ sub _add_month {
 
     my @months = _build_month_list($self);
 
-    my @month_prefix = map { [ '', $_ ] }
-        ref $month->{prefix} ? @{ $month->{prefix} } : $month->{prefix};
+    my @month_prefix = ref $month->{prefix} ? @{ $month->{prefix} }
+                     :                        $month->{prefix}
+                     ;
+    
+    @month_prefix = map { [ '', $_ ] } @month_prefix;
+
+    my $options = [ @month_prefix, map { [ $_ + 1, $months[$_] ] } 0 .. 11 ];
 
     $self->element( {
-            type => $month->{type},
-            name => $month_name,
-            options =>
-                [ @month_prefix, map { [ $_ + 1, $months[$_] ] } 0 .. 11 ],
-            defined $month->{default}
-            ? ( default => $month->{default} )
-            : (),
+            type    => $month->{type},
+            name    => $month_name,
+            options => $options,
+            
+            defined $month->{default} ? ( default => $month->{default} ) : (),
         } );
 
     return;
@@ -199,26 +201,27 @@ sub _add_year {
 
     my $year_name = _build_year_name($self);
 
-    my $year_ref
-        = defined $year->{reference}
-        ? $year->{reference}
-        : ( localtime(time) )[5] + 1900;
+    my $year_ref = defined $year->{reference} ? $year->{reference}
+                 :                              ( localtime(time) )[5] + 1900
+                 ;
 
     my @years
         = defined $year->{list}
         ? @{ $year->{list} }
         : ( $year_ref - $year->{less} ) .. ( $year_ref + $year->{plus} );
 
-    my @year_prefix = map { [ '', $_ ] }
-        ref $year->{prefix} ? @{ $year->{prefix} } : $year->{prefix};
+    my @year_prefix = ref $year->{prefix} ? @{ $year->{prefix} }
+                    :                       $year->{prefix}
+                    ;
+    
+    @year_prefix = map { [ '', $_ ] } @year_prefix;
 
     $self->element( {
             type    => $year->{type},
             name    => $year_name,
             options => [ @year_prefix, map { [ $_, $_ ] } @years ],
-            defined $year->{default}
-            ? ( default => $year->{default} )
-            : (),
+            
+            defined $year->{default} ? ( default => $year->{default} ) : (),
         } );
 
     return;
@@ -241,13 +244,15 @@ sub _build_month_list {
         
         for my $lang ( @$languages ) {
             my $loc;
-            eval { $loc = DateTime::Locale->load($lang); };
+            
+            eval { $loc = DateTime::Locale->load($lang) };
             if ( !$@ ) {
                 @months
-                    = map {ucfirst}
-                    $month->{short_names}
-                    ? @{ $loc->month_abbreviations }
-                    : @{ $loc->month_names };
+                    = $month->{short_names} ? @{ $loc->month_abbreviations }
+                    :                         @{ $loc->month_names }
+                    ;
+
+                @months = map { ucfirst } @months;
 
                 last;
             }
@@ -303,11 +308,11 @@ sub _add_inflator {
 }
 
 sub process {
-    my $self = shift;
+    my ( $self, @args ) = @_;
 
     $self->_add_elements;
 
-    return $self->next::method(@_);
+    return $self->next::method(@args);
 }
 
 sub process_input {
@@ -317,9 +322,9 @@ sub process_input {
     my $month_name = _build_month_name($self);
     my $year_name  = _build_year_name($self);
 
-    $day_name   = $self->get_element( { name => $day_name } )->nested_name;
+    $day_name   = $self->get_element( { name => $day_name }   )->nested_name;
     $month_name = $self->get_element( { name => $month_name } )->nested_name;
-    $year_name  = $self->get_element( { name => $year_name } )->nested_name;
+    $year_name  = $self->get_element( { name => $year_name }  )->nested_name;
 
     my $day   = $self->get_nested_hash_value( $input, $day_name );
     my $month = $self->get_nested_hash_value( $input, $month_name );
@@ -362,11 +367,12 @@ sub render_data {
 }
 
 sub render_data_non_recursive {
-    my $self = shift;
+    my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
-            @_ ? %{ $_[0] } : () } );
+        elements => [ map { $_->render_data } @{ $self->_elements } ],
+        $args ? %$args : (),
+    } );
 
     return $render;
 }

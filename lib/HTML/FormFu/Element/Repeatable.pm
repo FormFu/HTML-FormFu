@@ -3,17 +3,21 @@ package HTML::FormFu::Element::Repeatable;
 use strict;
 use base 'HTML::FormFu::Element::Block';
 use Class::C3;
-use Carp qw/ croak /;
+use List::Util qw( first );
+use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(
-    qw/ _original_elements increment_field_names counter_name /);
+__PACKAGE__->mk_accessors( qw(
+    _original_elements
+    increment_field_names
+    counter_name
+) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename('repeatable');
-    $self->is_repeatable(1);
-    $self->increment_field_names(1);
+    $self->filename             ( 'repeatable' );
+    $self->is_repeatable        ( 1 );
+    $self->increment_field_names( 1 );
 
     return $self;
 }
@@ -24,17 +28,17 @@ sub repeat {
     $count ||= 1;
 
     croak "invalid number to repeat"
-        unless $count =~ /^[1-9][0-9]*\z/;
+        if $count !~ /^[1-9][0-9]*\z/;
 
     my $children;
 
     if ( $self->_original_elements ) {
-
         # repeat() has already been called
         $children = $self->_original_elements;
     }
     else {
         $children = $self->_elements;
+        
         $self->_original_elements($children);
     }
 
@@ -49,9 +53,9 @@ sub repeat {
         my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
 
-        $block->_elements( \@clones );
+        $block->_elements ( \@clones );
         $block->attributes( $self->attributes );
-        $block->tag( $self->tag );
+        $block->tag       ( $self->tag );
 
         $block->repeatable_count($rep);
 
@@ -61,8 +65,7 @@ sub repeat {
                 if ( defined( my $name = $field->name ) ) {
                     $field->original_name($name);
 
-                    $name .= "_$rep";
-                    $field->name($name);
+                    $field->name( "${name}_$rep" );
                 }
             }
         }
@@ -76,22 +79,28 @@ sub repeat {
                 @{ $field->_constraints },
                 @{ $field->_inflators },
                 @{ $field->_validators },
-                @{ $field->_transformers };
+                @{ $field->_transformers }
+                ;
         }
 
         my $block_fields = $block->get_fields;
 
-        my @others_constraints = grep { $_->can('others') }
-            map { @{ $_->_constraints } } @$block_fields;
+        my @others_constraints
+            = grep { $_->can('others') }
+              map { @{ $_->_constraints } }
+                @$block_fields
+                ;
 
         for my $constraint (@others_constraints) {
             my $others = $constraint->others;
-            $others = [$others] if !ref $others;
+            if ( !ref $others ) {
+                $others = [$others];
+            }
             my @new_others;
 
             for my $name (@$others) {
-                my ($field)
-                    = grep { $_->original_name eq $name } @$block_fields;
+                my $field
+                    = first { $_->original_name eq $name } @$block_fields;
 
                 if ( defined $field ) {
                     push @new_others, $field->nested_name;
@@ -132,11 +141,12 @@ sub process {
     if ( defined $self->counter_name && defined $form->query ) {
         my $input = $form->query->param( $self->counter_name );
 
-        $count = $input
-            if defined $input && $input =~ /^[1-9][0-9]*\z/;
+        if ( defined $input && $input =~ /^[1-9][0-9]*\z/ ) {
+            $count = $input;
+        }
     }
 
-    unless ( $self->_original_elements ) {
+    if ( !$self->_original_elements ) {
         $self->repeat($count);
     }
 

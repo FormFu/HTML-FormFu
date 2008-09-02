@@ -7,7 +7,7 @@ sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     my $others = $self->others;
     return if !defined $others;
@@ -25,16 +25,17 @@ sub process {
         my $ok = 0;
 
         if ( ref $value eq 'ARRAY' ) {
-            my @err = eval { $self->constrain_values( $value, $params ); };
+            my @err = eval { $self->constrain_values( $value, $params ) };
             $ok = 1 if !@err && !$@;
         }
         else {
-            $ok = eval { $self->constrain_value($value); };
+            $ok = eval { $self->constrain_value($value) };
             $ok = 0 if $@;
         }
 
-        push @failed, $name
-            if !$ok;
+        if ( !$ok ) {
+            push @failed, $name;
+        }
     }
 
     return $self->mk_errors( {

@@ -4,10 +4,11 @@ use strict;
 use base 'HTML::FormFu::Inflator';
 use Class::C3;
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime::Format::Builder;
 use DateTime::Format::Strptime;
 
-__PACKAGE__->mk_accessors(qw/ strptime time_zone _builder /);
+__PACKAGE__->mk_accessors( qw( strptime time_zone _builder ) );
 
 sub new {
     my $self = shift->next::method(@_);
@@ -32,7 +33,7 @@ sub parser {
 sub inflator {
     my ( $self, $value ) = @_;
 
-    return unless defined $value && $value ne "";
+    return if !defined $value || $value eq $EMPTY_STR;
 
     my $dt = $self->_builder->parse_datetime($value);
 
@@ -44,7 +45,7 @@ sub inflator {
         my $strptime = $self->strptime;
         my %args;
 
-        eval { %args = %$strptime; };
+        eval { %args = %$strptime };
         if ($@) {
             %args = ( pattern => $strptime );
         }

@@ -4,6 +4,10 @@ use strict;
 use base 'HTML::FormFu::Element::Checkbox';
 use Class::C3;
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
+
+__PACKAGE__->mk_output_accessors( qw( default ) );
+
 sub new {
     my $self = shift->next::method(@_);
 

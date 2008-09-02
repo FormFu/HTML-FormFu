@@ -3,19 +3,19 @@ package HTML::FormFu::Constraint::CallbackOnce;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
-__PACKAGE__->mk_accessors(qw/ callback /);
+__PACKAGE__->mk_accessors( qw( callback ) );
 
 sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     my $value = $self->get_nested_hash_value( $params, $self->nested_name );
 
     my $callback = $self->callback || sub {1};
 
-    my $ok = eval { $callback->( $value, $params ); };
+    my $ok = eval { $callback->( $value, $params ) };
 
     return $self->mk_errors( {
             pass => ( $@ or !$ok ) ? 0 : 1,

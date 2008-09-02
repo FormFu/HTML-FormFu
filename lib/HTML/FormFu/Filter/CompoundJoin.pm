@@ -3,16 +3,19 @@ package HTML::FormFu::Filter::CompoundJoin;
 use strict;
 use base 'HTML::FormFu::Filter::_Compound';
 
-__PACKAGE__->mk_accessors(qw/ join /);
+use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
+
+__PACKAGE__->mk_accessors( qw( join ) );
 
 sub filter {
     my ( $self, $value ) = @_;
 
-    return unless defined $value && $value ne "";
+    return if !defined $value || $value eq $EMPTY_STR;
 
-    my $join = $self->join;
-    $join = ' ' if !defined $join;
-
+    my $join = defined $self->join ? $self->join
+             :                       $SPACE
+             ;
+    
     my @values = $self->_get_values($value);
 
     @values = grep { $_ ne '' } @values;

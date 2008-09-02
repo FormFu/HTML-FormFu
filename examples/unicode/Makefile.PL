@@ -11,6 +11,8 @@ requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Action::RenderView';
 requires 'Config::General';
 requires 'DBIx::Class::Schema';
+requires 'HTML::FormFu';
+requires 'HTML::FormFu::Model::DBIC';
 requires 'YAML::Syck';
 
 catalyst;

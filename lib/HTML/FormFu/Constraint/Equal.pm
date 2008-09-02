@@ -7,7 +7,7 @@ sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     my $others = $self->others;
     return if !defined $others;
@@ -23,8 +23,9 @@ sub process {
 
         my $ok = _values_eq( $value, $other_value );
 
-        push @failed, $name
-            if $self->not ? $ok : !$ok;
+        if ( $self->not ? $ok : !$ok ) {
+            push @failed, $name;
+        }
     }
 
     return $self->mk_errors( {

@@ -1,14 +1,17 @@
 package HTML::FormFu::Attribute;
 
 use strict;
-use Exporter qw/ import /;
-use HTML::FormFu::Util qw/
+use Exporter qw( import );
+use HTML::FormFu::Util qw(
     append_xml_attribute remove_xml_attribute literal
-    _parse_args /;
+    _parse_args );
 
-our @EXPORT_OK = qw/ mk_attrs mk_attr_accessors mk_attr_modifiers
-    mk_inherited_accessors mk_output_accessors
-    mk_inherited_merging_accessors mk_accessors /;
+our @EXPORT_OK = qw(
+    mk_attrs                        mk_attr_accessors
+    mk_attr_modifiers               mk_inherited_accessors
+    mk_output_accessors             mk_inherited_merging_accessors
+    mk_accessors
+);
 
 sub mk_accessors {
     my $class = shift;
@@ -44,25 +47,33 @@ sub mk_attrs {
         my $sub = sub {
             my $self = shift;
 
-            $self->{$name} = {} if not exists $self->{$name};
+            if ( !exists $self->{$name} ) {
+                $self->{$name} = {};
+            }
 
-            return $self->{$name} unless @_;
+            return $self->{$name} if !@_;
 
+            my $attr_slot = $self->{$name};
+            
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            $self->{$name}->{$_} = $attrs{$_} for keys %attrs;
+            while ( my ( $key, $value ) = each %attrs ) {
+                $attr_slot->{$key} = $value;
+            }
 
             return $self;
         };
+        
         my $xml_sub = sub {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
             return $self->$name(
-                map { ( $_, literal( $attrs{$_} ) ) }
+                map { $_, literal( $attrs{$_} ) }
                     keys %attrs
             );
         };
+        
         no strict 'refs';
         *{"$class\::$name"}       = $sub;
         *{"$class\::${name}_xml"} = $xml_sub;
@@ -88,11 +99,12 @@ sub mk_attr_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            return ( $_[0]->attributes->{$name} ) unless @_ > 1;
+            return ( $_[0]->attributes->{$name} ) if @_ == 1;
             my $self = shift;
             $self->attributes->{$name} = $_[0];
             return $self;
         };
+        
         my $xml_sub = sub {
             my $self = shift;
             my @args;
@@ -135,8 +147,8 @@ sub mk_add_attrs {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            for ( keys %attrs ) {
-                append_xml_attribute( $self->{$name}, $_, $attrs{$_} );
+            while ( my ( $key, $value ) = each %attrs ) {
+                append_xml_attribute( $self->{$name}, $key, $value );
             }
             return $self;
         };
@@ -146,9 +158,12 @@ sub mk_add_attrs {
 
             my $method = "add_$name";
 
-            return $self->$method(
-                { map { $_, literal( $attrs{$_} ) } keys %attrs } );
+            return $self->$method({
+                map { $_, literal( $attrs{$_} ) }
+                    keys %attrs
+            });
         };
+        
         no strict 'refs';
         *{"$class\::add_$name"}       = $sub;
         *{"$class\::add_${name}_xml"} = $xml_sub;
@@ -174,8 +189,8 @@ sub mk_del_attrs {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            for ( keys %attrs ) {
-                remove_xml_attribute( $self->{$name}, $_, $attrs{$_} );
+            while ( my ( $key, $value ) = each %attrs ) {
+                remove_xml_attribute( $self->{$name}, $key, $value );
             }
             return $self;
         };
@@ -185,8 +200,10 @@ sub mk_del_attrs {
 
             my $method = "del_$name";
 
-            return $self->$method(
-                { map { $_, literal( $attrs{$_} ) } keys %attrs } );
+            return $self->$method({
+                map { $_, literal( $attrs{$_} ) }
+                    keys %attrs
+            });
         };
         no strict 'refs';
         *{"$class\::del_$name"}       = $sub;
@@ -215,8 +232,8 @@ sub mk_inherited_accessors {
                 $self->{$name} = $_[0];
                 return $self;
             }
-            while ( defined $self->parent && !defined $self->{$name} ) {
-                $self = $self->parent;
+            while ( defined ( my $parent = $self->parent ) && !defined $self->{$name} ) {
+                $self = $parent;
             }
             return $self->{$name};
         };
@@ -240,13 +257,13 @@ sub mk_inherited_merging_accessors {
             if (@_) {
                 my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-                for ( keys %attrs ) {
-                    append_xml_attribute( $self->{$name}, $_, $attrs{$_} );
+                while ( my ( $key, $value ) = each %attrs ) {
+                    append_xml_attribute( $self->{$name}, $key, $value );
                 }
                 return $self;
             }
-            while ( defined $self->parent && !defined $self->{$name} ) {
-                $self = $self->parent;
+            while ( defined ( my $parent = $self->parent ) && !defined $self->{$name} ) {
+                $self = $parent;
             }
             return $self->{$name};
         };

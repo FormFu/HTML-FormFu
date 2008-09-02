@@ -2,6 +2,7 @@ package HTML::FormFu::Util;
 
 use strict;
 
+use HTML::FormFu::Constants qw( $SPACE );
 use HTML::FormFu::Literal;
 use Scalar::Util qw( blessed );
 use Readonly;
@@ -11,7 +12,7 @@ use Carp qw/ croak /;
 Readonly my $EMPTY_STR => q{};
 Readonly my $SPACE     => q{ };
 
-our @EXPORT_OK = qw/
+our @EXPORT_OK = qw(
     append_xml_attribute
     has_xml_attribute
     remove_xml_attribute
@@ -24,7 +25,7 @@ our @EXPORT_OK = qw/
     process_attrs
     split_name
     _merge_hashes
-    /;
+);
 
 sub _filter_components {
     my ( $args, $components ) = @_;
@@ -36,7 +37,8 @@ sub _filter_components {
 
         my $value;
 
-        @$components = grep {
+        @$components =
+            grep {
                    $_->can($name)
                 && defined( $value = $_->$name )
                 && $value eq $args->{$name}
@@ -53,10 +55,12 @@ sub _get_elements {
         my $value;
 
         @$elements = grep {
-                   $_->can($name)
-                && defined( $value = $_->$name )
-                && $value eq $args->{$name}
-        } @$elements;
+                           $_->can($name)
+                        && defined( $value = $_->$name )
+                        && $value eq $args->{$name}
+                     }
+                        @$elements
+                     ;
     }
 
     return $elements;
@@ -72,14 +76,20 @@ sub append_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        $orig = 'literal'
-            if blessed $attrs->{$key}
-                && $attrs->{$key}->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $attrs->{$key}
+             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+        {
+            $orig = 'literal';
+        }
 
         my $new = 'string';
-        $new = 'literal'
-            if blessed $value
-                && $value->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $value
+             && $value->isa('HTML::FormFu::Literal') )
+        {
+            $new = 'literal';
+        }
 
         $attrs->{$key} = $dispatcher{$orig}->{$new}->( $attrs->{$key}, $value );
     }
@@ -93,13 +103,24 @@ sub append_xml_attribute {
 sub _append_subs {
     return (
         literal => {
-            string => sub { $_[0]->push( xml_escape(" $_[1]") ); return $_[0] },
-            literal => sub { $_[0]->push(" $_[1]"); return $_[0] },
+            string => sub {
+                $_[0]->push( xml_escape(" $_[1]") );
+                return $_[0];
+            },
+            literal => sub {
+                $_[0]->push(" $_[1]");
+                return $_[0];
+            },
         },
         string => {
-            string => sub { $_[0] .= " $_[1]"; return $_[0] },
-            literal =>
-                sub { $_[1]->unshift( xml_escape("$_[0] ") ); return $_[1] },
+            string => sub {
+                $_[0] .= " $_[1]";
+                return $_[0];
+            },
+            literal => sub {
+                $_[1]->unshift( xml_escape("$_[0] ") );
+                return $_[1];
+            },
         },
     );
 }
@@ -114,14 +135,20 @@ sub has_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        $orig = 'literal'
-            if blessed $attrs->{$key}
-                && $attrs->{$key}->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $attrs->{$key}
+             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+        {
+            $orig = 'literal';
+        }
 
         my $new = 'string';
-        $new = 'literal'
-            if blessed $value
-                && $value->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $value
+             && $value->isa('HTML::FormFu::Literal') )
+        {
+            $new = 'literal';
+        }
 
         return $dispatcher{$orig}->{$new}->( $attrs->{$key}, $value );
     }
@@ -179,14 +206,20 @@ sub remove_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        $orig = 'literal'
-            if blessed $attrs->{$key}
-                && $attrs->{$key}->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $attrs->{$key}
+             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+        {
+            $orig = 'literal';
+        }
 
         my $new = 'string';
-        $new = 'literal'
-            if blessed $value
-                && $value->isa('HTML::FormFu::Literal');
+        
+        if ( blessed $value
+             && $value->isa('HTML::FormFu::Literal') )
+        {
+            $new = 'literal';
+        }
 
         $attrs->{$key} = $dispatcher{$orig}->{$new}->( $attrs->{$key}, $value );
     }
@@ -238,22 +271,19 @@ sub _remove_subs {
 }
 
 sub _parse_args {
-    my %args = ();
 
     if ( !@_ ) {
-        %args = ();
+        return;
     }
     elsif ( @_ > 1 ) {
-        %args = @_;
+        return @_;
     }
     elsif ( ref $_[0] ) {
-        %args = %{ $_[0] };
+        return %{ $_[0] };
     }
     else {
-        %args = ( name => $_[0] );
+        return ( name => $_[0] );
     }
-
-    return %args;
 }
 
 sub require_class {
@@ -281,9 +311,11 @@ sub xml_escape {
 
     if ( ref $val eq 'HASH' ) {
         my %val = %$val;
-        for my $key ( keys %val ) {
-            $val{$key} = xml_escape( $val{$key} );
+        
+        while ( my ($key, $value) = each %val ) {
+            $val{$key} = xml_escape( $value );
         }
+        
         return \%val;
     }
     elsif ( ref $val eq 'ARRAY' ) {
@@ -331,8 +363,9 @@ sub process_attrs {
 
     my $xml = join $SPACE, @attribute_parts;
 
-    $xml = " $xml"
-        if length $xml;
+    if ( length $xml ) {
+        $xml = " $xml";
+    }
 
     return $xml;
 }
@@ -342,11 +375,11 @@ sub split_name {
 
     croak "split_name requires 1 arg" if @_ != 1;
 
-    return () if !defined $name;
+    return if !defined $name;
 
     if ( $name =~ /^ \w+ \[ /x ) {
-
         # copied from Catalyst::Plugin::Params::Nested::Expander
+        # redistributed under the same terms as Perl
 
         return grep {defined} (
             $name =~ /
@@ -356,8 +389,8 @@ sub split_name {
         );
     }
     elsif ( $name =~ /\./ ) {
-
         # Copied from CGI::Expand
+        # redistributed under the same terms as Perl
 
         # m// splits on unescaped '.' chars. Can't fail b/c \G on next
         # non ./ * -> escaped anything -> non ./ *
@@ -378,26 +411,25 @@ sub split_name {
     return ($name);
 }
 
-# sub _merge_hashes copied from Catalyst::Utils::merge_hashes()
+# sub _merge_hashes originally copied from Catalyst::Utils::merge_hashes()
 # redistributed under the same terms as Perl
 
 sub _merge_hashes {
     my ( $lefthash, $righthash ) = @_;
 
-    return $lefthash unless defined $righthash;
+    return $lefthash if !defined $righthash || !keys %$righthash;
 
     my %merged = %$lefthash;
-    for my $key ( keys %$righthash ) {
-        my $right_ref = ( ref $righthash->{$key} || $EMPTY_STR ) eq 'HASH';
-        my $left_ref
-            = ( ( exists $lefthash->{$key} && ref $lefthash->{$key} ) || '' ) eq
-            'HASH';
-        if ( $right_ref and $left_ref ) {
-            $merged{$key}
-                = _merge_hashes( $lefthash->{$key}, $righthash->{$key} );
+
+    while ( my ($key, $value) = each %$righthash ) {
+        my $is_right_ref = ref $value eq 'HASH';
+        my $is_left_ref  = exists $lefthash->{$key} && ref $value eq 'HASH';
+        
+        if ( $is_left_ref && $is_right_ref ) {
+            $merged{$key} = _merge_hashes( $lefthash->{$key}, $value );
         }
         else {
-            $merged{$key} = $righthash->{$key};
+            $merged{$key} = $value;
         }
     }
 

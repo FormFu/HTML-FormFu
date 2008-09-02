@@ -2,12 +2,12 @@ package HTML::FormFu::Element::_DateSelect;
 
 use strict;
 use base 'HTML::FormFu::Element::Select';
-use Carp qw/ croak /;
+use Carp qw( croak );
 
 sub nested_names {
-    my $self = shift;
+    my ($self) = @_;
 
-    croak 'cannot set nested_names' if @_;
+    croak 'cannot set nested_names' if @_ > 1;
 
     if ( defined $self->name ) {
         my @names;
@@ -15,8 +15,7 @@ sub nested_names {
         # ignore immediate parent
         my $parent = $self->parent;
 
-        while ( defined $parent->parent ) {
-            $parent = $parent->parent;
+        while ( defined ( $parent = $parent->parent ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
                 push @names, $parent->name
@@ -37,15 +36,14 @@ sub nested_names {
 }
 
 sub nested_base {
-    my $self = shift;
+    my ($self) = @_;
 
-    croak 'cannot set nested_base' if @_;
+    croak 'cannot set nested_base' if @_ > 1;
 
     # ignore immediate parent
     my $parent = $self->parent;
 
-    while ( defined $parent->parent ) {
-        $parent = $parent->parent;
+    while ( defined ( $parent = $parent->parent ) ) {
 
         return $parent->nested_name if defined $parent->nested_name;
     }

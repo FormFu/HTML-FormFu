@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint::_others';
 use Class::C3;
 
-__PACKAGE__->mk_accessors(qw/ minimum maximum /);
+__PACKAGE__->mk_accessors( qw( minimum maximum ) );
 
 *min = \&minimum;
 *max = \&maximum;
@@ -22,18 +22,20 @@ sub process {
     my $count = 0;
 
     # check when condition
-    return unless $self->_process_when($params);
+    return if !$self->_process_when($params);
 
     # others are needed
     my $others = $self->others;
     return if !defined $others;
 
     # get min/max values
-    my $min = $self->minimum;
-    $min = 1 if !defined $min;
-    my $max = $self->maximum;
-    $max = 1 + scalar @$others if !defined $max;
+    my $min = defined $self->minimum ? $self->minimum
+            :                          1
+            ;
 
+    my $max = defined $self->maximum ? $self->maximum
+            :                          1 + scalar @$others;
+    
     # get field names to check
     my @names = ( $self->nested_name );
     push @names, ref $others ? @{$others} : $others;
@@ -42,12 +44,18 @@ sub process {
         my $value = $self->get_nested_hash_value( $params, $name );
 
         if ( ref $value eq 'ARRAY' ) {
-            my @errors = eval { $self->constrain_values( $value, $params ); };
-            $count++ if !@errors && !$@;
+            my @errors = eval { $self->constrain_values( $value, $params ) };
+            
+            if ( !@errors && !$@ ) {
+                $count++;
+            }
         }
         else {
-            my $ok = eval { $self->constrain_value($value); };
-            $count++ if $ok && !$@;
+            my $ok = eval { $self->constrain_value($value) };
+            
+            if ( $ok && !$@ ) {
+                $count++;
+            }
         }
     }
 

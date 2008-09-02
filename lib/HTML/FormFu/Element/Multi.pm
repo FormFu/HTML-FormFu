@@ -4,34 +4,26 @@ use strict;
 use base 'HTML::FormFu::Element::Block', 'HTML::FormFu::Element::_Field';
 use Class::C3;
 
-use HTML::FormFu::Element::_Field qw/ :FIELD /;
+use HTML::FormFu::Element::_Field qw( :FIELD );
 use HTML::FormFu::Util
-    qw/ append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components /;
-use Storable qw/ dclone /;
+    qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
+use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors(
-    qw/
-        field_filename
-        label_filename
-        javascript
-        container_tag
-        label_tag
-        /
-);
+__PACKAGE__->mk_accessors( qw(
+    field_filename
+    label_filename
+    javascript
+    container_tag
+    label_tag
+) );
 
-__PACKAGE__->mk_output_accessors(
-    qw/
-        comment label value
-        /
-);
+__PACKAGE__->mk_output_accessors( qw( comment label value ) );
 
-__PACKAGE__->mk_attrs(
-    qw/
-        comment_attributes
-        container_attributes
-        label_attributes
-        /
-);
+__PACKAGE__->mk_attrs( qw(
+    comment_attributes
+    container_attributes
+    label_attributes
+) );
 
 *default      = \&value;
 *default_xml  = \&value_xml;
@@ -40,12 +32,12 @@ __PACKAGE__->mk_attrs(
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->comment_attributes(   {} );
+    $self->comment_attributes  ( {} );
     $self->container_attributes( {} );
-    $self->filename('multi');
-    $self->label_attributes( {} );
-    $self->label_filename('label');
-    $self->label_tag('label');
+    $self->label_attributes    ( {} );
+    $self->filename            ( 'multi' );
+    $self->label_filename      ( 'label' );
+    $self->label_tag           ( 'label' );
 
     return $self;
 }
@@ -169,10 +161,9 @@ sub string {
 
     $args ||= {};
 
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data_non_recursive;
+    my $render = exists $args->{render_data} ? $args->{render_data}
+               :                               $self->render_data_non_recursive
+               ;
 
     # field wrapper template - start
 
@@ -191,7 +182,7 @@ sub string {
             $html .= $elem->_string_field($render);
 
             if ( defined $elem->label ) {
-                $html .= "\n" . $elem->_string_label($render);
+                $html .= sprintf "\n%s", $elem->_string_label($render);
             }
         }
         else {
@@ -219,9 +210,9 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->comment_attributes( dclone $self->comment_attributes );
+    $clone->comment_attributes  ( dclone $self->comment_attributes );
     $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes( dclone $self->label_attributes );
+    $clone->label_attributes    ( dclone $self->label_attributes );
 
     return $clone;
 }

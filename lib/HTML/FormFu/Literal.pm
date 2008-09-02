@@ -1,9 +1,10 @@
 package HTML::FormFu::Literal;
 
 use strict;
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 
 use overload
-    '""'     => sub { return join "", @{ $_[0] } },
+    '""'     => sub { return join $EMPTY_STR, @{ $_[0] } },
     fallback => 1;
 
 sub new {

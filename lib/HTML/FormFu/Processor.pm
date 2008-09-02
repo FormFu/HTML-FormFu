@@ -5,10 +5,13 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_accessors mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw(
-    populate form name nested_name nested_names get_nested_hash_value
-    set_nested_hash_value nested_hash_key_exists parent );
-use Scalar::Util qw/ refaddr /;
-use Carp qw/ croak /;
+    populate                form
+    name                    nested_name
+    nested_names            get_nested_hash_value
+    set_nested_hash_value   nested_hash_key_exists parent );
+
+use Scalar::Util qw( refaddr );
+use Carp qw( croak );
 
 use overload
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
@@ -16,9 +19,9 @@ use overload
     bool => sub {1},
     fallback => 1;
 
-__PACKAGE__->mk_accessors(qw/ type localize_args /);
+__PACKAGE__->mk_accessors( qw( type localize_args ) );
 
-__PACKAGE__->mk_output_accessors(qw/ message /);
+__PACKAGE__->mk_output_accessors( qw( message ) );
 
 *field = \&parent;
 
@@ -31,7 +34,7 @@ sub new {
 
     my $self = bless {}, $class;
 
-    for (qw/ type /) {
+    for (qw( type )) {
         croak "$_ attribute required" if !exists $attrs{$_};
     }
 

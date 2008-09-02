@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent populate );
 use HTML::FormFu::UploadParam;
 
-__PACKAGE__->mk_accessors(qw/ headers filename size type /);
+__PACKAGE__->mk_accessors( qw( headers filename size type ) );
 
 sub new {
     my $class = shift;
@@ -24,11 +24,9 @@ sub new {
 }
 
 sub _param {
-    my $self = shift;
+    my ( $self, $param ) = @_;
 
-    if (@_) {
-        my $param = shift;
-
+    if ( @_ > 1 ) {
         $param = HTML::FormFu::UploadParam->new( { param => $param, } );
 
         $param->form( $self->form );

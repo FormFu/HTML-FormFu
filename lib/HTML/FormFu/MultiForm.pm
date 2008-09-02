@@ -2,68 +2,85 @@ package HTML::FormFu::MultiForm;
 use strict;
 
 use HTML::FormFu;
-use HTML::FormFu::Attribute qw/
-    mk_attrs mk_attr_accessors
-    mk_inherited_accessors mk_output_accessors
-    mk_inherited_merging_accessors mk_accessors /;
-use HTML::FormFu::ObjectUtil qw/
-    populate load_config_file load_config_filestem form
-    clone stash parent
-    get_nested_hash_value set_nested_hash_value nested_hash_key_exists /;
-
-use HTML::FormFu::FakeQuery;
+use HTML::FormFu::Attribute qw(
+    mk_attrs                            mk_attr_accessors
+    mk_inherited_accessors              mk_output_accessors
+    mk_inherited_merging_accessors      mk_accessors
+);
+use HTML::FormFu::ObjectUtil qw(
+    populate                    form
+    clone                       stash
+    parent                      nested_hash_key_exists
+    load_config_file            load_config_filestem
+    get_nested_hash_value       set_nested_hash_value
+);
 use HTML::FormFu::QueryType::CGI;
-use Carp qw/ croak /;
+
+use Carp qw( croak );
 use Crypt::CBC;
 use List::MoreUtils qw( uniq );
-use Scalar::Util qw/ blessed refaddr /;
-use Storable qw/ dclone nfreeze thaw /;
+use Scalar::Util qw( blessed refaddr );
+use Storable qw( dclone nfreeze thaw );
 
-use overload
+use overload (
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
     '""' => sub { return shift->render },
     bool => sub {1},
-    fallback => 1;
+    fallback => 1
+);
 
-__PACKAGE__->mk_attrs(qw/ attributes crypt_args /);
+__PACKAGE__->mk_attrs( qw( attributes crypt_args ) );
 
-__PACKAGE__->mk_attr_accessors(qw/ id action enctype method /);
+__PACKAGE__->mk_attr_accessors( qw( id action enctype method ) );
 
 # accessors shared with HTML::FormFu
-our @ACCESSORS = qw/
-    indicator filename javascript javascript_src
-    element_defaults default_args query_type languages force_error_message
-    localize_class tt_module
-    nested_name nested_subscript default_model model_config
-    auto_fieldset params_ignore_underscore tmp_upload_dir
-    /;
+our @ACCESSORS = qw(
+    indicator                   filename
+    javascript                  javascript_src
+    element_defaults            default_args
+    query_type                  languages
+    force_error_message         localize_class
+    tt_module                   nested_name
+    nested_subscript            default_model
+    model_config                auto_fieldset
+    params_ignore_underscore    tmp_upload_dir
+);
 
 __PACKAGE__->mk_accessors(
     @ACCESSORS,
-    qw/ query forms current_form_number current_form complete persist_stash
-        multiform_hidden_name default_multiform_hidden_name combine_params
-        _data _file_fields /
+    qw(
+        query                               forms
+        current_form_number                 current_form
+        complete persist_stash              multiform_hidden_name
+        default_multiform_hidden_name       combine_params
+        _data                               _file_fields
+    )
 );
 
-__PACKAGE__->mk_output_accessors(qw/ form_error_message /);
+__PACKAGE__->mk_output_accessors( qw( form_error_message ) );
 
 # accessors shared with HTML::FormFu
-our @INHERITED_ACCESSORS = qw/
-    auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_inflator_class auto_validator_class
-    auto_transformer_class
-    render_method render_processed_value force_errors repeatable_count
-    /;
+our @INHERITED_ACCESSORS = qw(
+    auto_id                         auto_label
+    auto_error_class                auto_error_message
+    auto_constraint_class           auto_inflator_class
+    auto_validator_class            auto_transformer_class
+    render_method                   render_processed_value
+    force_errors                    repeatable_count
+);
 
-__PACKAGE__->mk_inherited_accessors(@INHERITED_ACCESSORS);
+__PACKAGE__->mk_inherited_accessors( @INHERITED_ACCESSORS );
 
 # accessors shared with HTML::FormFu
-our @INHERITED_MERGING_ACCESSORS = qw/ tt_args config_callback /;
+our @INHERITED_MERGING_ACCESSORS = qw(
+    tt_args
+    config_callback
+);
 
-__PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
+__PACKAGE__->mk_inherited_merging_accessors( @INHERITED_MERGING_ACCESSORS );
 
 *loc = \&localize;
 
@@ -98,32 +115,31 @@ sub new {
 }
 
 sub process {
-    my $self = shift;
+    my ( $self, $query ) = @_;
 
-    my $query;
-    my $input;
+    $query ||= $self->query;
 
-    if (@_) {
-        $query = shift;
+    # save it for further calls to process()
+    if ($query) {
         $self->query($query);
     }
-    else {
-        $query = $self->query;
+
+    my $hidden_name = $self->multiform_hidden_name;
+
+    if ( !defined $hidden_name ) {
+        $hidden_name = $self->default_multiform_hidden_name;
     }
 
-    my $name = $self->multiform_hidden_name;
-
-    $name = $self->default_multiform_hidden_name
-        if !defined $name;
+    my $input;
 
     if ( defined $query && blessed($query) ) {
-        $input = $query->param($name);
+        $input = $query->param($hidden_name);
     }
     elsif ( defined $query ) {
+        # it's not an object, just a hashref.
+        # and HTML::FormFu::FakeQuery doesn't work with a MultiForm object
 
-        # it's not an object, just a hashref
-
-        $input = $self->get_nested_hash_value( $query, $name );
+        $input = $self->get_nested_hash_value( $query, $hidden_name );
     }
 
     my $data = $self->_process_get_data($input);
@@ -163,7 +179,7 @@ sub process {
 sub _process_get_data {
     my ( $self, $input ) = @_;
 
-    return unless defined $input && length $input;
+    return if !defined $input || !length $input;
 
     my $crypt = Crypt::CBC->new( %{ $self->crypt_args } );
 
@@ -184,9 +200,7 @@ sub _process_get_data {
         }
     }
     else {
-
-        # should handle errors better
-
+        # TODO: should handle errors better
         $data = undef;
     }
 
@@ -221,8 +235,9 @@ sub _load_current_form {
     {
         my $value = $self->$key;
 
-        $current_form->$key($value)
-            if defined $value;
+        if ( defined $value ) {
+            $current_form->$key($value);
+        }
     }
 
     # copy attrs
@@ -235,8 +250,8 @@ sub _load_current_form {
     # copy stash
     my $stash = $self->stash;
 
-    for my $key ( keys %$stash ) {
-        $current_form->stash->{$key} = $stash->{$key};
+    while ( my ($key, $value) = each %$stash ) {
+        $current_form->stash->{$key} = $value;
     }
 
     # persist_stash
@@ -312,22 +327,17 @@ sub render {
         if !defined $form;
 
     if ( $self->complete ) {
-
         # why would you render if it's complete?
         # anyway, just show the last form
-
         return $form->render(@_);
     }
 
     if ( $form->submitted_and_valid ) {
-
         # return the next form
-
         return $self->next_form->render(@_);
     }
 
     # return the current form
-
     return $form->render(@_);
 }
 
@@ -354,23 +364,24 @@ sub next_form {
     {
         my $value = $self->$key;
 
-        $next_form->$key($value)
-            if defined $value;
+        if ( defined $value ) {
+            $next_form->$key($value);
+        }
     }
 
     # copy attrs
     my $attrs = $self->attrs;
 
-    for my $key ( keys %$attrs ) {
-        $next_form->$key( $attrs->{$key} );
+    while ( my ($key, $value) = each %$attrs ) {
+        $next_form->$key( $value );
     }
 
     # copy stash
     my $current_form  = $self->current_form;
     my $current_stash = $current_form->stash;
 
-    for my $key ( keys %$current_stash ) {
-        $next_form->stash->{$key} = $current_stash->{$key};
+    while ( my ($key, $value) = each %$current_stash ) {
+        $next_form->stash->{$key} = $value;
     }
 
     # persist_stash
@@ -405,8 +416,9 @@ sub _save_hidden_data {
     my @valid_names = $form->valid;
     my $hidden_name = $self->multiform_hidden_name;
 
-    $hidden_name = $self->default_multiform_hidden_name
-        if !defined $hidden_name;
+    if ( !defined $hidden_name ) {
+        $hidden_name = $self->default_multiform_hidden_name;
+    }
 
     # don't include the hidden-field's name in valid_names
     @valid_names = grep { $_ ne $hidden_name } @valid_names;
@@ -420,7 +432,9 @@ sub _save_hidden_data {
         $self->set_nested_hash_value( \%params, $name, $value );
 
         # populate @file_field
-        $value = [$value] if ref $value ne 'ARRAY';
+        if ( ref $value ne 'ARRAY' ) {
+            $value = [$value];
+        }
 
         for my $value (@$value) {
             if ( blessed($value) && $value->isa('HTML::FormFu::Upload') ) {
@@ -430,7 +444,7 @@ sub _save_hidden_data {
         }
     }
 
-    @file_fields = sort uniq(@file_fields);
+    @file_fields = sort uniq @file_fields;
 
     my $crypt = Crypt::CBC->new( %{ $self->crypt_args } );
 
@@ -461,11 +475,12 @@ sub _save_hidden_data {
     my $parent           = $current_form->parent;
     my $stash            = $current_form->stash;
 
-    $current_form->input(             {} );
-    $current_form->query(             {} );
+    $current_form->input            ( {} );
+    $current_form->query            ( {} );
     $current_form->_processed_params( {} );
-    $current_form->parent(            {} );
+    $current_form->parent           ( {} );
 
+    # empty the stash
     %{ $current_form->stash } = ();
 
     # save a map of upload refaddrs to their parent

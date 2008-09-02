@@ -3,7 +3,7 @@ package HTML::FormFu::QueryType::Catalyst;
 use strict;
 use base 'HTML::FormFu::Upload';
 
-use Scalar::Util qw/ weaken /;
+use Scalar::Util qw( weaken );
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

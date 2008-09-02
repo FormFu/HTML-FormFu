@@ -4,16 +4,18 @@ use strict;
 use base 'HTML::FormFu::Element::_Group';
 use Class::C3;
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
+use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_attr_accessors(qw/ multiple size /);
+__PACKAGE__->mk_attr_accessors( qw( multiple size ) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename('input');
-    $self->field_filename('select_tag');
-    $self->multi_value(1);
+    $self->filename      ( 'input' );
+    $self->field_filename( 'select_tag' );
+    $self->multi_value   ( 1 );
 
     return $self;
 }
@@ -24,14 +26,14 @@ sub _prepare_attrs {
     if (   $submitted
         && defined $value
         && (ref $value eq 'ARRAY'
-            ? grep { $_ eq $option->{value} } @$value
+            ? any { $_ eq $option->{value} } @$value
             : $value eq $option->{value} ) )
     {
         $option->{attributes}{selected} = 'selected';
     }
     elsif ($submitted
         && $self->retain_default
-        && ( !defined $value || $value eq "" )
+        && ( !defined $value || $value eq $EMPTY_STR )
         && $self->value eq $option->{value} )
     {
         $option->{attributes}{selected} = 'selected';
@@ -42,7 +44,7 @@ sub _prepare_attrs {
     elsif (
         defined $default
         && (ref $default eq 'ARRAY'
-            ? grep { $_ eq $option->{value} } @$default
+            ? any { $_ eq $option->{value} } @$default
             : $default eq $option->{value} ) )
     {
         $option->{attributes}{selected} = 'selected';
@@ -73,7 +75,8 @@ sub _string_field {
                 $html .= sprintf qq{<option value="%s"%s>%s</option>\n},
                     $item->{value},
                     process_attrs( $item->{attributes} ),
-                    $item->{label};
+                    $item->{label},
+                    ;
             }
 
             $html .= "</optgroup>\n";
@@ -82,7 +85,8 @@ sub _string_field {
             $html .= sprintf qq{<option value="%s"%s>%s</option>\n},
                 $option->{value},
                 process_attrs( $option->{attributes} ),
-                $option->{label};
+                $option->{label},
+                ;
         }
     }
 

@@ -3,14 +3,14 @@ package HTML::FormFu::Deflator::Strftime;
 use strict;
 use base 'HTML::FormFu::Deflator';
 
-__PACKAGE__->mk_accessors(qw/ strftime /);
+__PACKAGE__->mk_accessors( qw( strftime ) );
 
 sub deflator {
     my ( $self, $value ) = @_;
 
     my $return;
 
-    eval { $return = $value->strftime( $self->strftime ); };
+    eval { $return = $value->strftime( $self->strftime ) };
 
     if ($@) {
         $return = $value;

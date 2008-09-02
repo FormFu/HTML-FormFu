@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Upload';
 
 use HTTP::Headers;
-use Scalar::Util qw/ blessed /;
+use Scalar::Util qw( blessed );
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

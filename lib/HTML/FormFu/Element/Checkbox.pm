@@ -4,13 +4,15 @@ use strict;
 use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
-__PACKAGE__->mk_output_accessors(qw/ default /);
+use HTML::FormFu::Constants qw( $EMPTY_STR );
+
+__PACKAGE__->mk_output_accessors( qw( default ) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type('checkbox');
-    $self->reverse_multi(1);
+    $self->field_type   ( 'checkbox' );
+    $self->reverse_multi( 1 );
 
     return $self;
 }
@@ -30,6 +32,7 @@ sub prepare_attrs {
     my $submitted = $form->submitted;
     my $default   = $self->default;
     my $original  = $self->value;
+    
     my $value
         = defined $self->name
         ? $self->get_nested_hash_value( $form->input, $self->nested_name )
@@ -44,7 +47,7 @@ sub prepare_attrs {
     }
     elsif ($submitted
         && $self->retain_default
-        && ( !defined $value || $value eq "" ) )
+        && ( !defined $value || $value eq $EMPTY_STR ) )
     {
         $render->{attributes}{checked} = 'checked';
     }

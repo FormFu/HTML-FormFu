@@ -5,19 +5,19 @@ use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
-__PACKAGE__->mk_accessors(qw/ processor forced /);
+__PACKAGE__->mk_accessors( qw( processor forced ) );
 
 sub name {
-    my $self = shift;
+    my ($self) = @_;
 
     return $self->parent->name;
 }
 
 sub class {
-    my $self = shift;
+    my ( $self, $class ) = @_;
 
-    if (@_) {
-        return $self->{class} = shift;
+    if ( @_ > 1 ) {
+        return $self->{class} = $class;
     }
 
     return $self->{class} if defined $self->{class};
@@ -32,18 +32,18 @@ sub class {
     $string{t} =~ s/::/_/g;
     $string{t} =~ s/\+//;
 
-    my $class = $self->parent->auto_error_class;
+    my $error_class = $self->parent->auto_error_class;
 
-    $class =~ s/%([fnts])/$string{$1}/g;
+    $error_class =~ s/%([fnts])/$string{$1}/g;
 
-    return $self->{class} = $class;
+    return $self->{class} = $error_class;
 }
 
 sub message {
-    my $self = shift;
+    my ( $self, $message ) = @_;
 
-    if (@_) {
-        return $self->{message} = shift;
+    if ( @_ > 1 ) {
+        return $self->{message} = $message;
     }
 
     return $self->{message} if defined $self->{message};
@@ -60,16 +60,20 @@ sub message {
     $string{t} =~ s/::/_/g;
     $string{t} =~ s/\+//;
 
-    my $message = $self->parent->auto_error_message;
+    my $error_message = $self->parent->auto_error_message;
 
-    $message =~ s/%([fnts])/$string{$1}/g;
+    $error_message =~ s/%([fnts])/$string{$1}/g;
 
-    return $self->{message}
-        = $self->form->localize( $message, $self->processor->localize_args );
+    $error_message = $self->form->localize(
+        $error_message,
+        $self->processor->localize_args
+    );
+
+    return $self->{message} = $error_message;
 }
 
 sub type {
-    my $self = shift;
+    my ($self) = @_;
 
     return $self->processor->type;
 }

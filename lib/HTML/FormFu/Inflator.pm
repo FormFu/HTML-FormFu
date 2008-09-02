@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Inflator;
-use Scalar::Util qw/ blessed /;
+use Scalar::Util qw( blessed );
 use Carp qw( croak );
 
 sub process {
@@ -17,7 +17,8 @@ sub process {
     if ( ref $values eq 'ARRAY' ) {
         my @return;
         for my $value (@$values) {
-            ($return) = eval { $self->inflator($value); };
+            ($return) = eval { $self->inflator($value) };
+            
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
@@ -29,7 +30,8 @@ sub process {
         $return = \@return;
     }
     else {
-        ($return) = eval { $self->inflator($values); };
+        ($return) = eval { $self->inflator($values) };
+        
         if ($@) {
             push @errors, $self->return_error($@);
         }

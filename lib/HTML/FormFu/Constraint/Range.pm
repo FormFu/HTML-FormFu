@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Constraint';
 
 use Scalar::Util qw( looks_like_number );
 
-__PACKAGE__->mk_accessors(qw/minimum maximum/);
+__PACKAGE__->mk_accessors( qw( minimum maximum ) );
 
 *min = \&minimum;
 *max = \&maximum;
@@ -15,16 +15,13 @@ sub constrain_value {
 
     return 1 if !defined $value || $value eq '';
 
-    my $min = $self->minimum;
-    my $max = $self->maximum;
-
     return if !looks_like_number($value);
 
-    if ( defined $min ) {
+    if ( defined ( my $min = $self->minimum ) ) {
         return 0 if $value < $min;
     }
 
-    if ( defined $max ) {
+    if ( defined ( my $max = $self->maximum ) ) {
         return 0 if $value > $max;
     }
 

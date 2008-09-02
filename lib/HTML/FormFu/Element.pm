@@ -3,38 +3,52 @@ use strict;
 use base 'HTML::FormFu::base';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw/ mk_attrs mk_attr_accessors
-    mk_output_accessors mk_inherited_accessors mk_accessors
-    mk_inherited_merging_accessors /;
-use HTML::FormFu::ObjectUtil qw/
+use HTML::FormFu::Attribute qw(
+    mk_attrs
+    mk_attr_accessors
+    mk_output_accessors
+    mk_inherited_accessors mk_accessors
+    mk_inherited_merging_accessors
+);
+use HTML::FormFu::ObjectUtil qw(
     :FORM_AND_ELEMENT
-    load_config_file populate form stash parent /;
-use HTML::FormFu::Util qw/ require_class xml_escape /;
-use Scalar::Util qw/ refaddr weaken /;
+    load_config_file
+    populate
+    form
+    stash
+    parent
+);
+use HTML::FormFu::Util qw( require_class xml_escape );
+use Scalar::Util qw( refaddr weaken );
 use Storable qw( dclone );
-use Carp qw/ croak /;
+use Carp qw( croak );
 
-use overload
+use overload (
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
     'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
     '==' => sub { refaddr $_[0] eq refaddr $_[1] },
     '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
     '""' => sub { return shift->render },
     bool => sub {1},
-    fallback => 1;
-
-__PACKAGE__->mk_attrs(qw/ attributes /);
-
-__PACKAGE__->mk_attr_accessors(qw/ id /);
-
-__PACKAGE__->mk_accessors(
-    qw/
-        name type filename is_field is_block is_repeatable /
+    fallback => 1
 );
 
-__PACKAGE__->mk_inherited_accessors(qw/ tt_args render_method /);
+__PACKAGE__->mk_attrs( qw( attributes ) );
 
-__PACKAGE__->mk_inherited_merging_accessors(qw/ config_callback /);
+__PACKAGE__->mk_attr_accessors( qw( id ) );
+
+__PACKAGE__->mk_accessors( qw(
+    name
+    type
+    filename
+    is_field
+    is_block
+    is_repeatable
+) );
+
+__PACKAGE__->mk_inherited_accessors( qw( tt_args render_method ) );
+
+__PACKAGE__->mk_inherited_merging_accessors( qw( config_callback ) );
 
 sub new {
     my $class = shift;
@@ -58,21 +72,20 @@ sub new {
 }
 
 sub db {
-    my $self = shift;
+    my ( $self, $args ) = @_;
 
-    warn "db() method deprecated and is provided for compatibilty only: "
-        . "use model_config() instead as this will be removed\n";
+    warn <<'WARNING';
+db() method deprecated and is provided for compatibilty only:
+use model_config() instead as this will be removed
+WARNING
 
-    if (@_) {
-        my $args = shift;
-
-        $self->model_config = {}
-            if !$self->model_config;
+    if ( @_ > 1 ) {
+        $self->model_config ||= {};
 
         my $conf = $self->model_config;
 
-        for ( keys %$args ) {
-            $conf->{$_} = $args->{$_};
+        while ( my ($key, $value) = each %$args ) {
+            $conf->{$key} = $value;
         }
     }
 
@@ -148,7 +161,7 @@ sub render_data {
 }
 
 sub render_data_non_recursive {
-    my $self = shift;
+    my ( $self, $args ) = @_;
 
     my %render = (
         name       => xml_escape( $self->name ),
@@ -160,7 +173,8 @@ sub render_data_non_recursive {
         parent     => $self->parent,
         form       => sub { return shift->{parent}->form },
         object     => $self,
-        @_ ? %{ $_[0] } : () );
+        $args ? %$args : (),
+    );
 
     weaken( $render{parent} );
 

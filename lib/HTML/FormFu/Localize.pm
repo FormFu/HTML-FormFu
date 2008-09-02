@@ -2,78 +2,72 @@ package HTML::FormFu::Localize;
 
 use strict;
 
-use HTML::FormFu::Util qw/ require_class /;
-use List::MoreUtils qw/ pairwise /;
+use HTML::FormFu::Util qw( require_class );
+use List::MoreUtils qw( any );
+use List::MoreUtils qw( pairwise );
 use Scalar::Util qw( blessed );
-use Exporter qw/ import /;
-use Carp qw/ croak /;
+use Exporter qw( import );
+use Carp qw( croak );
 
-our @EXPORT = qw/
+our @EXPORT = qw(
     localize
     add_localize_object
     get_localize_object_from_class
     get_localize_object_dies_on_missing_key
     add_default_localize_object
     get_localize_object
-    /;
+);
 
 sub localize {
-    my $self              = shift;
-    my @original_strings  = @_;
-    my @localized_strings = ();
-
-    $self->add_default_localize_object
-        if !$self->{has_default_localize_object};
-
-    @original_strings = grep { defined $_ } @original_strings;
-
-    #warn "* looking for ". join ',', @original_strings;
+    my ( $self, @original_strings ) = @_;
+    
+    @original_strings = grep { defined } @original_strings;
+    
+    if ( !$self->{has_default_localize_object} ) {
+        $self->add_default_localize_object;
+    }
+    
+    my @localized_strings;
 
     foreach my $localize_data ( @{ $self->{localize_data} } ) {
         my $localize_object = $self->get_localize_object($localize_data);
 
-        #warn "  processing ". ref $localize_object;
-
         eval {
             @localized_strings = $localize_object->localize(@original_strings);
         };
-
-        #warn "  no match" if $@;
 
         next if $@;
 
         # NOTE:
         # As FormFu uses L10N to return messages based on artificial message
         # ids (instead of english language as message ids) the assumption
-        # that we just got a result from Locale::Maketext with AUTO = 1 seams
-        # to be save when localize returns the same string as handed over.
+        # that we just got a result from Locale::Maketext with AUTO = 1 seems
+        # to be safe when localize returns the same string as handed over.
         if (   !$localize_data->{dies_on_missing_key}
             && scalar(@original_strings) == scalar(@localized_strings)
-            && scalar( grep { !$_ } pairwise { $a eq $b } @original_strings,
+            && scalar( any { !$_ } pairwise { $a eq $b } @original_strings,
                 @localized_strings ) == 0
             )
         {
-
-            #warn "  invalid match";
             next;
         }
 
-        #warn "  match found";
         last;
     }
 
-    @localized_strings = @original_strings
-        if ( not scalar @localized_strings );
+    if ( !@localized_strings ) {
+        @localized_strings = @original_strings;
+    }
 
     return wantarray ? @localized_strings : $localized_strings[0];
 }
 
 sub add_localize_object {
-    my $self = shift;
+    my ( $self, @objects ) = @_;
 
-    croak 'no arguments given' if @_ < 1;
+    croak 'no arguments given' if @_ < 2;
 
-    foreach my $localize_object (@_) {
+    foreach my $localize_object (@objects) {
         my $dies_on_missing_key = undef;
 
         if ( blessed $localize_object) {
@@ -81,8 +75,6 @@ sub add_localize_object {
                 = $self->get_localize_object_dies_on_missing_key(
                 $localize_object);
         }
-
-    #warn "> add_localize_object ".((ref $localize_object) || $localize_object);
 
         # add external localize object to the end of the list
         push @{ $self->{localize_data} },
@@ -96,8 +88,7 @@ sub add_localize_object {
 }
 
 sub get_localize_object_from_class {
-    my $self = shift;
-    my ($class) = @_;
+    my ( $self, $class ) = @_;
 
     require_class($class);
 
@@ -109,8 +100,7 @@ sub get_localize_object_from_class {
 }
 
 sub get_localize_object_dies_on_missing_key {
-    my $self = shift;
-    my ($localize_object) = @_;
+    my ( $self, $localize_object ) = @_;
 
     # NOTE:
     # Findout how this class reacts on missing entries
@@ -120,23 +110,26 @@ sub get_localize_object_dies_on_missing_key {
     #    to avoid autocreating missing keys)
 
     # HINT:
-    # Never use underscores for te beginning of the testkey as they
+    # Never use underscores for the beginning of the testkey as they
     # will lead Locale::Maketext to croak even if _AUTO is on (1) as
     # Locale::Maketext useses underscores to identify text for
     # processing via the AUTO-function (_compile).
 
     my $testkey = 'html_formfu_missing_key_test';
-    my $dies_on_missing_key
-        = ( eval { $localize_object->localize($testkey); } ? 0 : 1 );
+    
+    eval { $localize_object->localize($testkey) };
+    
+    my $dies_on_missing_key = $@ ? 1 : 0;
 
     return $dies_on_missing_key;
 }
 
 sub add_default_localize_object {
-    my $self = shift;
+    my ($self) = @_;
 
     my $localize_object
         = $self->get_localize_object_from_class( $self->localize_class );
+    
     my $dies_on_missing_key = 1;
 
     # put FormFu localize object in first place
@@ -152,12 +145,9 @@ sub add_default_localize_object {
 }
 
 sub get_localize_object {
-    my $self = shift;
-    my ($localize_data) = @_;
+    my ( $self, $localize_data ) = @_;
 
     if ( !blessed $localize_data->{localize_object} ) {
-
-        #warn "+ loading ".$localize_data->{localize_object};
 
         $localize_data->{localize_object}
             = $self->get_localize_object_from_class( $self->localize_class );

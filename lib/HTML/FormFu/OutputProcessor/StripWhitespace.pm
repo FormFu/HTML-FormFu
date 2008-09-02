@@ -3,40 +3,36 @@ package HTML::FormFu::OutputProcessor::StripWhitespace;
 use strict;
 use base 'HTML::FormFu::OutputProcessor';
 
-use HTML::FormFu::Attribute(qw/ mk_accessors /);
+use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::TokeParser::Simple;
+use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_accessors(
-    qw/
-        collapse_tags
-        collapse_consecutive_tags
-        /
-);
+__PACKAGE__->mk_accessors( qw(
+    collapse_tags
+    collapse_consecutive_tags
+) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->collapse_tags( [
-            qw/
-                fieldset
-                form
-                hr
-                legend
-                optgroup
-                option
-                table
-                td
-                th
-                tr
-                /
-        ] );
+    $self->collapse_tags( [ qw(
+            fieldset
+            form
+            hr
+            legend
+            optgroup
+            option
+            table
+            td
+            th
+            tr
+    ) ] );
 
-    $self->collapse_consecutive_tags( [
-            qw/
-                span
-                div
-                /
-        ] );
+    $self->collapse_consecutive_tags( [ qw(
+            span
+            div
+    ) ] );
 
     return $self;
 }
@@ -56,7 +52,7 @@ sub process {
 
     my @collapse    = @{ $self->collapse_tags };
     my @consecutive = @{ $self->collapse_consecutive_tags };
-    my $output      = "";
+    my $output      = $EMPTY_STR;
 
     while ( defined( my $token = $iter->next ) ) {
 
@@ -64,7 +60,7 @@ sub process {
             my $tag      = $token->get_tag;
             my $prev_tag = $iter->prev_tag_name;
 
-            if ( grep { $tag eq $_ } @collapse ) {
+            if ( any { $tag eq $_ } @collapse ) {
 
                 # strip \s from before us
                 $output =~ s/ \s+ \z //x;
@@ -83,7 +79,7 @@ sub process {
             my $tag      = $token->get_tag;
             my $prev_tag = $iter->prev_tag_name;
 
-            if ( grep { $tag eq $_ } @collapse ) {
+            if ( any { $tag eq $_ } @collapse ) {
 
                 # strip \s from before us
                 $output =~ s/ \s+ \z //x;
@@ -101,7 +97,7 @@ sub process {
 
         my $prev_tag = $iter->prev_tag_name;
 
-        if ( defined $prev_tag && grep { $prev_tag eq $_ } @collapse ) {
+        if ( defined $prev_tag && any { $prev_tag eq $_ } @collapse ) {
             $output =~ s/ \s+ \z //x;
 
             my $part = $token->as_is;
@@ -121,10 +117,10 @@ sub process {
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
 sub new {
-    my $class = shift;
+    my ( $class, @tags ) = @_;
 
     my %self = (
-        tags => \@_,
+        tags => \@tags,
         i    => 0,
     );
 
@@ -153,40 +149,6 @@ sub prev_tag_name {
         --$i;
     }
 }
-
-#sub prev_start_tag_name {
-#    my ($self) = @_;
-#
-#    my $i = $self->{i} - 2;
-#
-#    while ( $i >= 0) {
-#
-#        if ( $self->{tags}[$i]->is_tag ) {
-#            return if ! $self->{tags}[$i]->is_start_tag;
-#
-#            return $self->{tags}[$i]->get_tag;
-#        }
-#
-#        --$i;
-#    }
-#}
-#
-#sub prev_end_tag_name {
-#    my ($self) = @_;
-#
-#    my $i = $self->{i} - 2;
-#
-#    while ( $i >= 0) {
-#
-#        if ( $self->{tags}[$i]->is_tag ) {
-#            return if ! $self->{tags}[$i]->is_end_tag;
-#
-#            return $self->{tags}[$i]->get_tag;
-#        }
-#
-#        --$i;
-#    }
-#}
 
 1;
 

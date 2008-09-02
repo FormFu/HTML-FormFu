@@ -3,17 +3,19 @@ package HTML::FormFu::Deflator::CompoundDateTime;
 use strict;
 use base 'HTML::FormFu::Deflator';
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime;
+use List::MoreUtils qw( none );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ field_order /);
+__PACKAGE__->mk_accessors( qw( field_order ) );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 
 sub deflator {
     my ( $self, $value ) = @_;
 
-    return unless defined $value && $value ne "";
+    return if !defined $value || $value eq $EMPTY_STR;
 
     # do we have a DateTime object?
 
@@ -26,7 +28,7 @@ sub deflator {
     if ( defined( my $order = $self->field_order ) ) {
         for my $order (@$order) {
             croak "unknown DateTime field_order name"
-                unless grep { $order eq $_ } @known_fields;
+                if none { $order eq $_ } @known_fields;
 
             my $field = shift @fields;
 
@@ -38,7 +40,7 @@ sub deflator {
             my $name = $field->name;
 
             croak "unknown DateTime field name"
-                unless grep { $name eq $_ } @known_fields;
+                if none { $name eq $_ } @known_fields;
 
             $field->default( $value->$name );
         }

@@ -2,14 +2,16 @@ package HTML::FormFu::Filter::CompoundSprintf;
 
 use strict;
 use base 'HTML::FormFu::Filter::_Compound';
+
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ sprintf /);
+__PACKAGE__->mk_accessors( qw( sprintf ) );
 
 sub filter {
     my ( $self, $value ) = @_;
 
-    return unless defined $value && $value ne "";
+    return if !defined $value || $value eq $EMPTY_STR;
 
     my $sprintf = $self->sprintf;
 

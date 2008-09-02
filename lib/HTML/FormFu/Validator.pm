@@ -5,8 +5,8 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Validator;
-use Scalar::Util qw/ blessed /;
-use Carp qw/ croak /;
+use Scalar::Util qw( blessed );
+use Carp qw( croak );
 
 sub process {
     my ( $self, $params ) = @_;
@@ -19,13 +19,15 @@ sub process {
         eval { my @x = @$value };
         croak $@ if $@;
 
-        push @errors, eval { $self->validate_values( $value, $params ); };
+        push @errors, eval { $self->validate_values( $value, $params ) };
+        
         if ($@) {
             push @errors, $self->return_error($@);
         }
     }
     else {
-        my $ok = eval { $self->validate_value( $value, $params ); };
+        my $ok = eval { $self->validate_value( $value, $params ) };
+        
         if ( $@ or !$ok ) {
             push @errors, $self->return_error($@);
         }
@@ -40,7 +42,8 @@ sub validate_values {
     my @errors;
 
     for my $value (@$values) {
-        my $ok = eval { $self->validate_value( $value, $params ); };
+        my $ok = eval { $self->validate_value( $value, $params ) };
+        
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
             push @errors, $@;
         }

@@ -4,9 +4,9 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 
-use Storable qw/ dclone /;
+use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors(qw/ set /);
+__PACKAGE__->mk_accessors( qw( set ) );
 
 sub constrain_value {
     my ( $self, $value ) = @_;
@@ -25,8 +25,9 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->set( dclone $self->set )
-        if $self->set;
+    if ( $self->set ) {
+        $clone->set( dclone $self->set );
+    }
 
     return $clone;
 }

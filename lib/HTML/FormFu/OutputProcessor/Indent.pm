@@ -3,16 +3,18 @@ package HTML::FormFu::OutputProcessor::Indent;
 use strict;
 use base 'HTML::FormFu::OutputProcessor';
 
-use HTML::FormFu::Attribute(qw/ mk_accessors /);
+use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 use HTML::TokeParser::Simple;
+use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_accessors(qw/ indent preserve_tags /);
+__PACKAGE__->mk_accessors( qw( indent preserve_tags ) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->indent("\t");
-    $self->preserve_tags( [qw/ pre textarea /] );
+    $self->indent       ( "\t" );
+    $self->preserve_tags( [qw( pre textarea )] );
 
     return $self;
 }
@@ -27,21 +29,25 @@ sub process {
     my @preserve_tags = @{ $self->preserve_tags };
     my $count         = 0;
     my $in_pre        = 0;
-    my $output        = "";
+    my $output        = $EMPTY_STR;
 
     while ( my $token = $parser->get_token ) {
 
         if ( $token->is_start_tag ) {
             my $tag = $token->get_tag;
 
-            $in_pre = 1 if grep { $tag eq $_ } @preserve_tags;
+            if ( any { $tag eq $_ } @preserve_tags ) {
+                $in_pre = 1;
+            }
 
             $output .= $indent x $count;
             $output .= $token->as_is;
 
-            $count++
-                unless defined $token->get_attrseq->[-1]
-                    && $token->get_attrseq->[-1] eq "/";
+            if ( !defined $token->get_attrseq->[-1]
+                 || $token->get_attrseq->[-1] ne "/" )
+            {
+                $count ++;
+            }
         }
         elsif ( $token->is_end_tag ) {
             my $tag = $token->get_tag;
@@ -52,7 +58,9 @@ sub process {
                 $output .= "\n" . $indent x $count;
             }
 
-            $in_pre = 0 if grep { $tag eq $_ } @preserve_tags;
+            if (any { $tag eq $_ } @preserve_tags ) {
+                $in_pre = 0;
+            }
 
             $output .= $token->as_is;
         }
@@ -64,8 +72,8 @@ sub process {
                 $text =~ s/\s+\z/ /;
             }
 
-            if ( $text eq ' ' && $parser->peek =~ m/ < /x ) {
-                $text = "";
+            if ( $text eq $SPACE && $parser->peek =~ m/ < /x ) {
+                $text = $EMPTY_STR;
             }
 
             $output .= $text;
@@ -74,7 +82,9 @@ sub process {
             $output .= $token->as_is;
         }
 
-        $output .= "\n" if $parser->peek =~ m{ < (?!/) }x && !$in_pre;
+        if ( $parser->peek =~ m{ < (?!/) }x && !$in_pre ) {
+            $output .= "\n";
+        }
     }
 
     return $output;

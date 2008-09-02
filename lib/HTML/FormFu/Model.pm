@@ -8,7 +8,7 @@ use HTML::FormFu::ObjectUtil qw( form parent );
 use Scalar::Util qw( refaddr );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ type /);
+__PACKAGE__->mk_accessors( qw( type ) );
 
 sub new {
     my $class = shift;
@@ -19,7 +19,7 @@ sub new {
 
     my $self = bless {}, $class;
 
-    for my $arg (qw/ parent type /) {
+    for my $arg (qw( parent type )) {
         croak "$arg attribute required" if !exists $attrs{$arg};
 
         $self->$arg( $attrs{$arg} );

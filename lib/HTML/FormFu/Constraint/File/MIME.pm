@@ -3,25 +3,28 @@ package HTML::FormFu::Constraint::File::MIME;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
+use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_accessors(qw/ types regex /);
+__PACKAGE__->mk_accessors( qw( types regex ) );
 
 sub constrain_value {
     my ( $self, $value ) = @_;
 
     return 1 if !defined $value || $value eq '';
 
-    return unless blessed($value) && $value->isa('HTML::FormFu::Upload');
+    return if !blessed($value) || !$value->isa('HTML::FormFu::Upload');
 
     my $input = $value->headers->content_type;
     my $types = $self->types;
     my $regex = $self->regex;
 
     if ( defined $types ) {
-        $types = [$types] unless ref $types eq 'ARRAY';
+        if ( ref $types ne 'ARRAY' ) {
+            $types = [$types];
+        }
 
-        return 1 if grep { $input eq $_ } @$types;
+        return 1 if any { $input eq $_ } @$types;
     }
 
     if ( defined $regex ) {

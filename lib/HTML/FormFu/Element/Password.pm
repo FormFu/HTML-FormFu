@@ -4,7 +4,9 @@ use strict;
 use base 'HTML::FormFu::Element::_Input';
 use Class::C3;
 
-__PACKAGE__->mk_accessors(qw/ render_value /);
+use HTML::FormFu::Constants qw( $EMPTY_STR );
+
+__PACKAGE__->mk_accessors( qw( render_value ) );
 
 sub new {
     my $self = shift->next::method(@_);
@@ -21,14 +23,18 @@ sub process_value {
     my $new;
 
     if ( $submitted && $self->render_value ) {
-        $new = defined $value ? $value : "";
+        $new = defined $value ? $value
+             :                  $EMPTY_STR
+             ;
 
-        $new = $self->value if $self->retain_default && $new eq "";
+        if ( $self->retain_default && $new eq $EMPTY_STR ) {
+            $new = $self->value;
+        }
 
         $self->value($new);
     }
     elsif ($submitted) {
-        $new = "";
+        $new = $EMPTY_STR;
     }
     else {
         $new = undef;

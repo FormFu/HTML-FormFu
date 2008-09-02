@@ -4,10 +4,10 @@ use strict;
 use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
-use HTML::FormFu::Util qw/ append_xml_attribute /;
-use Carp qw/ croak /;
+use HTML::FormFu::Util qw( append_xml_attribute );
+use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ odd_class even_class /);
+__PACKAGE__->mk_accessors( qw( odd_class even_class ) );
 
 sub new {
     my $self = shift->next::method(@_);
@@ -19,8 +19,9 @@ sub new {
 
 sub headers {
     my ( $self, $headers ) = @_;
-
-    eval { my @foo = @$headers; };
+    my @headers;
+    
+    eval { @headers = @$headers };
     croak "headers must be passed as an array-ref" if $@;
 
     # save any elements already added
@@ -30,7 +31,7 @@ sub headers {
     my $header_row = $self->element('Block');
     $header_row->tag('tr');
 
-    for my $text (@$headers) {
+    for my $text (@headers) {
         my $th = $header_row->element('Block');
         $th->tag('th');
         $th->content($text);
@@ -45,15 +46,16 @@ sub headers {
 
 sub rows {
     my ( $self, $rows ) = @_;
-
+    
     croak "too many arguments" if @_ > 2;
 
-    eval { my @foo = @$rows; };
+    my @rows;
+    eval { @rows = @$rows };
     croak "rows must be passed as an array-ref" if $@;
 
-    for my $cells (@$rows) {
+    for my $cells (@rows) {
         my @cells;
-        eval { @cells = @$cells; };
+        eval { @cells = @$cells };
         croak "each row must be an array-ref" if $@;
 
         my $row = $self->element('Block');
@@ -74,7 +76,7 @@ sub render_data {
 }
 
 sub render_data_non_recursive {    # though it is really recursive
-    my $self = shift;
+    my ( $self, $args ) = @_;
 
     my $odd  = $self->odd_class;
     my $even = $self->even_class;
@@ -90,19 +92,22 @@ sub render_data_non_recursive {    # though it is really recursive
         }
 
         if ( $i % 2 ) {
-            $row->attributes( { class => $odd } )
-                if defined $odd;
+            if ( defined $odd ) {
+                $row->attributes( { class => $odd } );
+            }
         }
         else {
-            $row->attributes( { class => $even } )
-                if defined $even;
+            if ( defined $even ) {
+                $row->attributes( { class => $even } );
+            }
         }
         $i++;
     }
 
     my $render = $self->next::method( {
             elements => [ map { $_->render_data } @{ $self->_elements } ],
-            @_ ? %{ $_[0] } : () } );
+            $args ? %$args : (),
+        } );
 
     append_xml_attribute( $render->{attributes}, 'class', lc $self->type );
 

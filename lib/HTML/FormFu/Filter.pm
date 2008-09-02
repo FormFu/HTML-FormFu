@@ -9,7 +9,7 @@ use HTML::FormFu::ObjectUtil qw(
     set_nested_hash_value nested_hash_key_exists );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw/ type localize_args /);
+__PACKAGE__->mk_accessors( qw( type localize_args ) );
 
 sub new {
     my $class = shift;
@@ -38,7 +38,7 @@ sub process {
     my $filtered;
 
     if ( ref $value eq 'ARRAY' ) {
-        $filtered = [ map { $self->filter( $_, $params ); } @$value ];
+        $filtered = [ map { $self->filter( $_, $params ) } @$value ];
     }
     else {
         $filtered = $self->filter( $value, $params );

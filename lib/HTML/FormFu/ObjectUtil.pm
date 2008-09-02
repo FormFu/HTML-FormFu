@@ -1,19 +1,21 @@
 package HTML::FormFu::ObjectUtil;
 
 use strict;
-use Exporter qw/ import /;
+use Exporter qw( import );
 
-use HTML::FormFu::Util
-    qw/ _parse_args require_class _get_elements split_name _filter_components
-    _merge_hashes /;
+use HTML::FormFu::Util qw(
+    _parse_args             require_class
+    _get_elements           split_name
+    _filter_components      _merge_hashes
+);
 use Config::Any;
 use Data::Visitor::Callback;
-use Scalar::Util qw/ refaddr weaken blessed /;
-use List::MoreUtils qw/ uniq /;
-use Storable qw/ dclone /;
-use Carp qw/ croak /;
+use Scalar::Util qw( refaddr weaken blessed );
+use List::MoreUtils qw( any uniq );
+use Storable qw( dclone );
+use Carp qw( croak );
 
-our @form_and_block = qw/
+our @form_and_block = qw(
     element
     deflator
     filter
@@ -51,9 +53,9 @@ our @form_and_block = qw/
     insert_before
     insert_after
     remove_element
-    /;
+);
 
-our @form_and_element = qw/
+our @form_and_element = qw(
     _require_deflator
     _require_filter
     _require_inflator
@@ -68,18 +70,27 @@ our @form_and_element = qw/
     get_transformer
     get_plugin
     model_config
-    /;
+);
 
 our @EXPORT_OK = (
-    qw/
+    @form_and_block,
+    @form_and_element,
+    qw(
         _coerce populate
         deflator
-        load_config_file load_config_filestem form insert_before insert_after clone name stash
-        constraints_from_dbic parent nested_name nested_names get_nested_hash_value
-        set_nested_hash_value nested_hash_key_exists remove_element
-        /,
-    @form_and_block,
-    @form_and_element
+        load_config_file        load_config_filestem
+        form
+        insert_before           insert_after
+        clone
+        name
+        stash
+        constraints_from_dbic
+        parent
+        nested_name             nested_names
+        get_nested_hash_value   set_nested_hash_value
+        nested_hash_key_exists
+        remove_element
+    ),
 );
 
 our %EXPORT_TAGS = (
@@ -88,21 +99,25 @@ our %EXPORT_TAGS = (
 );
 
 sub default_args {
-    my ( $self, $arg ) = @_;
+    my ( $self, $defaults ) = @_;
 
     $self->{default_args} ||= {};
 
-    if ($arg) {
+    if ($defaults) {
 
-        my @valid_keys = qw/ elements deflators filters constraints inflators
-            validators transformers output_processors /;
+        my @valid_types = qw(
+            elements        deflators
+            filters         constraints
+            inflators       validators
+            transformers    output_processors
+        );
 
-        for my $key ( keys %$arg ) {
-            croak "not a valid key for default_args: '$key'"
-                if !grep { $key eq $_ } @valid_keys;
+        for my $type ( keys %$defaults ) {
+            croak "not a valid type for default_args: '$type'"
+                if !any { $type eq $_ } @valid_types;
         }
 
-        $self->{default_args} = _merge_hashes( $self->{default_args}, $arg );
+        $self->{default_args} = _merge_hashes( $self->{default_args}, $defaults );
     }
 
     return $self->{default_args};
@@ -111,9 +126,10 @@ sub default_args {
 sub element_defaults {
     my ( $self, $arg ) = @_;
 
-    warn
-        "element_defaults() method deprecated and is provided for compatability only: "
-        . "use defaults()->{elements} instead as this will be removed\n";
+    warn <<'WARNING';
+element_defaults() method deprecated and is provided for compatability only: 
+use defaults()->{elements} instead as this will be removed
+WARNING
 
     $self->{default_args} ||= {};
 
@@ -137,6 +153,7 @@ sub _require_element {
 
     my $type  = delete $arg->{type};
     my $class = $type;
+    
     if ( not $class =~ s/^\+// ) {
         $class = "HTML::FormFu::Element::$class";
     }
@@ -156,7 +173,10 @@ sub _require_element {
 
     # handle default_args
     if ( exists $self->default_args->{elements}{$type} ) {
-        %$arg = ( %{ $self->default_args->{elements}{$type} }, %$arg );
+        $arg = _merge_hashes(
+            $self->default_args->{elements}{$type},
+            $arg,
+        );
     }
 
     populate( $element, $arg );
@@ -187,7 +207,9 @@ sub get_all_elements {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my @e = map { $_, @{ $_->get_all_elements } } @{ $self->_elements };
+    my @e = map { $_, @{ $_->get_all_elements } }
+                @{ $self->_elements }
+            ;
 
     return _get_elements( \%args, \@e );
 }
@@ -205,7 +227,7 @@ sub get_fields {
     my %args = _parse_args(@_);
 
     my @e = map { $_->is_field && !$_->is_block ? $_ : @{ $_->get_fields } }
-        @{ $self->_elements };
+                @{ $self->_elements };
 
     return _get_elements( \%args, \@e );
 }
@@ -254,14 +276,13 @@ sub _require_constraint {
     my $parent = $self->parent;
 
     if ( exists $parent->default_args->{constraints}{$type} ) {
-        %$arg = ( %{ $parent->default_args->{constraints}{$type} }, %$arg );
+        $arg = _merge_hashes(
+            $parent->default_args->{constraints}{$type},
+            $arg,
+        );
     }
 
-    # inlined ObjectUtil::populate(), otherwise circular dependency
-    eval {
-        map { $constraint->$_( $arg->{$_} ) } keys %$arg;
-    };
-    croak $@ if $@;
+    populate( $constraint, $arg );
 
     return $constraint;
 }
@@ -302,33 +323,46 @@ sub clear_errors {
 }
 
 sub populate {
-    my ( $self, $arg ) = @_;
+    my ( $self, $arg_ref ) = @_;
+
+    # shallow clone the args so we don't stomp on them
+    my %args = %$arg_ref;
 
     # we have to handle element_defaults seperately, as it is no longer a
     # simple hash key
 
-    if ( exists $arg->{element_defaults} ) {
-        $self->element_defaults( delete $arg->{element_defaults} );
+    if ( exists $args{element_defaults} ) {
+        $self->element_defaults( delete $args{element_defaults} );
     }
 
     my @keys = qw(
-        default_args auto_fieldset load_config_file element elements
+        default_args
+        auto_fieldset
+        load_config_file
+        element elements
         default_values
-        filter filters constraint constraints inflator inflators
-        deflator deflators query validator validators transformer transformers
+        filter              filters
+        constraint          constraints
+        inflator            inflators
+        deflator            deflators
+        query
+        validator           validators
+        transformer         transformers
         plugins
     );
 
     my %defer;
     for (@keys) {
-        $defer{$_} = delete $arg->{$_} if exists $arg->{$_};
+        $defer{$_} = delete $args{$_} if exists $args{$_};
     }
 
     eval {
-        map { $self->$_( $arg->{$_} ) } keys %$arg;
+        map { $self->$_( $args{$_} ) } keys %args;
 
-        map      { $self->$_( $defer{$_} ) }
-            grep { exists $defer{$_} } @keys;
+        map { $self->$_( $defer{$_} ) }
+            grep { exists $defer{$_} }
+                @keys
+            ;
     };
     croak $@ if $@;
 
@@ -466,23 +500,12 @@ sub _load_file {
     return;
 }
 
-# create a map of errors to processors, so we can reassociate the new cloned
-# errors with the new cloned processors
-
-# clone the errors
-#    my @errors = map { $_->clone } @{ $self->_errors };
-
-# reassociate the errors with the processors
-#    map { $_->processor() } @errors;
-
 sub _coerce {
     my ( $self, %args ) = @_;
 
-    for (qw/ type attributes package /) {
+    for (qw( type attributes package )) {
         croak "$_ argument required" if !defined $args{$_};
     }
-
-    croak "type argument required" if !defined $args{type};
 
     my $class = $args{type};
     if ( $class !~ /^\+/ ) {
@@ -496,10 +519,12 @@ sub _coerce {
             type => $args{type},
         } );
 
-    for my $method (
-        qw/ attributes comment comment_attributes label label_attributes
-        label_filename render_method parent /
-        )
+    for my $method ( qw(
+        attributes              comment
+        comment_attributes      label
+        label_attributes        label_filename
+        render_method           parent
+        ) )
     {
         $element->$method( $self->$method );
     }
@@ -513,10 +538,6 @@ sub _coerce {
 
     $element->value( $self->value );
 
-    # because $element goes out of scope at the end of this subroutine,
-    # we need an unweakened reference, so bypass parent() method
-    #    $element->{parent} = $element;
-
     return $element;
 }
 
@@ -528,10 +549,11 @@ sub _coerce_processors_and_errors {
         my @errors = @{ $args{errors} };
         my @new_errors;
 
-        for my $list (
-            qw/ _filters _constraints _inflators _validators
-            _transformers _deflators /
-            )
+        for my $list ( qw(
+            _filters        _constraints
+            _inflators      _validators
+            _transformers   _deflators
+            ) )
         {
             $element->$list( [] );
 
@@ -562,8 +584,8 @@ sub _coerce_processors_and_errors {
 sub form {
     my ($self) = @_;
 
-    while ( defined $self->parent ) {
-        $self = $self->parent;
+    while ( defined ( my $parent = $self->parent ) ) {
+        $self = $parent;
     }
 
     return $self;
@@ -578,7 +600,7 @@ sub clone {
     $new{attributes}   = dclone $self->attributes;
     $new{tt_args}      = dclone $self->tt_args;
     $new{model_config} = dclone $self->model_config;
-    
+
     $new{languages} = ref $self->languages ? dclone $self->languages
                     :                        $self->languages
                     ;
@@ -705,7 +727,7 @@ sub nested_hash_key_exists {
         }
         else {
             if ( $i == $#names ) {
-                return unless ref $$ref && ref($$ref) eq 'HASH';
+                return if !ref $$ref || ref($$ref) ne 'HASH';
 
                 return exists $$ref->{$part} ? 1 : 0;
             }
@@ -999,12 +1021,20 @@ sub _single_deflator {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep { defined }
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep {defined}
+            map { $_->nested_name }
+                @{ $self->get_fields }
+        ;
+    }
 
     croak "no field names to add deflator to" if !@names;
 
@@ -1036,12 +1066,20 @@ sub _single_filter {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep { defined }
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep { defined }
+            map { $_->nested_name }
+                @{ $self->get_fields }
+        ;
+    }
 
     croak "no field names to add filter to" if !@names;
 
@@ -1073,12 +1111,20 @@ sub _single_constraint {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep { defined }
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep { defined }
+            map { $_->nested_name }
+                @{ $self->get_fields }
+            ;
+    }
 
     croak "no field names to add constraint to" if !@names;
 
@@ -1110,12 +1156,20 @@ sub _single_inflator {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep { defined }
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep { defined }
+            map { $_->nested_name }
+                @{ $self->get_fields }
+        ;
+    }
 
     croak "no field names to add inflator to" if !@names;
 
@@ -1147,12 +1201,20 @@ sub _single_validator {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep {defined}
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep { defined }
+            map { $_->nested_name }
+                @{ $self->get_fields }
+        ;
+    }
 
     croak "no field names to add validator to" if !@names;
 
@@ -1184,12 +1246,20 @@ sub _single_transformer {
         croak 'invalid args';
     }
 
-    my @names = map { ref $_ ? @$_ : $_ }
-        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
+    my @names =
+        map { ref $_ ? @$_ : $_ }
+        grep { defined }
+            ( delete $arg->{name}, delete $arg->{names} )
+        ;
 
-    @names = uniq(
-        grep    {defined}
-            map { $_->nested_name } @{ $self->get_fields } ) if !@names;
+    if ( !@names ) {
+        @names =
+            uniq
+            grep { defined }
+            map { $_->nested_name }
+                @{ $self->get_fields }
+        ;
+    }
 
     croak "no field names to add transformer to" if !@names;
 
@@ -1295,7 +1365,10 @@ sub _require_deflator {
     my $parent = $self->parent;
 
     if ( exists $parent->default_args->{deflators}{$type} ) {
-        %$opt = ( %{ $parent->default_args->{deflators}{$type} }, %$opt );
+        $opt = _merge_hashes(
+            $parent->default_args->{deflators}{$type},
+            $opt,
+        );
     }
 
     $object->populate($opt);
@@ -1329,7 +1402,10 @@ sub _require_filter {
     my $parent = $self->parent;
 
     if ( exists $parent->default_args->{filters}{$type} ) {
-        %$opt = ( %{ $parent->default_args->{filters}{$type} }, %$opt );
+        $opt = _merge_hashes(
+            $parent->default_args->{filters}{$type},
+            $opt,
+        );
     }
 
     $object->populate($opt);
@@ -1363,7 +1439,10 @@ sub _require_inflator {
     my $parent = $self->parent;
 
     if ( exists $parent->default_args->{inflators}{$type} ) {
-        %$opt = ( %{ $parent->default_args->{inflators}{$type} }, %$opt );
+        $opt = _merge_hashes(
+            $parent->default_args->{inflators}{$type},
+            $opt,
+        );
     }
 
     $object->populate($opt);
@@ -1431,7 +1510,10 @@ sub _require_transformer {
     my $parent = $self->parent;
 
     if ( exists $parent->default_args->{transformers}{$type} ) {
-        %$opt = ( %{ $parent->default_args->{transformers}{$type} }, %$opt );
+        $opt = _merge_hashes(
+            $parent->default_args->{transformers}{$type},
+            $opt,
+        );
     }
 
     $object->populate($opt);
