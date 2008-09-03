@@ -107,7 +107,7 @@ __PACKAGE__->mk_inherited_merging_accessors( qw( tt_args config_callback ) );
 *plugins           = \&plugin;
 *add_plugins       = \&add_plugin;
 
-our $VERSION = '0.03003';
+our $VERSION = '0.03004';
 $VERSION = eval $VERSION;
 
 Class::C3::initialize();

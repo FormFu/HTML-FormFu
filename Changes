@@ -1,4 +1,4 @@
-0.03004
+0.03004 2008-09-03
 
     - New reCAPTCHA element.
     
@@ -6,6 +6,10 @@
     
     - New load_config_filestem() method for loading config files without
       having to specify the file extension.
+    
+    - New html_formfu_dumpconf.pl script, for viewing config files structure.
+    
+    - Assorted optimizations, providing over 20% runtime speedup.
     
     - Radio element now inherits from Checkbox, to remove duplicated code.
     
