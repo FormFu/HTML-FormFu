@@ -31,6 +31,7 @@ requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';
+requires 'Pod::Help';
 requires 'Readonly';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
@@ -46,6 +47,7 @@ tests 't/*.t t/*/*.t';
 no_index directory => 'examples';
 
 install_script('bin/html_formfu_deploy.pl');
+install_script('bin/html_formfu_dumpconf.pl');
 install_share();
 
 auto_install();
