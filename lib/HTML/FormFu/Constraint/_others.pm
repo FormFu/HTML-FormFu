@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 
-use List::MoreUtils qw( any );
+use List::MoreUtils qw( any none );
 use Storable qw( dclone );
 
 __PACKAGE__->mk_item_accessors( qw(
@@ -62,7 +62,7 @@ sub mk_errors {
         $error->parent($field);
 
         if (    ( $pass && $force && any { $name eq $_ } @names )
-                || !any { $name eq $_ } @failed
+                || none { $name eq $_ } @failed
             )
         {
             $error->forced(1);

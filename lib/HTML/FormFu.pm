@@ -32,7 +32,7 @@ use HTML::FormFu::Util qw(
 );
 
 use List::Util qw( first );
-use List::MoreUtils qw( any uniq );
+use List::MoreUtils qw( any none uniq );
 use Scalar::Util qw( blessed refaddr weaken );
 use Storable qw( dclone );
 use Regexp::Copy;
@@ -293,7 +293,7 @@ sub process {
             my $name = $field->nested_name;
 
             next if !defined $name;
-            next if !any { $name eq $_ } @params;
+            next if none { $name eq $_ } @params;
 
             if ( $field->nested ) {
                 # call in list context so we know if there's more than 1 value
@@ -875,7 +875,7 @@ sub add_valid {
 
     $self->set_nested_hash_value( $self->_processed_params, $key, $value );
 
-    if ( !any { $_ eq $key } @{ $self->_valid_names } ) {
+    if ( none { $_ eq $key } @{ $self->_valid_names } ) {
         push @{ $self->_valid_names }, $key;
     }
 

@@ -11,7 +11,7 @@ use HTML::FormFu::Util qw(
 use Config::Any;
 use Data::Visitor::Callback;
 use Scalar::Util qw( refaddr weaken blessed );
-use List::MoreUtils qw( any uniq );
+use List::MoreUtils qw( none uniq );
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -114,7 +114,7 @@ sub default_args {
 
         for my $type ( keys %$defaults ) {
             croak "not a valid type for default_args: '$type'"
-                if !any { $type eq $_ } @valid_types;
+                if none { $type eq $_ } @valid_types;
         }
 
         $self->{default_args} = _merge_hashes( $self->{default_args}, $defaults );
