@@ -3,6 +3,9 @@ use warnings;
 use lib 'lib';
 use HTML::FormFu;
 
+#use Time::HiRes qw( time );
+#my $start_time = time();
+
 for ( 1..100 ) {
     my $form = HTML::FormFu->new;
     
@@ -43,3 +46,4 @@ for ( 1..100 ) {
     my $output = "$form";
 }
 
+#printf "%.3f\n", time() - $start_time;
