@@ -584,7 +584,7 @@ sub _coerce_processors_and_errors {
 sub form {
     my ($self) = @_;
 
-    while ( defined ( my $parent = $self->parent ) ) {
+    while ( defined ( my $parent = $self->{parent} ) ) {
         $self = $parent;
     }
 
