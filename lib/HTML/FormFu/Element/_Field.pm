@@ -143,11 +143,13 @@ sub nested_names {
 
     croak 'cannot set nested_names' if @_ > 1;
 
-    if ( defined $self->name ) {
+    if ( defined ( my $name = $self->name ) ) {
         my @names;
         my $parent = $self;
 
-        while ( defined ( $parent = $parent->parent ) ) {
+        # micro optimization! this method's called a lot, so access
+        # parent hashkey directly, instead of calling parent()
+        while ( defined ( $parent = $parent->{parent} ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
                 push @names, $parent->name
@@ -160,7 +162,7 @@ sub nested_names {
         }
 
         if (@names) {
-            return reverse(@names), $self->name;
+            return reverse $name, @names;
         }
     }
 

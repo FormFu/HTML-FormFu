@@ -232,6 +232,8 @@ sub mk_inherited_accessors {
                 $self->{$name} = $_[0];
                 return $self;
             }
+            # micro optimization! this method's called a lot, so access
+            # parent hashkey directly, instead of calling parent()
             while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
                 $self = $parent;
             }
@@ -262,6 +264,8 @@ sub mk_inherited_merging_accessors {
                 }
                 return $self;
             }
+            # micro optimization! this method's called a lot, so access
+            # parent hashkey directly, instead of calling parent()
             while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
                 $self = $parent;
             }

@@ -584,6 +584,8 @@ sub _coerce_processors_and_errors {
 sub form {
     my ($self) = @_;
 
+    # micro optimization! this method's called a lot, so access
+    # parent hashkey directly, instead of calling parent()
     while ( defined ( my $parent = $self->{parent} ) ) {
         $self = $parent;
     }
