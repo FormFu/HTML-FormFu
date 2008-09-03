@@ -3,7 +3,7 @@ use warnings;
 use lib 'lib';
 use HTML::FormFu;
 
-for ( 1..10 ) {
+for ( 1..100 ) {
     my $form = HTML::FormFu->new;
     
     $form->load_config_file('benchmarks/formfu.yml');
@@ -42,3 +42,4 @@ for ( 1..10 ) {
     
     my $output = "$form";
 }
+

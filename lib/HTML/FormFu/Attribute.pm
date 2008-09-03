@@ -232,7 +232,7 @@ sub mk_inherited_accessors {
                 $self->{$name} = $_[0];
                 return $self;
             }
-            while ( defined ( my $parent = $self->parent ) && !defined $self->{$name} ) {
+            while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
                 $self = $parent;
             }
             return $self->{$name};
@@ -262,7 +262,7 @@ sub mk_inherited_merging_accessors {
                 }
                 return $self;
             }
-            while ( defined ( my $parent = $self->parent ) && !defined $self->{$name} ) {
+            while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
                 $self = $parent;
             }
             return $self->{$name};
