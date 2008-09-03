@@ -3,7 +3,11 @@ package HTML::FormFu::Processor;
 use strict;
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_accessors mk_output_accessors );
+use HTML::FormFu::Attribute qw(
+    mk_item_accessors
+    mk_accessors
+    mk_output_accessors
+);
 use HTML::FormFu::ObjectUtil qw(
     populate                form
     name                    nested_name
@@ -19,7 +23,9 @@ use overload
     bool => sub {1},
     fallback => 1;
 
-__PACKAGE__->mk_accessors( qw( type localize_args ) );
+__PACKAGE__->mk_item_accessors( qw( type ) );
+
+__PACKAGE__->mk_accessors( qw( localize_args ) );
 
 __PACKAGE__->mk_output_accessors( qw( message ) );
 

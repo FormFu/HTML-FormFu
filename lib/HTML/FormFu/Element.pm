@@ -6,6 +6,8 @@ use Class::C3;
 use HTML::FormFu::Attribute qw(
     mk_attrs
     mk_attr_accessors
+    mk_item_accessors
+    mk_accessors
     mk_output_accessors
     mk_inherited_accessors mk_accessors
     mk_inherited_merging_accessors
@@ -37,7 +39,7 @@ __PACKAGE__->mk_attrs( qw( attributes ) );
 
 __PACKAGE__->mk_attr_accessors( qw( id ) );
 
-__PACKAGE__->mk_accessors( qw(
+__PACKAGE__->mk_item_accessors( qw(
     type
     filename
     is_field

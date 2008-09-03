@@ -3,12 +3,12 @@ package HTML::FormFu::Model;
 use strict;
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Attribute qw( mk_accessors mk_item_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent );
 use Scalar::Util qw( refaddr );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors( qw( type ) );
 
 sub new {
     my $class = shift;

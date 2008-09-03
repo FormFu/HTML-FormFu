@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-__PACKAGE__->mk_accessors( qw( render_value ) );
+__PACKAGE__->mk_item_accessors( qw( render_value ) );
 
 sub new {
     my $self = shift->next::method(@_);

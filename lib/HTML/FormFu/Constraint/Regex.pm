@@ -5,7 +5,9 @@ use base 'HTML::FormFu::Constraint';
 
 use Regexp::Common;
 
-__PACKAGE__->mk_accessors( qw( regex common ) );
+__PACKAGE__->mk_item_accessors( qw( regex ) );
+
+__PACKAGE__->mk_accessors( qw( common ) );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

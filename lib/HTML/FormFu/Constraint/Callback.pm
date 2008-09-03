@@ -3,7 +3,7 @@ package HTML::FormFu::Constraint::Callback;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
-__PACKAGE__->mk_accessors( qw( callback ) );
+__PACKAGE__->mk_item_accessors( qw( callback ) );
 
 sub constrain_value {
     my ( $self, $value, $params ) = @_;

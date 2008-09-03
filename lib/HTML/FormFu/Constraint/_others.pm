@@ -7,10 +7,13 @@ use Class::C3;
 use List::MoreUtils qw( any );
 use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors( qw(
-    others
+__PACKAGE__->mk_item_accessors( qw(
     attach_errors_to_base
     attach_errors_to_others
+) );
+
+__PACKAGE__->mk_accessors( qw(
+    others
     attach_errors_to
 ) );
 

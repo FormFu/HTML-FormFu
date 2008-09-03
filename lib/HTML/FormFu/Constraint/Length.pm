@@ -3,7 +3,7 @@ package HTML::FormFu::Constraint::Length;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
-__PACKAGE__->mk_accessors( qw( minimum maximum ) );
+__PACKAGE__->mk_item_accessors( qw( minimum maximum ) );
 
 *min = \&minimum;
 *max = \&maximum;

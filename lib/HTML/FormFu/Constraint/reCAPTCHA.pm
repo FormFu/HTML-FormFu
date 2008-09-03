@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Constraint';
 use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_accessors( qw( _recaptcha_response ) );
+__PACKAGE__->mk_item_accessors( qw( _recaptcha_response ) );
 
 sub process {
     my ( $self, $params ) = @_;

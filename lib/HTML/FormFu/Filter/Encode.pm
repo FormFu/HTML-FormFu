@@ -5,7 +5,7 @@ use base qw(HTML::FormFu::Filter);
 
 use Encode qw(encode decode FB_CROAK);
 
-__PACKAGE__->mk_accessors($_) for qw(_candidates encode_to);
+__PACKAGE__->mk_item_accessors($_) for qw(_candidates encode_to);
 
 sub filter {
     my ( $self, $value ) = @_;

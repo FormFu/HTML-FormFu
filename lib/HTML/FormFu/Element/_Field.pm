@@ -4,7 +4,6 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_attrs );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::ObjectUtil qw(
     get_error                   _require_constraint
@@ -41,7 +40,7 @@ __PACKAGE__->mk_attrs( qw(
     label_attributes
 ) );
 
-__PACKAGE__->mk_accessors( qw(
+__PACKAGE__->mk_item_accessors( qw(
     _constraints                _filters
     _inflators                  _deflators
     _validators                 _transformers

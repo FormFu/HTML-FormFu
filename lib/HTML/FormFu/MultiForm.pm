@@ -5,7 +5,8 @@ use HTML::FormFu;
 use HTML::FormFu::Attribute qw(
     mk_attrs                            mk_attr_accessors
     mk_inherited_accessors              mk_output_accessors
-    mk_inherited_merging_accessors      mk_accessors
+    mk_inherited_merging_accessors
+    mk_item_accessors                   mk_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     populate                    form
@@ -49,15 +50,17 @@ our @ACCESSORS = qw(
     params_ignore_underscore    tmp_upload_dir
 );
 
+__PACKAGE__->mk_item_accessors qw(
+    query
+    current_form_number                 current_form
+    complete persist_stash              multiform_hidden_name
+    default_multiform_hidden_name       combine_params
+    _data                               _file_fields
+);
+
 __PACKAGE__->mk_accessors(
     @ACCESSORS,
-    qw(
-        query                               forms
-        current_form_number                 current_form
-        complete persist_stash              multiform_hidden_name
-        default_multiform_hidden_name       combine_params
-        _data                               _file_fields
-    )
+    'forms',
 );
 
 __PACKAGE__->mk_output_accessors( qw( form_error_message ) );

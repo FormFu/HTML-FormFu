@@ -5,7 +5,8 @@ use base 'HTML::FormFu::base';
 use HTML::FormFu::Attribute qw(
     mk_attrs                        mk_attr_accessors
     mk_inherited_accessors          mk_output_accessors
-    mk_inherited_merging_accessors  mk_accessors
+    mk_inherited_merging_accessors
+    mk_item_accessors               mk_accessors
 );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Constraint;
@@ -51,20 +52,34 @@ __PACKAGE__->mk_attrs( qw( attributes ) );
 
 __PACKAGE__->mk_attr_accessors( qw( id action enctype method ) );
 
-__PACKAGE__->mk_accessors( qw(
-    indicator                   filename
-    javascript                  javascript_src
-    query_type                  languages
-    force_error_message         localize_class
-    submitted                   query
-    input                       _auto_fieldset
-    _elements                   _processed_params
-    _valid_names                _models
-    _output_processors          tt_module
-    nested_name                 nested_subscript
-    default_model               tmp_upload_dir
+__PACKAGE__->mk_item_accessors( qw(
+    indicator
+    filename
+    query_type
+    force_error_message
+    localize_class
+    query
+    input
+    _auto_fieldset
+    _elements
+    _processed_params
+    _output_processors
+    tt_module
+    nested_name
+    nested_subscript
+    default_model
+    tmp_upload_dir
     params_ignore_underscore
     _plugins
+) );
+
+__PACKAGE__->mk_accessors( qw(
+    javascript
+    javascript_src
+    languages
+    submitted
+    _valid_names
+    _models
 ) );
 
 __PACKAGE__->mk_output_accessors( qw( form_error_message ) );

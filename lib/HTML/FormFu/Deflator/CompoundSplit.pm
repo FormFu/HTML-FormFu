@@ -5,7 +5,9 @@ use base 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-__PACKAGE__->mk_accessors( qw( split join field_order ) );
+__PACKAGE__->mk_item_accessors( qw( split join ) );
+
+__PACKAGE__->mk_accessors( qw( field_order ) );
 
 sub deflator {
     my ( $self, $value ) = @_;

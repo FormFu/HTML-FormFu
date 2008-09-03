@@ -3,7 +3,7 @@ package HTML::FormFu::Plugin;
 use strict;
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form parent );
 use Scalar::Util qw( refaddr );
 use Carp qw( croak );
@@ -14,7 +14,7 @@ use overload
     bool => sub {1},
     fallback => 1;
 
-__PACKAGE__->mk_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors( qw( type ) );
 
 sub new {
     my $class = shift;

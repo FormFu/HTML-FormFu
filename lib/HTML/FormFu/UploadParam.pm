@@ -3,12 +3,12 @@ package HTML::FormFu::UploadParam;
 use strict;
 use Carp qw( croak );
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Attribute qw( mk_item_accessors );
 use File::Temp qw( tempfile );
 use Scalar::Util qw( blessed weaken );
 use Storable qw( nfreeze thaw );
 
-__PACKAGE__->mk_accessors( qw( param filename ) );
+__PACKAGE__->mk_item_accessors( qw( param filename ) );
 
 sub new {
     my $class = shift;

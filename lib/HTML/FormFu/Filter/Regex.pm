@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Filter';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-__PACKAGE__->mk_accessors( qw( match replace eval ) );
+__PACKAGE__->mk_item_accessors( qw( match replace eval ) );
 
 sub filter {
     my ( $self, $value ) = @_;

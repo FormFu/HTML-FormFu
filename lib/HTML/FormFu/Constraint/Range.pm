@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Constraint';
 
 use Scalar::Util qw( looks_like_number );
 
-__PACKAGE__->mk_accessors( qw( minimum maximum ) );
+__PACKAGE__->mk_item_accessors( qw( minimum maximum ) );
 
 *min = \&minimum;
 *max = \&maximum;

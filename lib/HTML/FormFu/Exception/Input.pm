@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
-__PACKAGE__->mk_accessors( qw( processor forced ) );
+__PACKAGE__->mk_item_accessors( qw( processor forced ) );
 
 sub name {
     my ($self) = @_;

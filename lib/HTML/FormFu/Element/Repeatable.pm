@@ -6,7 +6,7 @@ use Class::C3;
 use List::Util qw( first );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw(
+__PACKAGE__->mk_item_accessors( qw(
     _original_elements
     increment_field_names
     counter_name

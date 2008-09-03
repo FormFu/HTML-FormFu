@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( xml_escape process_attrs );
 
-__PACKAGE__->mk_accessors( qw( field_type ) );
+__PACKAGE__->mk_item_accessors( qw( field_type ) );
 __PACKAGE__->mk_output_accessors( qw( content ) );
 
 sub new {

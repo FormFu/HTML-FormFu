@@ -4,7 +4,6 @@ use strict;
 use base 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_attrs );
 use HTML::FormFu::Util qw( _filter_components _parse_args );
 use DateTime;
 use DateTime::Format::Builder;
@@ -15,7 +14,7 @@ use Carp qw( croak );
 
 __PACKAGE__->mk_attrs( qw( day  month  year ) );
 
-__PACKAGE__->mk_accessors( qw( strftime auto_inflate default_natural ) );
+__PACKAGE__->mk_item_accessors( qw( strftime auto_inflate default_natural ) );
 
 *default = \&value;
 

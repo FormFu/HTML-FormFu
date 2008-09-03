@@ -8,7 +8,7 @@ use HTML::FormFu::Util qw( process_attrs );
 use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_accessors( qw(
+__PACKAGE__->mk_item_accessors( qw(
     public_key
     private_key
     ssl

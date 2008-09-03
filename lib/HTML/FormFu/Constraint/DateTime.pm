@@ -7,7 +7,7 @@ use Class::C3;
 use DateTime::Format::Builder;
 use DateTime::Format::Strptime;
 
-__PACKAGE__->mk_accessors( qw( _builder ) );
+__PACKAGE__->mk_item_accessors( qw( _builder ) );
 
 sub new {
     my $self = shift->next::method(@_);

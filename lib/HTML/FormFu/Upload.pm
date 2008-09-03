@@ -3,11 +3,11 @@ package HTML::FormFu::Upload;
 use strict;
 use Carp qw( croak );
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Attribute qw( mk_item_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent populate );
 use HTML::FormFu::UploadParam;
 
-__PACKAGE__->mk_accessors( qw( headers filename size type ) );
+__PACKAGE__->mk_item_accessors( qw( headers filename size type ) );
 
 sub new {
     my $class = shift;

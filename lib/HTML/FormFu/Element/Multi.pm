@@ -9,7 +9,7 @@ use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
 use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors( qw(
+__PACKAGE__->mk_item_accessors( qw(
     field_filename
     label_filename
     javascript

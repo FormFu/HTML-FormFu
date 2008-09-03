@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_accessors( qw( tag ) );
+__PACKAGE__->mk_item_accessors( qw( tag ) );
 
 sub new {
     my $self = shift->next::method(@_);

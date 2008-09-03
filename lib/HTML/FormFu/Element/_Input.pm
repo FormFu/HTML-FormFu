@@ -7,7 +7,7 @@ use Class::C3;
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_accessors( qw( field_type ) );
+__PACKAGE__->mk_item_accessors( qw( field_type ) );
 
 __PACKAGE__->mk_attr_accessors( qw( checked size maxlength alt ) );
 

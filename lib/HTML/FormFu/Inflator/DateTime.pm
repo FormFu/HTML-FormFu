@@ -8,7 +8,7 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime::Format::Builder;
 use DateTime::Format::Strptime;
 
-__PACKAGE__->mk_accessors( qw( strptime time_zone _builder ) );
+__PACKAGE__->mk_item_accessors( qw( strptime time_zone _builder ) );
 
 sub new {
     my $self = shift->next::method(@_);

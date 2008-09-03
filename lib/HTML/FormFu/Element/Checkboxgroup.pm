@@ -8,7 +8,7 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_accessors(qw/ input_type /);
+__PACKAGE__->mk_item_accessors(qw/ input_type /);
 
 sub new {
     my $self = shift->next::method(@_);

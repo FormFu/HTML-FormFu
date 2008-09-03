@@ -6,12 +6,11 @@ use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
-use HTML::FormFu::Attribute qw( mk_output_accessors );
 use List::MoreUtils qw( none );
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw( _options empty_first ) );
+__PACKAGE__->mk_item_accessors( qw( _options empty_first ) );
 __PACKAGE__->mk_output_accessors( qw( empty_first_label ) );
 
 my @ALLOWED_OPTION_KEYS = qw(

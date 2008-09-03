@@ -8,7 +8,9 @@ use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 use HTML::TokeParser::Simple;
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_accessors( qw( indent preserve_tags ) );
+__PACKAGE__->mk_item_accessors( qw( indent ) );
+
+__PACKAGE__->mk_accessors( qw( preserve_tags ) );
 
 sub new {
     my $self = shift->next::method(@_);

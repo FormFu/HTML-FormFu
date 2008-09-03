@@ -4,14 +4,13 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_output_accessors );
 use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
 use List::MoreUtils qw( uniq );
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw( tag _elements nested_name ) );
+__PACKAGE__->mk_item_accessors( qw( tag _elements nested_name ) );
 
 __PACKAGE__->mk_output_accessors( qw( content ) );
 

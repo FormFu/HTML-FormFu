@@ -3,7 +3,7 @@ package HTML::FormFu::Exception;
 use strict;
 use Carp qw( croak );
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent populate );
 
 sub new {

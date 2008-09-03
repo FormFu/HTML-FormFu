@@ -9,7 +9,7 @@ use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw( not force_errors when ) );
+__PACKAGE__->mk_item_accessors( qw( not force_errors when ) );
 
 sub process {
     my ( $self, $params ) = @_;

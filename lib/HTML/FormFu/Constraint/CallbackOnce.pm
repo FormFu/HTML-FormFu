@@ -3,7 +3,7 @@ package HTML::FormFu::Constraint::CallbackOnce;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
-__PACKAGE__->mk_accessors( qw( callback ) );
+__PACKAGE__->mk_item_accessors( qw( callback ) );
 
 sub process {
     my ( $self, $params ) = @_;

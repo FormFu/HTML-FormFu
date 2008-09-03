@@ -7,7 +7,7 @@ use Class::C3;
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 
-__PACKAGE__->mk_accessors( qw( radiogroup_filename ) );
+__PACKAGE__->mk_item_accessors( qw( radiogroup_filename ) );
 
 sub new {
     my $self = shift->next::method(@_);
