@@ -398,11 +398,11 @@ core templates are updated.
 
 =head1 PERFORMANCE
 
-=head2 StackTrace
+=head2 Catalyst::Plugin::StackTrace
 
-Are you using L<Catalyst::Plugin::StackTrace>? This is known to 
-cause performance problems in combination with L<HTML::FormFu> and 
-L<Template>, and we advise disabling it.
+If you're using L<Catalyst::Plugin::StackTrace>, make sure you're using at
+least version C<0.09> - earlier versions had performance problems with 
+C<HTML::FormFu>.
 
 =head2 Template::Alloy
 
