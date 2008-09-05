@@ -3,13 +3,13 @@ use strict;
 use base 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
+use HTML::FormFu::Element::_Group qw( _process_options_from_model );
 use HTML::FormFu::Util qw( _filter_components _parse_args );
 use List::MoreUtils qw( any );
 
 our @DEFER_TO_SELECT = qw(
     empty_first
     empty_first_label
-    options
     values
     value_range
 );
@@ -53,6 +53,7 @@ for my $method ( qw(
 sub new {
     my $self = shift->next::method(@_);
 
+    $self->multi_value(1);
     $self->empty_first(1);
 
     $self->select({
@@ -64,6 +65,27 @@ sub new {
     });
 
     return $self;
+}
+
+sub options {
+    my ( $self, @args ) = @_;
+    
+    if (@args) {
+        $self->{options} = @args == 1 ? $args[0] : \@args;
+        
+        return $self;
+    }
+    else {
+        # we're being called as a getter!
+        # are the child elements made yet?
+        
+        if ( !@{ $self->_elements } ) {
+            # need to build the children, so we can return the select options
+            $self->_add_elements;
+        }
+        
+        return $self->_elements->[0]->options;
+    }
 }
 
 sub value {
@@ -141,6 +163,12 @@ sub _add_select {
         }
     }
 
+    if ( !@{ $select_element->options } ) {
+        # we need to access the hashkey directly,
+        # otherwise we'll have a loop
+        $select_element->options( $self->{options} );
+    }
+
     if ( defined ( my $default = $select->{default} ) ) {
         $select_element->default($default);
     }
@@ -185,6 +213,8 @@ sub _build_field_name {
 
 sub process {
     my ( $self, @args ) = @_;
+
+    $self->_process_options_from_model;
 
     $self->_add_elements;
 

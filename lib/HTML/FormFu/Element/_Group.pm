@@ -6,9 +6,12 @@ use Class::C3;
 
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
+use Exporter qw( import );
 use List::MoreUtils qw( none );
 use Storable qw( dclone );
 use Carp qw( croak );
+
+our @EXPORT_OK = qw( _process_options_from_model ); # used by ComboBox
 
 __PACKAGE__->mk_item_accessors( qw( _options empty_first ) );
 __PACKAGE__->mk_output_accessors( qw( empty_first_label ) );
@@ -44,6 +47,16 @@ sub process {
     my $self = shift;
 
     $self->next::method(@_);
+
+    my $args = $self->model_config;
+
+    $self->_process_options_from_model;
+
+    return;
+}
+
+sub _process_options_from_model {
+    my ($self) = @_;
 
     my $args = $self->model_config;
 
