@@ -1,0 +1,8 @@
+---
+elements:
+    - type: ComboBox
+      name: combo
+      values:
+        - one
+        - two
+        - three

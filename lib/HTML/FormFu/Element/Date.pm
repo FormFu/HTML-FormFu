@@ -50,17 +50,17 @@ sub new {
     $self->strftime("%d-%m-%Y");
     
     $self->day( {
-            type   => '_DateSelect',
+            type   => '_MultiSelect',
             prefix => [],
         } );
     
     $self->month( {
-            type   => '_DateSelect',
+            type   => '_MultiSelect',
             prefix => [],
         } );
     
     $self->year( {
-            type   => '_DateSelect',
+            type   => '_MultiSelect',
             prefix => [],
             less   => 0,
             plus   => 10,

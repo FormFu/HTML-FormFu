@@ -478,6 +478,9 @@ sub _load_config {
             },
         } );
 
+        croak "config file '$file' not found"
+            if !@$config;
+
         my ( $filename, $filedata ) = %{ $config->[0] };
         
         _load_file( $self, $data_visitor, $filedata );

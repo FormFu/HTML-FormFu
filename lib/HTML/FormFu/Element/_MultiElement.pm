@@ -1,7 +1,6 @@
-package HTML::FormFu::Element::_DateSelect;
+package HTML::FormFu::Element::_MultiElement;
 
 use strict;
-use base 'HTML::FormFu::Element::Select';
 use Carp qw( croak );
 
 sub nested_names {
@@ -55,7 +54,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_DateSelect
+HTML::FormFu::Element::_MultiElement
 
 =head1 AUTHOR
 
