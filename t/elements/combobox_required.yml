@@ -1,0 +1,13 @@
+---
+elements:
+    - type: ComboBox
+      name: combo
+      values:
+        - one
+        - two
+        - three
+      constraints:
+        - Required
+    
+    - type: Submit
+      name: submit
