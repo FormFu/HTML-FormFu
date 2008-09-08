@@ -1,10 +1,14 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Pod::Help qw( -h --help );
 use Config::Any;
 use Data::Dumper ();
 use Regexp::Assemble;
+
+if ( @ARGV == 1 && $ARGV[0] =~ /\A --? h(?:elp)? \z/ix) {
+    help();
+    exit;
+}
 
 if ( @ARGV == 1 ) {
     my $file = $ARGV[0];
@@ -45,14 +49,11 @@ if ( @ARGV == 1 ) {
     print "$filename\n";
     print $dumper->Dump;
 }
-elsif ( @ARGV ) {
+else {
     die <<ERROR;
 html_formfu_dumpconf.pl: requires a single filename argument.
 Try "--help" for help.
 ERROR
-}
-else {
-    Pod::Help->help;
 }
 
 sub _config_any_args {
@@ -61,21 +62,16 @@ sub _config_any_args {
     );
 }
 
-__END__
+sub help {
+    print <<'HELP';
+html_formfu_dumpconf.pl file.conf
 
-=head1 NAME
+html_formfu_dumpconf.pl file # searches for any supported file extensions
 
-html_formfu_dumpconf.pl
-
-=head1 SYNOPSIS
-
-    html_formfu_dumpconf.pl file.conf
-    
-    html_formfu_dumpconf.pl file # searches for any supported file extensions
-    
-    html_formfu_dumpconf.pl --help
+html_formfu_dumpconf.pl --help
 
 =head1 DESCRIPTION
 
-Uses L<Config::Any> and L<Data::Dumper> to display how your config file is
-parsed.
+Uses Config::Any and Data::Dumper to display how your config file is parsed.
+HELP
+}

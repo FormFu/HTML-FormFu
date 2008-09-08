@@ -31,7 +31,6 @@ requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';
-requires 'Pod::Help';
 requires 'Readonly';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
