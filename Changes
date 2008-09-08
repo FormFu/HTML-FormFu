@@ -1,6 +1,8 @@
-
+0.03005 2008-09-08
 
     - New ComboBox element.
+    
+    - Don't use Pod::Help - some people were getting test failures.
 
 0.03004 2008-09-03
 
