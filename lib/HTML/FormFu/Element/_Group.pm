@@ -48,8 +48,6 @@ sub process {
 
     $self->next::method(@_);
 
-    my $args = $self->model_config;
-
     $self->_process_options_from_model;
 
     return;
