@@ -10,6 +10,7 @@ all_from 'lib/HTML/FormFu.pm';
 requires 'Exporter' => '5.57';
 
 requires 'Captcha::reCAPTCHA' => 0.92;
+requires 'CGI'; # for file POST tests
 requires 'Class::Accessor::Chained::Fast';
 requires 'Class::C3';
 requires 'Config::Any' => '0.10'; # supports multi-doc config files
@@ -39,6 +40,7 @@ requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
 requires 'YAML::Syck' => '1.05';
 
+test_requires 'Test::Aggregate';
 test_requires 'Test::NoWarnings';
 
 tests 't/*.t t/*/*.t';
