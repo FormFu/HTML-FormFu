@@ -1,7 +1,13 @@
-package HTML::FormFu::Constraint::MinLength;
+package HTML::FormFu::Constraint::File::MinSize;
 
 use strict;
-use base 'HTML::FormFu::Constraint::Length';
+use base 'HTML::FormFu::Constraint::File::Size';
+
+sub _localize_args {
+    my ($self) = @_;
+
+    return $self->min;
+}
 
 sub _localize_args {
     my ($self) = @_;
@@ -15,11 +21,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MinLength - Minimum Length String Constraint
+HTML::FormFu::Constraint::File::MinSize - Minimum File Size Constraint
 
 =head1 DESCRIPTION
 
-Checks the input value meets a minimum length.
+Ensure that an uploaded file meets minimum size constraints.
 
 Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of 
 L</minimum> is passed as an argument to L<localize|HTML::FormFu/localize>.
@@ -32,13 +38,13 @@ This constraint doesn't honour the C<not()> value.
 
 =head2 min
 
-The minimum input string length.
+The minimum file size in bytes.
 
 L</min> is an alias for L</minimum>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Length>, 
+Is a sub-class of, and inherits methods from L<HTML::FormFu::File::Size>, 
 L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>

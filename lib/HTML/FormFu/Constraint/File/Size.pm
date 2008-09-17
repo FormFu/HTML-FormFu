@@ -33,6 +33,12 @@ sub constrain_value {
     return 1;
 }
 
+sub _localize_args {
+    my ($self) = @_;
+
+    return $self->min, $self->max;
+}
+
 1;
 
 __END__

@@ -1,7 +1,13 @@
-package HTML::FormFu::Constraint::MaxLength;
+package HTML::FormFu::Constraint::File::MaxSize;
 
 use strict;
-use base 'HTML::FormFu::Constraint::Length';
+use base 'HTML::FormFu::Constraint::File::Size';
+
+sub _localize_args {
+    my ($self) = @_;
+
+    return $self->max;
+}
 
 sub _localize_args {
     my ($self) = @_;
@@ -15,11 +21,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::MaxLength - Maximum Length String Constraint
+HTML::FormFu::Constraint::File::MaxSize - Maximum File Size Constraint
 
 =head1 DESCRIPTION
 
-Checks the input value meets a maximum length.
+Ensure that an uploaded file meets maximum size constraints.
 
 Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of 
 L</maximum> is passed as an argument to L<localize|HTML::FormFu/localize>.
@@ -32,13 +38,13 @@ This constraint doesn't honour the C<not()> value.
 
 =head2 max
 
-The maximum input string length.
+The maximum file size in bytes.
 
 L</max> is an alias for L</maximum>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Length>, 
+Is a sub-class of, and inherits methods from L<HTML::FormFu::File::Size>, 
 L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>

@@ -312,6 +312,10 @@ This method expects a hashref with the following keys:
 
 =item L<HTML::FormFu::Constraint::File::MIME>
 
+=item L<HTML::FormFu::Constraint::File::MaxSize>
+
+=item L<HTML::FormFu::Constraint::File::MinSize>
+
 =item L<HTML::FormFu::Constraint::File::Size>
 
 =item L<HTML::FormFu::Constraint::Integer>
@@ -320,7 +324,11 @@ This method expects a hashref with the following keys:
 
 =item L<HTML::FormFu::Constraint::MaxLength>
 
+=item L<HTML::FormFu::Constraint::MaxRange>
+
 =item L<HTML::FormFu::Constraint::MinLength>
+
+=item L<HTML::FormFu::Constraint::MinRange>
 
 =item L<HTML::FormFu::Constraint::MinMaxFields>
 
@@ -329,6 +337,8 @@ This method expects a hashref with the following keys:
 =item L<HTML::FormFu::Constraint::Printable>
 
 =item L<HTML::FormFu::Constraint::Range>
+
+=item L<HTML::FormFu::Constraint::reCAPTCHA>
 
 =item L<HTML::FormFu::Constraint::Regex>
 

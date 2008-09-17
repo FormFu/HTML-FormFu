@@ -2218,11 +2218,17 @@ already.
 The following character substitution will be performed: C<%f> will be 
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by 
 L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by 
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
+L<< lc( $field->type )|HTML::FormFu::Element/type >>, C<%s> will be replaced
+by L<< $error->stage >>.
 
 The generated string will be passed to L</localize> to create the message.
 
-Default Value: 'form_%t_error'
+For example, a L<Required constraint|HTML::FormFu::Constraint::Required>
+will return the string C<form_constraint_required>. Under the default
+localization behaviour, the appropriate message for
+C<form_constraint_required> will be used from the default I18N package.
+
+Default Value: 'form_%s_%t'
 
 This method is a special 'inherited accessor', which means it can be set on 
 the form, a block element or a single element. When the value is read, if 

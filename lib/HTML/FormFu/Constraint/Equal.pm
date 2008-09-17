@@ -68,6 +68,12 @@ sub _arrays_eq {
     return 1;
 }
 
+sub _localize_args {
+    my ($self) = @_;
+    
+    return $self->parent->label;
+}
+
 1;
 
 __END__

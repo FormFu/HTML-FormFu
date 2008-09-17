@@ -137,6 +137,8 @@ Shorthand for C<< $filter->parent->name >>
 
 =item L<HTML::FormFu::Filter::CopyValue>
 
+=item L<HTML::FormFu::Filter::Default>
+
 =item L<HTML::FormFu::Filter::Encode>
 
 =item L<HTML::FormFu::Filter::HTMLEscape>
@@ -148,6 +150,8 @@ Shorthand for C<< $filter->parent->name >>
 =item L<HTML::FormFu::Filter::NonNumeric>
 
 =item L<HTML::FormFu::Filter::Regex>
+
+=item L<HTML::FormFu::Filter::Split>
 
 =item L<HTML::FormFu::Filter::TrimEdges>
 

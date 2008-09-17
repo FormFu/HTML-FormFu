@@ -66,6 +66,12 @@ HTML::FormFu::Transformer - Transformer Base Class
 
 =head1 CORE TRANSFORMERS
 
+=over
+
+=item L<HTML::FormFu::Transformer::Callback>
+
+=back
+
 =head1 AUTHOR
 
 Carl Franks, C<cfranks@cpan.org>
