@@ -106,6 +106,21 @@ HTML::FormFu::Inflator::DateTime - DateTime inflator
               params: [day, month, year]
             strptime: '%d-%m-%Y'
 
+An example of using the same parser declaration for both a DateTime
+constraint and a DateTime inflator, using YAML references:
+
+    ---
+    elements:
+      - type: Text
+        name: date
+        constraints:
+          - type: DateTime
+            parser: &PARSER
+              strptime: '%d-%m-%Y'
+        inflators:
+          - type: DateTime
+            parser: *PARSER
+
 =head1 DESCRIPTION
 
 Inflate dates into L<DateTime> objects.
