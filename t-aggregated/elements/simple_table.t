@@ -35,12 +35,12 @@ bar
 <tr>
 <td>
 <div class="radio">
-<input name="foo" type="radio" />
+<input name="foo" type="radio" value="1" />
 </div>
 </td>
 <td>
 <div class="radio">
-<input name="bar" type="radio" />
+<input name="bar" type="radio" value="1" />
 </div>
 </td>
 </tr>

@@ -81,7 +81,7 @@ bar
 </span>
 </fieldset>
 <div class="radio">
-<input name="radio" type="radio" />
+<input name="radio" type="radio" value="1" />
 </div>
 <table class="simpletable">
 <tr>
@@ -168,7 +168,7 @@ bar
 <input name="radiogroup2" type="radio" value="3" />
 <label>three</label>
 </span></span></span></fieldset><div class="radio">
-<input name="radio" type="radio" />
+<input name="radio" type="radio" value="1" />
 </div><table class="simpletable"><tr><th>foo</th><th>bar</th></tr><tr><td><div class="text">
 <input name="table1" type="text" />
 </div></td><td><div>

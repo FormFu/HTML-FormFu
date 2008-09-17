@@ -24,7 +24,7 @@ my $form_xhtml = <<EOF;
 <label>My text</label>
 <input name="bar" type="text" />
 <input name="baz" type="hidden" />
-<input name="dot" type="radio" />
+<input name="dot" type="radio" value="1" />
 <label>My radio</label>
 </span>
 </div>

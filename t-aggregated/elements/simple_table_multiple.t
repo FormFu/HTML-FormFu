@@ -28,7 +28,7 @@ bar
 <input name="foo" type="text" />
 </div>
 <div class="radio">
-<input name="foo" type="radio" />
+<input name="foo" type="radio" value="1" />
 </div>
 </td>
 <td>
@@ -36,7 +36,7 @@ bar
 <input name="bar" type="text" />
 </div>
 <div class="radio">
-<input name="bar" type="radio" />
+<input name="bar" type="radio" value="1" />
 </div>
 </td>
 </tr>

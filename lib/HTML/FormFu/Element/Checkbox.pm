@@ -13,6 +13,7 @@ sub new {
 
     $self->field_type   ( 'checkbox' );
     $self->reverse_multi( 1 );
+    $self->value(1);
 
     return $self;
 }
@@ -81,9 +82,13 @@ Checkbox form field.
 
 =head1 METHODS
 
+=head2 value
+
+Default Value: 1
+
 =head2 default_empty_value
 
-Inherited. See L<HTML::FormFu/default_empty_value> for details.
+Inherited. See L<HTML::FormFu::Element::_Field/default_empty_value> for details.
 
 =head2 reverse_multi
 

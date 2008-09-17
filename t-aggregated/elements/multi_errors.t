@@ -35,7 +35,7 @@ my $xhtml = <<EOF;
 <label>My multi</label>
 <span class="elements">
 <input name="foo" type="text" />
-<input name="bar" type="radio" />
+<input name="bar" type="radio" value="1" />
 </span>
 </div>
 <div class="submit">
