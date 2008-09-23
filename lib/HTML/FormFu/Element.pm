@@ -81,7 +81,9 @@ use model_config() instead as this will be removed
 WARNING
 
     if ( @_ > 1 ) {
-        $self->model_config ||= {};
+        if ( !$self->model_config ) {
+            $self->model_config( {} );
+        }
 
         my $conf = $self->model_config;
 
