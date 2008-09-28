@@ -125,6 +125,8 @@ constraint and a DateTime inflator, using YAML references:
 
 Inflate dates into L<DateTime> objects.
 
+For a corresponding deflator, see L<HTML::FormFu::Deflator::Strftime>.
+
 =head1 METHODS
 
 =head2 parser
