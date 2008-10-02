@@ -711,7 +711,10 @@ sub set_nested_hash_value {
 #
 #    my ( $root, @names ) = split_name($name);
 #
-#    return if !@names;
+#    if ( !@names ) {
+#        delete $param->{$root};
+#        return;
+#    }
 #
 #    my $ref = \$param->{$root};
 #
