@@ -36,8 +36,10 @@ sub process {
             push @errors, $self->return_error($@);
         }
     }
+    
+    $self->set_nested_hash_value( $params, $self->nested_name, $return );
 
-    return ( $return, @errors );
+    return ( @errors );
 }
 
 sub return_error {

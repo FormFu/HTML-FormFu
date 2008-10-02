@@ -581,9 +581,7 @@ sub _transform_input {
 
         my $value = $self->get_nested_hash_value( $params, $name );
 
-        my @errors;
-
-        ( $value, @errors ) = eval { $transformer->process( $value, $params ) };
+        my ( @errors ) = eval { $transformer->process( $value, $params ) };
 
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Transformer') ) {
             push @errors, $@;
@@ -598,8 +596,6 @@ sub _transform_input {
 
             $error->parent->add_error($error);
         }
-
-        $self->set_nested_hash_value( $params, $name, $value );
     }
 
     return;
