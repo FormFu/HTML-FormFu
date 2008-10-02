@@ -15,6 +15,7 @@ use HTML::FormFu::Attribute qw(
 use HTML::FormFu::ObjectUtil qw(
     :FORM_AND_ELEMENT
     load_config_file
+    load_config_filestem
     populate
     form
     stash
@@ -47,7 +48,11 @@ __PACKAGE__->mk_item_accessors( qw(
     is_repeatable
 ) );
 
-__PACKAGE__->mk_inherited_accessors( qw( tt_args render_method ) );
+__PACKAGE__->mk_inherited_accessors( qw(
+    tt_args
+    render_method
+    config_file_path
+) );
 
 __PACKAGE__->mk_inherited_merging_accessors( qw( config_callback ) );
 
@@ -301,6 +306,22 @@ Arguments: \@filestems
 Like L</load_config_file>, but you shouldn't include the file extension
 in the passed string. This allows you to change your config-file type,
 without having to change the code that loads the files.
+
+=head2 config_file_path
+
+Arguments: $directory_name
+
+L</config_file_path> defines where configuration files will be
+searched for, if an absolute path is not given to
+L</load_config_file>.
+
+Default Value: not defined
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
 
 =head2 config_callback
 
