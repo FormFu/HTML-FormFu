@@ -1,7 +1,5 @@
----
 auto_fieldset:
     legend: Demo Form
-languages: [de]
 
 elements:
   - type: Text
