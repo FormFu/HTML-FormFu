@@ -243,6 +243,10 @@ You can also test for a negative condition using the C<not> attribute:
 Now the constraint will be processed only if the value of field "bar" is NOT 1,
 3 or 5.
 
+Note: if you rely on the value of a checkbox for a when-restricted
+contraint, you might want to consider setting C<default_empty_value> for
+that checkbox. Take a look at L<HTML::FormFu::Element::_Field> to learn more.
+
 Please read L<HTML::FormFu::Constraint> for futher information.
 
 =head2 Constrain one form field based on the return value of a callback

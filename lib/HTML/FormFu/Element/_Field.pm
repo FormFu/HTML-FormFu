@@ -1236,6 +1236,9 @@ Default Value: C<false>
 Designed for use by Checkbox fields. Normally if a checkbox is not checked,
 no value is submitted for that field. If C<default_empty_value> is true,
 the Checkbox field is given an empty value during L</process>.
+Please note that, with this setting, the checkbox gets an EMPTY value (as
+opposed to no value at all without enabling it), NOT the default value
+assigned to the element (if any).
 
 Default Value: C<false>
 
