@@ -124,7 +124,7 @@ sub _process_when {
     }
 
     # nothing to constrain if field doesn't exist
-    my $when_field_value = $params->{$when_field};
+    my $when_field_value = $self->get_nested_hash_value( $params, $when_field );
     return 0 if !defined $when_field_value;
 
     # a compare value must be defined
