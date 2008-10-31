@@ -13,6 +13,10 @@ else {
     plan tests => 1;
 }
 
+# testing templates
+# never want to run using string method
+delete $ENV{HTML_FORMFU_RENDER_METHOD};
+
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new(
