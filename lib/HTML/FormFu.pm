@@ -3086,6 +3086,13 @@ Please submit bugs / feature requests to
 L<http://code.google.com/p/html-formfu/issues/list> (preferred) or 
 L<http://rt.perl.org>.
 
+=head1 PATCHES
+
+To help patches be applied quickly, please send them to the mailing list; 
+attached, rather than inline; against subversion, rather than a cpan version
+(run C<< svn diff > patchfile >>); mention which svn version it's against.
+Mailing list messages are limited to 256KB, so gzip the patch if necessary.
+
 =head1 SUBVERSION REPOSITORY
 
 The publicly viewable subversion code repository is at 
