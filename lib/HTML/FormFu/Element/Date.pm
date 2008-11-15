@@ -10,11 +10,18 @@ use DateTime::Format::Builder;
 use DateTime::Format::Natural;
 use DateTime::Locale;
 use Scalar::Util qw( blessed );
+use List::MoreUtils qw( all none uniq );
 use Carp qw( croak );
 
 __PACKAGE__->mk_attrs( qw( day  month  year ) );
 
-__PACKAGE__->mk_item_accessors( qw( strftime auto_inflate default_natural ) );
+__PACKAGE__->mk_item_accessors( qw(
+    strftime
+    auto_inflate
+    default_natural
+) );
+
+my @known_fields = qw( day month year );
 
 *default = \&value;
 
@@ -49,6 +56,8 @@ sub new {
 
     $self->strftime("%d-%m-%Y");
     
+    $self->field_order([qw/ day month year /]);
+    
     $self->day( {
             type   => '_MultiSelect',
             prefix => [],
@@ -81,9 +90,13 @@ sub value {
         if ( @{ $self->_elements } ) {
             $self->_date_defaults;
 
-            $self->_elements->[0]->default( $self->day->{default} );
-            $self->_elements->[1]->default( $self->month->{default} );
-            $self->_elements->[2]->default( $self->year->{default} );
+            my @order = @{ $self->field_order };
+
+            for my $i (0 .. $#order) {
+                my $field = $order[$i];
+
+                $self->_elements->[$i]->default( $self->$field->{default} );
+            }
         }
 
         return $self;
@@ -99,9 +112,11 @@ sub _add_elements {
 
     $self->_date_defaults;
 
-    $self->_add_day;
-    $self->_add_month;
-    $self->_add_year;
+    for my $order (@{ $self->field_order }) {
+        my $method = "_add_$order";
+
+        $self->$method;
+    }
 
     if ( $self->auto_inflate
         && !@{ $self->get_inflators( { type => "DateTime" } ) } )
@@ -133,9 +148,9 @@ sub _date_defaults {
     }
 
     if ( defined $default ) {
-        $self->day->{default}   = $default->day;
-        $self->month->{default} = $default->month;
-        $self->year->{default}  = $default->year;
+        for my $field ( @{ $self->field_order } ) {
+            $self->$field->{default} = $default->$field;
+        }
     }
 
     return;
@@ -146,7 +161,7 @@ sub _add_day {
 
     my $day = $self->day;
 
-    my $day_name = _build_day_name($self);
+    my $day_name = _build_name( $self, 'day' );
 
     my @day_prefix = ref $day->{prefix} ? @{ $day->{prefix} }
                    :                      $day->{prefix}
@@ -170,7 +185,7 @@ sub _add_month {
 
     my $month = $self->month;
 
-    my $month_name = _build_month_name($self);
+    my $month_name = _build_name( $self, 'month' );
 
     my @months = _build_month_list($self);
 
@@ -198,7 +213,7 @@ sub _add_year {
 
     my $year = $self->year;
 
-    my $year_name = _build_year_name($self);
+    my $year_name = _build_name( $self, 'year' );
 
     my $year_ref = defined $year->{reference} ? $year->{reference}
                  :                              ( localtime(time) )[5] + 1900
@@ -261,37 +276,15 @@ sub _build_month_list {
     return @months;
 }
 
-sub _build_day_name {
-    my ($self) = @_;
+sub _build_name {
+    my ( $self, $type ) = @_;
 
-    my $day_name
-        = defined $self->day->{name}
-        ? $self->day->{name}
-        : sprintf "%s_day", $self->name;
+    my $name
+        = defined $self->$type->{name}
+        ? $self->$type->{name}
+        : sprintf "%s_%s", $self->name, $type;
 
-    return $day_name;
-}
-
-sub _build_month_name {
-    my ($self) = @_;
-
-    my $month_name
-        = defined $self->month->{name}
-        ? $self->month->{name}
-        : sprintf "%s_month", $self->name;
-
-    return $month_name;
-}
-
-sub _build_year_name {
-    my ($self) = @_;
-
-    my $year_name
-        = defined $self->year->{name}
-        ? $self->year->{name}
-        : sprintf "%s_year", $self->name;
-
-    return $year_name;
+    return $name;
 }
 
 sub _add_inflator {
@@ -306,6 +299,31 @@ sub _add_inflator {
     return;
 }
 
+sub field_order {
+    my ( $self, @order ) = @_;
+    
+    if ( @_ > 1 ) {
+        if ( @order == 1 && ref($order[0]) eq 'ARRAY' ) {
+            @order = @{ $order[0] };
+        }
+        
+        for my $field ( @order ) {
+            croak "unknown field type: '$field'"
+                if none { $field eq $_ } @known_fields;
+        }
+        
+        croak 'repeated field type'
+            if scalar( uniq @order ) != scalar(@order);
+        
+        $self->{field_order} = \@order;
+        
+        return $self;
+    }
+    else {
+        return $self->{field_order};
+    }
+}
+
 sub process {
     my ( $self, @args ) = @_;
 
@@ -317,32 +335,29 @@ sub process {
 sub process_input {
     my ( $self, $input ) = @_;
 
-    my $day_name   = _build_day_name($self);
-    my $month_name = _build_month_name($self);
-    my $year_name  = _build_year_name($self);
+    my %value;
 
-    $day_name   = $self->get_element( { name => $day_name }   )->nested_name;
-    $month_name = $self->get_element( { name => $month_name } )->nested_name;
-    $year_name  = $self->get_element( { name => $year_name }  )->nested_name;
+    my @order = @{ $self->field_order };
 
-    my $day   = $self->get_nested_hash_value( $input, $day_name );
-    my $month = $self->get_nested_hash_value( $input, $month_name );
-    my $year  = $self->get_nested_hash_value( $input, $year_name );
+    for my $i (0 .. $#order) {
+        my $field = $order[$i];
 
-    if (   defined $day
-        && length $day
-        && defined $month
-        && length $month
-        && defined $year
-        && length $year )
+        my $name = $self->_elements->[$i]->nested_name;
+
+        $value{ $field } = $self->get_nested_hash_value(
+            $input,
+            $name
+        );
+    }
+
+    if ( ( all { defined } values %value )
+        && all { length } values %value )
     {
         my $dt;
 
         eval {
             $dt = DateTime->new(
-                day   => $day,
-                month => $month,
-                year  => $year,
+                map { $_, $value{$_} } keys %value
             );
         };
 
@@ -572,6 +587,16 @@ Default Value: 0
 Arguments: $count
 
 Default Value: 10
+
+=head2 field_order
+
+Arguments: \@fields
+
+Default Value: ['day', 'month', 'year']
+
+Specify the order of the date fields in the rendered HTML.
+
+Not all 3 fields are required. No single field can be used more than once.
 
 =head2 auto_inflate
 
