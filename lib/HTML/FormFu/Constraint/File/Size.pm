@@ -3,12 +3,17 @@ package HTML::FormFu::Constraint::File::Size;
 use strict;
 use base 'HTML::FormFu::Constraint';
 
+use Carp qw( croak );
 use Scalar::Util qw( blessed );
 
 __PACKAGE__->mk_item_accessors( qw( minimum maximum ) );
 
 *min = \&minimum;
 *max = \&maximum;
+*min_kilobyte = \&minimum_kilobyte;
+*max_kilobyte = \&maximum_kilobyte;
+*min_megabyte = \&minimum_megabyte;
+*max_megabyte = \&maximum_megabyte;
 
 sub constrain_value {
     my ( $self, $value ) = @_;
@@ -37,6 +42,42 @@ sub _localize_args {
     my ($self) = @_;
 
     return $self->min, $self->max;
+}
+
+sub minimum_kilobyte {
+    my ( $self, $kb ) = @_;
+    
+    croak "minimum_kilobyte() cannot be used as a getter"
+        if @_ != 2;
+    
+    return $self->minimum( $kb * 1024 );
+}
+
+sub minimum_megabyte {
+    my ( $self, $kb ) = @_;
+    
+    croak "minimum_megabyte() cannot be used as a getter"
+        if @_ != 2;
+    
+    return $self->minimum( $kb * 1_048_576 );
+}
+
+sub maximum_kilobyte {
+    my ( $self, $kb ) = @_;
+    
+    croak "maximum_kilobyte() cannot be used as a getter"
+        if @_ != 2;
+    
+    return $self->maximum( $kb * 1024 );
+}
+
+sub maximum_megabyte {
+    my ( $self, $kb ) = @_;
+    
+    croak "maximum_megabyte() cannot be used as a getter"
+        if @_ != 2;
+    
+    return $self->maximum( $kb * 1_048_576 );
 }
 
 1;
@@ -72,6 +113,38 @@ Optional.
 The maximum file size in bytes.
 
 L</max> is an alias for L</maximum>.
+
+=head2 minimum_kilobyte
+
+=head2 min_kilobyte
+
+Shortcut for C<< $constraint->minimum( $value * 1024 ) >>.
+
+L</min_kilobyte> is an alias for L</minimum_kilobyte>.
+
+=head2 maximum_kilobyte
+
+=head2 max_kilobyte
+
+Shortcut for C<< $constraint->maximum( $value * 1024 ) >>.
+
+L</max_kilobyte> is an alias for L</maximum_kilobyte>.
+
+=head2 minimum_megabyte
+
+=head2 min_megabyte
+
+Shortcut for C<< $constraint->minimum( $value * 1_048_576 ) >>.
+
+L</min_megabyte> is an alias for L</minimum_megabyte>.
+
+=head2 maximum_megabyte
+
+=head2 max_megabyte
+
+Shortcut for C<< $constraint->maximum( $value * 1_048_576 ) >>.
+
+L</max_megabyte> is an alias for L</maximum_megabyte>.
 
 =head1 SEE ALSO
 
