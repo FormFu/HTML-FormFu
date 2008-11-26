@@ -15,13 +15,15 @@ use Carp qw( croak );
 
 __PACKAGE__->mk_attrs( qw( day  month  year ) );
 
+__PACKAGE__->mk_accessors( qw( 
+    _known_fields
+) );
+
 __PACKAGE__->mk_item_accessors( qw(
     strftime
     auto_inflate
     default_natural
 ) );
-
-my @known_fields = qw( day month year );
 
 *default = \&value;
 
@@ -55,6 +57,8 @@ sub new {
     my $self = shift->next::method(@_);
 
     $self->strftime("%d-%m-%Y");
+    
+    $self->_known_fields([qw/ day month year /]);
     
     $self->field_order([qw/ day month year /]);
     
@@ -309,7 +313,7 @@ sub field_order {
         
         for my $field ( @order ) {
             croak "unknown field type: '$field'"
-                if none { $field eq $_ } @known_fields;
+                if none { $field eq $_ } @{ $self->_known_fields };
         }
         
         croak 'repeated field type'
