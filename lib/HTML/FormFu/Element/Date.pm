@@ -165,7 +165,7 @@ sub _add_day {
 
     my $day = $self->day;
 
-    my $day_name = _build_name( $self, 'day' );
+    my $day_name = $self->_build_name( 'day' );
 
     my @day_prefix = ref $day->{prefix} ? @{ $day->{prefix} }
                    :                      $day->{prefix}
@@ -189,7 +189,7 @@ sub _add_month {
 
     my $month = $self->month;
 
-    my $month_name = _build_name( $self, 'month' );
+    my $month_name = $self->_build_name( 'month' );
 
     my @months = _build_month_list($self);
 
@@ -217,7 +217,7 @@ sub _add_year {
 
     my $year = $self->year;
 
-    my $year_name = _build_name( $self, 'year' );
+    my $year_name = $self->_build_name( 'year' );
 
     my $year_ref = defined $year->{reference} ? $year->{reference}
                  :                              ( localtime(time) )[5] + 1900
