@@ -3,7 +3,6 @@
 
 # not ready yet
 ^lib\/HTML\/FormFu\/Manual\.pod$
-^lib\/HTML\/FormFu\/MultiForm\.pm$
 ^t\/multiform
 
 \.disabled$
