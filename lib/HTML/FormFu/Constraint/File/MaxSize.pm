@@ -9,12 +9,6 @@ sub _localize_args {
     return $self->max;
 }
 
-sub _localize_args {
-    my ($self) = @_;
-
-    return $self->max;
-}
-
 1;
 
 __END__

@@ -9,12 +9,6 @@ sub _localize_args {
     return $self->min;
 }
 
-sub _localize_args {
-    my ($self) = @_;
-
-    return $self->min;
-}
-
 1;
 
 __END__
