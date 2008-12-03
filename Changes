@@ -2,6 +2,9 @@
 
     - New DateTime element.
     
+    - New MinRange, MaxRange, File::MinSize, File::MaxSize constraints to
+      provide more specific error messages.
+    
     - New File::Size constraint methods: min_kilobyte(), max_kilobyte(),
       min_megabyte(), max_megabyte().
     
@@ -14,6 +17,12 @@
     
     - New MultiForm system for multi-page forms (not yet documented, file
       upload tests skipped due to test problems on MS Win32).
+    
+    - Length, Range and File::Size constraints now pass min() and max()
+      values as I18N args, for use in strings.
+    
+    - DependOn and Equal constraints now pass the root field label as I18N
+      arg, for use in strings.
     
     - Checkbox + Radio elements now default to value(1).
     
