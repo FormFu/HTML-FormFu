@@ -3,7 +3,7 @@
 
 # not ready yet
 ^lib\/HTML\/FormFu\/Manual\.pod$
-^t\/multiform
+^t\/multiform-misc\/file
 
 \.disabled$
 ^recaptcha\.txt$

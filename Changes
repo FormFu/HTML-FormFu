@@ -1,6 +1,25 @@
-0.03006
+0.03006 2008-12-03
 
-    - New field_order for Date elements.
+    - New DateTime element.
+    
+    - New File::Size constraint methods: min_kilobyte(), max_kilobyte(),
+      min_megabyte(), max_megabyte().
+    
+    - New config_file_path() method, used by load_config_file() and
+      load_config_filestem().
+    
+    - New field_order() method for Date elements.
+    
+    - New I18N translations for Romanian, Russian, Ukranian.
+    
+    - New MultiForm system for multi-page forms (not yet documented, file
+      upload tests skipped due to test problems on MS Win32).
+    
+    - Checkbox + Radio elements now default to value(1).
+    
+    - Constraint when() method now works with nested_names().
+    
+    - Using test aggregate to speed-up tests.
 
 0.03005 2008-09-08
 
@@ -130,8 +149,6 @@
     - New CompoundSplit and CompoundDateTime deflators.
     
     - New Plugin system (see tests, not yet documented) and StashValid plugin.
-    
-    - New MultiForm system for multi-page forms (see tests, not yet documented).
     
     - New form methods: stash_valid(), params_ignore_underscore() and
       tmp_upload_dir().
