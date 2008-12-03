@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 use HTML::FormFu;
 
@@ -49,4 +49,22 @@ $form->element('Text')->name('boz');
     ok( $form->valid('bar') );
     ok( $form->valid('baz') );
     ok( $form->valid('boz') );
+}
+
+{
+    # Test setting default for max when others is a single element
+    my $form = HTML::FormFu->new;
+    
+    $form->element('Text')->name('foo')->constraint('MinMaxFields')
+        ->others('bar');
+    $form->element('Text')->name('bar');
+    
+    {
+        $form->process( {
+                foo => 1,
+                bar => '',
+        } );
+    
+        ok( !$form->has_errors );
+    }
 }

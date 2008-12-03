@@ -28,18 +28,18 @@ sub process {
     my $others = $self->others;
     return if !defined $others;
 
+    # get field names to check
+    my @names = ( $self->nested_name );
+    push @names, ref $others ? @{$others} : $others;
+
     # get min/max values
     my $min = defined $self->minimum ? $self->minimum
             :                          1
             ;
 
     my $max = defined $self->maximum ? $self->maximum
-            :                          1 + scalar @$others;
+            :                          scalar @names;
     
-    # get field names to check
-    my @names = ( $self->nested_name );
-    push @names, ref $others ? @{$others} : $others;
-
     for my $name (@names) {
         my $value = $self->get_nested_hash_value( $params, $name );
 
