@@ -1,16 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 7;
 use HTML::FormFu;
-
-eval "use CGI";
-if ($@) {
-    plan skip_all => 'CGI required';
-    exit;
-}
-
-plan tests => 7;
+use CGI;
 
 # Copied from CGI.pm - http://search.cpan.org/perldoc?CGI
 
@@ -55,7 +48,7 @@ my $q;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/constraints/file_minsize.yml');
+$form->load_config_file('t-aggregated/constraints/file_minsize.yml');
 
 $form->process($q);
 
