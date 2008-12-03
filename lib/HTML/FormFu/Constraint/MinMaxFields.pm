@@ -125,7 +125,7 @@ Default Value: 1
 
 =head2 attach_errors_to_others
 
-Default Value: 1
+Default Value: 0
 
 =head1 SEE ALSO
 
