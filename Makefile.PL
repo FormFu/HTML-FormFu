@@ -40,10 +40,9 @@ requires 'Template'; # form->start and ->end still require TT
 requires 'YAML::Syck' => '1.05';
 
 test_requires 'CGI'; # for file POST tests
-test_requires 'Test::Aggregate' => 0.35;
 test_requires 'Test::NoWarnings';
 
-tests_recursive;
+tests_recursive( 't', 't-aggregated' );
 
 no_index directory => 'examples';
 

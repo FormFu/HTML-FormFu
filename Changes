@@ -1,3 +1,7 @@
+0.03007 2008-12-08
+
+    - Remove Test::Aggregate - seeing test failures under perl 5.8.x
+
 0.03006 2008-12-03
 
     - New DateTime element.
