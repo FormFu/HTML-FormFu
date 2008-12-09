@@ -338,6 +338,30 @@ Example usage:
         # then redisplay the form as normal
     }
 
+=head2 Highlight required fields (or fields with certain types of constraint)
+
+This can be achieved using the form's C<auto_constraint_class> method:
+
+    $form->auto_constraint_class( 'constraint_%t' );
+
+The container divs around any form field with a constraint will then have extra
+CSS classes added, which indicate the type of constraint and allow you to apply
+appropriate styling with CSS:
+
+    /* change background of labels for fields with a Required constraint */
+    fieldset .constraint_required label {
+        background: #f00;
+    }
+
+This technique can also be used to add content before or after the fields in
+question (note this will not work in older browsers with more limited CSS
+support such as IE6):
+
+    /* add an asterisk at the end of the label for required fields */
+    fieldset .constraint_required label:after {
+        content: '*'
+    }
+
 =head2 Add a popup hint to a field
 
 Some visual browsers (including IE6/7, Firefox, Opera 9) display a tooltip when
