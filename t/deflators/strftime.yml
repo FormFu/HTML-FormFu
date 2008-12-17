@@ -1,0 +1,12 @@
+---
+elements:
+  - type: Text
+    name: date
+    deflator:
+      - type: Strftime
+        strftime: "%X %x"
+    inflators:
+      - type: DateTime
+        parser: 
+          strptime: "%X %x"
+	  	

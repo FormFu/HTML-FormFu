@@ -77,6 +77,7 @@ __PACKAGE__->mk_accessors( qw(
     javascript
     javascript_src
     languages
+    locale
     submitted
     _valid_names
     _models
@@ -2349,6 +2350,12 @@ Default Value: 'HTML::FormFu::I18N'
 Arguments: [$key, @arguments]
 
 Compatible with the C<maketext> method in L<Locale::Maketext>.
+
+=head2 locale
+
+Arguments: $locale
+
+Locale to be used by modules such as inflators and deflators. For an example see L<HTML::FormFu::Deflator::FormatNumber>.
 
 =head1 PROCESSING A FORM
 

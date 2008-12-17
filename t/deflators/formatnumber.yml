@@ -1,0 +1,9 @@
+---
+elements:
+  - name: foo
+    deflators:
+      - type: FormatNumber
+        precision: 8
+        trailing_zeroes: 1
+    inflators:
+      - type: FormatNumber
