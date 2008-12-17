@@ -16,6 +16,8 @@ $f->get_all_element({type => "Text"})->default($now);
   
 my $loc = $now->strftime('%X %x');
 
+$f->process;
+
 like($f->render, qr/\Q$loc\E/, "localized datetime found");
 
 my $locale = setlocale(LC_TIME);

@@ -20,7 +20,8 @@ $f->load_config_file('t/deflators/formatnumber.yml');
 
 
 $f->get_all_element({type => "Text"})->default('10002300.123');
-  
+
+$f->process;
 unlike($f->render, qr/10002300.123/, "exact number not there");
 
 use Number::Format;
