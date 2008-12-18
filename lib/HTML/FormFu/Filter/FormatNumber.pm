@@ -1,15 +1,15 @@
-package HTML::FormFu::Inflator::FormatNumber;
+package HTML::FormFu::Filter::FormatNumber;
 
 use warnings;
 use strict;
-use base 'HTML::FormFu::Inflator';
+use base 'HTML::FormFu::Filter';
 use Number::Format;
 use POSIX qw(locale_h);
 use Carp;
 
 __PACKAGE__->mk_item_accessors(qw(locale));
 
-sub inflator {
+sub filter {
   my ($self, $value) = @_;
   $self->locale($self->form->locale) unless($self->locale);
   my $old = setlocale(LC_NUMERIC);
@@ -32,11 +32,11 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-This inflator simply does the opposite of L<HTML::FormFu::Deflator::FormatNumber>. It removes all thousands separators and decimal points and returns the raw number which can be handled by perl. See L<Number::Format/unformat_number> for more details.
+This filter simply does the opposite of L<HTML::FormFu::Deflator::FormatNumber>. It removes all thousands separators and decimal points and returns the raw number which can be handled by perl. See L<Number::Format/unformat_number> for more details.
 
   - type: Text
     name: number
-    inflators:
+    filters:
       - type: FormatNumber
         locale: de_DE
 
@@ -44,6 +44,7 @@ This inflator simply does the opposite of L<HTML::FormFu::Deflator::FormatNumber
   # Same for "13233444,22"
 
 You need to specify the same locale as you did in the deflator.
+If there is no C<locale> defined it looks if C<< $form->locale >> (see L<HTML::FormFu/locale>) is defined and uses that. Otherwise it uses the system's locale.
 
 =head1 AUTHOR
 

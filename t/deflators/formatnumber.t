@@ -29,6 +29,7 @@ use Number::Format;
 my $foo = Number::Format->new->format_number(23000222.22);
 $f->process({foo => $foo}); 
 
+ok($f->submitted_and_valid, "number constraint");
 
 is($f->param('foo'), 23000222.22, "is number");
 

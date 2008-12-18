@@ -5,5 +5,7 @@ elements:
       - type: FormatNumber
         precision: 8
         trailing_zeroes: 1
-    inflators:
+    filters:
       - type: FormatNumber
+    constraints:
+      - Number

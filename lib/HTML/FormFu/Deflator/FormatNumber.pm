@@ -66,7 +66,7 @@ Moritz Onken, C<< <onken at houseofdesign.de> >>
 
 =head1 SEE ALSO
 
-L<HTML::FormFu::Inflator::FormatNumber>
+L<HTML::FormFu::Filter::FormatNumber>
 
 =head1 COPYRIGHT & LICENSE
 
