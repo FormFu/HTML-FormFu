@@ -8,8 +8,8 @@ __PACKAGE__->mk_item_accessors(qw(locale));
 
 sub new {
   my $self = shift->next::method(@_);
-  $self->deflator( { type => "FormatNumber", locale => $self->locale } );
-  $self->filter( { type => "FormatNumber", locale => $self->locale } );
+  $self->deflator( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
+  $self->filter( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
   return $self;
 }
 
