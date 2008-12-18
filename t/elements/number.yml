@@ -1,0 +1,6 @@
+---
+elements:
+  - type: Number
+    name: foo
+    constraints:
+      - Number
