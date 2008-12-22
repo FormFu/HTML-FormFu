@@ -70,6 +70,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
 *inflators    = \&inflator;
 *validators   = \&validator;
 *transformers = \&transformer;
+*plugins      = \&plugin;
 *default      = \&value;
 *default_xml  = \&value_xml;
 *default_loc  = \&value_loc;
