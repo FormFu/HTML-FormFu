@@ -1,4 +1,4 @@
-package HTML::FormFu::I18N::en;
+package HTML::FormFu::I18N::no;
 use strict;
 use utf8;
 
