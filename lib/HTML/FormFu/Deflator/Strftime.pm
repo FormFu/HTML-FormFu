@@ -10,7 +10,11 @@ sub deflator {
 
     my $return;
 
-    eval { $value->set_locale( $self->form->locale ) if ($self->form->locale) };
+    eval {
+        my $locale = $self->form->locale;
+        
+        $value->set_locale($locale) if defined $locale;
+    };
 
     eval { $return = $value->strftime( $self->strftime ) };
 

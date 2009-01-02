@@ -56,8 +56,8 @@ sub inflator {
             $args{time_zone} = $self->time_zone;
         }
 
-	if( defined $self->locale && !defined $args{locale} ) {
-            $args{locale} = $self->form->locale;
+	if( !exists $args{locale} && defined (my $locale = $self->form->locale) ) {
+            $args{locale} = $locale;
 	}
 
         my $formatter = DateTime::Format::Strptime->new(%args);
