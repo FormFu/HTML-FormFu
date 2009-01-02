@@ -6,3 +6,5 @@ elements:
     elements:
       - name: foo
         type: Date
+        year:
+          reference: 2008
