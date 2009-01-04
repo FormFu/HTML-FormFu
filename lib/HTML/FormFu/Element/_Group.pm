@@ -290,6 +290,12 @@ sub prepare_attrs {
         ? $self->get_nested_hash_value( $self->form->input, $self->nested_name )
         : undef;
 
+    if ( !$submitted && defined $default ) {
+        for my $deflator ( @{ $self->_deflators } ) {
+            $default = $deflator->process($default);
+        }
+    }
+
     for my $option ( @{ $render->{options} } ) {
         if ( exists $option->{group} ) {
             for my $item ( @{ $option->{group} } ) {
