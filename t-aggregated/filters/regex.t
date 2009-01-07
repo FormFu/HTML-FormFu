@@ -7,6 +7,15 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
+# add config-callback to replicate Catalyst-Controller-HTML-FormFu
+$form->config_callback({
+    plain_value => sub {
+        return if !defined $_;
+        s{__uri_for()\((.+?)\)__}
+         {$1}g;
+    },
+});
+
 $form->load_config_file('t-aggregated/filters/regex.yml');
 
 {
@@ -19,10 +28,11 @@ $form->load_config_file('t-aggregated/filters/regex.yml');
     is( $form->param_value('foo'), '4.5' );
 }
 
-# check cloning form works
-$form = $form->clone;
-
 {
+    # clone form
+
+    my $form = $form->clone;
+
     $form->process({
         foo => " abc\t",
     });
