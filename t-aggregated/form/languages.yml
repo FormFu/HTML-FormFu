@@ -1,0 +1,10 @@
+languages:
+  - de
+
+elements:
+  - name: foo
+  - name: bar
+
+constraints:
+  - Required
+
