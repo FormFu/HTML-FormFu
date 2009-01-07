@@ -1,0 +1,6 @@
+---
+elements:
+  - name: foo
+    filters:
+      - type: Regex
+        match: !!perl/regexp (?-xism:\A\s+|\s+\z)
