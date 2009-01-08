@@ -124,7 +124,7 @@ HTML::FormFu::Element::DateTime - Date / Time combo field
 =head1 DESCRIPTION
 
 Sub-class of L<Date element|HTML::FormFu::Element::Date>, providing extra
-C<year> and C<month> Select menus.
+C<hour> and C<minute> Select menus.
 
 =head1 METHODS
 
