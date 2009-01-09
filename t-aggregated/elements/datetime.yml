@@ -1,0 +1,22 @@
+---
+elements:
+    - type: DateTime
+      name: foo
+      strftime: '%m/%d/%Y %H:%M'
+      day:
+        prefix: '-- Day --'
+      month:
+        prefix: '-- Month --'
+        short_names: 1
+      year:
+        prefix: '-- Year --'
+        list: [2007, 2008, 2009, 2010, 2011]
+      auto_inflate: 1
+      constraints:
+        - Required
+    
+    - type: DateTime
+      name: bar
+      default: '14-08-2007 01:30'
+      year:
+        list: [2007, 2008, 2009, 2010, 2011]

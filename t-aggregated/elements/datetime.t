@@ -16,19 +16,9 @@ my $dt = DateTime->new(
 
 my $form = HTML::FormFu->new;
 
-$form->element('DateTime')->name('foo')->strftime("%m/%d/%Y %H:%M")
-    ->day( { prefix => '-- Day --', } )->month( {
-        prefix      => '-- Month --',
-        short_names => 1,
-    }
-    )->year( {
-        prefix => '-- Year --',
-        list => [2007 .. 2017],
-        } )->default($dt)->auto_inflate(1)
-    ->constraint('Required');
+$form->load_config_file('t-aggregated/elements/datetime.yml');
 
-$form->element('DateTime')->name('bar')->default('14-08-2007 01:30')
-    ->year({ list => [ 2007 .. 2017] });
+$form->get_field('foo')->default($dt);
 
 $form->process;
 
@@ -92,12 +82,6 @@ is( "$form", <<HTML );
 <option value="2009">2009</option>
 <option value="2010">2010</option>
 <option value="2011">2011</option>
-<option value="2012">2012</option>
-<option value="2013">2013</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
 </select>
 <select name="foo_hour">
 <option value="00">00</option>
@@ -244,12 +228,6 @@ is( "$form", <<HTML );
 <option value="2009">2009</option>
 <option value="2010">2010</option>
 <option value="2011">2011</option>
-<option value="2012">2012</option>
-<option value="2013">2013</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
 </select>
 <select name="bar_hour">
 <option value="00">00</option>
@@ -453,12 +431,6 @@ is( "$form", <<HTML_ERRORS );
 <option value="2009">2009</option>
 <option value="2010">2010</option>
 <option value="2011">2011</option>
-<option value="2012">2012</option>
-<option value="2013">2013</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
 </select>
 <select name="foo_hour">
 <option value="00" selected="selected">00</option>
@@ -605,12 +577,6 @@ is( "$form", <<HTML_ERRORS );
 <option value="2009">2009</option>
 <option value="2010">2010</option>
 <option value="2011">2011</option>
-<option value="2012">2012</option>
-<option value="2013">2013</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
 </select>
 <select name="bar_hour">
 <option value="00">00</option>
