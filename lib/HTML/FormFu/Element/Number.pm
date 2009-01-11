@@ -4,10 +4,11 @@ use strict;
 use base 'HTML::FormFu::Element::Text';
 use Class::C3;
 
-__PACKAGE__->mk_item_accessors(qw(locale));
+__PACKAGE__->mk_attr_accessors(qw(locale));
 
 sub new {
   my $self = shift->next::method(@_);
+  $self->field_type('number');
   $self->deflator( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
   $self->filter( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
   return $self;
