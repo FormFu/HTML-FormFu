@@ -4,12 +4,12 @@ use strict;
 use base 'HTML::FormFu::Element::Text';
 use Class::C3;
 
-__PACKAGE__->mk_attr_accessors(qw(locale));
+__PACKAGE__->mk_attr_accessors(qw(locale precision trailing_zeroes));
 
 sub new {
   my $self = shift->next::method(@_);
   $self->field_type('number');
-  $self->deflator( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
+  $self->deflator( { type => "FormatNumber", precision => $self->precision, trailing_zeroes => $self->trailing_zeroes, locale => $self->locale || $self->form->locale } );
   $self->filter( { type => "FormatNumber", locale => $self->locale || $self->form->locale } );
   return $self;
 }
@@ -28,6 +28,8 @@ HTML::FormFu::Element::Number - Number element with formatting
   elements:
     - type: Number
       locale: de_DE
+      precision: 2
+      trailing_zeroes: 1
 
 
 =head1 DESCRIPTION
@@ -39,6 +41,14 @@ This element formats numbers according to the current locale. You can set this l
 =head2 locale
 
 Set the locale for this element. The format of the number is chosen according to this locale.
+
+=head2 precision
+
+Set the precision for the number. Defaults to C<2>.
+
+=head2 trailing_zeroes
+
+If this is set to C<1> the number has trailing zeroes. Defaults to C<0>. 
 
 =head1 SEE ALSO
 
