@@ -15,6 +15,7 @@ sub new {
     $self->filename      ( 'label' );
     $self->field_filename( 'label_tag' );
     $self->field_type('label');
+    $self->retain_default(1);
     $self->tag('span');
     $self->model_config->{read_only} = 1;
     return $self;
