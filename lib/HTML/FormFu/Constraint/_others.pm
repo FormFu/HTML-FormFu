@@ -61,9 +61,9 @@ sub mk_errors {
 
         $error->parent($field);
 
-        if (    ( $pass && $force && any { $name eq $_ } @names )
-                || none { $name eq $_ } @failed
-            )
+        if ( ( $pass && $force && any { $name eq $_ } @names )
+            || none { $name eq $_ } @failed
+        )
         {
             $error->forced(1);
         }
