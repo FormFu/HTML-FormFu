@@ -1,5 +1,0 @@
----
-auto_fieldset: 1
-load_config_file:
-  - t-aggregated/load_config_file_multiple1.yml
-  - t-aggregated/load_config_file_multiple2.yml

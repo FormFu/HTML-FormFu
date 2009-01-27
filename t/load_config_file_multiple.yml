@@ -1,0 +1,5 @@
+---
+auto_fieldset: 1
+load_config_file:
+  - t/load_config_file_multiple1.yml
+  - t/load_config_file_multiple2.yml

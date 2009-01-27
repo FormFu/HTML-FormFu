@@ -44,7 +44,7 @@ requires 'POSIX';
 test_requires 'CGI'; # for file POST tests
 test_requires 'Test::NoWarnings';
 
-tests_recursive( 't', 't-aggregated' );
+tests_recursive( 't' );
 
 no_index directory => 'examples';
 

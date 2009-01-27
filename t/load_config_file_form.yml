@@ -1,0 +1,11 @@
+---
+action: /foo/bar
+id: form
+elements:
+  - type: Fieldset
+    load_config_file: t/load_config_file_fieldset.yml
+constraints:
+  - type: Required
+    names: [age, name]
+    message: Missing value.
+filters: HTMLEscape
