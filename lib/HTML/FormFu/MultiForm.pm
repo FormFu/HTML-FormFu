@@ -73,7 +73,7 @@ our @INHERITED_ACCESSORS = qw(
     auto_validator_class            auto_transformer_class
     render_method                   render_processed_value
     force_errors                    repeatable_count
-    config_file_path
+    config_file_path                locale
 );
 
 __PACKAGE__->mk_inherited_accessors( @INHERITED_ACCESSORS );

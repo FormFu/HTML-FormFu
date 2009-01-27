@@ -31,6 +31,7 @@ requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext::Simple';
 requires 'Module::Pluggable';
+requires 'Number::Format';
 requires 'Readonly';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
@@ -38,8 +39,6 @@ requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
 requires 'YAML::Syck' => '1.05';
-requires 'Number::Format';
-requires 'POSIX';
 
 test_requires 'CGI'; # for file POST tests
 test_requires 'Test::NoWarnings';

@@ -1,0 +1,7 @@
+---
+locale: de_DE
+
+elements:
+  - name: foo
+    filters:
+      - type: FormatNumber

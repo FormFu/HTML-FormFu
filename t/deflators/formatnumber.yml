@@ -5,7 +5,3 @@ elements:
       - type: FormatNumber
         precision: 8
         trailing_zeroes: 1
-    filters:
-      - type: FormatNumber
-    constraints:
-      - Number

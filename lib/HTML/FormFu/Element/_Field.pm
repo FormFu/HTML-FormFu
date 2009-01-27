@@ -62,6 +62,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
     auto_validator_class        auto_transformer_class
     render_processed_value      force_errors
     repeatable_count            default_empty_value
+    locale
 ) );
 
 *constraints  = \&constraint;

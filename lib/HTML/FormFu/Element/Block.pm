@@ -19,6 +19,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
     auto_constraint_class auto_inflator_class auto_validator_class
     auto_transformer_class render_processed_value force_errors
     repeatable_count
+    locale
 ) );
 
 *elements     = \&element;

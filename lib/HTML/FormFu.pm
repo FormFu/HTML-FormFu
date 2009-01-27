@@ -77,7 +77,6 @@ __PACKAGE__->mk_accessors( qw(
     javascript
     javascript_src
     languages
-    locale
     submitted
     _valid_names
     _models
@@ -92,7 +91,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
     auto_validator_class        auto_transformer_class
     render_method               render_processed_value
     force_errors                repeatable_count
-    config_file_path
+    config_file_path            locale
 ) );
 
 __PACKAGE__->mk_inherited_merging_accessors( qw( tt_args config_callback ) );
@@ -2355,7 +2354,14 @@ Compatible with the C<maketext> method in L<Locale::Maketext>.
 
 Arguments: $locale
 
-Locale to be used by modules such as inflators and deflators. For an example see L<HTML::FormFu::Deflator::FormatNumber>.
+Currently only used by L<HTML::FormFu::Deflator::FormatNumber> and
+L<HTML::FormFu::Filter::FormatNumber>.
+
+This method is a special 'inherited accessor', which means it can be set on 
+the form, a block element or a single element. When the value is read, if 
+no value is defined it automatically traverses the element's hierarchy of 
+parents, through any block elements and up to the form, searching for a 
+defined value.
 
 =head1 PROCESSING A FORM
 

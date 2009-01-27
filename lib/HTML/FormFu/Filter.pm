@@ -3,7 +3,8 @@ package HTML::FormFu::Filter;
 use strict;
 use Class::C3;
 
-use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
+use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors
+    mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
     populate form name parent nested_name nested_names get_nested_hash_value
     set_nested_hash_value nested_hash_key_exists );
