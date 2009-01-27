@@ -1,0 +1,13 @@
+---
+elements:
+    - type: Repeatable
+      name: container
+      counter_name: count
+      increment_field_names: 1
+      elements:
+        - type: ComboBox
+          name: combo
+          values:
+            - one
+            - two
+            - three
