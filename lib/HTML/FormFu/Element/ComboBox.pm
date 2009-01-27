@@ -343,7 +343,7 @@ Override the auto-generated name of the select menu.
 
 Arguments: \%setting
 
-Set values effecting the C<month> select menu. Known keys are:
+Set values effecting the Text field. Known keys are:
 
 =head3 name
 
