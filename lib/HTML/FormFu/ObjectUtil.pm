@@ -129,7 +129,7 @@ sub element_defaults {
 
     warn <<'WARNING';
 element_defaults() method deprecated and is provided for compatability only: 
-use defaults()->{elements} instead as this will be removed
+use default_args()->{elements} instead as this will be removed
 WARNING
 
     $self->{default_args} ||= {};
