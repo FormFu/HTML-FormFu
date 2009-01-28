@@ -1,9 +1,11 @@
 ---
 id: form
 auto_id: %n
-element_defaults:
-  radiogroup:
-    auto_id: %n_%c
+default_args:
+  elements:
+    radiogroup:
+      auto_id: %n_%c
+
 auto_fieldset:
   legend: A fieldset
 
@@ -72,6 +74,7 @@ elements:
       - group: [[3, three], [4, four]]
         label: opt2
   - type: Multi
+    name: multi1
     label: a Multi element containing 3 Radio elements
     elements:
       - type: Radio
@@ -84,6 +87,7 @@ elements:
         name: r3
         label: Three
   - type: Multi
+    name: multi2
     container_attrs:
       class: vertical
     label: a Multi element with a vertical style

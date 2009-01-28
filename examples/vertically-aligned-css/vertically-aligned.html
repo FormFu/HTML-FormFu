@@ -19,48 +19,48 @@
 <fieldset>
 <legend>A fieldset</legend>
 <input name="h1" type="hidden" id="h1" />
-<span class="text label">
+<div class="text label">
 <label for="t1">a Text element</label>
 <input name="t1" type="text" id="t1" />
-</span>
-<span class="text comment label">
+</div>
+<div class="text comment label">
 <label for="t2">another, with a comment</label>
 <input name="t2" type="text" id="t2" />
 <span class="comment">
 comment here!
 </span>
-</span>
-<span class="text comment">
+</div>
+<div class="text comment">
 <input name="t3" type="text" id="t3" />
 <span class="comment">
 another with no label
 </span>
-</span>
-<span class="password label">
+</div>
+<div class="password label">
 <label for="p1">a Password element</label>
 <input name="p1" type="password" id="p1" />
-</span>
-<span class="file label">
+</div>
+<div class="file label">
 <label for="f1">a File element</label>
 <input name="f1" type="file" id="f1" />
-</span>
-<span class="textarea label">
+</div>
+<div class="textarea label">
 <label for="ta1">a Textarea element</label>
 <textarea name="ta1" cols="40" id="ta1" rows="3"></textarea>
-</span>
-<span class="fullwidth textarea label">
+</div>
+<div class="fullwidth textarea label">
 <label for="ta2">another, styled fullwidth</label>
 <textarea name="ta2" cols="40" id="ta2" rows="20"></textarea>
-</span>
-<span class="select label">
+</div>
+<div class="select label">
 <label for="s1">a Select element</label>
 <select name="s1" id="s1">
 <option value="one">One</option>
 <option value="two">Two</option>
 <option value="three">Three</option>
 </select>
-</span>
-<span class="select label">
+</div>
+<div class="select label">
 <label for="opt1">a Select with optgroups</label>
 <select name="opt1" id="opt1">
 <optgroup label="opt1">
@@ -73,7 +73,7 @@ another with no label
 <option value="5">five</option>
 </optgroup>
 </select>
-</span>
+</div>
 </fieldset>
 <fieldset>
 <fieldset class="radiogroup legend">
@@ -127,57 +127,57 @@ another with no label
 </span>
 </span>
 </fieldset>
-<span class="multi label">
-<label>a Multi element containing 3 Radio elements</label>
-<span class="elements">
-<input name="r1" type="radio" id="r1" />
-<label for="r1">One</label>
-<input name="r2" type="radio" id="r2" />
-<label for="r2">Two</label>
-<input name="r3" type="radio" id="r3" />
-<label for="r3">Three</label>
+<div class="multi label">
+<label for="multi1">a Multi element containing 3 Radio elements</label>
+<span class="elements" id="multi1">
+<input name="multi1.r1" type="radio" value="1" id="multi1.r1" />
+<label for="multi1.r1">One</label>
+<input name="multi1.r2" type="radio" value="1" id="multi1.r2" />
+<label for="multi1.r2">Two</label>
+<input name="multi1.r3" type="radio" value="1" id="multi1.r3" />
+<label for="multi1.r3">Three</label>
 </span>
-</span>
-<span class="vertical multi label">
-<label>a Multi element with a vertical style</label>
-<span class="elements">
-<select name="s2" id="s2">
+</div>
+<div class="vertical multi label">
+<label for="multi2">a Multi element with a vertical style</label>
+<span class="elements" id="multi2">
+<select name="multi2.s2" id="multi2.s2">
 <option value="one">One</option>
 <option value="two">Two</option>
 </select>
-<select name="s3" id="s3">
+<select name="multi2.s3" id="multi2.s3">
 <option value="one">One</option>
 <option value="two">Two</option>
 </select>
-<select name="s4" id="s4">
+<select name="multi2.s4" id="multi2.s4">
 <option value="one">One</option>
 <option value="two">Two</option>
 </select>
 </span>
-</span>
+</div>
 </fieldset>
 <fieldset>
-<span class="radio label">
+<div class="radio label">
 <label for="r1">a Radio element</label>
-<input name="r1" type="radio" id="r1" />
-</span>
-<span class="checkbox label">
+<input name="r1" type="radio" value="1" id="r1" />
+</div>
+<div class="checkbox label">
 <label for="cb1">a Checkbox element</label>
-<input name="cb1" type="checkbox" id="cb1" />
-</span>
+<input name="cb1" type="checkbox" value="1" id="cb1" />
+</div>
 </fieldset>
 <fieldset>
-<span class="image label">
+<div class="image label">
 <label for="i1">an Image element</label>
 <input name="i1" type="image" id="i1" src="test.jpg" />
-</span>
-<span class="contentbutton label">
+</div>
+<div class="contentbutton label">
 <label for="cnb1">a ContentButton</label>
 <button name="cnb1" type="button" id="cnb1">&lt;i&gt;some&lt;/i&gt; &lt;b&gt;markup&lt;/b&gt;</button>
-</span>
-<span class="submit">
+</div>
+<div class="submit">
 <input name="submit" type="submit" id="submit" />
-</span>
+</div>
 </fieldset>
 </form>
 
