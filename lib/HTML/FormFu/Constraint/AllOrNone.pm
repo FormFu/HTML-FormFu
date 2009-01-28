@@ -41,9 +41,11 @@ sub process {
         }
     }
 
+    my $pass = @failed && scalar @failed != scalar @names ? 0 : 1;
+
     return $self->mk_errors( {
-            pass => @failed && scalar @failed != scalar @names ? 0 : 1,
-            failed => \@failed,
+            pass   => $pass,
+            failed => $pass ? [] : \@failed,
             names  => \@names,
         } );
 }

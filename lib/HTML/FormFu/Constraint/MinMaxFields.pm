@@ -59,9 +59,11 @@ sub process {
         }
     }
 
+    my $pass = ( $count < $min || $count > $max ) ? 0 : 1;
+
     return $self->mk_errors( {
-            pass => ( $count < $min || $count > $max ) ? 0 : 1,
-            failed => \@names,
+            pass   => $pass,
+            failed => $pass ? [] : \@names,
             names  => \@names,
         } );
 }

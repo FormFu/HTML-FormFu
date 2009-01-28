@@ -3,21 +3,35 @@ package HTML::FormFu::Constraint::DependOn;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
+use HTML::FormFu::Util qw(
+    DEBUG_CONSTRAINTS
+    debug
+);
+
 sub process {
     my ( $self, $params ) = @_;
 
     # check when condition
-    return if !$self->_process_when($params);
+    if ( !$self->_process_when($params) ) {
+        DEBUG_CONSTRAINTS && debug('fail when() check - skipping constraint');
+        return;
+    }
 
     my $others = $self->others;
-    return if !defined $others;
+    if ( !defined $others ) {
+        DEBUG_CONSTRAINTS && debug('no others() - skipping constraint');
+        return;
+    }
 
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
 
     my $value = $self->get_nested_hash_value( $params, $self->nested_name );
 
-    return if !$self->constrain_value($value);
+    if ( !$self->constrain_value($value) ) {
+        DEBUG_CONSTRAINTS && debug('no value - skipping constraint');
+        return;
+    }
 
     for my $name (@names) {
         my $value = $self->get_nested_hash_value( $params, $name );

@@ -5,6 +5,10 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Constraint;
+use HTML::FormFu::Util qw(
+    DEBUG_CONSTRAINTS
+    debug
+);
 use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 use Carp qw( croak );
@@ -19,11 +23,14 @@ sub process {
     my @errors;
 
     # check when condition
-    return if !$self->_process_when($params);
+    if ( !$self->_process_when($params) ) {
+        DEBUG_CONSTRAINTS && debug('fail when() check - skipping constraint');
+        return;
+    }
 
     if ( ref $value eq 'ARRAY' ) {
         push @errors, eval { $self->constrain_values( $value, $params ) };
-        
+
         if ($@) {
             push @errors,
                 $self->mk_errors( {
@@ -34,6 +41,10 @@ sub process {
     }
     else {
         my $ok = eval { $self->constrain_value( $value, $params ) };
+
+        DEBUG_CONSTRAINTS && debug('CONSTRAINT RETURN VALUE' => $ok);
+        DEBUG_CONSTRAINTS && debug('$@' => $@);
+
         push @errors,
             $self->mk_errors( {
                 pass => ( $@ || !$ok ) ? 0 : 1,
@@ -51,6 +62,9 @@ sub constrain_values {
 
     for my $value (@$values) {
         my $ok = eval { $self->constrain_value( $value, $params ) };
+
+        DEBUG_CONSTRAINTS && debug('CONSTRAINT RETURN VALUE' => $ok);
+        DEBUG_CONSTRAINTS && debug('$@' => $@);
 
         push @errors,
             $self->mk_errors( {

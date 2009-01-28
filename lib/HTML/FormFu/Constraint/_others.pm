@@ -4,6 +4,10 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 
+use HTML::FormFu::Util qw(
+    DEBUG_CONSTRAINTS
+    debug
+);
 use List::MoreUtils qw( any none );
 use Storable qw( dclone );
 
@@ -24,6 +28,9 @@ sub mk_errors {
     my @failed = $args->{failed} ? @{ $args->{failed} } : ();
     my @names  = $args->{names}  ? @{ $args->{names} }  : ();
 
+    DEBUG_CONSTRAINTS && debug(PASS => $pass);
+    DEBUG_CONSTRAINTS && debug('FAILED NAMES' => \@failed);
+
     my $force = $self->force_errors || $self->parent->force_errors;
     my @attach;
 
@@ -32,24 +39,27 @@ sub mk_errors {
             push @attach, @{ $self->attach_errors_to };
         }
     }
-    elsif ( $self->attach_errors_to_base || $self->attach_errors_to_others ) {
-        if ( $self->attach_errors_to_base && ( !$pass || $force ) ) {
+    elsif ( $self->attach_errors_to_base ) {
+        if ( !$pass || $force ) {
             push @attach, $self->nested_name;
         }
-
-        if ( $self->attach_errors_to_others && ( !$pass || $force ) ) {
+    }
+    elsif ( $self->attach_errors_to_others ) {
+        if ( !$pass || $force ) {
             push @attach,
                   ref $self->others ? @{ $self->others }
                 :                     $self->others
                 ;
         }
     }
-    elsif ($force) {
-        push @attach, @names;
-    }
     elsif ( @failed && !$pass ) {
         push @attach, @failed;
     }
+    elsif ($force) {
+        push @attach, @names;
+    }
+
+    DEBUG_CONSTRAINTS && debug('ATTACH ERRORS TO' => \@attach);
 
     my @errors;
 
@@ -61,10 +71,9 @@ sub mk_errors {
 
         $error->parent($field);
 
-        if ( ( $pass && $force && any { $name eq $_ } @names )
-            || none { $name eq $_ } @failed
-        )
-        {
+        if ( !@failed ) {
+            DEBUG_CONSTRAINTS && debug('setting $error->forced(1)');
+            
             $error->forced(1);
         }
 

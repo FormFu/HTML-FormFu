@@ -25,6 +25,11 @@ use HTML::FormFu::ObjectUtil qw(
     nested_hash_key_exists
 );
 use HTML::FormFu::Util qw(
+    DEBUG_ALL
+    DEBUG_PROCESS
+    DEBUG_CONSTRAINTS
+    $DEBUG_INDENT
+    debug
     require_class               _get_elements
     xml_escape                  split_name
     _parse_args                 process_attrs
@@ -261,6 +266,8 @@ sub process {
 
     # save it for further calls to process()
     if ($query) {
+        DEBUG_ALL && debug(QUERY => $query);
+
         $self->query($query);
     }
 
@@ -283,6 +290,8 @@ sub process {
 
         $submitted = $self->_submitted($query);
     }
+
+    DEBUG_PROCESS && debug(SUBMITTED => $submitted);
 
     $self->submitted($submitted);
 
@@ -315,6 +324,8 @@ sub process {
             }
         }
 
+        DEBUG_ALL && debug(INPUT => \%input);
+
         # run all field-plugins process_input methods
         for my $field ( @{ $self->get_fields } ) {
             $field->process_input( \%input );
@@ -344,6 +355,8 @@ sub _submitted {
     my $code;
 
     if ( defined($indicator) && ref $indicator ne 'CODE' ) {
+        DEBUG_PROCESS && debug(INDICATOR => $indicator);
+
         $code = sub { return defined $query->param($indicator) };
     }
     elsif ( !defined $indicator ) {
@@ -352,6 +365,8 @@ sub _submitted {
             grep {defined}
             map  { $_->nested_name }
                 @{ $self->get_fields };
+
+        DEBUG_PROCESS && debug('no indicator, checking fields...' => \@names);
 
         $code = sub {
             grep { defined $query->param($_) } @names;
@@ -415,6 +430,8 @@ sub _build_params {
 
     $self->_processed_params( \%params );
 
+    DEBUG_PROCESS && debug('PROCESSED PARAMS' => \%params);
+
     return;
 }
 
@@ -474,7 +491,16 @@ sub _constrain_input {
 
     for my $constraint ( @{ $self->get_constraints } ) {
 
+        DEBUG_CONSTRAINTS && debug(
+            'FIELD NAME'      => $constraint->field->nested_name,
+            'CONSTRAINT TYPE' => $constraint->type,
+        );
+        DEBUG_CONSTRAINTS && $DEBUG_INDENT++;
+
         my @errors = eval { $constraint->process($params) };
+
+        DEBUG_CONSTRAINTS && debug(ERRORS => \@errors);
+        DEBUG_CONSTRAINTS && debug('$@' => $@);
 
         if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Constraint') ) {
             push @errors, $@;
@@ -493,6 +519,8 @@ sub _constrain_input {
 
             $error->parent->add_error($error);
         }
+        
+        DEBUG_CONSTRAINTS && $DEBUG_INDENT--;
     }
 
     return;

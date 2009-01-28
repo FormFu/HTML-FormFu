@@ -2,6 +2,8 @@ package HTML::FormFu::Element::Repeatable;
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
+
+use HTML::FormFu::Util qw( DEBUG_PROCESS debug );
 use Class::C3;
 use List::Util qw( first );
 use Carp qw( croak );
@@ -147,6 +149,8 @@ sub process {
     }
 
     if ( !$self->_original_elements ) {
+        DEBUG_PROCESS && debug("calling \$repeatable->count($count)");
+
         $self->repeat($count);
     }
 

@@ -1,0 +1,10 @@
+---
+elements:
+    - name: foo
+    
+    - name: bar
+      constraints:
+        - type: AllOrNone
+          others: foo
+          attach_errors_to_others:
+            - foo
