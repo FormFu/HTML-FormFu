@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 15;
+use Test::More tests => 21;
 
 use HTML::FormFu;
 
@@ -61,6 +61,32 @@ $form->element('Text')->name('baz');
 
     ok( $form->valid('foo'),  'foo valid' );
     ok( $form->valid('bar'),  'bar valid' );
+    ok( !$form->valid('baz'), 'baz not valid' );
+}
+
+# Invalid
+{
+    $form->process( {
+            foo => 'yada',
+            bar => 'yada',
+            baz => '',
+        } );
+
+    ok( $form->valid('foo'),  'foo valid' );
+    ok( $form->valid('bar'),  'bar valid' );
+    ok( !$form->valid('baz'), 'baz not valid' );
+}
+
+# Invalid
+{
+    $form->process( {
+            foo => '',
+            bar => 'yada',
+            baz => 'yada',
+        } );
+
+    ok( $form->valid('foo'),  'foo valid' );
+    ok( !$form->valid('bar'), 'bar not valid' );
     ok( !$form->valid('baz'), 'baz not valid' );
 }
 

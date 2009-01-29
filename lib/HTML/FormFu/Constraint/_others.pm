@@ -87,6 +87,8 @@ sub mk_errors {
         
         next unless $force || grep { $name eq $_ } @has_error;
         
+        DEBUG_CONSTRAINTS && debug('CREATING ERROR' => $name);
+        
         my $field = $self->form->get_field( { nested_name => $name } )
             or die "others() field not found: '$name'";
 

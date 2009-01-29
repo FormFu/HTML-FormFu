@@ -3,6 +3,10 @@ package HTML::FormFu::Constraint::Equal;
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
 
+use List::MoreUtils qw( all );
+
+our $EMPTY_STR = q{};
+
 sub process {
     my ( $self, $params ) = @_;
 
@@ -16,6 +20,7 @@ sub process {
 
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
+    my %values;
 
     for my $name (@names) {
 
@@ -23,9 +28,17 @@ sub process {
 
         my $ok = _values_eq( $value, $other_value );
 
-        if ( $self->not ? $ok : !$ok ) {
+        if ( $self->not() ? $ok : !$ok ) {
             push @failed, $name;
         }
+        
+        $values{$name} = $other_value;
+    }
+
+    # special case for $self->not()
+    # no errors if all values are empty
+    if ( $self->not() && all { $_ eq $EMPTY_STR } values %values ) {
+        return;
     }
 
     return $self->mk_errors( {
