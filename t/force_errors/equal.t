@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 23;
+use Test::More tests => 31;
 
 use HTML::FormFu;
 
@@ -12,6 +12,7 @@ $form->element('Text')->name('foo')->constraint('Equal')
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 
+# valid
 {
     $form->process( {
             foo => 'yada',
@@ -19,14 +20,18 @@ $form->element('Text')->name('baz');
             baz => 'yada',
         } );
 
+    ok( $form->submitted_and_valid );
+
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
+# valid
 {
     $form->process( {
             foo => '',
@@ -34,14 +39,18 @@ $form->element('Text')->name('baz');
             baz => '',
         } );
 
+    ok( $form->submitted_and_valid );
+
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
+# valid
 {
     $form->process( {
             foo => [ 'a', 'b' ],
@@ -49,20 +58,26 @@ $form->element('Text')->name('baz');
             baz => [ 'b', 'a' ],
         } );
 
+    ok( $form->submitted_and_valid );
+
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
 
+    ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
+# invalid
 {
     $form->process( {
             foo => 'yada',
             bar => 'yada',
             baz => 'x',
         } );
+
+    ok( !$form->submitted_and_valid );
 
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );
@@ -71,12 +86,15 @@ $form->element('Text')->name('baz');
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
 }
 
+# invalid
 {
     $form->process( {
             foo => [ 'a', 'b' ],
             bar => [ 'a', 'b' ],
             baz => ['a'],
         } );
+
+    ok( !$form->submitted_and_valid );
 
     ok( !$form->has_errors('foo') );
     ok( !$form->has_errors('bar') );

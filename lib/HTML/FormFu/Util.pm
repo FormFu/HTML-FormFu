@@ -12,14 +12,12 @@ use Carp qw/ croak /;
 Readonly my $EMPTY_STR => q{};
 Readonly my $SPACE     => q{ };
 
-our $DEBUG_INDENT = 0;
-our $LAST_SUB     = $EMPTY_STR;
+our $LAST_SUB = $EMPTY_STR;
 
 our @EXPORT_OK = qw(
-    DEBUG_ALL
+    DEBUG
     DEBUG_PROCESS
     DEBUG_CONSTRAINTS
-    $DEBUG_INDENT
     debug
     append_xml_attribute
     has_xml_attribute
@@ -38,18 +36,18 @@ our @EXPORT_OK = qw(
 # the empty prototype () means that when false, all debugging calls 
 # will be optimised out during compilation
 
-sub DEBUG_ALL {
-    $ENV{HTML_FORMFU_DEBUG_ALL} || 0;
+sub DEBUG {
+    $ENV{HTML_FORMFU_DEBUG} || 0;
 }
 
 sub DEBUG_PROCESS () {
-       DEBUG_ALL
+       DEBUG
     || $ENV{HTML_FORMFU_DEBUG_PROCESS}
     || 0;
 }
 
 sub DEBUG_CONSTRAINTS {
-       DEBUG_ALL
+       DEBUG
     || DEBUG_PROCESS
     || $ENV{HTML_FORMFU_DEBUG_CONSTRAINTS}
     || 0;
@@ -58,14 +56,14 @@ sub DEBUG_CONSTRAINTS {
 sub debug {
     my ($message) = @_;
     
-    my $indent = $SPACE x ( 2 * $DEBUG_INDENT );
-    
     my (undef, undef, undef, $sub) = caller(1);
     
     require 'Data/Dumper.pm';
     
+    warn "\n" if $sub ne $LAST_SUB;
+    
     if ( @_ > 1 ) {
-        warn "$indent$sub()\n" if $sub ne $LAST_SUB;
+        warn "$sub()\n" if $sub ne $LAST_SUB;
         
         while ( @_ ) {
             my $key   = shift;
@@ -79,21 +77,21 @@ sub debug {
                 $value = "'$value'\n";
             }
             
-            warn "$indent$key: $value";
+            warn "$key: $value";
         }
     }
     elsif ( ref $message ) {
-        warn "$indent$sub()\n" if $sub ne $LAST_SUB;
+        warn "$sub()\n" if $sub ne $LAST_SUB;
         
         $message = Data::Dumper::Dumper($message);
         $message =~ s/^\$VAR1 = /        /;
         
-        warn "$indent$message\n";
+        warn "$message\n";
     }
     else {
-        warn "$indent$sub\n" if $sub ne $LAST_SUB;
+        warn "$sub\n" if $sub ne $LAST_SUB;
 
-        warn "$indent$message\n";
+        warn "$message\n";
     }
     
     $LAST_SUB = $sub;

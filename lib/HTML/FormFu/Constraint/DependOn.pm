@@ -55,7 +55,7 @@ sub process {
     return $self->mk_errors( {
             pass => @failed ? 0 : 1,
             failed => \@failed,
-            names  => \@names,
+            names  => [ $self->nested_name, @names ],
         } );
 }
 

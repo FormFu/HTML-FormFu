@@ -25,10 +25,9 @@ use HTML::FormFu::ObjectUtil qw(
     nested_hash_key_exists
 );
 use HTML::FormFu::Util qw(
-    DEBUG_ALL
+    DEBUG
     DEBUG_PROCESS
     DEBUG_CONSTRAINTS
-    $DEBUG_INDENT
     debug
     require_class               _get_elements
     xml_escape                  split_name
@@ -266,7 +265,7 @@ sub process {
 
     # save it for further calls to process()
     if ($query) {
-        DEBUG_ALL && debug(QUERY => $query);
+        DEBUG && debug(QUERY => $query);
 
         $self->query($query);
     }
@@ -324,7 +323,7 @@ sub process {
             }
         }
 
-        DEBUG_ALL && debug(INPUT => \%input);
+        DEBUG && debug(INPUT => \%input);
 
         # run all field-plugins process_input methods
         for my $field ( @{ $self->get_fields } ) {
@@ -495,7 +494,6 @@ sub _constrain_input {
             'FIELD NAME'      => $constraint->field->nested_name,
             'CONSTRAINT TYPE' => $constraint->type,
         );
-        DEBUG_CONSTRAINTS && $DEBUG_INDENT++;
 
         my @errors = eval { $constraint->process($params) };
 
@@ -519,8 +517,6 @@ sub _constrain_input {
 
             $error->parent->add_error($error);
         }
-        
-        DEBUG_CONSTRAINTS && $DEBUG_INDENT--;
     }
 
     return;

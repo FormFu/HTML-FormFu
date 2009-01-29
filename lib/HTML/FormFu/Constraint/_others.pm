@@ -28,42 +28,65 @@ sub mk_errors {
     my @failed = $args->{failed} ? @{ $args->{failed} } : ();
     my @names  = $args->{names}  ? @{ $args->{names} }  : ();
 
-    DEBUG_CONSTRAINTS && debug(PASS => $pass);
-    DEBUG_CONSTRAINTS && debug('FAILED NAMES' => \@failed);
+    my $force  = $self->force_errors || $self->parent->force_errors;
 
-    my $force = $self->force_errors || $self->parent->force_errors;
-    my @attach;
+    DEBUG_CONSTRAINTS && debug(PASS => $pass);
+    DEBUG_CONSTRAINTS && debug(NAMES => \@names);
+    DEBUG_CONSTRAINTS && debug('FAILED NAMES' => \@failed);
+    DEBUG_CONSTRAINTS && debug(FORCE => $force);
+    
+    if ( $pass && !$force ) {
+        DEBUG_CONSTRAINTS && debug('constraint passed, or force_errors is false - returning no errors');
+        return;
+    }
+    
+    my @can_error;
+    my @has_error;
 
     if ( $self->attach_errors_to ) {
-        if ( !$pass || $force ) {
-            push @attach, @{ $self->attach_errors_to };
+        push @can_error, @{ $self->attach_errors_to };
+        
+        if ( !$pass ) {
+            push @has_error, @{ $self->attach_errors_to };
         }
     }
     elsif ( $self->attach_errors_to_base ) {
-        if ( !$pass || $force ) {
-            push @attach, $self->nested_name;
+        push @can_error, $self->nested_name;
+        
+        if ( !$pass ) {
+            push @has_error, $self->nested_name;
         }
     }
     elsif ( $self->attach_errors_to_others ) {
-        if ( !$pass || $force ) {
-            push @attach,
+        push @can_error,
+              ref $self->others ? @{ $self->others }
+            :                     $self->others
+            ;
+        
+        if ( !$pass ) {
+            push @has_error,
                   ref $self->others ? @{ $self->others }
                 :                     $self->others
                 ;
         }
     }
-    elsif ( @failed && !$pass ) {
-        push @attach, @failed;
-    }
-    elsif ($force) {
-        push @attach, @names;
+    else {
+        push @can_error, @names;
+        
+        if ( !$pass ) {
+            push @has_error, @failed;
+        }
     }
 
-    DEBUG_CONSTRAINTS && debug('ATTACH ERRORS TO' => \@attach);
+    DEBUG_CONSTRAINTS && debug('CAN ERROR' => \@can_error);
+    DEBUG_CONSTRAINTS && debug('HAS ERROR' => \@has_error);
 
     my @errors;
 
-    for my $name (@attach) {
+    for my $name (@can_error) {
+        
+        next unless $force || grep { $name eq $_ } @has_error;
+        
         my $field = $self->form->get_field( { nested_name => $name } )
             or die "others() field not found: '$name'";
 
@@ -71,15 +94,15 @@ sub mk_errors {
 
         $error->parent($field);
 
-        if ( !@failed ) {
-            DEBUG_CONSTRAINTS && debug('setting $error->forced(1)');
+        if ( !grep { $name eq $_ } @has_error ) {
+            DEBUG_CONSTRAINTS && debug("setting '$name' error forced(1)");
             
             $error->forced(1);
         }
 
         push @errors, $error;
     }
-
+    
     return @errors;
 }
 
