@@ -25,7 +25,7 @@ $form->element('Text')->name('baz');
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('bar'), 'baz valid' );
 }
-#local $ENV{HTML_FORMFU_DEBUG} = 1;
+
 # Valid
 {
     $form->process( {
@@ -38,7 +38,7 @@ $form->element('Text')->name('baz');
     ok( $form->valid('bar'), 'bar valid' );
     ok( $form->valid('baz'), 'baz valid' );
 }
-#local $ENV{HTML_FORMFU_DEBUG} = 0;
+
 # Invalid
 {
     $form->process( {
