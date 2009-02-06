@@ -52,7 +52,7 @@ sub localize {
             next;
         }
 
-        last;
+        last if @localized_strings;
     }
 
     if ( !@localized_strings ) {
