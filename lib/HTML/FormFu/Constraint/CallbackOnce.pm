@@ -15,6 +15,8 @@ sub process {
 
     my $callback = $self->callback || sub {1};
 
+    no strict 'refs';
+
     my $ok = eval { $callback->( $value, $params ) };
 
     return $self->mk_errors( {
