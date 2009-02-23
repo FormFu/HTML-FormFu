@@ -28,6 +28,10 @@ my @ALLOWED_OPTION_KEYS = qw(
     attrs
     attributes_xml
     attrs_xml
+    container_attributes
+    container_attrs
+    container_attributes_xml
+    container_attrs_xml
     label_attributes
     label_attrs
     label_attributes_xml
@@ -110,10 +114,11 @@ sub _get_empty_first_option {
     my $label = $self->empty_first_label || '';
 
     return {
-        value            => '',
-        label            => $label,
-        attributes       => {},
-        label_attributes => {},
+        value                => '',
+        label                => $label,
+        attributes           => {},
+        container_attributes => {},
+        label_attributes     => {},
     };
 }
 
@@ -131,10 +136,11 @@ sub _parse_option {
     if ( !$@ ) {
         # was passed an arrayref
         return {
-            value            => $item->[0],
-            label            => $item->[1],
-            attributes       => {},
-            label_attributes => {},
+            value                => $item->[0],
+            label                => $item->[1],
+            attributes           => {},
+            container_attributes => {},
+            label_attributes     => {},
         };
     }
 
@@ -187,6 +193,24 @@ sub _parse_option_hashref {
     elsif ( exists $item->{attrs_xml} ) {
         for my $key ( keys %{ $item->{attrs_xml} } ) {
             $item->{attributes}{$key} = literal( $item->{attrs_xml}{$key} );
+        }
+    }
+
+    if ( !exists $item->{container_attributes} ) {
+        $item->{container_attributes} = exists $item->{container_attrs} ? $item->{container_attrs}
+                                      :                                   {}
+                                      ;
+    }
+
+    if ( exists $item->{container_attributes_xml} ) {
+        for my $key ( keys %{ $item->{container_attributes_xml} } ) {
+            $item->{container_attributes}{$key}
+                = literal( $item->{container_attributes_xml}{$key} );
+        }
+    }
+    elsif ( exists $item->{container_attrs_xml} ) {
+        for my $key ( keys %{ $item->{container_attrs_xml} } ) {
+            $item->{container_attributes}{$key} = literal( $item->{container_attrs_xml}{$key} );
         }
     }
 
@@ -244,10 +268,11 @@ sub values {
     }
 
     my @new = map { {
-        value            => $_,
-        label            => ucfirst $_,
-        attributes       => {},
-        label_attributes => {},
+        value                => $_,
+        label                => ucfirst $_,
+        attributes           => {},
+        container_attributes => {},
+        label_attributes     => {},
         } } @values;
     
     if ( $self->empty_first ) {
@@ -451,6 +476,12 @@ When using the hash-ref construct, the C<label_xml> and C<label_loc>
 variants of C<label> are supported, as are the C<value_xml> and C<value_loc> 
 variants of C<value>, the C<attributes_xml> variant of C<attributes> and the 
 C<label_attributes_xml> variant of C<label_attributes>.
+
+C<container_attributes> or C<container_attributes_xml> is used by 
+L<HTML::FormFu::Element::Checkboxgroup> and 
+L<HTML::FormFu::Element::Radiogroup> for the c<span> surrounding each
+item's input and label. It is ignored by L<HTML::FormFu::Element::Select>
+elements. 
 
 =head2 values
 

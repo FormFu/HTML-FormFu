@@ -140,7 +140,8 @@ sub _string_field {
 
             for my $item ( @{ $option->{group} } ) {
                 $html .= sprintf
-                    qq{<span>\n<input name="%s" type="%s" value="%s"%s />},
+                    qq{<span%s>\n<input name="%s" type="%s" value="%s"%s />},
+                    process_attrs( $item->{container_attributes} ),
                     $render->{nested_name},
                     $render->{input_type},
                     $item->{value},
@@ -158,7 +159,8 @@ sub _string_field {
         }
         else {
             $html .= sprintf
-                qq{<span>\n<input name="%s" type="%s" value="%s"%s />},
+                qq{<span%s>\n<input name="%s" type="%s" value="%s"%s />},
+                process_attrs( $option->{container_attributes} ),
                 $render->{nested_name},
                 $render->{input_type},
                 $option->{value},

@@ -13,8 +13,9 @@ my $field = $form->element('Radiogroup')->name('foo')->value(2)
 # add more elements to test accessor output
 $form->element('Radiogroup')->name('foo2')->options( [
         { label => 'Ein',  value => 1 },
-        { label => 'Zwei', value => 2, attributes => { class => 'foobar' } },
+        { label => 'Zwei', value => 2, attributes => { class => 'foobar' }, container_attributes => { class => 'item 2' } },
     ] );
+
 $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('My Bar');
 
@@ -42,7 +43,7 @@ $field_xhtml
 <input name="foo2" type="radio" value="1" />
 <label>Ein</label>
 </span>
-<span>
+<span class="item 2">
 <input name="foo2" type="radio" value="2" class="foobar" />
 <label>Zwei</label>
 </span>

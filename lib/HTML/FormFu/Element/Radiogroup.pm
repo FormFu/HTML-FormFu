@@ -78,6 +78,7 @@ no duplicated ID's.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::Checkboxgroup>, 
 L<HTML::FormFu::Element::_Group>, 
 L<HTML::FormFu::Element::_Field>, 
 L<HTML::FormFu::Element>

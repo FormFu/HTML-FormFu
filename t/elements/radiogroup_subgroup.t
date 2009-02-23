@@ -15,9 +15,11 @@ $form->element('Radiogroup')->name('foo')->default(2)->options( [
         [ x => 'non-opt' ],
         {   group => [
                 { label => 'wun', value => 'foo3_1' },
-                {   label      => 'too',
-                    value      => 'foo3_2',
-                    attributes => { class => 'foo3b' } }
+                {   label                => 'too',
+                    value                => 'foo3_2',
+                    attributes           => { class => 'foo3b' },
+                    container_attributes => { class => 'item foo3_2' },
+                },
             ],
             label      => 'foo3',
             attributes => { class => 'opt4' },
@@ -57,7 +59,7 @@ my $expected_form_xhtml = <<EOF;
 <input name="foo" type="radio" value="foo3_1" />
 <label>wun</label>
 </span>
-<span>
+<span class="item foo3_2">
 <input name="foo" type="radio" value="foo3_2" class="foo3b" />
 <label>too</label>
 </span>
