@@ -11,6 +11,9 @@ elements:
       - name: foo
         constraints:
           - type: Equal
-            others: bar
+            others:
+                - bar
+                - 'rep.baz'
       
       - name: bar
+      - name: baz

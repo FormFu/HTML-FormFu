@@ -50,7 +50,7 @@ __PACKAGE__->mk_item_accessors( qw(
     retain_default              force_default
     javascript                  non_param
     reverse_multi               multi_value
-    original_name
+    original_name               original_nested_name
 ) );
 
 __PACKAGE__->mk_output_accessors( qw( comment label value ) );

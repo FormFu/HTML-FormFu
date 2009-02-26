@@ -66,6 +66,8 @@ sub repeat {
 
                 if ( defined( my $name = $field->name ) ) {
                     $field->original_name($name);
+                    
+                    $field->original_nested_name( $field->nested_name );
 
                     $field->name( "${name}_$rep" );
                 }
@@ -88,7 +90,8 @@ sub repeat {
         my $block_fields = $block->get_fields;
 
         my @others_constraints
-            = grep { $_->can('others') }
+            = grep { defined $_->others }
+              grep { $_->can('others') }
               map { @{ $_->_constraints } }
                 @$block_fields
                 ;
@@ -102,7 +105,8 @@ sub repeat {
 
             for my $name (@$others) {
                 my $field
-                    = first { $_->original_name eq $name } @$block_fields;
+                    = ( first { $_->original_nested_name eq $name } @$block_fields )
+                    ||  first { $_->original_name eq $name } @$block_fields;
 
                 if ( defined $field ) {
                     push @new_others, $field->nested_name;

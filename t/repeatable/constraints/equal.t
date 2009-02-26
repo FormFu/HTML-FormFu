@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 12;
+use Test::More tests => 16;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -18,8 +18,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     $form->process( {
             'rep.foo_1' => 'a',
             'rep.bar_1' => 'a',
+            'rep.baz_1' => 'a',
             'rep.foo_2' => 'c',
             'rep.bar_2' => 'c',
+            'rep.baz_2' => 'c',
             count       => 2,
         } );
 
@@ -30,8 +32,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
         {   rep => {
                 foo_1 => 'a',
                 bar_1 => 'a',
+                baz_1 => 'a',
                 foo_2 => 'c',
                 bar_2 => 'c',
+                baz_2 => 'c',
             },
             count => 2,
         } );
@@ -42,8 +46,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     $form->process( {
             'rep.foo_1' => 'a',
             'rep.bar_1' => 'a',
+            'rep.baz_1' => 'a',
             'rep.foo_2' => 'c',
             'rep.bar_2' => 'd',
+            'rep.baz_2' => 'c',
             count       => 2,
         } );
 
@@ -51,8 +57,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     ok( !$form->has_errors('rep.foo_1') );
     ok( !$form->has_errors('rep.bar_1') );
+    ok( !$form->has_errors('rep.baz_1') );
     ok( !$form->has_errors('rep.foo_2') );
     ok( $form->has_errors('rep.bar_2') );
+    ok( !$form->has_errors('rep.baz_2') );
 }
 
 # Missing - Invalid
@@ -60,6 +68,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     $form->process( {
             'rep.foo_1' => 'a',
             'rep.bar_1' => 'a',
+            'rep.baz_1' => 'a',
             'rep.foo_2' => 'c',
             count       => 2,
         } );
@@ -68,7 +77,9 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     ok( !$form->has_errors('rep.foo_1') );
     ok( !$form->has_errors('rep.bar_1') );
+    ok( !$form->has_errors('rep.baz_1') );
     ok( !$form->has_errors('rep.foo_2') );
     ok( $form->has_errors('rep.bar_2') );
+    ok( $form->has_errors('rep.baz_2') );
 }
 
