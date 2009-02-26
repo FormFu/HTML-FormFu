@@ -38,6 +38,8 @@ sub new {
     return $self;
 }
 
+sub pre_process { }
+
 sub process { }
 
 sub post_process { }

@@ -270,15 +270,21 @@ sub process {
         $self->query($query);
     }
 
-    # run all plugins process() methods
+    # run all plugins pre_process() methods
     my $plugins = $self->get_plugins;
 
     for my $plugin (@$plugins) {
-        $plugin->process;
+        $plugin->pre_process;
     }
 
+    # run all elements process() methods
     for my $elem ( @{ $self->get_elements } ) {
         $elem->process;
+    }
+    
+    # run all plugins process() methods
+    for my $plugin (@$plugins) {
+        $plugin->process;
     }
 
     my $submitted;
@@ -325,7 +331,7 @@ sub process {
 
         DEBUG && debug(INPUT => \%input);
 
-        # run all field-plugins process_input methods
+        # run all field process_input methods
         for my $field ( @{ $self->get_fields } ) {
             $field->process_input( \%input );
         }
