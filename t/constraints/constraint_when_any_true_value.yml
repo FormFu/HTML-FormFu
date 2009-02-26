@@ -1,0 +1,9 @@
+---
+elements:
+    - name: foo
+    
+    - name: bar
+      constraints:
+        - type: Required
+          when:
+            field: foo

@@ -141,29 +141,29 @@ sub _process_when {
     my $when_field_value = $self->get_nested_hash_value( $params, $when_field );
     return 0 if !defined $when_field_value;
 
-    # a compare value must be defined
     my @values;
-    my $compare_value = $when->{value};
     
-    if ( defined $compare_value ) {
-        push @values, $compare_value;
+    if ( defined ( my $value = $when->{value} ) ) {
+        push @values, $value;
+    }
+    elsif ( defined ( my $values = $when->{values} ) ) {
+        push @values, @$values;
     }
     
-    my $compare_values = $when->{values};
+    # determine if condition is fulfilled
+    my $ok;
     
-    if ( ref $compare_values eq 'ARRAY' ) {
-        push @values, @$compare_values;
+    if ( @values ) {
+        $ok = any { $when_field_value eq $_ } @values;
     }
-    
-    croak "Parameter 'value' or 'values' are not defined" if !@values;
-
-    # determine if condition is fullfilled
-    my $fullfilled = any { $when_field_value eq $_ } @values;
+    else {
+        $ok = $when_field_value ? 1 : 0;
+    }
 
     # invert when condition if asked for
-    $fullfilled = $when->{not} ? !$fullfilled : $fullfilled;
+    $ok = $when->{not} ? !$ok : $ok;
 
-    return $fullfilled;
+    return $ok;
 }
 
 1;
@@ -288,15 +288,42 @@ Shorthand for C<< $constraint->parent->name >>
 Defines a condition for the constraint. Only when the condition is fullfilled
 the constraint will be applied.
 
-This method expects a hashref with the following keys:
-  field: name of form field that shall be compared
-  value: expected value in the form field 'field'
-  values: Array of multiple values, one must match to fullfill the condition
-  not: inverse the when condition - value(s) must not match
-  callback: a callback can be supplied to perform complex checks. An hashref
-    of all parameters is passed to the callback sub. In this case all other
-    keys are ignored, including not. You need to return a true value for
-    the constraint to be applied or a false value to not apply it.
+This method expects a hashref.
+
+The C<field> or C<callback> must be supplied, all other fields are optional.
+
+If C<value> or C<values> is not supplied, the constraint will pass if the
+named field's value is true.
+
+The following keys are supported:
+
+=over
+
+=item field
+
+name of form field that shall be compared
+
+=item value
+
+Expected value in the form field 'field'
+
+=item values
+
+Array of multiple values, one must match to fullfill the condition
+
+=item not
+
+Inverts the when condition - value(s) must not match
+
+=item callback
+
+A callback subroutine-reference or fully resolved subroutine name can be
+supplied to perform complex checks. An hashref of all parameters is passed
+to the callback sub. In this case all other keys are ignored, including not.
+You need to return a true value for the constraint to be applied or a false
+value to not apply it.
+
+=back
 
 =head1 CORE CONSTRAINTS
 
