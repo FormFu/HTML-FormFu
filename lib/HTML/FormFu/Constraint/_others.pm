@@ -132,7 +132,7 @@ HTML::FormFu::Constraint::_others - Base class for constraints needing others() 
 
 =head2 others
 
-Arguments: \@field_names
+Arguments: \@nested_names
 
 =head2 attach_errors_to_base
 
