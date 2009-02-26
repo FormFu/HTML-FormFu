@@ -83,7 +83,8 @@ sub repeat {
                 @{ $field->_constraints },
                 @{ $field->_inflators },
                 @{ $field->_validators },
-                @{ $field->_transformers }
+                @{ $field->_transformers },
+                @{ $field->_plugins },
                 ;
         }
 
