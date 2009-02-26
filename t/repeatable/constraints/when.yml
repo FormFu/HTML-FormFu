@@ -1,0 +1,18 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    nested_name: rep
+    increment_field_names: 1
+    counter_name: count
+    
+    elements:
+      - name: foo
+
+      - name: bar
+        constraints:
+            - type: Required
+              when:
+                field: 'rep.foo'

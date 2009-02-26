@@ -301,7 +301,7 @@ The following keys are supported:
 
 =item field
 
-name of form field that shall be compared
+nested-name of form field that shall be checked against
 
 =item value
 

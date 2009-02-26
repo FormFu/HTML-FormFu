@@ -89,11 +89,14 @@ sub repeat {
 
         my $block_fields = $block->get_fields;
 
+        my @block_constraints = map { @{ $_->get_constraints } }
+                                    @$block_fields;
+
+        # rename any 'others' fields
         my @others_constraints
             = grep { defined $_->others }
               grep { $_->can('others') }
-              map { @{ $_->_constraints } }
-                @$block_fields
+                @block_constraints
                 ;
 
         for my $constraint (@others_constraints) {
@@ -117,6 +120,21 @@ sub repeat {
             }
 
             $constraint->others( \@new_others );
+        }
+        
+        # rename any 'when' fields
+        my @when_constraints = grep { defined $_->when }
+                                 @block_constraints;
+
+        for my $constraint (@when_constraints) {
+            my $when = $constraint->when;
+            my $name = $when->{field};
+            
+            my $field = first { $_->original_nested_name eq $name } @$block_fields;
+            
+            if ( defined $field ) {
+                $when->{field} = $field->nested_name;
+            }
         }
 
         push @return, $block;
@@ -175,8 +193,7 @@ sub string {
 
     $args ||= {};
 
-    my $render
-        = exists $args->{render_data}
+    my $render = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data_non_recursive;
 
