@@ -11,6 +11,7 @@ use HTML::FormFu::Util qw(
 );
 use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
+use Storable qw( dclone );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors( qw( not force_errors when ) );
@@ -164,6 +165,18 @@ sub _process_when {
     $ok = $when->{not} ? !$ok : $ok;
 
     return $ok;
+}
+
+sub clone {
+    my $self = shift;
+
+    my $clone = $self->next::method(@_);
+
+    if ( defined ( my $when = $self->when ) ) {
+        $clone->when( dclone $when );
+    }
+
+    return $clone;
 }
 
 1;
