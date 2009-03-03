@@ -100,7 +100,7 @@ sub create {
     my $obj  = $self->_as_object_get( $self->form );
     if ( $self->flatten ) {
         my $hf = new Hash::Flatten(
-            { ArrayDelimiter => '_', HashDelimiter => '$^$' } );
+            { ArrayDelimiter => '_', HashDelimiter => '.' } );
         $obj = _unfold_repeatable( $self->form, $hf->flatten($obj) );
     }
     return $obj;
@@ -117,7 +117,7 @@ sub _as_object_get {
         my $name    = $element->nested_name;
         my $es_name = _escape_name($name);
         if (   $self->options
-            && !$self->flatten
+            # && !$self->flatten
             && $element->can('_options')
             && @{ $element->_options } > 0 )
         {
@@ -175,6 +175,7 @@ sub _escape_name {
 sub _unescape_name {
     my $name = shift;
     $name =~ s/\\_/_/g;
+    $name =~ s/\\\./\./g;
     return $name;
 }
 
