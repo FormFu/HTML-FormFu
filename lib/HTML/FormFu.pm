@@ -269,11 +269,14 @@ sub process {
 
         $self->query($query);
     }
+    
+    # run all elements pre_process() methods
+    for my $elem ( @{ $self->get_elements } ) {
+        $elem->pre_process;
+    }
 
     # run all plugins pre_process() methods
-    my $plugins = $self->get_plugins;
-
-    for my $plugin (@$plugins) {
+    for my $plugin ( @{ $self->get_plugins } ) {
         $plugin->pre_process;
     }
 
@@ -283,7 +286,7 @@ sub process {
     }
     
     # run all plugins process() methods
-    for my $plugin (@$plugins) {
+    for my $plugin ( @{ $self->get_plugins } ) {
         $plugin->process;
     }
 
@@ -346,7 +349,7 @@ sub process {
         $elem->post_process;
     }
 
-    for my $plugin (@$plugins) {
+    for my $plugin ( @{ $self->get_plugins } ) {
         $plugin->post_process;
     }
 

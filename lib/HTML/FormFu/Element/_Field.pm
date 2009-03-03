@@ -366,6 +366,18 @@ sub clear_errors {
     return;
 }
 
+sub pre_process {
+    my $self = shift;
+
+    $self->next::method(@_);
+
+    for my $plugin ( @{ $self->_plugins } ) {
+        $plugin->pre_process;
+    }
+
+    return;
+}
+
 sub process {
     my $self = shift;
 

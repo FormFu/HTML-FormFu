@@ -150,6 +150,8 @@ sub get_errors { [] }
 
 sub clear_errors { }
 
+sub pre_process { }
+
 sub process { }
 
 sub post_process { }
