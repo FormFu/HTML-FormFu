@@ -1269,6 +1269,13 @@ If you're using L<Catalyst>, a more suitable example might be:
         
     }
 
+Note: Because L</process> is automatically called for you by the Catalyst
+controller; if you make any modifications to the form within your action
+method, such as adding or changing elements, adding constraints, etc;
+you must call L</process> again yourself before using L</submitted_and_valid>,
+any of the methods listed under L</"SUBMITTED FORM VALUES AND ERRORS"> or
+L</"MODIFYING A SUBMITTED FORM">, or rendering the form.
+
 Here's an example of a config file to create a basic login form (all examples 
 here are L<YAML>, but you can use any format supported by L<Config::Any>), 
 you can also create forms directly in your perl code, rather than using an 
@@ -2433,6 +2440,14 @@ L</"SUBMITTED FORM VALUES AND ERRORS"> and L</"MODIFYING A SUBMITTED FORM">.
 
 C<process> must also be called at least once before printing the form or
 calling L</render> or L</render_data>.
+
+Note to users of L<Catalyst::Controller::HTML::FormFu>: Because L</process>
+is automatically called for you by the Catalyst controller; if you make any
+modifications to the form within your action method, such as adding or changing
+elements, adding constraints, etc; you must call L</process> again yourself
+before using L</submitted_and_valid>, any of the methods listed under
+L</"SUBMITTED FORM VALUES AND ERRORS"> or
+L</"MODIFYING A SUBMITTED FORM">, or rendering the form.
 
 =head1 SUBMITTED FORM VALUES AND ERRORS
 
