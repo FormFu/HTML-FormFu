@@ -336,6 +336,10 @@ sub populate {
         $self->element_defaults( delete $args{element_defaults} );
     }
 
+    # notes for @keys...
+    # 'options', 'values', 'value_range' is for _Group elements,
+    # to ensure any 'empty_first' value gets set first
+
     my @keys = qw(
         default_args
         auto_fieldset
@@ -350,6 +354,9 @@ sub populate {
         validator           validators
         transformer         transformers
         plugins
+        options
+        values
+        value_range
     );
 
     my %defer;
