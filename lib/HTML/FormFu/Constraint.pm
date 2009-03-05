@@ -143,17 +143,17 @@ sub _process_when {
     return 0 if !defined $when_field_value;
 
     my @values;
-    
+
     if ( defined ( my $value = $when->{value} ) ) {
         push @values, $value;
     }
     elsif ( defined ( my $values = $when->{values} ) ) {
         push @values, @$values;
     }
-    
+
     # determine if condition is fulfilled
     my $ok;
-    
+
     if ( @values ) {
         $ok = any { $when_field_value eq $_ } @values;
     }
@@ -190,7 +190,7 @@ HTML::FormFu::Constraint - Constrain User Input
 =head1 SYNOPSIS
 
     ---
-    elements: 
+    elements:
       - type: Text
         name: foo
         constraints:
@@ -201,10 +201,10 @@ HTML::FormFu::Constraint - Constrain User Input
               values: [ 1, 3, 5 ]
       - type: Text
         name: bar
-        constraints: 
+        constraints:
           - Integer
           - Required
-    constraints: 
+    constraints:
       - SingleValue
 
 =head1 DESCRIPTION
@@ -213,29 +213,29 @@ User input is processed in the following order:
 
 =over
 
-=item L<Filters|HTML::FormFu::Filter|HTML::FormFu::Filter>
+=item L<Filters|HTML::FormFu::Filter>
 
-=item L<Constraints|HTML::FormFu::Constraint|HTML::FormFu::Constraint>
+=item L<Constraints|HTML::FormFu::Constraint>
 
-=item L<Inflators|HTML::FormFu::Inflator|HTML::FormFu::Inflator>
+=item L<Inflators|HTML::FormFu::Inflator>
 
-=item L<Validators|HTML::FormFu::Validator|HTML::FormFu::Validator>
+=item L<Validators|HTML::FormFu::Validator>
 
-=item L<Transformers|HTML::FormFu::Transformer|HTML::FormFu::Transformer>
+=item L<Transformers|HTML::FormFu::Transformer>
 
 =back
 
 See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
-L<HTML::FormFu/constraints> can be called on any L<form|HTML::FormFu>, 
-L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or 
+L<HTML::FormFu/constraints> can be called on any L<form|HTML::FormFu>,
+L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or
 L<field element|HTML::FormFu::Element::_Field>.
 
 If called on a field element, no C<name> argument should be passed.
 
-If called on a L<form|HTML::FormFu> or 
-L<block element|HTML::FormFu::Element::Block>, if no C<name> argument is 
-provided, a new constraint is created for and added to every field on that 
+If called on a L<form|HTML::FormFu> or
+L<block element|HTML::FormFu::Element::Block>, if no C<name> argument is
+provided, a new constraint is created for and added to every field on that
 form or block.
 
 See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
@@ -248,10 +248,10 @@ Returns the C<type> argument originally used to create the constraint.
 
 =head2 not
 
-If true, inverts the results of the constraint - such that input that would 
+If true, inverts the results of the constraint - such that input that would
 otherwise fail will pass, and vise-versa.
 
-This value is ignored by some constraints - see the documentation for 
+This value is ignored by some constraints - see the documentation for
 individual constraints for details.
 
 =head2 message
@@ -270,12 +270,12 @@ Variant of L</message> which ensures the value won't be XML-escaped.
 
 Arguments: $string
 
-Variant of L</message> which uses L<localize|HTML::FormFu/localize> to 
+Variant of L</message> which uses L<localize|HTML::FormFu/localize> to
 create the message.
 
 =head2 localise_args
 
-Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
+Provide arguments that should be passed to L<localize|HTML::FormFu/localize>
 to replace C<[_1]>, C<[_2]>, etc. in the localized string.
 
 =head2 force_errors
@@ -284,12 +284,12 @@ See L<HTML::FormFu/force_errors> for details.
 
 =head2 parent
 
-Returns the L<field|HTML::FormFu::Element::_Field> object that the constraint 
+Returns the L<field|HTML::FormFu::Element::_Field> object that the constraint
 is associated with.
 
 =head2 form
 
-Returns the L<HTML::FormFu> object that the constraint's field is attached 
+Returns the L<HTML::FormFu> object that the constraint's field is attached
 to.
 
 =head2 name
@@ -410,7 +410,7 @@ value to not apply it.
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Constraint>, by 
+Based on the original source code of L<HTML::Widget::Constraint>, by
 Sebastian Riedel, C<sri@oook.de>.
 
 =head1 LICENSE

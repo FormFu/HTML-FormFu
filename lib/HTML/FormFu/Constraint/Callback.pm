@@ -30,7 +30,7 @@ HTML::FormFu::Constraint::Callback - Code Callback Constraint
     $field->constraint({
         type => 'Callback',
         callback => \&foo,
-    );
+    });
 
     ---
     elements:
@@ -48,8 +48,8 @@ HTML::FormFu::Constraint::Callback - Code Callback Constraint
 
 =head1 DESCRIPTION
 
-The first argument passed to the callback is the submitted value for the 
-associated field. The second argument passed to the callback is a hashref of 
+The first argument passed to the callback is the submitted value for the
+associated field. The second argument passed to the callback is a hashref of
 name/value pairs for all input fields.
 
 This constraint doesn't honour the C<not()> value.
@@ -70,9 +70,9 @@ L<HTML::FormFu>
 
 =head1 LIMITATIONS
 
-The callback code-ref is copied internally using L<Storable/dclone>. It 
-seems that because of this, the coderef does not act as a true closure, and 
-cannot refer to variables and subroutines that would otherwise be in scope. 
+The callback code-ref is copied internally using L<Storable/dclone>. It
+seems that because of this, the coderef does not act as a true closure, and
+cannot refer to variables and subroutines that would otherwise be in scope.
 This need further investigation.
 
 =head1 AUTHOR
