@@ -61,6 +61,12 @@ fieldset .error.label {
 	margin: 0;
 }
 
+form .form_error_message {
+	padding: 0.5em;
+	border: 1px solid #ff0000;
+	background-color: #ffdddd;
+}
+
 fieldset .error_message {
        display: block;
        color: #ff0000;
