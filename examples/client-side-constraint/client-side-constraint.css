@@ -4,12 +4,13 @@ fieldset {
 
 fieldset .button,
 fieldset .checkbox,
-fieldset .content_button,
+fieldset .contentbutton,
 fieldset .file,
 fieldset .image,
 fieldset .multi,
 fieldset .password,
 fieldset .radio,
+fieldset .recaptcha,
 fieldset .reset,
 fieldset .select,
 fieldset .submit,
@@ -24,14 +25,27 @@ fieldset .textarea
 	margin-left: 12em;
 }
 
+/* make the noscript textarea sit below the iframe
+*/
+fieldset .recaptcha noscript textarea {
+    display: block;
+}
+
+/* override the iframe's height="" - it's seems a bit big
+*/
+fieldset .recaptcha iframe {
+    height: 230px ! important;
+}
+
 fieldset .button.label,
 fieldset .checkbox.label,
-fieldset .content_button.label,
+fieldset .contentbutton.label,
 fieldset .file.label,
 fieldset .image.label,
 fieldset .multi.label,
 fieldset .password.label,
 fieldset .radio.label,
+fieldset .recaptcha.label,
 fieldset .reset.label,
 fieldset .select.label,
 fieldset .submit.label,
@@ -70,7 +84,7 @@ fieldset .error select {
 }
 
 fieldset .button label,
-fieldset .content_button label,
+fieldset .contentbutton label,
 fieldset .checkbox label,
 fieldset .file label,
 fieldset .image label,
@@ -78,6 +92,7 @@ fieldset .multi label,
 fieldset .password label,
 fieldset .radio label,
 fieldset .radiogroup label,
+fieldset .recaptcha label,
 fieldset .select label,
 fieldset .text label,
 fieldset .textarea label
@@ -149,12 +164,13 @@ fieldset .notes {
 }
 
 fieldset .multi.vertical input,
-fieldset.checkboxgroup.vertical input,
-fieldset.radiogroup.vertical input
+fieldset.checkboxgroup .vertical input,
+fieldset.radiogroup .vertical input
 {
 	display: block;
 	float: left;
 	clear: left;
+	margin-right: 0.5em;
 }
 
 fieldset .multi.vertical select {
@@ -163,14 +179,14 @@ fieldset .multi.vertical select {
 	clear: right;
 }
 
-fieldset.checkboxgroup.vertical label,
-fieldset.radiogroup.vertical label
+fieldset.checkboxgroup .vertical label,
+fieldset.radiogroup .vertical label
 {
 	display: block;
 	clear: right;
 }
 
-fieldset.radiogroup.vertical .subgroup {
+fieldset.radiogroup .vertical .subgroup {
 	float: left;
 }
 
