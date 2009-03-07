@@ -7,7 +7,8 @@ use Test::More tests => 2;
 use lib 't/lib';
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/form/languages.yml');
 

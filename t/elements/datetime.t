@@ -14,7 +14,8 @@ my $dt = DateTime->new(
     minute => 0,
 );
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/elements/datetime.yml');
 

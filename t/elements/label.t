@@ -3,8 +3,8 @@
 use HTML::FormFu;
 use Test::More qw(tests 2);
 
-
-my $f = new HTML::FormFu;
+my $f = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $f->elements({type => "Label", name => "foo"});
 

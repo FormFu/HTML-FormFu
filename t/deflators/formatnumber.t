@@ -11,7 +11,8 @@ use Number::Format;
 # I simply check here whether the number has been transformed
 # in any way.
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/deflators/formatnumber.yml');
 

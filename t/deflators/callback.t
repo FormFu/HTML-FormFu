@@ -11,7 +11,8 @@ my $deflated_foo = "ABC123";
 my $original_bar = "abcdef";
 my $deflated_bar = "ABCdef";
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element({
     name      => 'foo',
