@@ -1,0 +1,35 @@
+---
+elements:
+  - type: Hidden
+    name: id
+  - type: Text
+    name: title
+  - type: Hidden
+    name: count
+  - type: Select
+    name: select
+    options:
+        - [0, 1]
+        - [1, 2]
+  - type: Repeatable
+    nested_name: recall_schedules
+    counter_name: count
+    model_config:
+      new_empty_row_multi: start
+    elements:
+      - type: Multi
+        name: start
+        deflators:
+          - type: Strftime
+            strftime: %d.%m.%Y %R
+        inflators:
+          - type: DateTime
+            parser:
+              strptime: %d.%m.%Y %H:%M
+        elements:
+          - type: Text
+            name: startdate
+          - type: Text
+            name: starttime
+      - type: Hidden
+        name: id

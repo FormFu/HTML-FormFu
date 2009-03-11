@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use HTML::FormFu;
 
@@ -193,6 +193,36 @@ is_deeply(
 	        }
 );
 
-#print $form->render;
+$form->model->flatten(0);
 
-#use Data::Dumper; print Dumper $form->model->create;
+$form->model->default_values(
+    {
+		many => [{ id => undef }],
+        bar      => 'zzz',
+    });
+
+is_deeply( $form->model->create, 	{
+	          'inflator' => undef,
+	          'single-select' => {value => undef, label => undef},
+	          'datetime_hour' => {value => undef, label => undef},
+	          'address-split' => {
+	                               'number' => undef,
+	                               'street' => undef
+	                             },
+	          'many' => [{ id => undef, foo => undef}],
+	          'datetime_day' => {value => undef, label => undef},
+	          'nested' => {
+	                        'foo' => undef
+	                      },
+	          'datetime' => undef,
+	          'datetime_year' => {value => undef, label => undef},
+	          'table1' => undef,
+	          'bar' => 'zzz',
+	          'datetime_minute' => {value => undef, label => undef},
+	          'address' => {
+	                         'number' => undef,
+	                         'street' => undef
+	                       },
+	          'multi-select' => {value => undef, label => undef},
+	          'datetime_month' => {value => undef, label => undef}
+	        });

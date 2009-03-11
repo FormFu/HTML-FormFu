@@ -99,7 +99,7 @@ sub value {
             for my $i (0 .. $#order) {
                 my $field = $order[$i];
 
-                $self->_elements->[$i]->default( $self->$field->{default} );
+                $self->_elements->[$i]->default( $value ? $self->$field->{default} : undef );
             }
         }
 
