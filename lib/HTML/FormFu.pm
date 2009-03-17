@@ -3196,6 +3196,8 @@ Andreas Marienborg
 
 Mario Minati
 
+Moritz Onken
+
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel, 
 C<sri@oook.de>.
 

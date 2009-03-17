@@ -35,6 +35,7 @@ requires 'Number::Format';
 requires 'Readonly';
 requires 'Regexp::Copy';
 requires 'Regexp::Common';
+requires 'Path::Class::File';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
