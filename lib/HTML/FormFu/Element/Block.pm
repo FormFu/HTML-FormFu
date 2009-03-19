@@ -85,6 +85,14 @@ sub _single_plugin {
     return @return;
 }
 
+sub pre_process {
+    my ($self) = @_;
+
+    map { $_->pre_process } @{ $self->_elements };
+
+    return;
+}
+
 sub process {
     my ($self) = @_;
 
