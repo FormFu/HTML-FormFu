@@ -1,0 +1,8 @@
+---
+  elements:
+    - type: Label
+      name: foo
+    - type: Label
+      name: foo3
+      value: bar
+      tag: div

@@ -7,16 +7,16 @@ use Class::C3;
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_item_accessors( qw( field_type tag ) );
+__PACKAGE__->mk_item_accessors(qw( field_type tag label_filename ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename      ( 'label' );
-    $self->field_filename( 'label_tag' );
-    $self->field_type('label');
-    $self->retain_default(1);
     $self->tag('span');
+    $self->filename('label_tag');
+
+    #$self->field_type('label');
+    #$self->retain_default(1);
     $self->model_config->{read_only} = 1;
     return $self;
 }
@@ -26,9 +26,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render =
+      exists $args->{render_data}
+      ? $args->{render_data}
+      : $self->render_data;
 
     # field wrapper template - start
 
@@ -48,32 +49,33 @@ sub string {
 sub _string_field {
     my ( $self, $render ) = @_;
 
-    my $html .= "<". $self->tag;
+    my $html .= "<" . $self->tag;
 
-    $html .= sprintf "%s", process_attrs( $render->{attributes} );
+    $html .= sprintf "%s", process_attrs( $render->{attributes} || {} );
 
     if ( defined $render->{nested_name} ) {
         $html .= sprintf qq{ name="%s"}, $render->{nested_name};
     }
-	$html .= ">";
+    $html .= ">";
     if ( defined $render->{value} ) {
         $html .= sprintf qq{%s}, $render->{value};
     }
-	$html .= "</".$self->tag.">";
-
+    $html .= "</" . $self->tag . ">";
 
     return $html;
 }
 
-sub as {
-    my ( $self, $type, %attrs ) = @_;
+sub process_input {
+    my ( $self, $input ) = @_;
 
-    return $self->_coerce(
-        type       => $type,
-        attributes => \%attrs,
-        errors     => $self->_errors,
-        package    => __PACKAGE__,
-    );
+    my $form = $self->form;
+    my $name = $self->nested_name;
+
+    if ( $form->submitted && $form->nested_hash_key_exists( $input, $name ) ) {
+        $form->delete_nested_hash_value( $input, $name );
+    }
+
+    return;
 }
 
 1;
