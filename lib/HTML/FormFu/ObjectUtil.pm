@@ -723,50 +723,50 @@ sub set_nested_hash_value {
     $$ref = $value;
 }
 
-#sub delete_nested_hash_key {
-#    my ( $self, $param, $name ) = @_;
-#
-#    my ( $root, @names ) = split_name($name);
-#
-#    if ( !@names ) {
-#        delete $param->{$root};
-#        return;
-#    }
-#
-#    my $ref = \$param->{$root};
-#
-#    for my $i ( 0 .. $#names ) {
-#        my $name = $names[$i];
-#        
-#        if ( $name =~ /^(0|[1-9][0-9]*)\z/) {
-#            return if !defined $$ref;
-#
-#            croak "nested param clash for ARRAY $name"
-#                if ref $$ref ne 'ARRAY';
-#
-#            $ref = \( $$ref->[$1] );
-#            
-#            if ( $i == $#names ) {
-#                croak "can't delete hash key for an array";
-#            }
-#        }
-#        else {
-#            return if !defined $$ref;
-#
-#            croak "nested param clash for HASH $name"
-#                if ref $$ref ne 'HASH';
-#
-#            if ( $i == $#names ) {
-#                delete $$ref->{$name};
-#            }
-#            else {
-#                $ref = \( $$ref->{$name} );
-#            }
-#        }
-#    }
-#
-#    return;
-#}
+sub delete_nested_hash_key {
+    my ( $self, $param, $name ) = @_;
+
+    my ( $root, @names ) = split_name($name);
+
+    if ( !@names ) {
+        delete $param->{$root};
+        return;
+    }
+
+    my $ref = \$param->{$root};
+
+    for my $i ( 0 .. $#names ) {
+        my $name = $names[$i];
+        
+        if ( $name =~ /^(0|[1-9][0-9]*)\z/) {
+            return if !defined $$ref;
+
+            croak "nested param clash for ARRAY $name"
+                if ref $$ref ne 'ARRAY';
+
+            $ref = \( $$ref->[$1] );
+            
+            if ( $i == $#names ) {
+                croak "can't delete hash key for an array";
+            }
+        }
+        else {
+            return if !defined $$ref;
+
+            croak "nested param clash for HASH $name"
+                if ref $$ref ne 'HASH';
+
+            if ( $i == $#names ) {
+                delete $$ref->{$name};
+            }
+            else {
+                $ref = \( $$ref->{$name} );
+            }
+        }
+    }
+
+    return;
+}
 
 sub nested_hash_key_exists {
     my ( $self, $param, $name ) = @_;

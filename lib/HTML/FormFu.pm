@@ -22,7 +22,7 @@ use HTML::FormFu::ObjectUtil qw(
     clone                       stash
     constraints_from_dbic       parent
     get_nested_hash_value       set_nested_hash_value
-    nested_hash_key_exists
+    delete_nested_hash_key      nested_hash_key_exists
 );
 use HTML::FormFu::Util qw(
     DEBUG
