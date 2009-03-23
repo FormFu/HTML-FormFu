@@ -33,8 +33,13 @@ any other explanation.
 
 =head2 Input parameters from the browser
 
-C<Catalyst::Plugin::Unicode> will decode all input parameters sent from the 
-browser to your application - see L</Catalyst Configuration>.
+If you're using C<Catalyst>, C<Catalyst::Plugin::Unicode> will decode all
+input parameters sent from the browser to your application - see
+L</Catalyst Configuration>.
+
+If you're using some other framework or, in any case, you need to decode
+the input parameters yourself, please take a look at
+L<HTML::FormFu::Filter::Encode>.
 
 =head2 Data from the database
 
@@ -64,7 +69,8 @@ automatically sets L<Config::General's|Config::General> C<-UTF8> setting.
 
 =head2 Your perl source code
 
-Any perl source files which contain unicode must use the L<utf8> module.
+Any perl source files which contain Unicode characters must use the
+L<utf8> module.
 
 =head1 OUTPUT
 
