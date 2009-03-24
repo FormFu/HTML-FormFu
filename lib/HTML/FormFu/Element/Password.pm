@@ -61,6 +61,15 @@ Password form field.
 
 =head1 METHODS
 
+=head2 render_value
+
+Normally, when a form is redisplayed because of errors, password fields
+lose their values, requiring the user to retype it.
+
+If C<render_value> is true, password fields won't lose their value.
+
+Default value: false
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
