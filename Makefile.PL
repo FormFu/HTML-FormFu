@@ -24,6 +24,7 @@ requires 'DateTime::Format::Natural';
 requires 'DateTime::Locale';
 requires 'Email::Valid';
 requires 'File::ShareDir';
+requires 'Hash::Flatten';
 requires 'HTML::Scrubber';
 requires 'HTML::TokeParser::Simple' => '3.14';
 requires 'HTTP::Headers' => '1.64';
