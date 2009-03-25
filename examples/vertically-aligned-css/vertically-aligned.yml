@@ -3,7 +3,7 @@ id: form
 auto_id: %n
 default_args:
   elements:
-    radiogroup:
+    Radiogroup:
       auto_id: %n_%c
 
 auto_fieldset:
