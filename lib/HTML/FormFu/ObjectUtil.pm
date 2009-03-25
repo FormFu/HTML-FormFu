@@ -485,7 +485,6 @@ sub _load_config {
             push @config_file_path, $config_file_path;
         }
     }
-    push @config_file_path, File::Spec->curdir;
 
     for my $file (@filenames) {
         my $loaded = 0;
