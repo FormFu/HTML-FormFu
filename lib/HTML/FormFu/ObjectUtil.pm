@@ -477,30 +477,45 @@ sub _load_config {
     my $config_any_arg    = $use_stems ? 'stems'      : 'files';
     my $config_any_method = $use_stems ? 'load_stems' : 'load_files';
 
-    for my $file (@filenames) {
-        my $config_file_path = $self->config_file_path;
-        
-        if ( defined $config_file_path
-             && !File::Spec->file_name_is_absolute($file)
-            )
-        {
-            $file = File::Spec->catfile( $config_file_path, $file );
+    my @config_file_path;
+    if (my $config_file_path = $self->config_file_path) {
+        if (ref $config_file_path eq 'ARRAY') {
+            push @config_file_path, @$config_file_path;
+        } else {
+            push @config_file_path, $config_file_path;
         }
-        
-        my $config = Config::Any->$config_any_method( {
-            $config_any_arg => [$file],
-            use_ext         => 1,
-            driver_args     => {
-                General => { -UTF8 => 1 },
-            },
-        } );
+    }
+    push @config_file_path, File::Spec->curdir;
 
-        croak "config file '$file' not found"
-            if !@$config;
-
-        my ( $filename, $filedata ) = %{ $config->[0] };
+    for my $file (@filenames) {
+        my $loaded = 0;
+        my $fullpath;
+        foreach my $config_file_path (@config_file_path) {
+            if ( defined $config_file_path
+                 && !File::Spec->file_name_is_absolute($file)
+                )
+            {
+                $fullpath = File::Spec->catfile( $config_file_path, $file );
+            } else {
+                $fullpath = $file;
+            }
         
-        _load_file( $self, $data_visitor, $filedata );
+            my $config = Config::Any->$config_any_method( {
+                $config_any_arg => [$fullpath],
+                use_ext         => 1,
+                driver_args     => {
+                    General => { -UTF8 => 1 },
+                },
+            } );
+
+            next if ! @$config;
+        
+            $loaded = 1;
+            my ( $filename, $filedata ) = %{ $config->[0] };
+        
+            _load_file( $self, $data_visitor, $filedata );
+        }
+        croak "config file '$file' not found" if !$loaded;
     }
 
     return $self;
