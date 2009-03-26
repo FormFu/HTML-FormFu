@@ -3,6 +3,7 @@
 
 # not ready yet
 ^lib\/HTML\/FormFu\/Element\/Label\.pm$
+^t\/elements\/label\.t$
 ^lib\/HTML\/FormFu\/Manual\.pod$
 ^t\/multiform-misc\/file
 
