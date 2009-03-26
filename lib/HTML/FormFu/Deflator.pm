@@ -84,6 +84,8 @@ Arguments: $form_result, \%params
 
 =item L<HTML::FormFu::Deflator::FormatNumber>
 
+=item L<HTML::FormFu::Deflator::PathClassFile>
+
 =item L<HTML::FormFu::Deflator::Strftime>
 
 =back
