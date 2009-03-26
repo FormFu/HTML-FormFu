@@ -6,7 +6,9 @@ use base 'HTML::FormFu::Deflator';
 use Number::Format;
 use POSIX qw( setlocale LC_NUMERIC );
 
-__PACKAGE__->mk_item_accessors(qw(locale precision trailing_zeroes));
+__PACKAGE__->mk_item_accessors(qw( precision trailing_zeroes ));
+
+__PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 sub new {
     my $self = shift->next::method(@_);

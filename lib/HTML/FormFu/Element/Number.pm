@@ -4,22 +4,27 @@ use strict;
 use base 'HTML::FormFu::Element::Text';
 use Class::C3;
 
-__PACKAGE__->mk_attr_accessors(qw(locale precision trailing_zeroes));
-
 sub new {
     my $self = shift->next::method(@_);
+    
     $self->field_type('number');
-    $self->deflator( {
-            type            => "FormatNumber",
-            precision       => $self->precision,
-            trailing_zeroes => $self->trailing_zeroes,
-            locale          => $self->locale || $self->form->locale
-        } );
-    $self->filter( {
-            type   => "FormatNumber",
-            locale => $self->locale || $self->form->locale
-        } );
+    
+    $self->deflator( 'FormatNumber' );
+    $self->filter(   'FormatNumber' );
+    
     return $self;
+}
+
+sub precision {
+    my $self = shift;
+    
+    return $self->get_deflator({ type => 'FormatNumber' })->precision(@_);
+}
+
+sub trailing_zeroes {
+    my $self = shift;
+    
+    return $self->get_deflator({ type => 'FormatNumber' })->trailing_zeroes(@_);
 }
 
 1;
@@ -42,13 +47,16 @@ HTML::FormFu::Element::Number - Number element with formatting
 
 =head1 DESCRIPTION
 
-This element formats numbers according to the current locale. You can set this locale either by setting C<< $form->locale >> or by setting the element's locale. If none of them is set the element uses the system's locale.
+This element formats numbers according to the current locale. You can set this
+locale either by setting C<< $form->locale >> or by setting the element's
+locale. If none of them is set the element uses the system's locale.
 
 =head1 METHODS
 
 =head2 locale
 
-Set the locale for this element. The format of the number is chosen according to this locale.
+Set the locale for this element. The format of the number is chosen according
+to this locale.
 
 =head2 precision
 
@@ -69,4 +77,3 @@ L<HTML::FormFu/locale>
 =head1 AUTHOR
 
 Moritz Onken C< onken at houseofdesign.de >
-
