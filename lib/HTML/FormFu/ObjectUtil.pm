@@ -470,7 +470,9 @@ sub _load_config {
     my $config_any_method = $use_stems ? 'load_stems' : 'load_files';
 
     my @config_file_path;
+    
     if ( my $config_file_path = $self->config_file_path ) {
+        
         if ( ref $config_file_path eq 'ARRAY' ) {
             push @config_file_path, @$config_file_path;
         }
@@ -478,11 +480,16 @@ sub _load_config {
             push @config_file_path, $config_file_path;
         }
     }
+    else {
+        push @config_file_path, File::Spec->curdir;
+    }
 
     for my $file (@filenames) {
         my $loaded = 0;
         my $fullpath;
+        
         foreach my $config_file_path (@config_file_path) {
+            
             if ( defined $config_file_path
                 && !File::Spec->file_name_is_absolute($file) )
             {
