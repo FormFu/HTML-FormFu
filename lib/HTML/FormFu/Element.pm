@@ -510,6 +510,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Image>
 
+=item L<HTML::FormFu::Element::Number>
+
 =item L<HTML::FormFu::Element::Password>
 
 =item L<HTML::FormFu::Element::Radio>
@@ -547,8 +549,6 @@ See L<HTML::FormFu/render_method> for details.
 =item L<HTML::FormFu::Element::SimpleTable>
 
 =item L<HTML::FormFu::Element::Src>
-
-=item L<HTML::FormFu::Element::Label>
 
 =back
 
