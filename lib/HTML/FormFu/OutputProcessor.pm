@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form parent );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors(qw( type ));
 
 sub new {
     my $class = shift;

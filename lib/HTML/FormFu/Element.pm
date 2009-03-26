@@ -36,25 +36,25 @@ use overload (
     fallback => 1
 );
 
-__PACKAGE__->mk_attrs( qw( attributes ) );
+__PACKAGE__->mk_attrs(qw( attributes ));
 
-__PACKAGE__->mk_attr_accessors( qw( id ) );
+__PACKAGE__->mk_attr_accessors(qw( id ));
 
 __PACKAGE__->mk_item_accessors( qw(
-    type
-    filename
-    is_field
-    is_block
-    is_repeatable
+        type
+        filename
+        is_field
+        is_block
+        is_repeatable
 ) );
 
 __PACKAGE__->mk_inherited_accessors( qw(
-    tt_args
-    render_method
-    config_file_path
+        tt_args
+        render_method
+        config_file_path
 ) );
 
-__PACKAGE__->mk_inherited_merging_accessors( qw( config_callback ) );
+__PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
 
 sub new {
     my $class = shift;
@@ -92,7 +92,7 @@ WARNING
 
         my $conf = $self->model_config;
 
-        while ( my ($key, $value) = each %$args ) {
+        while ( my ( $key, $value ) = each %$args ) {
             $conf->{$key} = $value;
         }
     }
@@ -104,14 +104,14 @@ sub name {
     my ( $self, $name ) = @_;
 
     if ( @_ > 1 ) {
-        
+
         if ( $name =~ /[\.\[\]]/ ) {
             croak <<'ERROR_MESSAGE';
 element names may not contain periods or square brackets
 see documentation on nested_names() for details
 ERROR_MESSAGE
         }
-        
+
         $self->{name} = $name;
 
         return $self;
@@ -201,8 +201,8 @@ sub render_data_non_recursive {
         is_field   => $self->is_field,
         stash      => $self->stash,
         parent     => $self->parent,
-        form       => sub { return shift->{parent}->form },
-        object     => $self,
+        form   => sub { return shift->{parent}->form },
+        object => $self,
         $args ? %$args : (),
     );
 

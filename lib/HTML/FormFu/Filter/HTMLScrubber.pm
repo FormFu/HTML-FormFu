@@ -6,7 +6,7 @@ use Class::C3;
 
 use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors( qw( allow ) );
+__PACKAGE__->mk_accessors(qw( allow ));
 
 use HTML::Scrubber;
 

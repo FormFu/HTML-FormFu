@@ -10,16 +10,16 @@ use List::MoreUtils qw( uniq );
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( tag _elements nested_name ) );
+__PACKAGE__->mk_item_accessors(qw( tag _elements nested_name ));
 
-__PACKAGE__->mk_output_accessors( qw( content ) );
+__PACKAGE__->mk_output_accessors(qw( content ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
-    auto_id auto_label auto_error_class auto_error_message
-    auto_constraint_class auto_inflator_class auto_validator_class
-    auto_transformer_class render_processed_value force_errors
-    repeatable_count
-    locale
+        auto_id auto_label auto_error_class auto_error_message
+        auto_constraint_class auto_inflator_class auto_validator_class
+        auto_transformer_class render_processed_value force_errors
+        repeatable_count
+        locale
 ) );
 
 *elements     = \&element;
@@ -34,11 +34,11 @@ __PACKAGE__->mk_inherited_accessors( qw(
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->_elements   ( [] );
+    $self->_elements( [] );
     $self->default_args( {} );
-    $self->filename    ( 'block' );
-    $self->tag         ( 'div' );
-    $self->is_block    ( 1 );
+    $self->filename('block');
+    $self->tag('div');
+    $self->is_block(1);
 
     return $self;
 }
@@ -57,17 +57,14 @@ sub _single_plugin {
     }
 
     my @names = map { ref $_ ? @$_ : $_ }
-        grep { defined } ( delete $arg->{name}, delete $arg->{names} );
+        grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
-        @names
-            = uniq
-              grep { defined }
-              map { $_->nested_name }
-                 @{ $self->get_fields }
-             ;
+        @names = uniq
+            grep {defined}
+            map  { $_->nested_name } @{ $self->get_fields };
     }
-    
+
     croak "no field names to add plugin to" if !@names;
 
     my $type = delete $arg->{type};
@@ -123,10 +120,10 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        tag     => $self->tag,
-        content => xml_escape( $self->content ),
-        $args ? %$args : (),
-    } );
+            tag     => $self->tag,
+            content => xml_escape( $self->content ),
+            $args ? %$args : (),
+        } );
 
     return $render;
 }
@@ -136,9 +133,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                             $self->render_data_non_recursive
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data_non_recursive;
 
     # start_block template
 

@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
-__PACKAGE__->mk_item_accessors( qw( processor forced ) );
+__PACKAGE__->mk_item_accessors(qw( processor forced ));
 
 sub name {
     my ($self) = @_;
@@ -64,10 +64,8 @@ sub message {
 
     $error_message =~ s/%([fnts])/$string{$1}/g;
 
-    $error_message = $self->form->localize(
-        $error_message,
-        $self->processor->localize_args
-    );
+    $error_message = $self->form->localize( $error_message,
+        $self->processor->localize_args );
 
     return $self->{message} = $error_message;
 }

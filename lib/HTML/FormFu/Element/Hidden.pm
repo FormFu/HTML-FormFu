@@ -7,8 +7,8 @@ use Class::C3;
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->field_type( 'hidden' );
-    $self->filename  ( 'input_tag' );
+    $self->field_type('hidden');
+    $self->filename('input_tag');
 
     return $self;
 }
@@ -18,9 +18,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # input template
 

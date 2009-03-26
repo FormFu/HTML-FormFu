@@ -18,7 +18,7 @@ sub process {
         my @return;
         for my $value (@$values) {
             my ($return) = eval { $self->transformer( $value, $params ) };
-            
+
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
@@ -31,15 +31,15 @@ sub process {
     }
     else {
         ($return) = eval { $self->transformer( $values, $params ) };
-        
+
         if ($@) {
             push @errors, $self->return_error($@);
         }
     }
-    
+
     $self->set_nested_hash_value( $params, $self->nested_name, $return );
 
-    return ( @errors );
+    return (@errors);
 }
 
 sub return_error {

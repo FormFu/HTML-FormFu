@@ -10,11 +10,9 @@ sub new {
 
     # handle pre-expanded input
 
-    my @names =
-        grep { defined }
-        map { $_->nested_name }
-            @{ $form->get_fields }
-        ;
+    my @names
+        = grep {defined}
+        map    { $_->nested_name } @{ $form->get_fields };
 
     for my $name (@names) {
         next if exists $param->{$name};
@@ -47,7 +45,7 @@ sub param {
         if ( !exists $self->{_params}{$param} ) {
             return wantarray ? () : undef;
         }
-        
+
         if ( ref $self->{_params}{$param} eq 'ARRAY' ) {
             return (wantarray)
                 ? @{ $self->{_params}{$param} }

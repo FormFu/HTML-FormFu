@@ -7,15 +7,15 @@ use Class::C3;
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_item_accessors( qw( field_type ) );
+__PACKAGE__->mk_item_accessors(qw( field_type ));
 
-__PACKAGE__->mk_attr_accessors( qw( checked size maxlength alt ) );
+__PACKAGE__->mk_attr_accessors(qw( checked size maxlength alt ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename      ( 'input' );
-    $self->field_filename( 'input_tag' );
+    $self->filename('input');
+    $self->field_filename('input_tag');
 
     return $self;
 }
@@ -24,9 +24,9 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        field_type => $self->field_type,
-        $args ? %$args : (),
-    } );
+            field_type => $self->field_type,
+            $args ? %$args : (),
+        } );
 
     return $render;
 }
@@ -36,9 +36,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # field wrapper template - start
 

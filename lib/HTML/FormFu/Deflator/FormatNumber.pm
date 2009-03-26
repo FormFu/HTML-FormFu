@@ -10,37 +10,35 @@ __PACKAGE__->mk_item_accessors(qw(locale precision trailing_zeroes));
 
 sub new {
     my $self = shift->next::method(@_);
-    
+
     $self->precision(2);
     $self->trailing_zeroes(0);
-    
+
     return $self;
 }
 
 sub deflator {
-    my ($self, $value) = @_;
-    
+    my ( $self, $value ) = @_;
+
     my $backup_locale = setlocale(LC_NUMERIC);
-    
+
     if ( my $locale = $self->locale ) {
+
         # throwing errors from deflator() isn't supported
         # if unable to set locale, return the original value
-        
+
         setlocale( LC_NUMERIC, $locale )
             or return $value;
     }
-    
+
     my $format = Number::Format->new;
-    
-    $value = $format->format_number(
-        $value,
-        $self->precision,
-        $self->trailing_zeroes
-    );
-    
+
+    $value = $format->format_number( $value, $self->precision,
+        $self->trailing_zeroes );
+
     # restore locale
     setlocale( LC_NUMERIC, $backup_locale );
-    
+
     return $value;
 }
 

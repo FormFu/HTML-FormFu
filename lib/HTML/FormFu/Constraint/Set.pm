@@ -6,7 +6,7 @@ use Class::C3;
 
 use Storable qw( dclone );
 
-__PACKAGE__->mk_accessors( qw( set ) );
+__PACKAGE__->mk_accessors(qw( set ));
 
 sub constrain_value {
     my ( $self, $value ) = @_;

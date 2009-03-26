@@ -3,7 +3,7 @@ package HTML::FormFu::Deflator::Strftime;
 use strict;
 use base 'HTML::FormFu::Deflator';
 
-__PACKAGE__->mk_item_accessors( qw( strftime ) );
+__PACKAGE__->mk_item_accessors(qw( strftime ));
 
 sub deflator {
     my ( $self, $value ) = @_;
@@ -12,7 +12,7 @@ sub deflator {
 
     eval {
         my $locale = $self->form->locale;
-        
+
         $value->set_locale($locale) if defined $locale;
     };
 

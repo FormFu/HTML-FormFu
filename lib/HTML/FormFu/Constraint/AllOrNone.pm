@@ -14,7 +14,7 @@ sub process {
 
     my @names = ( $self->nested_name );
     push @names, ref $others ? @{$others} : $others;
-    
+
     my @failed;
 
     for my $name (@names) {
@@ -23,14 +23,14 @@ sub process {
         my $seen = 0;
         if ( ref $value eq 'ARRAY' ) {
             my @errors = eval { $self->constrain_values( $value, $params ) };
-            
+
             if ( !@errors && !$@ ) {
                 $seen = 1;
             }
         }
         else {
             my $ok = eval { $self->constrain_value($value) };
-            
+
             if ( $ok && !$@ ) {
                 $seen = 1;
             }

@@ -6,28 +6,29 @@ use base 'HTML::FormFu::Filter';
 use Number::Format;
 use POSIX qw( setlocale LC_NUMERIC );
 
-__PACKAGE__->mk_inherited_accessors( qw( locale ) );
+__PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 sub filter {
-    my ($self, $value) = @_;
-    
+    my ( $self, $value ) = @_;
+
     my $backup_locale = setlocale(LC_NUMERIC);
-    
+
     if ( my $locale = $self->locale ) {
-        # if unable to set locale, this isn't a validation error that the user
-        # should see, so return the original value, rather than throwing an error
-        
-        setlocale(LC_NUMERIC, $locale)
+
+       # if unable to set locale, this isn't a validation error that the user
+       # should see, so return the original value, rather than throwing an error
+
+        setlocale( LC_NUMERIC, $locale )
             or return $value;
     }
-    
+
     my $format = Number::Format->new;
-    
+
     $value = $format->unformat_number($value);
-    
+
     # restore orginal locale
-    setlocale(LC_NUMERIC, $backup_locale);
-    
+    setlocale( LC_NUMERIC, $backup_locale );
+
     return $value;
 }
 

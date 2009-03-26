@@ -45,7 +45,7 @@ sub mk_item_accessors {
         my $sub = sub {
             my $self = shift;
 
-            if ( @_ ) {
+            if (@_) {
                 $self->{$name} = $_[0];
                 return $self;
             }
@@ -75,7 +75,7 @@ sub mk_attrs {
             return $self->{$name} if !@_;
 
             my $attr_slot = $self->{$name};
-            
+
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
             while ( my ( $key, $value ) = each %attrs ) {
@@ -84,7 +84,7 @@ sub mk_attrs {
 
             return $self;
         };
-        
+
         my $xml_sub = sub {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
@@ -94,7 +94,7 @@ sub mk_attrs {
                     keys %attrs
             );
         };
-        
+
         no strict 'refs';
         *{"$class\::$name"}       = $sub;
         *{"$class\::${name}_xml"} = $xml_sub;
@@ -125,7 +125,7 @@ sub mk_attr_accessors {
             $self->attributes->{$name} = $_[0];
             return $self;
         };
-        
+
         my $xml_sub = sub {
             my $self = shift;
             my @args;
@@ -179,12 +179,12 @@ sub mk_add_attrs {
 
             my $method = "add_$name";
 
-            return $self->$method({
-                map { $_, literal( $attrs{$_} ) }
-                    keys %attrs
-            });
+            return $self->$method( {
+                    map { $_, literal( $attrs{$_} ) }
+                        keys %attrs
+                } );
         };
-        
+
         no strict 'refs';
         *{"$class\::add_$name"}       = $sub;
         *{"$class\::add_${name}_xml"} = $xml_sub;
@@ -221,10 +221,10 @@ sub mk_del_attrs {
 
             my $method = "del_$name";
 
-            return $self->$method({
-                map { $_, literal( $attrs{$_} ) }
-                    keys %attrs
-            });
+            return $self->$method( {
+                    map { $_, literal( $attrs{$_} ) }
+                        keys %attrs
+                } );
         };
         no strict 'refs';
         *{"$class\::del_$name"}       = $sub;
@@ -253,9 +253,12 @@ sub mk_inherited_accessors {
                 $self->{$name} = $_[0];
                 return $self;
             }
+
             # micro optimization! this method's called a lot, so access
             # parent hashkey directly, instead of calling parent()
-            while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
+            while ( defined( my $parent = $self->{parent} )
+                && !defined $self->{$name} )
+            {
                 $self = $parent;
             }
             return $self->{$name};
@@ -285,9 +288,12 @@ sub mk_inherited_merging_accessors {
                 }
                 return $self;
             }
+
             # micro optimization! this method's called a lot, so access
             # parent hashkey directly, instead of calling parent()
-            while ( defined ( my $parent = $self->{parent} ) && !defined $self->{$name} ) {
+            while ( defined( my $parent = $self->{parent} )
+                && !defined $self->{$name} )
+            {
                 $self = $parent;
             }
             return $self->{$name};

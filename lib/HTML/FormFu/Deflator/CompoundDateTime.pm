@@ -8,7 +8,7 @@ use DateTime;
 use List::MoreUtils qw( none );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors( qw( field_order ) );
+__PACKAGE__->mk_accessors(qw( field_order ));
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

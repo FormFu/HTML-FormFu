@@ -33,7 +33,7 @@ our @EXPORT_OK = qw(
     _merge_hashes
 );
 
-# the empty prototype () means that when false, all debugging calls 
+# the empty prototype () means that when false, all debugging calls
 # will be optimised out during compilation
 
 sub DEBUG {
@@ -41,51 +41,51 @@ sub DEBUG {
 }
 
 sub DEBUG_PROCESS () {
-       DEBUG
-    || $ENV{HTML_FORMFU_DEBUG_PROCESS}
-    || 0;
+    DEBUG
+        || $ENV{HTML_FORMFU_DEBUG_PROCESS}
+        || 0;
 }
 
 sub DEBUG_CONSTRAINTS {
-       DEBUG
-    || DEBUG_PROCESS
-    || $ENV{HTML_FORMFU_DEBUG_CONSTRAINTS}
-    || 0;
+    DEBUG
+        || DEBUG_PROCESS
+        || $ENV{HTML_FORMFU_DEBUG_CONSTRAINTS}
+        || 0;
 }
 
 sub debug {
     my ($message) = @_;
-    
-    my (undef, undef, undef, $sub) = caller(1);
-    
+
+    my ( undef, undef, undef, $sub ) = caller(1);
+
     require 'Data/Dumper.pm';
-    
+
     warn "\n" if $sub ne $LAST_SUB;
-    
+
     if ( @_ > 1 ) {
         warn "$sub()\n" if $sub ne $LAST_SUB;
-        
-        while ( @_ ) {
+
+        while (@_) {
             my $key   = shift;
             my $value = shift;
-            
+
             if ( ref $value ) {
-                $value = Data::Dumper::Dumper( $value );
+                $value = Data::Dumper::Dumper($value);
                 $value =~ s/^\$VAR1 = //;
             }
             else {
                 $value = "'$value'\n";
             }
-            
+
             warn "$key: $value";
         }
     }
     elsif ( ref $message ) {
         warn "$sub()\n" if $sub ne $LAST_SUB;
-        
+
         $message = Data::Dumper::Dumper($message);
         $message =~ s/^\$VAR1 = /        /;
-        
+
         warn "$message\n";
     }
     else {
@@ -93,9 +93,9 @@ sub debug {
 
         warn "$message\n";
     }
-    
+
     $LAST_SUB = $sub;
-    
+
     return;
 }
 
@@ -109,12 +109,12 @@ sub _filter_components {
 
         my $value;
 
-        @$components =
-            grep {
+        @$components
+            = grep {
                    $_->can($name)
                 && defined( $value = $_->$name )
                 && $value eq $args->{$name}
-        } @$components;
+            } @$components;
     }
 
     return $components;
@@ -127,12 +127,10 @@ sub _get_elements {
         my $value;
 
         @$elements = grep {
-                           $_->can($name)
-                        && defined( $value = $_->$name )
-                        && $value eq $args->{$name}
-                     }
-                        @$elements
-                     ;
+                   $_->can($name)
+                && defined( $value = $_->$name )
+                && $value eq $args->{$name}
+        } @$elements;
     }
 
     return $elements;
@@ -148,17 +146,17 @@ sub append_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        
+
         if ( blessed $attrs->{$key}
-             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+            && $attrs->{$key}->isa('HTML::FormFu::Literal') )
         {
             $orig = 'literal';
         }
 
         my $new = 'string';
-        
+
         if ( blessed $value
-             && $value->isa('HTML::FormFu::Literal') )
+            && $value->isa('HTML::FormFu::Literal') )
         {
             $new = 'literal';
         }
@@ -207,17 +205,17 @@ sub has_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        
+
         if ( blessed $attrs->{$key}
-             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+            && $attrs->{$key}->isa('HTML::FormFu::Literal') )
         {
             $orig = 'literal';
         }
 
         my $new = 'string';
-        
+
         if ( blessed $value
-             && $value->isa('HTML::FormFu::Literal') )
+            && $value->isa('HTML::FormFu::Literal') )
         {
             $new = 'literal';
         }
@@ -278,17 +276,17 @@ sub remove_xml_attribute {
 
     if ( exists $attrs->{$key} && defined $attrs->{$key} ) {
         my $orig = 'string';
-        
+
         if ( blessed $attrs->{$key}
-             && $attrs->{$key}->isa('HTML::FormFu::Literal') )
+            && $attrs->{$key}->isa('HTML::FormFu::Literal') )
         {
             $orig = 'literal';
         }
 
         my $new = 'string';
-        
+
         if ( blessed $value
-             && $value->isa('HTML::FormFu::Literal') )
+            && $value->isa('HTML::FormFu::Literal') )
         {
             $new = 'literal';
         }
@@ -383,11 +381,11 @@ sub xml_escape {
 
     if ( ref $val eq 'HASH' ) {
         my %val = %$val;
-        
-        while ( my ($key, $value) = each %val ) {
-            $val{$key} = xml_escape( $value );
+
+        while ( my ( $key, $value ) = each %val ) {
+            $val{$key} = xml_escape($value);
         }
-        
+
         return \%val;
     }
     elsif ( ref $val eq 'ARRAY' ) {
@@ -424,12 +422,13 @@ sub process_attrs {
     croak 'argument to process_attrs() must be a hashref' if $@;
 
     my @attribute_parts;
-    
+
     for my $attribute ( sort keys %$attrs ) {
-        my $value = defined $attrs->{$attribute} ? $attrs->{$attribute}
-                  :                                $EMPTY_STR
-                  ;
-        
+        my $value
+            = defined $attrs->{$attribute}
+            ? $attrs->{$attribute}
+            : $EMPTY_STR;
+
         push @attribute_parts, sprintf '%s="%s"', $attribute, $value;
     }
 
@@ -450,6 +449,7 @@ sub split_name {
     return if !defined $name;
 
     if ( $name =~ /^ \w+ \[ /x ) {
+
         # copied from Catalyst::Plugin::Params::Nested::Expander
         # redistributed under the same terms as Perl
 
@@ -461,6 +461,7 @@ sub split_name {
         );
     }
     elsif ( $name =~ /\./ ) {
+
         # Copied from CGI::Expand
         # redistributed under the same terms as Perl
 
@@ -493,10 +494,10 @@ sub _merge_hashes {
 
     my %merged = %$lefthash;
 
-    while ( my ($key, $value) = each %$righthash ) {
+    while ( my ( $key, $value ) = each %$righthash ) {
         my $is_right_ref = ref $value eq 'HASH';
-        my $is_left_ref  = exists $lefthash->{$key} && ref $value eq 'HASH';
-        
+        my $is_left_ref = exists $lefthash->{$key} && ref $value eq 'HASH';
+
         if ( $is_left_ref && $is_right_ref ) {
             $merged{$key} = _merge_hashes( $lefthash->{$key}, $value );
         }

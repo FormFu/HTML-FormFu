@@ -3,7 +3,7 @@ package HTML::FormFu::Filter::Default;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_item_accessors( qw( value ) );
+__PACKAGE__->mk_item_accessors(qw( value ));
 
 sub filter {
     my ( $self, $value ) = @_;

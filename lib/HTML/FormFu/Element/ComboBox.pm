@@ -19,8 +19,7 @@ __PACKAGE__->mk_accessors(
     qw(
         select
         text
-    )
-);
+        ) );
 
 *default = \&value;
 
@@ -29,7 +28,7 @@ for my $method ( qw(
     deflator        filter
     constraint      inflator
     validator       transformer
-) )
+    ) )
 {
     my $sub = sub {
         my $self       = shift;
@@ -56,34 +55,32 @@ sub new {
     $self->multi_value(1);
     $self->empty_first(1);
 
-    $self->select({
-        type => '_MultiSelect',
-    });
-    
-    $self->text({
-        type => '_MultiText',
-    });
+    $self->select( { type => '_MultiSelect', } );
+
+    $self->text( { type => '_MultiText', } );
 
     return $self;
 }
 
 sub options {
     my ( $self, @args ) = @_;
-    
+
     if (@args) {
         $self->{options} = @args == 1 ? $args[0] : \@args;
-        
+
         return $self;
     }
     else {
+
         # we're being called as a getter!
         # are the child elements made yet?
-        
+
         if ( !@{ $self->_elements } ) {
+
             # need to build the children, so we can return the select options
             $self->_add_elements;
         }
-        
+
         return $self->_elements->[0]->options;
     }
 }
@@ -111,27 +108,26 @@ sub value {
 }
 
 sub _add_elements {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     $self->_elements( [] );
 
     $self->_add_select;
     $self->_add_text;
-    
+
     $self->_combobox_defaults;
 
     return;
 }
 
 sub _combobox_defaults {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
-    if ( defined ( my $default = $self->default ) ) {
+    if ( defined( my $default = $self->default ) ) {
         my $select_options = $self->_elements->[0]->options;
-        
+
         if ( $default ne ''
-             && any { $_->{value} eq $default } @$select_options
-           )
+            && any { $_->{value} eq $default } @$select_options )
         {
             $self->select->{default} = $default;
             $self->text->{default}   = undef;
@@ -153,23 +149,24 @@ sub _add_select {
     my $select_name = _build_field_name( $self, 'select' );
 
     my $select_element = $self->element( {
-        type    => $select->{type},
-        name    => $select_name,
-    } );
+            type => $select->{type},
+            name => $select_name,
+        } );
 
-    for my $method ( @DEFER_TO_SELECT ) {
-        if ( defined ( my $value = $self->$method ) ) {
-            $select_element->$method( $value );
+    for my $method (@DEFER_TO_SELECT) {
+        if ( defined( my $value = $self->$method ) ) {
+            $select_element->$method($value);
         }
     }
 
     if ( !@{ $select_element->options } ) {
+
         # we need to access the hashkey directly,
         # otherwise we'll have a loop
         $select_element->options( $self->{options} );
     }
 
-    if ( defined ( my $default = $select->{default} ) ) {
+    if ( defined( my $default = $select->{default} ) ) {
         $select_element->default($default);
     }
 
@@ -184,11 +181,11 @@ sub _add_text {
     my $text_name = _build_field_name( $self, 'text' );
 
     my $text_element = $self->element( {
-        type    => $text->{type},
-        name    => $text_name,
-    } );
+            type => $text->{type},
+            name => $text_name,
+        } );
 
-    if ( defined ( my $default = $text->{default} ) ) {
+    if ( defined( my $default = $text->{default} ) ) {
         $text_element->default($default);
     }
 
@@ -200,7 +197,7 @@ sub _build_field_name {
 
     my $options = $self->$type;
     my $name;
-    
+
     if ( defined( my $default_name = $options->{name} ) ) {
         $name = $default_name;
     }
@@ -224,27 +221,21 @@ sub process {
 sub process_input {
     my ( $self, $input ) = @_;
 
-    my $select_name = _build_field_name( $self , 'select' );
-    my $text_name   = _build_field_name ($self, 'text' );
+    my $select_name = _build_field_name( $self, 'select' );
+    my $text_name   = _build_field_name( $self, 'text' );
 
     $select_name = $self->get_element( { name => $select_name } )->nested_name;
-    $text_name   = $self->get_element( { name => $text_name }   )->nested_name;
+    $text_name   = $self->get_element( { name => $text_name } )->nested_name;
 
     my $select_value = $self->get_nested_hash_value( $input, $select_name );
     my $text_value   = $self->get_nested_hash_value( $input, $text_name );
 
     if ( defined $text_value && length $text_value ) {
-        $self->set_nested_hash_value(
-            $input,
-            $self->nested_name,
-            $text_value,
+        $self->set_nested_hash_value( $input, $self->nested_name, $text_value,
         );
     }
     elsif ( defined $select_value && length $select_value ) {
-        $self->set_nested_hash_value(
-            $input,
-            $self->nested_name,
-            $select_value,
+        $self->set_nested_hash_value( $input, $self->nested_name, $select_value,
         );
     }
 
@@ -259,9 +250,9 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        elements => [ map { $_->render_data } @{ $self->_elements } ],
-        $args ? %$args : (),
-    } );
+            elements => [ map { $_->render_data } @{ $self->_elements } ],
+            $args ? %$args : (),
+        } );
 
     return $render;
 }

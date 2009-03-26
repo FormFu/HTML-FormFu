@@ -69,7 +69,7 @@ sub constrain_value {
 
 sub _localize_args {
     my ($self) = @_;
-    
+
     return $self->parent->label;
 }
 

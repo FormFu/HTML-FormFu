@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Filter::_Compound';
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( sprintf ) );
+__PACKAGE__->mk_item_accessors(qw( sprintf ));
 
 sub filter {
     my ( $self, $value ) = @_;

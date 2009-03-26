@@ -9,17 +9,17 @@ use List::Util qw( first );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors( qw(
-    _original_elements
-    increment_field_names
-    counter_name
+        _original_elements
+        increment_field_names
+        counter_name
 ) );
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename             ( 'repeatable' );
-    $self->is_repeatable        ( 1 );
-    $self->increment_field_names( 1 );
+    $self->filename('repeatable');
+    $self->is_repeatable(1);
+    $self->increment_field_names(1);
 
     return $self;
 }
@@ -35,12 +35,13 @@ sub repeat {
     my $children;
 
     if ( $self->_original_elements ) {
+
         # repeat() has already been called
         $children = $self->_original_elements;
     }
     else {
         $children = $self->_elements;
-        
+
         $self->_original_elements($children);
     }
 
@@ -55,9 +56,9 @@ sub repeat {
         my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
 
-        $block->_elements ( \@clones );
+        $block->_elements( \@clones );
         $block->attributes( $self->attributes );
-        $block->tag       ( $self->tag );
+        $block->tag( $self->tag );
 
         $block->repeatable_count($rep);
 
@@ -66,10 +67,10 @@ sub repeat {
 
                 if ( defined( my $name = $field->name ) ) {
                     $field->original_name($name);
-                    
+
                     $field->original_nested_name( $field->nested_name );
 
-                    $field->name( "${name}_$rep" );
+                    $field->name("${name}_$rep");
                 }
             }
         }
@@ -90,15 +91,11 @@ sub repeat {
 
         my $block_fields = $block->get_fields;
 
-        my @block_constraints = map { @{ $_->get_constraints } }
-                                    @$block_fields;
+        my @block_constraints = map { @{ $_->get_constraints } } @$block_fields;
 
         # rename any 'others' fields
-        my @others_constraints
-            = grep { defined $_->others }
-              grep { $_->can('others') }
-                @block_constraints
-                ;
+        my @others_constraints = grep { defined $_->others }
+            grep { $_->can('others') } @block_constraints;
 
         for my $constraint (@others_constraints) {
             my $others = $constraint->others;
@@ -109,8 +106,9 @@ sub repeat {
 
             for my $name (@$others) {
                 my $field
-                    = ( first { $_->original_nested_name eq $name } @$block_fields )
-                    ||  first { $_->original_name eq $name } @$block_fields;
+                    = ( first { $_->original_nested_name eq $name }
+                    @$block_fields )
+                    || first { $_->original_name eq $name } @$block_fields;
 
                 if ( defined $field ) {
                     push @new_others, $field->nested_name;
@@ -122,17 +120,17 @@ sub repeat {
 
             $constraint->others( \@new_others );
         }
-        
+
         # rename any 'when' fields
-        my @when_constraints = grep { defined $_->when }
-                                 @block_constraints;
+        my @when_constraints = grep { defined $_->when } @block_constraints;
 
         for my $constraint (@when_constraints) {
             my $when = $constraint->when;
             my $name = $when->{field};
-            
-            my $field = first { $_->original_nested_name eq $name } @$block_fields;
-            
+
+            my $field
+                = first { $_->original_nested_name eq $name } @$block_fields;
+
             if ( defined $field ) {
                 $when->{field} = $field->nested_name;
             }
@@ -194,7 +192,8 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data}
+    my $render
+        = exists $args->{render_data}
         ? $args->{render_data}
         : $self->render_data_non_recursive;
 

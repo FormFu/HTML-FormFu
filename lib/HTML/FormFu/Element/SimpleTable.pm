@@ -7,7 +7,7 @@ use Class::C3;
 use HTML::FormFu::Util qw( append_xml_attribute );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( odd_class even_class ) );
+__PACKAGE__->mk_item_accessors(qw( odd_class even_class ));
 
 sub new {
     my $self = shift->next::method(@_);
@@ -20,7 +20,7 @@ sub new {
 sub headers {
     my ( $self, $headers ) = @_;
     my @headers;
-    
+
     eval { @headers = @$headers };
     croak "headers must be passed as an array-ref" if $@;
 
@@ -46,7 +46,7 @@ sub headers {
 
 sub rows {
     my ( $self, $rows ) = @_;
-    
+
     croak "too many arguments" if @_ > 2;
 
     my @rows;

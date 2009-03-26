@@ -22,7 +22,7 @@ sub process {
 
     my $value = $self->get_nested_hash_value( $params, $self->nested_name );
 
-    DEBUG_CONSTRAINTS && debug(VALUE => $value);
+    DEBUG_CONSTRAINTS && debug( VALUE => $value );
 
     my @names = ref $others ? @{$others} : ($others);
     my @failed;
@@ -32,14 +32,14 @@ sub process {
 
         my $other_value = $self->get_nested_hash_value( $params, $name );
 
-        DEBUG_CONSTRAINTS && debug(NAME => $name, VALUE => $value);
+        DEBUG_CONSTRAINTS && debug( NAME => $name, VALUE => $value );
 
         my $ok = _values_eq( $value, $other_value );
 
         if ( $self->not() ? $ok : !$ok ) {
             push @failed, $name;
         }
-        
+
         $values{$name} = $other_value;
     }
 
@@ -91,7 +91,7 @@ sub _arrays_eq {
 
 sub _localize_args {
     my ($self) = @_;
-    
+
     return $self->parent->label;
 }
 

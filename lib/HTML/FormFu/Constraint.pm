@@ -14,7 +14,7 @@ use Scalar::Util qw( blessed );
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( not force_errors when ) );
+__PACKAGE__->mk_item_accessors(qw( not force_errors when ));
 
 sub process {
     my ( $self, $params ) = @_;
@@ -43,8 +43,8 @@ sub process {
     else {
         my $ok = eval { $self->constrain_value( $value, $params ) };
 
-        DEBUG_CONSTRAINTS && debug('CONSTRAINT RETURN VALUE' => $ok);
-        DEBUG_CONSTRAINTS && debug('$@' => $@);
+        DEBUG_CONSTRAINTS && debug( 'CONSTRAINT RETURN VALUE' => $ok );
+        DEBUG_CONSTRAINTS && debug( '$@' => $@ );
 
         push @errors,
             $self->mk_errors( {
@@ -64,8 +64,8 @@ sub constrain_values {
     for my $value (@$values) {
         my $ok = eval { $self->constrain_value( $value, $params ) };
 
-        DEBUG_CONSTRAINTS && debug('CONSTRAINT RETURN VALUE' => $ok);
-        DEBUG_CONSTRAINTS && debug('$@' => $@);
+        DEBUG_CONSTRAINTS && debug( 'CONSTRAINT RETURN VALUE' => $ok );
+        DEBUG_CONSTRAINTS && debug( '$@' => $@ );
 
         push @errors,
             $self->mk_errors( {
@@ -144,17 +144,17 @@ sub _process_when {
 
     my @values;
 
-    if ( defined ( my $value = $when->{value} ) ) {
+    if ( defined( my $value = $when->{value} ) ) {
         push @values, $value;
     }
-    elsif ( defined ( my $values = $when->{values} ) ) {
+    elsif ( defined( my $values = $when->{values} ) ) {
         push @values, @$values;
     }
 
     # determine if condition is fulfilled
     my $ok;
 
-    if ( @values ) {
+    if (@values) {
         $ok = any { $when_field_value eq $_ } @values;
     }
     else {
@@ -172,7 +172,7 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    if ( defined ( my $when = $self->when ) ) {
+    if ( defined( my $when = $self->when ) ) {
         $clone->when( dclone $when );
     }
 

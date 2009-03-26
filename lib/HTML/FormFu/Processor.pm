@@ -23,9 +23,9 @@ use overload
     bool => sub {1},
     fallback => 1;
 
-__PACKAGE__->mk_item_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors(qw( type ));
 
-__PACKAGE__->mk_output_accessors( qw( message ) );
+__PACKAGE__->mk_output_accessors(qw( message ));
 
 *field = \&parent;
 
@@ -53,8 +53,9 @@ sub new {
 
 sub localize_args {
     my $self = shift;
-    
+
     if (@_) {
+
         # user's passing their own args - save them
         if ( @_ == 1 ) {
             $self->{localize_args} = $_[0];
@@ -64,17 +65,17 @@ sub localize_args {
         }
         return $self;
     }
-    
+
     # if the user passed a value, use that - even if it's undef
     if ( exists $self->{localize_args} ) {
         return $self->{localize_args};
     }
-    
+
     # do we have a method to build our own args?
     if ( my $method = $self->can('_localize_args') ) {
         return $self->$method;
     }
-    
+
     return;
 }
 

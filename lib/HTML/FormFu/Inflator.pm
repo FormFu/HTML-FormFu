@@ -18,7 +18,7 @@ sub process {
         my @return;
         for my $value (@$values) {
             ($return) = eval { $self->inflator($value) };
-            
+
             if ($@) {
                 push @errors, $self->return_error($@);
                 push @return, undef;
@@ -31,7 +31,7 @@ sub process {
     }
     else {
         ($return) = eval { $self->inflator($values) };
-        
+
         if ($@) {
             push @errors, $self->return_error($@);
         }

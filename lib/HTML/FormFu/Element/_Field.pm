@@ -35,34 +35,34 @@ our @EXPORT_OK = qw(
 our %EXPORT_TAGS = ( FIELD => \@EXPORT_OK );
 
 __PACKAGE__->mk_attrs( qw(
-    comment_attributes
-    container_attributes
-    label_attributes
+        comment_attributes
+        container_attributes
+        label_attributes
 ) );
 
 __PACKAGE__->mk_item_accessors( qw(
-    _constraints                _filters
-    _inflators                  _deflators
-    _validators                 _transformers
-    _plugins                    _errors
-    container_tag               field_filename
-    label_filename              label_tag
-    retain_default              force_default
-    javascript                  non_param
-    reverse_multi               multi_value
-    original_name               original_nested_name
+        _constraints                _filters
+        _inflators                  _deflators
+        _validators                 _transformers
+        _plugins                    _errors
+        container_tag               field_filename
+        label_filename              label_tag
+        retain_default              force_default
+        javascript                  non_param
+        reverse_multi               multi_value
+        original_name               original_nested_name
 ) );
 
-__PACKAGE__->mk_output_accessors( qw( comment label value ) );
+__PACKAGE__->mk_output_accessors(qw( comment label value ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
-    auto_id                     auto_label
-    auto_error_class            auto_error_message
-    auto_constraint_class       auto_inflator_class
-    auto_validator_class        auto_transformer_class
-    render_processed_value      force_errors
-    repeatable_count            default_empty_value
-    locale
+        auto_id                     auto_label
+        auto_error_class            auto_error_message
+        auto_constraint_class       auto_inflator_class
+        auto_validator_class        auto_transformer_class
+        render_processed_value      force_errors
+        repeatable_count            default_empty_value
+        locale
 ) );
 
 *constraints  = \&constraint;
@@ -79,21 +79,21 @@ __PACKAGE__->mk_inherited_accessors( qw(
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->_constraints        ( [] );
-    $self->_filters            ( [] );
-    $self->_deflators          ( [] );
-    $self->_inflators          ( [] );
-    $self->_validators         ( [] );
-    $self->_transformers       ( [] );
-    $self->_plugins            ( [] );
-    $self->_errors             ( [] );
-    $self->comment_attributes  ( {} );
+    $self->_constraints(  [] );
+    $self->_filters(      [] );
+    $self->_deflators(    [] );
+    $self->_inflators(    [] );
+    $self->_validators(   [] );
+    $self->_transformers( [] );
+    $self->_plugins(      [] );
+    $self->_errors(       [] );
+    $self->comment_attributes(   {} );
     $self->container_attributes( {} );
-    $self->label_attributes    ( {} );
-    $self->label_filename      ( 'label' );
-    $self->label_tag           ( 'label' );
-    $self->container_tag       ( 'div' );
-    $self->is_field            ( 1 );
+    $self->label_attributes(     {} );
+    $self->label_filename('label');
+    $self->label_tag('label');
+    $self->container_tag('div');
+    $self->is_field(1);
 
     return $self;
 }
@@ -106,7 +106,7 @@ sub nested {
     if ( defined $self->name ) {
         my $parent = $self;
 
-        while ( defined ( $parent = $parent->parent ) ) {
+        while ( defined( $parent = $parent->parent ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
                 return 1 if defined $parent->name;
@@ -144,13 +144,13 @@ sub nested_names {
 
     croak 'cannot set nested_names' if @_ > 1;
 
-    if ( defined ( my $name = $self->name ) ) {
+    if ( defined( my $name = $self->name ) ) {
         my @names;
         my $parent = $self;
 
         # micro optimization! this method's called a lot, so access
         # parent hashkey directly, instead of calling parent()
-        while ( defined ( $parent = $parent->{parent} ) ) {
+        while ( defined( $parent = $parent->{parent} ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
                 push @names, $parent->name
@@ -177,7 +177,7 @@ sub nested_base {
 
     my $parent = $self;
 
-    while ( defined ( $parent = $parent->parent ) ) {
+    while ( defined( $parent = $parent->parent ) ) {
 
         return $parent->nested_name if defined $parent->nested_name;
     }
@@ -444,14 +444,14 @@ sub prepare_id {
         && length $self->auto_id )
     {
         my $form_name
-            = defined $self->form->id ? $self->form->id
-            :                           $EMPTY_STR
-            ;
-        
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
+
         my $field_name
-            = defined $render->{nested_name} ? $render->{nested_name}
-            :                                  $EMPTY_STR
-            ;
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
 
         my %string = (
             f => $form_name,
@@ -478,8 +478,8 @@ sub process_value {
     my $default   = $self->default;
 
     my $new;
-    
-    if ( $submitted ) {
+
+    if ($submitted) {
         if ( defined $value ) {
             $new = $value;
         }
@@ -491,7 +491,11 @@ sub process_value {
         $new = $default;
     }
 
-    if ( $submitted && $self->retain_default && defined $new && $new eq $EMPTY_STR ) {
+    if (   $submitted
+        && $self->retain_default
+        && defined $new
+        && $new eq $EMPTY_STR )
+    {
         $new = $default;
     }
 
@@ -512,30 +516,30 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        nested_name          => xml_escape( $self->nested_name ),
-        comment_attributes   => xml_escape( $self->comment_attributes ),
-        container_attributes => xml_escape( $self->container_attributes ),
-        label_attributes     => xml_escape( $self->label_attributes ),
-        comment              => xml_escape( $self->comment ),
-        label                => xml_escape( $self->label ),
-        field_filename       => $self->field_filename,
-        label_filename       => $self->label_filename,
-        label_tag            => $self->label_tag,
-        container_tag        => $self->container_tag,
-        reverse_multi        => $self->reverse_multi,
-        javascript           => $self->javascript,
-        $args ? %$args : (),
-    } );
+            nested_name          => xml_escape( $self->nested_name ),
+            comment_attributes   => xml_escape( $self->comment_attributes ),
+            container_attributes => xml_escape( $self->container_attributes ),
+            label_attributes     => xml_escape( $self->label_attributes ),
+            comment              => xml_escape( $self->comment ),
+            label                => xml_escape( $self->label ),
+            field_filename       => $self->field_filename,
+            label_filename       => $self->label_filename,
+            label_tag            => $self->label_tag,
+            container_tag        => $self->container_tag,
+            reverse_multi        => $self->reverse_multi,
+            javascript           => $self->javascript,
+            $args ? %$args : (),
+        } );
 
-    $self->_render_container_class  ( $render );
-    $self->_render_comment_class    ( $render );
-    $self->_render_label            ( $render );
-    $self->_render_value            ( $render );
-    $self->_render_constraint_class ( $render );
-    $self->_render_inflator_class   ( $render );
-    $self->_render_validator_class  ( $render );
-    $self->_render_transformer_class( $render );
-    $self->_render_error_class      ( $render );
+    $self->_render_container_class($render);
+    $self->_render_comment_class($render);
+    $self->_render_label($render);
+    $self->_render_value($render);
+    $self->_render_constraint_class($render);
+    $self->_render_inflator_class($render);
+    $self->_render_validator_class($render);
+    $self->_render_transformer_class($render);
+    $self->_render_error_class($render);
 
     return $render;
 }
@@ -578,17 +582,11 @@ sub _render_comment_class {
     my ( $self, $render ) = @_;
 
     if ( defined $render->{comment} ) {
-        append_xml_attribute(
-            $render->{comment_attributes},
-            'class',
-            'comment'
-        );
-        
-        append_xml_attribute(
-            $render->{container_attributes},
-            'class',
-            'comment'
-        );
+        append_xml_attribute( $render->{comment_attributes},
+            'class', 'comment' );
+
+        append_xml_attribute( $render->{container_attributes},
+            'class', 'comment' );
     }
 
     return;
@@ -602,21 +600,17 @@ sub _render_value {
 
     my $input;
 
-    if ( $self->form->submitted
-         && defined $name
-         && $self->nested_hash_key_exists( $form->input, $name ) )
+    if (   $self->form->submitted
+        && defined $name
+        && $self->nested_hash_key_exists( $form->input, $name ) )
     {
         if ( $self->render_processed_value ) {
-            $input = $self->get_nested_hash_value(
-                        $form->_processed_params,
-                        $name,
-                    );
+            $input
+                = $self->get_nested_hash_value( $form->_processed_params, $name,
+                );
         }
         else {
-            $input = $self->get_nested_hash_value(
-                        $form->input,
-                        $name,
-                    );
+            $input = $self->get_nested_hash_value( $form->input, $name, );
         }
     }
 
@@ -652,7 +646,7 @@ sub _render_value {
         }
     }
 
-    $render->{value} = xml_escape( $value );
+    $render->{value} = xml_escape($value);
 
     return;
 }
@@ -663,10 +657,7 @@ sub _render_container_class {
     my $type = $self->type;
     $type =~ s/:://g;
 
-    append_xml_attribute(
-        $render->{container_attributes},
-        'class',
-        lc($type),
+    append_xml_attribute( $render->{container_attributes}, 'class', lc($type),
     );
 
     return;
@@ -693,11 +684,8 @@ sub _render_constraint_class {
 
         $class =~ s/%([fnt])/$string{$1}/g;
 
-        append_xml_attribute(
-            $render->{container_attributes},
-            'class',
-            $class,
-        );
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class, );
     }
 
     return;
@@ -724,11 +712,8 @@ sub _render_inflator_class {
 
         $class =~ s/%([fnt])/$string{$1}/g;
 
-        append_xml_attribute(
-            $render->{container_attributes},
-            'class',
-            $class,
-        );
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class, );
     }
 
     return;
@@ -755,11 +740,8 @@ sub _render_validator_class {
 
         $class =~ s/%([fnt])/$string{$1}/g;
 
-        append_xml_attribute(
-            $render->{container_attributes},
-            'class',
-            $class,
-        );
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class, );
     }
 
     return;
@@ -786,11 +768,8 @@ sub _render_transformer_class {
 
         $class =~ s/%([fnt])/$string{$1}/g;
 
-        append_xml_attribute(
-            $render->{container_attributes},
-            'class',
-            $class,
-        );
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class, );
     }
 
     return;
@@ -810,11 +789,8 @@ sub _render_error_class {
         my @class = uniq map { $_->class } @errors;
 
         for my $class (@class) {
-            append_xml_attribute(
-                $render->{container_attributes},
-                'class',
-                $class,
-            );
+            append_xml_attribute( $render->{container_attributes},
+                'class', $class, );
         }
     }
 
@@ -843,8 +819,7 @@ sub _string_field_start {
     if ( defined $render->{container_tag} ) {
         $html .= sprintf '<%s%s>',
             $render->{container_tag},
-            process_attrs( $render->{container_attributes} )
-            ;
+            process_attrs( $render->{container_attributes} );
     }
 
     if ( defined $render->{label} && $render->{label_tag} eq 'legend' ) {
@@ -901,9 +876,7 @@ sub _string_field_end {
     }
 
     if ( defined $render->{container_tag} ) {
-        $html .= sprintf "\n</%s>",
-            $render->{container_tag},
-            ;
+        $html .= sprintf "\n</%s>", $render->{container_tag},;
     }
 
     if ( defined $render->{javascript} ) {
@@ -922,16 +895,17 @@ sub clone {
 
     for my $list ( qw(
         _filters _constraints _inflators _validators _transformers
-        _deflators _errors ) )
+        _deflators _errors )
+        )
     {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );
 
         map { $_->parent($clone) } @{ $clone->$list };
     }
 
-    $clone->comment_attributes  ( dclone $self->comment_attributes );
+    $clone->comment_attributes( dclone $self->comment_attributes );
     $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes    ( dclone $self->label_attributes );
+    $clone->label_attributes( dclone $self->label_attributes );
 
     return $clone;
 }

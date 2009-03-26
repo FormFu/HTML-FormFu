@@ -36,7 +36,7 @@ sub file_list {
     my @dir;
 
     my $wanted = sub {
-        return if /^\./;    # skip files beginning with "."
+        return if /^\./;                    # skip files beginning with "."
         return if !-f $File::Find::name;    # skip non-files
 
         # necessary when using dev files

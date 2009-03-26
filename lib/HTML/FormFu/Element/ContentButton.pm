@@ -6,14 +6,14 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( xml_escape process_attrs );
 
-__PACKAGE__->mk_item_accessors( qw( field_type ) );
-__PACKAGE__->mk_output_accessors( qw( content ) );
+__PACKAGE__->mk_item_accessors(qw( field_type ));
+__PACKAGE__->mk_output_accessors(qw( content ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename  ( 'content_button' );
-    $self->field_type( 'button' );
+    $self->filename('content_button');
+    $self->field_type('button');
 
     return $self;
 }
@@ -22,10 +22,10 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        field_type => $self->field_type,
-        content    => xml_escape( $self->content ),
-        $args ? %$args : (),
-    } );
+            field_type => $self->field_type,
+            content    => xml_escape( $self->content ),
+            $args ? %$args : (),
+        } );
 
     return $render;
 }
@@ -35,9 +35,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # field wrapper template - start
 

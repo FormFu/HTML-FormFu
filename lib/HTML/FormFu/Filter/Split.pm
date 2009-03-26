@@ -3,7 +3,7 @@ package HTML::FormFu::Filter::Split;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_item_accessors( qw( regex limit ) );
+__PACKAGE__->mk_item_accessors(qw( regex limit ));
 
 sub filter {
     my ( $self, $value ) = @_;

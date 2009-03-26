@@ -8,7 +8,7 @@ use HTML::FormFu::ObjectUtil qw( form parent );
 use Scalar::Util qw( refaddr );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors(qw( type ));
 
 sub new {
     my $class = shift;

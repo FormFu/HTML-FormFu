@@ -5,9 +5,9 @@ use base 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-__PACKAGE__->mk_item_accessors( qw( split join ) );
+__PACKAGE__->mk_item_accessors(qw( split join ));
 
-__PACKAGE__->mk_accessors( qw( field_order ) );
+__PACKAGE__->mk_accessors(qw( field_order ));
 
 sub deflator {
     my ( $self, $value ) = @_;
@@ -16,20 +16,22 @@ sub deflator {
 
     my ( $multi, @fields ) = @{ $self->parent->get_fields };
 
-    my $split = defined $self->split ? $self->split
-              :                        qr/$SPACE+/
-              ;
-    
-    my $join = defined $self->join ? $self->join
-             :                       $SPACE
-             ;
+    my $split
+        = defined $self->split
+        ? $self->split
+        : qr/$SPACE+/;
+
+    my $join
+        = defined $self->join
+        ? $self->join
+        : $SPACE;
 
     my @parts = CORE::split $split, $value;
 
     if ( my $order = $self->field_order ) {
         my @new_order;
 
-        FIELD:
+    FIELD:
         for my $i (@$order) {
             for my $field (@fields) {
                 if ( $field->name eq $i ) {
@@ -45,6 +47,7 @@ sub deflator {
     my %value;
 
     for my $i ( 0 .. $#fields ) {
+
         # if there are more parts than fields, join the extra ones
         # to make the final field's value
 

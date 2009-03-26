@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Filter';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-__PACKAGE__->mk_item_accessors( qw( match replace eval ) );
+__PACKAGE__->mk_item_accessors(qw( match replace eval ));
 
 sub filter {
     my ( $self, $value ) = @_;
@@ -13,7 +13,7 @@ sub filter {
     return if !defined $value;
 
     my $match   = defined $self->match   ? $self->match   : qr/./;
-    my $replace = defined $self->replace ? $self->replace : $EMPTY_STR ;
+    my $replace = defined $self->replace ? $self->replace : $EMPTY_STR;
 
     if ( $self->eval ) {
         $value =~ s/$match/$replace/gee;

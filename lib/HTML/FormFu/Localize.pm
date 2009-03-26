@@ -20,13 +20,13 @@ our @EXPORT = qw(
 
 sub localize {
     my ( $self, @original_strings ) = @_;
-    
-    @original_strings = grep { defined } @original_strings;
-    
+
+    @original_strings = grep {defined} @original_strings;
+
     if ( !$self->{has_default_localize_object} ) {
         $self->add_default_localize_object;
     }
-    
+
     my @localized_strings;
 
     foreach my $localize_data ( @{ $self->{localize_data} } ) {
@@ -95,7 +95,7 @@ sub get_localize_object_from_class {
     my $languages = $self->languages;
     $languages = [$languages] if ref $languages ne 'ARRAY';
 
-    return $class->get_handle( @$languages );
+    return $class->get_handle(@$languages);
 
 }
 
@@ -116,9 +116,9 @@ sub get_localize_object_dies_on_missing_key {
     # processing via the AUTO-function (_compile).
 
     my $testkey = 'html_formfu_missing_key_test';
-    
+
     eval { $localize_object->localize($testkey) };
-    
+
     my $dies_on_missing_key = $@ ? 1 : 0;
 
     return $dies_on_missing_key;
@@ -129,7 +129,7 @@ sub add_default_localize_object {
 
     my $localize_object
         = $self->get_localize_object_from_class( $self->localize_class );
-    
+
     my $dies_on_missing_key = 1;
 
     # put FormFu localize object in first place

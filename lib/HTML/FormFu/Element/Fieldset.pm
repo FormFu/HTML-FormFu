@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
-__PACKAGE__->mk_output_accessors( qw( legend ) );
+__PACKAGE__->mk_output_accessors(qw( legend ));
 
 sub new {
     my $self = shift->next::method(@_);
@@ -18,9 +18,9 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        legend => $self->legend,
-        $args ? %$args : (),
-    } );
+            legend => $self->legend,
+            $args ? %$args : (),
+        } );
 
     return $render;
 }

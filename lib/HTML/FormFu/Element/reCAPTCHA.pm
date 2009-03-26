@@ -9,17 +9,17 @@ use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
 __PACKAGE__->mk_item_accessors( qw(
-    public_key
-    private_key
-    ssl
-    recaptcha_options
+        public_key
+        private_key
+        ssl
+        recaptcha_options
 ) );
 
 sub new {
     my $self = shift->next::method(@_);
 
     $self->ssl('auto');
-    $self->recaptcha_options({});
+    $self->recaptcha_options( {} );
     $self->filename('recaptcha');
 
     $self->constraint( { type => 'reCAPTCHA' } );
@@ -31,31 +31,28 @@ sub render_data_non_recursive {
     my $self = shift;
 
     my $pubkey = $self->public_key || $ENV{RECAPTCHA_PUBLIC_KEY};
-    my $error  = undef;
-    
+    my $error = undef;
+
     # prefer catalyst methods to %ENV vars
-    my $query  = $self->form->query;
-    
-    my $catalyst_compatible
-        =  blessed( $query )
+    my $query = $self->form->query;
+
+    my $catalyst_compatible 
+        = blessed($query)
         && $query->can('secure')
         && $query->can('address');
 
-    my $use_ssl = $self->ssl eq 'auto' ? $catalyst_compatible
-                : $query->secure       ? $ENV{HTTPS}
-                :                        $self->ssl
-                ;
-    
+    my $use_ssl
+        = $self->ssl eq 'auto' ? $catalyst_compatible
+        : $query->secure ? $ENV{HTTPS}
+        :                  $self->ssl;
+
     my $recaptcha_options = $self->recaptcha_options;
 
     my $recaptcha = Captcha::reCAPTCHA->new;
-    
-    my $recaptcha_html = $recaptcha->get_html(
-        $pubkey,
-        $error,
-        $use_ssl,
-        $recaptcha_options,
-    );
+
+    my $recaptcha_html
+        = $recaptcha->get_html( $pubkey, $error, $use_ssl, $recaptcha_options,
+        );
 
     my $render = $self->next::method( {
             recaptcha_html => $recaptcha_html,

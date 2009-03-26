@@ -6,10 +6,10 @@ use base 'HTML::FormFu::Constraint';
 use Carp qw( croak );
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors( qw( minimum maximum ) );
+__PACKAGE__->mk_item_accessors(qw( minimum maximum ));
 
-*min = \&minimum;
-*max = \&maximum;
+*min          = \&minimum;
+*max          = \&maximum;
 *min_kilobyte = \&minimum_kilobyte;
 *max_kilobyte = \&maximum_kilobyte;
 *min_megabyte = \&minimum_megabyte;
@@ -46,37 +46,37 @@ sub _localize_args {
 
 sub minimum_kilobyte {
     my ( $self, $kb ) = @_;
-    
+
     croak "minimum_kilobyte() cannot be used as a getter"
         if @_ != 2;
-    
+
     return $self->minimum( $kb * 1024 );
 }
 
 sub minimum_megabyte {
     my ( $self, $kb ) = @_;
-    
+
     croak "minimum_megabyte() cannot be used as a getter"
         if @_ != 2;
-    
+
     return $self->minimum( $kb * 1_048_576 );
 }
 
 sub maximum_kilobyte {
     my ( $self, $kb ) = @_;
-    
+
     croak "maximum_kilobyte() cannot be used as a getter"
         if @_ != 2;
-    
+
     return $self->maximum( $kb * 1024 );
 }
 
 sub maximum_megabyte {
     my ( $self, $kb ) = @_;
-    
+
     croak "maximum_megabyte() cannot be used as a getter"
         if @_ != 2;
-    
+
     return $self->maximum( $kb * 1_048_576 );
 }
 

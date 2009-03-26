@@ -8,14 +8,14 @@ use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 use HTML::TokeParser::Simple;
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_item_accessors( qw( indent ) );
+__PACKAGE__->mk_item_accessors(qw( indent ));
 
-__PACKAGE__->mk_accessors( qw( preserve_tags ) );
+__PACKAGE__->mk_accessors(qw( preserve_tags ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->indent       ( "\t" );
+    $self->indent("\t");
     $self->preserve_tags( [qw( pre textarea )] );
 
     return $self;
@@ -46,9 +46,9 @@ sub process {
             $output .= $token->as_is;
 
             if ( !defined $token->get_attrseq->[-1]
-                 || $token->get_attrseq->[-1] ne "/" )
+                || $token->get_attrseq->[-1] ne "/" )
             {
-                $count ++;
+                $count++;
             }
         }
         elsif ( $token->is_end_tag ) {
@@ -60,7 +60,7 @@ sub process {
                 $output .= "\n" . $indent x $count;
             }
 
-            if (any { $tag eq $_ } @preserve_tags ) {
+            if ( any { $tag eq $_ } @preserve_tags ) {
                 $in_pre = 0;
             }
 

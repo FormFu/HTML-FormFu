@@ -470,9 +470,9 @@ sub _load_config {
     my $config_any_method = $use_stems ? 'load_stems' : 'load_files';
 
     my @config_file_path;
-    
+
     if ( my $config_file_path = $self->config_file_path ) {
-        
+
         if ( ref $config_file_path eq 'ARRAY' ) {
             push @config_file_path, @$config_file_path;
         }
@@ -487,9 +487,9 @@ sub _load_config {
     for my $file (@filenames) {
         my $loaded = 0;
         my $fullpath;
-        
+
         foreach my $config_file_path (@config_file_path) {
-            
+
             if ( defined $config_file_path
                 && !File::Spec->file_name_is_absolute($file) )
             {
@@ -1101,8 +1101,7 @@ sub _single_deflator {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
@@ -1141,8 +1140,7 @@ sub _single_filter {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
@@ -1181,8 +1179,7 @@ sub _single_constraint {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
@@ -1221,8 +1218,7 @@ sub _single_inflator {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
@@ -1261,8 +1257,7 @@ sub _single_validator {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {
@@ -1301,8 +1296,7 @@ sub _single_transformer {
         croak 'invalid args';
     }
 
-    my @names
-        = map { ref $_ ? @$_ : $_ }
+    my @names = map { ref $_ ? @$_ : $_ }
         grep {defined} ( delete $arg->{name}, delete $arg->{names} );
 
     if ( !@names ) {

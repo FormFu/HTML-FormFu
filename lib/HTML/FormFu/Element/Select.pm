@@ -8,14 +8,14 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_attr_accessors( qw( multiple size ) );
+__PACKAGE__->mk_attr_accessors(qw( multiple size ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename      ( 'input' );
-    $self->field_filename( 'select_tag' );
-    $self->multi_value   ( 1 );
+    $self->filename('input');
+    $self->field_filename('select_tag');
+    $self->multi_value(1);
 
     return $self;
 }

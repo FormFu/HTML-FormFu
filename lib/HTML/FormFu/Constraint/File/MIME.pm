@@ -6,9 +6,9 @@ use base 'HTML::FormFu::Constraint';
 use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors( qw( regex ) );
+__PACKAGE__->mk_item_accessors(qw( regex ));
 
-__PACKAGE__->mk_accessors( qw( types ) );
+__PACKAGE__->mk_accessors(qw( types ));
 
 sub constrain_value {
     my ( $self, $value ) = @_;

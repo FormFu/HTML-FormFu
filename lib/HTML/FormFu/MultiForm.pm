@@ -33,9 +33,9 @@ use overload (
     fallback => 1
 );
 
-__PACKAGE__->mk_attrs( qw( attributes crypt_args ) );
+__PACKAGE__->mk_attrs(qw( attributes crypt_args ));
 
-__PACKAGE__->mk_attr_accessors( qw( id action enctype method ) );
+__PACKAGE__->mk_attr_accessors(qw( id action enctype method ));
 
 # accessors shared with HTML::FormFu
 our @ACCESSORS = qw(
@@ -58,12 +58,9 @@ __PACKAGE__->mk_item_accessors qw(
     _data                               _file_fields
 );
 
-__PACKAGE__->mk_accessors(
-    @ACCESSORS,
-    'forms',
-);
+__PACKAGE__->mk_accessors( @ACCESSORS, 'forms', );
 
-__PACKAGE__->mk_output_accessors( qw( form_error_message ) );
+__PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
 # accessors shared with HTML::FormFu
 our @INHERITED_ACCESSORS = qw(
@@ -76,7 +73,7 @@ our @INHERITED_ACCESSORS = qw(
     config_file_path                locale
 );
 
-__PACKAGE__->mk_inherited_accessors( @INHERITED_ACCESSORS );
+__PACKAGE__->mk_inherited_accessors(@INHERITED_ACCESSORS);
 
 # accessors shared with HTML::FormFu
 our @INHERITED_MERGING_ACCESSORS = qw(
@@ -84,7 +81,7 @@ our @INHERITED_MERGING_ACCESSORS = qw(
     config_callback
 );
 
-__PACKAGE__->mk_inherited_merging_accessors( @INHERITED_MERGING_ACCESSORS );
+__PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
 
 *loc = \&localize;
 
@@ -140,6 +137,7 @@ sub process {
         $input = $query->param($hidden_name);
     }
     elsif ( defined $query ) {
+
         # it's not an object, just a hashref.
         # and HTML::FormFu::FakeQuery doesn't work with a MultiForm object
 
@@ -204,6 +202,7 @@ sub _process_get_data {
         }
     }
     else {
+
         # TODO: should handle errors better
         $data = undef;
     }
@@ -254,7 +253,7 @@ sub _load_current_form {
     # copy stash
     my $stash = $self->stash;
 
-    while ( my ($key, $value) = each %$stash ) {
+    while ( my ( $key, $value ) = each %$stash ) {
         $current_form->stash->{$key} = $value;
     }
 
@@ -331,12 +330,14 @@ sub render {
         if !defined $form;
 
     if ( $self->complete ) {
+
         # why would you render if it's complete?
         # anyway, just show the last form
         return $form->render(@_);
     }
 
     if ( $form->submitted_and_valid ) {
+
         # return the next form
         return $self->next_form->render(@_);
     }
@@ -376,15 +377,15 @@ sub next_form {
     # copy attrs
     my $attrs = $self->attrs;
 
-    while ( my ($key, $value) = each %$attrs ) {
-        $next_form->$key( $value );
+    while ( my ( $key, $value ) = each %$attrs ) {
+        $next_form->$key($value);
     }
 
     # copy stash
     my $current_form  = $self->current_form;
     my $current_stash = $current_form->stash;
 
-    while ( my ($key, $value) = each %$current_stash ) {
+    while ( my ( $key, $value ) = each %$current_stash ) {
         $next_form->stash->{$key} = $value;
     }
 
@@ -479,10 +480,10 @@ sub _save_hidden_data {
     my $parent           = $current_form->parent;
     my $stash            = $current_form->stash;
 
-    $current_form->input            ( {} );
-    $current_form->query            ( {} );
+    $current_form->input(             {} );
+    $current_form->query(             {} );
     $current_form->_processed_params( {} );
-    $current_form->parent           ( {} );
+    $current_form->parent(            {} );
 
     # empty the stash
     %{ $current_form->stash } = ();

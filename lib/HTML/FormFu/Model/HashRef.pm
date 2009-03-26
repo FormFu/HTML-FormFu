@@ -13,13 +13,14 @@ use Scalar::Util qw(blessed);
 
 use HTML::FormFu::Attribute qw( mk_accessors );
 
-__PACKAGE__->mk_accessors(qw(flatten options deflators inflators _repeatable _multi ));
+__PACKAGE__->mk_accessors(
+    qw(flatten options deflators inflators _repeatable _multi ));
 
 # for later moosification
 # use Moose;
-# 
+#
 # extends qw( HTML::FormFu::Model );
-# 
+#
 # has 'flatten'   => ( is => 'rw', isa => 'Bool' );
 # has 'options'   => ( is => 'rw', isa => 'Bool' );
 # has 'deflators' => ( is => 'rw', isa => 'Bool' );
@@ -38,54 +39,54 @@ sub new {
     $self->inflators(1);
     return $self;
 }
-    
+
 sub default_values {
     my ( $self, $data ) = @_;
-    map { $_->default(undef) } (grep { $_->is_field } @{$self->form->get_all_elements});
+    map { $_->default(undef) }
+        ( grep { $_->is_field } @{ $self->form->get_all_elements } );
     $self->_default_values( $self->form, $data );
     return $self;
 }
-
 
 sub _default_values {
     my ( $self, $form, $data ) = @_;
     my $elements = $form->get_elements;
     foreach my $element ( @{$elements} ) {
-        my $name = $element->name || "";
+        my $name        = $element->name        || "";
         my $nested_name = $element->nested_name || "";
         $name =~ s/_\d+$// if ($name);
         if ( $element->is_repeatable ) {
-            my $value = $data->{$name} || $data->{ $nested_name };
-            unless($value) {
+            my $value = $data->{$name} || $data->{$nested_name};
+            unless ($value) {
                 $element->repeat(0);
-                map { $element->remove_element($_) } @{$element->get_elements};
+                map { $element->remove_element($_) }
+                    @{ $element->get_elements };
                 next;
             }
             my $k = scalar @{$value};
             $element->repeat($k);
             my $childs = $element->get_elements;
-            for ( my $i = 0 ; $i < $k ; $i++ ) {
+            for ( my $i = 0; $i < $k; $i++ ) {
                 $self->_default_values( $childs->[$i], $value->[$i] );
             }
         }
         elsif ( $element->is_block && $element->is_field )
         {    # is a Multi element
             ref $data->{$name} eq "HASH"
-              ? $self->_default_values( $element, $data->{$name} )
-              : $element->default( $data->{$name} );
+                ? $self->_default_values( $element, $data->{$name} )
+                : $element->default( $data->{$name} );
         }
         elsif ( $element->is_block ) {
             $self->_default_values( $element,
                   $nested_name
-                ? $data->{ $nested_name }
+                ? $data->{$nested_name}
                 : $data );
         }
         else {
-            if ( $self->inflators && @{$element->get_inflators} > 0 )
-            {
-                my @inflators = @{$element->get_inflators};
-                map { $element->default( $_->process($data->{$name}) ) }
-                @inflators;
+            if ( $self->inflators && @{ $element->get_inflators } > 0 ) {
+                my @inflators = @{ $element->get_inflators };
+                map { $element->default( $_->process( $data->{$name} ) ) }
+                    @inflators;
             }
             else {
 
@@ -104,7 +105,7 @@ sub update { shift->create(@_) }
 sub create {
     my $self = shift;
     $self->form->render;
-    my $obj  = $self->_as_object_get( $self->form );
+    my $obj = $self->_as_object_get( $self->form );
     if ( $self->flatten ) {
         my $hf = new Hash::Flatten(
             { ArrayDelimiter => '_', HashDelimiter => '.' } );
@@ -119,7 +120,7 @@ sub _as_object_get {
     my $e     = $form->get_all_elements;
     my $names = {};
     foreach my $element ( @{$e} ) {
-        my $name    = $element->nested_name;
+        my $name = $element->nested_name;
         next unless $name;
         next if ( $element->type eq "Multi" );
         my $es_name = _escape_name($name);
@@ -128,43 +129,45 @@ sub _as_object_get {
             && @{ $element->_options } > 0 )
         {
             my @options = @{ $element->_options };
-            my @values =
-              ref $element->default eq "ARRAY"
-              ? @{ $element->default }
-              : $element->default;
+            my @values
+                = ref $element->default eq "ARRAY"
+                ? @{ $element->default }
+                : $element->default;
             $names->{$es_name} = [];
             foreach my $value (@values) {
-                my @option = grep { defined $value && $_->{value} eq $value } @options;
+                my @option
+                    = grep { defined $value && $_->{value} eq $value } @options;
                 unless (@option) {
                     @options = map { @{ $_->{group} || [] } } @options;
-                    @option =
-                      grep { $_->{value} eq $value } @options;
+                    @option
+                        = grep { $_->{value} eq $value } @options;
                 }
-                my $obj =
-                  [ map { { value => $_->{value}, label => $_->{label} } }
-                      @option ];
+                my $obj
+                    = [ map { { value => $_->{value}, label => $_->{label} } }
+                        @option ];
 
                 push( @{ $names->{$es_name} }, $obj->[0] ) if $name;
             }
             $names->{$es_name} = $names->{$es_name}->[0] if scalar @values == 1;
-            $names->{$es_name} ||= {value => undef, label => undef};
+            $names->{$es_name} ||= { value => undef, label => undef };
         }
         elsif ( $element->is_field && $self->deflators ) {
             my $deflators = $element->get_deflators;
             $names->{$es_name} = $element->default
-              if ( $element->can('default') );
+                if ( $element->can('default') );
             map { $names->{$es_name} = $_->deflator( $names->{$es_name} ) }
-              @{$deflators};
+                @{$deflators};
         }
         else {
-            $names->{$es_name} = $element->default 
-                if($element->can('default'));
+            $names->{$es_name} = $element->default
+                if ( $element->can('default') );
         }
 
-        if( blessed $names->{$es_name} ) { delete $names->{$es_name} };
+        if ( blessed $names->{$es_name} ) { delete $names->{$es_name} }
     }
 
     my $hf = new Hash::Flatten( { ArrayDelimiter => '_' } );
+
     #return $hf->unflatten($names);
     return $self->_unfold_repeatable( $form,
         $self->flatten ? $names : $hf->unflatten($names) );
@@ -188,68 +191,67 @@ sub _unfold_repeatable {
     my $self = shift;
     my $form = shift;
     my $data = shift;
-    return $data unless(ref $data eq "HASH");
-    my $new  = {};
-    
-
+    return $data unless ( ref $data eq "HASH" );
+    my $new = {};
 
     while ( my ( $k, $v ) = each %{$data} ) {
         my $key = _unescape_name($k);
-        
-        if( $self->get_repeatable($key) ) {
-                $new->{$key} = [];
+
+        if ( $self->get_repeatable($key) ) {
+            $new->{$key} = [];
             while ( my ( $name, $values ) = each %{$v} ) {
-                for ( my $i = 0 ; $i < @{$values} - 1 ; $i++ ) {
+                for ( my $i = 0; $i < @{$values} - 1; $i++ ) {
                     push( @{ $new->{$key} }, {} ) unless $new->{$key}->[$i];
-                    $new->{$key}->[$i]->{$name} = $self->_unfold_repeatable( $form, $values->[ $i + 1 ] );
+                    $new->{$key}->[$i]->{$name}
+                        = $self->_unfold_repeatable( $form,
+                        $values->[ $i + 1 ] );
                 }
-            } 
-        } elsif ($self->get_multi($key) && ref $v eq "ARRAY") {
-                for(@{$v || []}) {
-                    $new->{$key} = $_;
-                    last if $new->{$key};
-                }
-        } else {
+            }
+        }
+        elsif ( $self->get_multi($key) && ref $v eq "ARRAY" ) {
+            for ( @{ $v || [] } ) {
+                $new->{$key} = $_;
+                last if $new->{$key};
+            }
+        }
+        else {
             $new->{$key} = $self->_unfold_repeatable( $form, $v );
         }
     }
 
-
     return $new;
 }
 
-
 sub get_multi {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
-    unless($self->_multi) {
+    unless ( $self->_multi ) {
         my %multis = ();
         my $multis = $self->form->get_all_elements( { type => "Multi" } );
-        foreach my $multi (@{$multis || []}) {
+        foreach my $multi ( @{ $multis || [] } ) {
             my @multis;
-            map { push(@multis, $_->name) } @{$multi->get_elements};
-            map { s/_\d+//; $multis{$_} = 1} @multis;
+            map { push( @multis, $_->name ) } @{ $multi->get_elements };
+            map { s/_\d+//; $multis{$_} = 1 } @multis;
         }
-        $self->_multi(\%multis);
+        $self->_multi( \%multis );
     }
     return $self->_multi->{$element};
-    
-    
+
 }
 
 sub get_repeatable {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
-    unless($self->_repeatable) {
+    unless ( $self->_repeatable ) {
         my %rep = ();
         my $rep = $self->form->get_all_elements( { type => "Repeatable" } );
-        map { my $name = $_->nested_name; $name =~ s/_\d+//; $rep{$name} = 1} @{$rep || []};
-        $self->_repeatable(\%rep);
+        map { my $name = $_->nested_name; $name =~ s/_\d+//; $rep{$name} = 1 }
+            @{ $rep || [] };
+        $self->_repeatable( \%rep );
     }
     return $self->_repeatable->{$element};
-    
-}
 
+}
 
 1;
 

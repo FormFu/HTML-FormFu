@@ -11,7 +11,7 @@ sub deflator {
 
     # we default to relative(1)
     $self->relative(1)
-      unless ( $self->absolute || $self->basename || $self->relative );
+        unless ( $self->absolute || $self->basename || $self->relative );
 
     if ( $self->relative ) {
         return $value->relative(
@@ -24,6 +24,7 @@ sub deflator {
     elsif ( $self->basename ) {
         return $value->basename;
     }
+
     # fallback, should never happen
     return $value->stringify;
 }

@@ -5,17 +5,18 @@ use base 'HTML::FormFu::Filter::_Compound';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-__PACKAGE__->mk_item_accessors( qw( join ) );
+__PACKAGE__->mk_item_accessors(qw( join ));
 
 sub filter {
     my ( $self, $value ) = @_;
 
     return if !defined $value || $value eq $EMPTY_STR;
 
-    my $join = defined $self->join ? $self->join
-             :                       $SPACE
-             ;
-    
+    my $join
+        = defined $self->join
+        ? $self->join
+        : $SPACE;
+
     my @values = $self->_get_values($value);
 
     @values = grep { $_ ne '' } @values;

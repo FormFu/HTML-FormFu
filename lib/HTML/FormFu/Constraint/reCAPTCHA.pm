@@ -6,7 +6,7 @@ use base 'HTML::FormFu::Constraint';
 use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors( qw( _recaptcha_response ) );
+__PACKAGE__->mk_item_accessors(qw( _recaptcha_response ));
 
 sub process {
     my ( $self, $params ) = @_;
@@ -25,56 +25,50 @@ sub process {
     # the recaptcha fields have an implicit Required constraint
     # so throw an error if either field is missing
     if ( !$challenge || !$response ) {
-        return $self->mk_errors({})
+        return $self->mk_errors( {} );
     }
 
     # check if it's already been run - as a 2nd check to recaptcha.net
     # will otherwise always fail
     my $previous_response = $self->_recaptcha_response;
 
-    if ( $previous_response ) {
+    if ($previous_response) {
         if ( $previous_response ne 'true' ) {
-            return $self->mk_errors({
-                message => $previous_response,
-            });
+            return $self->mk_errors( { message => $previous_response, } );
         }
         else {
+
             # the previous response was OK, so return with no errors
             return;
         }
     }
-   
-    my $catalyst_compatible
-        =  blessed( $query )
+
+    my $catalyst_compatible 
+        = blessed($query)
         && $query->can('secure')
         && $query->can('address');
 
     my $captcha = Captcha::reCAPTCHA->new;
     my $privkey = $self->parent->private_key || $ENV{RECAPTCHA_PRIVATE_KEY};
 
-    my $remoteip = $catalyst_compatible ? $query->address
-                 :                        $ENV{REMOTE_ADDR}
-                 ;
-    
-    my $result = $captcha->check_answer(
-        $privkey,
-        $remoteip,
-        $challenge,
-        $response,
-    );
+    my $remoteip
+        = $catalyst_compatible
+        ? $query->address
+        : $ENV{REMOTE_ADDR};
+
+    my $result
+        = $captcha->check_answer( $privkey, $remoteip, $challenge, $response, );
 
     # they're human!
     if ( $result->{is_valid} ) {
-        $self->_recaptcha_response( 'true' );
+        $self->_recaptcha_response('true');
         return;
     }
-    
+
     # response failed
     $self->_recaptcha_resonse( $result->{error} );
-    
-    return $self->mk_errors({
-        message => $result->{error},
-    });
+
+    return $self->mk_errors( { message => $result->{error}, } );
 }
 
 1;

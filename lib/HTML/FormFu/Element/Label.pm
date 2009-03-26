@@ -26,10 +26,10 @@ sub string {
 
     $args ||= {};
 
-    my $render =
-      exists $args->{render_data}
-      ? $args->{render_data}
-      : $self->render_data;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # field wrapper template - start
 

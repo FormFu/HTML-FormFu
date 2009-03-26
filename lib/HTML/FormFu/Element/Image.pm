@@ -4,13 +4,13 @@ use strict;
 use base 'HTML::FormFu::Element::Button';
 use Class::C3;
 
-__PACKAGE__->mk_attr_accessors( qw( src width height ) );
+__PACKAGE__->mk_attr_accessors(qw( src width height ));
 
 sub new {
     my $self = shift->next::method(@_);
 
     $self->field_type('image');
-    
+
     if ( !defined $self->src ) {
         $self->src('');
     }

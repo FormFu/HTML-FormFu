@@ -3,7 +3,7 @@ package HTML::FormFu::Filter::CopyValue;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_item_accessors( qw( field ) );
+__PACKAGE__->mk_item_accessors(qw( field ));
 
 sub filter {
     my ( $self, $value ) = @_;

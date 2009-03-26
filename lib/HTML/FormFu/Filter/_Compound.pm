@@ -3,7 +3,7 @@ package HTML::FormFu::Filter::_Compound;
 use strict;
 use base 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_accessors( qw( field_order ) );
+__PACKAGE__->mk_accessors(qw( field_order ));
 
 sub _get_values {
     my ( $self, $value ) = @_;
@@ -14,7 +14,7 @@ sub _get_values {
         my @new_order;
 
     FIELD:
-    for my $i (@$order) {
+        for my $i (@$order) {
             for my $field (@fields) {
                 if ( $field->name eq $i ) {
                     push @new_order, $field;

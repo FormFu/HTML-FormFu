@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint::_others';
 use Class::C3;
 
-__PACKAGE__->mk_item_accessors( qw( minimum maximum ) );
+__PACKAGE__->mk_item_accessors(qw( minimum maximum ));
 
 *min = \&minimum;
 *max = \&maximum;
@@ -33,26 +33,29 @@ sub process {
     push @names, ref $others ? @{$others} : $others;
 
     # get min/max values
-    my $min = defined $self->minimum ? $self->minimum
-            :                          1
-            ;
+    my $min
+        = defined $self->minimum
+        ? $self->minimum
+        : 1;
 
-    my $max = defined $self->maximum ? $self->maximum
-            :                          scalar @names;
-    
+    my $max
+        = defined $self->maximum
+        ? $self->maximum
+        : scalar @names;
+
     for my $name (@names) {
         my $value = $self->get_nested_hash_value( $params, $name );
 
         if ( ref $value eq 'ARRAY' ) {
             my @errors = eval { $self->constrain_values( $value, $params ) };
-            
+
             if ( !@errors && !$@ ) {
                 $count++;
             }
         }
         else {
             my $ok = eval { $self->constrain_value($value) };
-            
+
             if ( $ok && !$@ ) {
                 $count++;
             }

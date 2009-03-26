@@ -1,7 +1,8 @@
 package HTML::FormFu::Element::_MultiSelect;
 
 use strict;
-use base 'HTML::FormFu::Element::_MultiElement', 'HTML::FormFu::Element::Select';
+use base 'HTML::FormFu::Element::_MultiElement',
+    'HTML::FormFu::Element::Select';
 
 1;
 

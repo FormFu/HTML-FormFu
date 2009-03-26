@@ -14,7 +14,7 @@ sub nested_names {
         # ignore immediate parent
         my $parent = $self->parent;
 
-        while ( defined ( $parent = $parent->parent ) ) {
+        while ( defined( $parent = $parent->parent ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
                 push @names, $parent->name
@@ -42,7 +42,7 @@ sub nested_base {
     # ignore immediate parent
     my $parent = $self->parent;
 
-    while ( defined ( $parent = $parent->parent ) ) {
+    while ( defined( $parent = $parent->parent ) ) {
 
         return $parent->nested_name if defined $parent->nested_name;
     }

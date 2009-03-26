@@ -6,15 +6,15 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_attr_accessors( qw( cols rows ) );
+__PACKAGE__->mk_attr_accessors(qw( cols rows ));
 
 sub new {
     my $self = shift->next::method(@_);
 
-    $self->filename      ( 'input' );
-    $self->field_filename( 'textarea_tag' );
-    $self->cols          ( 40 );
-    $self->rows          ( 20 );
+    $self->filename('input');
+    $self->field_filename('textarea_tag');
+    $self->cols(40);
+    $self->rows(20);
 
     return $self;
 }
@@ -24,9 +24,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # field wrapper template - start
 

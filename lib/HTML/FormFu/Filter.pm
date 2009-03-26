@@ -10,9 +10,9 @@ use HTML::FormFu::ObjectUtil qw(
     set_nested_hash_value nested_hash_key_exists );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors(qw( type ));
 
-__PACKAGE__->mk_accessors( qw( localize_args ) );
+__PACKAGE__->mk_accessors(qw( localize_args ));
 
 sub new {
     my $class = shift;

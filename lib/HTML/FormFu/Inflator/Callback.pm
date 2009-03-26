@@ -8,7 +8,7 @@ __PACKAGE__->mk_accessors(qw( callback ));
 sub inflator {
     my ( $self, $value ) = @_;
 
-    my $callback = $self->callback || sub { shift };
+    my $callback = $self->callback || sub {shift};
 
     no strict 'refs';
 

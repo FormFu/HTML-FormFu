@@ -14,7 +14,7 @@ use overload
     bool => sub {1},
     fallback => 1;
 
-__PACKAGE__->mk_item_accessors( qw( type ) );
+__PACKAGE__->mk_item_accessors(qw( type ));
 
 sub new {
     my $class = shift;

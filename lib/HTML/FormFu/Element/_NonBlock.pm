@@ -6,7 +6,7 @@ use Class::C3;
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_item_accessors( qw( tag ) );
+__PACKAGE__->mk_item_accessors(qw( tag ));
 
 sub new {
     my $self = shift->next::method(@_);
@@ -20,9 +20,9 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-        tag => $self->tag,
-        $args ? %$args : (),
-    } );
+            tag => $self->tag,
+            $args ? %$args : (),
+        } );
 
     return $render;
 }
@@ -32,9 +32,10 @@ sub string {
 
     $args ||= {};
 
-    my $render = exists $args->{render_data} ? $args->{render_data}
-               :                               $self->render_data
-               ;
+    my $render
+        = exists $args->{render_data}
+        ? $args->{render_data}
+        : $self->render_data;
 
     # non_block template
 

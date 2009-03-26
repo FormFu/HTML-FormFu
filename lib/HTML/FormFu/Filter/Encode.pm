@@ -22,19 +22,19 @@ sub filter {
 
 sub get_candidates {
     my ($self) = @_;
-    
-    my $ret  = $self->_candidates;
-    
+
+    my $ret = $self->_candidates;
+
     if ( $ret && wantarray ) {
         return @$ret;
     }
-    
+
     return $ret;
 }
 
 sub candidates {
     my ( $self, @candidates ) = @_;
-    
+
     if ( @_ > 1 ) {
         if ( ref $candidates[0] eq 'ARRAY' ) {
             $self->_candidates( $candidates[0] );
@@ -43,7 +43,7 @@ sub candidates {
             $self->_candidates( [@candidates] );
         }
     }
-    
+
     return $self;
 }
 
@@ -51,10 +51,10 @@ sub decode_to_utf8 {
     my ( $self, $value ) = @_;
 
     my $ret;
-    
+
     foreach my $candidate ( $self->get_candidates ) {
         eval { $ret = decode( $candidate, $value, FB_CROAK ) };
-        
+
         if ( !$@ ) {
             last;
         }
