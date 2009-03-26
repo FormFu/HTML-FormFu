@@ -16,7 +16,7 @@
     
     - New Element::Number.
     
-    - New Deflators: FormatNumber, Callback.
+    - New Deflators: FormatNumber, PathClassFile, Callback.
     
     - New Filter::FormatNumber.
     
@@ -26,7 +26,7 @@
     
     - Updated vertically-aligned CSS.
     
-    - config_file_path) now supports a list of directories.
+    - config_file_path() now supports a list of directories.
     
     - Checkboxgroup + Radiogroup elements others() method now supports
       'container_attributes' hash-key
