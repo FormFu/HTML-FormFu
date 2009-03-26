@@ -80,6 +80,8 @@ Arguments: $form_result, \%params
 
 =item L<HTML::FormFu::Deflator::CompoundSplit>
 
+=item L<HTML::FormFu::Deflator::FormatNumber>
+
 =item L<HTML::FormFu::Deflator::Strftime>
 
 =back
