@@ -1230,7 +1230,7 @@ distribution.
         # do something with $form->params
     }
     else {
-    	# display the form
+        # display the form
         $template->param( form => $form );
     }
 
