@@ -1,3 +1,52 @@
+0.04000 2009-03-26
+
+    - Incompatible Change: plugins process() method is now run *after*
+      elements' process() method.
+    
+    - Incompatible Change: Button element no longer sets retain_default(1) -
+      now sets force_default(1). Fixes bug where multiple buttons with same
+      name were getting the wrong value after being redisplayed after errors.
+    
+    - New pre_process() plugin method that runs at the same time as the old
+      process() hook.
+    
+    - New Model::HashRef.
+    
+    - New inherited method locale() available on forms, blocks and fields.
+    
+    - New Element::Number.
+    
+    - New Deflators: FormatNumber, Callback.
+    
+    - New Filter::FormatNumber.
+    
+    - New Inflator::Callback.
+    
+    - New Norwegian I18N translation.
+    
+    - Updated vertically-aligned CSS.
+    
+    - config_file_path) now supports a list of directories.
+    
+    - Checkboxgroup + Radiogroup elements others() method now supports
+      'container_attributes' hash-key
+    
+    - Constraint when() condition no longer demands a 'value' or 'values'
+      key - if it's missing, the constraint will pass on any true value.
+    
+    - Bugfix: _Group elements - ensure 'empty_first' gets set before any
+      'options', 'values', 'value_range'.
+    
+    - Bugfixes for constraint attach_errors_to_base(),
+      attach_errors_to_others().
+    
+    - Bugfix: Repeatable blocks now correctly rename nested-names in
+      constraints' others().
+    
+    - Bugfix: Repeatable blocks now rename field names in constraints' when().
+    
+    - Bugfix: Repeatable blocks now reparent fields' plugins.
+
 0.03007 2008-12-08
 
     - Remove Test::Aggregate - seeing test failures under perl 5.8.x
