@@ -88,10 +88,12 @@ HTML::FormFu::Element::Label - field for displaying only
 
 =head1 DESCRIPTION
 
-This element displays a value. This is useful if you use a model like L<HTML::FormFu::Model::DBIC> and want to display a value from the database.
+This element displays a value. This is useful if you use a model like
+L<HTML::FormFu::Model::DBIC> and want to display a value from the database.
 The value of this field cannot be set by the client.
 
-See L<HTML::FormFu::Model::DBIC/Set a field read only> for more information on read only fields.
+See L<HTML::FormFu::Model::DBIC/"Set a field read only"> for more information
+on read only fields.
 
 =head1 METHODS
 

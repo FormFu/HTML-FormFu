@@ -2764,6 +2764,35 @@ Like L</render_data>, but doesn't include the data for any child-elements.
 
 =head1 INTROSPECTION
 
+=head2 get_fields
+
+Arguments: [%options]
+
+Arguments: [\%options]
+
+Return Value: \@elements
+
+Returns all fields in the form (specifically, all elements which have a true 
+L<HTML::FormFu::Element/is_field> value.
+
+Accepts both C<name> and C<type> arguments to narrow the returned results.
+
+    $form->get_fields({
+        name => 'foo',
+        type => 'Radio',
+    });
+
+=head2 get_field
+
+Arguments: [%options]
+
+Arguments: [\%options]
+
+Return Value: $element
+
+Accepts the same arguments as L</get_fields>, but only returns the first 
+field found.
+
 =head2 get_elements
 
 Arguments: [%options]
@@ -2835,35 +2864,6 @@ first element found.
     });
 
 See L</get_all_elements> for a non-recursive version.
-
-=head2 get_fields
-
-Arguments: [%options]
-
-Arguments: [\%options]
-
-Return Value: \@elements
-
-Returns all fields in the form (specifically, all elements which have a true 
-L<HTML::FormFu::Element/is_field> value.
-
-Accepts both C<name> and C<type> arguments to narrow the returned results.
-
-    $form->get_fields({
-        name => 'foo',
-        type => 'Radio',
-    });
-
-=head2 get_field
-
-Arguments: [%options]
-
-Arguments: [\%options]
-
-Return Value: $element
-
-Accepts the same arguments as L</get_fields>, but only returns the first 
-field found.
 
 =head2 get_deflators
 
