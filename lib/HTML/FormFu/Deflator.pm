@@ -9,6 +9,8 @@ use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors(qw( type ));
 
+__PACKAGE__->mk_inherited_accessors(qw( locale ));
+
 sub new {
     my $class = shift;
 

@@ -57,7 +57,7 @@ sub inflator {
         }
 
         if (  !exists $args{locale}
-            && defined( my $locale = $self->form->locale ) )
+            && defined( my $locale = $self->locale ) )
         {
             $args{locale} = $locale;
         }

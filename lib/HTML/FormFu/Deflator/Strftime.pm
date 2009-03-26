@@ -11,7 +11,7 @@ sub deflator {
     my $return;
 
     eval {
-        my $locale = $self->form->locale;
+        my $locale = $self->locale;
 
         $value->set_locale($locale) if defined $locale;
     };

@@ -7,6 +7,7 @@ use HTML::FormFu::Attribute qw(
     mk_item_accessors
     mk_accessors
     mk_output_accessors
+    mk_inherited_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     populate                form
@@ -26,6 +27,8 @@ use overload
 __PACKAGE__->mk_item_accessors(qw( type ));
 
 __PACKAGE__->mk_output_accessors(qw( message ));
+
+__PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 *field = \&parent;
 
