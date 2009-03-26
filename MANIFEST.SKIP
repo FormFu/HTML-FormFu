@@ -2,6 +2,7 @@
 ^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 
 # not ready yet
+^lib\/HTML\/FormFu\/Element\/Label\.pm$
 ^lib\/HTML\/FormFu\/Manual\.pod$
 ^t\/multiform-misc\/file
 
