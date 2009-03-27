@@ -33,7 +33,7 @@ any other explanation.
 
 =head2 Input parameters from the browser
 
-If you're using C<Catalyst>, C<Catalyst::Plugin::Unicode> will decode all
+If you're using C<Catalyst>, L<Catalyst::Plugin::Unicode> will decode all
 input parameters sent from the browser to your application - see
 L</Catalyst Configuration>.
 
@@ -43,8 +43,14 @@ L<HTML::FormFu::Filter::Encode>.
 
 =head2 Data from the database
 
-C<DBIx::Class::UTF8Columns> will decode all input retrieved from the 
-database - see L</DBIx::Class Configuration>.
+If you're using L<DBIx::Class>, L<DBIx::Class::UTF8Columns> is likely the
+best options, as it will decode all input retrieved from the database -
+see L</DBIx::Class Configuration>.
+
+In other cases (i.e. plain DBI), you still need to decode the string data
+coming from the database. This varies depending on the database server.
+For MySQL, for instance, you can use the C<mysql_enable_utf8> attribute:
+see L<DBD::mysql> documentation for details.
 
 =head2 Your template files
 
@@ -76,13 +82,29 @@ L<utf8> module.
 
 =head2 Data saved to the database
 
-C<DBIx::Class::UTF8Columns> will encode all data sent to the database - see 
-L</DBIx::Class Configuration>.
+With C<DBIx::Class>, L<DBIx::Class::UTF8Columns> will encode all data sent
+to the database - see L</DBIx::Class Configuration>.
 
 =head2 HTML sent to the browser
 
-C<Catalyst::Plugin::Unicode> will encode all output sent from your 
-application to the browser - see L</Catalyst Configuration>.
+With C<Catalyst>, L<Catalyst::Plugin::Unicode> will encode all output sent
+from your application to the browser - see L</Catalyst Configuration>.
+
+In other circumstances you need to be sure to output your Unicode (decoded)
+strings in UTF-8. To do this you can encode your output before it's sent
+to the browser with something like:
+
+    use utf8;
+    if ( $output && utf8::is_utf8($output) ){
+        utf8::encode( $output ); # Encodes in-place
+    }
+
+Another option is to set the C<binmode> for C<STDOUT>:
+
+    bindmode STDOUT, ':utf8';
+
+However, be sure to do this B<only> when sending UTF-8 data: if you're
+serving images, PFD files, etc, C<binmode> should remain set to C<:raw>.
 
 =head1 CHANGES REQUIRED
 
@@ -168,6 +190,7 @@ These above 2 examples should be combined, like so:
 =head1 AUTHORS
 
 Carl Franks C<cfranks@cpan.org>
+Michele Beltrame C<arthas@cpan.org> (contributions)
 
 =head1 COPYRIGHT
 
