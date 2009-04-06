@@ -200,7 +200,7 @@ sub _unfold_repeatable {
         if ( $self->get_repeatable($key) ) {
             $new->{$key} = [];
             while ( my ( $name, $values ) = each %{$v} ) {
-                for ( my $i = 0; $i < @{$values} - 1; $i++ ) {
+                for ( my $i = 0; $i < @{$values || []} - 1; $i++ ) {
                     push( @{ $new->{$key} }, {} ) unless $new->{$key}->[$i];
                     $new->{$key}->[$i]->{$name}
                         = $self->_unfold_repeatable( $form,
