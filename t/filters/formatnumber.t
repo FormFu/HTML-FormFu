@@ -29,7 +29,7 @@ SKIP: {
     
     my $formatted_number = $format->format_number('23000222.22');
     
-    is( $formatted_number, '23.000.222,22', 'number is in german formatting' );
+    isnt( $formatted_number, '23000222.22', 'format of number has changed' );
     
     # restore orginal locale
     setlocale( LC_NUMERIC, $backup_locale );
