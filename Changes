@@ -1,3 +1,11 @@
+0.04001 2009-04-15
+
+    - Fix handling of arguments to plugin().
+    
+    - HTML::FormFu::Model::HashRef supports now empty repeatable elements.
+    
+    - vertically-aligned CSS example updated.
+
 0.04000 2009-03-26
 
     - Incompatible Change: plugins process() method is now run *after*
