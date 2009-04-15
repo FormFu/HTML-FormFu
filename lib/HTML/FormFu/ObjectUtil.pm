@@ -1579,8 +1579,9 @@ sub _require_plugin {
     my $plugin = $class->new( {
             type   => $type,
             parent => $self,
-            %$arg
         } );
+
+    $plugin->populate($arg);
 
     return $plugin;
 }
