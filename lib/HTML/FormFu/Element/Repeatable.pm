@@ -27,10 +27,8 @@ sub new {
 sub repeat {
     my ( $self, $count ) = @_;
 
-    $count ||= 1;
-
     croak "invalid number to repeat"
-        if $count !~ /^[1-9][0-9]*\z/;
+        if $count !~ /^[0-9]+\z/;
 
     my $children;
 
@@ -50,6 +48,8 @@ sub repeat {
 
     $self->_elements( [] );
 
+    return [] if !$count;
+    
     my @return;
 
     for my $rep ( 1 .. $count ) {
