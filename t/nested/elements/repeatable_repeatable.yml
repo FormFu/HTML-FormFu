@@ -1,0 +1,20 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    nested_name: outer
+    counter_name: count
+    elements:
+      - name: foo
+      
+      - type: Hidden
+        name: count
+      
+      - type: Repeatable
+        nested_name: inner
+        counter_name: 'outer.count'
+        
+        elements:
+          - name: bar

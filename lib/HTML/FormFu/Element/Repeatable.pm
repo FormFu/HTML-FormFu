@@ -66,9 +66,11 @@ sub repeat {
             for my $field ( @{ $block->get_fields } ) {
 
                 if ( defined( my $name = $field->name ) ) {
-                    $field->original_name($name);
+                    $field->original_name($name)
+                        if !defined $field->original_name;
 
-                    $field->original_nested_name( $field->nested_name );
+                    $field->original_nested_name( $field->nested_name )
+                        if !defined $field->original_nested_name;
 
                     $field->name("${name}_$rep");
                 }
