@@ -160,8 +160,6 @@ sub _reparent_children {
 sub process {
     my $self = shift;
 
-    return $self->next::method(@_);
-
     my $form  = $self->form;
     my $count = 1;
 
@@ -178,6 +176,8 @@ sub process {
 
         $self->repeat($count);
     }
+
+    return $self->next::method(@_);
 }
 
 sub content {
