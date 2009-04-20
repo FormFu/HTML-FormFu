@@ -15,7 +15,7 @@ requires 'Class::C3';
 requires 'Config::Any' => '0.10'; # supports multi-doc config files
 requires 'Crypt::CBC';
 requires 'Crypt::DES';
-requires 'Data::Visitor::Callback';
+requires 'Data::Visitor::Callback' => 0.23; # get rid of Squirrel warnings
 requires 'Date::Calc';
 requires 'DateTime' => '0.38'; # required for string overloading
 requires 'DateTime::Format::Strptime';  
