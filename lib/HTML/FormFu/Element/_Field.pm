@@ -895,7 +895,7 @@ sub clone {
 
     for my $list ( qw(
         _filters _constraints _inflators _validators _transformers
-        _deflators _errors )
+        _deflators _errors _plugins )
         )
     {
         $clone->$list( [ map { $_->clone } @{ $self->$list } ] );

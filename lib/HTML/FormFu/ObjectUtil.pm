@@ -635,6 +635,10 @@ sub clone {
     $new{tt_args}      = dclone $self->tt_args;
     $new{model_config} = dclone $self->model_config;
 
+    if ( $self->can('_plugins') ) {
+        $new{_plugins} = [ map { $_->clone } @{ $self->_plugins } ];
+    }
+
     $new{languages}
         = ref $self->languages
         ? dclone $self->languages
