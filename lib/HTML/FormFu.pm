@@ -3169,7 +3169,7 @@ L<HTML::FormFu::Imager>
 
 L<Catalyst::Controller::HTML::FormFu>
 
-L<DBIx::Class::FormFu>
+L<HTML::FormFu::Model::DBIC>
 
 =head1 AUTHORS
 
