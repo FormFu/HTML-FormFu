@@ -423,15 +423,15 @@ HTML::FormFu::Element::Date - 3 select menu multi-field
 
 =head1 DESCRIPTION
 
-Creates a L<multi|HTML::FormFu::Element::Multi> element containing 3 select 
+Creates a L<multi|HTML::FormFu::Element::Multi> element containing 3 select
 menus for the day, month and year.
 
-A date element named C<foo> would result in 3 select menus with the names 
-C<foo_day>, C<foo_month> and C<foo_year>. The names can instead be 
+A date element named C<foo> would result in 3 select menus with the names
+C<foo_day>, C<foo_month> and C<foo_year>. The names can instead be
 overridden by the C<name> value in L</day>, L</month> and L</year>.
 
-This element automatically merges the input parameters from the select 
-menu into a single date parameter (and doesn't delete the individual menu's 
+This element automatically merges the input parameters from the select
+menu into a single date parameter (and doesn't delete the individual menu's
 parameters).
 
 =head1 METHODS
@@ -442,8 +442,8 @@ Arguments: DateTime object
 
 Arguments: $date_string
 
-Accepts either a L<DateTime> object, or a string containing a date, matching 
-the L</strftime> format. Overwrites any default value set in L</day>, 
+Accepts either a L<DateTime> object, or a string containing a date, matching
+the L</strftime> format. Overwrites any default value set in L</day>,
 L</month> or L</year>.
 
 =head2 default_natural
@@ -460,12 +460,12 @@ L<DateTime::Format::Natural/parse_datetime>.
 
 Default Value: "%d-%m-%Y"
 
-The format of the date as returned by L<HTML::FormFu/params>, if 
+The format of the date as returned by L<HTML::FormFu/params>, if
 L</auto_inflate> is not set.
 
-If L</auto_inflate> is used, this is still the format that the parameter 
-will be in prior to the DateTime inflator being run; which is 
-what any L<Filters|HTML::FormFu::Filter> and 
+If L</auto_inflate> is used, this is still the format that the parameter
+will be in prior to the DateTime inflator being run; which is
+what any L<Filters|HTML::FormFu::Filter> and
 L<Constraints|HTML::FormFu::Constraint> will receive.
 
 =head2 day
@@ -488,10 +488,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head2 month
@@ -514,10 +514,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head3 names
@@ -526,15 +526,15 @@ Arguments: \@months
 
 A list of month names used for the month menu.
 
-If not set, the list of month names is obtained from L<DateTime::Locale> 
+If not set, the list of month names is obtained from L<DateTime::Locale>
 using the locale set in L<HTML::FormFu/languages>.
 
 =head3 short_names
 
 Argument: bool
 
-If true (and C<months> is not set) the list of abbreviated month names is 
-obtained from L<DateTime::Locale> using the locale set in 
+If true (and C<months> is not set) the list of abbreviated month names is
+obtained from L<DateTime::Locale> using the locale set in
 L<HTML::FormFu/languages>.
 
 =head2 year
@@ -557,10 +557,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head3 list
@@ -577,7 +577,7 @@ Arguments: $year
 
 Default Value: the current year, calculated from L<time()|perlfunc/time()>
 
-If C<list> is not set, the list is created from the range of 
+If C<list> is not set, the list is created from the range of
 C<reference - year_less> to C<reference + year_plus>.
 
 =head3 less
@@ -604,39 +604,39 @@ Not all 3 fields are required. No single field can be used more than once.
 
 =head2 auto_inflate
 
-If true, a L<DateTime Inflator|HTML::FormFu::Inflator::DateTime> will 
-automatically be added to the element, and it will be given a formatter so 
+If true, a L<DateTime Inflator|HTML::FormFu::Inflator::DateTime> will
+automatically be added to the element, and it will be given a formatter so
 that stringification will result in the format specified in L</strftime>.
 
-If you require the DateTime Inflator to have a different stringification 
-format to the format used internally by your Filters and Constraints, then 
-you must explicitly add your own DateTime Inflator, rather than using 
+If you require the DateTime Inflator to have a different stringification
+format to the format used internally by your Filters and Constraints, then
+you must explicitly add your own DateTime Inflator, rather than using
 L</auto_inflate>.
 
 =head1 CAVEATS
 
-Although this element inherits from L<HTML::FormFu::Element::Block>, it's 
-behaviour for the methods 
-L<filter/filters|HTML::FormFu/filters>, 
-L<constraint/constraints|HTML::FormFu/constraints>, 
-L<inflator/inflators|HTML::FormFu/inflators>, 
-L<validator/validators|HTML::FormFu/validators> and 
-L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
-a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
-added directly to the date element, not to it's select-menu child elements.
+Although this element inherits from L<HTML::FormFu::Element::Block>, its
+behaviour for the methods
+L<filter/filters|HTML::FormFu/filters>,
+L<constraint/constraints|HTML::FormFu/constraints>,
+L<inflator/inflators|HTML::FormFu/inflators>,
+L<validator/validators|HTML::FormFu/validators> and
+L<transformer/transformers|HTML::FormFu/transformers> is more like that of
+a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are
+added directly to the date element, not to its select-menu child elements.
 
-This element's L<get_elements|HTML::FormFu/get_elements> and 
-L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from 
-L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it 
-overrides the C<get_fields> method, such that it returns both itself and 
-it's child elements.
+This element's L<get_elements|HTML::FormFu/get_elements> and
+L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from
+L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it
+overrides the C<get_fields> method, such that it returns both itself and
+its child elements.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Field>, 
-L<HTML::FormFu::Element::Multi>, 
-L<HTML::FormFu::Element::Block>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::_Field>,
+L<HTML::FormFu::Element::Multi>,
+L<HTML::FormFu::Element::Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

@@ -124,21 +124,21 @@ HTML::FormFu::Element::SimpleTable - simple table element
 
 =head1 SYNOPSIS
 
-The following is yaml markup for a table consisting of a header row 
-containing 2 C<th> cells, and a further 2 rows, each containing 2 C<td> 
-cells. 
+The following is yaml markup for a table consisting of a header row
+containing 2 C<th> cells, and a further 2 rows, each containing 2 C<td>
+cells.
 
     type: SimpleTable
-    headers: 
+    headers:
       - One
       - Two
-    rows: 
-      - 
+    rows:
+      -
         - type: Input
           name: one_a
         - type: Input
           name: two_a
-      - 
+      -
         - type: Input
           name: one_b
         - type: Input
@@ -146,12 +146,12 @@ cells.
 
 =head1 DESCRIPTION
 
-Sometimes you just really need to use a table to display some fields in a 
+Sometimes you just really need to use a table to display some fields in a
 grid format.
 
-As it's name suggests, this is a compromise between power and simplicity. 
-If you want more control of the markup, you'll probably just have to revert 
-to using nested L<block's|HTML::FormFu::Element::_Block>, setting the tags 
+As its name suggests, this is a compromise between power and simplicity.
+If you want more control of the markup, you'll probably just have to revert
+to using nested L<block's|HTML::FormFu::Element::_Block>, setting the tags
 to table, tr, td, etc. and adding the cell contents as elements.
 
 =head1 METHODS
@@ -160,38 +160,38 @@ to table, tr, td, etc. and adding the cell contents as elements.
 
 Input Value: \@headers
 
-L</headers> accepts an arrayref of strings. Each string is xml-escaped and 
+L</headers> accepts an arrayref of strings. Each string is xml-escaped and
 inserted into a new header cell.
 
 =head2 rows
 
 Input Value: \@rows
 
-L</rows> accepts an array-ref, each item representing a new row. Each row 
+L</rows> accepts an array-ref, each item representing a new row. Each row
 should be comprised of an array-ref, each item representing a table cell.
 
-Each cell item should be appropriate for passing to L<HTML::FormFu/element>; 
-so either a single element's definition, or an array-ref of element 
+Each cell item should be appropriate for passing to L<HTML::FormFu/element>;
+so either a single element's definition, or an array-ref of element
 definitions.
 
 =head2 odd_class
 
 Input Value: $string
 
-The supplied string will be used as the class-name for each odd-numbered row 
+The supplied string will be used as the class-name for each odd-numbered row
 (not counting any header row).
 
 =head2 even_class
 
 Input Value: $string
 
-The supplied string will be used as the class-name for each even-numbered row 
+The supplied string will be used as the class-name for each even-numbered row
 (not counting any header row).
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Block>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::_Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
