@@ -213,15 +213,15 @@ User input is processed in the following order:
 
 =over
 
-=item 1. L<Filters|HTML::FormFu::Filter>
+=item L<Filters|HTML::FormFu::Filter>
 
-=item 2. L<Constraints|HTML::FormFu::Constraint>
+=item L<Constraints|HTML::FormFu::Constraint>
 
-=item 3. L<Inflators|HTML::FormFu::Inflator>
+=item L<Inflators|HTML::FormFu::Inflator>
 
-=item 4. L<Validators|HTML::FormFu::Validator>
+=item L<Validators|HTML::FormFu::Validator>
 
-=item 5. L<Transformers|HTML::FormFu::Transformer>
+=item L<Transformers|HTML::FormFu::Transformer>
 
 =back
 
@@ -245,37 +245,6 @@ See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 =head2 type
 
 Returns the C<type> argument originally used to create the constraint.
-
-When creating a constraint, C<type> can be omitted if you only want to specify
-the name of the constraint; however, beware that you'll end up with default
-error messages (e.g. C<format_constraint_email>):
-
-    ---
-    elements:
-      - type: Text
-        name: email
-        label_loc: Enter your e-mail
-        constraints:
-          - Email
-      - type: Text
-        name: name
-        label_loc: Enter your name
-
-
-The best practice is to always specify C<type>, which lets you add other arguments:
-
-    ---
-    elements:
-      - type: Text
-        name: email
-        label_loc: Enter your e-mail
-        constraints:
-          - type: Email
-            message_loc: Please enter an e-mail address
-      - type: Text
-        name: name
-        label_loc: Enter your name
-
 
 =head2 not
 

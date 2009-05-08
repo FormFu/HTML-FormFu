@@ -283,7 +283,7 @@ Creates a L<multi|HTML::FormFu::Element::Multi> element containing a Select
 field and a Text field.
 
 A ComboBox element named C<foo> would result in a Select menu named
-C<foo_select> and a Text field named C<foo_text>. The names can instead be
+C<foo_select> and a Text field named C<foo_text>. The names can instead be 
 overridden by the C<name> value in L</select> and L</text>.
 
 If a value is submitted for the Text field, this will be used in preference
@@ -342,27 +342,27 @@ Override the auto-generated name of the select menu.
 
 =head1 CAVEATS
 
-Although this element inherits from L<HTML::FormFu::Element::Block>, its
-behaviour for the methods
-L<filter/filters|HTML::FormFu/filters>,
-L<constraint/constraints|HTML::FormFu/constraints>,
-L<inflator/inflators|HTML::FormFu/inflators>,
-L<validator/validators|HTML::FormFu/validators> and
-L<transformer/transformers|HTML::FormFu/transformers> is more like that of
-a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are
-added directly to the date element, not to its child elements.
+Although this element inherits from L<HTML::FormFu::Element::Block>, it's 
+behaviour for the methods 
+L<filter/filters|HTML::FormFu/filters>, 
+L<constraint/constraints|HTML::FormFu/constraints>, 
+L<inflator/inflators|HTML::FormFu/inflators>, 
+L<validator/validators|HTML::FormFu/validators> and 
+L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
+a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
+added directly to the date element, not to it's child elements.
 
-This element's L<get_elements|HTML::FormFu/get_elements> and
-L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from
-L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it
-overrides the C<get_fields> method, such that it returns both itself and
-its child elements.
+This element's L<get_elements|HTML::FormFu/get_elements> and 
+L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from 
+L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it 
+overrides the C<get_fields> method, such that it returns both itself and 
+it's child elements.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from
-L<HTML::FormFu::Element::Multi>,
-L<HTML::FormFu::Element::Block>,
+Is a sub-class of, and inherits methods from 
+L<HTML::FormFu::Element::Multi>, 
+L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

@@ -1100,7 +1100,7 @@ Set the form-field's default value.
 
 Arguments: $string
 
-If you don't want the default value to be XML-escaped, use the
+If you don't want the default value to be XML-escaped, use the 
 L</default_xml> method instead of </default>.
 
 =head2 default_loc
@@ -1113,23 +1113,23 @@ Set the default value using a L10N key.
 
 For most fields, L</value> is an alias for L</default>.
 
-For the L<HTML::FormFu::Element::Checkbox> and
-L<HTML::FormFu::Element::Radio> elements, L</value> sets what the value of
-the field will be if it is checked or selected. If the L</default> is the
-same as the L</value>, then the field will be checked or selected when
+For the L<HTML::FormFu::Element::Checkbox> and 
+L<HTML::FormFu::Element::Radio> elements, L</value> sets what the value of 
+the field will be if it is checked or selected. If the L</default> is the 
+same as the L</value>, then the field will be checked or selected when 
 rendered.
 
-For the L<HTML::FormFu::Element::Radiogroup> and
-L<HTML::FormFu::Element::Select> elements, the L</value> is ignored:
-L</values|HTML::FormFu::Element::_Group/values> or
-L</options|HTML::FormFu::Element::_Group/options> provides the equivalent
+For the L<HTML::FormFu::Element::Radiogroup> and 
+L<HTML::FormFu::Element::Select> elements, the L</value> is ignored: 
+L</values|HTML::FormFu::Element::_Group/values> or 
+L</options|HTML::FormFu::Element::_Group/options> provides the equivalent 
 function.
 
 =head2 value_xml
 
 Arguments: $string
 
-If you don't want the value to be XML-escaped, use the L</value_xml>
+If you don't want the value to be XML-escaped, use the L</value_xml> 
 method instead of </value>.
 
 =head2 value_loc
@@ -1142,10 +1142,10 @@ Set the value using a L10N key.
 
 Arguments: bool
 
-If true, values for this field are never returned by L<HTML::FormFu/params>,
+If true, values for this field are never returned by L<HTML::FormFu/params>, 
 L<HTML::FormFu/param> and L<HTML::FormFu/valid>.
 
-This is useful for Submit buttons, when you only use its value as an
+This is useful for Submit buttons, when you only use its value as an 
 L<indicator|HTML::FormFu/indicator>.
 
 Default Value: false
@@ -1158,7 +1158,7 @@ Set a label to communicate the purpose of the form-field to the user.
 
 Arguments: $string
 
-If you don't want the label to be XML-escaped, use the L</label_xml>
+If you don't want the label to be XML-escaped, use the L</label_xml> 
 method instead of </label>.
 
 =head2 label_loc
@@ -1175,7 +1175,7 @@ Set a comment to be displayed along with the form-field.
 
 Arguments: $string
 
-If you don't want the comment to be XML-escaped, use the L</comment_xml>
+If you don't want the comment to be XML-escaped, use the L</comment_xml> 
 method instead of </comment>.
 
 =head2 comment_loc
@@ -1186,7 +1186,7 @@ Set the comment using a L10N key.
 
 =head2 container_tag
 
-Set which tag-name should be used to contain the various field parts (field,
+Set which tag-name should be used to contain the various field parts (field, 
 label, comment, errors, etc.).
 
 Default Value: 'div'
@@ -1195,14 +1195,14 @@ Default Value: 'div'
 
 Arguments: [$javascript]
 
-If set, the contents will be rendered within a C<script> tag, within the
+If set, the contents will be rendered within a C<script> tag, within the 
 field's container.
 
 =head2 retain_default
 
-If L</retain_default> is true and the form was submitted, but the field
-didn't have a value submitted, then when the form is redisplayed to the user
-the field will have its value set to its default value , rather than the
+If L</retain_default> is true and the form was submitted, but the field 
+didn't have a value submitted, then when the form is redisplayed to the user 
+the field will have it's value set to it's default value , rather than the 
 usual behaviour of having an empty value.
 
 Default Value: C<false>
@@ -1211,7 +1211,7 @@ Default Value: C<false>
 
 If L</force_default> is true and the form was submitted, and the field
 has a default/value set, then when the form is redisplayed to the user
-the field will have its value set to its default value.
+the field will have it's value set to it's default value.
 
 If the default value is being changed after FormFu->process is being called
 the later default value is respected for rendering, *but* nevertheless the
@@ -1232,12 +1232,12 @@ Default Value: C<false>
 
 =head2 reverse_multi
 
-If true, then when the field is used within a
-L<Multi|HTML::FormFu::Element::Multi> block, the field's label should be
+If true, then when the field is used within a 
+L<Multi|HTML::FormFu::Element::Multi> block, the field's label should be 
 rendered to the right of the field control
 
 The default value is C<false>, causing the label to be rendered to the left
-of the field control (or to be explicit: the markup for the label comes
+of the field control (or to be explicit: the markup for the label comes 
 before the field control in the source).
 
 Default Value: C<false>
@@ -1270,7 +1270,7 @@ Arguments: [%attributes]
 
 Arguments: [\%attributes]
 
-If you don't want the values to be XML-escaped, use the
+If you don't want the values to be XML-escaped, use the 
 L</comment_attributes_xml> method instead of </comment_attributes>.
 
 =head2 add_comment_attributes
@@ -1323,7 +1323,7 @@ Arguments: [%attributes]
 
 Arguments: [\%attributes]
 
-If you don't want the values to be XML-escaped, use the
+If you don't want the values to be XML-escaped, use the 
 L</container_attributes_xml> method instead of </container_attributes>.
 
 =head2 add_container_attributes
@@ -1376,7 +1376,7 @@ Arguments: [%attributes]
 
 Arguments: [\%attributes]
 
-If you don't want the values to be XML-escaped, use the
+If you don't want the values to be XML-escaped, use the 
 L</label_attributes_xml> method instead of </label_attributes>.
 
 =head2 add_label_attributes
@@ -1495,8 +1495,8 @@ See L<HTML::FormFu/auto_transformer_class> for details.
 
 =head2 field_filename
 
-The template filename to be used for just the form field - not including the
-display of any container, label, errors, etc.
+The template filename to be used for just the form field - not including the 
+display of any container, label, errors, etc. 
 
 Must be set by more specific field classes.
 
@@ -1578,10 +1578,10 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::_Group>,
-L<HTML::FormFu::Element::_Input>,
-L<HTML::FormFu::Element::Multi>,
-L<HTML::FormFu::Element::ContentButton>,
+Base-class for L<HTML::FormFu::Element::_Group>, 
+L<HTML::FormFu::Element::_Input>, 
+L<HTML::FormFu::Element::Multi>, 
+L<HTML::FormFu::Element::ContentButton>, 
 L<HTML::FormFu::Element::Textarea>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
