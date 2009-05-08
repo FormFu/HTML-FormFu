@@ -1,3 +1,17 @@
+0.04002 2009-05-08
+
+    - Incompatible Change: Element::Repeatable->repeat() now defaults to 1
+      instead of 0. This allows empty Repeatables.
+    
+    - Fix test failures on Win32.
+    
+    - During Element::Repeatable->process() call children's process() before
+      $self->repeat().
+    
+    - Support nested Repeatable elements.
+    
+    - Ensure plugins are correctly cloned.
+
 0.04001 2009-04-15
 
     - Fix handling of arguments to plugin().
