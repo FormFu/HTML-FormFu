@@ -245,8 +245,15 @@ sub get_repeatable {
     unless ( $self->_repeatable ) {
         my %rep = ();
         my $rep = $self->form->get_all_elements( { type => "Repeatable" } );
-        map { my $name = $_->nested_name; $name =~ s/_\d+//; $rep{$name} = 1 }
-            @{ $rep || [] };
+        foreach my $rep_element (@{ $rep || [] }) {
+            my $name = $rep_element->nested_name;
+            die "A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef"
+                unless $name;
+            $name =~ s/_\d+//;
+            $rep{$name} = 1;
+        }
+#         map { my $name = $_->nested_name; $name =~ s/_\d+//; $rep{$name} = 1 }
+#             @{ $rep || [] };
         $self->_repeatable( \%rep );
     }
     return $self->_repeatable->{$element};
