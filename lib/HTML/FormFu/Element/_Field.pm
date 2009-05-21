@@ -132,6 +132,9 @@ sub nested_name {
     if ( $self->form->nested_subscript ) {
         my $name = shift @names;
         map { $name .= "[$_]" } @names;
+# TODO - Mario Minati 19.05.2009
+# Does this (name formatted as '[name]') collide with FF::Model::HashRef as
+# it uses /_\d/ to parse repeatable names?
         return $name;
     }
     else {
@@ -153,12 +156,97 @@ sub nested_names {
         while ( defined( $parent = $parent->{parent} ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
+                # handling Field
                 push @names, $parent->name
                     if defined $parent->name;
             }
+            elsif ( $parent->can('is_repeatable') && $parent->is_repeatable ) {
+                # handling Repeatable
+                # ignore Repeatables nested_name attribute as it is provided
+                # by the childrens Block elements
+            }
             else {
+                # handling 'not Field' and 'not Repeatable'
                 push @names, $parent->nested_name
                     if defined $parent->nested_name;
+            }
+        }
+
+        if (@names) {
+            return reverse $name, @names;
+        }
+    }
+
+    return ( $self->name );
+}
+
+sub build_original_nested_name {
+    my ($self) = @_;
+
+    croak 'cannot set build_original_nested_name' if @_ > 1;
+
+    return if !defined $self->name;
+
+    my @names = $self->build_original_nested_names;
+
+    if ( $self->form->nested_subscript ) {
+        my $name = shift @names;
+        map { $name .= "[$_]" } @names;
+# TODO - Mario Minati 19.05.2009
+# Does this (name formatted as '[name]') collide with FF::Model::HashRef as
+# it uses /_\d/ to parse repeatable names?
+        return $name;
+    }
+    else {
+        return join ".", @names;
+    }
+}
+
+sub build_original_nested_names {
+    my ($self) = @_;
+
+    croak 'cannot set build_original_nested_names' if @_ > 1;
+
+# TODO - Mario Minati 19.05.2009
+# Maybe we have to use original_name instead of name.
+# Yet there is no testcase, which is currently failing. 
+
+    if ( defined( my $name = $self->name ) ) {
+        my @names;
+        my $parent = $self;
+
+        # micro optimization! this method's called a lot, so access
+        # parent hashkey directly, instead of calling parent()
+        while ( defined( $parent = $parent->{parent} ) ) {
+
+            if ( $parent->can('is_field') && $parent->is_field ) {
+                # handling Field
+                if (defined $parent->original_name) {
+                    push @names, $parent->original_name;
+                }
+                elsif (defined $parent->name) {
+                    push @names, $parent->name;
+                }
+            }
+            elsif ( $parent->can('is_repeatable') && $parent->is_repeatable ) {
+                # handling Repeatable
+# TODO - Mario Minati 19.05.2009
+# Do we have to take care of chains of Repeatable elements, if the Block
+# elements have already been created for the outer Repeatable elements to
+# avoid 'outer.outer_1.inner'
+# Yet there is no failing testcase. All testcases in FF and FF::Model::DBIC
+# which have nested repeatable elements are passing currently.
+                push @names, $parent->original_nested_name
+                    if defined $parent->original_nested_name;
+            }
+            else {
+                # handling 'not Field' and 'not Repeatable'
+                if ($parent->can('original_nested_name') && defined $parent->original_nested_name) {
+                    push @names, $parent->original_nested_name;
+                }
+                elsif (defined $parent->nested_name) {
+                    push @names, $parent->nested_name
+                }
             }
         }
 

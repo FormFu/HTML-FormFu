@@ -128,19 +128,19 @@ for ( 0 .. 1 ) {
 
     like(
         $form->get_all_element( { nested_name => 'many' } ),
-        qr/name="many.id_1" type="text" value="1"/
+        qr/name="many_1.id" type="text" value="1"/
     );
     like(
         $form->get_all_element( { nested_name => 'many' } ),
-        qr/name="many.id_2" type="text" value="2"/
+        qr/name="many_2.id" type="text" value="2"/
     );
     like(
         $form->get_all_element( { nested_name => 'many' } ),
-        qr/name="many.foo_1" type="text" value="bar"/
+        qr/name="many_1.foo" type="text" value="bar"/
     );
     like(
         $form->get_all_element( { nested_name => 'many' } ),
-        qr/name="many.foo_2" type="text" value="baz"/
+        qr/name="many_2.foo" type="text" value="baz"/
     );
 
 }

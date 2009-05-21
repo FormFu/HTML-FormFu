@@ -12,6 +12,7 @@ __PACKAGE__->mk_item_accessors( qw(
         _original_elements
         increment_field_names
         counter_name
+        repeatable_delimiter
 ) );
 
 sub new {
@@ -20,6 +21,10 @@ sub new {
     $self->filename('repeatable');
     $self->is_repeatable(1);
     $self->increment_field_names(1);
+# TODO
+    # This setter is currently not documentes as FF::Model::HashRef
+    # only supports '_'
+    $self->repeatable_delimiter('_');
 
     return $self;
 }
@@ -49,7 +54,152 @@ sub repeat {
     $self->_elements( [] );
 
     return [] if !$count;
-    
+
+    # switch behaviour
+    # If nested_name is set, we add the repeatable counter to the name
+    # of the containing block (this repeatable block).
+    #     This behaviour eases the creation of client side javascript code
+    #     to add and remove repeatable elements client side.
+    # If nested_name is *not* set, we add the repeatable counter to the names
+    # of the child elements (leaves of the element tree).
+    my $nested_name = $self->nested_name;
+    if (defined $nested_name && length $nested_name) {
+        return $self->_repeat_containing_block( $count );
+    }
+    else {
+        return $self->_repeat_child_elements( $count );
+    }
+}
+
+sub _repeat_containing_block {
+    my ( $self, $count ) = @_;
+
+    my $children = $self->_original_elements;
+
+    # We must not get 'nested.nested_1' instead of 'nested_1' through the
+    # nested_name attribute of the Repeatable element, thus we extended
+    # FF::Elements::_Field nested_names method to ignore Repeatable elements.
+    my $nested_name = $self->nested_name;
+    $self->original_nested_name( $nested_name );
+
+    # delimiter between nested_name and the incremented counter
+    my $delimiter = $self->repeatable_delimiter;
+
+    my @return;
+
+    for my $rep ( 1 .. $count ) {
+        # create clones of elements and put them in a new block
+        my @clones = map { $_->clone } @$children;
+        my $block = $self->element('Block');
+
+        # initiate new block with properties of this repeatable
+        $block->_elements( \@clones );
+        $block->attributes( $self->attributes );
+        $block->tag( $self->tag );
+
+        $block->repeatable_count($rep);
+
+        if ( $self->increment_field_names ) {
+            # store the original nested_name attribute for later usage when
+            # building the original nested name
+            $block->original_nested_name( $block->nested_name )
+                if !defined $block->original_nested_name;
+
+            # create new nested name with repeat counter
+            $block->nested_name( $nested_name . $delimiter . $rep );
+
+            for my $field ( @{ $block->get_fields } ) {
+
+                if ( defined( my $name = $field->name ) ) {
+                    # store original name for later usage when
+                    # replacing the field names in constraints
+                    $field->original_name($name)
+                        if !defined $field->original_name;
+
+                    # store original nested name for later usage when 
+                    # replacing the field names in constraints
+                    $field->original_nested_name( $field->build_original_nested_name )
+                        if !defined $field->original_nested_name;
+                }
+            }
+        }
+
+        _reparent_children($block);
+
+        for my $field ( @{ $block->get_fields } ) {
+            map { $_->parent($field) }
+                @{ $field->_deflators },
+                @{ $field->_filters },
+                @{ $field->_constraints },
+                @{ $field->_inflators },
+                @{ $field->_validators },
+                @{ $field->_transformers },
+                @{ $field->_plugins },
+                ;
+        }
+
+        my $block_fields = $block->get_fields;
+
+        my @block_constraints = map { @{ $_->get_constraints } } @$block_fields;
+
+        # rename any 'others' fields
+        my @others_constraints = grep { defined $_->others }
+            grep { $_->can('others') } @block_constraints;
+
+        for my $constraint (@others_constraints) {
+            my $others = $constraint->others;
+            if ( !ref $others ) {
+                $others = [$others];
+            }
+            my @new_others;
+
+            for my $name (@$others) {
+                my $field
+                    = ( first { $_->original_nested_name eq $name }
+                    @$block_fields )
+                    || first { $_->original_name eq $name } @$block_fields;
+
+                if ( defined $field ) {
+                    push @new_others, $field->nested_name;
+                }
+                else {
+                    push @new_others, $name;
+                }
+            }
+
+            $constraint->others( \@new_others );
+        }
+
+        # rename any 'when' fields
+        my @when_constraints = grep { defined $_->when } @block_constraints;
+
+        for my $constraint (@when_constraints) {
+            my $when = $constraint->when;
+            my $name = $when->{field};
+
+            my $field
+                = first { $_->original_nested_name eq $name } @$block_fields;
+
+            if ( defined $field ) {
+                $when->{field} = $field->nested_name;
+            }
+        }
+
+        push @return, $block;
+
+    }
+
+    return \@return;
+}
+
+sub _repeat_child_elements {
+    my ( $self, $count ) = @_;
+
+    my $children = $self->_original_elements;
+
+    # delimiter between nested_name and the incremented counter
+    my $delimiter = $self->repeatable_delimiter;
+
     my @return;
 
     for my $rep ( 1 .. $count ) {
@@ -72,7 +222,7 @@ sub repeat {
                     $field->original_nested_name( $field->nested_name )
                         if !defined $field->original_nested_name;
 
-                    $field->name("${name}_$rep");
+                    $field->name(${name} . $delimiter . $rep);
                 }
             }
         }
@@ -332,6 +482,35 @@ C<n> is the L</repeatable_count> value.
 
 This is set on each new L<Block|HTML::FormFu::Element::Block> element 
 returned by L</repeat>, starting at number C<1>.
+
+Because this is an 'inherited accessor' available on all elements, it can be
+used to determine whether any element is a child of a Repeatable element.
+
+=head2 nested_name
+
+If the L</nested_name> attribute is set the naming scheme of the Repeatable
+elements children is switched to add the counter to the repeatable blocks
+themself.
+
+    ---
+    elements:
+      - type: Repeatable
+        nested_name: my_rep
+        elements:
+          - name: foo
+          - name: bar
+
+Calling C<< $element->repeat(2) >> would result in the following markup:
+
+    <div>
+        <input name="my_rep_1.foo" type="text" />
+        <input name="my_rep_1.bar" type="text" />
+    </div>
+    <div>
+        <input name="myrep_2.foo" type="text" />
+        <input name="myrep_2.bar" type="text" />
+    </div>
+
 
 Because this is an 'inherited accessor' available on all elements, it can be
 used to determine whether any element is a child of a Repeatable element.

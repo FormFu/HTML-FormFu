@@ -169,12 +169,12 @@ is_deeply(
 	          'address-split.street' => 'Lombardstreet',
 	          'datetime' => '30-08-1999 22:00',
 	          'table1' => 'test',
-	          'many.foo_2' => 'baz',
+	          'many_2.foo' => 'baz',
 	          'bar' => 'y',
 	          'datetime_hour.label' => '22',
 	          'address-split.number' => '22',
-	          'many.foo_1' => 'bar',
-	          'many.id_2' => 2,
+	          'many_1.foo' => 'bar',
+	          'many_2.id' => 2,
 	          'datetime_year.label' => 1999,
 	          'single-select.label' => 'foo',
 	          'address.number' => 22,
@@ -188,7 +188,7 @@ is_deeply(
 	          'datetime_day.label' => 30,
 	          'nested.foo' => 'bar',
 	          'multi-select_1.label' => 'bar',
-	          'many.id_1' => 1,
+	          'many_1.id' => 1,
 	          'multi-select_1.value' => '2'
 	        }
 );

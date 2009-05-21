@@ -10,7 +10,10 @@ use List::MoreUtils qw( uniq );
 use Storable qw( dclone );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( tag _elements nested_name ));
+__PACKAGE__->mk_item_accessors( qw(
+        tag                         _elements
+        nested_name                 original_nested_name
+) );
 
 __PACKAGE__->mk_output_accessors(qw( content ));
 

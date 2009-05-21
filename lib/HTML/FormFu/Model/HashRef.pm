@@ -168,7 +168,6 @@ sub _as_object_get {
 
     my $hf = new Hash::Flatten( { ArrayDelimiter => '_' } );
 
-    #return $hf->unflatten($names);
     return $self->_unfold_repeatable( $form,
         $self->flatten ? $names : $hf->unflatten($names) );
 }
@@ -199,12 +198,34 @@ sub _unfold_repeatable {
 
         if ( $self->get_repeatable($key) ) {
             $new->{$key} = [];
-            while ( my ( $name, $values ) = each %{$v} ) {
-                for ( my $i = 0; $i < @{$values || []} - 1; $i++ ) {
-                    push( @{ $new->{$key} }, {} ) unless $new->{$key}->[$i];
-                    $new->{$key}->[$i]->{$name}
-                        = $self->_unfold_repeatable( $form,
-                        $values->[ $i + 1 ] );
+            # iterate over all array elements
+            # we ignore the first one (index 0) as it is undef as we start
+            # counting the repeated element names with 1 and the automatic
+            # from Hash::Flatten assumed 0 as first index while unflattening
+            # the parameter names
+            # Example:
+            # $v    = [
+            #           undef,
+            #           {
+            #             'foo' => 'bar',
+            #             'id' => 1
+            #           },
+            #           {
+            #             'foo' => 'baz',
+            #             'id' => 2
+            #           }
+            #         ];
+            for ( my $i = 1; $i < @{$v || []}; $i++ ) {
+
+                # process all key value pairs in an array element
+                while ( my ( $name, $values ) = each %{$v->[$i]} ) {
+
+                    # add an empty hash to array of unfolded data if not already present
+                    push( @{ $new->{$key} }, {} ) unless $new->{$key}->[ $i - 1 ];
+
+                    # store processed values
+                    $new->{$key}->[ $i - 1 ]->{$name}
+                        = $self->_unfold_repeatable( $form, $values );
                 }
             }
         }
@@ -245,6 +266,8 @@ sub get_repeatable {
     unless ( $self->_repeatable ) {
         my %rep = ();
         my $rep = $self->form->get_all_elements( { type => "Repeatable" } );
+# TODO - Mario Minati 19.05.2009
+# use $_->delimiter to split the keys
         foreach my $rep_element (@{ $rep || [] }) {
             my $name = $rep_element->nested_name;
             die "A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef"
@@ -252,8 +275,6 @@ sub get_repeatable {
             $name =~ s/_\d+//;
             $rep{$name} = 1;
         }
-#         map { my $name = $_->nested_name; $name =~ s/_\d+//; $rep{$name} = 1 }
-#             @{ $rep || [] };
         $self->_repeatable( \%rep );
     }
     return $self->_repeatable->{$element};

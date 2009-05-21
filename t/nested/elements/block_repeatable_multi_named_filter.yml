@@ -2,6 +2,9 @@
 auto_fieldset: 1
 
 elements:
+  - type: Hidden
+    name: count
+
   - type: Repeatable
     nested_name: nested
     counter_name: counter

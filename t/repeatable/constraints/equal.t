@@ -16,12 +16,12 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 # Valid
 {
     $form->process( {
-            'rep.foo_1' => 'a',
-            'rep.bar_1' => 'a',
-            'rep.baz_1' => 'a',
-            'rep.foo_2' => 'c',
-            'rep.bar_2' => 'c',
-            'rep.baz_2' => 'c',
+            'rep_1.foo' => 'a',
+            'rep_1.bar' => 'a',
+            'rep_1.baz' => 'a',
+            'rep_2.foo' => 'c',
+            'rep_2.bar' => 'c',
+            'rep_2.baz' => 'c',
             count       => 2,
         } );
 
@@ -29,13 +29,15 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {   rep => {
-                foo_1 => 'a',
-                bar_1 => 'a',
-                baz_1 => 'a',
-                foo_2 => 'c',
-                bar_2 => 'c',
-                baz_2 => 'c',
+        {   rep_1 => {
+                foo => 'a',
+                bar => 'a',
+                baz => 'a',
+            },
+            rep_2 => {
+                foo => 'c',
+                bar => 'c',
+                baz => 'c',
             },
             count => 2,
         } );
@@ -44,42 +46,42 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 # Invalid
 {
     $form->process( {
-            'rep.foo_1' => 'a',
-            'rep.bar_1' => 'a',
-            'rep.baz_1' => 'a',
-            'rep.foo_2' => 'c',
-            'rep.bar_2' => 'd',
-            'rep.baz_2' => 'c',
+            'rep_1.foo' => 'a',
+            'rep_1.bar' => 'a',
+            'rep_1.baz' => 'a',
+            'rep_2.foo' => 'c',
+            'rep_2.bar' => 'd',
+            'rep_2.baz' => 'c',
             count       => 2,
         } );
 
     ok( !$form->submitted_and_valid );
 
-    ok( !$form->has_errors('rep.foo_1') );
-    ok( !$form->has_errors('rep.bar_1') );
-    ok( !$form->has_errors('rep.baz_1') );
-    ok( !$form->has_errors('rep.foo_2') );
-    ok( $form->has_errors('rep.bar_2') );
-    ok( !$form->has_errors('rep.baz_2') );
+    ok( !$form->has_errors('rep_1.foo') );
+    ok( !$form->has_errors('rep_1.bar') );
+    ok( !$form->has_errors('rep_1.baz') );
+    ok( !$form->has_errors('rep_2.foo') );
+    ok( $form->has_errors('rep_2.bar') );
+    ok( !$form->has_errors('rep_2.baz') );
 }
 
 # Missing - Invalid
 {
     $form->process( {
-            'rep.foo_1' => 'a',
-            'rep.bar_1' => 'a',
-            'rep.baz_1' => 'a',
-            'rep.foo_2' => 'c',
+            'rep_1.foo' => 'a',
+            'rep_1.bar' => 'a',
+            'rep_1.baz' => 'a',
+            'rep_2.foo' => 'c',
             count       => 2,
         } );
 
     ok( !$form->submitted_and_valid );
 
-    ok( !$form->has_errors('rep.foo_1') );
-    ok( !$form->has_errors('rep.bar_1') );
-    ok( !$form->has_errors('rep.baz_1') );
-    ok( !$form->has_errors('rep.foo_2') );
-    ok( $form->has_errors('rep.bar_2') );
-    ok( $form->has_errors('rep.baz_2') );
+    ok( !$form->has_errors('rep_1.foo') );
+    ok( !$form->has_errors('rep_1.bar') );
+    ok( !$form->has_errors('rep_1.baz') );
+    ok( !$form->has_errors('rep_2.foo') );
+    ok( $form->has_errors('rep_2.bar') );
+    ok( $form->has_errors('rep_2.baz') );
 }
 

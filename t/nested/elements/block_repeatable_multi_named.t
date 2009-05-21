@@ -15,9 +15,9 @@ my $multi      = $repeatable->get_element;
 
 $form->process({
     'counter'              => 1,
-    'nested.foo_1'         => 'aaa',
-    'nested.multi_1.bar_1' => 'bbb',
-    'nested.multi_1.baz_1' => 'ccc',
+    'nested_1.foo'         => 'aaa',
+    'nested_1.multi.bar' => 'bbb',
+    'nested_1.multi.baz' => 'ccc',
 });
 
 ok( $form->submitted_and_valid );
@@ -25,16 +25,16 @@ ok( $form->submitted_and_valid );
 is_deeply(
     $form->params,
     {
-        nested => {
-            foo_1 => 'aaa',
-            multi_1 => {
-                bar_1 => 'bbb',
-                baz_1 => 'ccc',
+        nested_1 => {
+            foo => 'aaa',
+            multi => {
+                bar => 'bbb',
+                baz => 'ccc',
             }
         }
     }
 );
 
-is( $form->param_value('nested.foo_1'), 'aaa' );
-is( $form->param_value('nested.multi_1.bar_1'), 'bbb' );
-is( $form->param_value('nested.multi_1.baz_1'), 'ccc' );
+is( $form->param_value('nested_1.foo'), 'aaa' );
+is( $form->param_value('nested_1.multi.bar'), 'bbb' );
+is( $form->param_value('nested_1.multi.baz'), 'ccc' );

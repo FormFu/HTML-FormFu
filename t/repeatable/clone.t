@@ -13,10 +13,10 @@ $form->load_config_file('t/repeatable/clone.yml');
 $form->get_all_element( { type => 'Repeatable' } )->repeat(2);
 
 $form->process( {
-        'rep.foo_1' => 'a',
-        'rep.bar_1' => '',
-        'rep.foo_2' => '',
-        'rep.bar_2' => 'd',
+        'rep_1.foo' => 'a',
+        'rep_1.bar' => '',
+        'rep_2.foo' => '',
+        'rep_2.bar' => 'd',
         count       => 2,
     } );
 

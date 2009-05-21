@@ -16,10 +16,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 # Valid
 {
     $form->process( {
-            'rep.foo_1' => 'a',
-            'rep.bar_1' => 'b',
-            'rep.foo_2' => 'c',
-            'rep.bar_2' => 'd',
+            'rep_1.foo' => 'a',
+            'rep_1.bar' => 'b',
+            'rep_2.foo' => 'c',
+            'rep_2.bar' => 'd',
             count       => 2,
         } );
 
@@ -27,11 +27,13 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {   rep => {
-                foo_1 => 'a',
-                bar_1 => 'b',
-                foo_2 => 'c',
-                bar_2 => 'd',
+        {   rep_1 => {
+                foo => 'a',
+                bar => 'b',
+            },
+            rep_2 => {
+                foo => 'c',
+                bar => 'd',
             },
             count => 2,
         } );
@@ -40,16 +42,16 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 # Missing - Invalid
 {
     $form->process( {
-            'rep.bar_1' => 'b',
-            'rep.foo_2' => 'c',
+            'rep_1.bar' => 'b',
+            'rep_2.foo' => 'c',
             count       => 2,
         } );
 
     ok( !$form->submitted_and_valid );
 
-    ok( $form->has_errors('rep.foo_1') );
-    ok( !$form->has_errors('rep.bar_1') );
-    ok( !$form->has_errors('rep.foo_2') );
-    ok( $form->has_errors('rep.bar_2') );
+    ok( $form->has_errors('rep_1.foo') );
+    ok( !$form->has_errors('rep_1.bar') );
+    ok( !$form->has_errors('rep_2.foo') );
+    ok( $form->has_errors('rep_2.bar') );
 }
 
