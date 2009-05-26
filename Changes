@@ -1,3 +1,8 @@
+0.05000 2009-05-26
+
+    - Nested repeatable blocks now create field names such as
+      'foo_1.bar_1' rather than 'foo.bar_1_1', to assist client-side scripting.
+
 0.04002 2009-05-08
 
     - Incompatible Change: Element::Repeatable->repeat() now defaults to 1
