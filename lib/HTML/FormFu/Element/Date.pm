@@ -17,6 +17,9 @@ __PACKAGE__->mk_attrs(qw( day  month  year ));
 
 __PACKAGE__->mk_accessors( qw(
         _known_fields
+        printf_day
+        printf_month
+        printf_year
 ) );
 
 __PACKAGE__->mk_item_accessors( qw(
@@ -60,6 +63,10 @@ sub new {
 
     $self->_known_fields( [qw/ day month year /] );
 
+    $self->printf_day  ('%d');
+    $self->printf_month('%d');
+    $self->printf_year ('%d');
+
     $self->field_order( [qw/ day month year /] );
 
     $self->day( {
@@ -99,8 +106,13 @@ sub value {
             for my $i ( 0 .. $#order ) {
                 my $field = $order[$i];
 
-                $self->_elements->[$i]
-                    ->default( $value ? $self->$field->{default} : undef );
+                my $printf_method = "printf_$field";
+
+                my $default = $value
+                    ? sprintf( $self->$printf_method, $self->$field->{default} )
+                    : undef;
+
+                $self->_elements->[$i]->default($default);
             }
         }
 

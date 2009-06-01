@@ -7,6 +7,8 @@ use Scalar::Util qw( blessed );
 
 __PACKAGE__->mk_attrs(qw/ hour minute /);
 
+__PACKAGE__->mk_accessors(qw/ printf_hour printf_minute /);
+
 sub new {
     my $self = shift->next::method(@_);
 
@@ -30,6 +32,9 @@ sub new {
             type   => '_MultiSelect',
             prefix => [],
         } );
+
+    $self->printf_hour  ('%02d');
+    $self->printf_minute('%02d');
 
     return $self;
 }
