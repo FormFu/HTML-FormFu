@@ -1,3 +1,9 @@
+0.05001
+
+    - Bugfix: DateTime element, hour/minute select menus didn't display correct
+      value when hour/minute value was less than 10, and $form->process()
+      wasn't called after $form->model->default_values().
+
 0.05000 2009-05-26
 
     - Nested repeatable blocks now create field names such as
