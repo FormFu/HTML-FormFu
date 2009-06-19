@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 25;
+use Test::More tests => 28;
 
 use HTML::FormFu;
 
@@ -85,4 +85,13 @@ my $e3 = $fs->element('Hidden')->name('bar');
     is( @$elems, 1 );
 
     ok( $elems->[0] == $e2 );
+}
+
+{
+    my $elems = $form->get_all_elements( { name => qr/oo/ } );
+
+    is( @$elems, 2 );
+
+    ok( $elems->[0] == $e1 );
+    ok( $elems->[1] == $e2 );
 }

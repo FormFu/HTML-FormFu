@@ -2775,6 +2775,12 @@ Accepts both C<name> and C<type> arguments to narrow the returned results.
         type => 'Radio',
     });
 
+Accepts also an Regexp to search for results.
+
+    $form->get_elements({
+        name => qr/oo/,
+    });
+
 =head2 get_field
 
 Arguments: [%options]
@@ -2802,6 +2808,12 @@ Accepts both C<name> and C<type> arguments to narrow the returned results.
     $form->get_elements({
         name => 'foo',
         type => 'Radio',
+    });
+
+Accepts also an Regexp to search for results.
+
+    $form->get_elements({
+        name => qr/oo/,
     });
 
 =head2 get_element
@@ -2836,6 +2848,12 @@ results.
         type => 'Text',
     });
 
+Accepts also an Regexp to search for results.
+
+    $form->get_elements({
+        name => qr/oo/,
+    });
+
 See L</get_elements> for a non-recursive version.
 
 =head2 get_all_element
@@ -2854,6 +2872,12 @@ first element found.
     
     $form->get_all_element({
         type => 'Text',
+    });
+
+Accepts also an Regexp to search for results.
+
+    $form->get_elements({
+        name => qr/oo/,
     });
 
 See L</get_all_elements> for a non-recursive version.
