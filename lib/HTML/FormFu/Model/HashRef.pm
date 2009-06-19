@@ -248,7 +248,7 @@ sub get_multi {
     my $element = shift;
     unless ( $self->_multi ) {
         my %multis = ();
-        my $multis = $self->form->get_all_elements( { type => "Multi" } );
+        my $multis = $self->form->get_all_elements( { type => qr/Multi/ } );
         foreach my $multi ( @{ $multis || [] } ) {
             my @multis;
             map { push( @multis, $_->name ) } @{ $multi->get_elements };
@@ -265,7 +265,7 @@ sub get_repeatable {
     my $element = shift;
     unless ( $self->_repeatable ) {
         my %rep = ();
-        my $rep = $self->form->get_all_elements( { type => "Repeatable" } );
+        my $rep = $self->form->get_all_elements( { type => qr/Repeatable/ } );
 # TODO - Mario Minati 19.05.2009
 # use $_->delimiter to split the keys
         foreach my $rep_element (@{ $rep || [] }) {
