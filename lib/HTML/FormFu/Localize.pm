@@ -12,6 +12,7 @@ use Carp qw( croak );
 our @EXPORT = qw(
     localize
     add_localize_object
+    add_localize_object_from_class
     get_localize_object_from_class
     get_localize_object_dies_on_missing_key
     add_default_localize_object
@@ -85,6 +86,16 @@ sub add_localize_object {
     }
 
     return $self;
+}
+
+sub add_localize_object_from_class {
+    my ( $self, @class ) = @_;
+    
+    return $self->add_localize_object(
+        map {
+            $self->get_localize_object_from_class( $_ )
+        } @class
+    );
 }
 
 sub get_localize_object_from_class {

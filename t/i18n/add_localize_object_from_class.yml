@@ -1,0 +1,9 @@
+---
+add_localize_object_from_class: 'HTMLFormFu::RegressLocalization'
+
+elements:
+    - name: foo
+      label_loc: form_constraint_required
+    
+    - name: bar
+      label_loc: foobar
