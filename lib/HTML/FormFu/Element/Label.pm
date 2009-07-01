@@ -78,6 +78,17 @@ sub process_input {
     return;
 }
 
+sub render_data_non_recursive {
+    my ( $self, $args ) = @_;
+
+    my $render = $self->next::method( {
+            tag => $self->tag,
+            $args ? %$args : (),
+        } );
+
+    return $render;
+}
+
 1;
 
 __END__
