@@ -542,6 +542,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Hr>
 
+=item L<HTML::FormFu::Element::Label>
+
 =item L<HTML::FormFu::Element::Multi>
 
 =item L<HTML::FormFu::Element::Repeatable>

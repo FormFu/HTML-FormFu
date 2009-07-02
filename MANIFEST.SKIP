@@ -2,8 +2,6 @@
 ^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 
 # not ready yet
-^lib\/HTML\/FormFu\/Element\/Label\.pm$
-^t\/elements\/label\.t$
 ^t\/elements\/repeatable_select\.t$
 ^t\/elements\/repeatable_select\.yml$
 ^lib\/HTML\/FormFu\/Manual\.pod$
