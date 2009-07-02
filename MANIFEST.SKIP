@@ -19,6 +19,7 @@
 ^t\b.*CatalystApp
 ^xt\/
 
+^\.prove\b
 ^\.perltidyrc$
 
 # Eclipse workspace file
