@@ -125,7 +125,7 @@ sub _get_elements {
 
     for my $name ( keys %$args ) {
         my $value;
-
+        next unless defined $args->{$name};
         @$elements = grep {
                    $_->can($name)
                 && defined( $value = $_->$name )
