@@ -1,12 +1,16 @@
 ---
 
 elements:
-  - type: Multi
-    name: address
-    
+  - type: Repeatable
+    nested_name: rep
+
     elements:
-      - name: number
-      - name: street
+      - type: Multi
+        name: address
     
-    filters:
-      type: CompoundJoin
+        elements:
+          - name: number
+          - name: street
+    
+        filters:
+          type: CompoundJoin
