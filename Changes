@@ -1,8 +1,20 @@
-0.05001
+0.05001 2009-07-03
 
+    - get_field(s), get_element(s), get_all_elements() now support a Regex
+      object for any conditional argument.
+    
+    - Model::Hashref now searches for Multi and Repeatable elements using the
+      regexes qr/Multi/ and qr/Repeatable/ to all for custom/derived classes.
+    
+    - New $form->add_localize_object_from_class() method.
+    
+    - New Element::Label.
+    
     - Bugfix: DateTime element, hour/minute select menus didn't display correct
       value when hour/minute value was less than 10, and $form->process()
       wasn't called after $form->model->default_values().
+    
+    - Silence "undef value in string eq" warnings.
 
 0.05000 2009-05-26
 
