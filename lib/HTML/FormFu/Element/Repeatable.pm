@@ -116,7 +116,7 @@ sub _repeat_containing_block {
                     $field->original_name($name)
                         if !defined $field->original_name;
 
-                    # store original nested name for later usage when 
+                    # store original nested name for later usage when
                     # replacing the field names in constraints
                     $field->original_nested_name( $field->build_original_nested_name )
                         if !defined $field->original_nested_name;
@@ -383,8 +383,8 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
         <input name="my_rep.bar_1" type="text" />
     </div>
     <div>
-        <input name="myrep.foo_2" type="text" />
-        <input name="myrep.bar_2" type="text" />
+        <input name="my_rep.foo_2" type="text" />
+        <input name="my_rep.bar_2" type="text" />
     </div>
 
 Example of constraints:
@@ -395,13 +395,13 @@ Example of constraints:
         name: my_rep
         elements:
           - name: id
-          
+
           - name: foo
             constraints:
               - type: Required
                 when:
                   field: 'my_rep.id' # use full nested-name
-          
+
           - name: bar
             constraints:
               - type: Equal
@@ -409,16 +409,16 @@ Example of constraints:
 
 =head1 DESCRIPTION
 
-Provides a way to extend a form at run-time, by copying and repeating its 
+Provides a way to extend a form at run-time, by copying and repeating its
 child elements.
 
 The elements intended for copying must be added before L</repeat> is called.
 
-Although the Repeatable element inherits from 
-L<Block|HTML::FormFu::Element::Block>, it doesn't generate a block tag 
-around all the repeated elements - instead it places each repeat of the 
-elements in a new L<Block|HTML::FormFu::Element::Block> element, which 
-inherits the Repeatable's display settings, such as L</attributes> and 
+Although the Repeatable element inherits from
+L<Block|HTML::FormFu::Element::Block>, it doesn't generate a block tag
+around all the repeated elements - instead it places each repeat of the
+elements in a new L<Block|HTML::FormFu::Element::Block> element, which
+inherits the Repeatable's display settings, such as L</attributes> and
 L</tag>.
 
 For all constraints attached to fields within a Repeatable block which use
@@ -444,29 +444,29 @@ initial child elements are correctly set up - unless you call L</repeat>
 manually first, in which case the child elements you created will be left
 untouched (otherwise L</process> would overwrite your changes).
 
-Any subsequent call to L</repeat> will delete the previously copied elements 
-before creating new copies - this means you cannot make repeated calls to 
+Any subsequent call to L</repeat> will delete the previously copied elements
+before creating new copies - this means you cannot make repeated calls to
 L</repeat> within a loop to create more copies.
 
-Each copy of the elements returned are contained in a new 
-L<Block|HTML::FormFu::Element::Block> element. For example, calling 
-C<< $element->repeat(2) >> on a Repeatable element containing 2 Text fields 
-would return 2 L<Block|HTML::FormFu::Element::Block> elements, each 
+Each copy of the elements returned are contained in a new
+L<Block|HTML::FormFu::Element::Block> element. For example, calling
+C<< $element->repeat(2) >> on a Repeatable element containing 2 Text fields
+would return 2 L<Block|HTML::FormFu::Element::Block> elements, each
 containing a copy of the 2 Text fields.
 
 =head2 counter_name
 
 Arguments: $name
 
-If true, the L<HTML::FormFu/query> will be searched during 
-L<HTML::FormFu/process> for a parameter with the given name. The value for 
-that parameter will be passed to L</repeat>, to automatically create the 
+If true, the L<HTML::FormFu/query> will be searched during
+L<HTML::FormFu/process> for a parameter with the given name. The value for
+that parameter will be passed to L</repeat>, to automatically create the
 new copies.
 
 If L</increment_field_names> is true (the default), this is essential: if the
-elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not 
-present on the form during L<HTML::FormFu/process>, no Processors 
-(Constraints, etc.) will be run on the fields, and their values will not 
+elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not
+present on the form during L<HTML::FormFu/process>, no Processors
+(Constraints, etc.) will be run on the fields, and their values will not
 be returned by L<HTML::FormFu/params> or L<HTML::FormFu/param>.
 
 =head2 increment_field_names
@@ -480,7 +480,7 @@ C<n> is the L</repeatable_count> value.
 
 =head2 repeatable_count
 
-This is set on each new L<Block|HTML::FormFu::Element::Block> element 
+This is set on each new L<Block|HTML::FormFu::Element::Block> element
 returned by L</repeat>, starting at number C<1>.
 
 Because this is an 'inherited accessor' available on all elements, it can be
@@ -488,9 +488,9 @@ used to determine whether any element is a child of a Repeatable element.
 
 =head2 nested_name
 
-If the L</nested_name> attribute is set the naming scheme of the Repeatable
-elements children is switched to add the counter to the repeatable blocks
-themself.
+If the L</nested_name> attribute is set, the naming scheme of the Repeatable
+element's children is switched to add the counter to the repeatable blocks
+themselves.
 
     ---
     elements:
@@ -507,8 +507,8 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
         <input name="my_rep_1.bar" type="text" />
     </div>
     <div>
-        <input name="myrep_2.foo" type="text" />
-        <input name="myrep_2.bar" type="text" />
+        <input name="my_rep_2.foo" type="text" />
+        <input name="my_rep_2.bar" type="text" />
     </div>
 
 
@@ -525,7 +525,7 @@ Any attributes set will be passed to every repeated Block of elements.
     elements:
       - type: Repeatable
         name: my_rep
-        attributes: 
+        attributes:
           class: rep
         elements:
           - name: foo
@@ -566,7 +566,7 @@ See L<HTML::FormFu::Element::block/tag> for details.
 
 =head2 auto_id
 
-As well as the usual subtitutions, any instances of C<%r> will be 
+As well as the usual subtitutions, any instances of C<%r> will be
 replaced with the value of L</repeatable_count>.
 
 See L<HTML::FormFu::Element::block/auto_id> for further details.
@@ -595,8 +595,8 @@ a setter.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::Block>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
