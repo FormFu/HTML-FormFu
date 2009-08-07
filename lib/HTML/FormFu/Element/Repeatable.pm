@@ -310,11 +310,24 @@ sub _reparent_children {
 sub process {
     my $self = shift;
 
-    my $form  = $self->form;
-    my $count = 1;
+    my $counter_name = $self->counter_name;
+    my $form         = $self->form;
+    my $count        = 1;
 
-    if ( defined $self->counter_name && defined $form->query ) {
-        my $input = $form->query->param( $self->counter_name );
+    if ( defined $counter_name && defined $form->query ) {
+        # are we in a nested-repeatable?
+        my $parent = $self;
+
+        while ( defined( $parent = $parent->parent ) ) {
+            my $field = $parent->get_field( $counter_name );
+
+            if ( defined $field ) {
+                $counter_name = $field->nested_name;
+                last;
+            }
+        }
+
+        my $input = $form->query->param( $counter_name );
 
         if ( defined $input && $input =~ /^[1-9][0-9]*\z/ ) {
             $count = $input;

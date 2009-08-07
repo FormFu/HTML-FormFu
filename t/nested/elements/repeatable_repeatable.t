@@ -10,10 +10,18 @@ my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/
 $form->load_config_file('t/nested/elements/repeatable_repeatable.yml');
 
 $form->process({
-    'count'               => 1,
-    'outer_1.foo'         => 'aaa',
-    'outer_1.count'       => 1,
-    'outer_1.inner_1.bar' => 'bbb',
+    'count'               => 2,
+    'outer_1.foo'         => 'a',
+    'outer_1.count'       => 3,
+    'outer_1.inner_1.bar' => 'b',
+    'outer_1.inner_2.bar' => 'c',
+    'outer_1.inner_3.bar' => 'd',
+    'outer_2.foo'         => 'e',
+    'outer_2.count'       => 4,
+    'outer_2.inner_1.bar' => 'f',
+    'outer_2.inner_2.bar' => 'g',
+    'outer_2.inner_3.bar' => 'h',
+    'outer_2.inner_4.bar' => 'i',
 });
 
 ok( $form->submitted_and_valid );
@@ -21,12 +29,34 @@ ok( $form->submitted_and_valid );
 is_deeply(
     $form->params,
     {
-        count => 1,
+        count => 2,
         outer_1 => {
-            foo   => 'aaa',
-            count => 1,
-            inner_1   => {
-                bar => 'bbb',
+            foo   => 'a',
+            count => 3,
+            inner_1 => {
+                bar => 'b',
+            },
+            inner_2 => {
+                bar => 'c',
+            },
+            inner_3 => {
+                bar => 'd',
+            },
+        },
+        outer_2 => {
+            foo   => 'e',
+            count => 4,
+            inner_1 => {
+                bar => 'f',
+            },
+            inner_2 => {
+                bar => 'g',
+            },
+            inner_3 => {
+                bar => 'h',
+            },
+            inner_4 => {
+                bar => 'i',
             },
         },
     }
