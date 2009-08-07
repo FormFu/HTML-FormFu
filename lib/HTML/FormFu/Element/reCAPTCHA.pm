@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element::Multi';
 use Class::C3;
 
-use HTML::FormFu::Util qw( process_attrs );
+use HTML::FormFu::Util qw( process_attrs _merge_hashes );
 use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
@@ -21,10 +21,32 @@ sub new {
     $self->ssl('auto');
     $self->recaptcha_options( {} );
     $self->filename('recaptcha');
+    $self->constraint_args( { type => 'reCAPTCHA' } );
 
-    $self->constraint( { type => 'reCAPTCHA' } );
+    $self->constraint( $self->constraint_args );
 
     return $self;
+}
+
+sub constraint_args {
+    my ( $self, $args ) = @_;
+    
+    $self->{constraint_args} ||= {};
+    
+    if ( @_ > 1 ) {
+        $self->{constraint_args} = _merge_hashes(
+            $self->{constraint_args},
+            $args,
+        );
+        
+        my $constraint = $self->get_constraint( { type => 'reCAPTCHA' } );
+        
+        if ( defined $constraint ) {
+            $constraint->populate( $self->{constraint_args} );
+        }
+    }
+    
+    return $self->{constraint_args};
 }
 
 sub render_data_non_recursive {
@@ -173,6 +195,21 @@ See the recaptcha.net API for details of valid options.
     recaptcha_options:
       lang: de
       theme: white
+
+=head2 constraint_args
+
+Arguments: \%constraint_args
+
+Options that will be passed to the
+L<HTML::FormFu::Constraint::reCAPTCHA|reCAPTCHA constraint> that is
+automatically added for you.
+
+    ---
+    elements:
+      - type: reCAPTCHA
+        name: recaptcha
+        constraint_args:
+          message: 'custom error message'
 
 =head1 SEE ALSO
 
