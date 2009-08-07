@@ -102,6 +102,23 @@ L<HTML::FormFu::Element::Block/content_xml> or
 L<HTML::FormFu::Element::Block/content_loc> to add any content you wish, or 
 use L<HTML::FormFu::Element::Block/element> to add elements.
 
+=head1 Application-wide default values
+
+You can automatically set defaults using L<HTML::FormFu/default_args>, 
+and if you set this in a L<Catalyst> application config file, it'll take
+effect throughout your entire application, for example:
+
+    myapp.yml
+    ---
+    'Controller::HTML::FormFu':
+      constructor:
+        default_args:
+          elements:
+            Checkbox:
+              reverse_multi: 1
+            Radio:
+              reverse_multi: 1
+
 =head1 MODIFYING A FORM
 
 =head2 Insert a new field before existing form fields
