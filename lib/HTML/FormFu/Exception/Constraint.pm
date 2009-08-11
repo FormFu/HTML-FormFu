@@ -1,5 +1,7 @@
 package HTML::FormFu::Exception::Constraint;
 
+use strict;
+
 use base 'HTML::FormFu::Exception::Input';
 
 sub stage {
