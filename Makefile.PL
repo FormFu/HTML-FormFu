@@ -49,6 +49,7 @@ requires 'YAML::Syck' => '1.05';
 
 test_requires 'CGI'; # for file POST tests
 test_requires 'Test::NoWarnings';
+test_requires 'Test::More' => '0.92';
 
 tests_recursive( 't' );
 
