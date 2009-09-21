@@ -197,9 +197,9 @@ YAML config:
       - type: Checkboxgroup
         name: subjects
         options:
-          - 'Math'
-          - 'Science'
-          - 'English'
+          - [ 'Math' ]
+          - [ 'Science' ]
+          - [ 'English' ]
 
 =head1 DESCRIPTION
 
