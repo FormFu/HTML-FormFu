@@ -32,7 +32,7 @@ fieldset .recaptcha noscript textarea {
     display: block;
 }
 
-/* override the iframe's height="" - it's seems a bit big
+/* override the iframe's height="" - it seems a bit big
 */
 fieldset .recaptcha iframe {
     height: 230px ! important;

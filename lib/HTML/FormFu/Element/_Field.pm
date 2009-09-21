@@ -1290,7 +1290,7 @@ field's container.
 
 If L</retain_default> is true and the form was submitted, but the field 
 didn't have a value submitted, then when the form is redisplayed to the user 
-the field will have it's value set to it's default value , rather than the 
+the field will have its value set to its default value , rather than the 
 usual behaviour of having an empty value.
 
 Default Value: C<false>
@@ -1299,7 +1299,7 @@ Default Value: C<false>
 
 If L</force_default> is true and the form was submitted, and the field
 has a default/value set, then when the form is redisplayed to the user
-the field will have it's value set to it's default value.
+the field will have its value set to its default value.
 
 If the default value is being changed after FormFu->process is being called
 the later default value is respected for rendering, *but* nevertheless the

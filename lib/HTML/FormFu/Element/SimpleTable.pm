@@ -149,7 +149,7 @@ cells.
 Sometimes you just really need to use a table to display some fields in a 
 grid format.
 
-As it's name suggests, this is a compromise between power and simplicity. 
+As its name suggests, this is a compromise between power and simplicity. 
 If you want more control of the markup, you'll probably just have to revert 
 to using nested L<block's|HTML::FormFu::Element::_Block>, setting the tags 
 to table, tr, td, etc. and adding the cell contents as elements.

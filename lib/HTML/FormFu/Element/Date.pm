@@ -627,7 +627,7 @@ L</auto_inflate>.
 
 =head1 CAVEATS
 
-Although this element inherits from L<HTML::FormFu::Element::Block>, it's 
+Although this element inherits from L<HTML::FormFu::Element::Block>, its 
 behaviour for the methods 
 L<filter/filters|HTML::FormFu/filters>, 
 L<constraint/constraints|HTML::FormFu/constraints>, 
@@ -635,13 +635,13 @@ L<inflator/inflators|HTML::FormFu/inflators>,
 L<validator/validators|HTML::FormFu/validators> and 
 L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
 a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
-added directly to the date element, not to it's select-menu child elements.
+added directly to the date element, not to its select-menu child elements.
 
 This element's L<get_elements|HTML::FormFu/get_elements> and 
 L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from 
 L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it 
 overrides the C<get_fields> method, such that it returns both itself and 
-it's child elements.
+its child elements.
 
 =head1 SEE ALSO
 

@@ -1364,7 +1364,7 @@ just as if multiple filenames had been given.
 In the following example, multiple documents are taken advantage of to
 load another config file after the elements are added. (If this were
 a single document, the C<load_config_file> would be called before
-C<elements>, regardless of it's position in the file).
+C<elements>, regardless of its position in the file).
 
     ---
     elements:
@@ -1611,7 +1611,7 @@ listed type which is added to the form.
 
 For example, to make every C<Text> element automatically have a
 L<size|HTML::FormFu::Element/size> of C<10>, and make every C<Strftime>
-deflator automatically get it's strftime set to C<%d/%m/%Y>:
+deflator automatically get its strftime set to C<%d/%m/%Y>:
 
     default_args:
         elements:

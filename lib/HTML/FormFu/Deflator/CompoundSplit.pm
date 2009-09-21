@@ -102,7 +102,7 @@ For use with a L<HTML::FormFu::Element::Multi> group of fields.
 
 A L<default|HTML::FormFu::Element::_Field/default> value passed to the 
 L<Multi|HTML::FormFu::Element::Multi> field will be split according to the 
-L</split> setting, and it's resulting parts passed to it's child elements.
+L</split> setting, and its resulting parts passed to its child elements.
 
 =head1 METHODS
 

@@ -452,7 +452,7 @@ If passed no arguments, it returns an arrayref of the currently set options.
 
 Use to set the list of items in the select menu / radiogroup.
 
-It's arguments must be an array-ref of items. Each item may be an array ref 
+Its arguments must be an array-ref of items. Each item may be an array ref 
 of the form C<[ $value, $label ]> or a hash-ref of the form 
 C<< { value => $value, label => $label } >>. Each hash-ref may also have the 
 keys C<attributes> and C<label_attributes>.
@@ -506,7 +506,7 @@ Arguments: \@values
 A more concise alternative to L</options>. Use to set the list of values in 
 the select menu / radiogroup.
 
-It's arguments must be an array-ref of values. The labels used are the 
+Its arguments must be an array-ref of values. The labels used are the 
 result of C<ucfirst($value)>.
 
 =head2 value_range
