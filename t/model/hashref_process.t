@@ -1,7 +1,7 @@
-use Test::More;
-
 use strict;
 use warnings;
+
+use Test::More tests => 1;
 
 use HTML::FormFu;
 
@@ -40,5 +40,3 @@ is_deeply(
         ]
     }
 );
-
-done_testing;
