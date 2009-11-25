@@ -110,7 +110,7 @@ sub create {
         my $input = $hf->unflatten($self->form->input);
         $self->default_values( $self->_unfold_repeatable($self->form, $input) );
     }
-    $self->form->render;
+    $self->form->render_data;
     my $obj = $self->_as_object_get( $self->form );
     if ( $self->flatten ) {
         my $hf = new Hash::Flatten(
