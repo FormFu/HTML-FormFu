@@ -1,5 +1,9 @@
-0.05002 XXX
+0.05002 2009-11-25
 
+    - Fix handling of counter_name in nested-repeatables.
+    - Element::reCAPTCHA new constraint_args() method to pass options to the
+      automatically-created Constraint::reCAPTCHA.
+    - Model::HashRef->create() now works with submitted input.
     - Kwalitee updates. (RT #47998)
     - Pod fixes. (RT #49120, #49114, #46363)
 
