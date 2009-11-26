@@ -1,7 +1,7 @@
 ---
 action: /foo/bar
 id: form
-auto_id: %n
+auto_id: '%n'
 elements:
   - type: Fieldset
     legend: Jimi

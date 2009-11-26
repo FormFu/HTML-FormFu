@@ -1,3 +1,7 @@
+0.05003 XXX
+
+    - Fix YAML test files for YAML::XS compatibility
+
 0.05002 2009-11-25
 
     - Fix handling of counter_name in nested-repeatables.

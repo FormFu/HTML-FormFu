@@ -21,11 +21,11 @@ elements:
         name: start
         deflators:
           - type: Strftime
-            strftime: %d.%m.%Y %R
+            strftime: '%d.%m.%Y %R'
         inflators:
           - type: DateTime
             parser:
-              strptime: %d.%m.%Y %H:%M
+              strptime: '%d.%m.%Y %H:%M'
         elements:
           - type: Text
             name: startdate

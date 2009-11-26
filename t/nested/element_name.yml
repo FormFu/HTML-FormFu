@@ -1,5 +1,5 @@
 ---
-auto_id: %n
+auto_id: '%n'
 auto_fieldset:
   nested_name: foo
 
