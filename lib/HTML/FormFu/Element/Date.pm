@@ -80,10 +80,11 @@ sub new {
         } );
 
     $self->year( {
-            type   => '_MultiSelect',
-            prefix => [],
-            less   => 0,
-            plus   => 10,
+            type    => '_MultiSelect',
+            prefix  => [],
+            less    => 0,
+            plus    => 10,
+            reverse => 0,
         } );
 
     return $self;
@@ -243,6 +244,10 @@ sub _add_year {
         = defined $year->{list}
         ? @{ $year->{list} }
         : ( $year_ref - $year->{less} ) .. ( $year_ref + $year->{plus} );
+
+    if ( $year->{reverse} ) {
+        @years = reverse(@years);
+    }
 
     my @year_prefix
         = ref $year->{prefix}
@@ -603,6 +608,14 @@ Default Value: 0
 Arguments: $count
 
 Default Value: 10
+
+=head3 reverse
+
+Arguments: bool
+
+Default Value: 0
+
+If true, the list of years is listed in reverse (decreasing) order.
 
 =head2 field_order
 

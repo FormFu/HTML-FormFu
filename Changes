@@ -1,5 +1,8 @@
 0.05005
 
+    - Date element, year menu now supports 'reverse' option to reverse order
+      of year list. - patch from Ozum Eldogan.
+
     - Performance fix: change all uses of eval() to check for array/hash-refs
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.
