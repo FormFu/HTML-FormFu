@@ -1,3 +1,9 @@
+0.05005
+
+    - Performance fix: change all uses of eval() to check for array/hash-refs
+      to Scalar::Util::reftype() instead. - Was causing a hit for group-type
+      fields with large numbers of options. - initial patch by Steve Nolte.
+
 0.05004 2009-12-02
 
     - No changes - last release was built on Windows and didn't pass pause's

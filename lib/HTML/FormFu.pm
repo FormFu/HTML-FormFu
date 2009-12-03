@@ -3213,6 +3213,8 @@ Andreas Marienborg
 
 Mario Minati
 
+Steve Nolte
+
 Moritz Onken
 
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
