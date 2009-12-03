@@ -1,0 +1,7 @@
+---
+elements:
+    - type: Date
+      name: foo
+      year:
+        list: [2009, 2010, 2011]
+        reverse: 1
