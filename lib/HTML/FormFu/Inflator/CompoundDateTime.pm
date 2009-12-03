@@ -8,6 +8,7 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime;
 use DateTime::Format::Strptime;
 use List::MoreUtils qw( none );
+use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors(qw( strptime ));
@@ -54,9 +55,10 @@ sub inflator {
         my $strptime = $self->strptime;
         my %args;
 
-        eval { %args = %$strptime };
-
-        if ($@) {
+        if ( reftype( $strptime ) eq 'HASH' ) {
+            %args = %$strptime;
+        }
+        else {
             %args = ( pattern => $strptime );
         }
 

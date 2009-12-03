@@ -5,7 +5,7 @@ use base 'HTML::FormFu::Processor';
 use Class::C3;
 
 use HTML::FormFu::Exception::Validator;
-use Scalar::Util qw( blessed );
+use Scalar::Util qw( reftype blessed );
 use Carp qw( croak );
 
 sub process {
@@ -15,10 +15,7 @@ sub process {
 
     my @errors;
 
-    if ( ref $value eq 'ARRAY' ) {
-        eval { my @x = @$value };
-        croak $@ if $@;
-
+    if ( reftype( $value ) eq 'ARRAY' ) {
         push @errors, eval { $self->validate_values( $value, $params ) };
 
         if ($@) {

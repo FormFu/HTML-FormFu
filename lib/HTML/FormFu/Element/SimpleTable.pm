@@ -5,6 +5,7 @@ use base 'HTML::FormFu::Element::Block';
 use Class::C3;
 
 use HTML::FormFu::Util qw( append_xml_attribute );
+use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors(qw( odd_class even_class ));
@@ -19,11 +20,10 @@ sub new {
 
 sub headers {
     my ( $self, $headers ) = @_;
-    my @headers;
 
-    eval { @headers = @$headers };
-    croak "headers must be passed as an array-ref" if $@;
-
+    croak "headers must be passed as an array-ref"
+        if reftype( $headers ) ne 'ARRAY';
+    
     # save any elements already added
     my @original_rows = @{ $self->_elements };
     $self->_elements( [] );
@@ -31,7 +31,7 @@ sub headers {
     my $header_row = $self->element('Block');
     $header_row->tag('tr');
 
-    for my $text (@headers) {
+    for my $text ( @$headers ) {
         my $th = $header_row->element('Block');
         $th->tag('th');
         $th->content($text);
@@ -49,19 +49,17 @@ sub rows {
 
     croak "too many arguments" if @_ > 2;
 
-    my @rows;
-    eval { @rows = @$rows };
-    croak "rows must be passed as an array-ref" if $@;
+    croak "rows must be passed as an array-ref"
+        if reftype( $rows ) ne 'ARRAY';
 
-    for my $cells (@rows) {
-        my @cells;
-        eval { @cells = @$cells };
-        croak "each row must be an array-ref" if $@;
+    for my $cells ( @$rows ) {
+        croak "each row must be an array-ref"
+            if reftype( $cells ) ne 'ARRAY';
 
         my $row = $self->element('Block');
         $row->tag('tr');
 
-        for my $cell (@cells) {
+        for my $cell ( @$cells ) {
             my $td = $row->element('Block');
             $td->tag('td');
             $td->element($cell);

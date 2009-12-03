@@ -1,12 +1,13 @@
 package HTML::FormFu::FakeQuery;
 use strict;
+use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 sub new {
     my ( $class, $form, $param ) = @_;
 
-    eval { my %x = %$param };
-    croak 'argument must be a hashref' if $@;
+    croak 'argument must be a hashref'
+        if reftype( $param ) ne 'HASH';
 
     # handle pre-expanded input
 

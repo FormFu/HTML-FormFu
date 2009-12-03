@@ -15,7 +15,7 @@ use HTML::FormFu::ObjectUtil qw(
     nested_names            get_nested_hash_value
     set_nested_hash_value   nested_hash_key_exists parent );
 
-use Scalar::Util qw( refaddr );
+use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
 use overload
@@ -34,10 +34,14 @@ __PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
 
     my $self = bless {}, $class;
 

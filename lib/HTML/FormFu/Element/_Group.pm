@@ -8,6 +8,7 @@ use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
 use Exporter qw( import );
 use List::MoreUtils qw( none );
+use Scalar::Util qw( reftype );
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -90,8 +91,10 @@ sub options {
     croak "options argument must be a single array-ref" if @_ > 2;
 
     if ( defined $arg ) {
-        eval { @options = @$arg };
-        croak "options argument must be an array-ref" if $@;
+        croak "options argument must be an array-ref"
+            if reftype($arg) ne 'ARRAY';
+        
+        @options = @$arg;
 
         if ( $self->empty_first ) {
             push @new, $self->_get_empty_first_option;
@@ -124,18 +127,10 @@ sub _get_empty_first_option {
 sub _parse_option {
     my ( $self, $item ) = @_;
 
-    eval { my %x = %$item };
-
-    if ( !$@ ) {
-
-        # was passed a hashref
+    if ( reftype($item) eq 'HASH' ) {
         return $self->_parse_option_hashref($item);
     }
-
-    eval { my @x = @$item };
-    if ( !$@ ) {
-
-        # was passed an arrayref
+    elsif ( reftype($item) eq 'ARRAY' ) {
         return {
             value                => $item->[0],
             label                => $item->[1],
@@ -144,8 +139,9 @@ sub _parse_option {
             label_attributes     => {},
         };
     }
-
-    croak "each options argument must be a hash-ref or array-ref";
+    else {
+        croak "each options argument must be a hash-ref or array-ref";
+    }
 }
 
 sub _parse_option_hashref {
@@ -267,8 +263,10 @@ sub values {
     my @values;
 
     if ( defined $arg ) {
-        eval { @values = @$arg };
-        croak "values argument must be an array-ref" if $@;
+        croak "values argument must be an array-ref"
+            if reftype($arg) ne 'ARRAY';
+        
+        @values = @$arg;
     }
 
     my @new = map { {
@@ -291,17 +289,19 @@ sub values {
 
 sub value_range {
     my ( $self, $arg ) = @_;
-    my (@values);
+    my @values;
 
     croak "value_range argument must be a single array-ref of values"
         if @_ > 2;
 
     if ( defined $arg ) {
-        eval { @values = @$arg };
-        croak "value_range argument must be an array-ref" if $@;
+        croak "value_range argument must be an array-ref"
+            if reftype($arg) ne 'ARRAY';
+        
+        @values = @$arg;
     }
 
-    croak "range must contain at least 2 values" if @$arg < 2;
+    croak "range must contain at least 2 values" if @values < 2;
 
     my $end   = pop @values;
     my $start = pop @values;

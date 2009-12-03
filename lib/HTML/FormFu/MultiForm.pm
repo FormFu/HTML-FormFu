@@ -20,7 +20,7 @@ use HTML::FormFu::QueryType::CGI;
 use Carp qw( croak );
 use Crypt::CBC;
 use List::MoreUtils qw( uniq );
-use Scalar::Util qw( blessed refaddr );
+use Scalar::Util qw( blessed refaddr reftype );
 use Storable qw( dclone nfreeze thaw );
 
 use overload (
@@ -89,10 +89,14 @@ Class::C3::initialize();
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
 
     my $self = bless {}, $class;
 

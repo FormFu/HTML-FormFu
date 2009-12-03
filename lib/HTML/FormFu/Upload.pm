@@ -6,15 +6,20 @@ use Carp qw( croak );
 use HTML::FormFu::Attribute qw( mk_item_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent populate );
 use HTML::FormFu::UploadParam;
+use Scalar::Util qw( reftype );
 
 __PACKAGE__->mk_item_accessors(qw( headers filename size type ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
 
     my $self = bless \%attrs, $class;
 

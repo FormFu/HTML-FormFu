@@ -37,7 +37,7 @@ use HTML::FormFu::Util qw(
 
 use List::Util qw( first );
 use List::MoreUtils qw( any none uniq );
-use Scalar::Util qw( blessed refaddr weaken );
+use Scalar::Util qw( blessed refaddr reftype weaken );
 use Storable qw( dclone );
 use Regexp::Copy;
 use Carp qw( croak );
@@ -1135,8 +1135,8 @@ sub _require_output_processor {
 
     croak 'required arguments: $self, $type, \%options' if @_ != 3;
 
-    eval { my %x = %$opt };
-    croak "options argument must be hash-ref" if $@;
+    croak "options argument must be hash-ref"
+        if reftype( $opt ) ne 'HASH';
 
     my $class = $type;
     if ( not $class =~ s/^\+// ) {

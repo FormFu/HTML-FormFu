@@ -5,18 +5,22 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_accessors mk_item_accessors );
 use HTML::FormFu::ObjectUtil qw( form parent );
-use Scalar::Util qw( refaddr );
+use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors(qw( type ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
-
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
+    
     my $self = bless {}, $class;
 
     for my $arg (qw( parent type )) {

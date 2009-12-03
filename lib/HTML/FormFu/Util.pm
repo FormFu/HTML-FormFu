@@ -4,7 +4,7 @@ use strict;
 
 use HTML::FormFu::Constants qw( $SPACE );
 use HTML::FormFu::Literal;
-use Scalar::Util qw( blessed );
+use Scalar::Util qw( blessed reftype );
 use Readonly;
 use Exporter qw/ import /;
 use Carp qw/ croak /;
@@ -418,8 +418,8 @@ sub literal {
 sub process_attrs {
     my ($attrs) = @_;
 
-    eval { my %attrs = %$attrs };
-    croak 'argument to process_attrs() must be a hashref' if $@;
+    croak 'argument to process_attrs() must be a hashref'
+        if reftype( $attrs ) ne 'HASH';
 
     my @attribute_parts;
 

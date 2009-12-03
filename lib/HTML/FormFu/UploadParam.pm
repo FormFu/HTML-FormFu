@@ -5,17 +5,21 @@ use Carp qw( croak );
 
 use HTML::FormFu::Attribute qw( mk_item_accessors );
 use File::Temp qw( tempfile );
-use Scalar::Util qw( blessed weaken );
+use Scalar::Util qw( reftype blessed weaken );
 use Storable qw( nfreeze thaw );
 
 __PACKAGE__->mk_item_accessors(qw( param filename ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
 
     croak "param attribute required" if !exists $attrs{param};
 

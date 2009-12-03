@@ -22,7 +22,7 @@ use HTML::FormFu::ObjectUtil qw(
     parent
 );
 use HTML::FormFu::Util qw( require_class xml_escape );
-use Scalar::Util qw( refaddr weaken );
+use Scalar::Util qw( refaddr reftype weaken );
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -58,10 +58,14 @@ __PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
+
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
 
     my $self = bless {}, $class;
 

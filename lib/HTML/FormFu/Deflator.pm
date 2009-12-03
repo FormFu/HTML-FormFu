@@ -5,6 +5,7 @@ use Class::C3;
 
 use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name parent );
+use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 __PACKAGE__->mk_item_accessors(qw( type ));
@@ -13,11 +14,15 @@ __PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 sub new {
     my $class = shift;
-
     my %attrs;
-    eval { %attrs = %{ $_[0] } if @_ };
-    croak "attributes argument must be a hashref" if $@;
-
+    
+    if (@_) {
+        croak "attributes argument must be a hashref"
+            if reftype( $_[0] ) ne 'HASH';
+        
+        %attrs = %{ $_[0] };
+    }
+    
     my $self = bless {}, $class;
 
     $self->populate( \%attrs );
