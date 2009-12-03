@@ -1,0 +1,8 @@
+---
+elements:
+    - type: Select
+      name: foo
+      empty_first: 1
+      options:
+        - [1, One]
+        - [2, Two]
