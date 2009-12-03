@@ -468,7 +468,7 @@ See L<HTML::FormFu::Element::_Field/prepare_attrs> for details.
 
 Return Value: $string
 
-=head2 INTROSPECTION
+=head1 INTROSPECTION
 
 =head2 parent
 
