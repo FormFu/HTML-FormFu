@@ -1,0 +1,16 @@
+---
+auto_fieldset:
+    nested_name: x
+
+elements:
+    - type: Select
+      name: foo
+      options:
+        - [1, One]
+        - [2, Two]
+    
+    - type: Select
+      name: foo
+      options:
+        - [1, One]
+        - [2, Two]

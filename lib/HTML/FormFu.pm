@@ -3219,6 +3219,8 @@ Steve Nolte
 
 Moritz Onken
 
+Doug Orleans
+
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
 

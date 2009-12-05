@@ -320,6 +320,23 @@ sub prepare_attrs {
         ? $self->get_nested_hash_value( $self->form->input, $self->nested_name )
         : undef;
 
+    if ( reftype($value) eq 'ARRAY' ) {
+        my $elems = $self->form->get_fields({ nested_name => $self->nested_name });
+        if ( $#$elems ) {
+            # There are multiple fields with the same name; assume
+            # none are multi-value fields, i.e. only one selected
+            # option per field.  (Otherwise it might be ambiguous
+            # which option came from which field.)
+            for ( 0 .. @$elems - 1 ) {
+                if ( $self == $elems->[$_] ) {
+                    # Use the value of the option actually selected in
+                    # this group.
+                    $value = $value->[$_];
+                }
+            }
+        }
+    }
+
     if ( !$submitted && defined $default ) {
         for my $deflator ( @{ $self->_deflators } ) {
             $default = $deflator->process($default);
