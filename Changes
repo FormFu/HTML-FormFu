@@ -7,6 +7,10 @@
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.
 
+    - Bump required version of Data::Visitor::Callback to 0.26
+
+    - Minor pod fixes.
+
 0.05004 2009-12-02
 
     - No changes - last release was built on Windows and didn't pass pause's
