@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 11;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -53,5 +53,10 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     ok( !$form->has_errors('rep_1.bar') );
     ok( !$form->has_errors('rep_2.foo') );
     ok( $form->has_errors('rep_2.bar') );
+
+    like( $form->get_field({ nested_name => 'rep_1.foo' }), qr/error/ );
+    unlike( $form->get_field({ nested_name => 'rep_1.bar' }), qr/error/ );
+    unlike( $form->get_field({ nested_name => 'rep_2.foo' }), qr/error/ );
+    like( $form->get_field({ nested_name => 'rep_2.bar' }), qr/error/ );
 }
 
