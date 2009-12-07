@@ -1,0 +1,10 @@
+---
+elements:
+  - type: Repeatable
+    elements:
+      - type: Block
+        tag: span
+        auto_block_id: 'inner_%r'
+        elements:
+          - name: foo
+          - name: bar

@@ -1,0 +1,7 @@
+---
+id: 'form'
+
+elements:
+  - type: Block
+    auto_block_id: '%f_block'
+    content: 'Hello'

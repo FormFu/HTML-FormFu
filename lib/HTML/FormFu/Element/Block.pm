@@ -4,6 +4,7 @@ use strict;
 use base 'HTML::FormFu::Element';
 use Class::C3;
 
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
 use List::MoreUtils qw( uniq );
@@ -13,6 +14,7 @@ use Carp qw( croak );
 __PACKAGE__->mk_item_accessors( qw(
         tag                         _elements
         nested_name                 original_nested_name
+        auto_block_id
 ) );
 
 __PACKAGE__->mk_output_accessors(qw( content ));
@@ -129,6 +131,35 @@ sub render_data_non_recursive {
         } );
 
     return $render;
+}
+
+sub prepare_id {
+    my ( $self, $render ) = @_;
+
+    if (  !defined $render->{attributes}{id}
+        && defined $self->auto_block_id
+        && length $self->auto_block_id )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
+
+        my %string = (
+            f => $form_name,
+        );
+
+        my $id = $self->auto_block_id;
+        $id =~ s/%([f])/$string{$1}/g;
+
+        if ( defined( my $count = $self->repeatable_count ) ) {
+            $id =~ s/%r/$count/g;
+        }
+
+        $render->{attributes}{id} = $id;
+    }
+
+    return;
 }
 
 sub string {
@@ -330,6 +361,21 @@ See L<HTML::FormFu/transformer> for details.
 =head2 auto_id
 
 See L<HTML::FormFu/auto_id> for details.
+
+=head2 auto_block_id
+
+Arguments: [$string]
+
+If set, the Block will be given an auto-generated
+L<id|HTML::FormFu::Element/id> attribute, if it doesn't have one already.
+
+The following character substitution will be performed: C<%f> will be
+replaced by L<< $form->id|/id >>, C<%r> will be replaced by
+L<< $block->repeatable_count|HTML::FormFu::Element::Repeatable/repeatable_count >>.
+
+Default Value: not defined
+
+Unlike most other auto_* methods, this is not an 'inherited accessor'.
 
 =head2 auto_label
 
