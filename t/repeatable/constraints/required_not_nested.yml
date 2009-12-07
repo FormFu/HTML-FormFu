@@ -1,0 +1,13 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    increment_field_names: 1
+    counter_name: count
+    elements:
+      - name: foo
+      - name: bar
+    constraints:
+      - Required
