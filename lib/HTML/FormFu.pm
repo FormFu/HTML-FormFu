@@ -2197,7 +2197,8 @@ L<id|HTML::FormFu::Element/id> attribute, if it doesn't have one already.
 
 The following character substitution will be performed: C<%f> will be
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>.
+L<< $field->name|HTML::FormFu::Element/name >>, C<%r> will be replaced by
+L<< $block->repeatable_count|HTML::FormFu::Element::Repeatable/repeatable_count >>.
 
 Default Value: not defined
 
