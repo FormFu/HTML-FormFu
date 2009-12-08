@@ -8,6 +8,9 @@
     - Bugfix: after submission, group-type fields were getting the wrong value
       when multiple fields had the same name. - patch by Doug Orleans.
 
+    - Bugfix: If a field in a Repeatable block had an error, all copies of that
+      field were displaying the error. - report by Doug Orleans.
+
     - Performance fix: change all uses of eval() to check for array/hash-refs
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.

@@ -441,6 +441,16 @@ the same Repeatable block, when L<repeat> is called, those names will
 automatically be updated to the new nested-name for each field (taking
 into account L<increment_field_names>).
 
+Note that constraints with an L<others|HTML::FormFu::Constraint::_others> 
+method do not work correctly within a Repeatable block. Currently, these are:
+L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>, 
+L<DependOn|HTML::FormFu::Constraint::DependOn>, 
+L<Equal|HTML::FormFu::Constraint::Equal>, 
+L<MinMaxFields|HTML::FormFu::Constraint::MinMaxFields>, 
+L<reCAPTCHA|HTML::FormFu::Constraint::reCAPTCHA>.
+Also, the L<CallbackOnce|HTML::FormFu::Constraint::CallbackOnce> constraint
+won't work within a Repeatable block, as it wouldn't make much sense.
+
 =head1 METHODS
 
 =head2 repeat

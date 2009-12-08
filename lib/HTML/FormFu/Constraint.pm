@@ -10,7 +10,7 @@ use HTML::FormFu::Util qw(
     debug
 );
 use List::MoreUtils qw( any );
-use Scalar::Util qw( blessed );
+use Scalar::Util qw( reftype blessed );
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -19,7 +19,7 @@ __PACKAGE__->mk_item_accessors(qw( not force_errors when ));
 sub process {
     my ( $self, $params ) = @_;
 
-    my $value = $self->get_nested_hash_value( $params, $self->nested_name );
+    my $value = $self->_find_field_value( $params );
 
     my @errors;
 
@@ -55,6 +55,42 @@ sub process {
 
     return @errors;
 }
+
+sub _find_field_value {
+    my ( $self, $params ) = @_;
+
+    my $value = $self->get_nested_hash_value( $params, $self->nested_name );
+
+    my @fields_with_this_name = @{ $self->form->get_fields({ nested_name => $self->nested_name }) };
+    
+    if ( @fields_with_this_name > 1 ) {
+        my $field = $self->parent;
+        my $index;
+        
+        for ( my $i=0; $i <= $#fields_with_this_name; ++$i ) {
+            if ( $fields_with_this_name[$i] eq $field ) {
+                $index = $i;
+                last;
+            }
+        }
+        
+        croak 'did not find ourself - how can this happen?'
+            if !defined $index;
+        
+        if ( reftype($value) eq 'ARRAY' ) {
+            $value = $value->[$index];
+        }
+        elsif ( $index == 0 ) {
+            # keep $value
+        }
+        else {
+            undef $value;
+        }
+    }
+    
+    return $value;
+}
+
 
 sub constrain_values {
     my ( $self, $values, $params ) = @_;
