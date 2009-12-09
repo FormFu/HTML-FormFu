@@ -1,7 +1,7 @@
+0.05005
+
     - New get_parent() method that traverses the parent hierarchy, returning
       the first parent that matches the supplied options.
-
-0.05005
 
     - Date element, year menu now supports 'reverse' option to reverse order
       of year list. - patch from Ozum Eldogan.
@@ -18,7 +18,7 @@
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.
 
-    - Bump required version of Data::Visitor::Callback to 0.26
+    - Bump required version of Data::Visitor to 0.26
 
     - Minor pod fixes.
 
@@ -26,7 +26,6 @@
 
     - No changes - last release was built on Windows and didn't pass pause's
       indexer checks.
-
 
 0.05003 2009-11-29
 
