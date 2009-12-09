@@ -9,11 +9,13 @@ requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Plugin::Unicode';
 requires 'Catalyst::Controller::HTML::FormFu';
 requires 'Catalyst::Action::RenderView';
+requires 'Catalyst::View::TT';
+requires 'Catalyst::View::TT::Alloy';
 requires 'Config::General';
 requires 'DBIx::Class::Schema';
 requires 'HTML::FormFu';
 requires 'HTML::FormFu::Model::DBIC';
-requires 'YAML::Syck';
+requires 'YAML::XS';
 
 catalyst;
 

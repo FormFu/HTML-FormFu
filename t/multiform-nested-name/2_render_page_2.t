@@ -6,7 +6,7 @@ use Test::More tests => 9;
 use HTML::FormFu::MultiForm;
 use Crypt::CBC ();
 use Storable qw/ thaw /;
-use YAML::Syck qw/ LoadFile /;
+use YAML::XS qw/ LoadFile /;
 
 my $yaml_file = 't/multiform-nested-name/multiform.yml';
 

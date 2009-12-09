@@ -18,7 +18,7 @@ but that's beyond the scope of this tutorial.
 For simplicity, we're also going to assume that you're using L<Catalyst> 
 for your web-framework, L<DBIx::Class> for your database ORM, 
 L<TT|Template> for your templating system, and YAML format C<HTML::FormFu> 
-configuration files, with L<YAML::Syck> installed. However, the principles 
+configuration files, with L<YAML::XS> installed. However, the principles 
 we'll cover should translate to whatever technologies you chose to work with.
 
 =head1 BASICS
@@ -65,8 +65,7 @@ L</HTML::FormFu Template Configuration>.
 
 If you're using C<YAML> config files, your files will automatically be
 decoded by C<load_config_file|HTML::FormFu/load_config_file> and
-C<load_config_filestem|HTML::FormFu/load_config_filestem>, which
-automatically sets C<< $YAML::Syck::ImplicitUnicode = 1 >>.
+C<load_config_filestem|HTML::FormFu/load_config_filestem>.
 
 If you have L<Config::General> config files, your files will automatically
 be decoded by C<load_config_file|HTML::FormFu/load_config_file> and

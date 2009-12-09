@@ -68,7 +68,7 @@ the contents of the C<__DATA__> section with your own YAML config.
     use strict;
     use warnings;
     use HTML::FormFu;
-    use YAML::Syck qw( Load );
+    use YAML::XS qw( Load );
     
     my $form = HTML::FormFu->new;
     my $yaml = do { local $/; <DATA> };

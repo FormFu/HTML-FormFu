@@ -5,7 +5,7 @@ use HTML::FormFu;
 use HTML::Widget;
 use CGI::FormBuilder;
 use HTML::FormFu::FakeQuery;
-use YAML::Syck qw( LoadFile );
+use YAML::XS qw( LoadFile );
 use Benchmark qw( cmpthese );
 
 my $formfu_file  = 'benchmarks/login-formfu.yml';

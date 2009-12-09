@@ -458,10 +458,6 @@ sub _load_config {
         @filenames = @{ $filenames[0] };
     }
 
-    # ImplicitUnicode ensures that values won't be double-encoded when we
-    # encode() our output
-    local $YAML::Syck::ImplicitUnicode = 1;
-
     my $config_callback = $self->config_callback;
     my $data_visitor;
 
