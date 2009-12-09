@@ -81,6 +81,7 @@ our @EXPORT_OK = (
         deflator
         load_config_file        load_config_filestem
         form
+        get_parent
         insert_before           insert_after
         clone
         name
@@ -947,6 +948,33 @@ sub parent {
     }
 
     return $self->{parent};
+}
+
+sub get_parent {
+    my $self = shift;
+
+    return $self->parent
+        if !@_;
+
+    my %args = _parse_args(@_);
+
+    while ( defined ( my $parent = $self->parent ) ) {
+        
+        for my $name ( keys %args ) {
+            my $value;
+
+            if (   $parent->can($name)
+                && defined( $value = $parent->$name )
+                && $value eq $args{$name} )
+            {
+                return $parent;
+            }
+        }
+
+        $self = $parent;
+    }
+    
+    return;
 }
 
 sub element {

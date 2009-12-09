@@ -1,0 +1,20 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Block
+    name: 'block_1'
+    elements:
+      - type: Block
+        name: 'block_1_1'
+        tag: span
+        elements:
+          - type: Text
+            name: 'text_1_1_1'
+      - type: Repeatable
+        name: 'repeatable_1_2'
+        elements:
+          - type: Text
+            name: 'rep_text'
+  - type: Submit
+    name: 'submit_2'

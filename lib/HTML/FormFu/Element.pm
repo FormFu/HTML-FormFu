@@ -20,6 +20,7 @@ use HTML::FormFu::ObjectUtil qw(
     form
     stash
     parent
+    get_parent
 );
 use HTML::FormFu::Util qw( require_class xml_escape );
 use Scalar::Util qw( refaddr reftype weaken );
@@ -474,6 +475,15 @@ Return Value: $string
 
 Returns the L<block element|HTML::FormFu::Element> or L<form|HTML::FormFu> 
 object that this element is attached to.
+
+=head2 get_parent
+
+Arguments: \%options
+
+    my $repeatable = $field->get_parent({ type => 'Repeatable' });
+
+Traverses the parent hierarchy, returning the first parent that matches the
+supplied options.
 
 =head2 form
 

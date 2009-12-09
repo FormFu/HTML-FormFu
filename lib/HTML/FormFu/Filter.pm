@@ -7,7 +7,7 @@ use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors
     mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
     populate form name parent nested_name nested_names get_nested_hash_value
-    set_nested_hash_value nested_hash_key_exists );
+    set_nested_hash_value nested_hash_key_exists get_parent );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
@@ -122,6 +122,13 @@ to replace C<[_1]>, C<[_2]>, etc. in the localized string.
 
 Returns the L<HTML::FormFu::Element::_Field> object that the filter is 
 associated with.
+
+=head2 get_parent
+
+Arguments: \%options
+
+Traverses the parent hierarchy, returning the first parent that matches the
+supplied options.
 
 =head2 form
 

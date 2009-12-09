@@ -5,7 +5,7 @@ use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
-use HTML::FormFu::ObjectUtil qw( form parent populate );
+use HTML::FormFu::ObjectUtil qw( form parent get_parent populate );
 
 sub new {
     my $class = shift;

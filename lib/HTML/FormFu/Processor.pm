@@ -13,7 +13,9 @@ use HTML::FormFu::ObjectUtil qw(
     populate                form
     name                    nested_name
     nested_names            get_nested_hash_value
-    set_nested_hash_value   nested_hash_key_exists parent );
+    set_nested_hash_value   nested_hash_key_exists
+    parent                  get_parent
+);
 
 use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );

@@ -1,3 +1,6 @@
+    - New get_parent() method that traverses the parent hierarchy, returning
+      the first parent that matches the supplied options.
+
 0.05005
 
     - Date element, year menu now supports 'reverse' option to reverse order
