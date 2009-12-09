@@ -46,7 +46,7 @@ sub inflator {
         my $strptime = $self->strptime;
         my %args;
 
-        if ( reftype( $strptime ) eq 'HASH' ) {
+        if ( ( reftype( $strptime ) || '' ) eq 'HASH' ) {
             %args = %$strptime;
         }
         else {

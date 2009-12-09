@@ -1,14 +1,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 9;
 
 use HTML::FormFu;
 use Storable qw( dclone );
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-$form->element_defaults( {
+_call_element_defaults( $form, {
         Password => { render_value => 1, },
         Block    => { attributes   => { class => 'block' }, },
         Text     => {
@@ -23,8 +23,7 @@ $form->element_defaults( {
     } );
 
 # take a deep copy of element_defaults, so we can check they've not been butchered, later
-
-my $element_defaults = dclone( $form->element_defaults );
+my $element_defaults = dclone( _call_element_defaults( $form ) );
 
 $form->populate( {
         elements => [
@@ -47,5 +46,17 @@ like( $form->get_element( { type => 'Block' } ), qr/div [^>]* class="block"/x );
 like( $form->get_element( { type => 'Block' } )->get_field('baz'),
     qr/name="baz" .* class="custom"/x );
 
+is_deeply( $element_defaults, _call_element_defaults( $form ) );
 
-is_deeply( $element_defaults, $form->element_defaults );
+sub _call_element_defaults {
+    my $form = shift;
+
+    my $warnings;
+    local $SIG{ __WARN__ } = sub { $warnings++ };
+
+    my $result = $form->element_defaults( @_ );
+
+    ok( $warnings, 'a deprecation warning was thrown' );
+
+    return $result;
+}

@@ -320,7 +320,7 @@ sub prepare_attrs {
         ? $self->get_nested_hash_value( $self->form->input, $self->nested_name )
         : undef;
 
-    if ( reftype($value) eq 'ARRAY' ) {
+    if ( ( reftype($value) || '' ) eq 'ARRAY' ) {
         my $elems = $self->form->get_fields({ nested_name => $self->nested_name });
         if ( $#$elems ) {
             # There are multiple fields with the same name; assume
