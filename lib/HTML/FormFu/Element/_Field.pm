@@ -1330,6 +1330,16 @@ before the field control in the source).
 
 Default Value: C<false>
 
+=head2 repeatable_count
+
+Only available for fields attached to a
+L<Repeatable|HTML::FormFu::Element::Repeatable> element, after
+L<< $repeatable->repeat($count) | HTML::FormFu::Element::Repeatable/repeat >>
+has been called.
+
+The value is inherited from
+L<HTML::FormFu::Element::Repeatable/repeatable_count>.
+
 =head2 clone
 
 See L<HTML::FormFu/clone> for details.

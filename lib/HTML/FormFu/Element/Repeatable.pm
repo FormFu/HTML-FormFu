@@ -441,16 +441,6 @@ the same Repeatable block, when L<repeat> is called, those names will
 automatically be updated to the new nested-name for each field (taking
 into account L<increment_field_names>).
 
-Note that constraints with an L<others|HTML::FormFu::Constraint::_others> 
-method do not work correctly within a Repeatable block. Currently, these are:
-L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>, 
-L<DependOn|HTML::FormFu::Constraint::DependOn>, 
-L<Equal|HTML::FormFu::Constraint::Equal>, 
-L<MinMaxFields|HTML::FormFu::Constraint::MinMaxFields>, 
-L<reCAPTCHA|HTML::FormFu::Constraint::reCAPTCHA>.
-Also, the L<CallbackOnce|HTML::FormFu::Constraint::CallbackOnce> constraint
-won't work within a Repeatable block, as it wouldn't make much sense.
-
 =head1 METHODS
 
 =head2 repeat
@@ -508,6 +498,8 @@ returned by L</repeat>, starting at number C<1>.
 
 Because this is an 'inherited accessor' available on all elements, it can be
 used to determine whether any element is a child of a Repeatable element.
+
+Only available after L<repeat> has been called.
 
 =head2 nested_name
 
@@ -615,6 +607,20 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
 
 Not supported for Repeatable elements - will throw a fatal error if called as
 a setter.
+
+=head1 CAVEATS
+
+=head2 Unsupported Constraints
+
+Note that constraints with an L<others|HTML::FormFu::Constraint::_others> 
+method do not work correctly within a Repeatable block. Currently, these are:
+L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>, 
+L<DependOn|HTML::FormFu::Constraint::DependOn>, 
+L<Equal|HTML::FormFu::Constraint::Equal>, 
+L<MinMaxFields|HTML::FormFu::Constraint::MinMaxFields>, 
+L<reCAPTCHA|HTML::FormFu::Constraint::reCAPTCHA>.
+Also, the L<CallbackOnce|HTML::FormFu::Constraint::CallbackOnce> constraint
+won't work within a Repeatable block, as it wouldn't make much sense.
 
 =head1 SEE ALSO
 

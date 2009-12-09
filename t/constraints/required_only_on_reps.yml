@@ -1,0 +1,26 @@
+---
+elements:
+    - type: Hidden
+      name: count
+    
+    - type: Repeatable
+      counter_name: count
+      elements:
+        - name: foo
+          constraints:
+            - type: Required
+              only_on_reps: 1
+        
+        - name: bar
+          constraints:
+            - type: Required
+              only_on_reps: 2
+        
+        - name: buz
+          constraints:
+            - type: Required
+              only_on_reps: [1, 3]
+        
+        - name: moo
+          constraints:
+            - type: Required

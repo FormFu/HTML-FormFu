@@ -7,6 +7,10 @@
       of year list. - patch from Ozum Eldogan.
 
     - New Element::Block method auto_block_id().
+    
+    - New only_on_reps() method for constraints on fields within a Repeatable
+      element. Causes the constraint to only be run if the field's
+      repeatable_count() matches one of the set values.
 
     - Bugfix: after submission, group-type fields were getting the wrong value
       when multiple fields had the same name. - patch by Doug Orleans.
