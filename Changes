@@ -2,28 +2,31 @@
 
     - New get_parent() method that traverses the parent hierarchy, returning
       the first parent that matches the supplied options.
-
+    
     - Date element, year menu now supports 'reverse' option to reverse order
       of year list. - patch from Ozum Eldogan.
-
+    
     - New Element::Block method auto_block_id().
     
     - New only_on_reps() method for constraints on fields within a Repeatable
       element. Causes the constraint to only be run if the field's
       repeatable_count() matches one of the set values.
-
+    
     - Bugfix: after submission, group-type fields were getting the wrong value
       when multiple fields had the same name. - patch by Doug Orleans.
-
+    
     - Bugfix: If a field in a Repeatable block had an error, all copies of that
       field were displaying the error. - report by Doug Orleans.
-
+    
+    - Repeatable elements inside a Repeatable element, now works without
+      having nested_name set.
+    
     - Performance fix: change all uses of eval() to check for array/hash-refs
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.
-
+    
     - Bump required version of Data::Visitor to 0.26
-
+    
     - Minor pod fixes.
 
 0.05004 2009-12-02
@@ -38,10 +41,14 @@
 0.05002 2009-11-25
 
     - Fix handling of counter_name in nested-repeatables.
+    
     - Element::reCAPTCHA new constraint_args() method to pass options to the
       automatically-created Constraint::reCAPTCHA.
+    
     - Model::HashRef->create() now works with submitted input.
+    
     - Kwalitee updates. (RT #47998)
+    
     - Pod fixes. (RT #49120, #49114, #46363)
 
 0.05001 2009-07-03

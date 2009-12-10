@@ -1,0 +1,21 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    counter_name: count
+    elements:
+      - name: foo
+      
+      - type: Hidden
+        name: count
+      
+      - type: Repeatable
+        counter_name: count
+        
+        elements:
+          - name: foo
+          - name: bar

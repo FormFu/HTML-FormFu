@@ -319,7 +319,7 @@ sub process {
         my $parent = $self;
 
         while ( defined( $parent = $parent->parent ) ) {
-            my $field = $parent->get_field( $counter_name );
+            my $field = $parent->get_field({ original_name => $counter_name });
 
             if ( defined $field ) {
                 $counter_name = $field->nested_name;
