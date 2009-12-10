@@ -71,7 +71,7 @@ sub _run_this_rep {
         or return 1;
     
     $only_on_reps = [$only_on_reps]
-        if reftype($only_on_reps) ne 'ARRAY';
+        if ( reftype($only_on_reps) || '' ) ne 'ARRAY';
     
     return first { $current_rep == $_ } @$only_on_reps;
 }
