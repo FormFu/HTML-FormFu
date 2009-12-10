@@ -1,4 +1,4 @@
-0.05005
+0.06000 2009-12-10
 
     - New get_parent() method that traverses the parent hierarchy, returning
       the first parent that matches the supplied options.
