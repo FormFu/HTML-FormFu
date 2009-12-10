@@ -4,6 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use Class::C3;
 
+use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
 sub new {
@@ -26,35 +27,72 @@ sub process {
     my $repeatable = $field->get_parent({ type => 'Repeatable' });
     my $pass;
 
-    if ( $repeatable->increment_field_names ) {
-        my $original_name = $field->original_name;
+    my $original_name = $field->original_name;
 
-        my @fields =
-            grep { $_->get_parent({ type => 'Repeatable' }) == $repeatable }
-            grep { $_->original_name eq $original_name }
-                @{ $repeatable->get_fields };
-    
-        for my $f (@fields) {
-            my $value = $self->get_nested_hash_value( $params, $f->nested_name );
-    
-            my $ok = eval { $self->constrain_value($value) };
-    
-            if ( $ok && !$@ ) {
-                $pass = 1;
-                last;
-            }
+    my @fields =
+        grep { $_->get_parent({ type => 'Repeatable' }) == $repeatable }
+        grep { $_->original_name eq $original_name }
+            @{ $repeatable->get_fields };
+
+    my $increment_field_names = $repeatable->increment_field_names;
+
+    for my $f (@fields) {
+        my $value;
+        
+        if ( $increment_field_names )  {
+            $value = $self->get_nested_hash_value( $params, $f->nested_name );
         }
-    }
-    else {
-        my $error = 'not implemented yet for repeatable elements with increment_field_names=0';
+        else {
+            $value = _find_this_field_value( $self, $f, $repeatable, $params );
+        }
 
-        warn $error;
-        croak $error;
+        my $ok = eval { $self->constrain_value($value) };
+
+        if ( $ok && !$@ ) {
+            $pass = 1;
+            last;
+        }
     }
 
     return $self->mk_errors( {
             pass => $pass,
         } );
+}
+
+sub _find_this_field_value {
+    my ( $self, $field, $repeatable, $params ) = @_;
+
+    my $nested_name = $field->nested_name;
+
+    my $value = $self->get_nested_hash_value( $params, $nested_name );
+
+    my @fields_with_this_name = @{ $repeatable->get_fields({ nested_name => $nested_name }) };
+    
+    if ( @fields_with_this_name > 1 ) {
+        my $index;
+        
+        for ( my $i=0; $i <= $#fields_with_this_name; ++$i ) {
+            if ( $fields_with_this_name[$i] eq $field ) {
+                $index = $i;
+                last;
+            }
+        }
+        
+        croak 'did not find ourself - how can this happen?'
+            if !defined $index;
+        
+        if ( reftype($value) eq 'ARRAY' ) {
+            $value = $value->[$index];
+        }
+        elsif ( $index == 0 ) {
+            # keep $value
+        }
+        else {
+            undef $value;
+        }
+    }
+    
+    return $value;
 }
 
 sub constrain_value {
@@ -69,29 +107,28 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::AllOrNone - Multi-field All or None Constraint
+HTML::FormFu::Constraint::Repeatable::Any - Ensure at least 1 of a repeated field is filled-in
 
 =head1 SYNOPSIS
 
-    type: AllOrNone
-    name: foo
-    others: [bar, baz]
+    elements:
+      - type: Repeatable
+        elements:
+          - name: foo
+            constraints:
+              - type: Repeatable::Any
 
 =head1 DESCRIPTION
 
-Ensure that either all or none of the named fields are present.
+Ensure at least 1 of a repeated field is filled-in.
 
-By default, if some but not all fields are submitted, errors are attached to 
-those fields which weren't submitted. This behaviour can be changed by setting 
-any of L</attach_errors_to_base>, L</attach_errors_to_others> or 
-L</attach_errors_to>.
+Any error will be attached to the first repetition of the field.
 
 This constraint doesn't honour the C<not()> value.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from  
-L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>
 

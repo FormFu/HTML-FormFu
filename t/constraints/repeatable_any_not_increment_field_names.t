@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More 'no_plan';#tests => 10;
 
 use HTML::FormFu;
 use lib 't/lib';
@@ -9,15 +9,12 @@ use HTMLFormFu::TestLib;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/constraints/repeatable_any.yml');
-
-$form->get_element( { type => 'Repeatable' } )->repeat(2);
+$form->load_config_file('t/constraints/repeatable_any_not_increment_field_names.yml');
 
 # Valid
 {
     $form->process( {
-            foo_1 => 'a',
-            foo_2 => 'b',
+            foo   => ['a', 'b'],
             count => 2,
         } );
 
@@ -26,17 +23,20 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     is_deeply(
         $form->params,
         {   
-            foo_1 => 'a',
-            foo_2 => 'b',
+            foo => ['a', 'b'],
             count => 2,
         } );
+    
+    is_deeply(
+        [ $form->has_errors ],
+        []
+    );
 }
 
 # Valid - 1 missing
 {
     $form->process( {
-            foo_1 => 'a',
-            foo_2 => '',
+            foo   => ['a', ''],
             count => 2,
         } );
 
@@ -45,17 +45,20 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     is_deeply(
         $form->params,
         {   
-            foo_1 => 'a',
-            foo_2 => '',
+            foo   => ['a', ''],
             count => 2,
         } );
+    
+    is_deeply(
+        [ $form->has_errors ],
+        []
+    );
 }
 
 # Valid - 1 missing
 {
     $form->process( {
-            foo_1 => '',
-            foo_2 => 'b',
+            foo   => ['', 'b'],
             count => 2,
         } );
 
@@ -64,30 +67,28 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     is_deeply(
         $form->params,
         {   
-            foo_1 => '',
-            foo_2 => 'b',
+            foo   => ['', 'b'],
             count => 2,
         } );
+    
+    is_deeply(
+        [ $form->has_errors ],
+        []
+    );
 }
 
 # Missing - Invalid
 {
     $form->process( {
-            foo_1 => '',
-            foo_2 => '',
+            foo   => ['', ''],
             count => 2,
         } );
 
     ok( !$form->submitted_and_valid );
 
-    # error is only attached to first rep
-
     is_deeply(
         [ $form->has_errors ],
-        ['foo_1']
+        ['foo']
     );
-
-    like( $form->get_field({ nested_name => 'foo_1' }), qr/error/ );
-    unlike( $form->get_field({ nested_name => 'foo_2' }), qr/error/ );
 }
 

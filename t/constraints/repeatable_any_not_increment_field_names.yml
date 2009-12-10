@@ -1,0 +1,12 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    counter_name: count
+    increment_field_names: 0
+    elements:
+      - name: foo
+        constraints:
+          - 'Repeatable::Any'

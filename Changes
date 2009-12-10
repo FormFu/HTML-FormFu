@@ -12,6 +12,8 @@
       element. Causes the constraint to only be run if the field's
       repeatable_count() matches one of the set values.
     
+    - New Repeatable::Any constraint.
+    
     - Bugfix: after submission, group-type fields were getting the wrong value
       when multiple fields had the same name. - patch by Doug Orleans.
     
