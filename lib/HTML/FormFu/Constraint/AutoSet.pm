@@ -31,12 +31,13 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::AutoSet - Set Constraint for Selects / Radiogroups
+HTML::FormFu::Constraint::AutoSet - Set Constraint for Selects / Radiogroups / Checkboxgroups
 
 =head1 DESCRIPTION
 
-For use with L<HTML::FormFu::Element::Radiogroup> and 
-L<HTML::FormFu::Element::Select> only.
+For use with L<HTML::FormFu::Element::Radiogroup>,
+L<HTML::FormFu::Element::Select> and L<HTML::FormFu::Element::Checkboxgroup>
+fields.
 
 Ensures that the input value is one of the pre-defined element options.
 
