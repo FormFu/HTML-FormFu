@@ -30,6 +30,7 @@ sub process {
         my $original_name = $field->original_name;
 
         my @fields =
+            grep { $_->get_parent({ type => 'Repeatable' }) == $repeatable }
             grep { $_->original_name eq $original_name }
                 @{ $repeatable->get_fields };
     

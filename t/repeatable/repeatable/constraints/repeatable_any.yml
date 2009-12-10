@@ -1,0 +1,21 @@
+---
+elements:
+  - type: Hidden
+    name: outer_count
+  
+  - type: Repeatable
+    counter_name: outer_count
+    elements:
+      - name: foo
+        constraints:
+            - 'Repeatable::Any'
+      
+      - type: Hidden
+        name: inner_count
+      
+      - type: Repeatable
+        counter_name: inner_count
+        elements:
+          - name: foo
+            constraints:
+              - 'Repeatable::Any'

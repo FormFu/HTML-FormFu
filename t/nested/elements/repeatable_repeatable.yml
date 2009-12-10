@@ -14,7 +14,7 @@ elements:
       
       - type: Repeatable
         nested_name: inner
-        counter_name: 'count'
+        counter_name: count
         
         elements:
           - name: bar
