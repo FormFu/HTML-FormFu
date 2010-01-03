@@ -105,9 +105,10 @@ sub update { shift->create(@_) }
 sub create {
     my $self = shift;
     if($self->form->submitted) {
+        my $input = _escape_hash($self->form->input);
         my $hf = new Hash::Flatten(
             { ArrayDelimiter => '_', HashDelimiter => '.' } );
-        my $input = $hf->unflatten($self->form->input);
+        $input = _unescape_hash($hf->unflatten($self->form->input));
         $self->default_values( $self->_unfold_repeatable($self->form, $input) );
     }
     $self->form->render_data;
@@ -176,6 +177,27 @@ sub _as_object_get {
 
     return $self->_unfold_repeatable( $form,
         $self->flatten ? $names : $hf->unflatten($names) );
+}
+
+sub _escape_hash {
+    my $hash = shift;
+    my $method = shift || \&_escape_name;
+    foreach my $k (keys %$hash) {
+        my $v = delete $hash->{$k};
+        if(ref $v eq 'HASH') {
+            $hash->{$method->($k)} = _escape_hash($v, $method);
+        } elsif(ref $v eq 'ARRAY') {
+            $hash->{$method->($k)} = [ map { _escape_hash($_, $method) } @$v];
+        } else {
+            $hash->{$method->($k)} = $v;
+        }
+    }
+    return $hash;
+}
+
+
+sub _unescape_hash {
+    return _escape_hash(shift, \&_unescape_name);
 }
 
 sub _escape_name {

@@ -1,3 +1,6 @@
+    - Fixed issue with Model::HashRef where form field with an underscore
+      and overlapping name (e.g. 'foo' and 'foo_bar') were causing problems
+
 0.06000 2009-12-10
 
     - New get_parent() method that traverses the parent hierarchy, returning
