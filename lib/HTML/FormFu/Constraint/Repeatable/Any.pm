@@ -27,11 +27,11 @@ sub process {
     my $repeatable = $field->get_parent({ type => 'Repeatable' });
     my $pass;
 
-    my $original_name = $field->original_name;
+    my $original_name = $field->original_name || '';
 
     my @fields =
         grep { $_->get_parent({ type => 'Repeatable' }) == $repeatable }
-        grep { $_->original_name eq $original_name }
+        grep { ( $_->original_name || '' ) eq $original_name }
             @{ $repeatable->get_fields };
 
     my $increment_field_names = $repeatable->increment_field_names;
