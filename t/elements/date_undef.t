@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->populate({elements => [{type => "Date", name => "foo", default => '30-08-2009'}]});
+$form->populate({elements => [{type => "Date", name => "foo", year => {list => [2009]}, default => '30-08-2009'}]});
 
 $form->process;
 
