@@ -1,8 +1,8 @@
-0.06XXX 2010-XX-XX
+0.06001 2010-01-08
 
     - Fixed issue with Model::HashRef where form fields with an underscore
       and overlapping name (e.g. 'foo' and 'foo_bar') were causing problems
-
+    
     - Fix test suite year issue.
 
 0.06000 2009-12-10
