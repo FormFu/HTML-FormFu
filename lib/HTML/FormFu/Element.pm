@@ -589,7 +589,7 @@ used directly.
 
 =head2 db
 
-Is deprecated and provided only for backwards compatability. Will be removed
+Is deprecated and provided only for backwards compatibility. Will be removed
 at some point in the future.
 
 Use L</model_config> instead.

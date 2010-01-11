@@ -1992,7 +1992,7 @@ result after all Filters, Inflators and Transformers have been run.
 Deflators will also be run on the value.
 
 If you set this on a field with an Inflator, but without an equivalent
-Deflator, you should ensure that the Inflators stringify back to a useable
+Deflator, you should ensure that the Inflators stringify back to a usable
 value, so as not to confuse / annoy the user.
 
 Default Value: false
@@ -3062,21 +3062,21 @@ are copied instead of cloned.
 
 =head2 element_defaults
 
-Is deprecated and provided only for backwards compatability. Will be removed
+Is deprecated and provided only for backwards compatibility. Will be removed
 at some point in the future.
 
 See L</default_args> instead.
 
 =head2 model_class
 
-Is deprecated and provided only for backwards compatability. Will be removed
+Is deprecated and provided only for backwards compatibility. Will be removed
 at some point in the future.
 
 Use L</default_model> instead.
 
 =head2 defaults_from_model
 
-Is deprecated and provided only for backwards compatability. Will be removed
+Is deprecated and provided only for backwards compatibility. Will be removed
 at some point in the future.
 
 Use L<HTML::FormFu::Model/default_values> instead.
@@ -3085,7 +3085,7 @@ Use L<HTML::FormFu::Model/default_values> instead.
 
 =head2 save_to_model
 
-Is deprecated and provided only for backwards compatability. Will be removed
+Is deprecated and provided only for backwards compatibility. Will be removed
 at some point in the future.
 
 Use L<HTML::FormFu::Model/update> instead.
@@ -3094,7 +3094,7 @@ Use L<HTML::FormFu::Model/update> instead.
 
 =head1 DEPRECATION POLICY
 
-We try our best to not make incompatable changes, but if they're required
+We try our best to not make incompatible changes, but if they're required
 we'll make every effort possible to provide backwards compatibility for
 several release-cycles, issuing a warnings about the changes, before removing
 the legacy features.

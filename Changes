@@ -1,3 +1,7 @@
+0.06XXX XXX
+
+    - Fix spelling errors in POD (Ansgar Burchardt)
+
 0.06001 2010-01-08
 
     - Fixed issue with Model::HashRef where form fields with an underscore

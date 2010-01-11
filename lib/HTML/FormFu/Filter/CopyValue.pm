@@ -28,7 +28,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::CopyValue - copy the value from an other field
+HTML::FormFu::Filter::CopyValue - copy the value from another field
 
 =head1 SYNOPSIS
 
@@ -49,7 +49,7 @@ is empty.
 =head1 CAVEATS
 
 If the value of the original field contains an invalid value (a value that
-will be constrained through a constraint) this invalid value will be choosen
+will be constrained through a constraint) this invalid value will be chosen
 for this field (the field with CopyValue filter).
 
 So the user has to change two fields or you remove the invalid value in a

@@ -540,7 +540,7 @@ Arguments: \@values
           - 12 
 
 Similar to L</values>, but the last 2 values are expanded to a range. Any 
-preceeding values are used literally, allowing the common empty first item 
+preceding values are used literally, allowing the common empty first item
 in select menus.
 
 =head2 empty_first
