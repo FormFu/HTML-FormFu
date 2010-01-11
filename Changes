@@ -2,6 +2,8 @@
 
     - Fix spelling errors in POD (Ansgar Burchardt)
 
+    - Bump Config::Any requirement to version 0.18 for YAML::XS support
+
 0.06001 2010-01-08
 
     - Fixed issue with Model::HashRef where form fields with an underscore
