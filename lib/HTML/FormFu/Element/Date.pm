@@ -154,7 +154,7 @@ sub _date_defaults {
         my $parser = DateTime::Format::Natural->new;
         $default = $parser->parse_datetime($default);
     }
-    elsif ( defined( $default = $self->default ) ) {
+    elsif ( defined( $default = $self->default ) && length $default ) {
         my $is_blessed = blessed($default);
 
         if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
@@ -163,6 +163,8 @@ sub _date_defaults {
 
             $default = $builder->parse_datetime($default);
         }
+    } else {
+      $default = undef;
     }
 
     if ( defined $default ) {
