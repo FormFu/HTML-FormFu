@@ -49,7 +49,8 @@ __PACKAGE__->mk_item_accessors( qw(
         label_filename              label_tag
         retain_default              force_default
         javascript                  non_param
-        reverse_multi               multi_value
+        reverse_single              reverse_multi
+        multi_value
         original_name               original_nested_name
 ) );
 
@@ -614,6 +615,7 @@ sub render_data_non_recursive {
             label_filename       => $self->label_filename,
             label_tag            => $self->label_tag,
             container_tag        => $self->container_tag,
+            reverse_single       => $self->reverse_single,
             reverse_multi        => $self->reverse_multi,
             javascript           => $self->javascript,
             $args ? %$args : (),
@@ -923,7 +925,8 @@ sub _string_field_start {
         }
     }
 
-    if ( defined $render->{label} && $render->{label_tag} ne 'legend' ) {
+    if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
+         !$render->{reverse_single} ) {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
@@ -955,6 +958,11 @@ sub _string_field_end {
     # field wrapper template - end
 
     my $html = '';
+
+    if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
+         $render->{reverse_single} ) {
+        $html .= sprintf "\n%s", $self->_string_label($render);
+    }
 
     if ( defined $render->{comment} ) {
         $html .= sprintf "\n<span%s>\n%s\n</span>",
@@ -1318,11 +1326,28 @@ enabling it), NOT the default value assigned to the element (if any).
 
 Default Value: C<false>
 
+=head2 reverse_single
+
+If true, then the field's label should be rendered to the right of the
+field control.  (When the field is used within a
+L<Multi|HTML::FormFu::Element::Multi> block, the position of the label
+is controlled by the L</reverse_multi> option instead.)
+
+The default value is C<false>, causing the label to be rendered to the left
+of the field control (or to be explicit: the markup for the label comes
+before the field control in the source).
+
+Exception: If the label tag is 'legend', then the reverse_single attribute
+is ignored; the legend always appears as the first tag within the container
+tag.
+
+Default Value: C<false>
+
 =head2 reverse_multi
 
 If true, then when the field is used within a 
 L<Multi|HTML::FormFu::Element::Multi> block, the field's label should be 
-rendered to the right of the field control
+rendered to the right of the field control.
 
 The default value is C<false>, causing the label to be rendered to the left
 of the field control (or to be explicit: the markup for the label comes 

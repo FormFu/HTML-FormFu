@@ -8,7 +8,7 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_item_accessors(qw/ input_type /);
+__PACKAGE__->mk_item_accessors(qw/ reverse_group input_type /);
 
 sub new {
     my $self = shift->next::method(@_);
@@ -18,6 +18,7 @@ sub new {
     $self->label_tag('legend');
     $self->container_tag('fieldset');
     $self->multi_value(1);
+    $self->reverse_group(1);
     $self->input_type('checkbox');
 
     return $self;
@@ -112,6 +113,7 @@ sub render_data_non_recursive {
 
     my $render = $self->next::method( {
             field_filename => $self->field_filename,
+            reverse_group  => $self->reverse_group,
             input_type     => $self->input_type,
             $args ? %$args : (),
         } );
@@ -140,38 +142,63 @@ sub _string_field {
 
             for my $item ( @{ $option->{group} } ) {
                 $html .= sprintf
-                    qq{<span%s>\n<input name="%s" type="%s" value="%s"%s />},
-                    process_attrs( $item->{container_attributes} ),
+                    "<span%s>\n",
+                    process_attrs( $item->{container_attributes} );
+
+                my $label = sprintf
+                    "<label%s>%s</label>\n",
+                    process_attrs( $item->{label_attributes} ),
+                    $item->{label},
+                    ;
+
+                my $input = sprintf
+                    qq{<input name="%s" type="%s" value="%s"%s />\n},
                     $render->{nested_name},
                     $render->{input_type},
                     $item->{value},
                     process_attrs( $item->{attributes} ),
                     ;
 
-                $html .= sprintf
-                    "\n<label%s>%s</label>\n</span>\n",
-                    process_attrs( $item->{label_attributes} ),
-                    $item->{label},
-                    ;
+                if ( $render->{reverse_group} ) {
+                    $html .= $input . $label;
+                }
+                else {
+                    $html .= $label . $input;
+                }
+
+                $html .= "</span>\n";
             }
 
             $html .= "</span>\n";
         }
         else {
             $html .= sprintf
-                qq{<span%s>\n<input name="%s" type="%s" value="%s"%s />},
-                process_attrs( $option->{container_attributes} ),
+                "<span%s>\n",
+                process_attrs( $option->{container_attributes} )
+                ;
+
+            my $label = sprintf
+                "<label%s>%s</label>\n",
+                process_attrs( $option->{label_attributes} ),
+                $option->{label},
+                ;
+
+            my $input = sprintf
+                qq{<input name="%s" type="%s" value="%s"%s />\n},
                 $render->{nested_name},
                 $render->{input_type},
                 $option->{value},
                 process_attrs( $option->{attributes} ),
                 ;
 
-            $html .= sprintf
-                "\n<label%s>%s</label>\n</span>\n",
-                process_attrs( $option->{label_attributes} ),
-                $option->{label},
-                ;
+            if ( $render->{reverse_group} ) {
+                $html .= $input . $label;
+            }
+            else {
+                $html .= $label . $input;
+            }
+
+            $html .= "</span>\n";
         }
     }
 
@@ -234,6 +261,18 @@ no duplicated ID's.
       type: Checkboxgroup
       name: foo
       auto_id: "%n_%c"
+
+=head2 reverse_group
+
+If true, then the label for each checkbox in the checkbox group should
+be rendered to the right of the field control.  Otherwise, the label
+is rendered to the left of the field control.
+
+The default value is C<true>, causing each label to be rendered to the
+right of its field control (or to be explicit: the markup for the
+label comes after the field control in the source).
+
+Default Value: C<true>
 
 =head1 SEE ALSO
 

@@ -1,12 +1,14 @@
 <span[% process_attrs(self.attributes) %]>
 [% FOREACH option = self.options %][% IF option.group %]<span[% process_attrs(option.attributes) %]>
 [% FOREACH item = option.group %]<span[% process_attrs(item.container_attributes) %]>
-<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% item.value %]"[% process_attrs(item.attributes) %] />
-<label[% process_attrs(item.label_attributes) %]>[% item.label %]</label>
+[% IF self.reverse_group %]<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% item.value %]"[% process_attrs(item.attributes) %] />
+<label[% process_attrs(item.label_attributes) %]>[% item.label%]</label>[% ELSE %]<label[% process_attrs(item.label_attributes) %]>[% item.label%]</label>
+<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% item.value %]"[% process_attrs(item.attributes) %] />[% END %]
 </span>
 [% END %]</span>
 [% ELSE %]<span[% process_attrs(option.container_attributes) %]>
-<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% option.value %]"[% process_attrs(option.attributes) %] />
-<label[% process_attrs(option.label_attributes) %]>[% option.label %]</label>
+[% IF self.reverse_group %]<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% option.value %]"[% process_attrs(option.attributes) %] />
+<label[% process_attrs(option.label_attributes) %]>[% option.label %]</label>[% ELSE %]<label[% process_attrs(option.label_attributes) %]>[% option.label %]</label>
+<input name="[% self.nested_name %]" type="[% self.input_type %]" value="[% option.value %]"[% process_attrs(option.attributes) %] />[% END %]
 </span>
 [% END %][% END %]</span>

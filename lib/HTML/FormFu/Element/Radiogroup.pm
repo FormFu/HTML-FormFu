@@ -75,6 +75,10 @@ no duplicated ID's.
       name: foo
       auto_id: "%n_%c"
 
+=head2 reverse_group
+
+See L<HTML::FormFu::Element::Checkboxgroup/reverse_group>.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 

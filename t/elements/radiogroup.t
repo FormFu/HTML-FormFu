@@ -1,17 +1,21 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-my $field = $form->element('Radiogroup')->name('foo')->value(2)
+my $field1 = $form->element('Radiogroup')->name('foo')->value(2)
     ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
 
+# add element to test non-reversed labels
+my $field2 = $form->element('Radiogroup')->name('foo2')
+    ->options( [ [ 'a' => 'A' ], [ 'b' => 'B' ] ] )->reverse_group(0);
+
 # add more elements to test accessor output
-$form->element('Radiogroup')->name('foo2')->options( [
+$form->element('Radiogroup')->name('foo3')->options( [
         { label => 'Ein',  value => 1 },
         { label => 'Zwei', value => 2, attributes => { class => 'foobar' }, container_attributes => { class => 'item 2' } },
     ] );
@@ -19,7 +23,7 @@ $form->element('Radiogroup')->name('foo2')->options( [
 $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('My Bar');
 
-my $field_xhtml = qq{<fieldset class="radiogroup">
+my $field1_xhtml = qq{<fieldset class="radiogroup">
 <span>
 <span>
 <input name="foo" type="radio" value="1" />
@@ -32,19 +36,35 @@ my $field_xhtml = qq{<fieldset class="radiogroup">
 </span>
 </fieldset>};
 
-is( "$field", $field_xhtml );
+is( "$field1", $field1_xhtml, 'basic radiogroup' );
+
+my $field2_xhtml = qq{<fieldset class="radiogroup">
+<span>
+<span>
+<label>A</label>
+<input name="foo2" type="radio" value="a" />
+</span>
+<span>
+<label>B</label>
+<input name="foo2" type="radio" value="b" />
+</span>
+</span>
+</fieldset>};
+
+is( "$field2", $field2_xhtml, 'radiogroup with reverse_group off' );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-$field_xhtml
+$field1_xhtml
+$field2_xhtml
 <fieldset class="radiogroup">
 <span>
 <span>
-<input name="foo2" type="radio" value="1" />
+<input name="foo3" type="radio" value="1" />
 <label>Ein</label>
 </span>
 <span class="item 2">
-<input name="foo2" type="radio" value="2" class="foobar" />
+<input name="foo3" type="radio" value="2" class="foobar" />
 <label>Zwei</label>
 </span>
 </span>
@@ -69,7 +89,7 @@ $field_xhtml
 </form>
 EOF
 
-is( "$form", $form_xhtml );
+is( "$form", $form_xhtml, 'stringified form' );
 
 # With mocked basic query
 {
@@ -91,7 +111,7 @@ is( "$form", $form_xhtml );
 </span>
 </fieldset>};
 
-    is( $form->get_field('foo'), $foo_xhtml );
+    is( $form->get_field('foo'), $foo_xhtml, 'radiogroup after query' );
 
     my $bar_xhtml = qq{<fieldset class="radiogroup legend">
 <legend>My Bar</legend>
@@ -111,5 +131,5 @@ is( "$form", $form_xhtml );
 </span>
 </fieldset>};
 
-    is( $form->get_field('bar'), $bar_xhtml );
+    is( $form->get_field('bar'), $bar_xhtml, 'second radiogroup after query' );
 }
