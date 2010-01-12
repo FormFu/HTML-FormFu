@@ -291,7 +291,7 @@ elements are ignored.
 Arguments: $string
 
 If you don't want the content to be XML-escaped, use the L</content_xml> 
-method instead of </content>.
+method instead of L</content>.
 
 =head2 content_loc
 
@@ -399,7 +399,7 @@ See L<HTML::FormFu/auto_inflator_class> for details.
 
 =head2 auto_validator_class
 
-See L<HTML::FormFu/auto_validator_class > for details.
+See L<HTML::FormFu/auto_validator_class> for details.
 
 =head2 auto_transformer_class
 
@@ -505,3 +505,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

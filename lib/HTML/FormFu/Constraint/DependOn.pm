@@ -90,12 +90,15 @@ HTML::FormFu::Constraint::DependOn - Multi-field Dependency Constraint
 =head1 DESCRIPTION
 
 If a value is submitted for the field this constraint is attached to, then a 
-value must also be submitted for all fields named in L</others>.
+value must also be submitted for all fields named in
+L<HTML::FormFu::Constraint::_others/others>.
 
-By default, if any of the named fields in L</others> are missing, an error 
-will be attached to each missing field. This behaviour can be changed by 
-setting any of L</attach_errors_to_base>, L</attach_errors_to_others> or 
-L</attach_errors_to>.
+By default, if any of the named fields in
+L<HTML::FormFu::Constraint::_others/others> are missing, an error will be
+attached to each missing field. This behaviour can be changed by setting
+any of L<HTML::FormFu::Constraint::_others/attach_errors_to_base>,
+L<HTML::FormFu::Constraint::_others/attach_errors_to_others> or 
+L<HTML::FormFu::Constraint::_others/attach_errors_to>.
 
 This constraint doesn't honour the C<not()> value.
 
@@ -114,3 +117,5 @@ Carl Franks C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

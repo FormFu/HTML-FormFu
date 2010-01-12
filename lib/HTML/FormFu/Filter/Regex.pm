@@ -57,7 +57,7 @@ Default Value: qr/./
 =head2 replace
 
 A string to be used in the "right-hand side" of a C<s///g> regular 
-expression. The string will replace every occurance of L</match>.
+expression. The string will replace every occurrence of L</match>.
 
 Default Value: ''
 

@@ -195,3 +195,5 @@ Michele Beltrame C<arthas@cpan.org> (contributions)
 
 This document is free, you can redistribute it and/or modify it
 under the same terms as Perl itself.
+
+=cut

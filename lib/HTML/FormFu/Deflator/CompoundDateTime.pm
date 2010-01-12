@@ -110,7 +110,7 @@ By default, expects the field names to be any of the following:
 
 Arguments: \@order
 
-If your field names doesn't follow the convention listed above, you must 
+If your field names don't follow the convention listed above, you must 
 provide an arrayref containing the above names, in the order they correspond 
 with your own fields.
 

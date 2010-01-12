@@ -1189,7 +1189,7 @@ Set the form-field's default value.
 Arguments: $string
 
 If you don't want the default value to be XML-escaped, use the 
-L</default_xml> method instead of </default>.
+L</default_xml> method instead of L</default>.
 
 =head2 default_loc
 
@@ -1209,8 +1209,8 @@ rendered.
 
 For the L<HTML::FormFu::Element::Radiogroup> and 
 L<HTML::FormFu::Element::Select> elements, the L</value> is ignored: 
-L</values|HTML::FormFu::Element::_Group/values> or 
-L</options|HTML::FormFu::Element::_Group/options> provides the equivalent 
+L<values|HTML::FormFu::Element::_Group/values> or 
+L<options|HTML::FormFu::Element::_Group/options> provides the equivalent 
 function.
 
 =head2 value_xml
@@ -1218,7 +1218,7 @@ function.
 Arguments: $string
 
 If you don't want the value to be XML-escaped, use the L</value_xml> 
-method instead of </value>.
+method instead of L</value>.
 
 =head2 value_loc
 
@@ -1247,7 +1247,7 @@ Set a label to communicate the purpose of the form-field to the user.
 Arguments: $string
 
 If you don't want the label to be XML-escaped, use the L</label_xml> 
-method instead of </label>.
+method instead of L</label>.
 
 =head2 label_loc
 
@@ -1264,7 +1264,7 @@ Set a comment to be displayed along with the form-field.
 Arguments: $string
 
 If you don't want the comment to be XML-escaped, use the L</comment_xml> 
-method instead of </comment>.
+method instead of L</comment>.
 
 =head2 comment_loc
 
@@ -1290,7 +1290,7 @@ field's container.
 
 If L</retain_default> is true and the form was submitted, but the field 
 didn't have a value submitted, then when the form is redisplayed to the user 
-the field will have its value set to its default value , rather than the 
+the field will have its value set to its default value, rather than the 
 usual behaviour of having an empty value.
 
 Default Value: C<false>
@@ -1311,10 +1311,10 @@ Default Value: C<false>
 
 Designed for use by Checkbox fields. Normally if a checkbox is not checked,
 no value is submitted for that field. If C<default_empty_value> is true,
-the Checkbox field is given an empty value during L</process>.
-Please note that, with this setting, the checkbox gets an EMPTY value (as
-opposed to no value at all without enabling it), NOT the default value
-assigned to the element (if any).
+the Checkbox field is given an empty value during
+L<process|HTML::FormFu/process>. Please note that, with this setting,
+the checkbox gets an EMPTY value (as opposed to no value at all without
+enabling it), NOT the default value assigned to the element (if any).
 
 Default Value: C<false>
 
@@ -1369,43 +1369,43 @@ Arguments: [%attributes]
 Arguments: [\%attributes]
 
 If you don't want the values to be XML-escaped, use the 
-L</comment_attributes_xml> method instead of </comment_attributes>.
+L</comment_attributes_xml> method instead of L</comment_attributes>.
 
 =head2 add_comment_attributes
 
 =head2 add_comment_attrs
 
-See L<HTML::FormFu::/add_attributes> for details.
+See L<HTML::FormFu/add_attributes> for details.
 
 =head2 add_comment_attributes_xml
 
 =head2 add_comment_attrs_xml
 
-See L<HTML::FormFu::/add_attributes_xml> for details.
+See L<HTML::FormFu/add_attributes_xml> for details.
 
 =head2 add_comment_attributes_loc
 
 =head2 add_comment_attrs_loc
 
-See L<HTML::FormFu::/add_attributes_loc> for details.
+See L<HTML::FormFu/add_attributes_loc> for details.
 
 =head2 del_comment_attributes
 
 =head2 del_comment_attrs
 
-See L<HTML::FormFu::/del_attributes> for details.
+See L<HTML::FormFu/del_attributes> for details.
 
 =head2 del_comment_attributes_xml
 
 =head2 del_comment_attrs_xml
 
-See L<HTML::FormFu::/del_attributes_xml> for details.
+See L<HTML::FormFu/del_attributes_xml> for details.
 
 =head2 del_comment_attributes_loc
 
 =head2 del_comment_attrs_loc
 
-See L<HTML::FormFu::/del_attributes_loc> for details.
+See L<HTML::FormFu/del_attributes_loc> for details.
 
 =head2 container_attributes
 
@@ -1422,43 +1422,43 @@ Arguments: [%attributes]
 Arguments: [\%attributes]
 
 If you don't want the values to be XML-escaped, use the 
-L</container_attributes_xml> method instead of </container_attributes>.
+L</container_attributes_xml> method instead of L</container_attributes>.
 
 =head2 add_container_attributes
 
 =head2 add_container_attrs
 
-See L<HTML::FormFu::/add_attributes> for details.
+See L<HTML::FormFu/add_attributes> for details.
 
 =head2 add_container_attributes_xml
 
 =head2 add_container_attrs_xml
 
-See L<HTML::FormFu::/add_attributes_xml> for details.
+See L<HTML::FormFu/add_attributes_xml> for details.
 
 =head2 add_container_attributes_loc
 
 =head2 add_container_attrs_loc
 
-See L<HTML::FormFu::/add_attributes_loc> for details.
+See L<HTML::FormFu/add_attributes_loc> for details.
 
 =head2 del_container_attributes
 
 =head2 del_container_attrs
 
-See L<HTML::FormFu::/del_attributes> for details.
+See L<HTML::FormFu/del_attributes> for details.
 
 =head2 del_container_attributes_xml
 
 =head2 del_container_attrs_xml
 
-See L<HTML::FormFu::/del_attributes_xml> for details.
+See L<HTML::FormFu/del_attributes_xml> for details.
 
 =head2 del_container_attributes_loc
 
 =head2 del_container_attrs_loc
 
-See L<HTML::FormFu::/del_attributes_loc> for details.
+See L<HTML::FormFu/del_attributes_loc> for details.
 
 =head2 label_attributes
 
@@ -1475,43 +1475,43 @@ Arguments: [%attributes]
 Arguments: [\%attributes]
 
 If you don't want the values to be XML-escaped, use the 
-L</label_attributes_xml> method instead of </label_attributes>.
+L</label_attributes_xml> method instead of L</label_attributes>.
 
 =head2 add_label_attributes
 
 =head2 add_label_attrs
 
-See L<HTML::FormFu::/add_attributes> for details.
+See L<HTML::FormFu/add_attributes> for details.
 
 =head2 add_label_attributes_xml
 
 =head2 add_label_attrs_xml
 
-See L<HTML::FormFu::/add_attributes_xml> for details.
+See L<HTML::FormFu/add_attributes_xml> for details.
 
 =head2 add_label_attributes_loc
 
 =head2 add_label_attrs_loc
 
-See L<HTML::FormFu::/add_attributes_loc> for details.
+See L<HTML::FormFu/add_attributes_loc> for details.
 
 =head2 del_label_attributes
 
 =head2 del_label_attrs
 
-See L<HTML::FormFu::/del_attributes> for details.
+See L<HTML::FormFu/del_attributes> for details.
 
 =head2 del_label_attributes_xml
 
 =head2 del_label_attrs_xml
 
-See L<HTML::FormFu::/del_attributes_xml> for details.
+See L<HTML::FormFu/del_attributes_xml> for details.
 
 =head2 del_label_attributes_loc
 
 =head2 del_label_attrs_loc
 
-See L<HTML::FormFu::/del_attributes_loc> for details.
+See L<HTML::FormFu/del_attributes_loc> for details.
 
 =head1 FORM LOGIC AND VALIDATION
 
@@ -1694,3 +1694,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

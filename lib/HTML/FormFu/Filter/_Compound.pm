@@ -45,7 +45,7 @@ HTML::FormFu::Filter::_Compound - base class for Compound filters
 
 Arguments: \@order
 
-If the submitted parts should be joined in an order different that that of the 
+If the submitted parts should be joined in an order different than that of the 
 order of the fields, you must provide an arrayref containing the names, in the 
 order they should be joined.
 

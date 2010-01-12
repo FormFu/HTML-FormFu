@@ -189,7 +189,7 @@ The supplied string will be used as the class-name for each even-numbered row
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Block>, 
+L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
@@ -202,3 +202,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

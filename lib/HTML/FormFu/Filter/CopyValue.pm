@@ -48,12 +48,10 @@ is empty.
 
 =head1 CAVEATS
 
-If the value of the original field contains an invalid value (a value that
-will be constrained through a constraint) this invalid value will be chosen
-for this field (the field with CopyValue filter).
-
-So the user has to change two fields or you remove the invalid value in a
-custom constraint.
+If the original field contains an invalid value (a value that will be
+constrained through a constraint) that invalid value will be copied to this
+field (the field with the CopyValue filter).  So, the user has to change two
+fields, or you can remove the invalid value in a custom constraint.
 
 =head1 AUTHOR
 

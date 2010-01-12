@@ -26,7 +26,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::Split - filter splitting a singe valut into an arrayref
+HTML::FormFu::Filter::Split - filter splitting a singe value into an arrayref
 
 =head1 SYNOPSIS
 

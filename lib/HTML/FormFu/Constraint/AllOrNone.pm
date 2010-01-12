@@ -78,8 +78,9 @@ Ensure that either all or none of the named fields are present.
 
 By default, if some but not all fields are submitted, errors are attached to 
 those fields which weren't submitted. This behaviour can be changed by setting 
-any of L</attach_errors_to_base>, L</attach_errors_to_others> or 
-L</attach_errors_to>.
+any of L<HTML::FormFu::Constraint::_others/attach_errors_to_base>,
+L<HTML::FormFu::Constraint::_others/attach_errors_to_others> or
+L<HTML::FormFu::Constraint::_others/attach_errors_to>.
 
 This constraint doesn't honour the C<not()> value.
 
@@ -98,3 +99,5 @@ Carl Franks C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

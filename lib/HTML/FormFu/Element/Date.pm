@@ -653,8 +653,8 @@ added directly to the date element, not to its select-menu child elements.
 This element's L<get_elements|HTML::FormFu/get_elements> and 
 L<get_all_elements|HTML::FormFu/get_all_elements> are inherited from 
 L<HTML::FormFu::Element::Block>, and so have the same behaviour. However, it 
-overrides the C<get_fields> method, such that it returns both itself and 
-its child elements.
+overrides the C<get_fields|HTML::FormFu/get_fields> method, such that it
+returns both itself and its child elements.
 
 =head1 SEE ALSO
 
@@ -674,3 +674,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

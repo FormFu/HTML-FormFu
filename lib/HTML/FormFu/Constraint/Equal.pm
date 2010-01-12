@@ -115,7 +115,7 @@ HTML::FormFu::Constraint::Equal - Multi-field Equality Constraint
 
 =head1 DESCRIPTION
 
-All fields named in L</others> must have an equal value to the field this 
+All fields named in L<HTML::FormFu::Constraint::_others/others> must have an equal value to the field this 
 constraint is attached to.
 
 =head1 SEE ALSO
@@ -133,3 +133,5 @@ Carl Franks C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

@@ -342,7 +342,7 @@ Arguments: $string
 Variant of L</message> which uses L<localize|HTML::FormFu/localize> to
 create the message.
 
-=head2 localise_args
+=head2 localize_args
 
 Provide arguments that should be passed to L<localize|HTML::FormFu/localize>
 to replace C<[_1]>, C<[_2]>, etc. in the localized string.
@@ -492,3 +492,5 @@ Sebastian Riedel, C<sri@oook.de>.
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

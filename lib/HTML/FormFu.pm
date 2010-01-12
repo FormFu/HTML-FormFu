@@ -1484,7 +1484,7 @@ Calling C<< $form->auto_fieldset(1) >> immediately adds a fieldset element to
 the form. Thereafter, C<< $form->elements() >> will add all elements (except
 fieldsets) to that fieldset, rather than directly to the form.
 
-To be specific, the elements are added to the L<last> fieldset on the form,
+To be specific, the elements are added to the I<last> fieldset on the form,
 so if you add another fieldset, any further elements will be added to that
 fieldset.
 
@@ -1609,9 +1609,9 @@ Arguments: \%defaults
 Set defaults which will be added to every element, constraint, etc. of the
 listed type which is added to the form.
 
-For example, to make every C<Text> element automatically have a
-L<size|HTML::FormFu::Element/size> of C<10>, and make every C<Strftime>
-deflator automatically get its strftime set to C<%d/%m/%Y>:
+For example, to make every C<Text> element automatically have a size of
+C<10>, and make every C<Strftime> deflator automatically get its strftime
+set to C<%d/%m/%Y>:
 
     default_args:
         elements:
@@ -1685,7 +1685,9 @@ Arguments: \@arrayref_of_types_or_options
 Return Value: @elements
 
 Adds a new element to the form. See
-L<HTML::FormFu::Element/"CORE ELEMENTS"> for a list of core elements.
+L<HTML::FormFu::Element/"CORE FORM FIELDS"> and
+L<HTML::FormFu::Element/"OTHER CORE ELEMENTS">
+for a list of core elements.
 
 If you want to load an element from a namespace other than
 C<HTML::FormFu::Element::>, you can use a fully qualified package-name by
@@ -1717,7 +1719,7 @@ Return Value: @deflators
 
 A L<deflator|HTML::FormFu::Deflator> may be associated with any form field,
 and allows you to provide
-L<< $field->default|HTML:FormFu::Element::_Field/default >> with a value
+L<< $field->default|HTML::FormFu::Element::_Field/default >> with a value
 which may be an object.
 
 If an object doesn't stringify to a suitable value for display, the
@@ -2192,7 +2194,7 @@ Default Value: "post"
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated
+If set, then each form field will be given an auto-generated
 L<id|HTML::FormFu::Element/id> attribute, if it doesn't have one already.
 
 The following character substitution will be performed: C<%f> will be
@@ -2212,8 +2214,8 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated
-L<name|HTML::FormFu::Element::Field/label>, if it doesn't have one already.
+If set, then each form field will be given an auto-generated
+L<label|HTML::FormFu::Element::Field/label>, if it doesn't have one already.
 
 The following character substitution will be performed: C<%f> will be
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by
@@ -2233,13 +2235,13 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form errors will be given an auto-generated class-name.
+If set, then each form error will be given an auto-generated class-name.
 
 The following character substitution will be performed: C<%f> will be
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by
 L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
 L<< lc( $field->type )|HTML::FormFu::Element/type >>, C<%s> will be replaced
-by L<< $error->stage >>.
+by L<< $error->stage|/"FORM LOGIC AND VALIDATION" >>.
 
 Default Value: 'error_%s_%t'
 
@@ -2253,7 +2255,7 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated
+If set, then each form field will be given an auto-generated
 L<message|HTML::FormFu::Exception::Input/message>, if it doesn't have one
 already.
 
@@ -2282,7 +2284,7 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated class-name
+If set, then each form field will be given an auto-generated class-name
 for each associated constraint.
 
 The following character substitution will be performed: C<%f> will be
@@ -2302,7 +2304,7 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated class-name
+If set, then each form field will be given an auto-generated class-name
 for each associated inflator.
 
 The following character substitution will be performed: C<%f> will be
@@ -2322,7 +2324,7 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated class-name
+If set, then each form field will be given an auto-generated class-name
 for each associated validator.
 
 The following character substitution will be performed: C<%f> will be
@@ -2342,7 +2344,7 @@ defined value.
 
 Arguments: [$string]
 
-If set, then all form fields will be given an auto-generated class-name
+If set, then each form field will be given an auto-generated class-name
 for each associated validator.
 
 The following character substitution will be performed: C<%f> will be
@@ -2499,7 +2501,7 @@ Return Value: $input_value
 Return Value: @valid_names
 
 No longer recommended for use, as its behaviour is hard to predict. Use
-L<param_value>, L<param_array> or L<param_list> instead.
+L</param_value>, L</param_array> or L</param_list> instead.
 
 A (readonly) method similar to that of L<CGI's|CGI>.
 
@@ -2709,7 +2711,7 @@ Arguments: [\%constructor_arguments]
 Accepts a hash-ref of arguments passed to L</render_method>, which is called
 internally by L</render>.
 
-Within L</tt>, the keys C<RELATIVE> and C<RECURSION> are overridden to always
+Within tt_args, the keys C<RELATIVE> and C<RECURSION> are overridden to always
 be true, as these are a basic requirement for the L<Template> engine.
 
 The system directory containing HTML::FormFu's template files is always
@@ -2767,7 +2769,7 @@ Arguments: [\%options]
 Return Value: \@elements
 
 Returns all fields in the form (specifically, all elements which have a true
-L<HTML::FormFu::Element/is_field> value.
+L<HTML::FormFu::Element/is_field> value).
 
 Accepts both C<name> and C<type> arguments to narrow the returned results.
 
@@ -3156,7 +3158,7 @@ IRC:
 
 C<irc.perl.org>, channel C<#formfu>
 
-The L<HTML::Widget archives|http://lists.scsys.co.uk/pipermail/html-widget/>
+The HTML::Widget archives L<http://lists.scsys.co.uk/pipermail/html-widget/>
 between January and May 2007 also contain discussion regarding HTML::FormFu.
 
 =head1 BUGS
@@ -3229,3 +3231,5 @@ C<sri@oook.de>.
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

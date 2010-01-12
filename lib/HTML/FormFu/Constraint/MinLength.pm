@@ -38,8 +38,8 @@ L</min> is an alias for L</minimum>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from L<HTML::FormFu::Length>, 
-L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Constraint::Length>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>
 
@@ -51,3 +51,5 @@ Carl Franks C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

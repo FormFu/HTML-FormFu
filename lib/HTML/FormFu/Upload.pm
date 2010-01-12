@@ -71,12 +71,12 @@ from L<HTML::FormFu::Upload>:
 
 =head2 parent
 
-Returns the L<field|HTML::FormFu::Element::_Field> object that the constraint 
-is associated with.
+Returns the L<field|HTML::FormFu::Element::_Field> object that the upload
+object is associated with.
 
 =head2 form
 
-Returns the L<HTML::FormFu> object that the constraint's field is attached 
+Returns the L<HTML::FormFu> object that the upload object's field is attached 
 to.
 
 =head2 populate
@@ -95,3 +95,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

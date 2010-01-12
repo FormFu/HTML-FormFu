@@ -455,7 +455,8 @@ If no argument C<$count> is provided, it defaults to C<1>.
 Note that C<< $form->process >> will call L</repeat> automatically to ensure the
 initial child elements are correctly set up - unless you call L</repeat>
 manually first, in which case the child elements you created will be left
-untouched (otherwise L</process> would overwrite your changes).
+untouched (otherwise L<process|HTML::FormFu/process> would overwrite your
+changes).
 
 Any subsequent call to L</repeat> will delete the previously copied elements
 before creating new copies - this means you cannot make repeated calls to
@@ -577,14 +578,14 @@ Calling C<< $element->repeat(2) >> would result in the following markup:
         <input name="my_rep.foo_2" type="text" />
     </span>
 
-See L<HTML::FormFu::Element::block/tag> for details.
+See L<HTML::FormFu::Element::Block/tag> for details.
 
 =head2 auto_id
 
 As well as the usual subtitutions, any instances of C<%r> will be
 replaced with the value of L</repeatable_count>.
 
-See L<HTML::FormFu::Element::block/auto_id> for further details.
+See L<HTML::FormFu::Element::Block/auto_id> for further details.
 
     ---
     elements:
@@ -638,3 +639,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

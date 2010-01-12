@@ -426,7 +426,7 @@ See L<HTML::FormFu/del_attributes_xml> for details.
 
 L</del_attrs_xml> is an alias for L</del_attributes_xml>.
 
-The following methods are shortcuts for accessing L<"/attributes"> keys.
+The following methods are shortcuts for accessing L</attributes> keys.
 
 =head2 id
 
@@ -473,8 +473,8 @@ Return Value: $string
 
 =head2 parent
 
-Returns the L<block element|HTML::FormFu::Element> or L<form|HTML::FormFu> 
-object that this element is attached to.
+Returns the L<block element|HTML::FormFu::Element::Block> or
+L<form|HTML::FormFu> object that this element is attached to.
 
 =head2 get_parent
 
@@ -513,6 +513,8 @@ See L<HTML::FormFu/render_method> for details.
 =item L<HTML::FormFu::Element::Checkbox>
 
 =item L<HTML::FormFu::Element::Checkboxgroup>
+
+=item L<HTML::FormFu::Element::ComboBox>
 
 =item L<HTML::FormFu::Element::ContentButton>
 
@@ -581,7 +583,13 @@ used directly.
 
 =item L<HTML::FormFu::Element::_Input>
 
-=item L<HTML::FormFu::Element::NonBlock>
+=item L<HTML::FormFu::Element::_MultiElement>
+
+=item L<HTML::FormFu::Element::_MultiSelect>
+
+=item L<HTML::FormFu::Element::_MultiText>
+
+=item L<HTML::FormFu::Element::_NonBlock>
 
 =back
 
@@ -602,3 +610,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

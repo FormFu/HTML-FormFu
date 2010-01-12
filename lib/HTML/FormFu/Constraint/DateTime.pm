@@ -96,7 +96,7 @@ Ensure input can later be inflated to a DateTime object.
 
 Arguments: \%args
 
-Required. Define the expected input string, so L<DataTime::Format::Builder> 
+Required. Define the expected input string, so L<DateTime::Format::Builder> 
 knows how to turn it into a L<DateTime> object.
 
 Accepts arguments to be passed to L<DateTime::Format::Builder/parser>.

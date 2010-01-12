@@ -37,7 +37,7 @@ object, with a valid filehandle, but no Content-Length. This Constraint
 would still see this as a valid uploaded file - if you want to ensure that 
 you get a file with content, instead use 
 L<HTML::FormFu::Constraint::File::Size> with 
-L<min/HTML::FormFu::Constraint::File::Size/min> set to C<1>.
+L<min|HTML::FormFu::Constraint::File::Size/min> set to C<1>.
 
 =head1 SEE ALSO
 
@@ -53,3 +53,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

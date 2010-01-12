@@ -140,6 +140,10 @@ See L<HTML::FormFu::Element::_Group/value_range>.
 
 See L<HTML::FormFu::Element::_Group/empty_first>.
 
+=head2 empty_first_label
+
+See L<HTML::FormFu::Element::_Group/empty_first_label>.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
@@ -157,3 +161,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut

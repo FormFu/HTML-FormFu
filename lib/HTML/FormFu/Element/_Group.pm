@@ -441,7 +441,8 @@ HTML::FormFu::Element::_Group - grouped form field base-class
 
 =head1 DESCRIPTION
 
-Base class for L<HTML::FormFu::Element::Radiogroup> and 
+Base class for L<HTML::FormFu::Element::Checkboxgroup>,
+L<HTML::FormFu::Element::Radiogroup>, and 
 L<HTML::FormFu::Element::Select> fields.
 
 =head1 METHODS
@@ -476,8 +477,10 @@ keys C<attributes> and C<label_attributes>.
 
 Passing an item containing a C<group> key will, for 
 L<Select fields|HTML::FormFu::Element::Select>, create an optgroup. And for 
-L<RadioGroup fields|HTML::FormFu::Element::RadioGroup>, create a sub-group 
-of radiobuttons with a new C<span> block, with the classname C<subgroup>.
+L<Radiogroup fields|HTML::FormFu::Element::Radiogroup> or
+L<Checkboxgroup fields|HTML::FormFu::Element::Checkboxgroup>, create a
+sub-group of radiobuttons or checkboxes with a new C<span> block, with the
+classname C<subgroup>.
 
 An example of Select optgroups:
 
@@ -555,7 +558,7 @@ populate the options).  See also L</empty_first_label>.
 
 =head2 empty_first_label_loc
 
-If L</empty_first> is true, and C<empty_first_label> is set, this value will
+If L</empty_first> is true, and L</empty_first_label> is set, this value will
 be used as the label for the first option - so only the first option's value
 will be empty.
 
@@ -574,3 +577,5 @@ Carl Franks, C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut
