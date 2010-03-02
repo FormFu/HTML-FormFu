@@ -81,6 +81,14 @@ Textarea form field.
 
 =head1 METHODS
 
+=head2 cols
+
+Sets the C<textarea> tag's C<cols> attribute.
+
+=head2 rows
+
+Sets the C<textarea> tag's C<rows> attribute.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
