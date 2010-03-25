@@ -1,0 +1,10 @@
+---
+elements:
+    - type: Date
+      name: foo
+      year:
+        list: [2000, 2001, 2002]
+      default: '01-01-2000'
+      default_datetime_args:
+        set_year: 2001
+       

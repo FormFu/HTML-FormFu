@@ -26,6 +26,7 @@ __PACKAGE__->mk_item_accessors( qw(
         strftime
         auto_inflate
         default_natural
+        default_datetime_args
 ) );
 
 *default = \&value;
@@ -168,6 +169,13 @@ sub _date_defaults {
     }
 
     if ( defined $default ) {
+        
+        if ( defined( my $datetime_args = $self->default_datetime_args ) ) {
+            for my $key ( keys %$datetime_args ) {
+                $default->$key( $datetime_args->{$key} );
+            }
+        }
+        
         for my $field ( @{ $self->field_order } ) {
             $self->$field->{default} = $default->$field;
         }
@@ -474,6 +482,17 @@ Arguments: $date_string
 
 Accepts a date/time string suitable for passing to
 L<DateTime::Format::Natural/parse_datetime>.
+
+=head2 default_datetime_args
+
+    - type: Date
+      default_natural: 'today'
+      default_datetime_args:
+        set_time_zone: 'Europe/London'
+
+Accepts a hashref of method-names / values that will be called on the
+L</default> L<DateTime|DateTime> object, before the select fields' values
+are set from it.
 
 =head2 strftime
 
