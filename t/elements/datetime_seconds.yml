@@ -1,0 +1,9 @@
+---
+elements:
+    - type: DateTime
+      name: foo
+      strftime: '%d/%m/%Y %H:%M:%S'
+      field_order: ['day', 'month', 'year', 'hour', 'minute', 'second']
+      year:
+        list: [2007, 2008, 2009, 2010, 2011]
+      auto_inflate: 1

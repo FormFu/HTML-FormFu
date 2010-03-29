@@ -5,23 +5,18 @@ use base 'HTML::FormFu::Element::Date';
 
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_attrs(qw/ hour minute /);
+__PACKAGE__->mk_attrs(qw/ hour minute second /);
 
-__PACKAGE__->mk_accessors(qw/ printf_hour printf_minute /);
+__PACKAGE__->mk_accessors(qw/ printf_hour printf_minute printf_second /);
 
 sub new {
     my $self = shift->next::method(@_);
 
     $self->strftime("%d-%m-%Y %H:%M");
 
-    $self->_known_fields( [qw/ day month year hour minute /] );
+    $self->_known_fields( [qw/ day month year hour minute second /] );
 
     $self->field_order( [qw/ day month year hour minute /] );
-
-    #$self->time( {
-    #        type   => '_MultiText',
-    #        prefix => [],
-    #    } );
 
     $self->hour( {
             type   => '_MultiSelect',
@@ -33,28 +28,17 @@ sub new {
             prefix => [],
         } );
 
+    $self->second( {
+            type   => '_MultiSelect',
+            prefix => [],
+        } );
+
     $self->printf_hour  ('%02d');
     $self->printf_minute('%02d');
+    $self->printf_second('%02d');
 
     return $self;
 }
-
-#sub _add_time {
-#    my ($self) = @_;
-#
-#    my $time = $self->time;
-#
-#    my $time_name = $self->_build_name( 'time' );
-#
-#    $self->element( {
-#            type => $time->{type},
-#            name => $time_name,
-#
-#            defined $time->{default} ? ( default => $time->{default} ) : (),
-#        } );
-#
-#    return;
-#}
 
 sub _add_hour {
     my ($self) = @_;
@@ -110,6 +94,36 @@ sub _add_minute {
 
             defined $minute->{default}
             ? ( default => sprintf '%02d', $minute->{default} )
+            : (),
+        } );
+
+    return;
+}
+
+sub _add_second {
+    my ($self) = @_;
+
+    my $second = $self->second;
+
+    my $second_name = $self->_build_name('second');
+
+    my @second_prefix
+        = ref $second->{prefix}
+        ? @{ $second->{prefix} }
+        : $second->{prefix};
+
+    @second_prefix = map { [ '', $_ ] } @second_prefix;
+
+    $self->element( {
+            type    => $second->{type},
+            name    => $second_name,
+            options => [
+                @second_prefix,
+                map { [ $_, $_ ] } map { sprintf '%02d', $_ } 0 .. 59
+            ],
+
+            defined $second->{default}
+            ? ( default => sprintf '%02d', $second->{default} )
             : (),
         } );
 
@@ -193,6 +207,32 @@ menu.
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
 
+=head2 second
+
+Arguments: \%setting
+
+Set values effecting the C<second> select menu. Known keys are:
+
+=head3 name
+
+Override the auto-generated name of the select menu.
+
+=head3 default
+
+Set the default value of the select menu
+
+=head3 prefix
+
+Arguments: $value
+
+Arguments: \@values
+
+A string or arrayref of strings to be inserted into the start of the select 
+menu.
+
+Each value is only used as the label for a select item - the value for each 
+of these items is always the empty string C<''>.
+
 =head2 field_order
 
 Arguments: \@fields
@@ -200,6 +240,16 @@ Arguments: \@fields
 Default Value: ['day', 'month', 'year', 'hour', 'minute']
 
 Specify the order of the date fields in the rendered HTML.
+
+If you want the L</second> selector to display, you must set both
+C</field_order> and L<strftime|HTML::FormFu::Element::DateTime/strftime>
+yourself. Eg:
+
+    elements:
+      type: DateTime
+      name: foo
+      strftime: '%d-%m-%Y %H:%M:%S'
+      field_order: ['day', 'month', 'year', 'hour', 'minute', 'second']
 
 Not all fields are required. No single field can be used more than once.
 
