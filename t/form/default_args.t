@@ -60,4 +60,5 @@ like( $form->get_element( { type => 'Block' } )->get_field('baz'),
     qr/name="baz" .* class="custom"/x );
 
 
+# original default_args hashref hasn't been butchered
 is_deeply( $default_args, $form->default_args );

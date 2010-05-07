@@ -1,5 +1,10 @@
 0.06XXX XXX
 
+    - Change of behaviour: default_args() values are now applied to any object
+      inheriting from the specified type, rather than just an instance of that
+      type. Old behaviour is still supported with a minor change, see docs for
+      details. - patch from Daniel Hilton
+
     - Fix spelling errors in POD (Ansgar Burchardt)
 
     - Bump Config::Any requirement to version 0.18 for YAML::XS support

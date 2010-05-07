@@ -132,6 +132,29 @@ sub default_args {
     return $self->{default_args};
 }
 
+sub _handle_defaults {
+    my ( $self, $general_type, $object, $specific_type, $args, $defaults ) = @_;
+
+    if ( defined $defaults ) {
+        for my $key ( keys %$defaults ) {
+            if ( $key =~ s/^\+// ) {
+                # don't search inheritance hierarchy
+                
+                if ( $key eq $specific_type ) {
+                    $args = _merge_hashes( $defaults->{$key}, $args );
+                }
+            }
+            else {
+                if ( $object->isa( "HTML::FormFu::${general_type}::$key" ) ) {
+                    $args = _merge_hashes( $defaults->{$key}, $args );
+                }
+            }
+        }
+    }
+
+    $object->populate( $args );
+}
+
 sub element_defaults {
     my ( $self, $arg ) = @_;
 
@@ -180,12 +203,14 @@ sub _require_element {
         $element->default_args( dclone $self->default_args );
     }
 
-    # handle default_args
-    if ( exists $self->default_args->{elements}{$type} ) {
-        $arg = _merge_hashes( $self->default_args->{elements}{$type}, $arg, );
-    }
-
-    populate( $element, $arg );
+    _handle_defaults(
+            $self,
+            'Element',
+            $element,
+            $type,
+            $arg,
+            $self->default_args->{elements}
+        );
 
     $element->setup;
 
@@ -276,15 +301,14 @@ sub _require_constraint {
             parent => $self,
         } );
 
-    # handle default_args
-    my $parent = $self->parent;
-
-    if ( exists $parent->default_args->{constraints}{$type} ) {
-        $arg = _merge_hashes( $parent->default_args->{constraints}{$type}, $arg,
+    _handle_defaults(
+            $self,
+            'Constraint',
+            $constraint,
+            $type,
+            $arg,
+            $self->parent->default_args->{constraints}
         );
-    }
-
-    populate( $constraint, $arg );
 
     return $constraint;
 }
@@ -1231,15 +1255,14 @@ sub _require_component {
             parent => $self,
         } );
 
-    # handle default_args
-    my $parent = $self->parent;
-
-    if ( exists $parent->default_args->{"${component_type}s"}{$type} ) {
-        $opt
-            = _merge_hashes( $parent->default_args->{"${component_type}s"}{$type}, $opt, );
-    }
-
-    $object->populate($opt);
+    _handle_defaults(
+            $self,
+            $component_package,
+            $object,
+            $type,
+            $opt,
+            $self->parent->default_args->{"${component_type}s"}
+        );
 
     return $object;
 }

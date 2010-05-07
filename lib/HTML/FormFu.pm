@@ -1607,7 +1607,7 @@ no field errors.
 Arguments: \%defaults
 
 Set defaults which will be added to every element, constraint, etc. of the
-listed type which is added to the form.
+listed type (or derived from the listed type) which is added to the form.
 
 For example, to make every C<Text> element automatically have a size of
 C<10>, and make every C<Strftime> deflator automatically get its strftime
@@ -1634,6 +1634,18 @@ get an appropriate Strftime deflator and a DateTime inflator:
                     type: DateTime
                     parser:
                         strptime: '%d-%m-%Y'
+
+To have defaults only be applied to the specific named type, rather than
+searching through derived types, append the type-name with C<+>.
+
+For example, to have the following attributes only be applied to a C<Block>
+element, rather than any element that inherits from C<Block>, such as C<Multi>:
+
+    default_args:
+        elements:
+            +Block:
+                attributes:
+                    class: block
 
 Note: Unlike the proper methods which have aliases, for example L</elements>
 which is an alias for L</element> - the keys given to C<default_args> must
