@@ -2,7 +2,7 @@ package HTML::FormFu::Element::_Group;
 
 use strict;
 use base 'HTML::FormFu::Element::_Field';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );

@@ -2,7 +2,7 @@ package HTML::FormFu::Element::_NonBlock;
 
 use strict;
 use base 'HTML::FormFu::Element';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw( process_attrs );
 

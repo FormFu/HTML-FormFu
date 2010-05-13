@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Reset;
 
 use strict;
 use base 'HTML::FormFu::Element::Button';
-use Class::C3;
+use mro 'c3';
 
 sub new {
     my $self = shift->next::method(@_);

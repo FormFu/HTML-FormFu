@@ -2,7 +2,7 @@ package HTML::FormFu::Inflator::DateTime;
 
 use strict;
 use base 'HTML::FormFu::Inflator';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime::Format::Builder;

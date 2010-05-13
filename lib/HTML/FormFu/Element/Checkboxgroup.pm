@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Checkboxgroup;
 
 use strict;
 use base 'HTML::FormFu::Element::_Group';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );

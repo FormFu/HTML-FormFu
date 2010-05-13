@@ -2,7 +2,7 @@ package HTML::FormFu::Constraint::_others;
 
 use strict;
 use base 'HTML::FormFu::Constraint';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS

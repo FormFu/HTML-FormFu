@@ -1,6 +1,6 @@
 package HTML::FormFu::base;
 use strict;
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );

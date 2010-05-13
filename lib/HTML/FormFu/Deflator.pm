@@ -1,7 +1,7 @@
 package HTML::FormFu::Deflator;
 
 use strict;
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw( populate form name parent get_parent );

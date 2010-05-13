@@ -5,7 +5,7 @@ use warnings;
 
 use base qw( HTML::FormFu::Model );
 
-use Class::C3;
+use mro 'c3';
 
 use Hash::Flatten;
 

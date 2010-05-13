@@ -2,7 +2,7 @@ package HTML::FormFu::Plugin::StashValid;
 
 use strict;
 use base 'HTML::FormFu::Plugin';
-use Class::C3;
+use mro 'c3';
 
 sub post_process {
     my ($self) = @_;

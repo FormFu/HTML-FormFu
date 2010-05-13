@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Block;
 
 use strict;
 use base 'HTML::FormFu::Element';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );

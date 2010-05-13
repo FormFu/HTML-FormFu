@@ -2,7 +2,7 @@ package HTML::FormFu::Element::SimpleTable;
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 use Scalar::Util qw( reftype );

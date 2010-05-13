@@ -2,7 +2,7 @@ package HTML::FormFu::Constraint::MinMaxFields;
 
 use strict;
 use base 'HTML::FormFu::Constraint::_others';
-use Class::C3;
+use mro 'c3';
 
 __PACKAGE__->mk_item_accessors(qw( minimum maximum ));
 

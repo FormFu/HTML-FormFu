@@ -2,7 +2,7 @@ package HTML::FormFu::Element::reCAPTCHA;
 
 use strict;
 use base 'HTML::FormFu::Element::Multi';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw( process_attrs _merge_hashes );
 use Captcha::reCAPTCHA;

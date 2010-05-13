@@ -2,7 +2,7 @@ package HTML::FormFu::Filter::HTMLScrubber;
 
 use strict;
 use base 'HTML::FormFu::Filter';
-use Class::C3;
+use mro 'c3';
 
 use Storable qw( dclone );
 

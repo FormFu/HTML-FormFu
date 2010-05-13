@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Image;
 
 use strict;
 use base 'HTML::FormFu::Element::Button';
-use Class::C3;
+use mro 'c3';
 
 __PACKAGE__->mk_attr_accessors(qw( src width height ));
 

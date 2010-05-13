@@ -1,7 +1,7 @@
 package HTML::FormFu::Element::ComboBox;
 use strict;
 use base 'HTML::FormFu::Element::Multi';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Element::_Group qw( _process_options_from_model );
 use HTML::FormFu::Util qw( _filter_components _parse_args );

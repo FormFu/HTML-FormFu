@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Date;
 
 use strict;
 use base 'HTML::FormFu::Element::Multi';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Util qw( _filter_components _parse_args );
 use DateTime;

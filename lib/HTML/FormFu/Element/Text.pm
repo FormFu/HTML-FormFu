@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Text;
 
 use strict;
 use base 'HTML::FormFu::Element::_Input';
-use Class::C3;
+use mro 'c3';
 
 sub new {
     my $self = shift->next::method(@_);

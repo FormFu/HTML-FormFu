@@ -2,7 +2,7 @@ package HTML::FormFu::Constraint::Set;
 
 use strict;
 use base 'HTML::FormFu::Constraint';
-use Class::C3;
+use mro 'c3';
 
 use Storable qw( dclone );
 

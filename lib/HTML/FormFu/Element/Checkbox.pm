@@ -2,7 +2,7 @@ package HTML::FormFu::Element::Checkbox;
 
 use strict;
 use base 'HTML::FormFu::Element::_Input';
-use Class::C3;
+use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 

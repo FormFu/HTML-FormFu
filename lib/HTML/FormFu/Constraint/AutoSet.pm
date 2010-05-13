@@ -2,7 +2,7 @@ package HTML::FormFu::Constraint::AutoSet;
 
 use strict;
 use base 'HTML::FormFu::Constraint::Set';
-use Class::C3;
+use mro 'c3';
 
 sub process {
     my $self = shift;
