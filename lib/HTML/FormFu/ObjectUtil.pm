@@ -13,6 +13,7 @@ use Data::Visitor::Callback;
 use File::Spec;
 use Scalar::Util qw( refaddr reftype weaken blessed );
 use List::MoreUtils qw( none uniq );
+use MRO::Compat;
 use Storable qw( dclone );
 use Carp qw( croak );
 
@@ -106,53 +107,64 @@ our %EXPORT_TAGS = (
     FORM_AND_ELEMENT => \@form_and_element,
 );
 
-sub default_args {
-    my ( $self, $defaults ) = @_;
+{
+    my @can_have_defaults = qw(
+        elements        deflators
+        filters         constraints
+        inflators       validators
+        transformers    output_processors
+    );
+    
+    sub default_args {
+        my ( $self, $defaults ) = @_;
+    
+        $self->{default_args} ||= {};
+    
+        if ($defaults) {
 
-    $self->{default_args} ||= {};
-
-    if ($defaults) {
-
-        my @valid_types = qw(
-            elements        deflators
-            filters         constraints
-            inflators       validators
-            transformers    output_processors
-        );
-
-        for my $type ( keys %$defaults ) {
-            croak "not a valid type for default_args: '$type'"
-                if none { $type eq $_ } @valid_types;
+            for my $type ( keys %$defaults ) {
+                croak "not a valid type for default_args: '$type'"
+                    if none { $type eq $_ } @can_have_defaults;
+            }
+    
+            $self->{default_args}
+                = _merge_hashes( $self->{default_args}, $defaults );
         }
-
-        $self->{default_args}
-            = _merge_hashes( $self->{default_args}, $defaults );
+    
+        return $self->{default_args};
     }
+    
+    my $super_type = join '|',
+        map {
+            my $type = $_;
+            $type =~ s/s\z//;
+            $type =~ s/_(\w)/uc($1)/ge;
+            ucfirst $type;
+        }
+        @can_have_defaults;
 
-    return $self->{default_args};
-}
+    my $known_class = qr/^HTML::FormFu::(?:$super_type)::([\w]+(?:::[\w]+)*)\z/;
+    
+    sub _handle_defaults {
+        my ( $self, $object, $args, $defaults ) = @_;
+    
+        if ( defined $defaults ) {
 
-sub _handle_defaults {
-    my ( $self, $general_type, $object, $specific_type, $args, $defaults ) = @_;
+            for my $ancestry ( @{ mro::get_linear_isa( ref $object ) } ) {
+                if ( $ancestry =~ $known_class ) {
+                    my $type = $1;
 
-    if ( defined $defaults ) {
-        for my $key ( keys %$defaults ) {
-            if ( $key =~ s/^\+// ) {
-                # don't search inheritance hierarchy
-                
-                if ( $key eq $specific_type ) {
-                    $args = _merge_hashes( $defaults->{$key}, $args );
+                    if ( exists $defaults->{$type} ) {
+                        my $key = $defaults->{$type};
+
+                        $args = _merge_hashes( $key, $args );
+                    }
                 }
             }
-            else {
-                if ( $object->isa( "HTML::FormFu::${general_type}::$key" ) ) {
-                    $args = _merge_hashes( $defaults->{$key}, $args );
-                }
-            }
         }
+    
+        $object->populate( $args );
     }
-
-    $object->populate( $args );
 }
 
 sub element_defaults {
@@ -205,9 +217,7 @@ sub _require_element {
 
     _handle_defaults(
             $self,
-            'Element',
             $element,
-            $type,
             $arg,
             $self->default_args->{elements}
         );
@@ -303,9 +313,7 @@ sub _require_constraint {
 
     _handle_defaults(
             $self,
-            'Constraint',
             $constraint,
-            $type,
             $arg,
             $self->parent->default_args->{constraints}
         );
@@ -1257,9 +1265,7 @@ sub _require_component {
 
     _handle_defaults(
             $self,
-            $component_package,
             $object,
-            $type,
             $opt,
             $self->parent->default_args->{"${component_type}s"}
         );
