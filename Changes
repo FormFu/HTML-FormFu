@@ -1,3 +1,7 @@
+0.07001 2010-05-16
+
+    - No changes - cpan indexer failed for last release
+
 0.07000 2010-05-16
 
     - Change of behaviour: default_args() values are now applied to any object
