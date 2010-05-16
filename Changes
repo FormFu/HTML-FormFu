@@ -5,9 +5,11 @@
       type. Old behaviour is still supported with a minor change, see docs for
       details. - patch from Daniel Hilton
 
-    - Now use Clone instead of Storable.
+    - Now use Clone instead of Storable (ntyni@iki.fi).
 
     - Change from Class::C3 to mro, to get built-in support in perl >= 5.9
+
+    - New Bulgarian translation (Kamen Naydenov).
 
     - Fix spelling errors in POD (Ansgar Burchardt)
 
