@@ -9,12 +9,12 @@ use HTML::FormFu::Util qw(
     _filter_components      _merge_hashes
 );
 use Config::Any;
+use Clone ();
 use Data::Visitor::Callback;
 use File::Spec;
 use Scalar::Util qw( refaddr reftype weaken blessed );
 use List::MoreUtils qw( none uniq );
 use MRO::Compat;
-use Storable qw( dclone );
 use Carp qw( croak );
 
 our @form_and_block = qw(
@@ -212,7 +212,7 @@ sub _require_element {
         } );
 
     if ( $element->can('default_args') ) {
-        $element->default_args( dclone $self->default_args );
+        $element->default_args( Clone::clone( $self->default_args ) );
     }
 
     _handle_defaults(
@@ -564,7 +564,7 @@ sub _load_file {
     }
 
     for my $config ( ref $data eq 'ARRAY' ? @$data : $data ) {
-        $self->populate( dclone($config) );
+        $self->populate( Clone::clone($config) );
     }
 
     return;
@@ -669,9 +669,9 @@ sub clone {
     my %new = %$self;
 
     $new{_elements}    = [ map { $_->clone } @{ $self->_elements } ];
-    $new{attributes}   = dclone $self->attributes;
-    $new{tt_args}      = dclone $self->tt_args;
-    $new{model_config} = dclone $self->model_config;
+    $new{attributes}   = Clone::clone( $self->attributes );
+    $new{tt_args}      = Clone::clone( $self->tt_args );
+    $new{model_config} = Clone::clone( $self->model_config );
 
     if ( $self->can('_plugins') ) {
         $new{_plugins} = [ map { $_->clone } @{ $self->_plugins } ];
@@ -679,7 +679,7 @@ sub clone {
 
     $new{languages}
         = ref $self->languages
-        ? dclone $self->languages
+        ? Clone::clone( $self->languages )
         : $self->languages;
 
     $new{default_args} = $self->default_args;
@@ -1395,4 +1395,4 @@ sub model_config {
     return $self->{model_config};
 }
 
-1;
+1; 

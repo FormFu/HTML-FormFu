@@ -9,11 +9,11 @@ use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
     debug
 );
+use Carp qw( croak );
+use Clone ();
 use List::MoreUtils qw( any );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );
-use Storable qw( dclone );
-use Carp qw( croak );
 
 __PACKAGE__->mk_accessors(qw( only_on_reps ));
 
@@ -229,7 +229,7 @@ sub clone {
     my $clone = $self->next::method(@_);
 
     if ( defined( my $when = $self->when ) ) {
-        $clone->when( dclone $when );
+        $clone->when( Clone::clone $when );
     }
 
     return $clone;

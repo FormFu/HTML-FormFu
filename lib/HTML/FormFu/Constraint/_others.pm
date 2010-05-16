@@ -8,8 +8,8 @@ use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
     debug
 );
+use Clone ();
 use List::MoreUtils qw( any none );
-use Storable qw( dclone );
 
 __PACKAGE__->mk_item_accessors( qw(
         attach_errors_to_base
@@ -115,7 +115,7 @@ sub clone {
     my $clone = $self->next::method(@_);
 
     if ( ref $self->others ) {
-        $clone->others( dclone $self->others );
+        $clone->others( Clone::clone $self->others );
     }
 
     return $clone;

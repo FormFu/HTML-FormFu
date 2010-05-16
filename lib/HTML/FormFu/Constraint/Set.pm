@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Constraint';
 use mro 'c3';
 
-use Storable qw( dclone );
+use Clone ();
 
 __PACKAGE__->mk_accessors(qw( set ));
 
@@ -26,7 +26,7 @@ sub clone {
     my $clone = $self->next::method(@_);
 
     if ( $self->set ) {
-        $clone->set( dclone $self->set );
+        $clone->set( Clone::clone $self->set );
     }
 
     return $clone;

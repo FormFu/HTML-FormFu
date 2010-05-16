@@ -7,7 +7,7 @@ use mro 'c3';
 use HTML::FormFu::Element::_Field qw( :FIELD );
 use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
-use Storable qw( dclone );
+use Clone ();
 
 __PACKAGE__->mk_item_accessors( qw(
         field_filename
@@ -211,9 +211,9 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->comment_attributes( dclone $self->comment_attributes );
-    $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes( dclone $self->label_attributes );
+    $clone->comment_attributes( Clone::clone $self->comment_attributes );
+    $clone->container_attributes( Clone::clone $self->container_attributes );
+    $clone->label_attributes( Clone::clone $self->label_attributes );
 
     return $clone;
 }

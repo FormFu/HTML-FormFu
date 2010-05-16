@@ -117,7 +117,7 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->recaptcha_options( dclone $self->recaptcha_options );
+    $clone->recaptcha_options( Clone::clone $self->recaptcha_options );
 
     return $clone;
 }

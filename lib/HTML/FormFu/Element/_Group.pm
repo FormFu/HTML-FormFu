@@ -6,11 +6,11 @@ use mro 'c3';
 
 use HTML::FormFu::ObjectUtil qw( _coerce );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
+use Carp qw( croak );
+use Clone ();
 use Exporter qw( import );
 use List::MoreUtils qw( none );
 use Scalar::Util qw( reftype );
-use Storable qw( dclone );
-use Carp qw( croak );
 
 our @EXPORT_OK = qw( _process_options_from_model );    # used by ComboBox
 
@@ -363,7 +363,7 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->next::method( {
-            options => dclone( $self->_options ),
+            options => Clone::clone( $self->_options ),
             $args ? %$args : (),
         } );
 
@@ -426,7 +426,7 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->_options( dclone $self->_options );
+    $clone->_options( Clone::clone $self->_options );
 
     return $clone;
 }

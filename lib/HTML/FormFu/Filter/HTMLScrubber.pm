@@ -4,7 +4,7 @@ use strict;
 use base 'HTML::FormFu::Filter';
 use mro 'c3';
 
-use Storable qw( dclone );
+use Clone ();
 
 __PACKAGE__->mk_accessors(qw( allow ));
 
@@ -27,7 +27,7 @@ sub clone {
 
     my $clone = $self->next::method(@_);
 
-    $clone->allow( dclone $self->allow )
+    $clone->allow( Clone::clone $self->allow )
         if ref $self->allow;
 
     return $clone;

@@ -7,9 +7,9 @@ use mro 'c3';
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
-use List::MoreUtils qw( uniq );
-use Storable qw( dclone );
 use Carp qw( croak );
+use Clone ();
+use List::MoreUtils qw( uniq );
 
 __PACKAGE__->mk_item_accessors( qw(
         tag                         _elements
@@ -243,7 +243,7 @@ sub clone {
 
     map { $_->parent($clone) } @{ $clone->_elements };
 
-    $clone->default_args( dclone $self->default_args );
+    $clone->default_args( Clone::clone $self->default_args );
 
     return $clone;
 }

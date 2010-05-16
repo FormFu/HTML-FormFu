@@ -35,11 +35,10 @@ use HTML::FormFu::Util qw(
     _filter_components
 );
 
+use Clone ();
 use List::Util qw( first );
 use List::MoreUtils qw( any none uniq );
 use Scalar::Util qw( blessed refaddr reftype weaken );
-use Storable qw( dclone );
-use Regexp::Copy;
 use Carp qw( croak );
 
 use overload (
@@ -1115,7 +1114,7 @@ sub _single_output_processor {
         $arg = { type => $arg };
     }
     elsif ( ref $arg eq 'HASH' ) {
-        $arg = dclone($arg);
+        $arg = Clone::clone($arg);
     }
     else {
         croak 'invalid args';

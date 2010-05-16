@@ -15,6 +15,7 @@ requires 'Exporter' => '5.57';
 
 requires 'Captcha::reCAPTCHA' => 0.92;
 requires 'Class::Accessor::Chained::Fast';
+requires 'Clone' => '0.31';
 requires 'Config::Any' => '0.18'; # 0.10 - supports multi-doc config files
                                   # 0.18 - prefers YAML::XS for YAML
 requires 'Crypt::CBC';

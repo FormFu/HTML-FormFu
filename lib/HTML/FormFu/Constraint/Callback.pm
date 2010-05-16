@@ -68,13 +68,6 @@ Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>
 
-=head1 LIMITATIONS
-
-The callback code-ref is copied internally using L<Storable/dclone>. It
-seems that because of this, the coderef does not act as a true closure, and
-cannot refer to variables and subroutines that would otherwise be in scope.
-This need further investigation.
-
 =head1 AUTHOR
 
 Carl Franks C<cfranks@cpan.org>

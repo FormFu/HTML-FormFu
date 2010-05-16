@@ -15,9 +15,9 @@ use HTML::FormFu::Util qw(
     xml_escape                  require_class
     process_attrs               _filter_components
 );
-use List::MoreUtils qw( uniq );
-use Storable qw( dclone );
 use Carp qw( croak );
+use Clone ();
+use List::MoreUtils qw( uniq );
 use Exporter qw( import );
 
 # used by multi.pm
@@ -999,9 +999,9 @@ sub clone {
         map { $_->parent($clone) } @{ $clone->$list };
     }
 
-    $clone->comment_attributes( dclone $self->comment_attributes );
-    $clone->container_attributes( dclone $self->container_attributes );
-    $clone->label_attributes( dclone $self->label_attributes );
+    $clone->comment_attributes( Clone::clone $self->comment_attributes );
+    $clone->container_attributes( Clone::clone $self->container_attributes );
+    $clone->label_attributes( Clone::clone $self->label_attributes );
 
     return $clone;
 }

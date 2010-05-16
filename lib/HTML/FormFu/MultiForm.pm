@@ -18,10 +18,11 @@ use HTML::FormFu::ObjectUtil qw(
 use HTML::FormFu::QueryType::CGI;
 
 use Carp qw( croak );
+use Clone ();
 use Crypt::CBC;
 use List::MoreUtils qw( uniq );
 use Scalar::Util qw( blessed refaddr reftype );
-use Storable qw( dclone nfreeze thaw );
+use Storable qw( nfreeze thaw );
 
 use overload (
     'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
@@ -234,7 +235,7 @@ sub _load_current_form {
 
     my $current_form = HTML::FormFu->new;
 
-    my $current_data = dclone( $self->forms->[ $current_form_num - 1 ] );
+    my $current_data = Clone::clone( $self->forms->[ $current_form_num - 1 ] );
 
     # merge constructor args
     for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
@@ -363,7 +364,7 @@ sub next_form {
     # is there a next form defined?
     return if $current_form_num >= scalar @{ $self->forms };
 
-    my $form_data = dclone( $self->forms->[$current_form_num] );
+    my $form_data = Clone::clone( $self->forms->[$current_form_num] );
 
     my $next_form = HTML::FormFu->new;
 
@@ -504,7 +505,7 @@ sub _save_hidden_data {
     }
 
     # freeze
-    local $Storable::canonicle = 1;
+    local $Storable::canonical = 1;
     $data = nfreeze($data);
 
     # restore form

@@ -4,7 +4,7 @@ use warnings;
 use Test::More tests => 7;
 
 use HTML::FormFu;
-use Storable qw( dclone );
+use Clone ();
 
 my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
@@ -31,7 +31,7 @@ $form->default_args( {
 
 # take a deep copy of element_defaults, so we can check they've not been butchered, later
 
-my $default_args = dclone( $form->default_args );
+my $default_args = Clone::clone( $form->default_args );
 
 $form->populate( {
         elements => [

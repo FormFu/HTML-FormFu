@@ -23,8 +23,8 @@ use HTML::FormFu::ObjectUtil qw(
     get_parent
 );
 use HTML::FormFu::Util qw( require_class xml_escape );
+use Clone ();
 use Scalar::Util qw( refaddr reftype weaken );
-use Storable qw( dclone );
 use Carp qw( croak );
 
 use overload (
@@ -182,11 +182,11 @@ sub clone {
 
     my %new = %$self;
 
-    $new{tt_args} = dclone $self->{tt_args}
+    $new{tt_args} = Clone::clone $self->{tt_args}
         if $self->{tt_args};
 
-    $new{attributes}   = dclone $self->attributes;
-    $new{model_config} = dclone $self->model_config;
+    $new{attributes}   = Clone::clone $self->attributes;
+    $new{model_config} = Clone::clone $self->model_config;
 
     return bless \%new, ref $self;
 }
