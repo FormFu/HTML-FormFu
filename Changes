@@ -13,11 +13,18 @@
       type. Old behaviour is still supported with a minor change, see docs for
       details. - patch from Daniel Hilton
 
+    - New reverse_single attribute for all field elements.  New reverse_group
+      attribute for Checkboxgroup and Radiogroup elements. (Ronald Kimball)
+
+    - Allow empty string as default value for Date element. (Ronald Kimball)
+
     - Now use Clone instead of Storable (ntyni@iki.fi).
 
     - Change from Class::C3 to mro, to get built-in support in perl >= 5.9
 
     - New Bulgarian translation (Kamen Naydenov).
+
+    - Fix bad links and markup in POD. (Ronald Kimball)
 
     - Fix spelling errors in POD (Ansgar Burchardt)
 
