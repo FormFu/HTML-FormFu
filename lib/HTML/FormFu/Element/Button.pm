@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Button;
 
 use strict;
 use base 'HTML::FormFu::Element::_Input';
+use MRO::Compat;
 use mro 'c3';
 
 sub new {

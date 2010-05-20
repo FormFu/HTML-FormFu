@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Block;
 
 use strict;
 use base 'HTML::FormFu::Element';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

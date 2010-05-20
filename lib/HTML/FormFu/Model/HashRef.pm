@@ -5,6 +5,7 @@ use warnings;
 
 use base qw( HTML::FormFu::Model );
 
+use MRO::Compat;
 use mro 'c3';
 
 use Hash::Flatten;

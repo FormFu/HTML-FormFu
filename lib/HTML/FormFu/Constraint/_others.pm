@@ -2,6 +2,7 @@ package HTML::FormFu::Constraint::_others;
 
 use strict;
 use base 'HTML::FormFu::Constraint';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Util qw(

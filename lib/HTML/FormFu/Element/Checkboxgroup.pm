@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Checkboxgroup;
 
 use strict;
 use base 'HTML::FormFu::Element::_Group';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

@@ -1,3 +1,7 @@
+0.07002 TO BE RELEASED
+
+    - Use MRO::Compat before mro to support perl 5.8
+
 0.07001 2010-05-16
 
     - No changes - cpan indexer failed for last release

@@ -2,6 +2,7 @@ package HTML::FormFu::Validator;
 
 use strict;
 use base 'HTML::FormFu::Processor';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Exception::Validator;

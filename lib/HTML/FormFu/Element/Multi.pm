@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Multi;
 
 use strict;
 use base 'HTML::FormFu::Element::Block', 'HTML::FormFu::Element::_Field';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Element::_Field qw( :FIELD );

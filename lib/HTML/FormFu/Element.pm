@@ -1,6 +1,7 @@
 package HTML::FormFu::Element;
 use strict;
 use base 'HTML::FormFu::base';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Attribute qw(

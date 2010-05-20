@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Radio;
 
 use strict;
 use base 'HTML::FormFu::Element::Checkbox';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

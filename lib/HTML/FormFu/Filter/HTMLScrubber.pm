@@ -2,6 +2,7 @@ package HTML::FormFu::Filter::HTMLScrubber;
 
 use strict;
 use base 'HTML::FormFu::Filter';
+use MRO::Compat;
 use mro 'c3';
 
 use Clone ();

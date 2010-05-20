@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Hr;
 
 use strict;
 use base 'HTML::FormFu::Element::_NonBlock';
+use MRO::Compat;
 use mro 'c3';
 
 sub new {

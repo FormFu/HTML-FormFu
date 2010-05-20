@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Textarea;
 
 use strict;
 use base 'HTML::FormFu::Element::_Field';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Util qw( process_attrs );

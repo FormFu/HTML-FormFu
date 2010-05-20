@@ -1,6 +1,7 @@
 package HTML::FormFu::Model;
 
 use strict;
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Attribute qw( mk_accessors mk_item_accessors );

@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Number;
 
 use strict;
 use base 'HTML::FormFu::Element::Text';
+use MRO::Compat;
 use mro 'c3';
 
 sub new {

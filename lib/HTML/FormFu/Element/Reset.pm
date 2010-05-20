@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Reset;
 
 use strict;
 use base 'HTML::FormFu::Element::Button';
+use MRO::Compat;
 use mro 'c3';
 
 sub new {

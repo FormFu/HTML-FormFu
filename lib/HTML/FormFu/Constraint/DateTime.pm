@@ -2,6 +2,7 @@ package HTML::FormFu::Constraint::DateTime;
 
 use strict;
 use base 'HTML::FormFu::Constraint';
+use MRO::Compat;
 use mro 'c3';
 
 use DateTime::Format::Builder;

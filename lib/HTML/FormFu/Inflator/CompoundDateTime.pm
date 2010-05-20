@@ -2,6 +2,7 @@ package HTML::FormFu::Inflator::CompoundDateTime;
 
 use strict;
 use base 'HTML::FormFu::Inflator';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

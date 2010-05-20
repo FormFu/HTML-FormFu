@@ -2,6 +2,7 @@ package HTML::FormFu::Constraint::AutoSet;
 
 use strict;
 use base 'HTML::FormFu::Constraint::Set';
+use MRO::Compat;
 use mro 'c3';
 
 sub process {

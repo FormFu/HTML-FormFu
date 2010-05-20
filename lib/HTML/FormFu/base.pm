@@ -1,5 +1,6 @@
 package HTML::FormFu::base;
 use strict;
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Util qw( process_attrs );

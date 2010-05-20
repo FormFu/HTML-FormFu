@@ -2,6 +2,7 @@ package HTML::FormFu::Plugin::StashValid;
 
 use strict;
 use base 'HTML::FormFu::Plugin';
+use MRO::Compat;
 use mro 'c3';
 
 sub post_process {

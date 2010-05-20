@@ -2,6 +2,7 @@ package HTML::FormFu::Transformer;
 
 use strict;
 use base 'HTML::FormFu::Processor';
+use MRO::Compat;
 use mro 'c3';
 
 use HTML::FormFu::Exception::Transformer;

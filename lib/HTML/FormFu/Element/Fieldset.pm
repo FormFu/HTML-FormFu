@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Fieldset;
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
+use MRO::Compat;
 use mro 'c3';
 
 __PACKAGE__->mk_output_accessors(qw( legend ));

@@ -2,6 +2,7 @@ package HTML::FormFu::Element::Src;
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
+use MRO::Compat;
 use mro 'c3';
 
 sub new {
