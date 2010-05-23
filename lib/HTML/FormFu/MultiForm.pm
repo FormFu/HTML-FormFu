@@ -14,6 +14,7 @@ use HTML::FormFu::ObjectUtil qw(
     parent                      nested_hash_key_exists
     load_config_file            load_config_filestem
     get_nested_hash_value       set_nested_hash_value
+    _string_equals              _object_equals
 );
 use HTML::FormFu::QueryType::CGI;
 
@@ -25,10 +26,8 @@ use Scalar::Util qw( blessed refaddr reftype );
 use Storable qw( nfreeze thaw );
 
 use overload (
-    'eq' => sub { refaddr $_[0] eq refaddr $_[1] },
-    'ne' => sub { refaddr $_[0] ne refaddr $_[1] },
-    '==' => sub { refaddr $_[0] eq refaddr $_[1] },
-    '!=' => sub { refaddr $_[0] ne refaddr $_[1] },
+    'eq' => '_string_equals',
+    '==' => '_object_equals',
     '""' => sub { return shift->render },
     bool => sub {1},
     fallback => 1

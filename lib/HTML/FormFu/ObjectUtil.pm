@@ -78,6 +78,8 @@ our @form_and_element = qw(
     get_transformer
     get_plugin
     model_config
+    _string_equals
+    _object_equals
 );
 
 our @EXPORT_OK = (
@@ -1395,4 +1397,18 @@ sub model_config {
     return $self->{model_config};
 }
 
-1; 
+sub _string_equals {
+    my ( $a, $b ) = @_;
+
+    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
+                         ( "$a" eq "$b" );
+}
+
+sub _object_equals {
+    my ( $a, $b ) = @_;
+
+    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
+                         undef;
+}
+
+1;

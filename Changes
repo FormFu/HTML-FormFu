@@ -1,6 +1,9 @@
 0.07002 TO BE RELEASED
 
-    - Use MRO::Compat before mro to support perl 5.8
+    - Fix: Use MRO::Compat before mro to support perl 5.8
+
+    - Overloading comparisons no longer assume both arguments are a blessed
+      object - change needed for latest Test::More (Test-Simple-0.95_02)
 
 0.07001 2010-05-16
 
