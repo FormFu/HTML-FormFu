@@ -125,6 +125,13 @@ sub _combobox_defaults {
     my ($self) = @_;
 
     if ( defined( my $default = $self->default ) ) {
+        
+        if ( !$self->form->submitted || $self->render_processed_value ) {
+            for my $deflator ( @{ $self->_deflators } ) {
+                $default = $deflator->process($default);
+            }
+        }
+        
         my $select_options = $self->_elements->[0]->options;
 
         if ( $default ne ''

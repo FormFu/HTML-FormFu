@@ -157,6 +157,13 @@ sub _date_defaults {
         $default = $parser->parse_datetime($default);
     }
     elsif ( defined( $default = $self->default ) && length $default ) {
+        
+        if ( !$self->form->submitted || $self->render_processed_value ) {
+            for my $deflator ( @{ $self->_deflators } ) {
+                $default = $deflator->process($default);
+            }
+        }
+        
         my $is_blessed = blessed($default);
 
         if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {

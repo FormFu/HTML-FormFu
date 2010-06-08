@@ -1,6 +1,9 @@
 0.07002 TO BE RELEASED
 
     - Fix: Use MRO::Compat before mro to support perl 5.8
+    
+    - Fix: Date and ComboBox elements need to run deflators before trying to
+      use any default value - reported by Matija Grabnar.
 
     - Overloading comparisons no longer assume both arguments are a blessed
       object - change needed for latest Test::More (Test-Simple-0.95_02)
