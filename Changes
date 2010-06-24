@@ -1,18 +1,21 @@
-0.07002 TO BE RELEASED
+0.07002 2010-06-24
 
     - Fix: Use MRO::Compat before mro to support perl 5.8
     
     - Fix: Date and ComboBox elements need to run deflators before trying to
       use any default value - reported by Matija Grabnar.
-
+    
     - Overloading comparisons no longer assume both arguments are a blessed
       object - change needed for latest Test::More (Test-Simple-0.95_02)
+      (RT#57747)
     
     - Change Element::Date to not use deprecated DateTime::Locale methods.
     
     - Bump DateTime::Locale and DateTime::Format::Strptime required versions
       as DateTime::Locale Changes file has no mention of when the methods
       we're now using were added.
+    
+    - Removed Regexp::Copy from prereqs.
 
 0.07001 2010-05-16
 
@@ -23,24 +26,35 @@
     - Change of behaviour: default_args() values are now applied to any object
       inheriting from the specified type, rather than just an instance of that
       type. Old behaviour is still supported with a minor change, see docs for
-      details. - patch from Daniel Hilton
-
+      details. - (Daniel Hilton)
+    
+    - Change of behaviour: default_args() key/values are now applied in order
+      of inheritance, rather than the random order returned by keys()
+    
     - New reverse_single attribute for all field elements.  New reverse_group
       attribute for Checkboxgroup and Radiogroup elements. (Ronald Kimball)
-
+    
+    - New default_datetime_args() method on Date and DateTime elements.
+    
+    - Element::DateTime now supports a 'second' select menu.
+    
     - Allow empty string as default value for Date element. (Ronald Kimball)
-
+    
     - Now use Clone instead of Storable (ntyni@iki.fi).
-
+    
     - Change from Class::C3 to mro, to get built-in support in perl >= 5.9
-
+    
     - New Bulgarian translation (Kamen Naydenov).
-
+    
     - Fix bad links and markup in POD. (Ronald Kimball)
-
+    
     - Fix spelling errors in POD (Ansgar Burchardt)
-
+    
+    - Documented Element::Textarea cols() and rows() methods.
+    
     - Bump Config::Any requirement to version 0.18 for YAML::XS support
+    
+    - Refactored ObjectUtil (Daniel Hilton)
 
 0.06001 2010-01-08
 
