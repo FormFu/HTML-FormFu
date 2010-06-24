@@ -13,9 +13,11 @@ $form->load_config_file('t/elements/date_default_datetime_args.yml');
 $form->process;
 
 {
-    my $parser = DateTime::Format::Natural->new;
-    my $dt     = $parser->parse_datetime( 'now' );
-    $dt->set_time_zone( 'Europe/Berlin' );
+    my $parser = DateTime::Format::Natural->new(
+        time_zone => 'Europe/Berlin',
+    );
+    
+    my $dt = $parser->parse_datetime( 'now' );
 
     my $foo = $form->get_field('foo');
 

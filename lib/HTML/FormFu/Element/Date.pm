@@ -153,8 +153,21 @@ sub _date_defaults {
     my $default;
 
     if ( defined( $default = $self->default_natural ) ) {
-        my $parser = DateTime::Format::Natural->new;
-        $default = $parser->parse_datetime($default);
+        my $parser;
+        
+        if ( defined( my $datetime_args = $self->default_datetime_args ) ) {
+            if ( exists $datetime_args->{set_time_zone} ) {
+                my $tz = $datetime_args->{set_time_zone};
+                $parser = DateTime::Format::Natural->new( time_zone => $tz );
+            }
+            else {
+                $parser = DateTime::Format::Natural->new;
+            }
+        }
+        else {
+            $parser = DateTime::Format::Natural->new;
+        }
+        $default = $parser->parse_datetime( $default );
     }
     elsif ( defined( $default = $self->default ) && length $default ) {
         

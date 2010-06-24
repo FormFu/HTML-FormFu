@@ -1,6 +1,9 @@
 
     - Fix: Group element now escapes each items attributes, label_attributes
       and container attributes (based on by patch by Jeff Dairiki).
+    
+    - Fix: If using default_natural, use default_datetime_args{set_time_zone}
+      if it's also set (Radek).
 
 0.07002 2010-06-24
 
