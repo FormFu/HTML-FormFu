@@ -1,10 +1,15 @@
 ---
 elements:
-    - type: Date
+    - type: DateTime
       name: foo
+      default_natural: now
+      default_datetime_args:
+        set_time_zone: Europe/Berlin
+    
+    - type: DateTime
+      name: bar
       year:
-        list: [2000, 2001, 2002]
-      default: '01-01-2000'
+        reference: 2000
+      default_natural: now
       default_datetime_args:
         set_year: 2001
-       
