@@ -1,3 +1,7 @@
+
+    - Fix: Group element now escapes each items attributes, label_attributes
+      and container attributes (based on by patch by Jeff Dairiki).
+
 0.07002 2010-06-24
 
     - Fix: Use MRO::Compat before mro to support perl 5.8

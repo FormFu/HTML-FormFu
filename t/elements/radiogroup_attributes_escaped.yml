@@ -1,0 +1,18 @@
+---
+elements:
+    - type: Radiogroup
+      name: foo
+      options:
+        - value: 1
+          label: 'First'
+          attributes:
+            myattr: 'escape&attr'
+          label_attributes:
+            myattr: 'escape&label'
+          container_attributes:
+            myattr: 'escape&container'
+        
+        - value: 2
+          label: 'Second'
+          attributes_xml:
+            myattr: 'noescape&amp;'

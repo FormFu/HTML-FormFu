@@ -377,8 +377,11 @@ sub _quote_options {
     my ( $self, $options ) = @_;
 
     foreach my $opt (@$options) {
-        $opt->{label} = xml_escape( $opt->{label} );
-        $opt->{value} = xml_escape( $opt->{value} );
+        $opt->{label}                = xml_escape( $opt->{label} );
+        $opt->{value}                = xml_escape( $opt->{value} );
+        $opt->{attributes}           = xml_escape( $opt->{attributes} );
+        $opt->{label_attributes}     = xml_escape( $opt->{label_attributes} );
+        $opt->{container_attributes} = xml_escape( $opt->{container_attributes} );
 
         if ( exists $opt->{group} ) {
             $self->_quote_options( $opt->{group} );
@@ -473,8 +476,8 @@ Use to set the list of items in the select menu / radiogroup.
 
 Its arguments must be an array-ref of items. Each item may be an array ref 
 of the form C<[ $value, $label ]> or a hash-ref of the form 
-C<< { value => $value, label => $label } >>. Each hash-ref may also have the 
-keys C<attributes> and C<label_attributes>.
+C<< { value => $value, label => $label } >>. Each hash-ref may also have an
+C<attributes> key.
 
 Passing an item containing a C<group> key will, for 
 L<Select fields|HTML::FormFu::Element::Select>, create an optgroup. And for 
@@ -504,11 +507,16 @@ variants of C<label> are supported, as are the C<value_xml> and C<value_loc>
 variants of C<value>, the C<attributes_xml> variant of C<attributes> and the 
 C<label_attributes_xml> variant of C<label_attributes>.
 
-C<container_attributes> or C<container_attributes_xml> is used by 
+C<container_attributes> / C<container_attributes_xml> is used by 
 L<HTML::FormFu::Element::Checkboxgroup> and 
 L<HTML::FormFu::Element::Radiogroup> for the c<span> surrounding each
 item's input and label. It is ignored by L<HTML::FormFu::Element::Select>
-elements. 
+elements.
+
+C<label_attributes> / C<label_attributes_xml> is used by 
+L<HTML::FormFu::Element::Checkboxgroup> and 
+L<HTML::FormFu::Element::Radiogroup> for the c<label> tag of each item.
+It is ignored by L<HTML::FormFu::Element::Select> elements.
 
 =head2 values
 

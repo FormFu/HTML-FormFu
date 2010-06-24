@@ -1,0 +1,14 @@
+---
+elements:
+    - type: Select
+      name: foo
+      options:
+        - value: 1
+          label: 'First'
+          attributes:
+            myattr: 'escape&attr'
+        
+        - value: 2
+          label: 'Second'
+          attributes_xml:
+            myattr: 'noescape&amp;'
