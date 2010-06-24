@@ -307,8 +307,8 @@ sub _build_month_list {
             if ( !$@ ) {
                 @months
                     = $month->{short_names}
-                    ? @{ $loc->month_abbreviations }
-                    : @{ $loc->month_names };
+                    ? @{ $loc->month_format_abbreviated }
+                    : @{ $loc->month_format_wide };
 
                 @months = map {ucfirst} @months;
 

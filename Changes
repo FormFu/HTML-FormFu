@@ -7,6 +7,12 @@
 
     - Overloading comparisons no longer assume both arguments are a blessed
       object - change needed for latest Test::More (Test-Simple-0.95_02)
+    
+    - Change Element::Date to not use deprecated DateTime::Locale methods.
+    
+    - Bump DateTime::Locale and DateTime::Format::Strptime required versions
+      as DateTime::Locale Changes file has no mention of when the methods
+      we're now using were added.
 
 0.07001 2010-05-16
 
