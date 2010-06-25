@@ -4,6 +4,10 @@
     
     - Fix: If using default_natural, use default_datetime_args{set_time_zone}
       if it's also set (Radek).
+    
+    - Update _merge_hashes() so it can also merge arrays and hashes into a new
+      array. This is necessary to allow default_args() to define a different
+      ref-type than the element or processor which uses its values.
 
 0.07002 2010-06-24
 

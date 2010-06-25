@@ -494,19 +494,55 @@ sub _merge_hashes {
 
     my %merged = %$lefthash;
 
-    while ( my ( $key, $value ) = each %$righthash ) {
-        my $is_right_ref = ref $value eq 'HASH';
-        my $is_left_ref = exists $lefthash->{$key} && ref $value eq 'HASH';
+    while ( my ( $key, $right_value ) = each %$righthash ) {
 
-        if ( $is_left_ref && $is_right_ref ) {
-            $merged{$key} = _merge_hashes( $lefthash->{$key}, $value );
+        my $left_value = $lefthash->{$key};
+
+        if ( exists $lefthash->{$key} ) {
+            
+            my $is_left_ref = exists $lefthash->{$key}
+                && ref $lefthash->{$key} eq 'HASH';
+
+            if ( ref $left_value eq 'HASH' && ref $right_value eq 'ARRAY' ) {
+                $merged{$key} = _merge_hash_array( $left_value, $right_value );
+            }
+            elsif ( ref $left_value eq 'ARRAY' && ref $right_value eq 'HASH' ) {
+                $merged{$key} = _merge_array_hash( $left_value, $right_value );
+            }
+            elsif ( ref $left_value eq 'ARRAY' && ref $right_value eq 'ARRAY' ) {
+                $merged{$key} = _merge_array_array( $left_value, $right_value );
+            }
+            elsif ( ref $left_value eq 'HASH' && ref $right_value eq 'HASH' ) {
+                $merged{$key} = _merge_hashes( $left_value, $right_value );
+            }
+            else {
+                $merged{$key} = $right_value;
+            }
         }
         else {
-            $merged{$key} = $value;
+            $merged{$key} = $right_value;
         }
     }
 
     return \%merged;
+}
+
+sub _merge_hash_array {
+    my ( $left, $right ) = @_;
+    
+    return [ $left, @$right ];
+}
+
+sub _merge_array_hash {
+    my ( $left, $right ) = @_;
+    
+    return [ @$left, $right ];
+}
+
+sub _merge_array_array {
+    my ( $left, $right ) = @_;
+    
+    return [ @$left, @$right ];
 }
 
 1;

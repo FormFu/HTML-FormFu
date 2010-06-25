@@ -1,0 +1,16 @@
+---
+auto_fieldset: 1
+
+default_args:
+  elements:
+    DateTime:
+      constraints:
+        - type: DateTime
+          parser:
+            strptime: '%Y-%m-%d %H:%M:00'
+
+elements:
+    - type: DateTime
+      name: foo
+      constraints:
+        type: Required
