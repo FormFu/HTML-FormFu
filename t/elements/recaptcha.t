@@ -18,8 +18,8 @@ my $form_xhtml = <<EOF;
 var RecaptchaOptions = {};
 //]]>
 </script>
-<script src="http://api.recaptcha.net/challenge?k=xxx" type="text/javascript"></script>
-<noscript><iframe frameborder="0" height="300" src="http://api.recaptcha.net/noscript?k=xxx" width="500"></iframe><textarea cols="40" name="recaptcha_challenge_field" rows="3"></textarea><input name="recaptcha_response_field" type="hidden" value="manual_challenge" /></noscript>
+<script src="http://www.google.com/recaptcha/api/challenge?k=xxx" type="text/javascript"></script>
+<noscript><iframe frameborder="0" height="300" src="http://www.google.com/recaptcha/api/noscript?k=xxx" width="500"></iframe><textarea cols="40" name="recaptcha_challenge_field" rows="3"></textarea><input name="recaptcha_response_field" type="hidden" value="manual_challenge" /></noscript>
 </span>
 </div>
 </form>
