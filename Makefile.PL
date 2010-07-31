@@ -8,6 +8,8 @@ name 'HTML-FormFu';
 perl_version '5.008001';
 all_from 'lib/HTML/FormFu.pm';
 
+repository 'http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu';
+
 # this is the lowest version of Exporter I can identify that exports import()
 # it's bundled with perl 5.83
 # version 5.567 that ships with perl 5.82 is no good
