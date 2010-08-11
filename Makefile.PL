@@ -15,7 +15,7 @@ repository 'http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu';
 # version 5.567 that ships with perl 5.82 is no good
 requires 'Exporter' => '5.57';
 
-requires 'Captcha::reCAPTCHA' => 0.94;
+requires 'Captcha::reCAPTCHA' => 0.93;
 requires 'Class::Accessor::Chained::Fast';
 requires 'Clone' => '0.31';
 requires 'Config::Any' => '0.18'; # 0.10 - supports multi-doc config files

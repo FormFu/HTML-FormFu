@@ -1,3 +1,4 @@
+0.07003 TO BE RELEASED
 
     - Fix: Group element now escapes each items attributes, label_attributes
       and container attributes (based on by patch by Jeff Dairiki).
