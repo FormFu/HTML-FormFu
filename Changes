@@ -1,3 +1,11 @@
+
+    - Fix: An empty block with nested_name set, containing Label elements and
+      no other fields, was causing the block's nested_name to be added to
+      $form->valid(). RT #54967
+    
+    - Bumped required version of DateTime to 0.54 - needed to pass tests under
+      Test::More 0.96.
+
 0.07003 2010-08-02
 
     - Fix: Group element now escapes each items attributes, label_attributes
