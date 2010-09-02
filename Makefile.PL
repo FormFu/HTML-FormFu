@@ -24,7 +24,7 @@ requires 'Crypt::CBC';
 requires 'Crypt::DES';
 requires 'Data::Visitor' => 0.26; # when it dumped Any::Moose for Moose
 requires 'Date::Calc';
-requires 'DateTime' => '0.38'; # required for string overloading
+requires 'DateTime' => '0.54'; # required for string overloading
 requires 'DateTime::Format::Strptime' => '1.2000';  
 requires 'DateTime::Format::Builder' => '0.7901'; # fixes memory leaks
 requires 'DateTime::Format::Natural';
