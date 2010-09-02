@@ -15,6 +15,7 @@ sub new {
 
     $self->tag('span');
     $self->filename('label_tag');
+    $self->non_param(1);
 
     #$self->field_type('label');
     #$self->retain_default(1);
