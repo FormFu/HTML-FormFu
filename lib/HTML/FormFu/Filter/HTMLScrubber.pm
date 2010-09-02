@@ -7,7 +7,7 @@ use mro 'c3';
 
 use Clone ();
 
-__PACKAGE__->mk_accessors(qw( allow ));
+__PACKAGE__->mk_accessors(qw( allow comment default rules script ));
 
 use HTML::Scrubber;
 
@@ -16,9 +16,13 @@ sub filter {
 
     return if !defined $value;
 
-    my $allowed = $self->allow || [];
+    my %params = ( allow => 0 );
+    foreach (qw(allow comment default rules script)) {
+        my $val = $self->$_;
+        $params{$_} = $val if ( defined($val) );
+    }
 
-    my $scrubber = HTML::Scrubber->new( allow => $allowed );
+    my $scrubber = HTML::Scrubber->new(%params);
 
     return $scrubber->scrub($value);
 }
@@ -46,9 +50,20 @@ HTML::FormFu::Filter::HTMLScrubber - filter removing HTML markup
 
 Remove HTML markup using L<HTML::Scrubber>.
 
+All the functionality of L<HTML::Scrubber> can be accessed using
+this module, other than the C<process> directive (which has a name
+clash with the L<HTML::FormFu::Filter> framework).
+
+For details of the filtering functionality see
+L<HTML::Scrubber/allow>, L<HTML::Scrubber/comment>,
+L<HTML::Scrubber/default>, L<HTML::Scrubber/rules> and
+L<HTML::Scrubber/script>
+
 =head1 AUTHOR
 
 Carl Franks, C<cfranks@cpan.org>
+
+Extended by Nigel Metheringham, C<nigelm@cpan.org>
 
 Based on the original source code of L<HTML::Widget::Filter::HTMLStrip>, by 
 Lyo Kato, C<lyo.kato@gmail.com>
