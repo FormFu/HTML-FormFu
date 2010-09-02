@@ -1,0 +1,11 @@
+---
+auto_fieldset: 1
+
+elements:
+    - name: foo
+    
+    - type: Fieldset
+      nested_name: bar
+      elements:
+        - type: Label
+          name: baz
