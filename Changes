@@ -1,10 +1,12 @@
-0.07003 TO BE RELEASED
+0.07003 2010-08-02
 
     - Fix: Group element now escapes each items attributes, label_attributes
       and container attributes (based on by patch by Jeff Dairiki).
     
     - Fix: If using default_natural, use default_datetime_args{set_time_zone}
       if it's also set (Radek).
+    
+    - Filter::HTMLScrubber extra functionality.
     
     - Update _merge_hashes() so it can also merge arrays and hashes into a new
       array. This is necessary to allow default_args() to define a different
