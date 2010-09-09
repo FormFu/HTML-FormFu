@@ -6,6 +6,9 @@
       no other fields, was causing the block's nested_name to be added to
       $form->valid(). RT #54967
     
+    - Constraint 'when' condition now supports new 'fields' and 'any_field'
+      options.
+    
     - Bumped required version of DateTime to 0.54 - needed to pass tests under
       Test::More 0.96.
 

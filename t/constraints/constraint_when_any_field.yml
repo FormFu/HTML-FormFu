@@ -1,0 +1,23 @@
+---
+elements:
+    - name: a
+      constraints:
+        - type: MinMaxFields
+          min: 1
+          max: 2
+          others:
+            - 'b'
+            - 'c'
+            - 'd'
+          when:
+            any_field:
+              - 'a'
+              - 'b'
+              - 'c'
+              - 'd'
+    
+    - name: b
+    
+    - name: c
+    
+    - name: d

@@ -1,0 +1,13 @@
+---
+elements:
+    - name: a
+      constraints:
+        - type: Bool
+          when:
+            fields:
+              - 'b'
+              - 'c'
+    
+    - name: b
+    
+    - name: c

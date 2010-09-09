@@ -12,7 +12,7 @@ use HTML::FormFu::Util qw(
 );
 use Carp qw( croak );
 use Clone ();
-use List::MoreUtils qw( any );
+use List::MoreUtils qw( any all );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );
 
@@ -173,7 +173,7 @@ sub _process_when {
 
     # returns 1 if when condition is fullfilled or not defined
     # returns 0 if when condition is defined and not fullfilled
-    # If it's a callback, return callback's return value (so when
+    # If it's a callback, return callback's return value (so 'when'
     # condition is met if callback returns a true value)
 
     # get when condition
@@ -184,20 +184,55 @@ sub _process_when {
     croak "Parameter 'when' is not a hash ref" if ref $when ne 'HASH';
 
     # field or callback must be defined
-    my $when_field    = $when->{field};
-    my $when_callback = $when->{callback};
-    croak "Parameter 'field' or 'callback' is not defined"
-        if !defined $when_field && !defined $when_callback;
+    my $when_field     = $when->{field};
+    my $when_fields    = $when->{fields};
+    my $when_any_field = $when->{any_field};
+    my $when_callback  = $when->{callback};
+    
+    croak "'field', 'fields', 'any_field' or 'callback' key must be defined in 'when'"
+        if all {!defined} $when_field, $when_fields, $when_any_field, $when_callback;
 
     # Callback will be the preferred thing
     if ($when_callback) {
         no strict 'refs';
         return $when_callback->($params);
     }
+    
+    my $any;
+    my @when_fields_value;
+    
+    if ($when_any_field) {
+        croak "'any_field' is set to an empty list" if !@$when_any_field;
 
-    # nothing to constrain if field doesn't exist
-    my $when_field_value = $self->get_nested_hash_value( $params, $when_field );
-    return 0 if !defined $when_field_value;
+        $any = 1;
+        
+        @$when_fields = @$when_any_field;
+    }
+    
+    if ($when_fields) {
+        croak "'fields' is set to an empty list" if !@$when_fields;
+        
+        for my $name (@$when_fields) {
+            my $value = $self->get_nested_hash_value( $params, $name );
+            
+            push @when_fields_value, $value
+                if defined $value;
+        }
+    }
+    else {
+        # nothing to constrain if field doesn't exist
+        my $value = $self->get_nested_hash_value( $params, $when_field );
+        
+        push @when_fields_value, $value
+            if defined $value;
+    }
+
+    DEBUG_CONSTRAINTS && debug('WHEN_FIELDS_VALUES' => \@when_fields_value);
+
+    if (!@when_fields_value) {
+        DEBUG_CONSTRAINTS && debug("No 'when' fields values exist - returning false");
+        return 0;
+    }
 
     my @values;
 
@@ -209,19 +244,28 @@ sub _process_when {
     }
 
     # determine if condition is fulfilled
-    my $ok;
+    my @ok;
 
     if (@values) {
-        $ok = any { $when_field_value eq $_ } @values;
+        for my $value (@when_fields_value) {
+            push @ok, any { $value eq $_ } @values;
+        }
     }
     else {
-        $ok = $when_field_value ? 1 : 0;
+        for my $value (@when_fields_value) {
+            push @ok, $value ? 1 : 0;
+        }
     }
+    
+    DEBUG_CONSTRAINTS && debug("'when' value matches" => \@ok);
 
-    # invert when condition if asked for
-    $ok = $when->{not} ? !$ok : $ok;
-
-    return $ok;
+    my $return = $any ? any { $when->{not} ? !$_ : $_ } @ok
+               :        all { $when->{not} ? !$_ : $_ } @ok
+               ;
+    
+    DEBUG_CONSTRAINTS && debug("'when' return value" => $return);
+    
+    return $return;
 }
 
 sub clone {
@@ -384,7 +428,19 @@ The following keys are supported:
 
 =item field
 
-nested-name of form field that shall be checked against
+Nested-name of form field that shall be checked against - if C<when->{value}>
+is set, the C<when> condition passes if the named field's value matches that,
+otherwise the C<when> condition passes if the named field's value is true.
+
+=item fields
+
+Array-ref of nested-names that shall be checked. The C<when> condition passes
+if all named-fields' values pass, using the same rules as C<field> above.
+
+=item any_field
+
+Array-ref of nested-names that shall be checked. The C<when> condition passes
+if any named-fields' values pass, using the same rules as C<field> above.
 
 =item value
 
