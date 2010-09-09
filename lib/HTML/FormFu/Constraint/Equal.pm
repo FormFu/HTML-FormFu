@@ -36,7 +36,15 @@ sub process {
 
         my $ok = _values_eq( $value, $other_value );
 
-        if ( $self->not() ? $ok : !$ok ) {
+        if ( $self->not ) {
+            if ( $value eq $EMPTY_STR ) {
+                # no error if both values are empty and not(1) is set
+            }
+            elsif ($ok) {
+                push @failed, $name;
+            }
+        }
+        elsif (!$ok) {
             push @failed, $name;
         }
 

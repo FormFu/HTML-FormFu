@@ -1,4 +1,7 @@
 
+    - Fix: Constraint::Equal with not(1) set no longer sets an error when both
+      field values are empty strings.
+    
     - Fix: An empty block with nested_name set, containing Label elements and
       no other fields, was causing the block's nested_name to be added to
       $form->valid(). RT #54967
