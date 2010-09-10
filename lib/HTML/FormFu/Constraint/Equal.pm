@@ -53,7 +53,10 @@ sub process {
 
     # special case for $self->not()
     # no errors if all values are empty
-    if ( $self->not() && all { !defined || $_ eq $EMPTY_STR } values %values ) {
+    if ( $self->not
+        && $value eq $EMPTY_STR
+        && all { !defined || $_ eq $EMPTY_STR } values %values )
+    {
         return;
     }
 
