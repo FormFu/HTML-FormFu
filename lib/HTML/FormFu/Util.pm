@@ -69,7 +69,10 @@ sub debug {
             my $key   = shift;
             my $value = shift;
 
-            if ( ref $value ) {
+            if ( !defined $value ) {
+               $value = "is undef"; 
+            }
+            elsif ( ref $value ) {
                 $value = Data::Dumper::Dumper($value);
                 $value =~ s/^\$VAR1 = //;
             }
