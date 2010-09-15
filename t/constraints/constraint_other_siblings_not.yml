@@ -1,0 +1,11 @@
+---
+elements:
+    - name: foo
+      constraints:
+        - type: Equal
+          other_siblings: 1
+          not: 1
+    
+    - name: bar
+    
+    - name: baz

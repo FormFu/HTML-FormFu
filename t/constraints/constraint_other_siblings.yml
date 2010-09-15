@@ -1,0 +1,12 @@
+---
+elements:
+    - name: foo
+      constraints:
+        - type: AllOrNone
+          other_siblings: 1
+    
+    - name: bar
+    
+    - name: baz
+    
+    - name: bif

@@ -20,6 +20,8 @@ __PACKAGE__->mk_accessors(qw( only_on_reps ));
 
 __PACKAGE__->mk_item_accessors(qw( not force_errors when ));
 
+sub pre_process {}
+
 sub process {
     my ( $self, $params ) = @_;
 

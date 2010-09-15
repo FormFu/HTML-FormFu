@@ -501,6 +501,8 @@ sub _constrain_input {
             'CONSTRAINT TYPE' => $constraint->type,
         );
 
+        $constraint->pre_process;
+
         my @errors = eval { $constraint->process($params) };
 
         DEBUG_CONSTRAINTS && debug( ERRORS => \@errors );

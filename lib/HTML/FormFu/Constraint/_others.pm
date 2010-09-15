@@ -19,8 +19,37 @@ __PACKAGE__->mk_item_accessors( qw(
 
 __PACKAGE__->mk_accessors( qw(
         others
+        other_siblings
         attach_errors_to
 ) );
+
+sub pre_process {
+    my ($self) = @_;
+    
+    if ( $self->other_siblings ) {
+        
+        my $field = $self->field;
+        my $block = $field;
+        
+        # find the nearest parent that contains any field other than
+        # the one this constraint is attached to
+        while ( defined( my $parent = $block->parent ) ) {
+            $block = $parent;
+            
+            last if grep { $_ ne $field } @{ $block->get_fields };
+        }
+        
+        my @names;
+        
+        for my $sibling (@{ $block->get_fields }) {
+            next if $sibling == $field;
+            
+            push @names, $sibling->nested_name;
+        }
+        
+        $self->others([@names]);
+    }
+}
 
 sub mk_errors {
     my ( $self, $args ) = @_;
@@ -135,6 +164,18 @@ HTML::FormFu::Constraint::_others - Base class for constraints needing others() 
 =head2 others
 
 Arguments: \@nested_names
+
+=head2 other_siblings
+
+Arguments: $bool
+
+If true, the L</others> list will be automatically generated from the
+C<nested_name> of all fields which are considered siblings of the field the
+constraint is attached to.
+
+Sibling are found by searching up through the field's parental hierarchy for
+the first block containing any other field. All fields attached at any depth
+to this block are considered siblings.
 
 =head2 attach_errors_to_base
 
