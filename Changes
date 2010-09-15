@@ -7,7 +7,7 @@
       $form->valid(). RT #54967
     
     - Constraints that inherit from HTML::FormFu::Constraint::_others have a new
-      'other_sibling' option, which auto-generates the 'others' list.
+      'other_siblings' option, which auto-generates the 'others' list.
     
     - Constraint 'when' condition now supports new 'fields' and 'any_field'
       options.
