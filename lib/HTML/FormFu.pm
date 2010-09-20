@@ -216,36 +216,6 @@ sub model {
     return $model;
 }
 
-sub model_class {
-    my $self = shift;
-
-    warn
-        "model_class() method deprecated and is provided for compatibilty only, "
-        . "and will be removed: use default_model instead\n";
-
-    return $self->default_model(@_);
-}
-
-sub defaults_from_model {
-    my $self = shift;
-
-    warn
-        "defaults_from_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model->default_values() instead\n";
-
-    return $self->model->default_values(@_);
-}
-
-sub save_to_model {
-    my $self = shift;
-
-    warn
-        "save_to_model() method deprecated and is provided for compatibility only, "
-        . "and will be removed: use \$form->model->update() instead\n";
-
-    return $self->model->update(@_);
-}
-
 sub process {
     my ( $self, $query ) = @_;
 
@@ -3071,46 +3041,32 @@ Returns a deep clone of the <$form> object.
 Because of scoping issues, code references (such as in Callback constraints)
 are copied instead of cloned.
 
-=head1 DEPRECATED METHODS
-
-=head2 element_defaults
-
-Is deprecated and provided only for backwards compatibility. Will be removed
-at some point in the future.
-
-See L</default_args> instead.
-
-=head2 model_class
-
-Is deprecated and provided only for backwards compatibility. Will be removed
-at some point in the future.
-
-Use L</default_model> instead.
-
-=head2 defaults_from_model
-
-Is deprecated and provided only for backwards compatibility. Will be removed
-at some point in the future.
-
-Use L<HTML::FormFu::Model/default_values> instead.
-
-    $form->model->default_values( $object, \%config )
-
-=head2 save_to_model
-
-Is deprecated and provided only for backwards compatibility. Will be removed
-at some point in the future.
-
-Use L<HTML::FormFu::Model/update> instead.
-
-    $form->model->update( $object, \%config )
-
 =head1 DEPRECATION POLICY
 
 We try our best to not make incompatible changes, but if they're required
 we'll make every effort possible to provide backwards compatibility for
 several release-cycles, issuing a warnings about the changes, before removing
 the legacy features.
+
+=head1 REMOVED METHODS
+
+See also L<HTML::FormFu::Element/"REMOVED METHODS">.
+
+=head2 element_defaults
+
+Has been removed; see L</default_args> instead.
+
+=head2 model_class
+
+Has been removed; use L</default_model> instead.
+
+=head2 defaults_from_model
+
+Has been removed; use L<HTML::FormFu::Model/default_values> instead.
+
+=head2 save_to_model
+
+Has been removed; use L<HTML::FormFu::Model/update> instead.
 
 =head1 BEST PRACTICES
 

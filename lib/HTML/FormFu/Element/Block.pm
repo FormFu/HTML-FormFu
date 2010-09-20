@@ -406,6 +406,10 @@ See L<HTML::FormFu/auto_validator_class> for details.
 
 See L<HTML::FormFu/auto_transformer_class> for details.
 
+=head2 default_args
+
+See L<HTML::FormFu/default_args> for details.
+
 =head1 RENDERING
 
 =head2 start
@@ -497,6 +501,12 @@ Base-class for L<HTML::FormFu::Element::Fieldset>.
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
+
+=head1 REMOVED METHODS
+
+=head2 element_defaults
+
+Has been removed; use L</default_args> instead.
 
 =head1 AUTHOR
 

@@ -37,7 +37,6 @@ our @form_and_block = qw(
     _single_transformer
     _require_constraint
     default_args
-    element_defaults
     get_component
     get_components
     get_element
@@ -167,29 +166,6 @@ our %EXPORT_TAGS = (
     
         $object->populate( $args );
     }
-}
-
-sub element_defaults {
-    my ( $self, $arg ) = @_;
-
-    warn <<'WARNING';
-element_defaults() method deprecated and is provided for compatability only: 
-use default_args()->{elements} instead as this will be removed
-WARNING
-
-    $self->{default_args} ||= {};
-
-    if ($arg) {
-        if ( exists $self->{default_args}{elements} ) {
-            $self->{default_args}{elements}
-                = _merge_hashes( $self->{default_args}{elements}, $arg );
-        }
-        else {
-            $self->{default_args}{elements} = $arg;
-        }
-    }
-
-    return $self->{default_args}{elements};
 }
 
 sub _require_element {
@@ -366,13 +342,6 @@ sub populate {
 
     # shallow clone the args so we don't stomp on them
     my %args = %$arg_ref;
-
-    # we have to handle element_defaults seperately, as it is no longer a
-    # simple hash key
-
-    if ( exists $args{element_defaults} ) {
-        $self->element_defaults( delete $args{element_defaults} );
-    }
 
     # notes for @keys...
     # 'options', 'values', 'value_range' is for _Group elements,

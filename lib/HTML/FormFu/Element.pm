@@ -81,29 +81,6 @@ sub new {
     return $self;
 }
 
-sub db {
-    my ( $self, $args ) = @_;
-
-    warn <<'WARNING';
-db() method deprecated and is provided for compatibilty only:
-use model_config() instead as this will be removed
-WARNING
-
-    if ( @_ > 1 ) {
-        if ( !$self->model_config ) {
-            $self->model_config( {} );
-        }
-
-        my $conf = $self->model_config;
-
-        while ( my ( $key, $value ) = each %$args ) {
-            $conf->{$key} = $value;
-        }
-    }
-
-    return $self->model_config;
-}
-
 sub name {
     my ( $self, $name ) = @_;
 
@@ -592,14 +569,11 @@ used directly.
 
 =back
 
-=head1 DEPRECATED METHODS
+=head1 REMOVED METHODS
 
 =head2 db
 
-Is deprecated and provided only for backwards compatibility. Will be removed
-at some point in the future.
-
-Use L</model_config> instead.
+Has been removed; use L</default_args> instead.
 
 =head1 AUTHOR
 

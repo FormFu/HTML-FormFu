@@ -1,4 +1,6 @@
 
+    - Incompatible Change: removed all previously deprecated methods.
+    
     - Fix: Constraint::Equal with not(1) set no longer sets an error when both
       field values are empty strings.
     

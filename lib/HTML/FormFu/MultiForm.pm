@@ -41,7 +41,7 @@ __PACKAGE__->mk_attr_accessors(qw( id action enctype method ));
 our @ACCESSORS = qw(
     indicator                   filename
     javascript                  javascript_src
-    element_defaults            default_args
+    default_args
     query_type                  languages
     force_error_message         localize_class
     tt_module                   nested_name
