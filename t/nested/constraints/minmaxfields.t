@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new;
 $form->auto_fieldset( { nested_name => 'foo' } );
 
 $form->element('Text')->name('bar')->constraint('MinMaxFields')
-    ->others(qw/ foo.baz foo.bag foo.nod /)->min(1)->max(2);
+    ->others([qw/ foo.baz foo.bag foo.nod /])->min(1)->max(2);
 
 $form->element('Text')->name('baz');
 $form->element('Text')->name('bag');

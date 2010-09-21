@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Equal')
-    ->others( 'bar', 'baz' );
+    ->others([ 'bar', 'baz' ]);
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 

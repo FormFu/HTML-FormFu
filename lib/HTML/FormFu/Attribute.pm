@@ -6,6 +6,8 @@ use HTML::FormFu::Util qw(
     append_xml_attribute remove_xml_attribute literal
     _parse_args );
 
+use Carp qw( carp );
+
 our @EXPORT_OK = qw(
     mk_attrs                        mk_attr_accessors
     mk_attr_modifiers               mk_inherited_accessors
@@ -25,6 +27,10 @@ sub mk_accessors {
                 return $self;
             }
             elsif (@_) {
+                carp "Passing multiple arguments to method '$name' is deprecated\n" .
+                     "and will be removed in the *next* cpan release!\n" .
+                     "Pass an explicit array-ref instead.";
+
                 $self->{$name} = [@_];
                 return $self;
             }
@@ -78,6 +84,12 @@ sub mk_attrs {
 
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method '$name' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
+
             while ( my ( $key, $value ) = each %attrs ) {
                 $attr_slot->{$key} = $value;
             }
@@ -89,10 +101,16 @@ sub mk_attrs {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            return $self->$name(
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method '${name}_xml' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
+
+            return $self->$name({
                 map { $_, literal( $attrs{$_} ) }
                     keys %attrs
-            );
+            });
         };
 
         no strict 'refs';
@@ -130,6 +148,12 @@ sub mk_attr_accessors {
             my $self = shift;
             my @args;
 
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method '${name}_xml' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
+
             for my $item (@_) {
                 if ( ref $item eq 'HASH' ) {
                     push @args, { map { $_, literal($_) } keys %$item };
@@ -141,7 +165,7 @@ sub mk_attr_accessors {
                     push @args, literal($item);
                 }
             }
-            return $self->$name(@args);
+            return $self->$name([@args]);
         };
         no strict 'refs';
         *{"$class\::$name"}       = $sub;
@@ -168,6 +192,12 @@ sub mk_add_attrs {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method 'add_$name' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
+
             while ( my ( $key, $value ) = each %attrs ) {
                 append_xml_attribute( $self->{$name}, $key, $value );
             }
@@ -176,6 +206,12 @@ sub mk_add_attrs {
         my $xml_sub = sub {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method 'add_${name}_xml' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
 
             my $method = "add_$name";
 
@@ -210,6 +246,12 @@ sub mk_del_attrs {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method 'del_$name' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
+
             while ( my ( $key, $value ) = each %attrs ) {
                 remove_xml_attribute( $self->{$name}, $key, $value );
             }
@@ -218,6 +260,12 @@ sub mk_del_attrs {
         my $xml_sub = sub {
             my $self = shift;
             my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method 'del_${name}_xml' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
 
             my $method = "del_$name";
 
@@ -282,6 +330,12 @@ sub mk_inherited_merging_accessors {
             my $self = shift;
             if (@_) {
                 my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+
+            if ( @_ > 1 ) {
+                carp "Passing multiple arguments to method 'add_$name' is deprecated\n" .
+                     "and will be removed soon!\n" .
+                     "Pass an explicit hash-ref instead.";
+            }
 
                 while ( my ( $key, $value ) = each %attrs ) {
                     append_xml_attribute( $self->{$name}, $key, $value );

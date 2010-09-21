@@ -1,6 +1,10 @@
 
     - Incompatible Change: removed all previously deprecated methods.
     
+    - Deprecated passing multiple arguments to many methods, where they were
+      being implicitly converted to a hash-ref or array-ref.
+      A warning is now issued.
+    
     - Fix: Constraint::Equal with not(1) set no longer sets an error when both
       field values are empty strings.
     

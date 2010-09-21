@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new;
 $form->auto_fieldset( { nested_name => 'foo' } );
 
 $form->element('Text')->name('bar')->constraint('DependOn')
-    ->others(qw/ foo.baz foo.bag /);
+    ->others([qw/ foo.baz foo.bag /]);
 
 $form->element('Text')->name('baz');
 $form->element('Text')->name('bag');

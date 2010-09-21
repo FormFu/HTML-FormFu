@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->filter('HTMLScrubber');
 $form->element('Text')->name('bar')->filter('HTMLScrubber')->allow( ['b'] );
-$form->element('Text')->name('fum')->filter('HTMLScrubber')->rules( '*' => 0, p => { '*' => 0 }, a => { href => 1, '*' => 0 } );
+$form->element('Text')->name('fum')->filter('HTMLScrubber')->rules([ '*' => 0, p => { '*' => 0 }, a => { href => 1, '*' => 0 } ]);
 
 my $original_foo = "<p>message</p>";
 my $filtered_foo = "message";
