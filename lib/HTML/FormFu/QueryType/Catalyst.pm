@@ -5,6 +5,8 @@ use base 'HTML::FormFu::Upload';
 
 use Scalar::Util qw( weaken );
 
+__PACKAGE__->mk_item_accessors(qw( basename tempname ));
+
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;
 
@@ -24,15 +26,11 @@ sub parse_uploads {
 
     for my $upload (@uploads) {
         my $param = $class->new( {
-                _param          => $upload,
-                catalyst_upload => $upload,
-                parent          => $form,
-
-             # set the following now, rather than on demand from catalyst_upload
-             # so they'll still work if we're freeze/thawed and reblessed
-             # as a HTML::FormFu::QueryType::CGI by MultiForm
+                parent   => $form,
+                basename => $upload->basename,
                 headers  => $upload->headers,
                 filename => $upload->filename,
+                tempname => $upload->tempname,
                 size     => $upload->size,
                 type     => $upload->type
             } );
@@ -45,52 +43,21 @@ sub parse_uploads {
     return @new == 1 ? $new[0] : \@new;
 }
 
+# copied from Catalyst 5.7x series - before it was Moosified
 sub fh {
-    my ($self) = @_;
-
-    return $self->_param->fh;
-}
-
-sub slurp {
-    my ( $self, $layer ) = @_;
-
-    return $self->_param->slurp($layer);
-}
-
-sub basename {
-    my ($self) = @_;
-
-    return $self->_param->basename;
-}
-
-sub copy_to {
     my $self = shift;
 
-    return $self->_param->copy_to(@_);
-}
+    my $fh = IO::File->new( $self->tempname, IO::File::O_RDONLY );
 
-sub link_to {
-    my ( $self, $target ) = @_;
+    unless ( defined $fh ) {
 
-    return $self->_param->link_to($target);
-}
+        my $filename = $self->tempname;
 
-sub tempname {
-    my ($self) = @_;
-
-    return $self->_param->tempname;
-}
-
-sub catalyst_upload {
-    my $self = shift;
-
-    if (@_) {
-        $self->{catalyst_upload} = shift;
-
-        weaken( $self->{catalyst_upload} );
+        Catalyst::Exception->throw(
+            message => qq/Can't open '$filename': '$!'/ );
     }
 
-    return $self->{catalyst_upload};
+    return $fh;
 }
 
 1;
@@ -110,47 +77,38 @@ L<HTML::FormFu/query_type> to C<Catalyst>.
 
 =head2 headers
 
-Delegates to L<Catalyst::Request::Upload/headers>.
-
 =head2 filename
-
-Delegates to L<Catalyst::Request::Upload/filename>.
 
 =head2 fh
 
-Delegates to L<Catalyst::Request::Upload/fh>.
-
 =head2 slurp
-
-Delegates to L<Catalyst::Request::Upload/slurp>.
 
 =head2 basename
 
-Delegates to L<Catalyst::Request::Upload/basename>.
-
-=head2 copy_to
-
-Delegates to L<Catalyst::Request::Upload/copy_to>.
-
-=head2 link_to
-
-Delegates to L<Catalyst::Request::Upload/link_to>.
-
 =head2 size
-
-Delegates to L<Catalyst::Request::Upload/size>.
 
 =head2 tempname
 
-Delegates to L<Catalyst::Request::Upload/tempname>.
-
 =head2 type
 
-Delegates to L<Catalyst::Request::Upload/name>.
+=head1 REMOVED METHODS
 
 =head2 catalyst_upload
 
-Returns the original L<Catalyst::Request::Upload> object.
+We no longer keep a reference to the
+L<Catalyst::Request::Upload|Catalyst::Request::Upload> object, as it
+was causing issues under L<HTML::FormFu::MultiForm|HTML::FormFu::MultiForm>
+after the L<Catalyst|Catalyst> 5.8 move to L<Moose|Moose>.
+
+=head2 copy_to
+
+Because L</catalyst_upload> has been removed, we can no-longer call this
+L<Catalyst::Request::Upload|Catalyst::Request::Upload> method.
+
+=head2 link_to
+
+Because L</catalyst_upload> has been removed, we can no-longer call this
+L<Catalyst::Request::Upload|Catalyst::Request::Upload> method.
 
 =head1 SEE ALSO
 
