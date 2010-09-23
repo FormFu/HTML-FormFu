@@ -1,9 +1,9 @@
 package HTML::FormFu::Deflator::Callback;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
-__PACKAGE__->mk_accessors(qw( callback ));
+has callback => ( is => 'rw', traits  => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

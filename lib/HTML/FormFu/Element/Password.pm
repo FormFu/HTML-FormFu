@@ -1,21 +1,21 @@
 package HTML::FormFu::Element::Password;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
+
+with 'HTML::FormFu::Role::Element::Input';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-__PACKAGE__->mk_item_accessors(qw( render_value ));
+has render_value => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('password');
 
-    return $self;
-}
+    return;
+};
 
 sub process_value {
     my ( $self, $value ) = @_;

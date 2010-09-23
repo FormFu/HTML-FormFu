@@ -1,18 +1,27 @@
 package HTML::FormFu::Element::Checkboxgroup;
+use Moose;
+extends 'HTML::FormFu::Element';
 
-use strict;
-use base 'HTML::FormFu::Element::_Group';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Element::Group';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_item_accessors(qw/ reverse_group input_type /);
+has input_type => (
+    is      => 'rw',
+    default => 'checkbox',
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-sub new {
-    my $self = shift->next::method(@_);
+has reverse_group => (
+    is      => 'rw',
+    traits  => ['Chained'],
+);
+
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
     $self->filename('input');
     $self->field_filename('checkboxgroup_tag');
@@ -22,8 +31,8 @@ sub new {
     $self->reverse_group(1);
     $self->input_type('checkbox');
 
-    return $self;
-}
+    return;
+};
 
 sub prepare_id {
     my ( $self, $render ) = @_;
@@ -112,7 +121,7 @@ sub _prepare_attrs {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             field_filename => $self->field_filename,
             reverse_group  => $self->reverse_group,
             input_type     => $self->input_type,

@@ -1,7 +1,7 @@
 package HTML::FormFu::QueryType::Catalyst;
 
-use strict;
-use base 'HTML::FormFu::Upload';
+use Moose;
+extends 'HTML::FormFu::Upload';
 
 use Scalar::Util qw( weaken );
 

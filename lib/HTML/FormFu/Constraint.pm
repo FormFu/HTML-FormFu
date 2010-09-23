@@ -2,23 +2,28 @@ package HTML::FormFu::Constraint;
 
 use strict;
 use base 'HTML::FormFu::Processor';
-use MRO::Compat;
-use mro 'c3';
+use Class::C3;
+use Moose;
+extends 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Constraint;
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
     debug
 );
+use Clone ();
+use List::MoreUtils qw( any );
+use Scalar::Util qw( blessed );
 use Carp qw( croak );
 use Clone ();
 use List::MoreUtils qw( any all );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );
 
-__PACKAGE__->mk_accessors(qw( only_on_reps ));
-
-__PACKAGE__->mk_item_accessors(qw( not force_errors when ));
+has not          => ( is => 'rw', traits  => ['Chained'] );
+has force_errors => ( is => 'rw', traits  => ['Chained'] );
+has when         => ( is => 'rw', traits  => ['Chained'] );
+has only_on_reps => ( is => 'rw', traits  => ['Chained'] );
 
 sub pre_process {}
 
@@ -273,7 +278,7 @@ sub _process_when {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
     if ( defined( my $when = $self->when ) ) {
         $clone->when( Clone::clone $when );

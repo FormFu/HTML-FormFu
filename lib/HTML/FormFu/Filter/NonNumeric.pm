@@ -1,7 +1,7 @@
 package HTML::FormFu::Filter::NonNumeric;
 
-use strict;
-use base 'HTML::FormFu::Filter::Regex';
+use Moose;
+extends 'HTML::FormFu::Filter::Regex';
 
 sub match {qr/\D+/}
 

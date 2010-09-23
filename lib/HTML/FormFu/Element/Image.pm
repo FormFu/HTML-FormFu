@@ -1,14 +1,12 @@
 package HTML::FormFu::Element::Image;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::Button';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element::Button';
 
 __PACKAGE__->mk_attr_accessors(qw( src width height ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('image');
 
@@ -16,8 +14,8 @@ sub new {
         $self->src('');
     }
 
-    return $self;
-}
+    return;
+};
 
 1;
 

@@ -1,9 +1,5 @@
-package HTML::FormFu::Constraint::_others;
-
-use strict;
-use base 'HTML::FormFu::Constraint';
-use MRO::Compat;
-use mro 'c3';
+package HTML::FormFu::Role::Constraint::Others;
+use Moose::Role;
 
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
@@ -12,16 +8,11 @@ use HTML::FormFu::Util qw(
 use Clone ();
 use List::MoreUtils qw( any none );
 
-__PACKAGE__->mk_item_accessors( qw(
-        attach_errors_to_base
-        attach_errors_to_others
-) );
-
-__PACKAGE__->mk_accessors( qw(
-        others
-        other_siblings
-        attach_errors_to
-) );
+has others                  => ( is => 'rw', traits  => ['Chained'] );
+has other_siblings          => ( is => 'rw', traits  => ['Chained'] );
+has attach_errors_to        => ( is => 'rw', traits  => ['Chained'] );
+has attach_errors_to_base   => ( is => 'rw', traits  => ['Chained'] );
+has attach_errors_to_others => ( is => 'rw', traits  => ['Chained'] );
 
 sub pre_process {
     my ($self) = @_;
@@ -139,17 +130,17 @@ sub mk_errors {
     return @errors;
 }
 
-sub clone {
-    my $self = shift;
-
-    my $clone = $self->next::method(@_);
+around clone => sub {
+    my ( $orig, $self, $args ) = @_;
+    
+    my $clone = $self->$orig( $args );
 
     if ( ref $self->others ) {
-        $clone->others( Clone::clone $self->others );
+        $clone->others( Clone::clone( $self->others ) );
     }
 
     return $clone;
-}
+};
 
 1;
 
@@ -218,5 +209,3 @@ Carl Franks C<cfranks@cpan.org>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
-
-=cut

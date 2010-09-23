@@ -1,15 +1,24 @@
 package HTML::FormFu::Constraint::File::Size;
+use Moose;
+use MooseX::Aliases;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
+extends 'HTML::FormFu::Constraint';
 
 use Carp qw( croak );
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors(qw( minimum maximum ));
+has minimum => (
+    is      => 'rw',
+    alias   => 'min',
+    traits  => ['Chained'],
+);
 
-*min          = \&minimum;
-*max          = \&maximum;
+has maximum => (
+    is      => 'rw',
+    alias   => 'max',
+    traits  => ['Chained'],
+);
+
 *min_kilobyte = \&minimum_kilobyte;
 *max_kilobyte = \&maximum_kilobyte;
 *min_megabyte = \&minimum_megabyte;

@@ -1,32 +1,28 @@
-package HTML::FormFu::Element::_NonBlock;
-
-use strict;
-use base 'HTML::FormFu::Element';
-use MRO::Compat;
-use mro 'c3';
+package HTML::FormFu::Role::Element::NonBlock;
+use Moose::Role;
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_item_accessors(qw( tag ));
+has tag => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->filename('non_block');
 
-    return $self;
-}
+    return;
+};
 
-sub render_data_non_recursive {
-    my ( $self, $args ) = @_;
+around render_data_non_recursive => sub {
+    my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->$orig( {
             tag => $self->tag,
             $args ? %$args : (),
         } );
 
     return $render;
-}
+};
 
 sub string {
     my ( $self, $args ) = @_;

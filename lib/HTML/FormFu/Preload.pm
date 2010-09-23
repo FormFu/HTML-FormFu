@@ -21,6 +21,5 @@ use Module::Pluggable (
 
 __PACKAGE__->plugins;
 
-Class::C3::initialize();
 
 1;

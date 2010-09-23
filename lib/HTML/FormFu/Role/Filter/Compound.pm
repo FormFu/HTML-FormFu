@@ -1,9 +1,7 @@
-package HTML::FormFu::Filter::_Compound;
+package HTML::FormFu::Role::Filter::Compound;
+use Moose::Role;
 
-use strict;
-use base 'HTML::FormFu::Filter';
-
-__PACKAGE__->mk_accessors(qw( field_order ));
+has field_order => ( is => 'rw', traits  => ['Chained'] );
 
 sub _get_values {
     my ( $self, $value ) = @_;

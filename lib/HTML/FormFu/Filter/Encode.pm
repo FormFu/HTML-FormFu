@@ -1,11 +1,13 @@
 package HTML::FormFu::Filter::Encode;
 
-use strict;
-use base qw(HTML::FormFu::Filter);
+use Moose;
+extends 'HTML::FormFu::Filter';
 
 use Encode qw(encode decode FB_CROAK);
 
-__PACKAGE__->mk_item_accessors($_) for qw(_candidates encode_to);
+has encode_to => ( is => 'rw', traits => ['Chained'] );
+
+has _candidates => ( is => 'rw' );
 
 sub filter {
     my ( $self, $value ) = @_;

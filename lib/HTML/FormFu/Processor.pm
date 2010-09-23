@@ -1,59 +1,29 @@
 package HTML::FormFu::Processor;
+use Moose;
 
-use strict;
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::NestedHashUtils',
+     'HTML::FormFu::Role::HasParent',
+     'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw(
-    mk_item_accessors
-    mk_accessors
     mk_output_accessors
     mk_inherited_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
-    populate                form
+    form
     name                    nested_name
-    nested_names            get_nested_hash_value
-    set_nested_hash_value   nested_hash_key_exists
-    parent                  get_parent
-);
+    nested_names            parent );
 
 use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( type ));
+has type => ( is => 'rw', traits  => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( message ));
 
 __PACKAGE__->mk_inherited_accessors(qw( locale ));
 
 *field = \&parent;
-
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    my $self = bless {}, $class;
-
-    for (qw( type )) {
-        croak "$_ attribute required" if !exists $attrs{$_};
-    }
-
-    if ( exists $attrs{parent} ) {
-        $self->parent( delete $attrs{parent} );
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
 
 sub localize_args {
     my $self = shift;

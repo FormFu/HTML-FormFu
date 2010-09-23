@@ -1,13 +1,13 @@
 package HTML::FormFu::Deflator::CompoundSplit;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-__PACKAGE__->mk_item_accessors(qw( split join ));
-
-__PACKAGE__->mk_accessors(qw( field_order ));
+has split       => ( is => 'rw', traits => ['Chained'] );
+has join        => ( is => 'rw', traits => ['Chained'] );
+has field_order => ( is => 'rw', traits  => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

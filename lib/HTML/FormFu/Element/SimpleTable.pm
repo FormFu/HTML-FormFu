@@ -1,23 +1,22 @@
 package HTML::FormFu::Element::SimpleTable;
 
-use strict;
-use base 'HTML::FormFu::Element::Block';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Element::Block';
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( odd_class even_class ));
+has odd_class  => ( is => 'rw', traits => ['Chained'] );
+has even_class => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->tag('table');
 
-    return $self;
-}
+    return;
+};
 
 sub headers {
     my ( $self, $headers ) = @_;
@@ -103,7 +102,7 @@ sub render_data_non_recursive {    # though it is really recursive
         $i++;
     }
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );

@@ -1,22 +1,19 @@
 package HTML::FormFu::Element::Radiogroup;
-
-use strict;
-use base 'HTML::FormFu::Element::Checkboxgroup';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Element::Checkboxgroup';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
 
-__PACKAGE__->mk_item_accessors(qw( radiogroup_filename ));
+has radiogroup_filename => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->input_type('radio');
 
-    return $self;
-}
+    return;
+};
 
 1;
 

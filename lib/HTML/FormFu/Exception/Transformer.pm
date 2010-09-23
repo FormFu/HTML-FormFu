@@ -1,8 +1,8 @@
 package HTML::FormFu::Exception::Transformer;
 
-use strict;
 
-use base 'HTML::FormFu::Exception::Input';
+use Moose;
+extends 'HTML::FormFu::Exception::Input';
 
 sub stage {
     return 'transformer';

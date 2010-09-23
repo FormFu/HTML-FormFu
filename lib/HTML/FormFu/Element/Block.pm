@@ -1,22 +1,31 @@
 package HTML::FormFu::Element::Block;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
+
+with 'HTML::FormFu::Role::CreateChildren',
+     'HTML::FormFu::Role::GetProcessors',
+     'HTML::FormFu::Role::ContainsElements',
+     'HTML::FormFu::Role::ContainsElementsSharedWithField',
+     'HTML::FormFu::Role::FormAndBlockMethods';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
-use HTML::FormFu::ObjectUtil qw( :FORM_AND_BLOCK );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
-use Carp qw( croak );
 use Clone ();
 use List::MoreUtils qw( uniq );
+use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw(
-        tag                         _elements
-        nested_name                 original_nested_name
-        auto_block_id
-) );
+has tag                  => ( is => 'rw', traits => ['Chained'] );
+has nested_name          => ( is => 'rw', traits => ['Chained'] );
+has original_nested_name => ( is => 'rw', traits => ['Chained'] );
+has auto_block_id        => ( is => 'rw', traits => ['Chained'] );
+
+has _elements => (
+    is      => 'rw',
+    default => sub { [] },
+    lazy    => 1,
+    isa     => 'ArrayRef',
+);
 
 __PACKAGE__->mk_output_accessors(qw( content ));
 
@@ -37,17 +46,15 @@ __PACKAGE__->mk_inherited_accessors( qw(
 *transformers = \&transformer;
 *plugins      = \&plugin;
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
-    $self->_elements( [] );
-    $self->default_args( {} );
-    $self->filename('block');
-    $self->tag('div');
-    $self->is_block(1);
-
-    return $self;
-}
+    $self->filename( 'block' );
+    $self->tag(      'div' );
+    $self->is_block( 1 );
+    
+    return;
+};
 
 sub _single_plugin {
     my ( $self, $arg ) = @_;
@@ -125,7 +132,7 @@ sub render_data {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             tag     => $self->tag,
             content => xml_escape( $self->content ),
             $args ? %$args : (),
@@ -238,13 +245,13 @@ sub end {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
     $clone->_elements( [ map { $_->clone } @{ $self->_elements } ] );
 
     map { $_->parent($clone) } @{ $clone->_elements };
 
-    $clone->default_args( Clone::clone $self->default_args );
+    $clone->default_args( Clone::clone( $self->default_args ) );
 
     return $clone;
 }

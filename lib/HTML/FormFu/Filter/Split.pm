@@ -1,9 +1,10 @@
 package HTML::FormFu::Filter::Split;
 
-use strict;
-use base 'HTML::FormFu::Filter';
+use Moose;
+extends 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_item_accessors(qw( regex limit ));
+has regex => ( is => 'rw', traits => ['Chained'] );
+has limit => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

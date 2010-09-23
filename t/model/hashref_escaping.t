@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 8;
 
 use HTML::FormFu;
 use HTML::FormFu::Model::HashRef;
@@ -68,5 +68,3 @@ $form->populate(
 $form->process( { foo => 1, bar => 2, foo_bar => 3 } );
 
 is_deeply($form->model('HashRef')->create, { foo => 1, bar => 2, foo_bar => 3 });
-
-done_testing;

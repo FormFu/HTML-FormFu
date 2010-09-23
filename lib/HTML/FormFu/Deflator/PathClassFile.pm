@@ -1,9 +1,11 @@
 package HTML::FormFu::Deflator::PathClassFile;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
-__PACKAGE__->mk_item_accessors(qw( relative absolute basename ));
+has relative => ( is => 'rw', traits => ['Chained'] );
+has absolute => ( is => 'rw', traits => ['Chained'] );
+has basename => ( is => 'rw', traits => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

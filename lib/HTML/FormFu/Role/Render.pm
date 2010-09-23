@@ -1,10 +1,8 @@
-package HTML::FormFu::base;
-use strict;
-use MRO::Compat;
-use mro 'c3';
-
+package HTML::FormFu::Role::Render;
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );
+
+use Moose::Role;
 
 our $SHARE_DIR;
 our $SHARE_ERROR;

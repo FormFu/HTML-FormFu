@@ -1,8 +1,8 @@
 package HTML::FormFu::I18N::en;
-use strict;
 use utf8;
 
-use base qw( HTML::FormFu::I18N );
+use Moose;
+extends 'HTML::FormFu::I18N';
 
 our %Lexicon = (
     form_error_message =>

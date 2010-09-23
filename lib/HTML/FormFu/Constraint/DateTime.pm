@@ -1,21 +1,15 @@
 package HTML::FormFu::Constraint::DateTime;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
 use DateTime::Format::Builder;
 
-__PACKAGE__->mk_item_accessors(qw( _builder ));
-
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->_builder( DateTime::Format::Builder->new );
-
-    return $self;
-}
+has _builder => (
+    is      => 'rw',
+    default => sub { DateTime::Format::Builder->new },
+    lazy    => 1,
+);
 
 sub parser {
     my $self = shift;
@@ -38,7 +32,7 @@ sub constrain_value {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
     $clone->_builder( $self->_builder->clone );
 

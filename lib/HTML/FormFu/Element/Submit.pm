@@ -1,17 +1,15 @@
 package HTML::FormFu::Element::Submit;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::Button';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element::Button';
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('submit');
 
-    return $self;
-}
+    return;
+};
 
 1;
 

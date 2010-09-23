@@ -1,25 +1,25 @@
 package HTML::FormFu::OutputProcessor::Indent;
 
-use strict;
-use base 'HTML::FormFu::OutputProcessor';
+use Moose;
+extends 'HTML::FormFu::OutputProcessor';
 
-use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 use HTML::TokeParser::Simple;
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_item_accessors(qw( indent ));
+has indent => (
+    is      => 'rw',
+    default => "\t",
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-__PACKAGE__->mk_accessors(qw( preserve_tags ));
-
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->indent("\t");
-    $self->preserve_tags( [qw( pre textarea )] );
-
-    return $self;
-}
+has preserve_tags => (
+    is      => 'rw',
+    default => sub { [qw( pre textarea )] },
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
 sub process {
     my ( $self, $input ) = @_;

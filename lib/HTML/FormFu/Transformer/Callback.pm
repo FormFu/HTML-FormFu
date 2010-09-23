@@ -1,9 +1,9 @@
 package HTML::FormFu::Transformer::Callback;
 
-use strict;
-use base 'HTML::FormFu::Transformer';
+use Moose;
+extends 'HTML::FormFu::Transformer';
 
-__PACKAGE__->mk_item_accessors(qw( callback ));
+has callback => ( is => 'rw', traits => ['Chained'] );
 
 sub transformer {
     my ( $self, $value, $params ) = @_;

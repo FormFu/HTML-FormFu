@@ -371,7 +371,6 @@ sub require_class {
         eval { require $class };
         croak $@ if $@;
 
-        Class::C3::initialize();
     }
 
     return;

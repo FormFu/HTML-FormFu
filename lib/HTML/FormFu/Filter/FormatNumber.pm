@@ -1,7 +1,7 @@
 package HTML::FormFu::Filter::FormatNumber;
 
-use strict;
-use base 'HTML::FormFu::Filter';
+use Moose;
+extends 'HTML::FormFu::Filter';
 
 use Number::Format;
 use POSIX qw( setlocale LC_NUMERIC );

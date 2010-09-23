@@ -1,9 +1,8 @@
 package HTML::FormFu::Element::Select;
+use Moose;
+extends 'HTML::FormFu::Element';
 
-use strict;
-use base 'HTML::FormFu::Element::_Group';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Element::Group';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
@@ -11,15 +10,15 @@ use List::MoreUtils qw( any );
 
 __PACKAGE__->mk_attr_accessors(qw( multiple size ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->filename('input');
     $self->field_filename('select_tag');
     $self->multi_value(1);
 
-    return $self;
-}
+    return;
+};
 
 sub _prepare_attrs {
     my ( $self, $submitted, $value, $default, $option ) = @_;

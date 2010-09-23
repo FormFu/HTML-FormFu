@@ -1,12 +1,12 @@
 package HTML::FormFu::Element::ComboBox;
-use strict;
-use base 'HTML::FormFu::Element::Multi';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Element::Multi';
 
-use HTML::FormFu::Element::_Group qw( _process_options_from_model );
+with 'HTML::FormFu::Role::Element::ProcessOptionsFromModel';
+
 use HTML::FormFu::Util qw( _filter_components _parse_args );
 use List::MoreUtils qw( any );
+use Moose::Util qw( apply_all_roles );
 
 our @DEFER_TO_SELECT = qw(
     empty_first
@@ -15,12 +15,12 @@ our @DEFER_TO_SELECT = qw(
     value_range
 );
 
-__PACKAGE__->mk_accessors(
-    @DEFER_TO_SELECT,
-    qw(
-        select
-        text
-        ) );
+for my $name ( @DEFER_TO_SELECT ) {
+    has $name => ( is => 'rw', traits  => ['Chained'] );
+}
+
+has select => ( is => 'rw', traits  => ['Chained'], default => sub { {} } );
+has text   => ( is => 'rw', traits  => ['Chained'], default => sub { {} } );
 
 *default = \&value;
 
@@ -50,18 +50,14 @@ for my $method ( qw(
     *{$name} = $sub;
 }
 
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->multi_value(1);
-    $self->empty_first(1);
-
-    $self->select( { type => '_MultiSelect', } );
-
-    $self->text( { type => '_MultiText', } );
-
-    return $self;
-}
+after BUILD => sub {
+    my ( $self, $args ) = @_;
+    
+    $self->multi_value( 1 );
+    $self->empty_first( 1 );
+    
+    return;
+};
 
 sub options {
     my ( $self, @args ) = @_;
@@ -157,9 +153,11 @@ sub _add_select {
     my $select_name = _build_field_name( $self, 'select' );
 
     my $select_element = $self->element( {
-            type => $select->{type},
+            type => 'Select',
             name => $select_name,
         } );
+
+    apply_all_roles( $select_element, 'HTML::FormFu::Role::Element::MultiElement' );
 
     for my $method (@DEFER_TO_SELECT) {
         if ( defined( my $value = $self->$method ) ) {
@@ -189,9 +187,11 @@ sub _add_text {
     my $text_name = _build_field_name( $self, 'text' );
 
     my $text_element = $self->element( {
-            type => $text->{type},
+            type => 'Text',
             name => $text_name,
         } );
+
+    apply_all_roles( $text_element, 'HTML::FormFu::Role::Element::MultiElement' );
 
     if ( defined( my $default = $text->{default} ) ) {
         $text_element->default($default);
@@ -223,7 +223,7 @@ sub process {
 
     $self->_add_elements;
 
-    return $self->next::method(@args);
+    return $self->SUPER::process(@args);
 }
 
 sub process_input {
@@ -247,7 +247,7 @@ sub process_input {
         );
     }
 
-    return $self->next::method($input);
+    return $self->SUPER::process_input($input);
 }
 
 sub render_data {
@@ -257,7 +257,7 @@ sub render_data {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );

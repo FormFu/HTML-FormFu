@@ -18,6 +18,7 @@ requires 'Exporter' => '5.57';
 requires 'Captcha::reCAPTCHA' => 0.93;
 requires 'Class::Accessor::Chained::Fast';
 requires 'Clone' => '0.31';
+requires 'Class::MOP::Method';
 requires 'Config::Any' => '0.18'; # 0.10 - supports multi-doc config files
                                   # 0.18 - prefers YAML::XS for YAML
 requires 'Crypt::CBC';
@@ -39,7 +40,10 @@ requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext';
 requires 'Module::Pluggable';
-requires 'MRO::Compat';
+requires 'Moose';
+requires 'MooseX::Aliases';
+requires 'MooseX::ChainedAccessors::Accessor';
+requires 'MooseX::SetOnce';
 requires 'Number::Format';
 requires 'Readonly';
 requires 'Regexp::Common';

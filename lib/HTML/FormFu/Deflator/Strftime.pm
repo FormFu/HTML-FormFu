@@ -1,9 +1,9 @@
 package HTML::FormFu::Deflator::Strftime;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
-__PACKAGE__->mk_item_accessors(qw( strftime ));
+has strftime => ( is => 'rw', traits => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

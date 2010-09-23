@@ -1,7 +1,7 @@
 package HTML::FormFu::Constraint::SingleValue;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
 sub constrain_values {
     my ( $self, $values ) = @_;

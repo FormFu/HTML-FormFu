@@ -1,7 +1,7 @@
 package HTML::FormFu::QueryType::CGI;
 
-use strict;
-use base 'HTML::FormFu::Upload';
+use Moose;
+extends 'HTML::FormFu::Upload';
 
 use HTTP::Headers;
 use Scalar::Util qw( blessed );

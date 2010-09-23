@@ -1,14 +1,14 @@
 package HTML::FormFu::Deflator::CompoundDateTime;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime;
 use List::MoreUtils qw( none );
 use Carp qw( croak );
 
-__PACKAGE__->mk_accessors(qw( field_order ));
+has field_order => ( is => 'rw', traits  => ['Chained'] );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

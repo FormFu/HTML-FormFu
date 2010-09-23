@@ -1,12 +1,12 @@
 package HTML::FormFu::Constraint::reCAPTCHA;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
 use Captcha::reCAPTCHA;
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors(qw( _recaptcha_response ));
+has _recaptcha_response => ( is => 'rw' );
 
 sub process {
     my ( $self, $params ) = @_;
@@ -87,8 +87,7 @@ directly.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from  
-L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
+Is a sub-class of, and inherits methods from L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>
 

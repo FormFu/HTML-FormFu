@@ -1,7 +1,8 @@
 package HTML::FormFu::Constraint::DependOn;
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
-use strict;
-use base 'HTML::FormFu::Constraint::_others';
+with 'HTML::FormFu::Role::Constraint::Others';
 
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS

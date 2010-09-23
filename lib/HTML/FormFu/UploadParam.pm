@@ -1,32 +1,14 @@
 package HTML::FormFu::UploadParam;
+use Moose;
 
-use strict;
 use Carp qw( croak );
 
-use HTML::FormFu::Attribute qw( mk_item_accessors );
 use File::Temp qw( tempfile );
 use Scalar::Util qw( reftype blessed weaken );
 use Storable qw( nfreeze thaw );
 
-__PACKAGE__->mk_item_accessors(qw( param filename ));
-
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    croak "param attribute required" if !exists $attrs{param};
-
-    my $self = bless \%attrs, $class;
-
-    return $self;
-}
+has param    => ( is => 'rw', traits => ['Chained'], required => 1 );
+has filename => ( is => 'rw', traits => ['Chained'] );
 
 sub form {
     my $self = shift;

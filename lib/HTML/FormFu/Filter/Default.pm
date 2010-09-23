@@ -1,9 +1,9 @@
 package HTML::FormFu::Filter::Default;
 
-use strict;
-use base 'HTML::FormFu::Filter';
+use Moose;
+extends 'HTML::FormFu::Filter';
 
-__PACKAGE__->mk_item_accessors(qw( value ));
+has value => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

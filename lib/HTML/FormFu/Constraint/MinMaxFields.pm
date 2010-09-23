@@ -1,22 +1,29 @@
 package HTML::FormFu::Constraint::MinMaxFields;
+use Moose;
+use MooseX::Aliases;
+extends 'HTML::FormFu::Constraint';
 
-use strict;
-use base 'HTML::FormFu::Constraint::_others';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Constraint::Others';
 
-__PACKAGE__->mk_item_accessors(qw( minimum maximum ));
+has minimum => (
+    is      => 'rw',
+    alias   => 'min',
+    traits  => ['Chained'],
+);
 
-*min = \&minimum;
-*max = \&maximum;
+has maximum => (
+    is      => 'rw',
+    alias   => 'max',
+    traits  => ['Chained'],
+);
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->attach_errors_to_base(1);
 
-    return $self;
-}
+    return;
+};
 
 sub process {
     my ( $self, $params ) = @_;

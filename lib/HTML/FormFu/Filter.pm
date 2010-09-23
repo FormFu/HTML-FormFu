@@ -1,42 +1,18 @@
 package HTML::FormFu::Filter;
+use Moose;
 
-use strict;
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::NestedHashUtils',
+     'HTML::FormFu::Role::HasParent',
+     'HTML::FormFu::Role::Populate';
 
-use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors
-    mk_inherited_accessors );
+use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
-    populate form name parent nested_name nested_names get_nested_hash_value
-    set_nested_hash_value nested_hash_key_exists get_parent );
-use Scalar::Util qw( reftype );
+    form name parent nested_name nested_names );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( type ));
+has type => ( is => 'rw', traits  => ['Chained'] );
 
-__PACKAGE__->mk_accessors(qw( localize_args ));
-
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    my $self = bless {}, $class;
-
-    if ( exists $attrs{parent} ) {
-        $self->parent( delete $attrs{parent} );
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
+has localize_args => ( is => 'rw', traits  => ['Chained'] );
 
 sub process {
     my ( $self, $result, $params ) = @_;

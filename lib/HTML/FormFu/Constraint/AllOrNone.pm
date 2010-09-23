@@ -1,7 +1,8 @@
 package HTML::FormFu::Constraint::AllOrNone;
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
-use strict;
-use base 'HTML::FormFu::Constraint::_others';
+with 'HTML::FormFu::Role::Constraint::Others';
 
 sub process {
     my ( $self, $params ) = @_;

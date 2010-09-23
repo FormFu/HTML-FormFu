@@ -1,11 +1,12 @@
 package HTML::FormFu::Exception::Input;
 
-use strict;
-use base 'HTML::FormFu::Exception';
+use Moose;
+extends 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );
 
-__PACKAGE__->mk_item_accessors(qw( processor forced ));
+has processor => ( is => 'rw', traits => ['Chained'] );
+has forced    => ( is => 'rw', traits => ['Chained'] );
 
 sub name {
     my ($self) = @_;

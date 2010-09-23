@@ -1,23 +1,23 @@
 package HTML::FormFu::Element::Checkbox;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
+
+with 'HTML::FormFu::Role::Element::Input';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
 __PACKAGE__->mk_output_accessors(qw( default ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
-    $self->field_type('checkbox');
-    $self->reverse_multi(1);
-    $self->value(1);
-
-    return $self;
-}
+    $self->field_type(    'checkbox' );
+    $self->reverse_multi( 1 );
+    $self->value(         1 );
+    
+    return;
+};
 
 sub process_value {
     my ( $self, $input ) = @_;
@@ -60,7 +60,7 @@ sub prepare_attrs {
         $render->{attributes}{checked} = 'checked';
     }
 
-    $self->next::method($render);
+    $self->SUPER::prepare_attrs($render);
 
     return;
 }

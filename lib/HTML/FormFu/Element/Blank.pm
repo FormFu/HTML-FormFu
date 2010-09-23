@@ -1,25 +1,33 @@
 package HTML::FormFu::Element::Blank;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
+extends 'HTML::FormFu::Element';
+
+with 'HTML::FormFu::Role::Element::Input';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-sub label_tag {
-    return $EMPTY_STR;
-}
+after BUILD => sub {
+    my $self = shift;
+    
+    $self->label_tag(  $EMPTY_STR );
+    #$self->field_type( $EMPTY_STR );
+    $self->render(     $EMPTY_STR );
+    
+    return;
+};
 
 sub field_tag {
     return $EMPTY_STR;
 }
 
-sub render {
+override render => sub {
     return $EMPTY_STR;
-}
+};
 
-sub render_data_non_recursive {
+around render_data_non_recursive => sub {
     return;
-}
+};
 
 1;
 

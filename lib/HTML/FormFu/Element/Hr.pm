@@ -1,17 +1,17 @@
 package HTML::FormFu::Element::Hr;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_NonBlock';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
 
-sub new {
-    my $self = shift->next::method(@_);
+with 'HTML::FormFu::Role::Element::NonBlock';
+
+after BUILD => sub {
+    my $self = shift;
 
     $self->tag('hr');
 
-    return $self;
-}
+    return;
+};
 
 1;
 

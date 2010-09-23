@@ -1,7 +1,7 @@
 package HTML::FormFu::Constraint::File::MinSize;
 
-use strict;
-use base 'HTML::FormFu::Constraint::File::Size';
+use Moose;
+extends 'HTML::FormFu::Constraint::File::Size';
 
 sub _localize_args {
     my ($self) = @_;

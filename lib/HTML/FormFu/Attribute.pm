@@ -2,68 +2,16 @@ package HTML::FormFu::Attribute;
 
 use strict;
 use Exporter qw( import );
+use Class::MOP::Method;
 use HTML::FormFu::Util qw(
     append_xml_attribute remove_xml_attribute literal
     _parse_args );
-
-use Carp qw( carp );
 
 our @EXPORT_OK = qw(
     mk_attrs                        mk_attr_accessors
     mk_attr_modifiers               mk_inherited_accessors
     mk_output_accessors             mk_inherited_merging_accessors
-    mk_item_accessors               mk_accessors
 );
-
-sub mk_accessors {
-    my $class = shift;
-
-    for my $name (@_) {
-        my $sub = sub {
-            my $self = shift;
-
-            if ( @_ == 1 ) {
-                $self->{$name} = $_[0];
-                return $self;
-            }
-            elsif (@_) {
-                carp "Passing multiple arguments to method '$name' is deprecated\n" .
-                     "and will be removed in the *next* cpan release!\n" .
-                     "Pass an explicit array-ref instead.";
-
-                $self->{$name} = [@_];
-                return $self;
-            }
-            else {
-                return $self->{$name};
-            }
-        };
-
-        no strict 'refs';
-        *{"$class\::$name"} = $sub;
-    }
-}
-
-sub mk_item_accessors {
-    my $class = shift;
-
-    for my $name (@_) {
-        my $sub = sub {
-            my $self = shift;
-
-            if (@_) {
-                $self->{$name} = $_[0];
-                return $self;
-            }
-            else {
-                return $self->{$name};
-            }
-        };
-
-        no strict 'refs';
-        *{"$class\::$name"} = $sub;
-    }
-}
 
 sub mk_attrs {
     my ( $self, @names ) = @_;
@@ -72,56 +20,53 @@ sub mk_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
+            my ($self, $attrs) = @_;
 
             if ( !exists $self->{$name} ) {
                 $self->{$name} = {};
             }
 
-            return $self->{$name} if !@_;
+            return $self->{$name} if @_ == 1;
 
             my $attr_slot = $self->{$name};
 
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
-
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method '$name' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
-
-            while ( my ( $key, $value ) = each %attrs ) {
+            while ( my ( $key, $value ) = each %$attrs ) {
                 $attr_slot->{$key} = $value;
             }
 
             return $self;
         };
 
-        my $xml_sub = sub {
-            my $self = shift;
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method '${name}_xml' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
+        my $xml_sub = sub {
+            my ($self, $attrs) = @_;
 
             return $self->$name({
-                map { $_, literal( $attrs{$_} ) }
-                    keys %attrs
+                map { $_, literal( $attrs->{$_} ) }
+                    keys %$attrs
             });
         };
 
-        no strict 'refs';
-        *{"$class\::$name"}       = $sub;
-        *{"$class\::${name}_xml"} = $xml_sub;
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "${name}_xml",
+            package_name => $class,
+        );
+
+        $class->meta->add_method( $name, $method );
+        $class->meta->add_method( "${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            *{"$class\::$short"}       = $sub;
-            *{"$class\::${short}_xml"} = $xml_sub;
+            
+            $class->meta->add_method( $short, $method );
+            $class->meta->add_method( "${short}_xml", $xml_method );
         }
     }
 
@@ -138,23 +83,26 @@ sub mk_attr_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            return ( $_[0]->attributes->{$name} ) if @_ == 1;
-            my $self = shift;
-            $self->attributes->{$name} = $_[0];
+            my ($self, $attr) = @_;
+            
+            return $self->attributes->{$name} if @_ == 1;
+            
+            $self->attributes->{$name} = $attr;
+            
             return $self;
         };
 
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
+
         my $xml_sub = sub {
-            my $self = shift;
+            my ($self, @attrs) = @_;
             my @args;
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method '${name}_xml' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
-
-            for my $item (@_) {
+            for my $item (@attrs) {
                 if ( ref $item eq 'HASH' ) {
                     push @args, { map { $_, literal($_) } keys %$item };
                 }
@@ -167,15 +115,22 @@ sub mk_attr_accessors {
             }
             return $self->$name([@args]);
         };
-        no strict 'refs';
-        *{"$class\::$name"}       = $sub;
-        *{"$class\::${name}_xml"} = $xml_sub;
-
+        
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "${name}_xml",
+            package_name => $class,
+        );
+        
+        $class->meta->add_method( $name, $method );
+        $class->meta->add_method( "${name}_xml", $xml_method );
+        
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            *{"$class\::$short"}       = $sub;
-            *{"$class\::${short}_xml"} = $xml_sub;
+            
+            $class->meta->add_method( $short, $method );
+            $class->meta->add_method( "${short}_xml", $xml_method );
         }
     }
 
@@ -189,47 +144,46 @@ sub mk_add_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+            my ($self, $attrs) = @_;
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method 'add_$name' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
-
-            while ( my ( $key, $value ) = each %attrs ) {
+            while ( my ( $key, $value ) = each %$attrs ) {
                 append_xml_attribute( $self->{$name}, $key, $value );
             }
             return $self;
         };
-        my $xml_sub = sub {
-            my $self = shift;
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method 'add_${name}_xml' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => "add_$name",
+            package_name => $class,
+        );
+
+        my $xml_sub = sub {
+            my ($self, $attrs) = @_;
 
             my $method = "add_$name";
 
             return $self->$method( {
-                    map { $_, literal( $attrs{$_} ) }
-                        keys %attrs
+                    map { $_, literal( $attrs->{$_} ) }
+                        keys %$attrs
                 } );
         };
 
-        no strict 'refs';
-        *{"$class\::add_$name"}       = $sub;
-        *{"$class\::add_${name}_xml"} = $xml_sub;
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "add_${name}_xml",
+            package_name => $class,
+        );
+
+        $class->meta->add_method( "add_$name", $method );
+        $class->meta->add_method( "add_${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            *{"$class\::add_$short"}       = $sub;
-            *{"$class\::add_${short}_xml"} = $xml_sub;
+            
+            $class->meta->add_method( "add_$short", $method );
+            $class->meta->add_method( "add_${short}_xml", $xml_method );
         }
     }
 
@@ -243,46 +197,46 @@ sub mk_del_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
+            my ($self, $attrs) = @_;
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method 'del_$name' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
-
-            while ( my ( $key, $value ) = each %attrs ) {
+            while ( my ( $key, $value ) = each %$attrs ) {
                 remove_xml_attribute( $self->{$name}, $key, $value );
             }
             return $self;
         };
-        my $xml_sub = sub {
-            my $self = shift;
-            my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
 
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method 'del_${name}_xml' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => "del_$name",
+            package_name => $class,
+        );
+
+        my $xml_sub = sub {
+            my ($self, $attrs) = @_;
 
             my $method = "del_$name";
 
             return $self->$method( {
-                    map { $_, literal( $attrs{$_} ) }
-                        keys %attrs
+                    map { $_, literal( $attrs->{$_} ) }
+                        keys %$attrs
                 } );
         };
-        no strict 'refs';
-        *{"$class\::del_$name"}       = $sub;
-        *{"$class\::del_${name}_xml"} = $xml_sub;
+
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "del_${name}_xml",
+            package_name => $class,
+        );
+
+        $class->meta->add_method( "del_$name", $method );
+        $class->meta->add_method( "del_${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            *{"$class\::del_$short"}       = $sub;
-            *{"$class\::del_${short}_xml"} = $xml_sub;
+            
+            $class->meta->add_method( "del_$short", $method );
+            $class->meta->add_method( "del_${short}_xml", $xml_method );
         }
     }
 
@@ -296,9 +250,10 @@ sub mk_inherited_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
-            if (@_) {
-                $self->{$name} = $_[0];
+            my ($self, $value) = @_;
+            
+            if (@_ > 1) {
+                $self->{$name} = $value;
                 return $self;
             }
 
@@ -311,8 +266,14 @@ sub mk_inherited_accessors {
             }
             return $self->{$name};
         };
-        no strict 'refs';
-        *{"$class\::$name"} = $sub;
+        
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
+        
+        $class->meta->add_method( $name, $method );
     }
 
     return;
@@ -327,17 +288,10 @@ sub mk_inherited_merging_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
+            my ($self, $attrs) = @_;
+            
             if (@_) {
-                my %attrs = ( @_ == 1 ) ? %{ $_[0] } : @_;
-
-            if ( @_ > 1 ) {
-                carp "Passing multiple arguments to method 'add_$name' is deprecated\n" .
-                     "and will be removed soon!\n" .
-                     "Pass an explicit hash-ref instead.";
-            }
-
-                while ( my ( $key, $value ) = each %attrs ) {
+                while ( my ( $key, $value ) = each %$attrs ) {
                     append_xml_attribute( $self->{$name}, $key, $value );
                 }
                 return $self;
@@ -352,8 +306,14 @@ sub mk_inherited_merging_accessors {
             }
             return $self->{$name};
         };
-        no strict 'refs';
-        *{"$class\::add_$name"} = $sub;
+        
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => "add_$name",
+            package_name => $class,
+        );
+        
+        $class->meta->add_method( "add_$name", $method );
     }
 
     return;
@@ -366,18 +326,32 @@ sub mk_output_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my $self = shift;
-            if (@_) {
-                $self->{$name} = $_[0];
+            my ($self, $value) = @_;
+            if ( @_ > 1) {
+                $self->{$name} = $value;
                 return $self;
             }
             return $self->{$name};
         };
+        
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
+        
         my $xml_sub = sub {
             my ( $self, $arg ) = @_;
 
             return $self->$name( literal($arg) );
         };
+        
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "${name}_xml",
+            package_name => $class,
+        );
+        
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;
 
@@ -388,10 +362,16 @@ sub mk_output_accessors {
             return $self->$name(
                 literal( $self->form->localize( $mess, @args ) ) );
         };
-        no strict 'refs';
-        *{"$class\::$name"}       = $sub;
-        *{"$class\::${name}_xml"} = $xml_sub;
-        *{"$class\::${name}_loc"} = $loc_sub;
+        
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "${name}_loc",
+            package_name => $class,
+        );
+        
+        $class->meta->add_method( $name, $method );
+        $class->meta->add_method( "${name}_xml", $xml_method );
+        $class->meta->add_method( "${name}_loc", $loc_method );
     }
 
     return;

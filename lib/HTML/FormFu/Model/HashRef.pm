@@ -1,45 +1,30 @@
 package HTML::FormFu::Model::HashRef;
+use Moose;
 
-use strict;
-use warnings;
-
-use base qw( HTML::FormFu::Model );
-
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Model';
 
 use Hash::Flatten;
-
 use Scalar::Util qw(blessed);
 
-use HTML::FormFu::Attribute qw( mk_accessors );
+has flatten => ( is => 'rw' );
+has options => ( is => 'rw' );
 
-__PACKAGE__->mk_accessors(
-    qw(flatten options deflators inflators _repeatable _multi ));
+has _repeatable => ( is => 'rw', traits  => ['Chained'] );
+has _multi      => ( is => 'rw', traits  => ['Chained'] );
 
-# for later moosification
-# use Moose;
-#
-# extends qw( HTML::FormFu::Model );
-#
-# has 'flatten'   => ( is => 'rw', isa => 'Bool' );
-# has 'options'   => ( is => 'rw', isa => 'Bool' );
-# has 'deflators' => ( is => 'rw', isa => 'Bool' );
-# has 'inflators' => ( is => 'rw', isa => 'Bool' );
-#
-# override 'new' => sub {
-#     my $self = super();
-#     $self->deflators(1);
-#     $self->inflators(1);
-#     return $self;
-# };
+has deflators => (
+    is      => 'rw',
+    default => 1,
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-sub new {
-    my $self = next::method(@_);
-    $self->deflators(1);
-    $self->inflators(1);
-    return $self;
-}
+has inflators => (
+    is      => 'rw',
+    default => 1,
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
 sub default_values {
     my ( $self, $data ) = @_;
@@ -183,7 +168,6 @@ sub _as_object_get {
 sub _escape_hash {
     my $hash = shift;
     my $method = shift || \&_escape_name;
-    return $hash unless(ref $hash);
     foreach my $k (keys %$hash) {
         my $v = delete $hash->{$k};
         if(ref $v eq 'HASH') {

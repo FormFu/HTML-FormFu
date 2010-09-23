@@ -1,44 +1,54 @@
 package HTML::FormFu::Element::DateTime;
 
-use strict;
-use base 'HTML::FormFu::Element::Date';
+use Moose;
+extends 'HTML::FormFu::Element::Date';
 
+use Moose::Util qw( apply_all_roles );
 use Scalar::Util qw( blessed );
 
 __PACKAGE__->mk_attrs(qw/ hour minute second /);
 
-__PACKAGE__->mk_accessors(qw/ printf_hour printf_minute printf_second /);
+for my $name ( qw(
+    printf_hour
+    printf_minute
+    printf_second
+    ))
+{
+    has $name => (
+        is      => 'rw',
+        default => '%02d',
+        lazy    => 1,
+        traits  => ['Chained'],
+    );
+}
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
-    $self->strftime("%d-%m-%Y %H:%M");
+    $self->strftime( "%d-%m-%Y %H:%M" );
 
     $self->_known_fields( [qw/ day month year hour minute second /] );
 
-    $self->field_order( [qw/ day month year hour minute /] );
+    $self->field_order( [qw( day month year hour minute )] );
 
     $self->hour( {
-            type   => '_MultiSelect',
             prefix => [],
         } );
 
     $self->minute( {
-            type   => '_MultiSelect',
             prefix => [],
         } );
 
     $self->second( {
-            type   => '_MultiSelect',
             prefix => [],
         } );
 
     $self->printf_hour  ('%02d');
     $self->printf_minute('%02d');
     $self->printf_second('%02d');
-
-    return $self;
-}
+    
+    return;
+};
 
 sub _add_hour {
     my ($self) = @_;
@@ -54,8 +64,8 @@ sub _add_hour {
 
     @hour_prefix = map { [ '', $_ ] } @hour_prefix;
 
-    $self->element( {
-            type    => $hour->{type},
+    my $element = $self->element( {
+            type    => 'Select',
             name    => $hour_name,
             options => [
                 @hour_prefix,
@@ -66,6 +76,8 @@ sub _add_hour {
             ? ( default => sprintf '%02d', $hour->{default} )
             : (),
         } );
+
+    apply_all_roles( $element, 'HTML::FormFu::Role::Element::MultiElement' );
 
     return;
 }
@@ -84,8 +96,8 @@ sub _add_minute {
 
     @minute_prefix = map { [ '', $_ ] } @minute_prefix;
 
-    $self->element( {
-            type    => $minute->{type},
+    my $element = $self->element( {
+            type    => 'Select',
             name    => $minute_name,
             options => [
                 @minute_prefix,
@@ -96,6 +108,8 @@ sub _add_minute {
             ? ( default => sprintf '%02d', $minute->{default} )
             : (),
         } );
+
+    apply_all_roles( $element, 'HTML::FormFu::Role::Element::MultiElement' );
 
     return;
 }
@@ -114,8 +128,8 @@ sub _add_second {
 
     @second_prefix = map { [ '', $_ ] } @second_prefix;
 
-    $self->element( {
-            type    => $second->{type},
+    my $element = $self->element( {
+            type    => 'Select',
             name    => $second_name,
             options => [
                 @second_prefix,
@@ -126,6 +140,8 @@ sub _add_second {
             ? ( default => sprintf '%02d', $second->{default} )
             : (),
         } );
+
+    apply_all_roles( $element, 'HTML::FormFu::Role::Element::MultiElement' );
 
     return;
 }

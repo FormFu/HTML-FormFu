@@ -1,9 +1,7 @@
 package HTML::FormFu::Inflator::CompoundDateTime;
 
-use strict;
-use base 'HTML::FormFu::Inflator';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Inflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime;
@@ -12,9 +10,8 @@ use List::MoreUtils qw( none );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( strptime ));
-
-__PACKAGE__->mk_accessors(qw( field_order ));
+has strptime    => ( is => 'rw', traits => ['Chained'] );
+has field_order => ( is => 'rw', traits => ['Chained'] );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

@@ -1,11 +1,12 @@
 package HTML::FormFu::Filter::CompoundJoin;
+use Moose;
+extends 'HTML::FormFu::Filter';
 
-use strict;
-use base 'HTML::FormFu::Filter::_Compound';
+with 'HTML::FormFu::Role::Filter::Compound';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-__PACKAGE__->mk_item_accessors(qw( join ));
+has join => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

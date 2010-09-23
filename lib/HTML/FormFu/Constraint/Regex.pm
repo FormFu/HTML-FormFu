@@ -1,13 +1,12 @@
 package HTML::FormFu::Constraint::Regex;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
 use Regexp::Common;
 
-__PACKAGE__->mk_item_accessors(qw( regex ));
-
-__PACKAGE__->mk_accessors(qw( common ));
+has common => ( is => 'rw', traits  => ['Chained'] );
+has regex  => ( is => 'rw', traits  => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

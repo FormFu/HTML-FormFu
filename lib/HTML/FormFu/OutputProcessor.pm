@@ -1,41 +1,14 @@
 package HTML::FormFu::OutputProcessor;
+use Moose;
 
-use strict;
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::HasParent',
+     'HTML::FormFu::Role::Populate';
 
-use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors );
-use HTML::FormFu::ObjectUtil qw( populate form parent );
+use HTML::FormFu::ObjectUtil qw( form parent );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( type ));
-
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    my $self = bless {}, $class;
-
-    for (qw( type )) {
-        croak "$_ attribute required" if !exists $attrs{$_};
-    }
-
-    if ( exists $attrs{parent} ) {
-        $self->parent( delete $attrs{parent} );
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
+has type => ( is => 'rw', traits  => ['Chained'] );
 
 sub clone {
     my ($self) = @_;

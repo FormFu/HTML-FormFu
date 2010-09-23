@@ -1,41 +1,43 @@
 package HTML::FormFu::OutputProcessor::StripWhitespace;
 
-use strict;
-use base 'HTML::FormFu::OutputProcessor';
+use Moose;
+extends 'HTML::FormFu::OutputProcessor';
 
-use HTML::FormFu::Attribute qw( mk_accessors );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::TokeParser::Simple;
 use List::MoreUtils qw( any );
 
-__PACKAGE__->mk_accessors( qw(
-        collapse_tags
-        collapse_consecutive_tags
-) );
+has collapse_tags => (
+    is      => 'rw',
+    default => sub {
+        [ qw(
+            fieldset
+            form
+            hr
+            legend
+            optgroup
+            option
+            table
+            td
+            th
+            tr
+        ) ]
+    },
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->collapse_tags( [ qw(
-                fieldset
-                form
-                hr
-                legend
-                optgroup
-                option
-                table
-                td
-                th
-                tr
-    ) ] );
-
-    $self->collapse_consecutive_tags( [ qw(
-                span
-                div
-    ) ] );
-
-    return $self;
-}
+has collapse_consecutive_tags => (
+    is      => 'rw',
+    default => sub {
+        [ qw(
+            span
+            div
+        ) ]
+    },
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
 sub process {
     my ( $self, $input ) = @_;

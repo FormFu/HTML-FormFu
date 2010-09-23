@@ -1,7 +1,7 @@
 package HTML::FormFu::Filter::HTMLEscape;
 
-use strict;
-use base 'HTML::FormFu::Filter';
+use Moose;
+extends 'HTML::FormFu::Filter';
 
 sub filter {
     my ( $self, $value ) = @_;

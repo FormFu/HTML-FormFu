@@ -1,21 +1,19 @@
 package HTML::FormFu::Element::Radio;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::Checkbox';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element::Checkbox';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
 __PACKAGE__->mk_output_accessors(qw( default ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('radio');
 
-    return $self;
-}
+    return;
+};
 
 1;
 

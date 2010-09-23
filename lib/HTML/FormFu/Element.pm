@@ -1,20 +1,18 @@
 package HTML::FormFu::Element;
-use strict;
-use base 'HTML::FormFu::base';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+
+with 'HTML::FormFu::Role::Render',
+     'HTML::FormFu::Role::FormAndElementMethods',
+     'HTML::FormFu::Role::HasParent';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
     mk_attr_accessors
-    mk_item_accessors
-    mk_accessors
     mk_output_accessors
-    mk_inherited_accessors mk_accessors
+    mk_inherited_accessors
     mk_inherited_merging_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
-    :FORM_AND_ELEMENT
     load_config_file
     load_config_filestem
     populate
@@ -23,9 +21,9 @@ use HTML::FormFu::ObjectUtil qw(
     parent
     get_parent
 );
-use HTML::FormFu::Util qw( require_class xml_escape );
+use HTML::FormFu::Util qw( require_class xml_escape process_attrs );
 use Clone ();
-use Scalar::Util qw( refaddr reftype weaken );
+use Scalar::Util qw( refaddr weaken );
 use Carp qw( croak );
 
 use overload (
@@ -40,13 +38,11 @@ __PACKAGE__->mk_attrs(qw( attributes ));
 
 __PACKAGE__->mk_attr_accessors(qw( id ));
 
-__PACKAGE__->mk_item_accessors( qw(
-        type
-        filename
-        is_field
-        is_block
-        is_repeatable
-) );
+has type         => ( is => 'rw', traits  => ['Chained'] );
+has filename     => ( is => 'rw', traits  => ['Chained'] );
+has is_field     => ( is => 'rw', traits  => ['Chained'] );
+has is_block     => ( is => 'rw', traits  => ['Chained'] );
+has is_repeatable => ( is => 'rw', traits  => ['Chained'] );
 
 __PACKAGE__->mk_inherited_accessors( qw(
         tt_args
@@ -56,30 +52,14 @@ __PACKAGE__->mk_inherited_accessors( qw(
 
 __PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
 
-sub new {
-    my $class = shift;
-    my %attrs;
-
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    my $self = bless {}, $class;
-
-    $self->attributes( {} );
-    $self->stash(      {} );
-
-    if ( exists $attrs{parent} ) {
-        $self->parent( delete $attrs{parent} );
-    }
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
+after BUILD => sub {
+    my ( $self, $args ) = @_;
+    # TODO move to attribute 'default'
+    $self->attributes({});
+    $self->stash({});
+    
+    return;
+};
 
 sub name {
     my ( $self, $name ) = @_;
@@ -158,11 +138,11 @@ sub clone {
 
     my %new = %$self;
 
-    $new{tt_args} = Clone::clone $self->{tt_args}
+    $new{tt_args} = Clone::clone( $self->{tt_args} )
         if $self->{tt_args};
 
-    $new{attributes}   = Clone::clone $self->attributes;
-    $new{model_config} = Clone::clone $self->model_config;
+    $new{attributes}   = Clone::clone( $self->attributes );
+    $new{model_config} = Clone::clone( $self->model_config );
 
     return bless \%new, ref $self;
 }
@@ -182,8 +162,8 @@ sub render_data_non_recursive {
         is_field   => $self->is_field,
         stash      => $self->stash,
         parent     => $self->parent,
-        form   => sub { return shift->{parent}->form },
-        object => $self,
+        form       => sub { return shift->{parent}->form },
+        object     => $self,
         $args ? %$args : (),
     );
 

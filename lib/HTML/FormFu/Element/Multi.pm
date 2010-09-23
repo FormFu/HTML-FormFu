@@ -1,37 +1,16 @@
 package HTML::FormFu::Element::Multi;
+use Moose;
+extends 'HTML::FormFu::Element::Block';
 
-use strict;
-use base 'HTML::FormFu::Element::Block', 'HTML::FormFu::Element::_Field';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' },
+     'HTML::FormFu::Role::Element::Field';
 
-use HTML::FormFu::Element::_Field qw( :FIELD );
 use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
 use Clone ();
 
-__PACKAGE__->mk_item_accessors( qw(
-        field_filename
-        label_filename
-        javascript
-        container_tag
-        label_tag
-) );
-
-__PACKAGE__->mk_output_accessors(qw( comment label value ));
-
-__PACKAGE__->mk_attrs( qw(
-        comment_attributes
-        container_attributes
-        label_attributes
-) );
-
-*default     = \&value;
-*default_xml = \&value_xml;
-*default_loc = \&value_loc;
-
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
@@ -40,14 +19,14 @@ sub new {
     $self->label_filename('label');
     $self->label_tag('label');
 
-    return $self;
-}
+    return;
+};
 
 sub get_fields {
     my $self = shift;
     my %args = _parse_args(@_);
 
-    my $f = $self->next::method(@_);
+    my $f = $self->SUPER::get_fields(@_);
 
     unshift @$f, $self;
 
@@ -150,7 +129,7 @@ sub clear_errors {
 sub render_data_non_recursive {
     my $self = shift;
 
-    my $render = $self->next::method(@_);
+    my $render = $self->SUPER::render_data_non_recursive(@_);
 
     append_xml_attribute( $render->{attributes}, 'class', 'elements' );
 
@@ -210,11 +189,11 @@ sub string {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
-    $clone->comment_attributes( Clone::clone $self->comment_attributes );
-    $clone->container_attributes( Clone::clone $self->container_attributes );
-    $clone->label_attributes( Clone::clone $self->label_attributes );
+    $clone->comment_attributes( Clone::clone( $self->comment_attributes ) );
+    $clone->container_attributes( Clone::clone( $self->container_attributes ) );
+    $clone->label_attributes( Clone::clone( $self->label_attributes ) );
 
     return $clone;
 }

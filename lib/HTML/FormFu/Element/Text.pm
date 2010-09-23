@@ -1,17 +1,17 @@
 package HTML::FormFu::Element::Text;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
 
-sub new {
-    my $self = shift->next::method(@_);
+with 'HTML::FormFu::Role::Element::Input';
+
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('text');
 
-    return $self;
-}
+    return;
+};
 
 1;
 

@@ -1,21 +1,26 @@
 package HTML::FormFu::Deflator::FormatNumber;
 
-use strict;
-use base 'HTML::FormFu::Deflator';
+use Moose;
+extends 'HTML::FormFu::Deflator';
 
 use Number::Format;
 use POSIX qw( setlocale LC_NUMERIC );
 
-__PACKAGE__->mk_item_accessors(qw( precision trailing_zeroes ));
+has precision => (
+    is      => 'rw',
+    default => 2,
+    lazy    => 1,
+    isa     => 'Int',
+    traits  => ['Chained'],
+);
 
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->precision(2);
-    $self->trailing_zeroes(0);
-
-    return $self;
-}
+has trailing_zeroes => (
+    is      => 'rw',
+    default => 0,
+    lazy    => 1,
+    isa     => 'Int',
+    traits  => ['Chained'],
+);
 
 sub deflator {
     my ( $self, $value ) = @_;

@@ -1,9 +1,7 @@
 package HTML::FormFu::Plugin::StashValid;
 
-use strict;
-use base 'HTML::FormFu::Plugin';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Plugin';
 
 sub post_process {
     my ($self) = @_;

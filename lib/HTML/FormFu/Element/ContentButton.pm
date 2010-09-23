@@ -1,28 +1,33 @@
 package HTML::FormFu::Element::ContentButton;
 
-use strict;
-use base 'HTML::FormFu::Element::_Field';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends "HTML::FormFu::Element";
+with 'HTML::FormFu::Role::Element::Field';
+with "HTML::FormFu::Role::Element::SingleValueField";
 
 use HTML::FormFu::Util qw( xml_escape process_attrs );
 
-__PACKAGE__->mk_item_accessors(qw( field_type ));
 __PACKAGE__->mk_output_accessors(qw( content ));
 
-sub new {
-    my $self = shift->next::method(@_);
+has field_type => (
+    is      => 'rw',
+    default => 'button',
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-    $self->filename('content_button');
-    $self->field_type('button');
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
-    return $self;
-}
+    $self->filename( 'content_button' );
+    
+    return;
+};
 
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             field_type => $self->field_type,
             content    => xml_escape( $self->content ),
             $args ? %$args : (),

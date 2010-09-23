@@ -1,33 +1,40 @@
 package HTML::FormFu::Element::reCAPTCHA;
 
-use strict;
-use base 'HTML::FormFu::Element::Multi';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Element::Multi';
 
 use HTML::FormFu::Util qw( process_attrs _merge_hashes );
 use Captcha::reCAPTCHA;
+use Clone ();
 use Scalar::Util qw( blessed );
 
-__PACKAGE__->mk_item_accessors( qw(
-        public_key
-        private_key
-        ssl
-        recaptcha_options
-) );
+has public_key  => ( is => 'rw', traits => ['Chained'] );
+has private_key => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+has ssl => (
+    is      => 'rw',
+    default => 'auto',
+    lazy    => 1,
+    traits  => ['Chained'],
+);
 
-    $self->ssl('auto');
-    $self->recaptcha_options( {} );
+has recaptcha_options => (
+    is      => 'rw',
+    default => sub { {} },
+    lazy    => 1,
+    traits  => ['Chained'],
+);
+
+after BUILD => sub {
+    my $self = shift;
+
     $self->filename('recaptcha');
     $self->constraint_args( { type => 'reCAPTCHA' } );
 
     $self->constraint( $self->constraint_args );
 
-    return $self;
-}
+    return;
+};
 
 sub constraint_args {
     my ( $self, $args ) = @_;
@@ -77,7 +84,7 @@ sub render_data_non_recursive {
         = $recaptcha->get_html( $pubkey, $error, $use_ssl, $recaptcha_options,
         );
 
-    my $render = $self->next::method( {
+    my $render = $self->SUPER::render_data_non_recursive( {
             recaptcha_html => $recaptcha_html,
             @_ ? %{ $_[0] } : () } );
 
@@ -116,9 +123,9 @@ sub string {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
-    $clone->recaptcha_options( Clone::clone $self->recaptcha_options );
+    $clone->recaptcha_options( Clone::clone( $self->recaptcha_options ) );
 
     return $clone;
 }

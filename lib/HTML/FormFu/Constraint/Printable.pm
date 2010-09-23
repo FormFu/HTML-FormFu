@@ -1,7 +1,7 @@
 package HTML::FormFu::Constraint::Printable;
 
-use strict;
-use base 'HTML::FormFu::Constraint::Regex';
+use Moose;
+extends 'HTML::FormFu::Constraint::Regex';
 
 sub regex {
     return qr/^\p{IsPrint}*\z/;

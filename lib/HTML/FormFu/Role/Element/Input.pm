@@ -1,36 +1,47 @@
-package HTML::FormFu::Element::_Input;
+package HTML::FormFu::Role::Element::Input;
+use Moose::Role;
+use MooseX::SetOnce;
 
-use strict;
-use base 'HTML::FormFu::Element::_Field';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Element::Field',
+     'HTML::FormFu::Role::Element::FieldMethods' => { -excludes => 'nested_name' },
+     'HTML::FormFu::Role::Element::Coercible';
 
-use HTML::FormFu::ObjectUtil qw( _coerce );
+use HTML::FormFu::Attribute qw(
+    mk_attrs
+    mk_attr_accessors
+    mk_output_accessors
+    mk_inherited_accessors
+    mk_inherited_merging_accessors
+);
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_item_accessors(qw( field_type ));
+has field_type => (
+    is       => 'rw',
+    #traits   => ['SetOnce'],
+);
 
 __PACKAGE__->mk_attr_accessors(qw( checked size maxlength alt ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->filename('input');
     $self->field_filename('input_tag');
 
-    return $self;
-}
+    return;
+};
 
-sub render_data_non_recursive {
-    my ( $self, $args ) = @_;
+around render_data_non_recursive => sub {
+    my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->next::method( {
-            field_type => $self->field_type,
-            $args ? %$args : (),
-        } );
+    my $render = $self->$orig( $args );
+
+    $render->{field_type} = $self->field_type;
+
+    #$self->_field_render_data_non_recursive;
 
     return $render;
-}
+};
 
 sub string {
     my ( $self, $args ) = @_;

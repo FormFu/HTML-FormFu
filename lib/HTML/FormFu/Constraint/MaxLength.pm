@@ -1,7 +1,7 @@
 package HTML::FormFu::Constraint::MaxLength;
 
-use strict;
-use base 'HTML::FormFu::Constraint::Length';
+use Moose;
+extends 'HTML::FormFu::Constraint::Length';
 
 sub _localize_args {
     my ($self) = @_;

@@ -1,24 +1,25 @@
 package HTML::FormFu::Element::Textarea;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Field';
-use MRO::Compat;
-use mro 'c3';
+extends "HTML::FormFu::Element";
+
+with 'HTML::FormFu::Role::Element::Field',
+     'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' };
 
 use HTML::FormFu::Util qw( process_attrs );
 
 __PACKAGE__->mk_attr_accessors(qw( cols rows ));
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->filename('input');
     $self->field_filename('textarea_tag');
     $self->cols(40);
     $self->rows(20);
 
-    return $self;
-}
+    return;
+};
 
 sub string {
     my ( $self, $args ) = @_;

@@ -23,6 +23,8 @@ $form->element('Radiogroup')->name('foo3')->options( [
 $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('My Bar');
 
+$form->process;
+
 my $field1_xhtml = qq{<fieldset class="radiogroup">
 <span>
 <span>

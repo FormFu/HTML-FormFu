@@ -1,17 +1,15 @@
 package HTML::FormFu::Element::Src;
 
-use strict;
-use base 'HTML::FormFu::Element::Block';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Element::Block';
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->tag(undef);
 
-    return $self;
-}
+    return;
+};
 
 1;
 

@@ -1,7 +1,7 @@
 package HTML::FormFu::QueryType::CGI::Simple;
 
-use strict;
-use base 'HTML::FormFu::QueryType::CGI';
+use Moose;
+extends 'HTML::FormFu::QueryType::CGI';
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

@@ -1,18 +1,18 @@
 package HTML::FormFu::Element::Button;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
 
-sub new {
-    my $self = shift->next::method(@_);
+with 'HTML::FormFu::Role::Element::Input';
 
-    $self->field_type('button');
-    $self->force_default(1);
+after BUILD => sub {
+    my ( $self, $args ) = @_;
 
-    return $self;
-}
+    $self->field_type(    'button' );
+    $self->force_default( 1 );
+    
+    return;
+};
 
 1;
 

@@ -1,18 +1,18 @@
 package HTML::FormFu::Element::Hidden;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Element::_Input';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Element';
 
-sub new {
-    my $self = shift->next::method(@_);
+with 'HTML::FormFu::Role::Element::Input';
+
+after BUILD => sub {
+    my $self = shift;
 
     $self->field_type('hidden');
     $self->filename('input_tag');
 
-    return $self;
-}
+    return;
+};
 
 sub string {
     my ( $self, $args ) = @_;

@@ -1,22 +1,29 @@
-package HTML::FormFu::Element::_Group;
+package HTML::FormFu::Role::Element::Group;
+use Moose::Role;
 
-use strict;
-use base 'HTML::FormFu::Element::_Field';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Element::Field',
+     'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' },
+     'HTML::FormFu::Role::Element::ProcessOptionsFromModel',
+     'HTML::FormFu::Role::Element::SingleValueField',
+     'HTML::FormFu::Role::Element::Coercible';
 
-use HTML::FormFu::ObjectUtil qw( _coerce );
+use HTML::FormFu::Attribute qw( mk_output_accessors );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
-use Carp qw( croak );
 use Clone ();
-use Exporter qw( import );
 use List::MoreUtils qw( none );
 use Scalar::Util qw( reftype );
+use Carp qw( croak );
 
-our @EXPORT_OK = qw( _process_options_from_model );    # used by ComboBox
+has empty_first => ( is => 'rw', traits => ['Chained'] );
 
-__PACKAGE__->mk_item_accessors(qw( _options empty_first ));
 __PACKAGE__->mk_output_accessors(qw( empty_first_label ));
+
+has _options => (
+    is      => 'rw',
+    default => sub { [] },
+    lazy    => 1,
+    isa     => 'ArrayRef',
+);
 
 my @ALLOWED_OPTION_KEYS = qw(
     group
@@ -40,48 +47,21 @@ my @ALLOWED_OPTION_KEYS = qw(
     label_attrs_xml
 );
 
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->_options( [] );
-    $self->container_attributes( {} );
-
-    return $self;
-}
-
-sub process {
+after BUILD => sub {
     my $self = shift;
 
-    $self->next::method(@_);
+    $self->container_attributes( {} );
+
+    return;
+};
+
+after process => sub {
+    my $self = shift;
 
     $self->_process_options_from_model;
 
     return;
-}
-
-sub _process_options_from_model {
-    my ($self) = @_;
-
-    my $args = $self->model_config;
-
-    return if !$args || !keys %$args;
-
-    return if @{ $self->options };
-
-    # don't run if {options_from_model} is set and is 0
-
-    my $option_flag
-        = exists $args->{options_from_model}
-        ? $args->{options_from_model}
-        : 1;
-
-    return if !$option_flag;
-
-    $self->options(
-        [ $self->form->model->options_from_model( $self, $args ) ] );
-
-    return;
-}
+};
 
 sub options {
     my ( $self, $arg ) = @_;
@@ -290,7 +270,7 @@ sub values {
 
 sub value_range {
     my ( $self, $arg ) = @_;
-    my @values;
+    my (@values);
 
     croak "value_range argument must be a single array-ref of values"
         if @_ > 2;
@@ -310,7 +290,7 @@ sub value_range {
     return $self->values( [ @values, $start .. $end ] );
 }
 
-sub prepare_attrs {
+before prepare_attrs => sub {
     my ( $self, $render ) = @_;
 
     my $submitted = $self->form->submitted;
@@ -355,15 +335,13 @@ sub prepare_attrs {
         }
     }
 
-    $self->next::method($render);
-
     return;
-}
+};
 
-sub render_data_non_recursive {
-    my ( $self, $args ) = @_;
+around render_data_non_recursive => sub {
+    my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->next::method( {
+    my $render = $self->$orig( {
             options => Clone::clone( $self->_options ),
             $args ? %$args : (),
         } );
@@ -371,14 +349,14 @@ sub render_data_non_recursive {
     $self->_quote_options( $render->{options} );
 
     return $render;
-}
+};
 
 sub _quote_options {
     my ( $self, $options ) = @_;
 
     foreach my $opt (@$options) {
-        $opt->{label}                = xml_escape( $opt->{label} );
-        $opt->{value}                = xml_escape( $opt->{value} );
+        $opt->{label} = xml_escape( $opt->{label} );
+        $opt->{value} = xml_escape( $opt->{value} );
         $opt->{attributes}           = xml_escape( $opt->{attributes} );
         $opt->{label_attributes}     = xml_escape( $opt->{label_attributes} );
         $opt->{container_attributes} = xml_escape( $opt->{container_attributes} );
@@ -425,15 +403,15 @@ sub as {
     );
 }
 
-sub clone {
-    my $self = shift;
+around clone => sub {
+    my ( $orig, $self ) = @_;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->$orig(@_);
 
-    $clone->_options( Clone::clone $self->_options );
+    $clone->_options( Clone::clone( $self->_options ) );
 
     return $clone;
-}
+};
 
 1;
 
@@ -507,7 +485,7 @@ variants of C<label> are supported, as are the C<value_xml> and C<value_loc>
 variants of C<value>, the C<attributes_xml> variant of C<attributes> and the 
 C<label_attributes_xml> variant of C<label_attributes>.
 
-C<container_attributes> / C<container_attributes_xml> is used by 
+C<container_attributes> or C<container_attributes_xml> is used by 
 L<HTML::FormFu::Element::Checkboxgroup> and 
 L<HTML::FormFu::Element::Radiogroup> for the c<span> surrounding each
 item's input and label. It is ignored by L<HTML::FormFu::Element::Select>

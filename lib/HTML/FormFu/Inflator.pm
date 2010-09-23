@@ -1,9 +1,7 @@
 package HTML::FormFu::Inflator;
 
-use strict;
-use base 'HTML::FormFu::Processor';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Inflator;
 use Scalar::Util qw( blessed );

@@ -1,24 +1,21 @@
 package HTML::FormFu::Inflator::DateTime;
 
-use strict;
-use base 'HTML::FormFu::Inflator';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Inflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime::Format::Builder;
 use DateTime::Format::Strptime;
 use Scalar::Util qw( reftype );
 
-__PACKAGE__->mk_item_accessors(qw( strptime time_zone _builder ));
+has strptime  => ( is => 'rw', traits => ['Chained'] );
+has time_zone => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->_builder( DateTime::Format::Builder->new );
-
-    return $self;
-}
+has _builder => (
+    is      => 'rw',
+    default => sub { DateTime::Format::Builder->new },
+    lazy    => 1,
+);
 
 sub parser {
     my ( $self, $arg ) = @_;
@@ -77,7 +74,7 @@ sub inflator {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
     $clone->_builder( $self->_builder->clone );
 

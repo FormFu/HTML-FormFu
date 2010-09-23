@@ -1,34 +1,41 @@
 package HTML::FormFu::Element::Repeatable;
 
-use strict;
-use base 'HTML::FormFu::Element::Block';
+use Moose;
+extends 'HTML::FormFu::Element::Block';
 
 use HTML::FormFu::Util qw( DEBUG_PROCESS debug );
-use MRO::Compat;
-use mro 'c3';
 use List::Util qw( first );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors( qw(
-        _original_elements
-        increment_field_names
-        counter_name
-        repeatable_delimiter
-) );
+has counter_name       => ( is => 'rw', traits => ['Chained'] );
 
-sub new {
-    my $self = shift->next::method(@_);
+has _original_elements => ( is => 'rw' );
+
+has increment_field_names => (
+    is      => 'rw',
+    default => 1,
+    lazy    => 1,
+    traits  => ['Chained'],
+);
+
+# This attribute is currently not documented as FF::Model::HashRef
+# only supports '_'
+
+has repeatable_delimiter => (
+    is      => 'rw',
+    default => '_',
+    lazy    => 1,
+    traits  => ['Chained'],
+);
+
+after BUILD => sub {
+    my $self = shift;
 
     $self->filename('repeatable');
     $self->is_repeatable(1);
-    $self->increment_field_names(1);
-# TODO
-    # This setter is currently not documentes as FF::Model::HashRef
-    # only supports '_'
-    $self->repeatable_delimiter('_');
 
-    return $self;
-}
+    return;
+};
 
 sub repeat {
     my ( $self, $count ) = @_;
@@ -341,7 +348,7 @@ sub process {
         $self->repeat($count);
     }
 
-    return $self->next::method(@_);
+    return $self->SUPER::process(@_);
 }
 
 sub content {

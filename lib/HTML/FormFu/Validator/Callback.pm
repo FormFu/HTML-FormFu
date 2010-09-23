@@ -1,9 +1,9 @@
 package HTML::FormFu::Validator::Callback;
 
-use strict;
-use base 'HTML::FormFu::Validator';
+use Moose;
+extends 'HTML::FormFu::Validator';
 
-__PACKAGE__->mk_item_accessors(qw( callback ));
+has callback => ( is => 'rw', traits => ['Chained'] );
 
 sub validate_value {
     my ( $self, $value ) = @_;

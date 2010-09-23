@@ -1,39 +1,25 @@
-package HTML::FormFu::Element::_Field;
+package HTML::FormFu::Role::Element::Field;
+use Moose::Role;
+use MooseX::Aliases;
 
-use strict;
-use base 'HTML::FormFu::Element';
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::ContainsElementsSharedWithField',
+     'HTML::FormFu::Role::NestedHashUtils';
 
-use HTML::FormFu::Constants qw( $EMPTY_STR );
-use HTML::FormFu::ObjectUtil qw(
-    get_error                   _require_constraint
-    set_nested_hash_value       nested_hash_key_exists
-    get_nested_hash_value
+use HTML::FormFu::Attribute qw(
+    mk_attrs
+    mk_output_accessors
+    mk_inherited_accessors
 );
+use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw(
     _parse_args                 append_xml_attribute
     xml_escape                  require_class
     process_attrs               _filter_components
 );
-use Carp qw( croak );
+use Class::MOP::Method;
 use Clone ();
 use List::MoreUtils qw( uniq );
-use Exporter qw( import );
-
-# used by multi.pm
-our @EXPORT_OK = qw(
-    nested_name                 add_error
-    deflator                    filter
-    constraint                  inflator
-    validator                   transformer
-    plugin                      deflators
-    filters                     constraints
-    inflators                   validators
-    transformers                plugins
-);
-
-our %EXPORT_TAGS = ( FIELD => \@EXPORT_OK );
+use Carp qw( croak );
 
 __PACKAGE__->mk_attrs( qw(
         comment_attributes
@@ -41,19 +27,27 @@ __PACKAGE__->mk_attrs( qw(
         label_attributes
 ) );
 
-__PACKAGE__->mk_item_accessors( qw(
-        _constraints                _filters
-        _inflators                  _deflators
-        _validators                 _transformers
-        _plugins                    _errors
-        container_tag               field_filename
-        label_filename              label_tag
-        retain_default              force_default
-        javascript                  non_param
-        reverse_single              reverse_multi
-        multi_value
-        original_name               original_nested_name
-) );
+has _constraints         => ( is => 'rw', traits => ['Chained'] );
+has _filters             => ( is => 'rw', traits => ['Chained'] );
+has _inflators           => ( is => 'rw', traits => ['Chained'] );
+has _deflators           => ( is => 'rw', traits => ['Chained'] );
+has _validators          => ( is => 'rw', traits => ['Chained'] );
+has _transformers        => ( is => 'rw', traits => ['Chained'] );
+has _plugins             => ( is => 'rw', traits => ['Chained'] );
+has _errors              => ( is => 'rw', traits => ['Chained'] );
+has container_tag        => ( is => 'rw', traits => ['Chained'] );
+has field_filename       => ( is => 'rw', traits => ['Chained'] );
+has label_filename       => ( is => 'rw', traits => ['Chained'] );
+has label_tag            => ( is => 'rw', traits => ['Chained'] );
+has retain_default       => ( is => 'rw', traits => ['Chained'] );
+has force_default        => ( is => 'rw', traits => ['Chained'] );
+has javascript           => ( is => 'rw', traits => ['Chained'] );
+has non_param            => ( is => 'rw', traits => ['Chained'] );
+has reverse_single       => ( is => 'rw', traits => ['Chained'] );
+has reverse_multi        => ( is => 'rw', traits => ['Chained'] );
+has multi_value          => ( is => 'rw', traits => ['Chained'] );
+has original_name        => ( is => 'rw', traits => ['Chained'] );
+has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value ));
 
@@ -67,19 +61,12 @@ __PACKAGE__->mk_inherited_accessors( qw(
         locale
 ) );
 
-*constraints  = \&constraint;
-*filters      = \&filter;
-*deflators    = \&deflator;
-*inflators    = \&inflator;
-*validators   = \&validator;
-*transformers = \&transformer;
-*plugins      = \&plugin;
-*default      = \&value;
-*default_xml  = \&value_xml;
-*default_loc  = \&value_loc;
+alias( "default",     "value" );
+alias( "default_xml", "value_xml" );
+alias( "default_loc", "value_loc" );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->_constraints(  [] );
     $self->_filters(      [] );
@@ -97,8 +84,8 @@ sub new {
     $self->container_tag('div');
     $self->is_field(1);
 
-    return $self;
-}
+    return;
+};
 
 sub nested {
     my ($self) = @_;
@@ -143,6 +130,7 @@ sub nested_name {
         return join ".", @names;
     }
 }
+
 
 sub nested_names {
     my ($self) = @_;
@@ -273,104 +261,6 @@ sub nested_base {
     }
 }
 
-sub deflator {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_deflator( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_deflator( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub filter {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_filter( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_filter( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub constraint {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_constraint( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_constraint( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub inflator {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_inflator( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_inflator( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub validator {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_validator( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_validator( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub transformer {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_transformer( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_transformer( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
-sub plugin {
-    my ( $self, $arg ) = @_;
-    my @return;
-
-    if ( ref $arg eq 'ARRAY' ) {
-        push @return, map { _single_plugin( $self, $_ ) } @$arg;
-    }
-    else {
-        push @return, _single_plugin( $self, $arg );
-    }
-
-    return @return == 1 ? $return[0] : @return;
-}
-
 sub get_deflators {
     my $self = shift;
     my %args = _parse_args(@_);
@@ -440,14 +330,6 @@ sub get_errors {
     return \@x;
 }
 
-sub add_error {
-    my ( $self, @errors ) = @_;
-
-    push @{ $self->_errors }, @errors;
-
-    return;
-}
-
 sub clear_errors {
     my ($self) = @_;
 
@@ -456,41 +338,35 @@ sub clear_errors {
     return;
 }
 
-sub pre_process {
+after pre_process => sub {
     my $self = shift;
-
-    $self->next::method(@_);
 
     for my $plugin ( @{ $self->_plugins } ) {
         $plugin->pre_process;
     }
 
     return;
-}
+};
 
-sub process {
+after process => sub {
     my $self = shift;
-
-    $self->next::method(@_);
 
     for my $plugin ( @{ $self->_plugins } ) {
         $plugin->process;
     }
 
     return;
-}
+};
 
-sub post_process {
+after post_process => sub {
     my $self = shift;
-
-    $self->next::method(@_);
 
     for my $plugin ( @{ $self->_plugins } ) {
         $plugin->post_process;
     }
 
     return;
-}
+};
 
 sub process_input {
     my ( $self, $input ) = @_;
@@ -602,25 +478,25 @@ sub process_value {
     return $new;
 }
 
-sub render_data_non_recursive {
-    my ( $self, $args ) = @_;
+around render_data_non_recursive => sub {
+    my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->next::method( {
-            nested_name          => xml_escape( $self->nested_name ),
-            comment_attributes   => xml_escape( $self->comment_attributes ),
-            container_attributes => xml_escape( $self->container_attributes ),
-            label_attributes     => xml_escape( $self->label_attributes ),
-            comment              => xml_escape( $self->comment ),
-            label                => xml_escape( $self->label ),
-            field_filename       => $self->field_filename,
-            label_filename       => $self->label_filename,
-            label_tag            => $self->label_tag,
-            container_tag        => $self->container_tag,
-            reverse_single       => $self->reverse_single,
-            reverse_multi        => $self->reverse_multi,
-            javascript           => $self->javascript,
-            $args ? %$args : (),
-        } );
+    my $render = $self->$orig({
+        nested_name          => xml_escape( $self->nested_name ),
+        comment_attributes   => xml_escape( $self->comment_attributes ),
+        container_attributes => xml_escape( $self->container_attributes ),
+        label_attributes     => xml_escape( $self->label_attributes ),
+        comment              => xml_escape( $self->comment ),
+        label                => xml_escape( $self->label ),
+        field_filename       => $self->field_filename,
+        label_filename       => $self->label_filename,
+        label_tag            => $self->label_tag,
+        container_tag        => $self->container_tag,
+        reverse_single       => $self->reverse_single,
+        reverse_multi        => $self->reverse_multi,
+        javascript           => $self->javascript,
+        $args ? %$args : (),
+    });
 
     $self->_render_container_class($render);
     $self->_render_comment_class($render);
@@ -633,7 +509,7 @@ sub render_data_non_recursive {
     $self->_render_error_class($render);
 
     return $render;
-}
+};
 
 sub _render_label {
     my ( $self, $render ) = @_;
@@ -927,7 +803,7 @@ sub _string_field_start {
     }
 
     if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
-         !$render->{reverse_single} ) {
+         !$render->{reverse_single}) {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
@@ -961,7 +837,8 @@ sub _string_field_end {
     my $html = '';
 
     if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
-         $render->{reverse_single} ) {
+         $render->{reverse_single} )
+    {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
@@ -985,10 +862,11 @@ sub _string_field_end {
     return $html;
 }
 
-sub clone {
+around clone => sub {
+    my $orig = shift;
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->$orig(@_);
 
     for my $list ( qw(
         _filters _constraints _inflators _validators _transformers
@@ -1000,180 +878,12 @@ sub clone {
         map { $_->parent($clone) } @{ $clone->$list };
     }
 
-    $clone->comment_attributes( Clone::clone $self->comment_attributes );
-    $clone->container_attributes( Clone::clone $self->container_attributes );
-    $clone->label_attributes( Clone::clone $self->label_attributes );
+    $clone->comment_attributes( Clone::clone( $self->comment_attributes ) );
+    $clone->container_attributes( Clone::clone( $self->container_attributes ) );
+    $clone->label_attributes( Clone::clone( $self->label_attributes ) );
 
     return $clone;
-}
-
-sub _single_deflator {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_deflator( $type, $arg );
-
-    push @{ $self->_deflators }, $new;
-
-    return $new;
-}
-
-sub _single_filter {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_filter( $type, $arg );
-
-    push @{ $self->_filters }, $new;
-
-    return $new;
-}
-
-sub _single_constraint {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_constraint( $type, $arg );
-
-    push @{ $self->_constraints }, $new;
-
-    return $new;
-}
-
-sub _single_inflator {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_inflator( $type, $arg );
-
-    push @{ $self->_inflators }, $new;
-
-    return $new;
-}
-
-sub _single_validator {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_validator( $type, $arg );
-
-    push @{ $self->_validators }, $new;
-
-    return $new;
-}
-
-sub _single_transformer {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_transformer( $type, $arg );
-
-    push @{ $self->_transformers }, $new;
-
-    return $new;
-}
-
-sub _single_plugin {
-    my ( $self, $arg ) = @_;
-
-    if ( !ref $arg ) {
-        $arg = { type => $arg };
-    }
-    elsif ( ref $arg eq 'HASH' ) {
-        $arg = {%$arg};    # shallow clone
-    }
-    else {
-        croak 'invalid args';
-    }
-
-    my @return;
-
-    my $type = delete $arg->{type};
-
-    my $new = $self->_require_plugin( $type, $arg );
-
-    push @{ $self->_plugins }, $new;
-
-    return $new;
-}
+};
 
 1;
 

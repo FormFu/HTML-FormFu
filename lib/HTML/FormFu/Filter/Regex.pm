@@ -1,11 +1,13 @@
 package HTML::FormFu::Filter::Regex;
 
-use strict;
-use base 'HTML::FormFu::Filter';
+use Moose;
+extends 'HTML::FormFu::Filter';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-__PACKAGE__->mk_item_accessors(qw( match replace eval ));
+has match   => ( is => 'rw', traits => ['Chained'] );
+has replace => ( is => 'rw', traits => ['Chained'] );
+has eval    => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

@@ -1,13 +1,11 @@
 package HTML::FormFu::Constraint::Set;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
-use MRO::Compat;
-use mro 'c3';
+use Moose;
+extends 'HTML::FormFu::Constraint';
 
 use Clone ();
 
-__PACKAGE__->mk_accessors(qw( set ));
+has set => ( is => 'rw', traits  => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;
@@ -24,10 +22,10 @@ sub constrain_value {
 sub clone {
     my $self = shift;
 
-    my $clone = $self->next::method(@_);
+    my $clone = $self->SUPER::clone(@_);
 
     if ( $self->set ) {
-        $clone->set( Clone::clone $self->set );
+        $clone->set( Clone::clone( $self->set ) );
     }
 
     return $clone;

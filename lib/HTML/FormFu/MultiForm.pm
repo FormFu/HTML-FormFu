@@ -1,19 +1,21 @@
 package HTML::FormFu::MultiForm;
-use strict;
+use Moose;
+
+with 'HTML::FormFu::Role::FormAndElementMethods' => { -excludes => 'model_config' },
+     'HTML::FormFu::Role::NestedHashUtils',
+     'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu;
 use HTML::FormFu::Attribute qw(
     mk_attrs                            mk_attr_accessors
     mk_inherited_accessors              mk_output_accessors
     mk_inherited_merging_accessors
-    mk_item_accessors                   mk_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     populate                    form
     clone                       stash
-    parent                      nested_hash_key_exists
+    parent
     load_config_file            load_config_filestem
-    get_nested_hash_value       set_nested_hash_value
     _string_equals              _object_equals
 );
 use HTML::FormFu::QueryType::CGI;
@@ -22,7 +24,7 @@ use Carp qw( croak );
 use Clone ();
 use Crypt::CBC;
 use List::MoreUtils qw( uniq );
-use Scalar::Util qw( blessed refaddr reftype );
+use Scalar::Util qw( blessed refaddr );
 use Storable qw( nfreeze thaw );
 
 use overload (
@@ -42,7 +44,7 @@ our @ACCESSORS = qw(
     indicator                   filename
     javascript                  javascript_src
     default_args
-    query_type                  languages
+    query_type
     force_error_message         localize_class
     tt_module                   nested_name
     nested_subscript            default_model
@@ -50,15 +52,20 @@ our @ACCESSORS = qw(
     params_ignore_underscore    tmp_upload_dir
 );
 
-__PACKAGE__->mk_item_accessors qw(
-    query
-    current_form_number                 current_form
-    complete persist_stash              multiform_hidden_name
-    default_multiform_hidden_name       combine_params
-    _data                               _file_fields
-);
+for my $name ( @ACCESSORS ) {
+    has $name => ( is => 'rw', traits  => ['Chained'] );
+}
 
-__PACKAGE__->mk_accessors( @ACCESSORS, 'forms', );
+has forms                         => ( is => 'rw', traits  => ['Chained'] );
+has query                         => ( is => 'rw', traits  => ['Chained'] );
+has current_form_number           => ( is => 'rw', traits  => ['Chained'] );
+has current_form                  => ( is => 'rw', traits  => ['Chained'] );
+has multiform_hidden_name         => ( is => 'rw', traits  => ['Chained'] );
+has default_multiform_hidden_name => ( is => 'rw', traits  => ['Chained'] );
+has combine_params                => ( is => 'rw', traits  => ['Chained'] );
+has complete                      => ( is => 'rw', traits  => ['Chained'] );
+
+has _data => ( is => 'rw' );
 
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
@@ -85,36 +92,36 @@ __PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
 
 *loc = \&localize;
 
-Class::C3::initialize();
+for my $name ( qw(
+    persist_stash
+    _file_fields
+     ) )
+{
+    has $name => (
+        is       => 'rw',
+        default  => sub { [] },
+        lazy     => 1,
+        isa      => 'ArrayRef',
+    );
+}
 
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-
-    my $self = bless {}, $class;
+has languages => (
+    is      => 'rw',
+    default => sub { ['en'] },
+    lazy    => 1,
+    isa     => 'ArrayRef',
+);
+sub BUILD {
+    my ( $self, $args ) = @_;
 
     my %defaults = (
-        default_args                  => {},
         tt_args                       => {},
-        stash                         => {},
         model_config                  => {},
-        persist_stash                 => [],
-        _file_fields                  => [],
-        languages                     => ['en'],
         combine_params                => 1,
         default_multiform_hidden_name => '_multiform',
     );
 
     $self->populate( \%defaults );
-
-    $self->populate( \%attrs );
 
     return $self;
 }

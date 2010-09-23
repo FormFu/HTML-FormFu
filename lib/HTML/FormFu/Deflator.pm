@@ -1,36 +1,17 @@
 package HTML::FormFu::Deflator;
+use Moose;
 
-use strict;
-use MRO::Compat;
-use mro 'c3';
+with 'HTML::FormFu::Role::Populate';
 
-use HTML::FormFu::Attribute qw( mk_item_accessors mk_accessors mk_inherited_accessors );
-use HTML::FormFu::ObjectUtil qw( populate form name parent get_parent );
-use Scalar::Util qw( reftype );
+use HTML::FormFu::Attribute qw( mk_inherited_accessors );
+use HTML::FormFu::ObjectUtil qw( form name parent );
 use Carp qw( croak );
 
-__PACKAGE__->mk_item_accessors(qw( type ));
+has type => ( is => 'rw', traits  => ['Chained'] );
 
 __PACKAGE__->mk_inherited_accessors(qw( locale ));
 
-sub new {
-    my $class = shift;
-    my %attrs;
-    
-    if (@_) {
-        croak "attributes argument must be a hashref"
-            if reftype( $_[0] ) ne 'HASH';
-        
-        %attrs = %{ $_[0] };
-    }
-    
-    my $self = bless {}, $class;
-
-    $self->populate( \%attrs );
-
-    return $self;
-}
-
+sub BUILD {}
 sub process {
     my ( $self, $values ) = @_;
 
