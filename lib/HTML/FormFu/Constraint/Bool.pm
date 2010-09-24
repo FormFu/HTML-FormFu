@@ -7,6 +7,8 @@ sub regex {
     return qr/^[01]?\z/;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

@@ -74,6 +74,8 @@ sub _localize_args {
     return $self->parent->label;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

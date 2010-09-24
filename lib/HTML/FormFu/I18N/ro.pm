@@ -61,4 +61,6 @@ our %Lexicon = (
     form_transformer_imager    => 'Eroare la procesarea fişierului imagine',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

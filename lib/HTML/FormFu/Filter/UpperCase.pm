@@ -11,6 +11,8 @@ sub filter {
     return uc $value;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

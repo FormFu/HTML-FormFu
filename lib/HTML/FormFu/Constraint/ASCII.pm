@@ -7,6 +7,8 @@ sub regex {
     return qr/^\p{IsASCII}*\z/;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

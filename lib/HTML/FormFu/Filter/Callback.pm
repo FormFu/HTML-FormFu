@@ -15,6 +15,8 @@ sub filter {
     return $callback->( $value, $params );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

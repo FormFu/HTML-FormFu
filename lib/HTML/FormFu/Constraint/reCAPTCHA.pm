@@ -71,6 +71,8 @@ sub process {
     return $self->mk_errors( { message => $result->{error}, } );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

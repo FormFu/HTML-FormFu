@@ -1,20 +1,18 @@
 package HTML::FormFu::Constraint::Repeatable::Any;
+use Moose;
 
-use strict;
-use base 'HTML::FormFu::Constraint';
-use MRO::Compat;
-use mro 'c3';
+extends 'HTML::FormFu::Constraint';
 
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-sub new {
-    my $self = shift->next::method(@_);
+after BUILD => sub {
+    my $self = shift;
 
     $self->only_on_reps([1]);
 
-    return $self;
-}
+    return;
+};
 
 sub process {
     my ( $self, $params ) = @_;
@@ -101,6 +99,8 @@ sub constrain_value {
 
     return defined $value && length $value;
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;
 

@@ -40,6 +40,8 @@ sub constrain_value {
     return $self->not ? !$ok : $ok;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

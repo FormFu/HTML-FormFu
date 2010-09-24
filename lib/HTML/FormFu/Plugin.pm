@@ -28,6 +28,8 @@ sub clone {
     return bless \%new, ref $self;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

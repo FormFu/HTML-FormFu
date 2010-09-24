@@ -5,6 +5,8 @@ extends 'HTML::FormFu::Constraint::Regex';
 
 sub regex {qr/^[0-9]*\z/}
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

@@ -13,6 +13,8 @@ sub constrain_value {
     return blessed($value) && $value->isa('HTML::FormFu::Upload');
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

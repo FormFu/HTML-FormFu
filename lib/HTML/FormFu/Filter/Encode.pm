@@ -77,6 +77,8 @@ sub encode_from_utf8 {
     return encode( $enc, $value );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

@@ -64,4 +64,6 @@ our %Lexicon = (
         'Помилка обробки файлу зображення',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

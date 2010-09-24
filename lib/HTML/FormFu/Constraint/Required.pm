@@ -9,6 +9,8 @@ sub constrain_value {
     return defined $value && length $value;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

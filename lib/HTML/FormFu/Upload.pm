@@ -29,6 +29,8 @@ sub _param {
     return defined $self->{_param} ? $self->{_param}->param : ();
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

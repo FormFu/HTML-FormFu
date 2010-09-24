@@ -34,4 +34,6 @@ our %Lexicon = (
     form_transformer_imager    => 'Erro ao processar a imagem',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

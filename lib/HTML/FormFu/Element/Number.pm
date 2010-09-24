@@ -26,6 +26,8 @@ sub trailing_zeroes {
     return $self->get_deflator({ type => 'FormatNumber' })->trailing_zeroes(@_);
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

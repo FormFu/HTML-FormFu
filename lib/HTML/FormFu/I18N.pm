@@ -1,7 +1,7 @@
 package HTML::FormFu::I18N;
-use strict;
+use Moose;
 
-use base 'Locale::Maketext';
+extends 'Locale::Maketext';
 
 *loc = \&localize;
 
@@ -10,5 +10,7 @@ sub localize {
 
     return $self->maketext(@_);
 }
+
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
 
 1;

@@ -11,6 +11,8 @@ after BUILD => sub {
     return;
 };
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

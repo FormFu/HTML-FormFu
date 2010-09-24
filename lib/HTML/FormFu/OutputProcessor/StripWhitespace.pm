@@ -116,7 +116,11 @@ sub process {
     return $output;
 }
 
+__PACKAGE__->meta->make_immutable;
+
+
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
+use Moose;
 
 sub new {
     my ( $class, @tags ) = @_;
@@ -151,6 +155,8 @@ sub prev_tag_name {
         --$i;
     }
 }
+
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
 
 1;
 

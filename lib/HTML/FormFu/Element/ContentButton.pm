@@ -83,6 +83,8 @@ sub _string_field {
     return $html;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

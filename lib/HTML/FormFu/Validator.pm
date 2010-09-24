@@ -65,6 +65,8 @@ sub return_error {
     return $err;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

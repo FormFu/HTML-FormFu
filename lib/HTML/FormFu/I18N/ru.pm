@@ -68,4 +68,6 @@ our %Lexicon = (
         'Ошибка обработки файла изображения',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

@@ -49,4 +49,6 @@ our %Lexicon = (
     form_transformer_imager    => 'Feil ved behandling av bilde',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

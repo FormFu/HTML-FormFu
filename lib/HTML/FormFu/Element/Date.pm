@@ -445,6 +445,8 @@ sub render_data_non_recursive {
     return $render;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

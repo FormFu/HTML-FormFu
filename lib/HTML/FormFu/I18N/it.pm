@@ -43,4 +43,6 @@ our %Lexicon = (
     form_transformer_imager => 'Impossibile elaborare il file dell\'immagine',
 );
 
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+
 1;

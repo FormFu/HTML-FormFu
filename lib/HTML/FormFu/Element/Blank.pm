@@ -29,6 +29,8 @@ around render_data_non_recursive => sub {
     return;
 };
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

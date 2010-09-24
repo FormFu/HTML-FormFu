@@ -89,6 +89,8 @@ sub maximum_megabyte {
     return $self->maximum( $kb * 1_048_576 );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

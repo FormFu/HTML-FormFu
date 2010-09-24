@@ -577,6 +577,8 @@ sub _restore_upload_parent {
     return;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

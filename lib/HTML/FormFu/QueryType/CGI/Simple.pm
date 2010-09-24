@@ -43,6 +43,8 @@ sub fh {
     return $self->form->query->upload( $self->filename );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

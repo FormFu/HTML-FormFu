@@ -9,6 +9,8 @@ sub _localize_args {
     return $self->max;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__

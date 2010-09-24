@@ -5,6 +5,8 @@ extends 'HTML::FormFu::Filter::Regex';
 
 sub match {qr/\D+/}
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__
