@@ -2,7 +2,11 @@
   elements:
     - type: Label
       name: foo
+    
     - type: Label
       name: foo3
-      value: bar
+      default: bar
       tag: div
+    
+    - type: Submit
+      name: submit

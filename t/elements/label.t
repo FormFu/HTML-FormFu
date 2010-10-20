@@ -2,17 +2,21 @@ use strict;
 use warnings;
 
 use HTML::FormFu;
-use Test::More qw(tests 2);
+use Test::More tests => 3;
 
-my $f = HTML::FormFu->new(
+my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$f->load_config_file('t/elements/label.yml');
+$form->load_config_file('t/elements/label.yml');
 
-$f->process;
+$form->process;
 
-like($f->render, qr/<span name="foo"><\/span>/, "element found");
+like( $form->get_field('foo'), qr/<span name="foo"><\/span>/, "element found" );
 
-like($f->render, qr/<div name="foo3">bar<\/div>/, "element with value and different tag found");
+like( $form->get_field('foo3'), qr/<div name="foo3">bar<\/div>/, "element with value and different tag found" );
 
+$form->process({
+    submit => 'Submit Value',
+});
 
+like( $form->get_field('foo3'), qr/<div name="foo3">bar<\/div>/, "label retain_default works" );

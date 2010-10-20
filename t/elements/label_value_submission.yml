@@ -1,0 +1,15 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Hidden
+    name: id
+    
+  - type: Label
+    name: name
+  
+  - type: Hidden
+    name: name
+  
+  - type: Submit
+    name: submit

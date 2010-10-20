@@ -8,6 +8,7 @@ with 'HTML::FormFu::Role::Element::Field',
      'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Util qw( process_attrs );
+use List::MoreUtils qw( none );
 
 has field_type     => ( is => 'rw', traits => ['Chained'] );
 has label_filename => ( is => 'rw', traits => ['Chained'] );
@@ -26,7 +27,6 @@ after BUILD => sub {
     $self->non_param(1);
 
     #$self->field_type('label');
-    #$self->retain_default(1);
 
     $self->model_config->{read_only} = 1;
     
@@ -83,8 +83,14 @@ sub process_input {
     my $form = $self->form;
     my $name = $self->nested_name;
 
-    if ( $form->submitted && $form->nested_hash_key_exists( $input, $name ) ) {
-        $form->delete_nested_hash_value( $input, $name );
+    if ( $form->submitted
+        && $form->nested_hash_key_exists( $input, $name ) )
+    {
+        my @fields = @{ $form->get_fields({ nested_name => $name }) };
+        
+        if ( none { $_ == $self } @fields ) {
+            $form->delete_nested_hash_key( $input, $name );
+        }
     }
 
     return;
