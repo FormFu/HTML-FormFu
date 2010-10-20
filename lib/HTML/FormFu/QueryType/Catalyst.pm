@@ -1,11 +1,13 @@
 package HTML::FormFu::QueryType::Catalyst;
-
 use Moose;
+
 extends 'HTML::FormFu::Upload';
 
+use IO::File ();
 use Scalar::Util qw( weaken );
 
-__PACKAGE__->mk_item_accessors(qw( basename tempname ));
+has basename => ( is => 'rw', traits  => ['Chained'] );
+has tempname => ( is => 'rw', traits  => ['Chained'] );
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

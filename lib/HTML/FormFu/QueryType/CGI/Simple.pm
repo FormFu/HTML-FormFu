@@ -1,6 +1,6 @@
 package HTML::FormFu::QueryType::CGI::Simple;
-
 use Moose;
+
 extends 'HTML::FormFu::QueryType::CGI';
 
 sub parse_uploads {

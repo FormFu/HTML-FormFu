@@ -15,6 +15,7 @@ has size     => ( is => 'rw', traits  => ['Chained'] );
 has type     => ( is => 'rw', traits  => ['Chained'] );
 
 sub BUILD {}
+
 sub _param {
     my ( $self, $param ) = @_;
 
@@ -27,6 +28,20 @@ sub _param {
     }
 
     return defined $self->{_param} ? $self->{_param}->param : ();
+}
+
+sub slurp {
+    my ($self) = @_;
+
+    my $fh = $self->fh;
+
+    return if !defined $fh;
+
+    binmode $fh;
+
+    local $/;
+
+    return <$fh>;
 }
 
 __PACKAGE__->meta->make_immutable;
