@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use File::Temp qw(tempdir);
 use HTML::FormFu;
@@ -34,4 +34,9 @@ $form2->config_file_path([ @dirs, 't/config_file_path' ]);
 
 $form2->load_config_file('form.yml');
 ok( $form2->get_field('found-me') );
+
+my $form3 = HTML::FormFu->new;
+$form3->config_file_path([ 't/config_file_path2', @dirs, 't/config_file_path' ]);
+$form3->load_config_file('form.yml');
+ok( $form3->get_field('new-found-me') );
 

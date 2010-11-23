@@ -160,6 +160,7 @@ sub _load_config {
             my ( $filename, $filedata ) = %{ $config->[0] };
 
             _load_file( $self, $data_visitor, $filedata );
+            last;
         }
         croak "config file '$file' not found" if !$loaded;
     }
