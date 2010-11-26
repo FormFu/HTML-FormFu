@@ -335,6 +335,20 @@ sub _build_month_list {
     return @months;
 }
 
+sub _build_number_list {
+    my ( $self, $start, $end, $interval ) = @_;
+    
+    $interval ||= 1;
+    
+    my @list;
+    
+    for ( my $i = $start; $i <= $end; $i += $interval ) {
+        push @list, $i;
+    }
+    
+    return @list;
+}
+
 sub _build_name {
     my ( $self, $type ) = @_;
 

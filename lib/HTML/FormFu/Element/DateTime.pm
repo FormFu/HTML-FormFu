@@ -96,12 +96,14 @@ sub _add_minute {
 
     @minute_prefix = map { [ '', $_ ] } @minute_prefix;
 
+    my @minutes = $self->_build_number_list( 0, 59, $minute->{interval} );
+
     my $element = $self->element( {
             type    => 'Select',
             name    => $minute_name,
             options => [
                 @minute_prefix,
-                map { [ $_, $_ ] } map { sprintf '%02d', $_ } 0 .. 59
+                map { [ $_, $_ ] } map { sprintf '%02d', $_ } @minutes
             ],
 
             defined $minute->{default}
@@ -128,12 +130,14 @@ sub _add_second {
 
     @second_prefix = map { [ '', $_ ] } @second_prefix;
 
+    my @seconds = $self->_build_number_list( 0, 59, $second->{interval} );
+
     my $element = $self->element( {
             type    => 'Select',
             name    => $second_name,
             options => [
                 @second_prefix,
-                map { [ $_, $_ ] } map { sprintf '%02d', $_ } 0 .. 59
+                map { [ $_, $_ ] } map { sprintf '%02d', $_ } @seconds
             ],
 
             defined $second->{default}

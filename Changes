@@ -2,6 +2,8 @@
     - Bug fix: was a fatal error when a value was submitted for Label element
       (code called delete_nested_hash_value instead of deleted_nested_hash_key).
     
+    - DateTime elements, minutes and seconds have new 'interval' option.
+    
     - Now only delete submitted value if there's no other field on the form with
       the same name.
 
