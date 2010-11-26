@@ -7,7 +7,6 @@ with 'HTML::FormFu::Role::Element::Field',
      'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Attribute qw(
-    mk_attrs
     mk_attr_accessors
     mk_output_accessors
     mk_inherited_accessors
