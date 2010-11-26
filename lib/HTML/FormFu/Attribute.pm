@@ -65,6 +65,18 @@ sub mk_attrs {
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
             
+            my $method = Class::MOP::Method->wrap(
+                body         => $sub,
+                name         => $short,
+                package_name => $class,
+            );
+            
+            my $xml_method = Class::MOP::Method->wrap(
+                body         => $xml_sub,
+                name         => "${short}_xml",
+                package_name => $class,
+            );
+            
             $class->meta->add_method( $short, $method );
             $class->meta->add_method( "${short}_xml", $xml_method );
         }
@@ -129,6 +141,18 @@ sub mk_attr_accessors {
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
             
+            my $method = Class::MOP::Method->wrap(
+                body         => $sub,
+                name         => $short,
+                package_name => $class,
+            );
+            
+            my $xml_method = Class::MOP::Method->wrap(
+                body         => $xml_sub,
+                name         => "${short}_xml",
+                package_name => $class,
+            );
+            
             $class->meta->add_method( $short, $method );
             $class->meta->add_method( "${short}_xml", $xml_method );
         }
@@ -182,6 +206,18 @@ sub mk_add_attrs {
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
             
+            my $method = Class::MOP::Method->wrap(
+                body         => $sub,
+                name         => "add_$short",
+                package_name => $class,
+            );
+            
+            my $xml_method = Class::MOP::Method->wrap(
+                body         => $xml_sub,
+                name         => "add_${short}_xml",
+                package_name => $class,
+            );
+            
             $class->meta->add_method( "add_$short", $method );
             $class->meta->add_method( "add_${short}_xml", $xml_method );
         }
@@ -234,6 +270,18 @@ sub mk_del_attrs {
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
+            
+            my $method = Class::MOP::Method->wrap(
+                body         => $sub,
+                name         => "del_$short",
+                package_name => $class,
+            );
+            
+            my $xml_method = Class::MOP::Method->wrap(
+                body         => $xml_sub,
+                name         => "del_${short}_xml",
+                package_name => $class,
+            );
             
             $class->meta->add_method( "del_$short", $method );
             $class->meta->add_method( "del_${short}_xml", $xml_method );
