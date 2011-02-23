@@ -1,0 +1,23 @@
+---
+elements:
+  - name: foo
+    constraints:
+      - type: MinMaxFields
+        others:
+          - bar
+          - baz
+        min: 0
+        max: 1
+    filters:
+      - type: Split
+        regex: ','
+  
+  - name: bar
+    filters:
+      - type: Split
+        regex: ','
+
+  - name: baz
+    filters:
+      - type: Split
+        regex: ','

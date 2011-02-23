@@ -18,6 +18,8 @@ sub filter {
 
     my @values = split /$regex/, $value, $limit;
 
+    return if !@values;
+
     return \@values;
 }
 
