@@ -148,7 +148,24 @@ sub _date_defaults {
 
     my $default;
 
-    if ( defined( $default = $self->default_natural ) ) {
+    if ( defined( $default = $self->default ) && length $default ) {
+        
+        if ( !$self->form->submitted || $self->render_processed_value ) {
+            for my $deflator ( @{ $self->_deflators } ) {
+                $default = $deflator->process($default);
+            }
+        }
+        
+        my $is_blessed = blessed($default);
+
+        if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
+            my $builder = DateTime::Format::Builder->new;
+            $builder->parser( { strptime => $self->strftime } );
+
+            $default = $builder->parse_datetime($default);
+        }
+    }
+    elsif ( defined( $default = $self->default_natural ) ) {
         my $parser;
         
         if ( defined( my $datetime_args = $self->default_datetime_args ) ) {
@@ -165,23 +182,7 @@ sub _date_defaults {
         }
         $default = $parser->parse_datetime( $default );
     }
-    elsif ( defined( $default = $self->default ) && length $default ) {
-        
-        if ( !$self->form->submitted || $self->render_processed_value ) {
-            for my $deflator ( @{ $self->_deflators } ) {
-                $default = $deflator->process($default);
-            }
-        }
-        
-        my $is_blessed = blessed($default);
-
-        if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
-            my $builder = DateTime::Format::Builder->new;
-            $builder->parser( { strptime => $self->strftime } );
-
-            $default = $builder->parse_datetime($default);
-        }
-    } else {
+    else {
       $default = undef;
     }
 

@@ -5,6 +5,9 @@
     - Bug fix: RT#65728 Filter::Split should return a value if no value was
       submitted.
     
+    - Bug fix: Element::Date now uses default() in preference to
+      default_natural(). RT#65727
+    
     - DateTime elements, minutes and seconds have new 'interval' option.
     
     - Now only delete submitted value if there's no other field on the form with
