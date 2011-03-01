@@ -1180,16 +1180,6 @@ __END__
 
 HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
-=head1 BETA SOFTWARE
-
-There may be API changes required before the 1.0 release. Any incompatible
-changes will first be discussed on the L<mailing list|/SUPPORT>.
-See L</DEPRECATION POLICY> for further details.
-
-Work is still needed on the documentation, if you come across any errors or
-find something confusing, please give feedback via the
-L<mailing list|/SUPPORT>.
-
 =head1 SYNOPSIS
 
 Note: These examples make use of L<HTML::FormFu::Model::DBIC>. As of
