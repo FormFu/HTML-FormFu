@@ -40,9 +40,9 @@ requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext';
 requires 'Module::Pluggable';
-requires 'Moose';
+requires 'Moose' => '1.00'; # Reasonable default until we get test results
 requires 'MooseX::Aliases';
-requires 'MooseX::ChainedAccessors::Accessor';
+requires 'MooseX::ChainedAccessors::Accessor' => '0.02'; # for more recent Moose
 requires 'MooseX::SetOnce';
 requires 'Number::Format';
 requires 'Readonly';

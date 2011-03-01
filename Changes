@@ -1,8 +1,16 @@
+0.09000 2011-03-01
 
+    - Codebase changed to use Moose - massive internal changes - any custom
+      Elements, Constraints, etc will require changes.
+      See advice on mailing list:
+      http://www.mail-archive.com/html-formfu@lists.scsys.co.uk/msg02325.html
+      Or ask for help on the mailing list:
+      http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/html-formfu
+    
     - Bug fix: was a fatal error when a value was submitted for Label element
       (code called delete_nested_hash_value instead of deleted_nested_hash_key).
     
-    - Bug fix: RT#65728 Filter::Split should return a value if no value was
+    - Bug fix: RT#65728 Filter::Split shouldn't return a value if no value was
       submitted.
     
     - Bug fix: Element::Date now uses default() in preference to
@@ -12,6 +20,9 @@
     
     - Now only delete submitted value if there's no other field on the form with
       the same name.
+    
+    - load_config_file(stem) now honours the include path order, to mimic TT
+      behaviour.
 
 0.08002 2010-09-22
 
