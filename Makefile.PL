@@ -70,7 +70,7 @@ install_share();
 # This fixes the problem of tar files having world-writable files,
 # which causes PAUSE to choke
 eval {
-    use_ptar() if author_context && $^O =~/win/i;
+    use_ptar() if author_context && $^O =~/(?:ms|cyg)win/i;
 };
 if ($@) {
     die "Module::Install::PerlTar must be installed when Makefile.PL is run by an author on MS Windows\n";
