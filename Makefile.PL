@@ -41,6 +41,7 @@ requires 'List::MoreUtils';
 requires 'Locale::Maketext';
 requires 'Module::Pluggable';
 requires 'Moose' => '1.00'; # Reasonable default until we get test results
+requires 'Moose::Meta::Attribute::Custom::Trait::Chained';
 requires 'MooseX::Aliases';
 requires 'MooseX::ChainedAccessors::Accessor' => '0.02'; # for more recent Moose
 requires 'MooseX::SetOnce';
