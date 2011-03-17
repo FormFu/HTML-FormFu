@@ -1,14 +1,67 @@
 use inc::Module::Install 0.75;
 
+name 'HTML-FormFu';
+perl_version '5.008001';
+
+{
+    # check for old non-Moose version
+    
+    eval { require File::Spec };
+    
+    eval { require HTML::FormFu::Element::_Field };
+    
+    if ( !$@ ) {
+        my $path = $INC{'HTML/FormFu/Element/_Field.pm'};
+        
+        my ( $volume, $dir, $file ) = File::Spec->splitpath( $path );
+        
+        my @dirs = File::Spec->splitdir( $dir );
+        # get rid of HTML/FormFu/Element
+        splice @dirs, -4;
+        
+        my $lib_dir  = File::Spec->catdir( @dirs );
+        my $lib_path = File::Spec->catpath( $volume, $lib_dir );
+        
+        my $msg = <<ERROR;
+Files from an older, pre-0.09000 version of HTML-FormFu have been detected
+in directory: '$lib_path'.
+
+This will cause problems if you use HTML::FormFu::Preload, and will also
+cause spurious warnings during the test suite run.
+
+We strongly recommend you manually remove old HTML-FormFu files before
+continuing.
+ERROR
+        
+        if ( !-t STDIN ) {
+            die <<ERROR;
+***Error***
+$msg
+Will not continue non-interactively
+ERROR
+        }
+        
+        warn <<WARN;
+***Warning***
+$msg
+Continue?
+WARN
+        
+        chomp( my $answer = <STDIN> );
+        
+        if ( $answer !~ /y/i ) {
+            exit;
+        }
+    }
+}
+
 if ( -e 'MANIFEST.SKIP' ) {
     system( 'pod2text lib/HTML/FormFu.pm > README' );
 }
 
-name 'HTML-FormFu';
-perl_version '5.008001';
 all_from 'lib/HTML/FormFu.pm';
 
-repository 'http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu';
+repository 'git://github.com/fireartist/HTML-FormFu.git';
 
 # this is the lowest version of Exporter I can identify that exports import()
 # it's bundled with perl 5.83
