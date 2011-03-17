@@ -14,23 +14,44 @@ perl_version '5.008001';
         my $path = $INC{'HTML/FormFu/Element/_Field.pm'};
         
         my ( $volume, $dir, $file ) = File::Spec->splitpath( $path );
-        use Data::Dumper;
-        warn Dumper($volume, $dir, $file);
+        
         my @dirs = File::Spec->splitdir( $dir );
         # get rid of HTML/FormFu/Element
-        warn Dumper(\@dirs);
         splice @dirs, -4;
         
         my $lib_dir  = File::Spec->catdir( @dirs );
         my $lib_path = File::Spec->catpath( $volume, $lib_dir );
         
-        die <<ERROR;
-Error:
+        my $msg = <<ERROR;
 Files from an older, pre-0.09000 version of HTML-FormFu have been detected
 in directory: '$lib_path'.
-Installing version 0.09000 or above requires you delete any older versions
-of HTML-FormFu first.
+
+This will cause problems if you use HTML::FormFu::Preload, and will also
+cause spurious warnings during the test suite run.
+
+We strongly recommend you manually remove old HTML-FormFu files before
+continuing.
 ERROR
+        
+        if ( !-t STDIN ) {
+            die <<ERROR;
+***Error***
+$msg
+Will not continue non-interactively
+ERROR
+        }
+        
+        warn <<WARN;
+***Warning***
+$msg
+Continue?
+WARN
+        
+        chomp( my $answer = <STDIN> );
+        
+        if ( $answer !~ /y/i ) {
+            exit;
+        }
     }
 }
 
