@@ -40,7 +40,7 @@ if ( -e 'MANIFEST.SKIP' ) {
 
 all_from 'lib/HTML/FormFu.pm';
 
-repository 'http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu';
+repository 'git://github.com/fireartist/HTML-FormFu.git';
 
 # this is the lowest version of Exporter I can identify that exports import()
 # it's bundled with perl 5.83
