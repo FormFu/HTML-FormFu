@@ -1,11 +1,43 @@
 use inc::Module::Install 0.75;
 
+name 'HTML-FormFu';
+perl_version '5.008001';
+
+{
+    # check for old non-Moose version
+    
+    eval { require File::Spec };
+    
+    eval { require HTML::FormFu::Element::_Field };
+    
+    if ( !$@ ) {
+        my $path = $INC{'HTML/FormFu/Element/_Field.pm'};
+        
+        my ( $volume, $dir, $file ) = File::Spec->splitpath( $path );
+        use Data::Dumper;
+        warn Dumper($volume, $dir, $file);
+        my @dirs = File::Spec->splitdir( $dir );
+        # get rid of HTML/FormFu/Element
+        warn Dumper(\@dirs);
+        splice @dirs, -4;
+        
+        my $lib_dir  = File::Spec->catdir( @dirs );
+        my $lib_path = File::Spec->catpath( $volume, $lib_dir );
+        
+        die <<ERROR;
+Error:
+Files from an older, pre-0.09000 version of HTML-FormFu have been detected
+in directory: '$lib_path'.
+Installing version 0.09000 or above requires you delete any older versions
+of HTML-FormFu first.
+ERROR
+    }
+}
+
 if ( -e 'MANIFEST.SKIP' ) {
     system( 'pod2text lib/HTML/FormFu.pm > README' );
 }
 
-name 'HTML-FormFu';
-perl_version '5.008001';
 all_from 'lib/HTML/FormFu.pm';
 
 repository 'http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu';
