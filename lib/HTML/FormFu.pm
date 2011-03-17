@@ -3148,21 +3148,12 @@ attached, rather than inline; against subversion, rather than a cpan version
 (run C<< svn diff > patchfile >>); mention which svn version it's against.
 Mailing list messages are limited to 256KB, so gzip the patch if necessary.
 
-=head1 SUBVERSION REPOSITORY
+=head1 GITHUB REPOSITORY
 
-The publicly viewable subversion code repository is at
-L<http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>.
+This module's sourcecode is maintained in a git repository at
+L<git://github.com/fireartist/HTML-FormFu.git>
 
-If you wish to contribute, you'll need a google account. Then just
-ask on the mailing list for commit access, giving the email address
-your account uses.
-
-If you wish to contribute but for some reason really don't want to sign up
-for a google account, please post patches to the mailing list (although
-you'll have to wait for someone to commit them).
-
-If you have commit permissions, use the HTTPS repository url:
-L<https://html-formfu.googlecode.com/svn/trunk/HTML-FormFu>
+The project page is L<https://github.com/fireartist/HTML-FormFu>
 
 =head1 SEE ALSO
 
