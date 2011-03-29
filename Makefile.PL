@@ -1,12 +1,16 @@
-use inc::Module::Install 0.75;
+use inc::Module::Install 1.00;
+use IO::Interactive qw( is_interactive );
+use File::Spec;
+$|=1;
 
 name 'HTML-FormFu';
 perl_version '5.008001';
 
+# required for legacy check below
+bundle 'IO::Interactive' => '0.04';
+
 {
     # check for old non-Moose version
-    
-    eval { require File::Spec };
     
     eval { require HTML::FormFu::Element::_Field };
     
@@ -31,26 +35,29 @@ cause spurious warnings during the test suite run.
 
 We strongly recommend you manually remove old HTML-FormFu files before
 continuing.
+
 ERROR
         
-        if ( !-t STDIN ) {
+        if ( is_interactive() ) {
+            warn <<WARN;
+***Warning***
+$msg
+Continue?
+WARN
+
+            chomp( my $answer = <STDIN> );
+            
+            if ( $answer !~ /y/i ) {
+                die "Remove old HTML-FormFu files and retry\n";
+            }
+        }
+        else {
             die <<ERROR;
 ***Error***
 $msg
 Will not continue non-interactively
 ERROR
-        }
-        
-        warn <<WARN;
-***Warning***
-$msg
-Continue?
-WARN
-        
-        chomp( my $answer = <STDIN> );
-        
-        if ( $answer !~ /y/i ) {
-            exit;
+
         }
     }
 }
