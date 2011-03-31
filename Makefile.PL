@@ -38,7 +38,9 @@ continuing.
 
 ERROR
         
-        if ( is_interactive() ) {
+        eval { require IO::Interactive };
+        
+        if ( IO::Interactive::is_interactive() ) {
             warn <<WARN;
 ***Warning***
 $msg
