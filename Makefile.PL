@@ -1,5 +1,4 @@
 use inc::Module::Install 1.00;
-use IO::Interactive qw( is_interactive );
 use File::Spec;
 $|=1;
 
