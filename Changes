@@ -1,6 +1,10 @@
+0.09002 2011-03-21
+
+    - Hopefully fix IO::Interactive dependency properly
+
 0.09001 2011-03-31
 
-    - Fix IO::Dependency
+    - Fix IO::Interactive dependency
 
 0.09000 2011-03-29
 
