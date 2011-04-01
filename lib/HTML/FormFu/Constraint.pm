@@ -2,7 +2,6 @@ package HTML::FormFu::Constraint;
 
 use strict;
 use base 'HTML::FormFu::Processor';
-use Class::C3;
 use Moose;
 extends 'HTML::FormFu::Processor';
 
