@@ -474,8 +474,8 @@ we load this in the top-most auto action:
                 # Since we set indicator, we should only end up here if we
                 # have a username in the form
                 $c->authenticate({
-                    username => $login_form->field_value('username'),
-                    password => $login_form->field_value('password'),
+                    username => $login_form->param_value('username'),
+                    password => $login_form->param_value('password'),
                 });
             }
 
