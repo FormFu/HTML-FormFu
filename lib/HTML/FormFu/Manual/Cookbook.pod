@@ -412,6 +412,97 @@ field is normally populated with the value the user originally entered.
 If you would like the field to contain the filtered value, use 
 L<HTML::FormFu/render_processed_value>.
 
+=head2 Multiple forms using Catalyst::Controller::HTML::FormFu
+
+Sometimes you need to display multiple forms on a single page. If you
+try to use FormConfig on several actions in a chain, or similar, they
+all use C<< $c->stash->{form} >> to store the form, hence you only get the last
+form.
+
+One way to work around such problems is to do a little of the work yourself:
+
+In this example we have a login_form that we want on every page
+
+    # root/forms/login.yml:
+    ---
+        indicator: username
+        elements:
+            -
+                type: Text
+                name: username
+                constraints:
+                    - Required
+    ...
+
+We also have an edit-form
+
+    # root/forms/foo/edit.yml
+    ---
+        indicator: foo
+        elements:
+        -
+            type: Text
+            name: foo
+            constraints:
+                - Required
+    ...
+
+In this example, we want the login form to appear on every page, so
+we load this in the top-most auto action:
+
+    package MyApp::Controller::Root;
+
+    BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; }
+
+    sub auto : Private {
+        my ($self, $c) = @_;
+
+        # We want to utilize alot of the magic that the controller
+        # gives us, so therefore we call $self->form like this
+
+        my $login_form = $self->form;
+        $login_form->load_config_file('login.yml');
+
+        # Notice how we put it into another stash var, not 'form'
+        $c->stash->{login_form} = $login_form;
+        unless ($c->user_exists) {
+
+            $login_form->process();
+
+            if ($login_form->submitted_and_valid) {
+
+                # Since we set indicator, we should only end up here if we
+                # have a username in the form
+                $c->authenticate({
+                    username => $login_form->field_value('username'),
+                    password => $login_form->field_value('password'),
+                });
+            }
+
+        }
+    }
+
+
+Any other page that wants to load another form, can now do so freely:
+
+    package MyApp::Controller::Foo;
+
+    sub edit : Local FormConfig {
+        my ( $self, $c ) = @_;
+
+        my $form = $c->stash->{form};
+        if ($form->submitted_and_valid) {
+            # Do whatever you want with it :p
+        }
+    }
+
+In the view we now have two stash-variables:
+
+In F<root/foo/edit.tt>:
+    [% login_form %]
+    <h2>edit</h2>
+    [% form %]
+
 =head1 ADVANCED CUSTOMISATION
 
 =head2 Installing the TT templates
