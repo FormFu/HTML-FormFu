@@ -58,6 +58,13 @@ is called on any elements.
 
 For field plugins, is called during the field's C<process> call.
 
+=head2 pre_process
+
+For form plugins, is called immediately after C<pre_process>
+is run on the elements.
+
+For element plugins, is called before C<pre_process> is run on form plugins.
+
 =head2 post_process
 
 For form plugins, is called immediately before L<HTML::FormFu/process>
