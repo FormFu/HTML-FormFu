@@ -56,6 +56,7 @@ requires 'YAML::XS' => '0.32';
 test_requires 'CGI'; # for file POST tests
 test_requires 'Test::NoWarnings';
 test_requires 'Test::More' => '0.92';
+test_requires 'Test::Memory::Cycle';
 
 tests_recursive( 't' );
 
