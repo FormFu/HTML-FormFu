@@ -1,3 +1,5 @@
+    - Added placeholder fields for types Text and Textarea with L10N support.
+
 0.09002 2011-03-21
 
     - Hopefully fix IO::Interactive dependency properly

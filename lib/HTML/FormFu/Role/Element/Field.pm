@@ -49,7 +49,7 @@ has multi_value          => ( is => 'rw', traits => ['Chained'] );
 has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 
-__PACKAGE__->mk_output_accessors(qw( comment label value ));
+__PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
