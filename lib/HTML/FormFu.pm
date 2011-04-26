@@ -3189,6 +3189,8 @@ Moritz Onken
 
 Doug Orleans
 
+Matthias Dietrich
+
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
 
