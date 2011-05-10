@@ -1,3 +1,7 @@
+0.09003 2011-05-10
+
+    - fixed regression in Model::HashRef introduced in 0.09000
+
 0.09002 2011-03-21
 
     - Hopefully fix IO::Interactive dependency properly
