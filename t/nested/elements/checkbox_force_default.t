@@ -1,8 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 20 + 1;
-use Test::NoWarnings;
+use Test::More tests => 20;
 
 use HTML::FormFu;
 

@@ -1,6 +1,18 @@
 use strict;
 use warnings;
 
+package CB;
+
+sub cb2 {
+    my $value = shift;
+
+    $value =~ s/a/A/;
+
+    return $value;
+}
+
+package main;
+
 use Test::More tests => 3;
 
 use HTML::FormFu;
@@ -9,17 +21,9 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')->transformer('Callback')->callback( \&cb );
+$form->element('Text')->name('bar')->transformer('Callback')->callback( \&CB::cb2 );
 $form->element('Text')->name('baz')->transformer('Callback')
-    ->callback("main::cb");
-
-sub cb {
-    my $value = shift;
-
-    $value =~ s/a/A/;
-
-    return $value;
-}
+    ->callback("CB::cb2");
 
 # Valid
 {

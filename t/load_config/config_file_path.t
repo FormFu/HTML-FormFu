@@ -8,7 +8,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->config_file_path('t/config_file_path');
+$form->config_file_path('t/load_config/config_file_path');
 
 $form->load_config_file('form.yml');
 
@@ -30,13 +30,13 @@ eval {
 };
 ok($@, "Should die if form.yml is not found");
 
-$form2->config_file_path([ @dirs, 't/config_file_path' ]);
+$form2->config_file_path([ @dirs, 't/load_config/config_file_path' ]);
 
 $form2->load_config_file('form.yml');
 ok( $form2->get_field('found-me') );
 
 my $form3 = HTML::FormFu->new;
-$form3->config_file_path([ 't/config_file_path2', @dirs, 't/config_file_path' ]);
+$form3->config_file_path([ 't/load_config/config_file_path2', @dirs, 't/load_config/config_file_path' ]);
 $form3->load_config_file('form.yml');
 ok( $form3->get_field('new-found-me') );
 

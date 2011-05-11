@@ -1,6 +1,16 @@
 use strict;
 use warnings;
 
+package CB::Validators;
+
+sub cb {
+    my $value = shift;
+    ::ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
+    return 1;
+}
+
+package main;
+
 use Test::More tests => 7;
 
 use HTML::FormFu;
@@ -9,7 +19,7 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')->validator('Callback')->callback( \&cb );
+$form->element('Text')->name('bar')->validator('Callback')->callback( \&CB::Validators::cb );
 
 $form->element('Text')->name('baz');
 
@@ -17,14 +27,8 @@ $form->element('Text')->name('baz');
 $form->validator( {
         type     => 'Callback',
         name     => 'foo.baz',
-        callback => 'main::cb',
+        callback => 'CB::cb',
     } );
-
-sub cb {
-    my $value = shift;
-    ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
-    return 1;
-}
 
 # Valid
 {

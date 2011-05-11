@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/get_parent.yml');
+$form->load_config_file('t/form/get_parent.yml');
 
 $form->get_all_element({ type => 'Repeatable' })->repeat(2);
 

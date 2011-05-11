@@ -1,6 +1,13 @@
 use strict;
 use warnings;
 
+package CB;
+# Just to test we can provide strings as callbacks
+# used by "coo2" field
+sub when_string_callback { return 1 }
+
+package main;
+
 use Test::More tests => 49;
 
 use HTML::FormFu;
@@ -16,10 +23,6 @@ my $when_closure = sub {
 };
 
 $form->get_element('coo')->get_constraint->when({ callback => $when_closure });
-
-# Just to test we can provide strings as callbacks
-# used by "coo2" field
-sub when_string_callback { return 1 }
 
 # Valid
 {

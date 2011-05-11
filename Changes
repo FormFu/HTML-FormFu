@@ -1,3 +1,8 @@
+0.09003_01 2011-05-11
+
+    - using Test::Aggregate for the test suite if installed
+      tests finish now in seconds instead of minutes
+
 0.09003 2011-05-10
 
     - fixed regression in Model::HashRef introduced in 0.09000

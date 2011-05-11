@@ -1,21 +1,24 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
-
+package CB;
 use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Callback')->callback( \&cb );
 $form->element('Text')->name('bar')->constraint('Callback')
-    ->callback("main::cb");
+    ->callback("CB::cb");
 
 sub cb {
     my $value = shift;
-    ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
+    ::ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
     return 1;
 }
+
+package main;
+
+use Test::More tests => 5;
 
 # Valid
 {
@@ -24,6 +27,6 @@ sub cb {
             bar => [ 0, 'a', 'b' ],
         } );
 
-    ok( $form->valid('foo'), 'foo valid' );
-    ok( $form->valid('bar'), 'bar valid' );
+    ::ok( $form->valid('foo'), 'foo valid' );
+    ::ok( $form->valid('bar'), 'bar valid' );
 }

@@ -34,4 +34,4 @@ elements:
       constraints:
         - type: Integer
           when:
-            callback: 'main::when_string_callback'
+            callback: 'CB::when_string_callback'
