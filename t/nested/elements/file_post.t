@@ -40,12 +40,12 @@ local %ENV = (
     'HTTP_HOST'         => 'www.perl.org'
 );
 
-my $q;
+my $io = new IO::File 't/elements/file_post.txt';
+$io->binmode;
 
-{
-    local *STDIN = new IO::File 't/elements/file_post.txt';
-    $q = CGI->new();
-}
+local *STDIN = $io;
+
+my $q = CGI->new();
 
 my $form = HTML::FormFu->new( {
         action        => 'http://www.perl.org/test.cgi',
