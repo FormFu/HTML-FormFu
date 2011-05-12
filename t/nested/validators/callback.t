@@ -27,7 +27,7 @@ $form->element('Text')->name('baz');
 $form->validator( {
         type     => 'Callback',
         name     => 'foo.baz',
-        callback => 'CB::cb',
+        callback => 'CB::Validators::cb',
     } );
 
 # Valid
