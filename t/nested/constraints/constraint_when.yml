@@ -37,4 +37,4 @@ elements:
           constraints:
             - type: Integer
               when:
-                callback: 'main::when_string_callback'
+                callback: 'CB::nested_when_string_callback'

@@ -3,6 +3,7 @@ use warnings;
 
 use Test::More;
 use HTML::FormFu;
+use IO::File;
 
 eval "use CGI";
 if ($@) {
@@ -21,7 +22,6 @@ plan tests => 25;
     'HTTP_CONNECTION'   => 'TE, close',
     'REQUEST_METHOD'    => 'POST',
     'SCRIPT_URI'        => 'http://www.perl.org/test.cgi',
-    'CONTENT_LENGTH'    => 3458,
     'SCRIPT_FILENAME'   => '/home/usr/test.cgi',
     'SERVER_SOFTWARE'   => 'Apache/1.3.27 (Unix) ',
     'HTTP_TE'           => 'deflate,gzip;q=0.3',
@@ -41,17 +41,12 @@ plan tests => 25;
     'HTTP_HOST'         => 'www.perl.org'
 );
 
-my $q;
+my $io = new IO::File 't/elements/file_post.txt';
+$io->binmode;
 
-{
-    my $file = 't/elements/file_post.txt';
-    local *STDIN;
-    open STDIN,
-        "<", $file
-        or die "missing test file $file";
-    binmode STDIN;
-    $q = CGI->new;
-}
+local *STDIN = $io;
+
+my $q = CGI->new();
 
 my $form = HTML::FormFu->new( {
         action   => 'http://www.perl.org/test.cgi',
@@ -67,7 +62,7 @@ my $form = HTML::FormFu->new( {
     } );
 
 $form->process($q);
-
+use Data::Dumper; warn Dumper($form);
 {
     my $multiple = $form->params->{multiple};
 

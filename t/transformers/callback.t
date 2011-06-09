@@ -1,6 +1,18 @@
 use strict;
 use warnings;
 
+package CB::Transformers;
+
+sub cb {
+    my $value = shift;
+
+    $value =~ s/a/A/;
+
+    return $value;
+}
+
+package main;
+
 use Test::More tests => 4;
 
 use HTML::FormFu;
@@ -18,19 +30,11 @@ my $can_closure = sub {
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->transformer('Callback')->callback( \&cb );
+$form->element('Text')->name('foo')->transformer('Callback')->callback( \&CB::Transformers::cb );
 $form->element('Text')->name('bar')->transformer('Callback')
-    ->callback("main::cb");
+    ->callback("CB::Transformers::cb");
 $form->element('Text')->name('coo')->transformer('Callback')
     ->callback( $can_closure );
-
-sub cb {
-    my $value = shift;
-
-    $value =~ s/a/A/;
-
-    return $value;
-}
 
 # Valid
 {

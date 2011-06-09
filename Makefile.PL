@@ -97,6 +97,7 @@ requires 'Hash::Flatten';
 requires 'HTML::Scrubber';
 requires 'HTML::TokeParser::Simple' => '3.14';
 requires 'HTTP::Headers' => '1.64';
+requires 'IO::File';
 requires 'List::Util';
 requires 'List::MoreUtils';
 requires 'Locale::Maketext';
@@ -116,10 +117,10 @@ requires 'Template'; # form->start and ->end still require TT
 requires 'YAML::XS' => '0.32';
 
 test_requires 'CGI'; # for file POST tests
-test_requires 'Test::NoWarnings';
 test_requires 'Test::More' => '0.92';
 
-tests_recursive( 't' );
+eval "require Test::Aggregate::Nested";
+$@ ? tests_recursive 't' : tests 't/*.t';
 
 no_index directory => 'examples';
 

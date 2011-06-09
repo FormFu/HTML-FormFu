@@ -37,7 +37,7 @@ $fs->filter('HTMLEscape');
 my $alt_form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$alt_form->load_config_filestem('t/load_config_file_form');
+$alt_form->load_config_file('t/load_config/load_config_file_form.yml');
 
 is_deeply( $alt_form, $form );
 

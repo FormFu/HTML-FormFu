@@ -168,6 +168,7 @@ sub _as_object_get {
 sub _escape_hash {
     my $hash = shift;
     my $method = shift || \&_escape_name;
+    return $hash unless(ref $hash);
     foreach my $k (keys %$hash) {
         my $v = delete $hash->{$k};
         if(ref $v eq 'HASH') {
@@ -296,8 +297,6 @@ sub get_repeatable {
 }
 
 __PACKAGE__->meta->make_immutable;
-
-1;
 
 __END__
 
