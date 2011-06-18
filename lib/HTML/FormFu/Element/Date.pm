@@ -214,6 +214,11 @@ sub _add_day {
         ? @{ $day->{prefix} }
         : $day->{prefix};
 
+    @day_prefix
+        = ref $day->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $day->{prefix_loc} }
+        : $self->form->localize($day->{prefix_loc});
+
     @day_prefix = map { [ '', $_ ] } @day_prefix;
 
     my $element = $self->element( {
@@ -242,6 +247,11 @@ sub _add_month {
         = ref $month->{prefix}
         ? @{ $month->{prefix} }
         : $month->{prefix};
+
+    @month_prefix
+        = ref $month->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $month->{prefix_loc} }
+        : $self->form->localize($month->{prefix_loc});
 
     @month_prefix = map { [ '', $_ ] } @month_prefix;
 
@@ -285,6 +295,11 @@ sub _add_year {
         = ref $year->{prefix}
         ? @{ $year->{prefix} }
         : $year->{prefix};
+
+    @year_prefix
+        = ref $year->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $year->{prefix_loc} }
+        : $self->form->localize($year->{prefix_loc});
 
     @year_prefix = map { [ '', $_ ] } @year_prefix;
 
