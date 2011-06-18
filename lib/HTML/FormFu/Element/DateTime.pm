@@ -76,6 +76,7 @@ sub _add_hour {
                 @hour_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } 0 .. 23
             ],
+            attributes => $hour->{attributes},
 
             defined $hour->{default}
             ? ( default => sprintf '%02d', $hour->{default} )
@@ -115,6 +116,7 @@ sub _add_minute {
                 @minute_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } @minutes
             ],
+            attributes => $minute->{attributes},
 
             defined $minute->{default}
             ? ( default => sprintf '%02d', $minute->{default} )
@@ -154,6 +156,7 @@ sub _add_second {
                 @second_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } @seconds
             ],
+            attributes => $second->{attributes},
 
             defined $second->{default}
             ? ( default => sprintf '%02d', $second->{default} )

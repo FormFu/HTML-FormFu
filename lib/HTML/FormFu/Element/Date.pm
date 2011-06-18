@@ -222,9 +222,10 @@ sub _add_day {
     @day_prefix = map { [ '', $_ ] } @day_prefix;
 
     my $element = $self->element( {
-            type    => 'Select',
-            name    => $day_name,
-            options => [ @day_prefix, map { [ $_, $_ ] } 1 .. 31 ],
+            type       => 'Select',
+            name       => $day_name,
+            options    => [ @day_prefix, map { [ $_, $_ ] } 1 .. 31 ],
+            attributes => $day->{attributes},
 
             defined $day->{default} ? ( default => $day->{default} ) : (),
         } );
@@ -258,9 +259,10 @@ sub _add_month {
     my $options = [ @month_prefix, map { [ $_ + 1, $months[$_] ] } 0 .. 11 ];
 
     my $element = $self->element( {
-            type    => 'Select',
-            name    => $month_name,
-            options => $options,
+            type       => 'Select',
+            name       => $month_name,
+            options    => $options,
+            attributes => $month->{attributes},
 
             defined $month->{default} ? ( default => $month->{default} ) : (),
         } );
@@ -304,9 +306,10 @@ sub _add_year {
     @year_prefix = map { [ '', $_ ] } @year_prefix;
 
     my $element = $self->element( {
-            type    => 'Select',
-            name    => $year_name,
-            options => [ @year_prefix, map { [ $_, $_ ] } @years ],
+            type       => 'Select',
+            name       => $year_name,
+            options    => [ @year_prefix, map { [ $_, $_ ] } @years ],
+            attributes => $year->{attributes},
 
             defined $year->{default} ? ( default => $year->{default} ) : (),
         } );
