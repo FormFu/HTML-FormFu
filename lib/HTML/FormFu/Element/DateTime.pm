@@ -62,6 +62,11 @@ sub _add_hour {
         ? @{ $hour->{prefix} }
         : $hour->{prefix};
 
+    @hour_prefix
+        = ref $hour->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $hour->{prefix_loc} }
+        : $self->form->localize($hour->{prefix_loc});
+
     @hour_prefix = map { [ '', $_ ] } @hour_prefix;
 
     my $element = $self->element( {
@@ -93,6 +98,11 @@ sub _add_minute {
         = ref $minute->{prefix}
         ? @{ $minute->{prefix} }
         : $minute->{prefix};
+
+    @minute_prefix
+        = ref $minute->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $minute->{prefix_loc} }
+        : $self->form->localize($minute->{prefix_loc});
 
     @minute_prefix = map { [ '', $_ ] } @minute_prefix;
 
@@ -127,6 +137,11 @@ sub _add_second {
         = ref $second->{prefix}
         ? @{ $second->{prefix} }
         : $second->{prefix};
+
+    @second_prefix
+        = ref $second->{prefix_loc}
+        ? map { $self->form->localize($_) } @{ $second->{prefix_loc} }
+        : $self->form->localize($second->{prefix_loc});
 
     @second_prefix = map { [ '', $_ ] } @second_prefix;
 

@@ -1,4 +1,5 @@
-    - Added placeholder fields for types Text and Textarea with L10N support.
+    - Added placeholder attributes for types Text and Textarea with L10N support.
+    - Added L10N support for 'prefix' attributes for types Date and DateTime.
 
 0.09003_01 2011-05-11
 
