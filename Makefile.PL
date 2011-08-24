@@ -120,7 +120,7 @@ test_requires 'CGI'; # for file POST tests
 test_requires 'Test::More' => '0.92';
 
 eval "require Test::Aggregate::Nested";
-$@ ? tests_recursive 't' : tests 't/*.t';
+$^O eq 'MSWin32' || $@ ? tests_recursive 't' : tests 't/*.t';
 
 no_index directory => 'examples';
 
