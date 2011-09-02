@@ -62,7 +62,7 @@ my $form = HTML::FormFu->new( {
     } );
 
 $form->process($q);
-use Data::Dumper; warn Dumper($form);
+
 {
     my $multiple = $form->params->{multiple};
 

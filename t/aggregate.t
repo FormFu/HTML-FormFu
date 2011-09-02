@@ -3,8 +3,8 @@ use warnings;
 use Test::More;
 
 eval "require Test::Aggregate::Nested";
-if($@) {
-    plan skip_all => 'Test::Aggregate::Nested required';
+if($^O eq 'MSWin32' || $@) {
+    plan skip_all => 'Test::Aggregate::Nested an non-Win32 OS required';
     exit;
 }
 
