@@ -102,7 +102,7 @@ sub _add_minute {
         ? @{ $minute->{prefix} }
         : $minute->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if (exists $minute->{prefix_loc}) {
         @minute_prefix
             = ref $minute->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $minute->{prefix_loc} }
@@ -144,7 +144,7 @@ sub _add_second {
         ? @{ $second->{prefix} }
         : $second->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if (exists $second->{prefix_loc}) {
         @second_prefix
             = ref $second->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $second->{prefix_loc} }

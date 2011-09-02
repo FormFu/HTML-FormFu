@@ -214,7 +214,7 @@ sub _add_day {
         ? @{ $day->{prefix} }
         : $day->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if (exists $day->{prefix_loc}) {
         @day_prefix
             = ref $day->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $day->{prefix_loc} }
@@ -251,7 +251,7 @@ sub _add_month {
         ? @{ $month->{prefix} }
         : $month->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if (exists $month->{prefix_loc}) {
         @month_prefix
             = ref $month->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $month->{prefix_loc} }
@@ -302,7 +302,7 @@ sub _add_year {
         ? @{ $year->{prefix} }
         : $year->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if (exists $year->{prefix_loc}) {
         @year_prefix
             = ref $year->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $year->{prefix_loc} }
