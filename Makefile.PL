@@ -116,7 +116,7 @@ requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
 requires 'YAML::XS' => '0.32';
 
-test_requires 'CGI'; # for file POST tests
+test_requires 'CGI' => '3.37'; # for file POST tests
 test_requires 'Test::More' => '0.92';
 
 eval "require Test::Aggregate::Nested";
