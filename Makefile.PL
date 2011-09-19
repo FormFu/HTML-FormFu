@@ -77,33 +77,45 @@ repository 'git://github.com/fireartist/HTML-FormFu.git';
 requires 'Exporter' => '5.57';
 
 requires 'Captcha::reCAPTCHA' => 0.93;
+requires 'Carp';
 requires 'Class::Accessor::Chained::Fast';
-requires 'Clone' => '0.31';
 requires 'Class::MOP::Method';
+requires 'Clone' => '0.31';
 requires 'Config::Any' => '0.18'; # 0.10 - supports multi-doc config files
                                   # 0.18 - prefers YAML::XS for YAML
 requires 'Crypt::CBC';
 requires 'Crypt::DES';
+requires 'Cwd';
 requires 'Data::Visitor' => 0.26; # when it dumped Any::Moose for Moose
+requires 'Data::Visitor::Callback';
 requires 'Date::Calc';
 requires 'DateTime' => '0.54'; # required for string overloading
 requires 'DateTime::Format::Strptime' => '1.2000';  
 requires 'DateTime::Format::Builder' => '0.7901'; # fixes memory leaks
 requires 'DateTime::Format::Natural';
+requires 'DateTime::Format::Strptime';
 requires 'DateTime::Locale' => '0.45';
 requires 'Email::Valid';
+requires 'Encode';
+requires 'Fatal';
+requires 'File::Copy';
+requires 'File::Find';
 requires 'File::ShareDir';
+requires 'File::Spec';
+requires 'File::Temp';
 requires 'Hash::Flatten';
 requires 'HTML::Scrubber';
 requires 'HTML::TokeParser::Simple' => '3.14';
 requires 'HTTP::Headers' => '1.64';
 requires 'IO::File';
-requires 'List::Util';
 requires 'List::MoreUtils';
+requires 'List::Util';
 requires 'Locale::Maketext';
 requires 'Module::Pluggable';
 requires 'Moose' => '1.00'; # Reasonable default until we get test results
 requires 'Moose::Meta::Attribute::Custom::Trait::Chained';
+requires 'Moose::Role';
+requires 'Moose::Util';
 requires 'MooseX::Aliases';
 requires 'MooseX::ChainedAccessors::Accessor' => '0.02'; # for more recent Moose
 requires 'MooseX::SetOnce';
@@ -111,12 +123,15 @@ requires 'Number::Format';
 requires 'Readonly';
 requires 'Regexp::Common';
 requires 'Path::Class::File';
+requires 'Scalar::Util';
+requires 'Storable';
 requires 'Task::Weaken'; # to ensure Scalar::Util was built with weaken()
 requires 'Template'; # form->start and ->end still require TT
                      # so does t/elements/render_method
 requires 'YAML::XS' => '0.32';
 
-test_requires 'CGI'; # for file POST tests
+test_requires 'CGI' => '3.37'; # for file POST tests
+test_requires 'POSIX';
 test_requires 'Test::More' => '0.92';
 
 eval "require Test::Aggregate::Nested";

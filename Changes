@@ -2,6 +2,9 @@
     - Added L10N support for 'prefix' attributes for types Date and DateTime.
     - Added 'attributes' support to types Date and DateTime.
 
+0.09005 2011-09-06
+    - bump version of prereq CGI to 3.37 to make all tests pass
+
 0.09004 2011-08-26
 
     - skip aggregate.t on Win32
