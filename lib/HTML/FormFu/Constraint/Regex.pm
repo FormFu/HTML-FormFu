@@ -58,7 +58,7 @@ Regular expression-based constraint.
 
 =head2 regex
 
-Arguments: $regex
+Arguments: $regex. In a config file, enclose the regex in a string, like this: regex: '^[-_+=!\w\d]*\z'
 
 Arguments: $string
 
