@@ -227,6 +227,20 @@ menu.
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
 
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
+
 =head2 minute
 
 Arguments: \%setting
@@ -253,6 +267,20 @@ menu.
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
 
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
+
 =head2 second
 
 Arguments: \%setting
@@ -278,6 +306,20 @@ menu.
 
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
+
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
 
 =head2 field_order
 

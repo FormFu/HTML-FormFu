@@ -100,6 +100,23 @@ Sets the C<textarea> tag's C<cols> attribute.
 
 Sets the C<textarea> tag's C<rows> attribute.
 
+=head2 placeholder
+
+Sets the HTML5 attribute C<placeholder> to the specified value.
+
+=head2 placeholder_xml
+
+If you don't want the C<placeholder> attribute to be XML-escaped, use the L</placeholder_xml> 
+method instead of L</placeholder>.
+
+Arguments: $string
+
+=head2 placeholder_loc
+
+Arguments: $localization_key
+
+Set the  C<placeholder> attribute using a L10N key.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 

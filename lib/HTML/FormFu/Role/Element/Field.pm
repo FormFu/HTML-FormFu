@@ -974,6 +974,23 @@ Arguments: $localization_key
 
 Set the label using a L10N key.
 
+=head2 placeholder
+
+Sets the HTML5 attribute C<placeholder> to the specified value.
+
+=head2 placeholder_xml
+
+If you don't want the C<placeholder> attribute to be XML-escaped, use the L</placeholder_xml> 
+method instead of L</placeholder>.
+
+Arguments: $string
+
+=head2 placeholder_loc
+
+Arguments: $localization_key
+
+Set the C<placeholder> attribute using a L10N key.
+
 =head2 comment
 
 Set a comment to be displayed along with the form-field.
