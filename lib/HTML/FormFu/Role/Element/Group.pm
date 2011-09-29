@@ -228,7 +228,7 @@ sub _parse_option_hashref {
     if ( defined $item->{placeholder_xml} ) {
         $item->{placeholder} = literal( $item->{placeholder_xml} );
     }
-    elsif ( defined $item->{label_loc} ) {
+    elsif ( defined $item->{placeholder_loc} ) {
         $item->{placeholder} = $self->form->localize( $item->{placeholder_loc} );
     }
 
