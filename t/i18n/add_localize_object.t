@@ -33,9 +33,8 @@ my @elements = (
 {
     my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
 
-    $form->add_localize_object(
-        HTMLFormFu::RegressLocalization::en->new
-    );
+    my $l10n_object = HTMLFormFu::RegressLocalization::en->new;
+    $form->add_localize_object($l10n_object);
 
     $form->elements(\@elements);
 
