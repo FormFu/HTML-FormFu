@@ -5,7 +5,7 @@ use strict;
 use HTML::FormFu::Util qw( require_class );
 use List::MoreUtils qw( any );
 use List::MoreUtils qw( pairwise );
-use Scalar::Util qw( blessed );
+use Scalar::Util qw( weaken isweak blessed );
 use Exporter qw( import );
 use Carp qw( croak );
 
@@ -83,6 +83,14 @@ sub add_localize_object {
             localize_object     => $localize_object,
             dies_on_missing_key => $dies_on_missing_key,
             };
+
+        if (   !exists $self->{weaken_localize_object} || $self->{weaken_localize_object} != 0
+            && !isweak @{ $self->{localize_data} }[-1]->{localize_object} )
+        {
+            weaken @{ $self->{localize_data} }[-1]->{localize_object};
+        } else {
+            delete $self->{weaken_localize_object};
+        }
     }
 
     return $self;
@@ -91,6 +99,7 @@ sub add_localize_object {
 sub add_localize_object_from_class {
     my ( $self, @class ) = @_;
     
+    $self->{weaken_localize_object} = 0;
     return $self->add_localize_object(
         map {
             $self->get_localize_object_from_class( $_ )

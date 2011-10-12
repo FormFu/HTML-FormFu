@@ -37,6 +37,8 @@ around render_data_non_recursive => sub {
 
     $render->{field_type} = $self->field_type;
 
+    $render->{placeholder} = $self->placeholder;
+
     #$self->_field_render_data_non_recursive;
 
     return $render;
@@ -80,6 +82,10 @@ sub _string_field {
 
     if ( defined $render->{value} ) {
         $html .= sprintf qq{ value="%s"}, $render->{value};
+    }
+
+    if ( defined $render->{placeholder} ) {
+        $html .= sprintf qq{ placeholder="%s"}, $render->{placeholder};
     }
 
     $html .= sprintf "%s />", process_attrs( $render->{attributes} );
