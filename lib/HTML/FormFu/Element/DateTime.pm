@@ -62,6 +62,13 @@ sub _add_hour {
         ? @{ $hour->{prefix} }
         : $hour->{prefix};
 
+    if (exists $hour->{prefix_loc}) {
+        @hour_prefix
+            = ref $hour->{prefix_loc}
+            ? map { $self->form->localize($_) } @{ $hour->{prefix_loc} }
+            : $self->form->localize($hour->{prefix_loc});
+    }
+
     @hour_prefix = map { [ '', $_ ] } @hour_prefix;
 
     my $element = $self->element( {
@@ -71,6 +78,7 @@ sub _add_hour {
                 @hour_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } 0 .. 23
             ],
+            attributes => $hour->{attributes},
 
             defined $hour->{default}
             ? ( default => sprintf '%02d', $hour->{default} )
@@ -94,6 +102,13 @@ sub _add_minute {
         ? @{ $minute->{prefix} }
         : $minute->{prefix};
 
+    if (exists $minute->{prefix_loc}) {
+        @minute_prefix
+            = ref $minute->{prefix_loc}
+            ? map { $self->form->localize($_) } @{ $minute->{prefix_loc} }
+            : $self->form->localize($minute->{prefix_loc});
+    }
+
     @minute_prefix = map { [ '', $_ ] } @minute_prefix;
 
     my @minutes = $self->_build_number_list( 0, 59, $minute->{interval} );
@@ -105,6 +120,7 @@ sub _add_minute {
                 @minute_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } @minutes
             ],
+            attributes => $minute->{attributes},
 
             defined $minute->{default}
             ? ( default => sprintf '%02d', $minute->{default} )
@@ -128,6 +144,13 @@ sub _add_second {
         ? @{ $second->{prefix} }
         : $second->{prefix};
 
+    if (exists $second->{prefix_loc}) {
+        @second_prefix
+            = ref $second->{prefix_loc}
+            ? map { $self->form->localize($_) } @{ $second->{prefix_loc} }
+            : $self->form->localize($second->{prefix_loc});
+    }
+
     @second_prefix = map { [ '', $_ ] } @second_prefix;
 
     my @seconds = $self->_build_number_list( 0, 59, $second->{interval} );
@@ -139,6 +162,7 @@ sub _add_second {
                 @second_prefix,
                 map { [ $_, $_ ] } map { sprintf '%02d', $_ } @seconds
             ],
+            attributes => $second->{attributes},
 
             defined $second->{default}
             ? ( default => sprintf '%02d', $second->{default} )
@@ -203,6 +227,20 @@ menu.
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
 
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
+
 =head2 minute
 
 Arguments: \%setting
@@ -229,6 +267,20 @@ menu.
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
 
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
+
 =head2 second
 
 Arguments: \%setting
@@ -254,6 +306,20 @@ menu.
 
 Each value is only used as the label for a select item - the value for each 
 of these items is always the empty string C<''>.
+
+=head3 prefix_loc
+
+Arguments: $localization_key
+
+Arguments: \@localization_keys
+
+A localized string or arrayref of localized strings to be inserted into the
+start of the select menu.
+
+Each value is localized and then only used as the label for a select item
+- the value for each of these items is always the empty string C<''>.
+
+Use C<prefix_loc> insted of C<prefix>.
 
 =head2 field_order
 

@@ -45,6 +45,9 @@ my @ALLOWED_OPTION_KEYS = qw(
     label_attrs
     label_attributes_xml
     label_attrs_xml
+    placeholder
+    placeholder_xml
+    placeholder_loc
 );
 
 after BUILD => sub {
@@ -222,6 +225,13 @@ sub _parse_option_hashref {
         $item->{label} = $self->form->localize( $item->{label_loc} );
     }
 
+    if ( defined $item->{placeholder_xml} ) {
+        $item->{placeholder} = literal( $item->{placeholder_xml} );
+    }
+    elsif ( defined $item->{placeholder_loc} ) {
+        $item->{placeholder} = $self->form->localize( $item->{placeholder_loc} );
+    }
+
     if ( defined $item->{value_xml} ) {
         $item->{value} = literal( $item->{value_xml} );
     }
@@ -356,6 +366,7 @@ sub _quote_options {
 
     foreach my $opt (@$options) {
         $opt->{label} = xml_escape( $opt->{label} );
+        $opt->{placeholder} = xml_escape( $opt->{placeholder} );
         $opt->{value} = xml_escape( $opt->{value} );
         $opt->{attributes}           = xml_escape( $opt->{attributes} );
         $opt->{label_attributes}     = xml_escape( $opt->{label_attributes} );

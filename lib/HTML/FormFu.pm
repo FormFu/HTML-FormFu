@@ -28,6 +28,7 @@ use HTML::FormFu::ObjectUtil qw(
     load_config_file            load_config_filestem
     clone                       stash
     constraints_from_dbic       parent
+    _load_file
 );
 use HTML::FormFu::Util qw(
     DEBUG
@@ -3188,6 +3189,8 @@ Steve Nolte
 Moritz Onken
 
 Doug Orleans
+
+Matthias Dietrich
 
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
