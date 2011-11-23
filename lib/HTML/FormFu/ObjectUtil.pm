@@ -33,6 +33,7 @@ our @EXPORT_OK = (
         nested_name             nested_names
         remove_element
         _string_equals          _object_equals
+        _load_file
         ),
 );
 

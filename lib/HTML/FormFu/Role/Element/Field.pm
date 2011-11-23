@@ -49,7 +49,7 @@ has multi_value          => ( is => 'rw', traits => ['Chained'] );
 has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 
-__PACKAGE__->mk_output_accessors(qw( comment label value ));
+__PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
@@ -973,6 +973,23 @@ method instead of L</label>.
 Arguments: $localization_key
 
 Set the label using a L10N key.
+
+=head2 placeholder
+
+Sets the HTML5 attribute C<placeholder> to the specified value.
+
+=head2 placeholder_xml
+
+If you don't want the C<placeholder> attribute to be XML-escaped, use the L</placeholder_xml> 
+method instead of L</placeholder>.
+
+Arguments: $string
+
+=head2 placeholder_loc
+
+Arguments: $localization_key
+
+Set the C<placeholder> attribute using a L10N key.
 
 =head2 comment
 
