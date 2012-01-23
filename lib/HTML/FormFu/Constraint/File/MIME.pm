@@ -1,6 +1,7 @@
 package HTML::FormFu::Constraint::File::MIME;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 use List::MoreUtils qw( any );

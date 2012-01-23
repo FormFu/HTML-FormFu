@@ -1,6 +1,7 @@
 package HTML::FormFu::Element::reCAPTCHA;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Multi';
 
 use HTML::FormFu::Util qw( process_attrs _merge_hashes );

@@ -1,6 +1,7 @@
 package HTML::FormFu::Deflator::CompoundDateTime;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

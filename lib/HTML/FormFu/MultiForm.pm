@@ -1,5 +1,6 @@
 package HTML::FormFu::MultiForm;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::FormAndElementMethods' => { -excludes => 'model_config' },
      'HTML::FormFu::Role::NestedHashUtils',

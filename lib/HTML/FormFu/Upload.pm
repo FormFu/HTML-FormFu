@@ -1,5 +1,6 @@
 package HTML::FormFu::Upload;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Populate';
 

@@ -1,6 +1,7 @@
 package HTML::FormFu::Element::ContentButton;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
 with 'HTML::FormFu::Role::Element::Field';
 with "HTML::FormFu::Role::Element::SingleValueField";

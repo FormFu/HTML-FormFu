@@ -1,6 +1,7 @@
 package HTML::FormFu::Deflator::PathClassFile;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
 has relative => ( is => 'rw', traits => ['Chained'] );

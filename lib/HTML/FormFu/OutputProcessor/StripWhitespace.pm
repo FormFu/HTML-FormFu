@@ -1,6 +1,7 @@
 package HTML::FormFu::OutputProcessor::StripWhitespace;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::OutputProcessor';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -121,6 +122,7 @@ __PACKAGE__->meta->make_immutable;
 
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 use Moose;
+use MooseX::Attribute::Chained;
 
 sub new {
     my ( $class, @tags ) = @_;

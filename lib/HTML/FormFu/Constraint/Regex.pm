@@ -1,6 +1,7 @@
 package HTML::FormFu::Constraint::Regex;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 use Regexp::Common;

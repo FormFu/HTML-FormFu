@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::Default;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 has value => ( is => 'rw', traits => ['Chained'] );

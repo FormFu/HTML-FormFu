@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::CopyValue;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 has field => ( is => 'rw', traits => ['Chained'] );

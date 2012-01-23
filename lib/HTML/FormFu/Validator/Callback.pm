@@ -1,6 +1,7 @@
 package HTML::FormFu::Validator::Callback;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Validator';
 
 has callback => ( is => 'rw', traits => ['Chained'] );

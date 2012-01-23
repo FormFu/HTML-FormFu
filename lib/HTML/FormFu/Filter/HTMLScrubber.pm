@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::HTMLScrubber;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 use Clone ();

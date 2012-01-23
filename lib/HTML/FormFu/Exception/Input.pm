@@ -1,6 +1,7 @@
 package HTML::FormFu::Exception::Input;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Util qw( literal );

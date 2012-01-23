@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::Callback;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 has callback => ( is => 'rw', traits => ['Chained'] );
