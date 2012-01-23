@@ -1,5 +1,6 @@
 package HTML::FormFu::QueryType::Catalyst;
 use Moose;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Upload';
 

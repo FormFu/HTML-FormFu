@@ -1,6 +1,7 @@
 package HTML::FormFu::Deflator::FormatNumber;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
 use Number::Format;

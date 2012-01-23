@@ -1,5 +1,6 @@
 package HTML::FormFu::OutputProcessor;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::HasParent',
      'HTML::FormFu::Role::Populate';

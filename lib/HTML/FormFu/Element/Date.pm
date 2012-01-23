@@ -1,5 +1,6 @@
 package HTML::FormFu::Element::Date;
 use Moose;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Element::Multi';
 

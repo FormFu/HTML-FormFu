@@ -1,6 +1,7 @@
 package HTML::FormFu::Constraint::Callback;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 has callback => ( is => 'rw', traits  => ['Chained'] );

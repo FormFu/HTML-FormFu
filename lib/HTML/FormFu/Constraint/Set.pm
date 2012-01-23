@@ -1,6 +1,7 @@
 package HTML::FormFu::Constraint::Set;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 use Clone ();

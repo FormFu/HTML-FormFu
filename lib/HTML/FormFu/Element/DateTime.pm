@@ -1,6 +1,7 @@
 package HTML::FormFu::Element::DateTime;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Date';
 
 use Moose::Util qw( apply_all_roles );
