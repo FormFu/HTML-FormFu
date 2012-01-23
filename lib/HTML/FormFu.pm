@@ -143,7 +143,7 @@ __PACKAGE__->mk_inherited_merging_accessors(qw( tt_args config_callback ));
 *plugins           = \&plugin;
 *add_plugins       = \&add_plugin;
 
-our $VERSION = '0.09005';
+our $VERSION = '0.09006';
 $VERSION = eval $VERSION;
 
 sub BUILD {
