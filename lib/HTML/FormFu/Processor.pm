@@ -1,5 +1,6 @@
 package HTML::FormFu::Processor;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::NestedHashUtils',
      'HTML::FormFu::Role::HasParent',

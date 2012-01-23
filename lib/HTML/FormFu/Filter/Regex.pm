@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::Regex;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

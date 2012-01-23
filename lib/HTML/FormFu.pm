@@ -1,5 +1,6 @@
 package HTML::FormFu;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Render',
      'HTML::FormFu::Role::CreateChildren',

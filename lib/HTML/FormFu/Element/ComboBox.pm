@@ -1,5 +1,6 @@
 package HTML::FormFu::Element::ComboBox;
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Multi';
 
 with 'HTML::FormFu::Role::Element::ProcessOptionsFromModel';

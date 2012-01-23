@@ -1,6 +1,7 @@
 package HTML::FormFu::OutputProcessor::Indent;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::OutputProcessor';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );

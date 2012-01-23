@@ -1,5 +1,6 @@
 package HTML::FormFu::Deflator;
 use Moose;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Populate';
 

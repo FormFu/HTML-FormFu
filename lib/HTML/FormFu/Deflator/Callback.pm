@@ -1,6 +1,7 @@
 package HTML::FormFu::Deflator::Callback;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
 has callback => ( is => 'rw', traits  => ['Chained'] );

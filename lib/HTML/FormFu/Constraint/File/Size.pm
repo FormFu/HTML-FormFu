@@ -1,5 +1,6 @@
 package HTML::FormFu::Constraint::File::Size;
 use Moose;
+use MooseX::Attribute::Chained;
 use MooseX::Aliases;
 
 extends 'HTML::FormFu::Constraint';

@@ -1,5 +1,6 @@
 package HTML::FormFu::Filter::CompoundSprintf;
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 with 'HTML::FormFu::Role::Filter::Compound';

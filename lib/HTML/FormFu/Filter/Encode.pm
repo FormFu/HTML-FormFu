@@ -1,6 +1,7 @@
 package HTML::FormFu::Filter::Encode;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 use Encode qw(encode decode FB_CROAK);

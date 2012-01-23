@@ -1,6 +1,7 @@
 package HTML::FormFu::Inflator::DateTime;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Inflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

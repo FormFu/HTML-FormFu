@@ -1,6 +1,7 @@
 package HTML::FormFu::Element::Repeatable;
 
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 use HTML::FormFu::Util qw( DEBUG_PROCESS debug );

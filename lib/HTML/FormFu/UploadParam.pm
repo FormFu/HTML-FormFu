@@ -1,5 +1,6 @@
 package HTML::FormFu::UploadParam;
 use Moose;
+use MooseX::Attribute::Chained;
 
 use Carp qw( croak );
 
