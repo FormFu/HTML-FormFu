@@ -117,7 +117,7 @@ requires 'Moose::Meta::Attribute::Custom::Trait::Chained';
 requires 'Moose::Role';
 requires 'Moose::Util';
 requires 'MooseX::Aliases';
-requires 'MooseX::ChainedAccessors::Accessor' => '0.02'; # for more recent Moose
+requires 'MooseX::Attribute::Chained' => '1.01';
 requires 'MooseX::SetOnce';
 requires 'Number::Format';
 requires 'Readonly';
