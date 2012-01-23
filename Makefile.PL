@@ -113,11 +113,10 @@ requires 'List::Util';
 requires 'Locale::Maketext';
 requires 'Module::Pluggable';
 requires 'Moose' => '1.00'; # Reasonable default until we get test results
-requires 'Moose::Meta::Attribute::Custom::Trait::Chained';
 requires 'Moose::Role';
 requires 'Moose::Util';
 requires 'MooseX::Aliases';
-requires 'MooseX::Attribute::Chained' => '1.01';
+requires 'MooseX::Attribute::Chained' => '1.0.1';
 requires 'MooseX::SetOnce';
 requires 'Number::Format';
 requires 'Readonly';

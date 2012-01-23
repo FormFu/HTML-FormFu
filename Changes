@@ -1,3 +1,6 @@
+0.09007 2012-01-13
+    - bump MooseX::Attribute::Chained version
+
 0.09006 2012-01-23
     - fixed deprecation warnings of MX::Attribute::Chained (bricas)
     - Added placeholder attributes for types Text and Textarea with L10N support.
