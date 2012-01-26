@@ -132,6 +132,7 @@ requires 'YAML::XS' => '0.32';
 test_requires 'CGI' => '3.37'; # for file POST tests
 test_requires 'POSIX';
 test_requires 'Test::More' => '0.92';
+test_requires 'Test::Exception';
 
 eval "require Test::Aggregate::Nested";
 $^O eq 'MSWin32' || $@ ? tests_recursive 't' : tests 't/*.t';
