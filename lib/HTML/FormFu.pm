@@ -146,24 +146,24 @@ __PACKAGE__->mk_inherited_merging_accessors(qw( tt_args config_callback ));
 our $VERSION = '0.09007';
 $VERSION = eval $VERSION;
 
+our $build_defaults = {
+    action             => '',
+    method             => 'post',
+    filename           => 'form',
+    render_method      => 'string',
+    tt_args            => {},
+    tt_module          => 'Template',
+    query_type         => 'CGI',
+    default_model      => 'DBIC',
+    localize_class     => 'HTML::FormFu::I18N',
+    auto_error_class   => 'error_%s_%t',
+    auto_error_message => 'form_%s_%t',
+};
+
 sub BUILD {
     my ( $self, $args ) = @_;
 
-    my %defaults = (
-        action             => '',
-        method             => 'post',
-        filename           => 'form',
-        render_method      => 'string',
-        tt_args            => {},
-        tt_module          => 'Template',
-        query_type         => 'CGI',
-        default_model      => 'DBIC',
-        localize_class     => 'HTML::FormFu::I18N',
-        auto_error_class   => 'error_%s_%t',
-        auto_error_message => 'form_%s_%t',
-    );
-
-    $self->populate( \%defaults );
+    $self->populate( $build_defaults );
 
     return;
 };
