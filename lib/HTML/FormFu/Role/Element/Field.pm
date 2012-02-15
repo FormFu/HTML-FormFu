@@ -382,7 +382,7 @@ sub process_input {
     }
 
     # checkbox, radio
-    elsif ( $submitted && $self->force_default && $self->checked ) {
+    elsif ( $submitted && $self->force_default && $self->can('checked') && $self->checked ) {
 
         # the checked attribute is set, so force input to be the original value
         $self->set_nested_hash_value( $input, $name, $original );
