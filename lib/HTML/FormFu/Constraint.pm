@@ -105,7 +105,7 @@ sub _find_field_value {
         croak 'did not find ourself - how can this happen?'
             if !defined $index;
         
-        if ( reftype($value) eq 'ARRAY' ) {
+        if ( ( reftype($value) || '' ) eq 'ARRAY' ) {
             $value = $value->[$index];
         }
         elsif ( $index == 0 ) {
