@@ -1,3 +1,6 @@
+0.09008 TO BE RELEASED
+    - Make sure object can('checked') before calling checked() (colinnewell)
+
 0.09007 2012-01-13
     - bump MooseX::Attribute::Chained version
 
