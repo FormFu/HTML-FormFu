@@ -1,5 +1,6 @@
 0.09008 TO BE RELEASED
     - Make sure object can('checked') before calling checked() (colinnewell)
+    - Updated Repeatable control to update id_field on DBIC::Unique if present
 
 0.09007 2012-01-13
     - bump MooseX::Attribute::Chained version
