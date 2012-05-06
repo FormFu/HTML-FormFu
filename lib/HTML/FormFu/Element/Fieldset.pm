@@ -44,6 +44,17 @@ Fieldset element.
 
 =head1 METHODS
 
+=head2 legend
+
+If L</legend> is set, it is used as the fieldset's legend
+
+=head2 legend_loc
+
+Arguments: $localization_key
+
+To set the legend to a localized string, set L</legend_loc> to a key in 
+your L10N file instead of using L</legend>.
+
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
