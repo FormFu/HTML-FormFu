@@ -1,6 +1,8 @@
 0.09008 TO BE RELEASED
     - Make sure object can('checked') before calling checked() (colinnewell)
     - Updated Repeatable control to update id_field on DBIC::Unique if present
+    - Added support for arbitrary elements within Multi blocks so that they
+      don't need to support methods like _striing_field and label etc.
 
 0.09007 2012-01-13
     - bump MooseX::Attribute::Chained version
