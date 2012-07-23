@@ -159,19 +159,23 @@ sub string {
 
         next if !defined $render;
 
-        if ( $elem->reverse_multi ) {
-            $html .= $elem->_string_field($render);
+        if($elem->can('_string_field')) {
+            if ( $elem->reverse_multi ) {
+                $html .= $elem->_string_field($render);
 
-            if ( defined $elem->label ) {
-                $html .= sprintf "\n%s", $elem->_string_label($render);
+                if ( defined $elem->label ) {
+                    $html .= sprintf "\n%s", $elem->_string_label($render);
+                }
             }
-        }
-        else {
-            if ( defined $elem->label ) {
-                $html .= $elem->_string_label($render) . "\n";
-            }
+            else {
+                if ( defined $elem->label ) {
+                    $html .= $elem->_string_label($render) . "\n";
+                }
 
-            $html .= $elem->_string_field($render);
+                $html .= $elem->_string_field($render);
+            }
+        } else {
+            $html .= $elem->string({ render_data => $render });
         }
 
         $html .= "\n";

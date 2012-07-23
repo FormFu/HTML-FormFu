@@ -13,6 +13,7 @@ $multi->element('Text')->name('bar')->label('My text');
 $multi->element('Hidden')->name('baz');
 $multi->element('Radio')->name('dot')->label('My radio');
 $multi->element('Blank')->name('gzz');
+$multi->element('Block')->tag('a')->attributes({ href => 'http://localhost' })->content('test');
 
 $form->element( { type => 'Submit' } );
 
@@ -26,6 +27,9 @@ my $form_xhtml = <<EOF;
 <input name="baz" type="hidden" />
 <input name="dot" type="radio" value="1" />
 <label>My radio</label>
+<a href="http://localhost">
+test
+</a>
 </span>
 </div>
 <div class="submit">

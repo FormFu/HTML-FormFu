@@ -297,6 +297,22 @@ sub _repeat_child_elements {
             }
         }
 
+        # rename any 'id_field' fields
+        my @id_field_constraints = grep { defined $_->id_field } 
+            grep { $_->can('id_field') } @block_constraints;
+
+        for my $constraint (@id_field_constraints) {
+            my $id_field = $constraint->id_field;
+            my $name = $id_field;
+
+            my $field
+                = first { $_->original_nested_name eq $name } @$block_fields;
+
+            if ( defined $field ) {
+                $constraint->id_field( $field->nested_name );
+            }
+        }
+
         push @return, $block;
 
     }
