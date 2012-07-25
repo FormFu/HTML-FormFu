@@ -230,11 +230,8 @@ sub process {
 sub process_input {
     my ( $self, $input ) = @_;
 
-    my $select_name = _build_field_name( $self, 'select' );
-    my $text_name   = _build_field_name( $self, 'text' );
-
-    $select_name = $self->get_element( { name => $select_name } )->nested_name;
-    $text_name   = $self->get_element( { name => $text_name } )->nested_name;
+    my $select_name = $self->_elements->[0]->nested_name;
+    my $text_name   = $self->_elements->[1]->nested_name;
 
     my $select_value = $self->get_nested_hash_value( $input, $select_name );
     my $text_value   = $self->get_nested_hash_value( $input, $text_name );
