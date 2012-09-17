@@ -1,2 +1,2 @@
 [% IF self.tag.defined %]<[% self.tag %][% process_attrs(self.attributes) %]>[% END %][% IF self.legend.defined %]
-<legend>[% self.legend %]</legend>[% END %]
+<legend[% IF self.legend_attributes.defined %][% process_attrs(self.legend_attributes) %][% END %]>[% self.legend %]</legend>[% END %]

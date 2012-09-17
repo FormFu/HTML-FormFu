@@ -1,0 +1,7 @@
+---
+elements:
+  - type: Fieldset
+    legend: 'The Legend!'
+    legend_attrs:
+      class: my_legend
+    content: 'The Content!'

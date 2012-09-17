@@ -193,7 +193,10 @@ sub string {
     }
 
     if ( defined $render->{legend} ) {
-        $html .= sprintf "\n<legend>%s</legend>", $render->{legend};
+        $html .= sprintf "\n<legend%s>%s</legend>",
+            defined( $render->{legend_attributes} ) ? process_attrs( $render->{legend_attributes} )
+                                                    : '',
+            $render->{legend};
     }
 
     # block template

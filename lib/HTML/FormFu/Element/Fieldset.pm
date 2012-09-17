@@ -3,7 +3,11 @@ package HTML::FormFu::Element::Fieldset;
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 
+use HTML::FormFu::Util qw( xml_escape );
+
 __PACKAGE__->mk_output_accessors(qw( legend ));
+
+__PACKAGE__->mk_attrs(qw( legend_attributes ));
 
 after BUILD => sub {
     my $self = shift;
@@ -17,7 +21,8 @@ sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
     my $render = $self->SUPER::render_data_non_recursive( {
-            legend => $self->legend,
+            legend            => $self->legend,
+            legend_attributes => xml_escape( $self->legend_attributes ),
             $args ? %$args : (),
         } );
 
