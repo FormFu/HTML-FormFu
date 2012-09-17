@@ -4,6 +4,8 @@ use Moose;
 use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
+with 'HTML::FormFu::Role::NestedHashUtils';
+
 has field => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
@@ -18,7 +20,10 @@ sub filter {
     my $parent = $self->parent
         or die "Can't determine my parent.";
 
-    my $field_value = $parent->form->input->{$field_name};
+    my $field_value = $self->get_nested_hash_value(
+        $parent->form->input,
+        $field_name,
+    );
 
     return $field_value;
 }
