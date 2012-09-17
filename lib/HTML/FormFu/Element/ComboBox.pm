@@ -201,6 +201,22 @@ sub _add_text {
     return;
 }
 
+sub get_select_field_nested_name {
+    my ( $self ) = @_;
+    
+    my $select_name = _build_field_name( $self, 'select' );
+    
+    return $self->get_element( { name => $select_name } )->nested_name
+}
+
+sub get_text_field_nested_name {
+    my ( $self ) = @_;
+    
+    my $text_name = _build_field_name( $self, 'text' );
+    
+    return $self->get_element( { name => $text_name } )->nested_name;
+}
+
 sub _build_field_name {
     my ( $self, $type ) = @_;
 
@@ -230,8 +246,8 @@ sub process {
 sub process_input {
     my ( $self, $input ) = @_;
 
-    my $select_name = $self->_elements->[0]->nested_name;
-    my $text_name   = $self->_elements->[1]->nested_name;
+    my $select_name = $self->get_select_field_nested_name;
+    my $text_name   = $self->get_text_field_nested_name;
 
     my $select_value = $self->get_nested_hash_value( $input, $select_name );
     my $text_value   = $self->get_nested_hash_value( $input, $text_name );
