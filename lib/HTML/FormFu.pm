@@ -99,9 +99,15 @@ has _processed_params => (
     isa      => 'HashRef',
 );
 
-has javascript               => ( is => 'rw', traits  => ['Chained'] );
-has javascript_src           => ( is => 'rw', traits  => ['Chained'] );
-has submitted                => ( is => 'rw', traits  => ['Chained'] );
+has form_error_message_class => (
+    is      => 'rw',
+    default => 'form_error_message',
+    lazy    => 1,
+);
+
+has javascript               => ( is => 'rw', traits => ['Chained'] );
+has javascript_src           => ( is => 'rw', traits => ['Chained'] );
+has submitted                => ( is => 'rw', traits => ['Chained'] );
 has indicator                => ( is => 'rw', traits => ['Chained'] );
 has filename                 => ( is => 'rw', traits => ['Chained'] );
 has query_type               => ( is => 'rw', traits => ['Chained'] );
@@ -987,7 +993,8 @@ sub render_data_non_recursive {
         || ( $self->has_errors
             && defined $self->form_error_message ) )
     {
-        $render{form_error_message} = xml_escape( $self->form_error_message );
+        $render{form_error_message}       = xml_escape( $self->form_error_message );
+        $render{form_error_message_class} = $self->form_error_message_class;
     }
 
     return \%render;
@@ -1008,7 +1015,8 @@ sub string {
     my $html = sprintf "<form%s>", process_attrs( $render_ref->{attributes} );
 
     if ( defined $render_ref->{form_error_message} ) {
-        $html .= sprintf qq{\n<div class="form_error_message">%s</div>},
+        $html .= sprintf qq{\n<div class="%s">%s</div>},
+            $render_ref->{form_error_message_class},
             $render_ref->{form_error_message},
             ;
     }
@@ -2349,6 +2357,16 @@ the form, a block element or a single element. When the value is read, if
 no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a
 defined value.
+
+=head2 form_error_message_class
+
+Arguments: [$string]
+
+Default Value: 'form_error_message'
+
+Class attribute for the error message displayed at the top of the form.
+
+See L</"form_error_message">
 
 =head1 LOCALIZATION
 
