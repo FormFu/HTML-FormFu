@@ -202,7 +202,7 @@ sub _process_when {
     # Callback will be the preferred thing
     if ($when_callback) {
         no strict 'refs';
-        return $when_callback->($params);
+        return $when_callback->( $params, $self );
     }
     
     my $any;
@@ -470,6 +470,20 @@ supplied to perform complex checks. An hashref of all parameters is passed
 to the callback sub. In this case all other keys are ignored, including not.
 You need to return a true value for the constraint to be applied or a false
 value to not apply it.
+
+The callback subroutine receives 2 arguments:
+
+=over 8
+
+=item 1
+
+C<$params> (hashref of all submitted parameters)
+
+=item 2
+
+C<$constraint> (the Constraint object)
+
+=back
 
 =back
 
