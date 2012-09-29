@@ -1,10 +1,15 @@
-0.09008 TO BE RELEASED
+0.09008 2012-09-29
     - Make sure object can('checked') before calling checked() (colinnewell)
     - Updated Repeatable control to update id_field on DBIC::Unique if present
     - Added support for arbitrary elements within Multi blocks so that they
       don't need to support methods like _striing_field and label etc.
+    - ComboBox new get_select_field_nested_name(), get_text_field_nested_name()
+      accessors.
+    - Fieldset new legend_attributes() method.
+    - New form_error_message_class() method.
+    - Constraint 'when' callback now receives $constraint as 2nd argument.
 
-0.09007 2012-01-13
+0.09007 2012-01-23
     - bump MooseX::Attribute::Chained version
 
 0.09006 2012-01-23
