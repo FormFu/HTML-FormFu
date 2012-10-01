@@ -1,4 +1,4 @@
-0.09008 2012-09-29
+0.09009 2012-09-29
     - Make sure object can('checked') before calling checked() (colinnewell)
     - Updated Repeatable control to update id_field on DBIC::Unique if present
     - Added support for arbitrary elements within Multi blocks so that they
