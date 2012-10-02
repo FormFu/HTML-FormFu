@@ -181,12 +181,22 @@ sub _repeat_containing_block {
 
         for my $constraint (@when_constraints) {
             my $when = $constraint->when;
-            my $name = $when->{field};
 
-            my $field = $self->_find_other_field( $name, $block_fields );
+            if ( my $name = $when->{field} ) {
+                my $field = $self->_find_other_field( $name, $block_fields );
 
-            if ( defined $field ) {
-                $when->{field} = $field->nested_name;
+                if ( defined $field ) {
+                    $when->{field} = $field->nested_name;
+                }
+            }
+            elsif ( my $names = $when->{fields} ) {
+                for my $name ( @$names ) {
+                    my $field = $self->_find_other_field( $name, $block_fields );
+
+                    if ( defined $field ) {
+                        $when->{field} = $field->nested_name;
+                    }
+                }
             }
         }
 
