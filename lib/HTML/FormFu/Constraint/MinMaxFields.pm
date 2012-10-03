@@ -6,6 +6,8 @@ extends 'HTML::FormFu::Constraint';
 
 with 'HTML::FormFu::Role::Constraint::Others';
 
+use HTML::FormFu::Util qw( DEBUG_CONSTRAINTS debug );
+
 has minimum => (
     is      => 'rw',
     alias   => 'min',
@@ -54,6 +56,9 @@ sub process {
 
     for my $name (@names) {
         my $value = $self->get_nested_hash_value( $params, $name );
+
+        DEBUG_CONSTRAINTS && debug( OTHER_NAME => $name );
+        DEBUG_CONSTRAINTS && debug( VALUE => $value );
 
         if ( ref $value eq 'ARRAY' ) {
             my @errors = eval { $self->constrain_values( $value, $params ) };
