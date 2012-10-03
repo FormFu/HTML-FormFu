@@ -103,7 +103,7 @@ Deflator to allow you to set several field's values at once.
 
 For use with a L<HTML::FormFu::Element::Multi> group of fields.
 
-A L<default|HTML::FormFu::Element::_Field/default> value passed to the 
+A L<default|HTML::FormFu::Role::Element::Field/default> value passed to the 
 L<Multi|HTML::FormFu::Element::Multi> field will be split according to the 
 L</split> setting, and its resulting parts passed to its child elements.
 

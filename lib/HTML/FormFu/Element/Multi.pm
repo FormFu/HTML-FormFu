@@ -225,7 +225,7 @@ Combine multiple form fields in a single logical element.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

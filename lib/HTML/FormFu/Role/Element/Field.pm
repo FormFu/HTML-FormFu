@@ -891,7 +891,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_Field - base class for all form-field elements
+HTML::FormFu::Role::Element::Field - Role for all form-field elements
 
 =head1 DESCRIPTION
 
@@ -928,8 +928,8 @@ rendered.
 
 For the L<HTML::FormFu::Element::Radiogroup> and 
 L<HTML::FormFu::Element::Select> elements, the L</value> is ignored: 
-L<values|HTML::FormFu::Element::_Group/values> or 
-L<options|HTML::FormFu::Element::_Group/options> provides the equivalent 
+L<values|HTML::FormFu::Role::Element::Group/values> or 
+L<options|HTML::FormFu::Role::Element::Group/options> provides the equivalent 
 function.
 
 =head2 value_xml
@@ -1429,8 +1429,8 @@ See L<HTML::FormFu/clear_errors> for details.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Element::_Group>, 
-L<HTML::FormFu::Element::_Input>, 
+Base-class for L<HTML::FormFu::Role::Element::Group>, 
+L<HTML::FormFu::Role::Element::Input>, 
 L<HTML::FormFu::Element::Multi>, 
 L<HTML::FormFu::Element::ContentButton>, 
 L<HTML::FormFu::Element::Textarea>.

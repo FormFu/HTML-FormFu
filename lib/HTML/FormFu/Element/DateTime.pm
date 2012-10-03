@@ -350,7 +350,7 @@ See L<HTML::FormFu::Element::Date/CAVEATS>
 
 Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Element::Date>
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element::Multi>, 
 L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>

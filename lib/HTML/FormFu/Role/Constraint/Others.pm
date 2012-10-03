@@ -206,7 +206,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Constraint::_others - Base class for constraints needing others() method
+HTML::FormFu::Role::Constraint::Others - Base class for constraints needing others() method
 
 =head1 METHODS
 

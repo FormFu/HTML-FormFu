@@ -326,23 +326,23 @@ selected. Otherwise, the Text field will use the value as its default.
 
 =head2 options
 
-See L<HTML::FormFu::Element::_Group/options> for details.
+See L<HTML::FormFu::Role::Element::Group/options> for details.
 
 =head2 values
 
-See L<HTML::FormFu::Element::_Group/values> for details.
+See L<HTML::FormFu::Role::Element::Group/values> for details.
 
 =head2 value_range
 
-See L<HTML::FormFu::Element::_Group/value_range> for details.
+See L<HTML::FormFu::Role::Element::Group/value_range> for details.
 
 =head2 empty_first
 
-See L<HTML::FormFu::Element::_Group/empty_first> for details.
+See L<HTML::FormFu::Role::Element::Group/empty_first> for details.
 
 =head2 empty_first_label
 
-See L<HTML::FormFu::Element::_Group/empty_first_label> for details.
+See L<HTML::FormFu::Role::Element::Group/empty_first_label> for details.
 
 =head2 select
 
@@ -373,7 +373,7 @@ L<constraint/constraints|HTML::FormFu/constraints>,
 L<inflator/inflators|HTML::FormFu/inflators>, 
 L<validator/validators|HTML::FormFu/validators> and 
 L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
-a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
+a L<field element|HTML::FormFu::Role::Element::Field>, meaning all processors are 
 added directly to the date element, not to its child elements.
 
 This element's L<get_elements|HTML::FormFu/get_elements> and 

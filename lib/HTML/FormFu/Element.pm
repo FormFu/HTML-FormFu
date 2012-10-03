@@ -231,7 +231,7 @@ L<Transformers|HTML::FormFu::Transformer>.
 
 =head2 name
 
-For L<field|HTML::FormFu::Element::_Field> element, this value is used as 
+For L<field|HTML::FormFu::Role::Element::Field> element, this value is used as 
 the C<name> attribute which the field's value is associated with.
 
 For all elements, the L</name> value can be useful for identifying and 
@@ -416,13 +416,13 @@ L</render> to render the element.
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::_Field/prepare_id> for details.
+See L<HTML::FormFu::Role::Element::Field/prepare_id> for details.
 
 =head2 prepare_attrs
 
 Arguments: $render
 
-See L<HTML::FormFu::Element::_Field/prepare_attrs> for details.
+See L<HTML::FormFu::Role::Element::Field/prepare_attrs> for details.
 
 =head2 render
 
@@ -536,11 +536,11 @@ used directly.
 
 =over
 
-=item L<HTML::FormFu::Element::_Field>
+=item L<HTML::FormFu::Role::Element::Field>
 
-=item L<HTML::FormFu::Element::_Group>
+=item L<HTML::FormFu::Role::Element::Group>
 
-=item L<HTML::FormFu::Element::_Input>
+=item L<HTML::FormFu::Role::Element::Input>
 
 =item L<HTML::FormFu::Element::_MultiElement>
 
@@ -548,7 +548,7 @@ used directly.
 
 =item L<HTML::FormFu::Element::_MultiText>
 
-=item L<HTML::FormFu::Element::_NonBlock>
+=item L<HTML::FormFu::Role::Element::NonBlock>
 
 =back
 

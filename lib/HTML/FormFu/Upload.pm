@@ -76,7 +76,7 @@ from L<HTML::FormFu::Upload>:
 
 =head2 parent
 
-Returns the L<field|HTML::FormFu::Element::_Field> object that the upload
+Returns the L<field|HTML::FormFu::Role::Element::Field> object that the upload
 object is associated with.
 
 =head2 form

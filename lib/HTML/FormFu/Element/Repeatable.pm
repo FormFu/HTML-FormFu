@@ -382,7 +382,7 @@ inherits the Repeatable's display settings, such as L</attributes> and
 L</tag>.
 
 For all constraints attached to fields within a Repeatable block which use
-either L<others|HTML::FormFu::Constraint::_others/others> or
+either L<others|HTML::FormFu::Role::Constraint::Others/others> or
 L<when|HTML::FormFu::Constraint/when> containing names of fields within
 the same Repeatable block, when L<repeat> is called, those names will
 automatically be updated to the new nested-name for each field (taking
@@ -560,7 +560,7 @@ a setter.
 
 =head2 Unsupported Constraints
 
-Note that constraints with an L<others|HTML::FormFu::Constraint::_others> 
+Note that constraints with an L<others|HTML::FormFu::Role::Constraint::Others> 
 method do not work correctly within a Repeatable block. Currently, these are:
 L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>, 
 L<DependOn|HTML::FormFu::Constraint::DependOn>, 

@@ -110,7 +110,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_Input - input field base-class
+HTML::FormFu::Role::Element::Input - Role for input fields
 
 =head1 DESCRIPTION
 
@@ -127,7 +127,7 @@ L<HTML::FormFu::Element::Text>.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Field>, L<HTML::FormFu::Element>
+L<HTML::FormFu::Role::Element::Field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
 

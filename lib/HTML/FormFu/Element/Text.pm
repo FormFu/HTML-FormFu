@@ -34,8 +34,8 @@ Text form field.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Input>, 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Input>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>.
 
 L<HTML::FormFu>

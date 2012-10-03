@@ -43,26 +43,26 @@ YAML config:
 Convenient to use group of radio button fields.
 
 Use the same syntax as you would to create a Select element optgroup to 
-create RadioGroup sub-groups, see L<HTML::FormFu::Element::_Group/options> 
+create RadioGroup sub-groups, see L<HTML::FormFu::Role::Element::Group/options> 
 for details.
 
 =head1 METHODS
 
 =head2 options
 
-See L<HTML::FormFu::Element::_Group/options>.
+See L<HTML::FormFu::Role::Element::Group/options>.
 
 =head2 values
 
-See L<HTML::FormFu::Element::_Group/values>.
+See L<HTML::FormFu::Role::Element::Group/values>.
 
 =head2 value_range
 
-See L<HTML::FormFu::Element::_Group/value_range>.
+See L<HTML::FormFu::Role::Element::Group/value_range>.
 
 =head2 empty_first
 
-See L<HTML::FormFu::Element::_Group/empty_first>.
+See L<HTML::FormFu::Role::Element::Group/empty_first>.
 
 =head2 auto_id
 
@@ -84,8 +84,8 @@ See L<HTML::FormFu::Element::Checkboxgroup/reverse_group>.
 
 Is a sub-class of, and inherits methods from 
 L<HTML::FormFu::Element::Checkboxgroup>, 
-L<HTML::FormFu::Element::_Group>, 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Group>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

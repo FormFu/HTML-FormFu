@@ -1717,7 +1717,7 @@ Return Value: @deflators
 
 A L<deflator|HTML::FormFu::Deflator> may be associated with any form field,
 and allows you to provide
-L<< $field->default|HTML::FormFu::Element::_Field/default >> with a value
+L<< $field->default|HTML::FormFu::Role::Element::Field/default >> with a value
 which may be an object.
 
 If an object doesn't stringify to a suitable value for display, the
@@ -1867,7 +1867,7 @@ Return Value: @filters
 If you provide a C<name> or C<names> value, the filter will be added to
 just that named field.
 If you do not provide a C<name> or C<names> value, the filter will be added
-to all L<fields|HTML::FormFu::Element::_Field> already attached to the form.
+to all L<fields|HTML::FormFu::Role::Element::Field> already attached to the form.
 
 See L<HTML::FormFu::Filter/"CORE FILTERS"> for a list of core filters.
 
@@ -2213,7 +2213,7 @@ defined value.
 Arguments: [$string]
 
 If set, then each form field will be given an auto-generated
-L<label|HTML::FormFu::Element::Field/label>, if it doesn't have one already.
+L<label|HTML::FormFu::Role::Element::Field/label>, if it doesn't have one already.
 
 The following character substitution will be performed: C<%f> will be
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by

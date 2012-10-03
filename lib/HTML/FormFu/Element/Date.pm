@@ -775,7 +775,7 @@ L<constraint/constraints|HTML::FormFu/constraints>,
 L<inflator/inflators|HTML::FormFu/inflators>, 
 L<validator/validators|HTML::FormFu/validators> and 
 L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
-a L<field element|HTML::FormFu::Element::_Field>, meaning all processors are 
+a L<field element|HTML::FormFu::Role::Element::Field>, meaning all processors are 
 added directly to the date element, not to its select-menu child elements.
 
 This element's L<get_elements|HTML::FormFu/get_elements> and 
@@ -787,7 +787,7 @@ returns both itself and its child elements.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element::Multi>, 
 L<HTML::FormFu::Element::Block>, 
 L<HTML::FormFu::Element>

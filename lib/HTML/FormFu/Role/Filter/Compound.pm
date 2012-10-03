@@ -35,7 +35,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Filter::_Compound - base class for Compound filters
+HTML::FormFu::Role::Filter::Compound - Role for Compound filters
 
 =head1 METHODS
 

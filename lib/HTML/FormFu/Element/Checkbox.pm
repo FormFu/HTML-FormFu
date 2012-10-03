@@ -91,7 +91,7 @@ Default Value: 1
 
 =head2 default_empty_value
 
-Inherited. See L<HTML::FormFu::Element::_Field/default_empty_value> for details.
+Inherited. See L<HTML::FormFu::Role::Element::Field/default_empty_value> for details.
 
 =head2 reverse_multi
 
@@ -100,8 +100,8 @@ Overrides the default value, so it's C<true>.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Input>, 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Input>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

@@ -404,7 +404,7 @@ These methods do not return the model object so chaining is not possible!
 
 =head2 options
 
-Adds the label of a value to the hashref if the element has L<HTML::FormFu::Element::_Group/options>.
+Adds the label of a value to the hashref if the element has L<HTML::FormFu::Role::Element::Group/options>.
 See L</create> for an example. Defaults to C<0>.
 
 =head2 flatten

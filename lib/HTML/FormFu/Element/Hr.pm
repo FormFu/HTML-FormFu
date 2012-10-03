@@ -30,7 +30,7 @@ Horizontal-rule element.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::NonBlock>, 
+L<HTML::FormFu::Role::Element::NonBlock>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

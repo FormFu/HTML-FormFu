@@ -430,7 +430,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::_Group - grouped form field base-class
+HTML::FormFu::Role::Element::Group - Role for grouped form fields
 
 =head1 DESCRIPTION
 
@@ -563,7 +563,7 @@ will be empty.
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Field>, L<HTML::FormFu::Element>
+L<HTML::FormFu::Role::Element::Field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu>
 

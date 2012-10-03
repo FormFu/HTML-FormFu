@@ -52,7 +52,7 @@ Plugins can override any of the following method stubs.
 =head2 process
 
 Only plugins added to a form or a field element inheriting from
-L<HTML::FormFu::Element::_Field> will have their C<process> method run.
+L<HTML::FormFu::Role::Element::Field> will have their C<process> method run.
 
 For form plugins, is called during L<HTML::FormFu/process>, before C<process>
 is called on any elements.

@@ -121,36 +121,36 @@ YAML config:
 
 Select form field.
 
-Supports optgroups, see L<HTML::FormFu::Element::_Group/options> for 
+Supports optgroups, see L<HTML::FormFu::Role::Element::Group/options> for 
 details.
 
 =head1 METHODS
 
 =head2 options
 
-See L<HTML::FormFu::Element::_Group/options>.
+See L<HTML::FormFu::Role::Element::Group/options>.
 
 =head2 values
 
-See L<HTML::FormFu::Element::_Group/values>.
+See L<HTML::FormFu::Role::Element::Group/values>.
 
 =head2 value_range
 
-See L<HTML::FormFu::Element::_Group/value_range>.
+See L<HTML::FormFu::Role::Element::Group/value_range>.
 
 =head2 empty_first
 
-See L<HTML::FormFu::Element::_Group/empty_first>.
+See L<HTML::FormFu::Role::Element::Group/empty_first>.
 
 =head2 empty_first_label
 
-See L<HTML::FormFu::Element::_Group/empty_first_label>.
+See L<HTML::FormFu::Role::Element::Group/empty_first_label>.
 
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::_Group>, 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Group>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

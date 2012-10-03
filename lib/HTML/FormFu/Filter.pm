@@ -76,7 +76,7 @@ HTML::FormFu::Filter - Filter Base Class
 
 C<filters()> and C<filter> can be called on any L<form|HTML::FormFu>, 
 L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or 
-L<field element|HTML::FormFu::Element::_Field>.
+L<field element|HTML::FormFu::Role::Element::Field>.
 
 If called on a field element, no C<name> argument should be passed.
 
@@ -100,7 +100,7 @@ to replace C<[_1]>, C<[_2]>, etc. in the localized string.
 
 =head2 parent
 
-Returns the L<HTML::FormFu::Element::_Field> object that the filter is 
+Returns the L<HTML::FormFu::Role::Element::Field> object that the filter is 
 associated with.
 
 =head2 get_parent

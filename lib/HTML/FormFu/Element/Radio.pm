@@ -43,8 +43,8 @@ Overrides the default value, so it's C<true>.
 
 Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Element::Checkbox>, 
-L<HTML::FormFu::Element::_Input>, 
-L<HTML::FormFu::Element::_Field>, 
+L<HTML::FormFu::Role::Element::Input>, 
+L<HTML::FormFu::Role::Element::Field>, 
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

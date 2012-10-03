@@ -373,7 +373,7 @@ See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
 
 L<HTML::FormFu/constraints> can be called on any L<form|HTML::FormFu>,
 L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or
-L<field element|HTML::FormFu::Element::_Field>.
+L<field element|HTML::FormFu::Role::Element::Field>.
 
 If called on a field element, no C<name> argument should be passed.
 
@@ -405,7 +405,7 @@ Argument: \@repeatable_count
 For constraints added to fields within a
 L<Repeatable|HTML::FormFu::Element::Repeatable> element, if C<only_on_reps>
 is set, the constraint will only be run for fields whose
-L<repeatable_count|HTML::FormFu::Element::_Field/repeatable_count>
+L<repeatable_count|HTML::FormFu::Role::Element::Field/repeatable_count>
 matches one of these set values.
 
 Not available for the constraints listed in
@@ -441,7 +441,7 @@ See L<HTML::FormFu/force_errors> for details.
 
 =head2 parent
 
-Returns the L<field|HTML::FormFu::Element::_Field> object that the constraint
+Returns the L<field|HTML::FormFu::Role::Element::Field> object that the constraint
 is associated with.
 
 =head2 form

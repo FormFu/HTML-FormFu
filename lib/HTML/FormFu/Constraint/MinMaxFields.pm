@@ -151,7 +151,7 @@ Default Value: 0
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from  
-L<HTML::FormFu::Constraint::_others>, L<HTML::FormFu::Constraint>
+L<HTML::FormFu::Role::Constraint::Others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>
 
