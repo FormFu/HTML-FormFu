@@ -25,6 +25,40 @@ has force_errors => ( is => 'rw', traits  => ['Chained'] );
 has when         => ( is => 'rw', traits  => ['Chained'] );
 has only_on_reps => ( is => 'rw', traits  => ['Chained'] );
 
+sub repeatable_repeat {
+    my ( $self, $repeatable, $new_block ) = @_;
+    
+    my $block_fields = $new_block->get_fields;
+
+    # rename any 'when' fields
+    {
+        my $when = $self->when;
+
+        if ( my $name = $when->{field} ) {
+            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+
+            if ( defined $field ) {
+                DEBUG_CONSTRAINTS && debug(
+                    sprintf "Repeatable renaming constraint 'when{field}' '%s' to '%s'",
+                        $name,
+                        $field->nested_name,
+                );
+
+                $when->{field} = $field->nested_name;
+            }
+        }
+        elsif ( my $names = $when->{fields} ) {
+            for my $name ( @$names ) {
+                my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+
+                if ( defined $field ) {
+                    $when->{field} = $field->nested_name;
+                }
+            }
+        }
+    }
+}
+
 sub pre_process {}
 
 sub process {

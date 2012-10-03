@@ -42,6 +42,64 @@ sub pre_process {
     }
 }
 
+after repeatable_repeat => sub {
+    my ( $self, $repeatable, $new_block ) = @_;
+    
+    my $block_fields = $new_block->get_fields;
+
+    # rename any 'others' fields
+    {
+        my $others = $self->others;
+        if ( !ref $others ) {
+            $others = [$others];
+        }
+        my @new_others;
+
+        for my $name (@$others) {
+            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+
+            if ( defined $field ) {
+                DEBUG_CONSTRAINTS && debug(
+                    sprintf "Repeatable renaming constraint 'other' '%s' to '%s'",
+                        $name,
+                        $field->nested_name,
+                );
+
+                push @new_others, $field->nested_name;
+            }
+            else {
+                push @new_others, $name;
+            }
+        }
+
+        $self->others( \@new_others );
+    }
+
+    # rename any 'attach_errors_to' fields
+    if ( my $others = $self->attach_errors_to ) {
+        my @new_others;
+
+        for my $name (@$others) {
+            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+
+            if ( defined $field ) {
+                DEBUG_CONSTRAINTS && debug(
+                    sprintf "Repeatable renaming constraint 'attach_errors_to' '%s' to '%s'",
+                        $name,
+                        $field->nested_name,
+                );
+
+                push @new_others, $field->nested_name;
+            }
+            else {
+                push @new_others, $name;
+            }
+        }
+
+        $self->attach_errors_to( \@new_others );
+    }
+};
+
 sub mk_errors {
     my ( $self, $args ) = @_;
 

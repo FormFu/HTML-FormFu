@@ -135,7 +135,9 @@ sub _repeat_containing_block {
 
         _reparent_children($block);
 
-        for my $field ( @{ $block->get_fields } ) {
+        my @fields = @{ $block->get_fields };
+
+        for my $field ( @fields ) {
             map { $_->parent($field) }
                 @{ $field->_deflators },
                 @{ $field->_filters },
@@ -147,67 +149,19 @@ sub _repeat_containing_block {
                 ;
         }
 
-        my $block_fields = $block->get_fields;
-
-        my @block_constraints = map { @{ $_->get_constraints } } @$block_fields;
-
-        # rename any 'others' fields
-        my @others_constraints = grep { defined $_->others }
-            grep { $_->can('others') } @block_constraints;
-
-        for my $constraint (@others_constraints) {
-            my $others = $constraint->others;
-            if ( !ref $others ) {
-                $others = [$others];
-            }
-            my @new_others;
-
-            for my $name (@$others) {
-                my $field = $self->_find_other_field( $name, $block_fields );
-
-                if ( defined $field ) {
-                    push @new_others, $field->nested_name;
-                }
-                else {
-                    push @new_others, $name;
-                }
-            }
-
-            $constraint->others( \@new_others );
-        }
-
-        # rename any 'when' fields
-        my @when_constraints = grep { defined $_->when } @block_constraints;
-
-        for my $constraint (@when_constraints) {
-            my $when = $constraint->when;
-
-            if ( my $name = $when->{field} ) {
-                my $field = $self->_find_other_field( $name, $block_fields );
-
-                if ( defined $field ) {
-                    $when->{field} = $field->nested_name;
-                }
-            }
-            elsif ( my $names = $when->{fields} ) {
-                for my $name ( @$names ) {
-                    my $field = $self->_find_other_field( $name, $block_fields );
-
-                    if ( defined $field ) {
-                        $when->{field} = $field->nested_name;
-                    }
-                }
-            }
+        for my $field ( @fields ) {
+            map {
+                $_->repeatable_repeat( $self, $block )
+            } @{ $field->_constraints };
         }
 
         push @return, $block;
-
     }
 
     return \@return;
 }
 
-sub _find_other_field {
+sub get_field_with_original_name {
     my ( $self, $name, $fields ) = @_;
     
     my $field =
@@ -260,7 +214,9 @@ sub _repeat_child_elements {
 
         _reparent_children($block);
 
-        for my $field ( @{ $block->get_fields } ) {
+        my @fields = @{ $block->get_fields };
+
+        for my $field ( @fields ) {
             map { $_->parent($field) }
                 @{ $field->_deflators },
                 @{ $field->_filters },
@@ -272,76 +228,13 @@ sub _repeat_child_elements {
                 ;
         }
 
-        my $block_fields = $block->get_fields;
-
-        my @block_constraints = map { @{ $_->get_constraints } } @$block_fields;
-
-        # rename any 'others' fields
-        my @others_constraints = grep { defined $_->others }
-            grep { $_->can('others') } @block_constraints;
-
-        for my $constraint (@others_constraints) {
-            my $others = $constraint->others;
-            if ( !ref $others ) {
-                $others = [$others];
-            }
-            my @new_others;
-
-            for my $name (@$others) {
-                my $field = $self->_find_other_field( $name, $block_fields );
-
-                if ( defined $field ) {
-                    push @new_others, $field->nested_name;
-                }
-                else {
-                    push @new_others, $name;
-                }
-            }
-
-            $constraint->others( \@new_others );
-        }
-
-        # rename any 'when' fields
-        my @when_constraints = grep { defined $_->when } @block_constraints;
-
-        for my $constraint (@when_constraints) {
-            my $when = $constraint->when;
-
-            if ( my $name = $when->{field} ) {
-                my $field = $self->_find_other_field( $name, $block_fields );
-
-                if ( defined $field ) {
-                    $when->{field} = $field->nested_name;
-                }
-            }
-            elsif ( my $names = $when->{fields} ) {
-                for my $name ( @$names ) {
-                    my $field = $self->_find_other_field( $name, $block_fields );
-
-                    if ( defined $field ) {
-                        $when->{field} = $field->nested_name;
-                    }
-                }
-            }
-        }
-
-        # rename any 'id_field' fields
-        my @id_field_constraints = grep { defined $_->id_field } 
-            grep { $_->can('id_field') } @block_constraints;
-
-        for my $constraint (@id_field_constraints) {
-            my $id_field = $constraint->id_field;
-            my $name = $id_field;
-
-            my $field = $self->_find_other_field( $name, $block_fields );
-
-            if ( defined $field ) {
-                $constraint->id_field( $field->nested_name );
-            }
+        for my $field ( @fields ) {
+            map {
+                $_->repeatable_repeat( $self, $block )
+            } @{ $field->_constraints };
         }
 
         push @return, $block;
-
     }
 
     return \@return;
@@ -387,7 +280,7 @@ sub process {
     }
 
     if ( !$self->_original_elements ) {
-        DEBUG_PROCESS && debug("calling \$repeatable->count($count)");
+        DEBUG_PROCESS && debug("calling \$repeatable->repeat($count)");
 
         $self->repeat($count);
     }

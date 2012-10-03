@@ -1,0 +1,18 @@
+---
+elements:
+  - type: Hidden
+    name: count
+  
+  - type: Repeatable
+    nested_name: rep
+    counter_name: count
+    elements:
+      - name: foo
+        constraints:
+          - type: AllOrNone
+            others:
+              rep.bar
+            attach_errors_to:
+              - rep.foo
+              - rep.bar
+      - name: bar
