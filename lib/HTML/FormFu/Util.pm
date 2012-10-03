@@ -70,7 +70,7 @@ sub debug {
             my $value = shift;
 
             if ( !defined $value ) {
-               $value = "is undef"; 
+               $value = "is undef\n"; 
             }
             elsif ( ref $value ) {
                 $value = Data::Dumper::Dumper($value);
