@@ -5,8 +5,9 @@ use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
 
 with 'HTML::FormFu::Role::Element::Field',
-     'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' },
-     'HTML::FormFu::Role::Element::Coercible';
+    'HTML::FormFu::Role::Element::SingleValueField' =>
+    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Util qw( process_attrs );
 use List::MoreUtils qw( none );
@@ -30,7 +31,7 @@ after BUILD => sub {
     #$self->field_type('label');
 
     $self->model_config->{read_only} = 1;
-    
+
     return;
 };
 
@@ -84,11 +85,11 @@ sub process_input {
     my $form = $self->form;
     my $name = $self->nested_name;
 
-    if ( $form->submitted
+    if (   $form->submitted
         && $form->nested_hash_key_exists( $input, $name ) )
     {
-        my @fields = @{ $form->get_fields({ nested_name => $name }) };
-        
+        my @fields = @{ $form->get_fields( { nested_name => $name } ) };
+
         if ( none { $_ == $self } @fields ) {
             $form->delete_nested_hash_key( $input, $name );
         }

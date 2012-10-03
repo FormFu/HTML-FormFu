@@ -25,8 +25,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {   
-            foo_1 => 'a',
+        {   foo_1 => 'a',
             foo_2 => 'b',
             count => 2,
         } );
@@ -44,8 +43,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {   
-            foo_1 => 'a',
+        {   foo_1 => 'a',
             foo_2 => '',
             count => 2,
         } );
@@ -63,8 +61,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {   
-            foo_1 => '',
+        {   foo_1 => '',
             foo_2 => 'b',
             count => 2,
         } );
@@ -82,12 +79,9 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     # error is only attached to first rep
 
-    is_deeply(
-        [ $form->has_errors ],
-        ['foo_1']
-    );
+    is_deeply( [ $form->has_errors ], ['foo_1'] );
 
-    like( $form->get_field({ nested_name => 'foo_1' }), qr/error/ );
-    unlike( $form->get_field({ nested_name => 'foo_2' }), qr/error/ );
+    like( $form->get_field( { nested_name => 'foo_1' } ), qr/error/ );
+    unlike( $form->get_field( { nested_name => 'foo_2' } ), qr/error/ );
 }
 

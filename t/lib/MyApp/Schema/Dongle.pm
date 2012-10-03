@@ -11,12 +11,10 @@ __PACKAGE__->table("dongle");
 
 __PACKAGE__->add_columns(
     "person_id",
-    {   data_type   => "INT", 
-        is_nullable => 0, 
-        size        => 10, 
-        extra => {
-            unsigned => 1,
-        },
+    {   data_type   => "INT",
+        is_nullable => 0,
+        size        => 10,
+        extra       => { unsigned => 1, },
     },
     "dongle",
     {   data_type   => "VARCHAR",

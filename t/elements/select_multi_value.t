@@ -22,14 +22,9 @@ $field->default( [ 2, 3 ] );
 
 # multi submit
 {
-    $form->process({
-        foo => [ 1, 3 ],
-    });
-    
+    $form->process( { foo => [ 1, 3 ], } );
+
     ok( $form->submitted_and_valid );
-    
-    is_deeply(
-        $form->param_array('foo'),
-        [ 1, 3 ],
-    );
+
+    is_deeply( $form->param_array('foo'), [ 1, 3 ], );
 }

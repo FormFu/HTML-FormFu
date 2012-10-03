@@ -11,19 +11,15 @@ __PACKAGE__->table("person");
 
 __PACKAGE__->add_columns(
     "person_id",
-    {   data_type   => "INT", 
-        is_nullable => 0, 
-        size        => 10, 
-        extra => {
-            unsigned => 1,
-        },
+    {   data_type   => "INT",
+        is_nullable => 0,
+        size        => 10,
+        extra       => { unsigned => 1, },
     },
     "title",
     {   data_type   => "ENUM",
         is_nullable => 0,
-        extra => {
-            list => [qw/ Mr Mrs Miss /],
-        },
+        extra       => { list => [qw/ Mr Mrs Miss /], },
     },
     "name",
     {   data_type   => "VARCHAR",
@@ -34,11 +30,7 @@ __PACKAGE__->add_columns(
     {   data_type   => "INT",
         is_nullable => 0,
         size        => 10,
-        extra => {
-            unsigned => 1,
-        }
-    }
-);
+        extra       => { unsigned => 1, } } );
 
 __PACKAGE__->set_primary_key("person_id");
 

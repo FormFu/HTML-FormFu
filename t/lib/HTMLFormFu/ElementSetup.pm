@@ -1,5 +1,4 @@
-package 
-    HTMLFormFu::ElementSetup;
+package HTMLFormFu::ElementSetup;
 
 use strict;
 use warnings;
@@ -7,8 +6,8 @@ use warnings;
 use base 'HTML::FormFu::Element::Text';
 
 sub setup {
-    my ( $self ) = @_;
-    
+    my ($self) = @_;
+
     $::name = $self->name;
 }
 

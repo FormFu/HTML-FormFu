@@ -70,7 +70,7 @@ sub debug {
             my $value = shift;
 
             if ( !defined $value ) {
-               $value = "is undef\n"; 
+                $value = "is undef\n";
             }
             elsif ( ref $value ) {
                 $value = Data::Dumper::Dumper($value);
@@ -112,12 +112,11 @@ sub _filter_components {
 
         my $value;
 
-        @$components
-            = grep {
+        @$components = grep {
                    $_->can($name)
                 && defined( $value = $_->$name )
                 && $value eq $args->{$name}
-            } @$components;
+        } @$components;
     }
 
     return $components;
@@ -132,7 +131,10 @@ sub _get_elements {
         @$elements = grep {
                    $_->can($name)
                 && defined( $value = $_->$name )
-                && (ref($args->{$name}) eq 'Regexp' ? $value =~ $args->{$name} : $value eq $args->{$name})
+                && (
+                ref( $args->{$name} ) eq 'Regexp'
+                ? $value =~ $args->{$name}
+                : $value eq $args->{$name} )
         } @$elements;
     }
 
@@ -421,7 +423,7 @@ sub process_attrs {
     my ($attrs) = @_;
 
     croak 'argument to process_attrs() must be a hashref'
-        if reftype( $attrs ) ne 'HASH';
+        if reftype($attrs) ne 'HASH';
 
     my @attribute_parts;
 
@@ -501,7 +503,7 @@ sub _merge_hashes {
         my $left_value = $lefthash->{$key};
 
         if ( exists $lefthash->{$key} ) {
-            
+
             my $is_left_ref = exists $lefthash->{$key}
                 && ref $lefthash->{$key} eq 'HASH';
 
@@ -511,7 +513,8 @@ sub _merge_hashes {
             elsif ( ref $left_value eq 'ARRAY' && ref $right_value eq 'HASH' ) {
                 $merged{$key} = _merge_array_hash( $left_value, $right_value );
             }
-            elsif ( ref $left_value eq 'ARRAY' && ref $right_value eq 'ARRAY' ) {
+            elsif ( ref $left_value eq 'ARRAY' && ref $right_value eq 'ARRAY' )
+            {
                 $merged{$key} = _merge_array_array( $left_value, $right_value );
             }
             elsif ( ref $left_value eq 'HASH' && ref $right_value eq 'HASH' ) {
@@ -531,19 +534,19 @@ sub _merge_hashes {
 
 sub _merge_hash_array {
     my ( $left, $right ) = @_;
-    
+
     return [ $left, @$right ];
 }
 
 sub _merge_array_hash {
     my ( $left, $right ) = @_;
-    
+
     return [ @$left, $right ];
 }
 
 sub _merge_array_array {
     my ( $left, $right ) = @_;
-    
+
     return [ @$left, @$right ];
 }
 

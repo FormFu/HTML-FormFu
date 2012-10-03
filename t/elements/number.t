@@ -11,23 +11,21 @@ use Number::Format;
 # in any way. Inflation is tested by comparing the string to
 # a perl number.
 
-
 my $f = new HTML::FormFu(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $f->load_config_file('t/elements/number.yml');
 
-$f->get_all_element({type => "Number"})->default('10002300.123');
+$f->get_all_element( { type => "Number" } )->default('10002300.123');
 
 $f->process;
 
-unlike($f->render, qr/10002300.123/, "exact number not there");
+unlike( $f->render, qr/10002300.123/, "exact number not there" );
 
 my $foo = Number::Format->new->format_number(23000222.22);
-$f->process({foo => $foo}); 
+$f->process( { foo => $foo } );
 
-ok($f->submitted_and_valid, "number constraint");
+ok( $f->submitted_and_valid, "number constraint" );
 
-is($f->param('foo'), 23000222.22, "is number");
-
+is( $f->param('foo'), 23000222.22, "is number" );
 

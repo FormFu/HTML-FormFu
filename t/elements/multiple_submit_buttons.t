@@ -5,15 +5,14 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Submit')->name('foo')->default('a');
 $form->element('Submit')->name('foo')->default('b');
 $form->element('Submit')->name('foo')->default('c');
 
-$form->process( {
-        foo => 'b',
-    } );
+$form->process( { foo => 'b', } );
 
 ok( $form->submitted_and_valid );
 

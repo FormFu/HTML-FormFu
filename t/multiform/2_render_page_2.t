@@ -10,7 +10,8 @@ use YAML::XS qw/ LoadFile /;
 
 my $yaml_file = 't/multiform/multiform.yml';
 
-my $multi = HTML::FormFu::MultiForm->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $multi = HTML::FormFu::MultiForm->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $multi->load_config_file($yaml_file);
 
@@ -28,7 +29,9 @@ like( "$multi", qr|<input name="bar" type="text" />| );
 
 my $form2 = $multi->next_form;
 
-my $value = $form2->get_field( { name => $multi->default_multiform_hidden_name } )->default;
+my $value
+    = $form2->get_field( { name => $multi->default_multiform_hidden_name } )
+    ->default;
 
 my $yaml = LoadFile($yaml_file);
 

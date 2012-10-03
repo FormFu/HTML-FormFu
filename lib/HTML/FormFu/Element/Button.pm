@@ -8,9 +8,9 @@ with 'HTML::FormFu::Role::Element::Input';
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->field_type(    'button' );
-    $self->force_default( 1 );
-    
+    $self->field_type('button');
+    $self->force_default(1);
+
     return;
 };
 

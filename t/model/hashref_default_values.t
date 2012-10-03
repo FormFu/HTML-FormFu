@@ -14,85 +14,65 @@ $form->auto_fieldset(1);
 
 $form->default_model('HashRef');
 
-$form->populate(
-    {
-        elements => [
-            {
+$form->populate( {
+        elements => [ {
                 type         => "DateTime",
                 name         => "datetime",
                 auto_inflate => 1,
                 year         => { list => [1999] }
             },
-            {
-                name     => "inflator",
+            {   name     => "inflator",
                 deflator => { type => 'Strftime', strftime => '%F %H:%M' },
                 inflator =>
-                  { type => "DateTime", parser => { strptime => '%F' } }
+                    { type => "DateTime", parser => { strptime => '%F' } }
             },
-            {
-                type        => "Repeatable",
+            {   type        => "Repeatable",
                 nested_name => "many",
                 elements    => [
                     { name => "id" },
-                    {
-                        type     => "Block",
+                    {   type     => "Block",
                         name     => "nested",
-                        elements => [ { type => "Text", name => "foo" } ]
-                    }
-                ]
+                        elements => [ { type => "Text", name => "foo" } ] } ]
             },
-            {
-                type    => "Select",
+            {   type    => "Select",
                 name    => "single-select",
                 options => [ [qw(1 foo)], [qw(2 bar)] ]
             },
-            {
-                type    => "Select",
+            {   type    => "Select",
                 name    => "multi-select",
                 options => [ [qw(1 foo)], [qw(2 bar)] ]
             },
-            {
-                type        => "Block",
+            {   type        => "Block",
                 nested_name => "nested",
                 elements    => [ { type => "Text", name => "foo" } ]
             },
-            {
-                type     => "Multi",
+            {   type     => "Multi",
                 name     => "address",
                 elements => [ { name => "street" }, { name => "number" } ]
             },
-            {
-                type     => "Multi",
+            {   type     => "Multi",
                 name     => "address-split",
                 elements => [ { name => "street" }, { name => "number" } ],
                 deflators => [ { type => "CompoundSplit" } ]
             },
-            {
-                type => "SimpleTable",
-                rows => [ [ { name => "table1" } ] ]
-            }
-        ]
-    }
-);
-
+            {   type => "SimpleTable",
+                rows => [ [ { name => "table1" } ] ] } ] } );
 
 for ( 0 .. 1 ) {
 
     $form->auto_fieldset($_);
-    $form->model->default_values(
-        {
+    $form->model->default_values( {
             datetime => '30-08-1999 22:00',
             bar      => 'y',
             many => [ { id => 1, foo => "bar" }, { id => 2, foo => "baz" } ],
             'single-select' => 1,
-			'inflator' => '2008-09-22',
+            'inflator'      => '2008-09-22',
             'multi-select'  => [ 1, 2 ],
             nested          => { foo => "bar" },
             address         => { street => "Lombardstreet", number => 22 },
             'address-split' => "Lombardstreet 22",
             table1          => "test"
-        }
-    );
+        } );
 
     $form->process;
 

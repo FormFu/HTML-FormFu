@@ -20,14 +20,14 @@ use List::MoreUtils qw( any all );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );
 
-has not          => ( is => 'rw', traits  => ['Chained'] );
-has force_errors => ( is => 'rw', traits  => ['Chained'] );
-has when         => ( is => 'rw', traits  => ['Chained'] );
-has only_on_reps => ( is => 'rw', traits  => ['Chained'] );
+has not          => ( is => 'rw', traits => ['Chained'] );
+has force_errors => ( is => 'rw', traits => ['Chained'] );
+has when         => ( is => 'rw', traits => ['Chained'] );
+has only_on_reps => ( is => 'rw', traits => ['Chained'] );
 
 sub repeatable_repeat {
     my ( $self, $repeatable, $new_block ) = @_;
-    
+
     my $block_fields = $new_block->get_fields;
 
     # rename any 'when' fields
@@ -35,21 +35,23 @@ sub repeatable_repeat {
         my $when = $self->when;
 
         if ( my $name = $when->{field} ) {
-            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+            my $field = $repeatable->get_field_with_original_name( $name,
+                $block_fields );
 
             if ( defined $field ) {
                 DEBUG_CONSTRAINTS && debug(
-                    sprintf "Repeatable renaming constraint 'when{field}' '%s' to '%s'",
-                        $name,
-                        $field->nested_name,
+                    sprintf
+                        "Repeatable renaming constraint 'when{field}' '%s' to '%s'",
+                    $name, $field->nested_name,
                 );
 
                 $when->{field} = $field->nested_name;
             }
         }
         elsif ( my $names = $when->{fields} ) {
-            for my $name ( @$names ) {
-                my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+            for my $name (@$names) {
+                my $field = $repeatable->get_field_with_original_name( $name,
+                    $block_fields );
 
                 if ( defined $field ) {
                     $when->{field} = $field->nested_name;
@@ -59,14 +61,14 @@ sub repeatable_repeat {
     }
 }
 
-sub pre_process {}
+sub pre_process { }
 
 sub process {
     my ( $self, $params ) = @_;
 
     return unless $self->_run_this_rep;
 
-    my $value = $self->_find_field_value( $params );
+    my $value = $self->_find_field_value($params);
 
     my @errors;
 
@@ -105,16 +107,16 @@ sub process {
 
 sub _run_this_rep {
     my ($self) = @_;
-    
+
     my $only_on_reps = $self->only_on_reps
         or return 1;
-    
+
     my $current_rep = $self->field->repeatable_count
         or return 1;
-    
+
     $only_on_reps = [$only_on_reps]
         if ( reftype($only_on_reps) || '' ) ne 'ARRAY';
-    
+
     return first { $current_rep == $_ } @$only_on_reps;
 }
 
@@ -123,36 +125,37 @@ sub _find_field_value {
 
     my $value = $self->get_nested_hash_value( $params, $self->nested_name );
 
-    my @fields_with_this_name = @{ $self->form->get_fields({ nested_name => $self->nested_name }) };
-    
+    my @fields_with_this_name
+        = @{ $self->form->get_fields( { nested_name => $self->nested_name } ) };
+
     if ( @fields_with_this_name > 1 ) {
         my $field = $self->parent;
         my $index;
-        
-        for ( my $i=0; $i <= $#fields_with_this_name; ++$i ) {
+
+        for ( my $i = 0; $i <= $#fields_with_this_name; ++$i ) {
             if ( $fields_with_this_name[$i] eq $field ) {
                 $index = $i;
                 last;
             }
         }
-        
+
         croak 'did not find ourself - how can this happen?'
             if !defined $index;
-        
+
         if ( ( reftype($value) || '' ) eq 'ARRAY' ) {
             $value = $value->[$index];
         }
         elsif ( $index == 0 ) {
+
             # keep $value
         }
         else {
             undef $value;
         }
     }
-    
+
     return $value;
 }
-
 
 sub constrain_values {
     my ( $self, $values, $params ) = @_;
@@ -229,49 +232,53 @@ sub _process_when {
     my $when_fields    = $when->{fields};
     my $when_any_field = $when->{any_field};
     my $when_callback  = $when->{callback};
-    
-    croak "'field', 'fields', 'any_field' or 'callback' key must be defined in 'when'"
-        if all {!defined} $when_field, $when_fields, $when_any_field, $when_callback;
+
+    croak
+        "'field', 'fields', 'any_field' or 'callback' key must be defined in 'when'"
+        if all { !defined } $when_field, $when_fields, $when_any_field,
+        $when_callback;
 
     # Callback will be the preferred thing
     if ($when_callback) {
         no strict 'refs';
         return $when_callback->( $params, $self );
     }
-    
+
     my $any;
     my @when_fields_value;
-    
+
     if ($when_any_field) {
         croak "'any_field' is set to an empty list" if !@$when_any_field;
 
         $any = 1;
-        
+
         @$when_fields = @$when_any_field;
     }
-    
+
     if ($when_fields) {
         croak "'fields' is set to an empty list" if !@$when_fields;
-        
+
         for my $name (@$when_fields) {
             my $value = $self->get_nested_hash_value( $params, $name );
-            
+
             push @when_fields_value, $value
                 if defined $value;
         }
     }
     else {
+
         # nothing to constrain if field doesn't exist
         my $value = $self->get_nested_hash_value( $params, $when_field );
-        
+
         push @when_fields_value, $value
             if defined $value;
     }
 
-    DEBUG_CONSTRAINTS && debug('WHEN_FIELDS_VALUES' => \@when_fields_value);
+    DEBUG_CONSTRAINTS && debug( 'WHEN_FIELDS_VALUES' => \@when_fields_value );
 
-    if (!@when_fields_value) {
-        DEBUG_CONSTRAINTS && debug("No 'when' fields values exist - returning false");
+    if ( !@when_fields_value ) {
+        DEBUG_CONSTRAINTS
+            && debug("No 'when' fields values exist - returning false");
         return 0;
     }
 
@@ -297,15 +304,16 @@ sub _process_when {
             push @ok, $value ? 1 : 0;
         }
     }
-    
-    DEBUG_CONSTRAINTS && debug("'when' value matches" => \@ok);
 
-    my $return = $any ? any { $when->{not} ? !$_ : $_ } @ok
-               :        all { $when->{not} ? !$_ : $_ } @ok
-               ;
-    
-    DEBUG_CONSTRAINTS && debug("'when' return value" => $return);
-    
+    DEBUG_CONSTRAINTS && debug( "'when' value matches" => \@ok );
+
+    my $return
+        = $any
+        ? any { $when->{not} ? !$_ : $_ } @ok
+        : all { $when->{not} ? !$_ : $_ } @ok;
+
+    DEBUG_CONSTRAINTS && debug( "'when' return value" => $return );
+
     return $return;
 }
 

@@ -71,16 +71,16 @@ $form->load_config_file('t/constraints/required_only_on_reps.yml');
             count => 3,
         } );
 
-    ok( ! $form->submitted_and_valid );
+    ok( !$form->submitted_and_valid );
 
     is_deeply(
         [ $form->has_errors ],
-        [qw/
-            foo_1
-            buz_1
-            moo_1
-            bar_2
-            moo_3
-        /]
-    );
+        [   qw/
+                foo_1
+                buz_1
+                moo_1
+                bar_2
+                moo_3
+                /
+        ] );
 }

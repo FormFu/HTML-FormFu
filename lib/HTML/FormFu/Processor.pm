@@ -3,8 +3,8 @@ use Moose;
 use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::NestedHashUtils',
-     'HTML::FormFu::Role::HasParent',
-     'HTML::FormFu::Role::Populate';
+    'HTML::FormFu::Role::HasParent',
+    'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw(
     mk_output_accessors
@@ -18,7 +18,7 @@ use HTML::FormFu::ObjectUtil qw(
 use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits  => ['Chained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( message ));
 

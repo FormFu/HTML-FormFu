@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new;
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 
-map { $_->common([ 'URI', 'HTTP', { -scheme => 'https?' } ]) }
+map { $_->common( [ 'URI', 'HTTP', { -scheme => 'https?' } ] ) }
     $form->constraint('Regex');
 
 {

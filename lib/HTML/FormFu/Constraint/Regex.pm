@@ -6,8 +6,8 @@ extends 'HTML::FormFu::Constraint';
 
 use Regexp::Common;
 
-has common => ( is => 'rw', traits  => ['Chained'] );
-has regex  => ( is => 'rw', traits  => ['Chained'] );
+has common => ( is => 'rw', traits => ['Chained'] );
+has regex  => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

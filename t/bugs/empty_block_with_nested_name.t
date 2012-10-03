@@ -11,8 +11,6 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/bugs/empty_block_with_nested_name.yml');
 
-$form->process({
-    foo => 'aaa',
-});
+$form->process( { foo => 'aaa', } );
 
-is_deeply( [$form->valid], ['foo'] );
+is_deeply( [ $form->valid ], ['foo'] );

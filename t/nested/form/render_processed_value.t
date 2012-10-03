@@ -11,16 +11,16 @@ my $form = HTML::FormFu->new(
 $form->load_config_file('t/nested/form/render_processed_value.yml');
 
 $form->process( {
-    'ack.foo' => '27/04/2007',
-    'ack.bar' => 'hello',
-} );
+        'ack.foo' => '27/04/2007',
+        'ack.bar' => 'hello',
+    } );
 
 # inflator has run
 isa_ok( $form->params->{ack}{foo}, 'DateTime' );
 
 # filter has run
 is( $form->params->{ack}{foo}->year, '2006' );
-is( $form->params->{ack}{bar}, 'HELLO' );
+is( $form->params->{ack}{bar},       'HELLO' );
 
 # deflator is run during render()
 # maintains filtered value

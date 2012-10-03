@@ -9,15 +9,16 @@ use HTMLFormFu::TestLib;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/repeatable/constraints/required_not_increment_field_names.yml');
+$form->load_config_file(
+    't/repeatable/constraints/required_not_increment_field_names.yml');
 
 $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Valid
 {
     $form->process( {
-            foo => ['a', 'b'],
-            bar => ['c', 'd'],
+            foo   => [ 'a', 'b' ],
+            bar   => [ 'c', 'd' ],
             count => 2,
         } );
 
@@ -25,9 +26,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply(
         $form->params,
-        {
-            foo => ['a', 'b'],
-            bar => ['c', 'd'],
+        {   foo   => [ 'a', 'b' ],
+            bar   => [ 'c', 'd' ],
             count => 2,
         } );
 }
@@ -35,15 +35,15 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 # Missing - Invalid
 {
     $form->process( {
-            foo => ['', 'b'],
-            bar => ['c', ''],
+            foo   => [ '',  'b' ],
+            bar   => [ 'c', '' ],
             count => 2,
         } );
 
     ok( !$form->submitted_and_valid );
 
-    # $form->has_errors() doesn't really make sense for multiple fields with the same name
-    # -  an error on any of those fields will return true
+# $form->has_errors() doesn't really make sense for multiple fields with the same name
+# -  an error on any of those fields will return true
 
     ok( $form->has_errors('foo') );
     ok( $form->has_errors('bar') );

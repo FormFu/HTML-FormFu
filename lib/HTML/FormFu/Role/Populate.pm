@@ -7,12 +7,15 @@ after BUILD => sub {
     my ( $self, $args ) = @_;
 
     $args ||= {};
+
     # get args handled by Moose so they aren't set twice
     my %init_args = map { $_->{init_arg} => 1 } $self->meta->get_all_attributes;
-    # remove defaults set in HTML::FormFu::BUILD because they need to be set for a third time
-    delete @init_args{keys %{$HTML::FormFu::build_defaults}};
-    my %args = map { $_ => $args->{$_} } grep { ! exists $init_args{$_} } keys %$args;
-    $self->populate(\%args);
+
+# remove defaults set in HTML::FormFu::BUILD because they need to be set for a third time
+    delete @init_args{ keys %{$HTML::FormFu::build_defaults} };
+    my %args
+        = map { $_ => $args->{$_} } grep { !exists $init_args{$_} } keys %$args;
+    $self->populate( \%args );
 
     return;
 };

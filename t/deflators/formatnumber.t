@@ -20,6 +20,6 @@ $form->get_field('foo')->default('10002300.123');
 
 {
     $form->process;
-    
+
     unlike( $form->render, qr/10002300.123/, 'exact number not there' );
 }

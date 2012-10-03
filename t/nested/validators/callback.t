@@ -19,7 +19,8 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')->validator('Callback')->callback( \&CB::Validators::cb );
+$form->element('Text')->name('bar')->validator('Callback')
+    ->callback( \&CB::Validators::cb );
 
 $form->element('Text')->name('baz');
 

@@ -14,7 +14,7 @@ sub process {
 
     my @errors;
 
-    if ( ( reftype( $value ) || '' ) eq 'ARRAY' ) {
+    if ( ( reftype($value) || '' ) eq 'ARRAY' ) {
         push @errors, eval { $self->validate_values( $value, $params ) };
 
         if ($@) {

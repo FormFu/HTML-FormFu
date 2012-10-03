@@ -18,23 +18,24 @@ use Test::More tests => 4;
 use HTML::FormFu;
 
 my $can_closure = sub {
-    my ($value, $params) = @_;
-    
+    my ( $value, $params ) = @_;
+
     if ( $params->{foo} eq '1' ) {
         $value .= '_' . $params->{foo};
     }
     $value =~ s/\s*//g;
-    
+
     return uc $value;
 };
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->transformer('Callback')->callback( \&CB::Transformers::cb );
+$form->element('Text')->name('foo')->transformer('Callback')
+    ->callback( \&CB::Transformers::cb );
 $form->element('Text')->name('bar')->transformer('Callback')
     ->callback("CB::Transformers::cb");
 $form->element('Text')->name('coo')->transformer('Callback')
-    ->callback( $can_closure );
+    ->callback($can_closure);
 
 # Valid
 {

@@ -5,7 +5,8 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 my $field1 = $form->element('Radiogroup')->name('foo')->value(2)
     ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
@@ -16,8 +17,12 @@ my $field2 = $form->element('Radiogroup')->name('foo2')
 
 # add more elements to test accessor output
 $form->element('Radiogroup')->name('foo3')->options( [
-        { label => 'Ein',  value => 1 },
-        { label => 'Zwei', value => 2, attributes => { class => 'foobar' }, container_attributes => { class => 'item 2' } },
+        { label => 'Ein', value => 1 },
+        {   label                => 'Zwei',
+            value                => 2,
+            attributes           => { class => 'foobar' },
+            container_attributes => { class => 'item 2' }
+        },
     ] );
 
 $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )

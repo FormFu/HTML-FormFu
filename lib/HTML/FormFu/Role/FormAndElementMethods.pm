@@ -280,15 +280,17 @@ sub model_config {
 sub _string_equals {
     my ( $a, $b ) = @_;
 
-    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
-                         ( "$a" eq "$b" );
+    return blessed($b)
+        ? ( refaddr($a) eq refaddr($b) )
+        : ( "$a" eq "$b" );
 }
 
 sub _object_equals {
     my ( $a, $b ) = @_;
 
-    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
-                         undef;
+    return blessed($b)
+        ? ( refaddr($a) eq refaddr($b) )
+        : undef;
 }
 
 1;

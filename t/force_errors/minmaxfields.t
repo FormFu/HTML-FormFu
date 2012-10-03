@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('MinMaxFields')
-    ->others([qw/ bar baz boz/])->min(1)->max(2)->force_errors(1);
+    ->others( [qw/ bar baz boz/] )->min(1)->max(2)->force_errors(1);
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 $form->element('Text')->name('boz');
@@ -72,7 +72,7 @@ $form->element('Text')->name('boz');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('boz') );
-    
+
     ok( !@{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( !@{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
     ok( !@{ $form->get_errors( { name => 'boz', forced => 1 } ) } );

@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('MinMaxFields')
-    ->others([qw/ bar baz boz/])->min(1)->max(2);
+    ->others( [qw/ bar baz boz/] )->min(1)->max(2);
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 $form->element('Text')->name('boz');
@@ -52,19 +52,20 @@ $form->element('Text')->name('boz');
 }
 
 {
+
     # Test setting default for max when others is a single element
     my $form = HTML::FormFu->new;
-    
+
     $form->element('Text')->name('foo')->constraint('MinMaxFields')
         ->others('bar');
     $form->element('Text')->name('bar');
-    
+
     {
         $form->process( {
                 foo => 1,
                 bar => '',
-        } );
-    
+            } );
+
         ok( !$form->has_errors );
     }
 }

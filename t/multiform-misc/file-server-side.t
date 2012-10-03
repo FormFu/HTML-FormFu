@@ -69,14 +69,14 @@ my $tmpdir = File::Spec->catdir( $cwd, 't', 'tmp' );
 
 # make sure $tmpdir is empty
 if ( -d $tmpdir ) {
-    opendir my($dir), $tmpdir;
-    
-    my @files =
-        map { File::Spec->catfile( $tmpdir, $_ ) }
+    opendir my ($dir), $tmpdir;
+
+    my @files
+        = map { File::Spec->catfile( $tmpdir, $_ ) }
         grep { $_ !~ /^\.\.?\z/ } readdir($dir);
-    
+
     unlink @files if @files;
-    
+
 }
 else {
     mkdir $tmpdir;
@@ -85,7 +85,7 @@ else {
 ok( -d $tmpdir );
 
 my $config_callback = {
-     plain_value => sub {
+    plain_value => sub {
         return if !defined $_;
         s{__CWD\((.+?)\)__}
         { scalar File::Spec->catdir( $cwd, split( '/', $1 ) ) }eg;
@@ -122,7 +122,8 @@ my $form2_hidden_value;
     # next_form
     my $form_2 = $multi->next_form;
 
-    my $hidden_field = $form_2->get_field( { name => $multi->default_multiform_hidden_name } );
+    my $hidden_field = $form_2->get_field(
+        { name => $multi->default_multiform_hidden_name } );
 
     $form2_hidden_value = $hidden_field->default;
 }
@@ -138,7 +139,7 @@ my $form2_hidden_value;
 
     $multi->process( {
             $multi->default_multiform_hidden_name => $form2_hidden_value,
-            bar => 'def',
+            bar                                   => 'def',
         } );
 
     ok( $multi->complete );
@@ -156,11 +157,11 @@ my $form2_hidden_value;
     is( $file->slurp,                   "Hello World!\n" );
 
     ok( $file->parent == $form );
-    
+
     # peek into internals to remove file
-    
+
     my $filename = $file->{_param}->filename;
-    
+
     ok( unlink $filename );
 }
 

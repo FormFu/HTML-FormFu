@@ -29,5 +29,5 @@ $form->element('Text')->name('bar')->constraint('MinRange')->min(3);
         } );
 
     ok( !$form->valid('foo'), 'foo not valid' );
-    ok( $form->valid('bar'), 'bar not valid' );
+    ok( $form->valid('bar'),  'bar not valid' );
 }

@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new->indicator( sub {1} );
 
 $form->element('Text')->name('foo')->constraint('AllOrNone')
-    ->others([qw/ bar baz bif /])->force_errors(1);
+    ->others( [qw/ bar baz bif /] )->force_errors(1);
 
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
@@ -29,7 +29,7 @@ $form->element('Text')->name('bif');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('bif') );
-    
+
     ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );
@@ -46,7 +46,7 @@ $form->element('Text')->name('bif');
     ok( !$form->has_errors('bar') );
     ok( !$form->has_errors('baz') );
     ok( !$form->has_errors('bif') );
-    
+
     ok( @{ $form->get_errors( { name => 'foo', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'bar', forced => 1 } ) } );
     ok( @{ $form->get_errors( { name => 'baz', forced => 1 } ) } );

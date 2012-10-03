@@ -142,9 +142,9 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
     ok( !$form->submitted_and_valid );
 
     ok( !$form->valid('a'), 'a not valid' );
-    ok( $form->valid('b'), 'b valid' );
-    ok( $form->valid('c'), 'c valid' );
-    ok( $form->valid('d'), 'd valid' );
+    ok( $form->valid('b'),  'b valid' );
+    ok( $form->valid('c'),  'c valid' );
+    ok( $form->valid('d'),  'd valid' );
 }
 
 # Invalid
@@ -159,9 +159,9 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
     ok( !$form->submitted_and_valid );
 
     ok( !$form->valid('a'), 'a not valid' );
-    ok( $form->valid('b'), 'b valid' );
-    ok( $form->valid('c'), 'c valid' );
-    ok( $form->valid('d'), 'd valid' );
+    ok( $form->valid('b'),  'b valid' );
+    ok( $form->valid('c'),  'c valid' );
+    ok( $form->valid('d'),  'd valid' );
 }
 
 # Invalid
@@ -176,7 +176,7 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
     ok( !$form->submitted_and_valid );
 
     ok( !$form->valid('a'), 'a not valid' );
-    ok( $form->valid('b'), 'b valid' );
-    ok( $form->valid('c'), 'c valid' );
-    ok( $form->valid('d'), 'd valid' );
+    ok( $form->valid('b'),  'b valid' );
+    ok( $form->valid('c'),  'c valid' );
+    ok( $form->valid('d'),  'd valid' );
 }

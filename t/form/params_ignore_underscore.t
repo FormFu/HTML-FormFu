@@ -21,11 +21,9 @@ $form->process( {
 
 is_deeply(
     $form->params,
-    {
-        foo => 'a',
+    {   foo => 'a',
         bar => 'b',
-    }
-);
+    } );
 
 ok( !grep { $_ eq '_baz' } $form->valid );
 

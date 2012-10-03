@@ -3,17 +3,17 @@ use Moose;
 use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::NestedHashUtils',
-     'HTML::FormFu::Role::HasParent',
-     'HTML::FormFu::Role::Populate';
+    'HTML::FormFu::Role::HasParent',
+    'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
     form name parent nested_name nested_names );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits  => ['Chained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
-has localize_args => ( is => 'rw', traits  => ['Chained'] );
+has localize_args => ( is => 'rw', traits => ['Chained'] );
 
 sub process {
     my ( $self, $result, $params ) = @_;

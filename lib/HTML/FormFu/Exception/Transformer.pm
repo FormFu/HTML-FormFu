@@ -1,6 +1,5 @@
 package HTML::FormFu::Exception::Transformer;
 
-
 use Moose;
 extends 'HTML::FormFu::Exception::Input';
 

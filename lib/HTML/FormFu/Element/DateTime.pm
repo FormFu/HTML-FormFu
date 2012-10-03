@@ -13,7 +13,7 @@ for my $name ( qw(
     printf_hour
     printf_minute
     printf_second
-    ))
+    ) )
 {
     has $name => (
         is      => 'rw',
@@ -26,28 +26,22 @@ for my $name ( qw(
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->strftime( "%d-%m-%Y %H:%M" );
+    $self->strftime("%d-%m-%Y %H:%M");
 
     $self->_known_fields( [qw/ day month year hour minute second /] );
 
     $self->field_order( [qw( day month year hour minute )] );
 
-    $self->hour( {
-            prefix => [],
-        } );
+    $self->hour( { prefix => [], } );
 
-    $self->minute( {
-            prefix => [],
-        } );
+    $self->minute( { prefix => [], } );
 
-    $self->second( {
-            prefix => [],
-        } );
+    $self->second( { prefix => [], } );
 
-    $self->printf_hour  ('%02d');
+    $self->printf_hour('%02d');
     $self->printf_minute('%02d');
     $self->printf_second('%02d');
-    
+
     return;
 };
 
@@ -63,11 +57,11 @@ sub _add_hour {
         ? @{ $hour->{prefix} }
         : $hour->{prefix};
 
-    if (exists $hour->{prefix_loc}) {
+    if ( exists $hour->{prefix_loc} ) {
         @hour_prefix
             = ref $hour->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $hour->{prefix_loc} }
-            : $self->form->localize($hour->{prefix_loc});
+            : $self->form->localize( $hour->{prefix_loc} );
     }
 
     @hour_prefix = map { [ '', $_ ] } @hour_prefix;
@@ -103,11 +97,11 @@ sub _add_minute {
         ? @{ $minute->{prefix} }
         : $minute->{prefix};
 
-    if (exists $minute->{prefix_loc}) {
+    if ( exists $minute->{prefix_loc} ) {
         @minute_prefix
             = ref $minute->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $minute->{prefix_loc} }
-            : $self->form->localize($minute->{prefix_loc});
+            : $self->form->localize( $minute->{prefix_loc} );
     }
 
     @minute_prefix = map { [ '', $_ ] } @minute_prefix;
@@ -145,11 +139,11 @@ sub _add_second {
         ? @{ $second->{prefix} }
         : $second->{prefix};
 
-    if (exists $second->{prefix_loc}) {
+    if ( exists $second->{prefix_loc} ) {
         @second_prefix
             = ref $second->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $second->{prefix_loc} }
-            : $self->form->localize($second->{prefix_loc});
+            : $self->form->localize( $second->{prefix_loc} );
     }
 
     @second_prefix = map { [ '', $_ ] } @second_prefix;

@@ -9,7 +9,8 @@ use HTMLFormFu::TestLib;
 
 my $form = HTML::FormFu->new;
 
-$form->load_config_file('t/repeatable/repeatable/constraints/repeatable_any.yml');
+$form->load_config_file(
+    't/repeatable/repeatable/constraints/repeatable_any.yml');
 
 # Valid
 {
@@ -54,9 +55,6 @@ $form->load_config_file('t/repeatable/repeatable/constraints/repeatable_any.yml'
 
     # error is only attached to first rep
 
-    is_deeply(
-        [ $form->has_errors ],
-        ['foo_1', 'foo_3_1']
-    );
+    is_deeply( [ $form->has_errors ], [ 'foo_1', 'foo_3_1' ] );
 }
 

@@ -63,26 +63,22 @@ for my $method ( qw(
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->printf_day(   '%d' );
-    $self->printf_month( '%d' );
-    $self->printf_year(  '%d' );
+    $self->printf_day('%d');
+    $self->printf_month('%d');
+    $self->printf_year('%d');
 
     $self->_known_fields( [qw( day month year )] );
 
     $self->field_order( [qw( day month year )] );
 
-    $self->day( {
-            prefix => [],
-        } );
+    $self->day( { prefix => [], } );
 
-    $self->month( {
-            prefix => [],
-        } );
+    $self->month( { prefix => [], } );
 
     $self->year( {
-            prefix => [],
-            less   => 0,
-            plus   => 10,
+            prefix  => [],
+            less    => 0,
+            plus    => 10,
             reverse => 0,
         } );
 
@@ -108,7 +104,8 @@ sub value {
 
                 my $printf_method = "printf_$field";
 
-                my $default = $value
+                my $default
+                    = $value
                     ? sprintf( $self->$printf_method, $self->$field->{default} )
                     : undef;
 
@@ -150,13 +147,13 @@ sub _date_defaults {
     my $default;
 
     if ( defined( $default = $self->default ) && length $default ) {
-        
+
         if ( !$self->form->submitted || $self->render_processed_value ) {
             for my $deflator ( @{ $self->_deflators } ) {
                 $default = $deflator->process($default);
             }
         }
-        
+
         my $is_blessed = blessed($default);
 
         if ( !$is_blessed || ( $is_blessed && !$default->isa('DateTime') ) ) {
@@ -168,7 +165,7 @@ sub _date_defaults {
     }
     elsif ( defined( $default = $self->default_natural ) ) {
         my $parser;
-        
+
         if ( defined( my $datetime_args = $self->default_datetime_args ) ) {
             if ( exists $datetime_args->{set_time_zone} ) {
                 my $tz = $datetime_args->{set_time_zone};
@@ -181,20 +178,20 @@ sub _date_defaults {
         else {
             $parser = DateTime::Format::Natural->new;
         }
-        $default = $parser->parse_datetime( $default );
+        $default = $parser->parse_datetime($default);
     }
     else {
-      $default = undef;
+        $default = undef;
     }
 
     if ( defined $default ) {
-        
+
         if ( defined( my $datetime_args = $self->default_datetime_args ) ) {
             for my $key ( keys %$datetime_args ) {
                 $default->$key( $datetime_args->{$key} );
             }
         }
-        
+
         for my $field ( @{ $self->field_order } ) {
             $self->$field->{default} = $default->$field;
         }
@@ -215,11 +212,11 @@ sub _add_day {
         ? @{ $day->{prefix} }
         : $day->{prefix};
 
-    if (exists $day->{prefix_loc}) {
+    if ( exists $day->{prefix_loc} ) {
         @day_prefix
             = ref $day->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $day->{prefix_loc} }
-            : $self->form->localize($day->{prefix_loc});
+            : $self->form->localize( $day->{prefix_loc} );
     }
 
     @day_prefix = map { [ '', $_ ] } @day_prefix;
@@ -252,11 +249,11 @@ sub _add_month {
         ? @{ $month->{prefix} }
         : $month->{prefix};
 
-    if (exists $month->{prefix_loc}) {
+    if ( exists $month->{prefix_loc} ) {
         @month_prefix
             = ref $month->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $month->{prefix_loc} }
-            : $self->form->localize($month->{prefix_loc});
+            : $self->form->localize( $month->{prefix_loc} );
     }
 
     @month_prefix = map { [ '', $_ ] } @month_prefix;
@@ -303,11 +300,11 @@ sub _add_year {
         ? @{ $year->{prefix} }
         : $year->{prefix};
 
-    if (exists $year->{prefix_loc}) {
+    if ( exists $year->{prefix_loc} ) {
         @year_prefix
             = ref $year->{prefix_loc}
             ? map { $self->form->localize($_) } @{ $year->{prefix_loc} }
-            : $self->form->localize($year->{prefix_loc});
+            : $self->form->localize( $year->{prefix_loc} );
     }
 
     @year_prefix = map { [ '', $_ ] } @year_prefix;
@@ -363,15 +360,15 @@ sub _build_month_list {
 
 sub _build_number_list {
     my ( $self, $start, $end, $interval ) = @_;
-    
+
     $interval ||= 1;
-    
+
     my @list;
-    
+
     for ( my $i = $start; $i <= $end; $i += $interval ) {
         push @list, $i;
     }
-    
+
     return @list;
 }
 

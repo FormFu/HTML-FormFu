@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 package CB;
+
 # Just to test we can provide strings as callbacks
 # used by "coo2" field
 sub when_string_callback { return 1 }
@@ -22,27 +23,28 @@ my $when_closure = sub {
     return 1 if defined $params->{foo} && $params->{foo} eq '1';
 };
 
-$form->get_element('coo')->get_constraint->when({ callback => $when_closure });
+$form->get_element('coo')
+    ->get_constraint->when( { callback => $when_closure } );
 
 # Valid
 {
     $form->process( {
-            foo => 1,
-            bar => 'bar_value',
-            moo => undef,
-            zoo => 'zoo_value',
-            coo => 4,
+            foo  => 1,
+            bar  => 'bar_value',
+            moo  => undef,
+            zoo  => 'zoo_value',
+            coo  => 4,
             coo2 => 5,
         } );
 
     # if 'moo' does not *exist* in process params
     # it wouldn't be valid
 
-    ok( $form->valid('foo'), 'foo valid' );
-    ok( $form->valid('bar'), 'bar valid' );
-    ok( $form->valid('moo'), 'moo valid' );
-    ok( $form->valid('zoo'), 'zoo valid' );
-    ok( $form->valid('coo'), 'coo valid' );
+    ok( $form->valid('foo'),  'foo valid' );
+    ok( $form->valid('bar'),  'bar valid' );
+    ok( $form->valid('moo'),  'moo valid' );
+    ok( $form->valid('zoo'),  'zoo valid' );
+    ok( $form->valid('coo'),  'coo valid' );
     ok( $form->valid('coo2'), 'coo2 valid' );
 
     ok( grep { $_ eq 'foo' } $form->valid );

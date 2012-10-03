@@ -8,11 +8,12 @@ use DateTime;
 
 my $dt = DateTime->new( day => 6, month => 8, year => 2007 );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
-    ->field_order( [ qw/ month day year / ])
-    ->day( { prefix => '-- Day --', } )->month( {
+    ->field_order( [qw/ month day year /] )->day( { prefix => '-- Day --', } )
+    ->month( {
         prefix      => '-- Month --',
         short_names => 1,
     }
@@ -22,7 +23,7 @@ $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
     } )->default($dt)->auto_inflate(1)->constraint('Required');
 
 $form->element('Date')->name('bar')->default('14-08-2007')
-    ->field_order( [ qw/ year month day / ] )
+    ->field_order( [qw/ year month day /] )
     ->year( { list => [ 2007 .. 2017 ] } );
 
 $form->process;

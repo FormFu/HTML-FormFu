@@ -7,6 +7,7 @@ use Test::Exception;
 use HTML::FormFu;
 
 {
+
     package MyApp::FormFu;
     use Moose;
     extends 'HTML::FormFu';
@@ -15,6 +16,7 @@ use HTML::FormFu;
 }
 
 my $form;
-lives_ok( sub { $form = MyApp::FormFu->new( mine => 'ok' ); }, "form construction doesn't die" );
-ok( $form, 'form constructed ok');
+lives_ok( sub { $form = MyApp::FormFu->new( mine => 'ok' ); },
+    "form construction doesn't die" );
+ok( $form, 'form constructed ok' );
 is( $form->my_attr, 'ok', 'attribute set' );

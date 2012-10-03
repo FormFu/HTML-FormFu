@@ -13,19 +13,19 @@ $multi->process;
 
 {
     my $form = $multi->current_form;
-    
+
     is( $form->auto_fieldset, 1 );
-    
-    is( $form->attrs->{id}, 'form' );
+
+    is( $form->attrs->{id},      'form' );
     is( $form->attrs->{onclick}, 'foo' );
 }
 
 {
     my $form = $multi->next_form;
-    
+
     is( $form->auto_fieldset, 1 );
-    
+
     is( $form->attrs->{id}, 'form' );
-    
-    ok( ! exists $form->attrs->{onclick} );
+
+    ok( !exists $form->attrs->{onclick} );
 }

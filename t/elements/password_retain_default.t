@@ -5,7 +5,8 @@ use Test::More tests => 15;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Password')->name('foo')->value('a');
 $form->element('Password')->name('bar')->value('b')->render_value(1);

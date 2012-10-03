@@ -4,7 +4,7 @@ use Moose;
 use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Inflator';
 
-has callback => ( is => 'rw', traits  => ['Chained'] );
+has callback => ( is => 'rw', traits => ['Chained'] );
 
 sub inflator {
     my ( $self, $value ) = @_;

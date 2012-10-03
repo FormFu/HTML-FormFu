@@ -8,12 +8,18 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->populate({elements => [{type => "Date", name => "foo", year => {list => [2009]}, default => '30-08-2009'}]});
+$form->populate( {
+        elements => [ {
+                type    => "Date",
+                name    => "foo",
+                year    => { list => [2009] },
+                default => '30-08-2009'
+            } ] } );
 
 $form->process;
 
-like($form->render, qr/value="2009" selected="selected"/);
+like( $form->render, qr/value="2009" selected="selected"/ );
 
 $form->get_field('foo')->default(undef);
 
-like($form->render, qr/value="2009">/);
+like( $form->render, qr/value="2009">/ );

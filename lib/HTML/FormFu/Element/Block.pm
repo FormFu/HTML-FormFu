@@ -5,10 +5,10 @@ use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element';
 
 with 'HTML::FormFu::Role::CreateChildren',
-     'HTML::FormFu::Role::GetProcessors',
-     'HTML::FormFu::Role::ContainsElements',
-     'HTML::FormFu::Role::ContainsElementsSharedWithField',
-     'HTML::FormFu::Role::FormAndBlockMethods';
+    'HTML::FormFu::Role::GetProcessors',
+    'HTML::FormFu::Role::ContainsElements',
+    'HTML::FormFu::Role::ContainsElementsSharedWithField',
+    'HTML::FormFu::Role::FormAndBlockMethods';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
@@ -50,10 +50,10 @@ __PACKAGE__->mk_inherited_accessors( qw(
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->filename( 'block' );
-    $self->tag(      'div' );
-    $self->is_block( 1 );
-    
+    $self->filename('block');
+    $self->tag('div');
+    $self->is_block(1);
+
     return;
 };
 
@@ -154,9 +154,7 @@ sub prepare_id {
             ? $self->form->id
             : $EMPTY_STR;
 
-        my %string = (
-            f => $form_name,
-        );
+        my %string = ( f => $form_name, );
 
         my $id = $self->auto_block_id;
         $id =~ s/%([f])/$string{$1}/g;
@@ -193,9 +191,11 @@ sub string {
     }
 
     if ( defined $render->{legend} ) {
-        $html .= sprintf "\n<legend%s>%s</legend>",
-            defined( $render->{legend_attributes} ) ? process_attrs( $render->{legend_attributes} )
-                                                    : '',
+        $html .=
+            sprintf "\n<legend%s>%s</legend>",
+            defined( $render->{legend_attributes} )
+            ? process_attrs( $render->{legend_attributes} )
+            : '',
             $render->{legend};
     }
 

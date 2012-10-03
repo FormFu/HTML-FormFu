@@ -8,7 +8,7 @@ use File::Temp qw( tempfile );
 use Scalar::Util qw( reftype blessed weaken );
 use Storable qw( nfreeze thaw );
 
-has param    => ( is => 'rw', traits => ['Chained'], required => 1 );
+has param => ( is => 'rw', traits => ['Chained'], required => 1 );
 has filename => ( is => 'rw', traits => ['Chained'] );
 
 sub form {

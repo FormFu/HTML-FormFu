@@ -6,12 +6,13 @@ use Test::More tests => 1;
 use HTML::FormFu;
 use DateTime;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 # check that calling default('') doesn't cause a fatal error
 
 my $date = $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
-    ->year({ reference => 2007 })->default('');
+    ->year( { reference => 2007 } )->default('');
 
 $form->process;
 

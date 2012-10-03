@@ -9,7 +9,7 @@ use DateTime;
 use List::MoreUtils qw( none );
 use Carp qw( croak );
 
-has field_order => ( is => 'rw', traits  => ['Chained'] );
+has field_order => ( is => 'rw', traits => ['Chained'] );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

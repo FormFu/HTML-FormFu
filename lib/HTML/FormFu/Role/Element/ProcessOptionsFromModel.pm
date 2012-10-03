@@ -25,6 +25,5 @@ sub _process_options_from_model {
     return;
 }
 
-
 1;
 

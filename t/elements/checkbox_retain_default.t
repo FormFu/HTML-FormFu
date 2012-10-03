@@ -5,7 +5,8 @@ use Test::More tests => 10;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Checkbox')->name('foo')->value('a')->retain_default(1);
 $form->element('Checkbox')->name('fox')->value('b')->retain_default(1);

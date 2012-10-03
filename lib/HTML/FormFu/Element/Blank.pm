@@ -9,11 +9,12 @@ use HTML::FormFu::Constants qw( $EMPTY_STR );
 
 after BUILD => sub {
     my $self = shift;
-    
-    $self->label_tag(  $EMPTY_STR );
+
+    $self->label_tag($EMPTY_STR);
+
     #$self->field_type( $EMPTY_STR );
-    $self->render(     $EMPTY_STR );
-    
+    $self->render($EMPTY_STR);
+
     return;
 };
 

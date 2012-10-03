@@ -14,6 +14,6 @@ $form->load_config_file('t/internals/default_args-types.yml');
 
 my $field = $form->get_field('foo');
 
-ok( $field->get_constraint({ type => 'Required' } ) );
+ok( $field->get_constraint( { type => 'Required' } ) );
 
-ok( $field->get_constraint({ type => 'DateTime' } ) );
+ok( $field->get_constraint( { type => 'DateTime' } ) );

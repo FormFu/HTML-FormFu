@@ -8,7 +8,7 @@ use base 'Locale::Maketext';
 
 sub localize {
     my $self = shift;
-    
+
     return $self->maketext(@_);
 }
 

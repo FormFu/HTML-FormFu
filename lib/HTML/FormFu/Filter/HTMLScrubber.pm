@@ -6,11 +6,11 @@ extends 'HTML::FormFu::Filter';
 
 use Clone ();
 
-has allow   => ( is => 'rw', traits  => ['Chained'] );
-has comment => ( is => 'rw', traits  => ['Chained'] );
-has default => ( is => 'rw', traits  => ['Chained'] );
-has rules   => ( is => 'rw', traits  => ['Chained'] );
-has script  => ( is => 'rw', traits  => ['Chained'] );
+has allow   => ( is => 'rw', traits => ['Chained'] );
+has comment => ( is => 'rw', traits => ['Chained'] );
+has default => ( is => 'rw', traits => ['Chained'] );
+has rules   => ( is => 'rw', traits => ['Chained'] );
+has script  => ( is => 'rw', traits => ['Chained'] );
 
 use HTML::Scrubber;
 

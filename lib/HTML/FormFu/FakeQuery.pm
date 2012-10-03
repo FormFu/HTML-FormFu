@@ -7,13 +7,12 @@ sub new {
     my ( $class, $form, $param ) = @_;
 
     croak 'argument must be a hashref'
-        if reftype( $param ) ne 'HASH';
+        if reftype($param) ne 'HASH';
 
     # handle pre-expanded input
 
-    my @names
-        = grep {defined}
-        map    { $_->nested_name } @{ $form->get_fields };
+    my @names = grep {defined}
+        map { $_->nested_name } @{ $form->get_fields };
 
     for my $name (@names) {
         next if exists $param->{$name};

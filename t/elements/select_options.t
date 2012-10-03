@@ -14,12 +14,12 @@ my $field = $form->element('Select')->name('foo')
 
 {
     my $opts = $field->options;
-    
+
     is( scalar @$opts, 2 );
-    
+
     is( $opts->[0]->{label}, 'One' );
     is( $opts->[0]->{value}, 1 );
-    
+
     is( $opts->[1]->{label}, 'Two' );
     is( $opts->[1]->{value}, 2 );
 }
@@ -28,12 +28,12 @@ my $field = $form->element('Select')->name('foo')
 
 {
     my $opts = $field->options;
-    
+
     is( scalar @$opts, 2 );
-    
+
     is( $opts->[0]->{label}, 'One' );
     is( $opts->[0]->{value}, 1 );
-    
+
     is( $opts->[1]->{label}, 'Two' );
     is( $opts->[1]->{value}, 2 );
 }

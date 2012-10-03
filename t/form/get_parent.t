@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/form/get_parent.yml');
 
-$form->get_all_element({ type => 'Repeatable' })->repeat(2);
+$form->get_all_element( { type => 'Repeatable' } )->repeat(2);
 
 $form->process;
 
@@ -47,17 +47,17 @@ is( $submit_2->name, 'submit_2' );
 
 ok( $text_1_1_1->get_parent() eq $block_1_1 );
 
-ok( $text_1_1_1->get_parent({ tag => 'span' }) eq $block_1_1 );
+ok( $text_1_1_1->get_parent( { tag => 'span' } ) eq $block_1_1 );
 
-ok( $text_1_1_1->get_parent({ tag => 'div' }) eq $block_1 );
+ok( $text_1_1_1->get_parent( { tag => 'div' } ) eq $block_1 );
 
-ok( $text_1_1_1->get_parent({ type => 'Fieldset' }) eq $fieldset );
+ok( $text_1_1_1->get_parent( { type => 'Fieldset' } ) eq $fieldset );
 
 ###
 
-ok( $rep_1->get_parent({ type => 'Repeatable' }) eq $repeatable );
+ok( $rep_1->get_parent( { type => 'Repeatable' } ) eq $repeatable );
 
-ok( $rep_2->get_parent({ type => 'Repeatable' }) eq $repeatable );
+ok( $rep_2->get_parent( { type => 'Repeatable' } ) eq $repeatable );
 
-ok( !defined $rep_2->get_parent({ type => 'Unknown' }) );
-ok( !defined $rep_2->get_parent({ foo => 'bar' }) );
+ok( !defined $rep_2->get_parent( { type => 'Unknown' } ) );
+ok( !defined $rep_2->get_parent( { foo  => 'bar' } ) );

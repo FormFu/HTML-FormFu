@@ -81,7 +81,8 @@ my $form2_hidden_value;
     # next_form
     my $form_2 = $multi->next_form;
 
-    my $hidden_field = $form_2->get_field( { name => $multi->default_multiform_hidden_name } );
+    my $hidden_field = $form_2->get_field(
+        { name => $multi->default_multiform_hidden_name } );
 
     $form2_hidden_value = $hidden_field->default;
 }
@@ -95,7 +96,7 @@ my $form2_hidden_value;
 
     $multi->process( {
             $multi->default_multiform_hidden_name => $form2_hidden_value,
-            bar => 'def',
+            bar                                   => 'def',
         } );
 
     ok( $multi->complete );

@@ -6,7 +6,8 @@ use Test::More tests => 3;
 use HTML::FormFu;
 use Storable qw( dclone );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->default_args( {
         elements => {
@@ -20,14 +21,14 @@ $form->default_args( {
 my $default_args = dclone( $form->default_args );
 
 $form->populate( {
-        elements => [
-            {   type => 'SimpleTable',
+        elements => [ {
+                type => 'SimpleTable',
                 name => 'foo',
             },
         ],
     } );
 
-my $table = $form->get_all_element({ type => 'SimpleTable' });
+my $table = $form->get_all_element( { type => 'SimpleTable' } );
 
 like( $table, qr/table [^>]*class="[^"]*custom class[^"]*"/ );
 

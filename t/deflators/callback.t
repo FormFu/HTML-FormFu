@@ -14,23 +14,23 @@ my $deflated_bar = "ABCdef";
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->element({
-    name      => 'foo',
-    default  => $original_foo,
-    deflator => {
-        type     => 'Callback',
-        callback => sub { return uc($_[0]) },
-    },
-});
+$form->element( {
+        name     => 'foo',
+        default  => $original_foo,
+        deflator => {
+            type     => 'Callback',
+            callback => sub { return uc( $_[0] ) },
+        },
+    } );
 
-$form->element({
-    name     => 'bar',
-    default  => $original_bar,
-    deflator => {
-        type      => 'Callback',
-        callback => 'DeflatorCallback::my_def',
-    },
-});
+$form->element( {
+        name     => 'bar',
+        default  => $original_bar,
+        deflator => {
+            type     => 'Callback',
+            callback => 'DeflatorCallback::my_def',
+        },
+    } );
 
 $form->process;
 

@@ -96,8 +96,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
         } );
 
     ok( $form->valid('foo'),  'foo valid' );
-    ok( $form->valid('bar'), 'bar valid' );
-    ok( !$form->valid('baz'),  'baz not valid' );
+    ok( $form->valid('bar'),  'bar valid' );
+    ok( !$form->valid('baz'), 'baz not valid' );
 }
 
 # Invalid
@@ -110,5 +110,5 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
     ok( $form->valid('foo'),  'foo valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
-    ok( !$form->valid('baz'),  'baz not valid' );
+    ok( !$form->valid('baz'), 'baz not valid' );
 }

@@ -1,5 +1,4 @@
-package 
-    HTMLFormFu::MyObject;
+package HTMLFormFu::MyObject;
 
 use strict;
 use warnings;
@@ -12,7 +11,7 @@ use Carp qw( confess );
 
 sub new {
     my ( $class, $value ) = @_;
-    
+
     return bless { value => $value }, $class;
 }
 

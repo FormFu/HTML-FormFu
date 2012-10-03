@@ -9,11 +9,11 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/inflators/compounddatetime_field_order.yml');
 
-$form->process({
-    'dob.d' => '31',
-    'dob.m' => '12',
-    'dob.y' => '1999',
-});
+$form->process( {
+        'dob.d' => '31',
+        'dob.m' => '12',
+        'dob.y' => '1999',
+    } );
 
 ok( $form->submitted_and_valid );
 

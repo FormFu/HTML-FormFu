@@ -2,14 +2,13 @@ package HTML::FormFu::Plugin;
 use Moose;
 use MooseX::Attribute::Chained;
 
-with 'HTML::FormFu::Role::HasParent',
-     'HTML::FormFu::Role::Populate';
+with 'HTML::FormFu::Role::HasParent', 'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::ObjectUtil qw( form parent );
 use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits  => ['Chained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 sub pre_process { }
 

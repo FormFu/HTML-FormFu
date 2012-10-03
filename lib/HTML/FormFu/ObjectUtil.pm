@@ -17,8 +17,7 @@ use Scalar::Util qw( refaddr reftype weaken blessed );
 use List::MoreUtils qw( none uniq );
 use Carp qw( croak );
 
-our @EXPORT_OK = (
-    qw(
+our @EXPORT_OK = ( qw(
         populate
         deflator
         load_config_file        load_config_filestem
@@ -41,7 +40,7 @@ sub populate {
     my ( $self, $arg_ref ) = @_;
 
     croak "argument to populate() must be a hash-ref"
-        if reftype( $arg_ref ) ne 'HASH';
+        if reftype($arg_ref) ne 'HASH';
 
     # shallow clone the args so we don't stomp on them
     my %args = %$arg_ref;
@@ -378,8 +377,8 @@ sub get_parent {
 
     my %args = _parse_args(@_);
 
-    while ( defined ( my $parent = $self->parent ) ) {
-        
+    while ( defined( my $parent = $self->parent ) ) {
+
         for my $name ( keys %args ) {
             my $value;
 
@@ -393,22 +392,24 @@ sub get_parent {
 
         $self = $parent;
     }
-    
+
     return;
 }
 
 sub _string_equals {
     my ( $a, $b ) = @_;
 
-    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
-                         ( "$a" eq "$b" );
+    return blessed($b)
+        ? ( refaddr($a) eq refaddr($b) )
+        : ( "$a" eq "$b" );
 }
 
 sub _object_equals {
     my ( $a, $b ) = @_;
 
-    return blessed($b) ? ( refaddr($a) eq refaddr($b) ) :
-                         undef;
+    return blessed($b)
+        ? ( refaddr($a) eq refaddr($b) )
+        : undef;
 }
 
 1;

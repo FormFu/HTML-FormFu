@@ -8,7 +8,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->load_config_file('t/model/hashref_create_repeatable_without_nestedname.yml');
+$form->load_config_file(
+    't/model/hashref_create_repeatable_without_nestedname.yml');
 
 $form->default_model('HashRef');
 
@@ -28,10 +29,12 @@ $form->default_model('HashRef');
 
 $form->process;
 
-eval {
-    $form->model->create();
-};
-like( "$@", qr/A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef/, 'error' );
+eval { $form->model->create(); };
+like(
+    "$@",
+    qr/A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef/,
+    'error'
+);
 
 #is_deeply(
 #    $form->model->create,

@@ -149,7 +149,7 @@ sub _require_element {
         $arg = _merge_hashes( $self->default_args->{elements}{$type}, $arg, );
     }
 
-    $element->populate( $arg );
+    $element->populate($arg);
 
     $element->setup;
 
@@ -169,7 +169,7 @@ sub _single_element {
         croak 'invalid args';
     }
 
-    my $new = $self->_require_element( $arg );
+    my $new = $self->_require_element($arg);
 
     if (   $self->can('auto_fieldset')
         && $self->auto_fieldset

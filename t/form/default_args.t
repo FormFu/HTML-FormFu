@@ -6,27 +6,23 @@ use Test::More tests => 7;
 use HTML::FormFu;
 use Clone ();
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->default_args( {
         elements => {
             Password => { render_value => 1, },
             Block    => { attributes   => { class => 'block' }, },
-            Text     => {
-                         attributes => { class => 'custom' },
-                         constraint => [
-                            {
-                                type  => 'Regex',
-                                regex => qr/\w/,
-                            }
-                        ],
+            Text => {
+                attributes => { class => 'custom' },
+                constraint => [ {
+                        type  => 'Regex',
+                        regex => qr/\w/,
+                    }
+                ],
             },
         },
-        constraints => {
-            MaxLength => {
-                max => 99,
-            },
-        },
+        constraints => { MaxLength => { max => 99, }, },
     } );
 
 # take a deep copy of element_defaults, so we can check they've not been butchered, later
@@ -34,12 +30,12 @@ $form->default_args( {
 my $default_args = Clone::clone( $form->default_args );
 
 $form->populate( {
-        elements => [
-            {   type => 'Password',
-                name => 'foo',
+        elements => [ {
+                type        => 'Password',
+                name        => 'foo',
                 constraints => [ { type => 'MaxLength' } ],
             },
-            { type => 'Text',     name => 'bar' },
+            { type => 'Text', name => 'bar' },
             {   type     => 'Block',
                 elements => [ { type => 'Text', name => 'baz' }, ],
             },
@@ -58,7 +54,6 @@ like( $form->get_element( { type => 'Block' } ), qr/div [^>]* class="block"/x );
 
 like( $form->get_element( { type => 'Block' } )->get_field('baz'),
     qr/name="baz" .* class="custom"/x );
-
 
 # original default_args hashref hasn't been butchered
 is_deeply( $default_args, $form->default_args );

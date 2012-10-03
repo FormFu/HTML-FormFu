@@ -5,7 +5,8 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/elements/block_repeatable_date.yml');
 
@@ -16,7 +17,7 @@ my $return = $repeatable->repeat(1);
 
 $form->process;
 
-is ( "$form", <<HTML );
+is( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
 <div>

@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 package CB;
+
 # Just to test we can provide strings as callbacks
 # used by "coo2" field
 sub nested_when_string_callback { return 1 }
@@ -22,27 +23,27 @@ my $when_closure = sub {
     return 1 if defined $params->{xyz}{foo} && $params->{xyz}{foo} eq '1';
 };
 
-$form->get_field('coo')->get_constraint->when({ callback => $when_closure });
+$form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
 
 # Valid
 {
     $form->process( {
-            'xyz.foo' => 1,
-            'xyz.bar' => 'bar_value',
-            'xyz.moo' => undef,
-            'xyz.zoo' => 'zoo_value',
-            'xyz.coo' => 4,
+            'xyz.foo'  => 1,
+            'xyz.bar'  => 'bar_value',
+            'xyz.moo'  => undef,
+            'xyz.zoo'  => 'zoo_value',
+            'xyz.coo'  => 4,
             'xyz.coo2' => 5,
         } );
 
     # if 'moo' does not *exist* in process params
     # it wouldn't be valid
 
-    ok( $form->valid('xyz.foo'), 'foo valid' );
-    ok( $form->valid('xyz.bar'), 'bar valid' );
-    ok( $form->valid('xyz.moo'), 'moo valid' );
-    ok( $form->valid('xyz.zoo'), 'zoo valid' );
-    ok( $form->valid('xyz.coo'), 'coo valid' );
+    ok( $form->valid('xyz.foo'),  'foo valid' );
+    ok( $form->valid('xyz.bar'),  'bar valid' );
+    ok( $form->valid('xyz.moo'),  'moo valid' );
+    ok( $form->valid('xyz.zoo'),  'zoo valid' );
+    ok( $form->valid('xyz.coo'),  'coo valid' );
     ok( $form->valid('xyz.coo2'), 'coo2 valid' );
 
     ok( grep { $_ eq 'xyz.foo' } $form->valid );

@@ -1,6 +1,5 @@
 package HTML::FormFu::Exception::Inflator;
 
-
 use Moose;
 extends 'HTML::FormFu::Exception::Input';
 

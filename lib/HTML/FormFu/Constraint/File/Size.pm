@@ -9,15 +9,15 @@ use Carp qw( croak );
 use Scalar::Util qw( blessed );
 
 has minimum => (
-    is      => 'rw',
-    alias   => 'min',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'min',
+    traits => ['Chained'],
 );
 
 has maximum => (
-    is      => 'rw',
-    alias   => 'max',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'max',
+    traits => ['Chained'],
 );
 
 *min_kilobyte = \&minimum_kilobyte;

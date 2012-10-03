@@ -10,12 +10,12 @@ use HTML::FormFu::ObjectUtil qw( form parent );
 use HTML::FormFu::UploadParam;
 use Scalar::Util qw( reftype );
 
-has headers  => ( is => 'rw', traits  => ['Chained'] );
-has filename => ( is => 'rw', traits  => ['Chained'] );
-has size     => ( is => 'rw', traits  => ['Chained'] );
-has type     => ( is => 'rw', traits  => ['Chained'] );
+has headers  => ( is => 'rw', traits => ['Chained'] );
+has filename => ( is => 'rw', traits => ['Chained'] );
+has size     => ( is => 'rw', traits => ['Chained'] );
+has type     => ( is => 'rw', traits => ['Chained'] );
 
-sub BUILD {}
+sub BUILD { }
 
 sub _param {
     my ( $self, $param ) = @_;

@@ -9,7 +9,7 @@ use Carp qw( croak );
 after BUILD => sub {
     my $self = shift;
 
-    $self->only_on_reps([1]);
+    $self->only_on_reps( [1] );
 
     return;
 };
@@ -22,23 +22,23 @@ sub process {
     # check when condition
     return if !$self->_process_when($params);
 
-    my $field      = $self->field;
-    my $repeatable = $field->get_parent({ type => 'Repeatable' });
+    my $field = $self->field;
+    my $repeatable = $field->get_parent( { type => 'Repeatable' } );
     my $pass;
 
     my $original_name = $field->original_name || '';
 
-    my @fields =
-        grep { $_->get_parent({ type => 'Repeatable' }) == $repeatable }
+    my @fields
+        = grep { $_->get_parent( { type => 'Repeatable' } ) == $repeatable }
         grep { ( $_->original_name || '' ) eq $original_name }
-            @{ $repeatable->get_fields };
+        @{ $repeatable->get_fields };
 
     my $increment_field_names = $repeatable->increment_field_names;
 
     for my $f (@fields) {
         my $value;
-        
-        if ( $increment_field_names )  {
+
+        if ($increment_field_names) {
             $value = $self->get_nested_hash_value( $params, $f->nested_name );
         }
         else {
@@ -53,9 +53,7 @@ sub process {
         }
     }
 
-    return $self->mk_errors( {
-            pass => $pass,
-        } );
+    return $self->mk_errors( { pass => $pass, } );
 }
 
 sub _find_this_field_value {
@@ -65,32 +63,34 @@ sub _find_this_field_value {
 
     my $value = $self->get_nested_hash_value( $params, $nested_name );
 
-    my @fields_with_this_name = @{ $repeatable->get_fields({ nested_name => $nested_name }) };
-    
+    my @fields_with_this_name
+        = @{ $repeatable->get_fields( { nested_name => $nested_name } ) };
+
     if ( @fields_with_this_name > 1 ) {
         my $index;
-        
-        for ( my $i=0; $i <= $#fields_with_this_name; ++$i ) {
+
+        for ( my $i = 0; $i <= $#fields_with_this_name; ++$i ) {
             if ( $fields_with_this_name[$i] eq $field ) {
                 $index = $i;
                 last;
             }
         }
-        
+
         croak 'did not find ourself - how can this happen?'
             if !defined $index;
-        
+
         if ( reftype($value) eq 'ARRAY' ) {
             $value = $value->[$index];
         }
         elsif ( $index == 0 ) {
+
             # keep $value
         }
         else {
             undef $value;
         }
     }
-    
+
     return $value;
 }
 

@@ -20,7 +20,7 @@ sub mk_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
             if ( !exists $self->{$name} ) {
                 $self->{$name} = {};
@@ -44,12 +44,12 @@ sub mk_attrs {
         );
 
         my $xml_sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
-            return $self->$name({
-                map { $_, literal( $attrs->{$_} ) }
-                    keys %$attrs
-            });
+            return $self->$name( {
+                    map { $_, literal( $attrs->{$_} ) }
+                        keys %$attrs
+                } );
         };
 
         my $xml_method = Class::MOP::Method->wrap(
@@ -58,26 +58,26 @@ sub mk_attrs {
             package_name => $class,
         );
 
-        $class->meta->add_method( $name, $method );
+        $class->meta->add_method( $name,         $method );
         $class->meta->add_method( "${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            
+
             my $method = Class::MOP::Method->wrap(
                 body         => $sub,
                 name         => $short,
                 package_name => $class,
             );
-            
+
             my $xml_method = Class::MOP::Method->wrap(
                 body         => $xml_sub,
                 name         => "${short}_xml",
                 package_name => $class,
             );
-            
-            $class->meta->add_method( $short, $method );
+
+            $class->meta->add_method( $short,         $method );
             $class->meta->add_method( "${short}_xml", $xml_method );
         }
     }
@@ -95,12 +95,12 @@ sub mk_attr_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $attr) = @_;
-            
+            my ( $self, $attr ) = @_;
+
             return $self->attributes->{$name} if @_ == 1;
-            
+
             $self->attributes->{$name} = $attr;
-            
+
             return $self;
         };
 
@@ -111,7 +111,7 @@ sub mk_attr_accessors {
         );
 
         my $xml_sub = sub {
-            my ($self, @attrs) = @_;
+            my ( $self, @attrs ) = @_;
             my @args;
 
             for my $item (@attrs) {
@@ -125,35 +125,35 @@ sub mk_attr_accessors {
                     push @args, literal($item);
                 }
             }
-            return $self->$name([@args]);
+            return $self->$name( [@args] );
         };
-        
+
         my $xml_method = Class::MOP::Method->wrap(
             body         => $xml_sub,
             name         => "${name}_xml",
             package_name => $class,
         );
-        
-        $class->meta->add_method( $name, $method );
+
+        $class->meta->add_method( $name,         $method );
         $class->meta->add_method( "${name}_xml", $xml_method );
-        
+
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            
+
             my $method = Class::MOP::Method->wrap(
                 body         => $sub,
                 name         => $short,
                 package_name => $class,
             );
-            
+
             my $xml_method = Class::MOP::Method->wrap(
                 body         => $xml_sub,
                 name         => "${short}_xml",
                 package_name => $class,
             );
-            
-            $class->meta->add_method( $short, $method );
+
+            $class->meta->add_method( $short,         $method );
             $class->meta->add_method( "${short}_xml", $xml_method );
         }
     }
@@ -168,7 +168,7 @@ sub mk_add_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
             while ( my ( $key, $value ) = each %$attrs ) {
                 append_xml_attribute( $self->{$name}, $key, $value );
@@ -183,7 +183,7 @@ sub mk_add_attrs {
         );
 
         my $xml_sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
             my $method = "add_$name";
 
@@ -199,26 +199,26 @@ sub mk_add_attrs {
             package_name => $class,
         );
 
-        $class->meta->add_method( "add_$name", $method );
+        $class->meta->add_method( "add_$name",       $method );
         $class->meta->add_method( "add_${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            
+
             my $method = Class::MOP::Method->wrap(
                 body         => $sub,
                 name         => "add_$short",
                 package_name => $class,
             );
-            
+
             my $xml_method = Class::MOP::Method->wrap(
                 body         => $xml_sub,
                 name         => "add_${short}_xml",
                 package_name => $class,
             );
-            
-            $class->meta->add_method( "add_$short", $method );
+
+            $class->meta->add_method( "add_$short",       $method );
             $class->meta->add_method( "add_${short}_xml", $xml_method );
         }
     }
@@ -233,7 +233,7 @@ sub mk_del_attrs {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
             while ( my ( $key, $value ) = each %$attrs ) {
                 remove_xml_attribute( $self->{$name}, $key, $value );
@@ -248,7 +248,7 @@ sub mk_del_attrs {
         );
 
         my $xml_sub = sub {
-            my ($self, $attrs) = @_;
+            my ( $self, $attrs ) = @_;
 
             my $method = "del_$name";
 
@@ -264,26 +264,26 @@ sub mk_del_attrs {
             package_name => $class,
         );
 
-        $class->meta->add_method( "del_$name", $method );
+        $class->meta->add_method( "del_$name",       $method );
         $class->meta->add_method( "del_${name}_xml", $xml_method );
 
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
-            
+
             my $method = Class::MOP::Method->wrap(
                 body         => $sub,
                 name         => "del_$short",
                 package_name => $class,
             );
-            
+
             my $xml_method = Class::MOP::Method->wrap(
                 body         => $xml_sub,
                 name         => "del_${short}_xml",
                 package_name => $class,
             );
-            
-            $class->meta->add_method( "del_$short", $method );
+
+            $class->meta->add_method( "del_$short",       $method );
             $class->meta->add_method( "del_${short}_xml", $xml_method );
         }
     }
@@ -298,9 +298,9 @@ sub mk_inherited_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $value) = @_;
-            
-            if (@_ > 1) {
+            my ( $self, $value ) = @_;
+
+            if ( @_ > 1 ) {
                 $self->{$name} = $value;
                 return $self;
             }
@@ -314,13 +314,13 @@ sub mk_inherited_accessors {
             }
             return $self->{$name};
         };
-        
+
         my $method = Class::MOP::Method->wrap(
             body         => $sub,
             name         => $name,
             package_name => $class,
         );
-        
+
         $class->meta->add_method( $name, $method );
     }
 
@@ -336,8 +336,8 @@ sub mk_inherited_merging_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $attrs) = @_;
-            
+            my ( $self, $attrs ) = @_;
+
             if (@_) {
                 while ( my ( $key, $value ) = each %$attrs ) {
                     append_xml_attribute( $self->{$name}, $key, $value );
@@ -354,13 +354,13 @@ sub mk_inherited_merging_accessors {
             }
             return $self->{$name};
         };
-        
+
         my $method = Class::MOP::Method->wrap(
             body         => $sub,
             name         => "add_$name",
             package_name => $class,
         );
-        
+
         $class->meta->add_method( "add_$name", $method );
     }
 
@@ -374,32 +374,32 @@ sub mk_output_accessors {
 
     for my $name (@names) {
         my $sub = sub {
-            my ($self, $value) = @_;
-            if ( @_ > 1) {
+            my ( $self, $value ) = @_;
+            if ( @_ > 1 ) {
                 $self->{$name} = $value;
                 return $self;
             }
             return $self->{$name};
         };
-        
+
         my $method = Class::MOP::Method->wrap(
             body         => $sub,
             name         => $name,
             package_name => $class,
         );
-        
+
         my $xml_sub = sub {
             my ( $self, $arg ) = @_;
 
             return $self->$name( literal($arg) );
         };
-        
+
         my $xml_method = Class::MOP::Method->wrap(
             body         => $xml_sub,
             name         => "${name}_xml",
             package_name => $class,
         );
-        
+
         my $loc_sub = sub {
             my ( $self, $mess, @args ) = @_;
 
@@ -410,14 +410,14 @@ sub mk_output_accessors {
             return $self->$name(
                 literal( $self->form->localize( $mess, @args ) ) );
         };
-        
+
         my $loc_method = Class::MOP::Method->wrap(
             body         => $loc_sub,
             name         => "${name}_loc",
             package_name => $class,
         );
-        
-        $class->meta->add_method( $name, $method );
+
+        $class->meta->add_method( $name,         $method );
         $class->meta->add_method( "${name}_xml", $xml_method );
         $class->meta->add_method( "${name}_loc", $loc_method );
     }

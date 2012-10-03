@@ -18,9 +18,7 @@ sub _coerce {
 
     require_class($class);
 
-    my $element = $class->new( {
-            type => $args{type},
-        } );
+    my $element = $class->new( { type => $args{type}, } );
 
     for my $method ( qw(
         name

@@ -8,7 +8,7 @@ use HTML::FormFu::Util qw( DEBUG_PROCESS debug );
 use List::Util qw( first );
 use Carp qw( croak );
 
-has counter_name       => ( is => 'rw', traits => ['Chained'] );
+has counter_name => ( is => 'rw', traits => ['Chained'] );
 
 has _original_elements => ( is => 'rw' );
 
@@ -72,11 +72,11 @@ sub repeat {
     # If nested_name is *not* set, we add the repeatable counter to the names
     # of the child elements (leaves of the element tree).
     my $nested_name = $self->nested_name;
-    if (defined $nested_name && length $nested_name) {
-        return $self->_repeat_containing_block( $count );
+    if ( defined $nested_name && length $nested_name ) {
+        return $self->_repeat_containing_block($count);
     }
     else {
-        return $self->_repeat_child_elements( $count );
+        return $self->_repeat_child_elements($count);
     }
 }
 
@@ -89,7 +89,7 @@ sub _repeat_containing_block {
     # nested_name attribute of the Repeatable element, thus we extended
     # FF::Elements::_Field nested_names method to ignore Repeatable elements.
     my $nested_name = $self->nested_name;
-    $self->original_nested_name( $nested_name );
+    $self->original_nested_name($nested_name);
 
     # delimiter between nested_name and the incremented counter
     my $delimiter = $self->repeatable_delimiter;
@@ -97,6 +97,7 @@ sub _repeat_containing_block {
     my @return;
 
     for my $rep ( 1 .. $count ) {
+
         # create clones of elements and put them in a new block
         my @clones = map { $_->clone } @$children;
         my $block = $self->element('Block');
@@ -109,6 +110,7 @@ sub _repeat_containing_block {
         $block->repeatable_count($rep);
 
         if ( $self->increment_field_names ) {
+
             # store the original nested_name attribute for later usage when
             # building the original nested name
             $block->original_nested_name( $block->nested_name )
@@ -120,6 +122,7 @@ sub _repeat_containing_block {
             for my $field ( @{ $block->get_fields } ) {
 
                 if ( defined( my $name = $field->name ) ) {
+
                     # store original name for later usage when
                     # replacing the field names in constraints
                     $field->original_name($name)
@@ -127,7 +130,8 @@ sub _repeat_containing_block {
 
                     # store original nested name for later usage when
                     # replacing the field names in constraints
-                    $field->original_nested_name( $field->build_original_nested_name )
+                    $field->original_nested_name(
+                        $field->build_original_nested_name )
                         if !defined $field->original_nested_name;
                 }
             }
@@ -137,7 +141,7 @@ sub _repeat_containing_block {
 
         my @fields = @{ $block->get_fields };
 
-        for my $field ( @fields ) {
+        for my $field (@fields) {
             map { $_->parent($field) }
                 @{ $field->_deflators },
                 @{ $field->_filters },
@@ -149,10 +153,9 @@ sub _repeat_containing_block {
                 ;
         }
 
-        for my $field ( @fields ) {
-            map {
-                $_->repeatable_repeat( $self, $block )
-            } @{ $field->_constraints };
+        for my $field (@fields) {
+            map { $_->repeatable_repeat( $self, $block ) }
+                @{ $field->_constraints };
         }
 
         push @return, $block;
@@ -163,17 +166,13 @@ sub _repeat_containing_block {
 
 sub get_field_with_original_name {
     my ( $self, $name, $fields ) = @_;
-    
-    my $field =
-        first { $_->original_nested_name eq $name }
-        grep { defined $_->original_nested_name }
-            @$fields;
-    
-    $field ||=
-        first { $_->original_name eq $name }
-        grep { defined $_->original_name }
-            @$fields;
-    
+
+    my $field = first { $_->original_nested_name eq $name }
+    grep { defined $_->original_nested_name } @$fields;
+
+    $field ||= first { $_->original_name eq $name }
+    grep { defined $_->original_name } @$fields;
+
     return $field;
 }
 
@@ -207,7 +206,7 @@ sub _repeat_child_elements {
                     $field->original_nested_name( $field->nested_name )
                         if !defined $field->original_nested_name;
 
-                    $field->name(${name} . $delimiter . $rep);
+                    $field->name( ${name} . $delimiter . $rep );
                 }
             }
         }
@@ -216,7 +215,7 @@ sub _repeat_child_elements {
 
         my @fields = @{ $block->get_fields };
 
-        for my $field ( @fields ) {
+        for my $field (@fields) {
             map { $_->parent($field) }
                 @{ $field->_deflators },
                 @{ $field->_filters },
@@ -228,10 +227,9 @@ sub _repeat_child_elements {
                 ;
         }
 
-        for my $field ( @fields ) {
-            map {
-                $_->repeatable_repeat( $self, $block )
-            } @{ $field->_constraints };
+        for my $field (@fields) {
+            map { $_->repeatable_repeat( $self, $block ) }
+                @{ $field->_constraints };
         }
 
         push @return, $block;
@@ -260,11 +258,13 @@ sub process {
     my $count        = 1;
 
     if ( defined $counter_name && defined $form->query ) {
+
         # are we in a nested-repeatable?
         my $parent = $self;
 
         while ( defined( $parent = $parent->parent ) ) {
-            my $field = $parent->get_field({ original_name => $counter_name });
+            my $field
+                = $parent->get_field( { original_name => $counter_name } );
 
             if ( defined $field ) {
                 $counter_name = $field->nested_name;
@@ -272,7 +272,7 @@ sub process {
             }
         }
 
-        my $input = $form->query->param( $counter_name );
+        my $input = $form->query->param($counter_name);
 
         if ( defined $input && $input =~ /^[1-9][0-9]*\z/ ) {
             $count = $input;

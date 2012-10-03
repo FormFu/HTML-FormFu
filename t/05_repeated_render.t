@@ -13,18 +13,16 @@ $form->load_config_file('t/04basic.yml');
 
 {
     my $html = "$form";
-    
+
     is( $html, "$form" );
 }
 
 # and after submitted form
 
 {
-    $form->process({
-        age => 'abc',
-    });
-    
+    $form->process( { age => 'abc', } );
+
     my $html = "$form";
-    
+
     is( $html, "$form" );
 }

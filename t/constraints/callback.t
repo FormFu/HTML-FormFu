@@ -7,8 +7,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Callback')->callback( \&cb );
-$form->element('Text')->name('bar')->constraint('Callback')
-    ->callback("CB::cb");
+$form->element('Text')->name('bar')->constraint('Callback')->callback("CB::cb");
 
 sub cb {
     my $value = shift;

@@ -28,6 +28,6 @@ $form->element('Text')->name('bar')->constraint('MaxRange')->max(5);
             bar => 6,
         } );
 
-    ok( $form->valid('foo'), 'foo not valid' );
+    ok( $form->valid('foo'),  'foo not valid' );
     ok( !$form->valid('bar'), 'bar not valid' );
 }

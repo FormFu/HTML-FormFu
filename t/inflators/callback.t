@@ -8,7 +8,7 @@ use lib 'lib';
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->inflator('Callback')
-    ->callback( sub { return uc($_[0]) } );
+    ->callback( sub { return uc( $_[0] ) } );
 
 $form->element('Text')->name('bar')->inflator('Callback')
     ->callback('InflatorCallback::my_def');

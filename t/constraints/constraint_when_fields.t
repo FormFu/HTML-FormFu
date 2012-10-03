@@ -41,8 +41,9 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
+
     # Bool constraint doesn't run because b & c don't both have values
-    
+
     $form->process( {
             a => 'a',
             b => '',
@@ -58,8 +59,9 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
+
     # Bool constraint doesn't run because b & c don't both have values
-    
+
     $form->process( {
             a => 'a',
             b => '',
@@ -90,6 +92,7 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
+
     # Empty is valid
 
     $form->process( {
@@ -116,6 +119,6 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
     ok( !$form->submitted_and_valid );
 
     ok( !$form->valid('a'), 'a not valid' );
-    ok( $form->valid('b'), 'b valid' );
-    ok( $form->valid('c'), 'c valid' );
+    ok( $form->valid('b'),  'b valid' );
+    ok( $form->valid('c'),  'c valid' );
 }

@@ -15,9 +15,10 @@ sub nested_name {
     if ( $self->form->nested_subscript ) {
         my $name = shift @names;
         map { $name .= "[$_]" } @names;
-# TODO - Mario Minati 19.05.2009
-# Does this (name formatted as '[name]') collide with FF::Model::HashRef as
-# it uses /_\d/ to parse repeatable names?
+
+     # TODO - Mario Minati 19.05.2009
+     # Does this (name formatted as '[name]') collide with FF::Model::HashRef as
+     # it uses /_\d/ to parse repeatable names?
         return $name;
     }
     else {

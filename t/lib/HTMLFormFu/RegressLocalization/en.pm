@@ -1,8 +1,6 @@
 package HTMLFormFu::RegressLocalization::en;
 use base qw( HTMLFormFu::RegressLocalization );
 
-our %Lexicon = (
-    foobar => "Foo blah Baz",
-);
+our %Lexicon = ( foobar => "Foo blah Baz", );
 
 1;

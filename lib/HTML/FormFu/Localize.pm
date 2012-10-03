@@ -84,11 +84,13 @@ sub add_localize_object {
             dies_on_missing_key => $dies_on_missing_key,
             };
 
-        if (   !exists $self->{weaken_localize_object} || $self->{weaken_localize_object} != 0
+        if ( !exists $self->{weaken_localize_object}
+            || $self->{weaken_localize_object} != 0
             && !isweak @{ $self->{localize_data} }[-1]->{localize_object} )
         {
             weaken @{ $self->{localize_data} }[-1]->{localize_object};
-        } else {
+        }
+        else {
             delete $self->{weaken_localize_object};
         }
     }
@@ -98,13 +100,10 @@ sub add_localize_object {
 
 sub add_localize_object_from_class {
     my ( $self, @class ) = @_;
-    
+
     $self->{weaken_localize_object} = 0;
     return $self->add_localize_object(
-        map {
-            $self->get_localize_object_from_class( $_ )
-        } @class
-    );
+        map { $self->get_localize_object_from_class($_) } @class );
 }
 
 sub get_localize_object_from_class {

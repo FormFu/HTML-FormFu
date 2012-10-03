@@ -59,7 +59,7 @@ sub _require_constraint {
         );
     }
 
-    $constraint->populate( $arg );
+    $constraint->populate($arg);
 
     return $constraint;
 }

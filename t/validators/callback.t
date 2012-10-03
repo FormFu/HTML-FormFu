@@ -17,9 +17,9 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->validator('Callback')->callback( \&CB::cb );
-$form->element('Text')->name('bar')->validator('Callback')
-    ->callback("CB::cb");
+$form->element('Text')->name('foo')->validator('Callback')
+    ->callback( \&CB::cb );
+$form->element('Text')->name('bar')->validator('Callback')->callback("CB::cb");
 
 # Valid
 {

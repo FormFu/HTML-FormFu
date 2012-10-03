@@ -7,22 +7,15 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->populate(
-    {
+$form->populate( {
         elements => [
             { type => 'Hidden', name => 'count' },
-            {
-                type         => 'Repeatable',
+            {   type         => 'Repeatable',
                 nested_name  => 'rep',
                 counter_name => 'count',
                 elements     => [
                     { type => 'Text', name => 'title' },
-                    { type => 'Text', name => 'title2' }
-                ]
-            }
-        ]
-    }
-);
+                    { type => 'Text', name => 'title2' } ] } ] } );
 
 $form->get_element( { nested_name => 'rep' } )->repeat(2);
 
@@ -32,11 +25,7 @@ $form->process(
 
 is_deeply(
     $form->model('HashRef')->create,
-    {
-        count => undef,
+    {   count => undef,
         rep   => [
             { title => 'foo', title2 => 'bar' },
-            { title => 'foo', title2 => undef }
-        ]
-    }
-);
+            { title => 'foo', title2 => undef } ] } );

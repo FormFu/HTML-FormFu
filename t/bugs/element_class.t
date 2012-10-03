@@ -12,7 +12,8 @@ Fixed by cloning the elements in HTML::FormFu::result()
 
 =cut
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');

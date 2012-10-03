@@ -5,25 +5,26 @@ extends 'HTML::FormFu::Element::Text';
 
 after BUILD => sub {
     my $self = shift;
-    
+
     $self->field_type('number');
-    
-    $self->deflator( 'FormatNumber' );
-    $self->filter(   'FormatNumber' );
-    
+
+    $self->deflator('FormatNumber');
+    $self->filter('FormatNumber');
+
     return;
 };
 
 sub precision {
     my $self = shift;
-    
-    return $self->get_deflator({ type => 'FormatNumber' })->precision(@_);
+
+    return $self->get_deflator( { type => 'FormatNumber' } )->precision(@_);
 }
 
 sub trailing_zeroes {
     my $self = shift;
-    
-    return $self->get_deflator({ type => 'FormatNumber' })->trailing_zeroes(@_);
+
+    return $self->get_deflator( { type => 'FormatNumber' } )
+        ->trailing_zeroes(@_);
 }
 
 __PACKAGE__->meta->make_immutable;

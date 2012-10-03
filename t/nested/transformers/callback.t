@@ -21,7 +21,8 @@ my $form = HTML::FormFu->new;
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-$form->element('Text')->name('bar')->transformer('Callback')->callback( \&CB::cb2 );
+$form->element('Text')->name('bar')->transformer('Callback')
+    ->callback( \&CB::cb2 );
 $form->element('Text')->name('baz')->transformer('Callback')
     ->callback("CB::cb2");
 

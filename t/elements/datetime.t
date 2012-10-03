@@ -360,12 +360,12 @@ like( $form->get_field('bar'),
 # incorrect date
 
 $form->process( {
-    foo_hour   => '00',
-    foo_minute => '00',
-    foo_day    => 29,
-    foo_month  => 2,
-    foo_year   => 2007,
-} );
+        foo_hour   => '00',
+        foo_minute => '00',
+        foo_day    => 29,
+        foo_month  => 2,
+        foo_year   => 2007,
+    } );
 
 ok( $form->submitted );
 ok( $form->has_errors );

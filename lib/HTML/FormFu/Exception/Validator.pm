@@ -1,6 +1,5 @@
 package HTML::FormFu::Exception::Validator;
 
-
 use Moose;
 extends 'HTML::FormFu::Exception::Input';
 

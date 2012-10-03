@@ -8,14 +8,14 @@ use DateTime;
 
 {
     my $today = DateTime->today;
-    my $form = HTML::FormFu->new;
-    my $e = $form->element('Date');
-    $e->name('foo')->default_natural( 'today' );
+    my $form  = HTML::FormFu->new;
+    my $e     = $form->element('Date');
+    $e->name('foo')->default_natural('today');
 
     $form->process;
 
-    for( qw( day month year ) ) {
-        is( $e->$_->{ default }, $today->$_ )
+    for (qw( day month year )) {
+        is( $e->$_->{default}, $today->$_ );
     }
 }
 

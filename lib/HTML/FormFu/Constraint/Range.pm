@@ -8,15 +8,15 @@ extends 'HTML::FormFu::Constraint';
 use Scalar::Util qw( looks_like_number );
 
 has minimum => (
-    is      => 'rw',
-    alias   => 'min',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'min',
+    traits => ['Chained'],
 );
 
 has maximum => (
-    is      => 'rw',
-    alias   => 'max',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'max',
+    traits => ['Chained'],
 );
 
 sub constrain_value {

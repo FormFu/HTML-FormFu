@@ -254,11 +254,14 @@ isa_ok( $foo, 'DateTime' );
 
 is( $foo, "30/06/2007 00:00:59" );
 
-like( $form->get_field('foo_day'), qr/\Q<option value="30" selected="selected">/ );
+like( $form->get_field('foo_day'),
+    qr/\Q<option value="30" selected="selected">/ );
 
-like( $form->get_field('foo_month'), qr/\Q<option value="6" selected="selected">/ );
+like( $form->get_field('foo_month'),
+    qr/\Q<option value="6" selected="selected">/ );
 
 like( $form->get_field('foo_year'),
     qr/\Q<option value="2007" selected="selected">/ );
 
-like( $form->get_field('foo_second'), qr/\Q<option value="59" selected="selected">/ );
+like( $form->get_field('foo_second'),
+    qr/\Q<option value="59" selected="selected">/ );

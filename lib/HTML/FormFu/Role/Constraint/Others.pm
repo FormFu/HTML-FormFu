@@ -8,43 +8,43 @@ use HTML::FormFu::Util qw(
 use Clone ();
 use List::MoreUtils qw( any none );
 
-has others                  => ( is => 'rw', traits  => ['Chained'] );
-has other_siblings          => ( is => 'rw', traits  => ['Chained'] );
-has attach_errors_to        => ( is => 'rw', traits  => ['Chained'] );
-has attach_errors_to_base   => ( is => 'rw', traits  => ['Chained'] );
-has attach_errors_to_others => ( is => 'rw', traits  => ['Chained'] );
+has others                  => ( is => 'rw', traits => ['Chained'] );
+has other_siblings          => ( is => 'rw', traits => ['Chained'] );
+has attach_errors_to        => ( is => 'rw', traits => ['Chained'] );
+has attach_errors_to_base   => ( is => 'rw', traits => ['Chained'] );
+has attach_errors_to_others => ( is => 'rw', traits => ['Chained'] );
 
 sub pre_process {
     my ($self) = @_;
-    
+
     if ( $self->other_siblings ) {
-        
+
         my $field = $self->field;
         my $block = $field;
-        
+
         # find the nearest parent that contains any field other than
         # the one this constraint is attached to
         while ( defined( my $parent = $block->parent ) ) {
             $block = $parent;
-            
+
             last if grep { $_ ne $field } @{ $block->get_fields };
         }
-        
+
         my @names;
-        
-        for my $sibling (@{ $block->get_fields }) {
+
+        for my $sibling ( @{ $block->get_fields } ) {
             next if $sibling == $field;
-            
+
             push @names, $sibling->nested_name;
         }
-        
-        $self->others([@names]);
+
+        $self->others( [@names] );
     }
 }
 
 after repeatable_repeat => sub {
     my ( $self, $repeatable, $new_block ) = @_;
-    
+
     my $block_fields = $new_block->get_fields;
 
     # rename any 'others' fields
@@ -56,13 +56,14 @@ after repeatable_repeat => sub {
         my @new_others;
 
         for my $name (@$others) {
-            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+            my $field = $repeatable->get_field_with_original_name( $name,
+                $block_fields );
 
             if ( defined $field ) {
                 DEBUG_CONSTRAINTS && debug(
-                    sprintf "Repeatable renaming constraint 'other' '%s' to '%s'",
-                        $name,
-                        $field->nested_name,
+                    sprintf
+                        "Repeatable renaming constraint 'other' '%s' to '%s'",
+                    $name, $field->nested_name,
                 );
 
                 push @new_others, $field->nested_name;
@@ -80,13 +81,14 @@ after repeatable_repeat => sub {
         my @new_others;
 
         for my $name (@$others) {
-            my $field = $repeatable->get_field_with_original_name( $name, $block_fields );
+            my $field = $repeatable->get_field_with_original_name( $name,
+                $block_fields );
 
             if ( defined $field ) {
                 DEBUG_CONSTRAINTS && debug(
-                    sprintf "Repeatable renaming constraint 'attach_errors_to' '%s' to '%s'",
-                        $name,
-                        $field->nested_name,
+                    sprintf
+                        "Repeatable renaming constraint 'attach_errors_to' '%s' to '%s'",
+                    $name, $field->nested_name,
                 );
 
                 push @new_others, $field->nested_name;
@@ -190,8 +192,8 @@ sub mk_errors {
 
 around clone => sub {
     my ( $orig, $self, $args ) = @_;
-    
-    my $clone = $self->$orig( $args );
+
+    my $clone = $self->$orig($args);
 
     if ( ref $self->others ) {
         $clone->others( Clone::clone( $self->others ) );

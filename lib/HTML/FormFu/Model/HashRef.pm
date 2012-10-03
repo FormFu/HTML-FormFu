@@ -10,8 +10,8 @@ use Scalar::Util qw(blessed);
 has flatten => ( is => 'rw' );
 has options => ( is => 'rw' );
 
-has _repeatable => ( is => 'rw', traits  => ['Chained'] );
-has _multi      => ( is => 'rw', traits  => ['Chained'] );
+has _repeatable => ( is => 'rw', traits => ['Chained'] );
+has _multi      => ( is => 'rw', traits => ['Chained'] );
 
 has deflators => (
     is      => 'rw',
@@ -91,12 +91,13 @@ sub update { shift->create(@_) }
 
 sub create {
     my $self = shift;
-    if($self->form->submitted) {
-        my $input = _escape_hash($self->form->input);
-        my $hf = new Hash::Flatten(
+    if ( $self->form->submitted ) {
+        my $input = _escape_hash( $self->form->input );
+        my $hf    = new Hash::Flatten(
             { ArrayDelimiter => '_', HashDelimiter => '.' } );
-        $input = _unescape_hash($hf->unflatten($self->form->input));
-        $self->default_values( $self->_unfold_repeatable($self->form, $input) );
+        $input = _unescape_hash( $hf->unflatten( $self->form->input ) );
+        $self->default_values(
+            $self->_unfold_repeatable( $self->form, $input ) );
     }
     $self->form->render_data;
     my $obj = $self->_as_object_get( $self->form );
@@ -133,8 +134,7 @@ sub _as_object_get {
                     = grep { defined $value && $_->{value} eq $value } @options;
                 unless (@option) {
                     @options = map { @{ $_->{group} || [] } } @options;
-                    @option
-                        = grep { $_->{value} eq $value } @options;
+                    @option = grep { $_->{value} eq $value } @options;
                 }
                 my $obj
                     = [ map { { value => $_->{value}, label => $_->{label} } }
@@ -169,23 +169,25 @@ sub _as_object_get {
 sub _escape_hash {
     my $hash = shift;
     my $method = shift || \&_escape_name;
-    return $hash unless(ref $hash);
-    foreach my $k (keys %$hash) {
+    return $hash unless ( ref $hash );
+    foreach my $k ( keys %$hash ) {
         my $v = delete $hash->{$k};
-        if(ref $v eq 'HASH') {
-            $hash->{$method->($k)} = _escape_hash($v, $method);
-        } elsif(ref $v eq 'ARRAY') {
-            $hash->{$method->($k)} = [ map { _escape_hash($_, $method) } @$v];
-        } else {
-            $hash->{$method->($k)} = $v;
+        if ( ref $v eq 'HASH' ) {
+            $hash->{ $method->($k) } = _escape_hash( $v, $method );
+        }
+        elsif ( ref $v eq 'ARRAY' ) {
+            $hash->{ $method->($k) }
+                = [ map { _escape_hash( $_, $method ) } @$v ];
+        }
+        else {
+            $hash->{ $method->($k) } = $v;
         }
     }
     return $hash;
 }
 
-
 sub _unescape_hash {
-    return _escape_hash(shift, \&_unescape_name);
+    return _escape_hash( shift, \&_unescape_name );
 }
 
 sub _escape_name {
@@ -214,6 +216,7 @@ sub _unfold_repeatable {
 
         if ( $self->get_repeatable($key) ) {
             $new->{$key} = [];
+
             # iterate over all array elements
             # we ignore the first one (index 0) as it is undef as we start
             # counting the repeated element names with 1 and the automatic
@@ -231,13 +234,14 @@ sub _unfold_repeatable {
             #             'id' => 2
             #           }
             #         ];
-            for ( my $i = 1; $i < @{$v || []}; $i++ ) {
+            for ( my $i = 1; $i < @{ $v || [] }; $i++ ) {
 
                 # process all key value pairs in an array element
-                while ( my ( $name, $values ) = each %{$v->[$i]} ) {
+                while ( my ( $name, $values ) = each %{ $v->[$i] } ) {
 
-                    # add an empty hash to array of unfolded data if not already present
-                    push( @{ $new->{$key} }, {} ) unless $new->{$key}->[ $i - 1 ];
+            # add an empty hash to array of unfolded data if not already present
+                    push( @{ $new->{$key} }, {} )
+                        unless $new->{$key}->[ $i - 1 ];
 
                     # store processed values
                     $new->{$key}->[ $i - 1 ]->{$name}
@@ -282,11 +286,13 @@ sub get_repeatable {
     unless ( $self->_repeatable ) {
         my %rep = ();
         my $rep = $self->form->get_all_elements( { type => qr/Repeatable/ } );
-# TODO - Mario Minati 19.05.2009
-# use $_->delimiter to split the keys
-        foreach my $rep_element (@{ $rep || [] }) {
+
+        # TODO - Mario Minati 19.05.2009
+        # use $_->delimiter to split the keys
+        foreach my $rep_element ( @{ $rep || [] } ) {
             my $name = $rep_element->nested_name;
-            die "A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef"
+            die
+                "A Repeatable element without a nested_name attribute cannot be handled by Model::HashRef"
                 unless $name;
             $name =~ s/_\d+//;
             $rep{$name} = 1;

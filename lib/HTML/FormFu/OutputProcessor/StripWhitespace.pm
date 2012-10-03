@@ -12,32 +12,32 @@ has collapse_tags => (
     is      => 'rw',
     default => sub {
         [ qw(
-            fieldset
-            form
-            hr
-            legend
-            optgroup
-            option
-            table
-            td
-            th
-            tr
-        ) ]
+                fieldset
+                form
+                hr
+                legend
+                optgroup
+                option
+                table
+                td
+                th
+                tr
+                ) ];
     },
-    lazy    => 1,
-    traits  => ['Chained'],
+    lazy   => 1,
+    traits => ['Chained'],
 );
 
 has collapse_consecutive_tags => (
     is      => 'rw',
     default => sub {
         [ qw(
-            span
-            div
-        ) ]
+                span
+                div
+                ) ];
     },
-    lazy    => 1,
-    traits  => ['Chained'],
+    lazy   => 1,
+    traits => ['Chained'],
 );
 
 sub process {
@@ -118,7 +118,6 @@ sub process {
 }
 
 __PACKAGE__->meta->make_immutable;
-
 
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 use Moose;

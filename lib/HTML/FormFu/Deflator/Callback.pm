@@ -4,7 +4,7 @@ use Moose;
 use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
-has callback => ( is => 'rw', traits  => ['Chained'] );
+has callback => ( is => 'rw', traits => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

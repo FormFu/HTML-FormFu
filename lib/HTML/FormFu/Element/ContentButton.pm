@@ -20,8 +20,8 @@ has field_type => (
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->filename( 'content_button' );
-    
+    $self->filename('content_button');
+
     return;
 };
 

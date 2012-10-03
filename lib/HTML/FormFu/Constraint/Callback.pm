@@ -4,7 +4,7 @@ use Moose;
 use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
-has callback => ( is => 'rw', traits  => ['Chained'] );
+has callback => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value, $params ) = @_;

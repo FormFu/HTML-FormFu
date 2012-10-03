@@ -14,12 +14,10 @@ $form->load_config_file('t/form/languages.yml');
 
 # Invalid
 {
-    $form->process( {
-            bar => 'foo',
-        } );
+    $form->process( { bar => 'foo', } );
 
     ok( !$form->submitted_and_valid );
-    
+
     like( $form, qr/\QFeld muss ausgefüllt sein/ );
 }
 

@@ -12,10 +12,10 @@ __PACKAGE__->mk_output_accessors(qw( default ));
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->field_type(    'checkbox' );
-    $self->reverse_multi( 1 );
-    $self->value(         1 );
-    
+    $self->field_type('checkbox');
+    $self->reverse_multi(1);
+    $self->value(1);
+
     return;
 };
 

@@ -6,7 +6,7 @@ extends 'HTML::FormFu::Constraint';
 
 use Clone ();
 
-has set => ( is => 'rw', traits  => ['Chained'] );
+has set => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

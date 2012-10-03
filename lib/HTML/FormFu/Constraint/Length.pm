@@ -6,15 +6,15 @@ use MooseX::Aliases;
 extends 'HTML::FormFu::Constraint';
 
 has minimum => (
-    is      => 'rw',
-    alias   => 'min',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'min',
+    traits => ['Chained'],
 );
 
 has maximum => (
-    is      => 'rw',
-    alias   => 'max',
-    traits  => ['Chained'],
+    is     => 'rw',
+    alias  => 'max',
+    traits => ['Chained'],
 );
 
 sub constrain_value {

@@ -5,23 +5,24 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/elements/repeatable_repeatable.yml');
 
-$form->process({
-    count => 2,
-    foo_1 => 'a',
-    foo_2 => 'b',
-    count_1 => 1,
-    foo_1_1 => 'c',
-    bar_1_1 => 'd',
-    count_2 => 2,
-    foo_2_1 => 'e',
-    foo_2_2 => 'f',
-    bar_2_1 => 'g',
-    bar_2_2 => 'h',
-});
+$form->process( {
+        count   => 2,
+        foo_1   => 'a',
+        foo_2   => 'b',
+        count_1 => 1,
+        foo_1_1 => 'c',
+        bar_1_1 => 'd',
+        count_2 => 2,
+        foo_2_1 => 'e',
+        foo_2_2 => 'f',
+        bar_2_1 => 'g',
+        bar_2_2 => 'h',
+    } );
 
 ok( $form->submitted_and_valid );
 

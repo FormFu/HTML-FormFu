@@ -21,5 +21,4 @@ use Module::Pluggable (
 
 __PACKAGE__->plugins;
 
-
 1;

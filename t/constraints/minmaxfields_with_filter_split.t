@@ -26,7 +26,7 @@ $form->load_config_file('t/constraints/minmaxfields_with_filter_split.yml');
         } );
 
     ok( !$form->has_errors );
-    
+
     $form->process( {
             foo => '1,2',
             bar => '',

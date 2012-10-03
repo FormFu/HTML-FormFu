@@ -8,27 +8,21 @@ use DateTime;
 
 my $dt = DateTime->new( month => 8, year => 2007 );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->element('Date')->name('foo')
-    ->default($dt)
-    ->field_order( [ qw/ month year / ])
-    ->strftime('%m/%Y')
-    ->month( {
+$form->element('Date')->name('foo')->default($dt)
+    ->field_order( [qw/ month year /] )->strftime('%m/%Y')->month( {
         prefix      => '-- Month --',
         short_names => 1,
-    } )
-    ->year( {
+    }
+    )->year( {
         prefix => '-- Year --',
         list   => [ 2007 .. 2017 ],
-    } )
-    ->auto_inflate(1)
-    ->constraint('Required');
+    } )->auto_inflate(1)->constraint('Required');
 
-$form->element('Date')->name('bar')
-    ->default('08-2007')
-    ->field_order( [ qw/ year month / ] )
-    ->strftime('%m-%Y')
+$form->element('Date')->name('bar')->default('08-2007')
+    ->field_order( [qw/ year month /] )->strftime('%m-%Y')
     ->year( { list => [ 2007 .. 2017 ] } );
 
 $form->process;
@@ -102,10 +96,8 @@ is( "$form", <<HTML );
 </form>
 HTML
 
-$form->process( {
-        'foo_month', 6, 'foo_year', 2007,
-        'bar_month', 7, 'bar_year', 2007,
-    } );
+$form->process(
+    { 'foo_month', 6, 'foo_year', 2007, 'bar_month', 7, 'bar_year', 2007, } );
 
 ok( $form->submitted_and_valid );
 

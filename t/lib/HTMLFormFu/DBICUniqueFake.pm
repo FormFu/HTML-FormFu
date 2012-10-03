@@ -4,7 +4,7 @@ use Moose;
 
 extends 'HTML::FormFu::Constraint';
 
-has id_field       => ( is => 'rw', traits  => ['Chained'] );
+has id_field => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

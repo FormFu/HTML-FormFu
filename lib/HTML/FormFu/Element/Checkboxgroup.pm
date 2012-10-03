@@ -17,8 +17,8 @@ has input_type => (
 );
 
 has reverse_group => (
-    is      => 'rw',
-    traits  => ['Chained'],
+    is     => 'rw',
+    traits => ['Chained'],
 );
 
 after BUILD => sub {
@@ -185,8 +185,7 @@ sub _string_field {
         else {
             $html .= sprintf
                 "<span%s>\n",
-                process_attrs( $option->{container_attributes} )
-                ;
+                process_attrs( $option->{container_attributes} );
 
             my $label = sprintf
                 "<label%s>%s</label>\n",

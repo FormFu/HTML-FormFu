@@ -19,8 +19,10 @@ delete $ENV{HTML_FORMFU_RENDER_METHOD};
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new(
-    { tt_args => { INCLUDE_PATH => ['t/elements/object', 'share/templates/tt/xhtml'] } } );
+my $form = HTML::FormFu->new( {
+        tt_args => {
+            INCLUDE_PATH => [ 't/elements/object', 'share/templates/tt/xhtml' ]
+        } } );
 
 $form->render_method('tt');
 $form->auto_fieldset;

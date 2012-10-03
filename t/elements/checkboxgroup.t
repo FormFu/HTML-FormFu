@@ -5,7 +5,8 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 my $field1 = $form->element('Checkboxgroup')->name('foo')->value(2)
     ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
@@ -130,5 +131,6 @@ is( "$form", $form_xhtml, 'stringified form' );
 </span>
 </fieldset>};
 
-    is( $form->get_field('bar'), $bar_xhtml, 'second checkboxgroup after query' );
+    is( $form->get_field('bar'),
+        $bar_xhtml, 'second checkboxgroup after query' );
 }

@@ -5,7 +5,8 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 my $multi = $form->element('Multi')->label('My multi');
 
@@ -13,7 +14,8 @@ $multi->element('Text')->name('bar')->label('My text');
 $multi->element('Hidden')->name('baz');
 $multi->element('Radio')->name('dot')->label('My radio');
 $multi->element('Blank')->name('gzz');
-$multi->element('Block')->tag('a')->attributes({ href => 'http://localhost' })->content('test');
+$multi->element('Block')->tag('a')->attributes( { href => 'http://localhost' } )
+    ->content('test');
 
 $form->element( { type => 'Submit' } );
 

@@ -39,13 +39,14 @@ sub process {
 
         if ( $self->not ) {
             if ( $value eq $EMPTY_STR ) {
+
                 # no error if both values are empty and not(1) is set
             }
             elsif ($ok) {
                 push @failed, $name;
             }
         }
-        elsif (!$ok) {
+        elsif ( !$ok ) {
             push @failed, $name;
         }
 
@@ -54,7 +55,7 @@ sub process {
 
     # special case for $self->not()
     # no errors if all values are empty
-    if ( $self->not
+    if (   $self->not
         && $value eq $EMPTY_STR
         && all { !defined || $_ eq $EMPTY_STR } values %values )
     {

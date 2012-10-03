@@ -5,14 +5,15 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/deflators/compoundsplit_after_submit.yml');
 
-$form->process({
-    'address.number' => '10',
-    'address.street' => 'Downing Street',
-});
+$form->process( {
+        'address.number' => '10',
+        'address.street' => 'Downing Street',
+    } );
 
 # check Filter::CompoundJoin worked ok
 
@@ -29,4 +30,4 @@ my $html = <<HTML;
 </form>
 HTML
 
-is ( "$form", $html );
+is( "$form", $html );

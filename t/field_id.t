@@ -6,7 +6,8 @@ use Test::More tests => 5;
 use HTML::FormFu;
 
 {    # element has explicit id
-    my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+    my $form = HTML::FormFu->new(
+        { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
     $form->element('Text')->name('foo')->id('fid')->label('Foo');
 

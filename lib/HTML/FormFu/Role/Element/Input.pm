@@ -3,8 +3,9 @@ use Moose::Role;
 use MooseX::SetOnce;
 
 with 'HTML::FormFu::Role::Element::Field',
-     'HTML::FormFu::Role::Element::FieldMethods' => { -excludes => 'nested_name' },
-     'HTML::FormFu::Role::Element::Coercible';
+    'HTML::FormFu::Role::Element::FieldMethods' =>
+    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Attribute qw(
     mk_attr_accessors
@@ -15,7 +16,8 @@ use HTML::FormFu::Attribute qw(
 use HTML::FormFu::Util qw( process_attrs );
 
 has field_type => (
-    is       => 'rw',
+    is => 'rw',
+
     #traits   => ['SetOnce'],
 );
 
@@ -33,7 +35,7 @@ after BUILD => sub {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( $args );
+    my $render = $self->$orig($args);
 
     $render->{field_type} = $self->field_type;
 

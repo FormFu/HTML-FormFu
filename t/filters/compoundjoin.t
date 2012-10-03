@@ -12,12 +12,10 @@ $form->load_config_file('t/filters/compoundjoin.yml');
 
 $form->process;
 
-$form->process(
-    {
+$form->process( {
         'rep_1.address.number' => '10',
         'rep_1.address.street' => 'Downing Street',
-    }
-);
+    } );
 
 ok( $form->submitted_and_valid );
 

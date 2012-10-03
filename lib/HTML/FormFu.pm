@@ -3,14 +3,14 @@ use Moose;
 use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Render',
-     'HTML::FormFu::Role::CreateChildren',
-     'HTML::FormFu::Role::GetProcessors',
-     'HTML::FormFu::Role::ContainsElements',
-     'HTML::FormFu::Role::ContainsElementsSharedWithField',
-     'HTML::FormFu::Role::FormAndBlockMethods',
-     'HTML::FormFu::Role::FormAndElementMethods',
-     'HTML::FormFu::Role::NestedHashUtils',
-     'HTML::FormFu::Role::Populate';
+    'HTML::FormFu::Role::CreateChildren',
+    'HTML::FormFu::Role::GetProcessors',
+    'HTML::FormFu::Role::ContainsElements',
+    'HTML::FormFu::Role::ContainsElementsSharedWithField',
+    'HTML::FormFu::Role::FormAndBlockMethods',
+    'HTML::FormFu::Role::FormAndElementMethods',
+    'HTML::FormFu::Role::NestedHashUtils',
+    'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs                        mk_attr_accessors
@@ -49,9 +49,9 @@ use Scalar::Util qw( blessed refaddr weaken reftype );
 use Carp qw( croak );
 
 use overload (
-    'eq' => '_string_equals',
-    '==' => '_object_equals',
-    '""' => sub { return shift->render },
+    'eq'       => '_string_equals',
+    '=='       => '_object_equals',
+    '""'       => sub { return shift->render },
     'bool'     => sub {1},
     'fallback' => 1,
 );
@@ -66,13 +66,13 @@ for my $name ( qw(
     _valid_names
     _plugins
     _models
-     ) )
+    ) )
 {
     has $name => (
-        is       => 'rw',
-        default  => sub { [] },
-        lazy     => 1,
-        isa      => 'ArrayRef',
+        is      => 'rw',
+        default => sub { [] },
+        lazy    => 1,
+        isa     => 'ArrayRef',
     );
 }
 
@@ -85,18 +85,18 @@ has languages => (
 );
 
 has input => (
-    is       => 'rw',
-    default  => sub { {} },
-    lazy     => 1,
-    isa      => 'HashRef',
+    is      => 'rw',
+    default => sub { {} },
+    lazy    => 1,
+    isa     => 'HashRef',
     traits  => ['Chained'],
 );
 
 has _processed_params => (
-    is       => 'rw',
-    default  => sub { {} },
-    lazy     => 1,
-    isa      => 'HashRef',
+    is      => 'rw',
+    default => sub { {} },
+    lazy    => 1,
+    isa     => 'HashRef',
 );
 
 has form_error_message_class => (
@@ -121,7 +121,7 @@ has default_model            => ( is => 'rw', traits => ['Chained'] );
 has tmp_upload_dir           => ( is => 'rw', traits => ['Chained'] );
 has params_ignore_underscore => ( is => 'rw', traits => ['Chained'] );
 
-has _auto_fieldset           => ( is => 'rw' );
+has _auto_fieldset => ( is => 'rw' );
 
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
@@ -169,10 +169,10 @@ our $build_defaults = {
 sub BUILD {
     my ( $self, $args ) = @_;
 
-    $self->populate( $build_defaults );
+    $self->populate($build_defaults);
 
     return;
-};
+}
 
 sub auto_fieldset {
     my ( $self, $element_ref ) = @_;
@@ -993,7 +993,7 @@ sub render_data_non_recursive {
         || ( $self->has_errors
             && defined $self->form_error_message ) )
     {
-        $render{form_error_message}       = xml_escape( $self->form_error_message );
+        $render{form_error_message} = xml_escape( $self->form_error_message );
         $render{form_error_message_class} = $self->form_error_message_class;
     }
 
@@ -1130,7 +1130,7 @@ sub _require_output_processor {
     croak 'required arguments: $self, $type, \%options' if @_ != 3;
 
     croak "options argument must be hash-ref"
-        if reftype( $opt ) ne 'HASH';
+        if reftype($opt) ne 'HASH';
 
     my $class = $type;
     if ( not $class =~ s/^\+// ) {

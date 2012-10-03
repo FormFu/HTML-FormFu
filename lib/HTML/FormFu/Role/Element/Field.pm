@@ -3,7 +3,7 @@ use Moose::Role;
 use MooseX::Aliases;
 
 with 'HTML::FormFu::Role::ContainsElementsSharedWithField',
-     'HTML::FormFu::Role::NestedHashUtils';
+    'HTML::FormFu::Role::NestedHashUtils';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
@@ -121,16 +121,16 @@ sub nested_name {
     if ( $self->form->nested_subscript ) {
         my $name = shift @names;
         map { $name .= "[$_]" } @names;
-# TODO - Mario Minati 19.05.2009
-# Does this (name formatted as '[name]') collide with FF::Model::HashRef as
-# it uses /_\d/ to parse repeatable names?
+
+     # TODO - Mario Minati 19.05.2009
+     # Does this (name formatted as '[name]') collide with FF::Model::HashRef as
+     # it uses /_\d/ to parse repeatable names?
         return $name;
     }
     else {
         return join ".", @names;
     }
 }
-
 
 sub nested_names {
     my ($self) = @_;
@@ -146,16 +146,19 @@ sub nested_names {
         while ( defined( $parent = $parent->{parent} ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
+
                 # handling Field
                 push @names, $parent->name
                     if defined $parent->name;
             }
             elsif ( $parent->can('is_repeatable') && $parent->is_repeatable ) {
+
                 # handling Repeatable
                 # ignore Repeatables nested_name attribute as it is provided
                 # by the childrens Block elements
             }
             else {
+
                 # handling 'not Field' and 'not Repeatable'
                 push @names, $parent->nested_name
                     if defined $parent->nested_name;
@@ -182,9 +185,10 @@ sub build_original_nested_name {
     if ( $self->form->nested_subscript ) {
         my $name = shift @names;
         map { $name .= "[$_]" } @names;
-# TODO - Mario Minati 19.05.2009
-# Does this (name formatted as '[name]') collide with FF::Model::HashRef as
-# it uses /_\d/ to parse repeatable names?
+
+     # TODO - Mario Minati 19.05.2009
+     # Does this (name formatted as '[name]') collide with FF::Model::HashRef as
+     # it uses /_\d/ to parse repeatable names?
         return $name;
     }
     else {
@@ -197,9 +201,9 @@ sub build_original_nested_names {
 
     croak 'cannot set build_original_nested_names' if @_ > 1;
 
-# TODO - Mario Minati 19.05.2009
-# Maybe we have to use original_name instead of name.
-# Yet there is no testcase, which is currently failing. 
+    # TODO - Mario Minati 19.05.2009
+    # Maybe we have to use original_name instead of name.
+    # Yet there is no testcase, which is currently failing.
 
     if ( defined( my $name = $self->name ) ) {
         my @names;
@@ -210,32 +214,37 @@ sub build_original_nested_names {
         while ( defined( $parent = $parent->{parent} ) ) {
 
             if ( $parent->can('is_field') && $parent->is_field ) {
+
                 # handling Field
-                if (defined $parent->original_name) {
+                if ( defined $parent->original_name ) {
                     push @names, $parent->original_name;
                 }
-                elsif (defined $parent->name) {
+                elsif ( defined $parent->name ) {
                     push @names, $parent->name;
                 }
             }
             elsif ( $parent->can('is_repeatable') && $parent->is_repeatable ) {
-                # handling Repeatable
-# TODO - Mario Minati 19.05.2009
-# Do we have to take care of chains of Repeatable elements, if the Block
-# elements have already been created for the outer Repeatable elements to
-# avoid 'outer.outer_1.inner'
-# Yet there is no failing testcase. All testcases in FF and FF::Model::DBIC
-# which have nested repeatable elements are passing currently.
+
+     # handling Repeatable
+     # TODO - Mario Minati 19.05.2009
+     # Do we have to take care of chains of Repeatable elements, if the Block
+     # elements have already been created for the outer Repeatable elements to
+     # avoid 'outer.outer_1.inner'
+     # Yet there is no failing testcase. All testcases in FF and FF::Model::DBIC
+     # which have nested repeatable elements are passing currently.
                 push @names, $parent->original_nested_name
                     if defined $parent->original_nested_name;
             }
             else {
+
                 # handling 'not Field' and 'not Repeatable'
-                if ($parent->can('original_nested_name') && defined $parent->original_nested_name) {
+                if ( $parent->can('original_nested_name')
+                    && defined $parent->original_nested_name )
+                {
                     push @names, $parent->original_nested_name;
                 }
-                elsif (defined $parent->nested_name) {
-                    push @names, $parent->nested_name
+                elsif ( defined $parent->nested_name ) {
+                    push @names, $parent->nested_name;
                 }
             }
         }
@@ -382,7 +391,11 @@ sub process_input {
     }
 
     # checkbox, radio
-    elsif ( $submitted && $self->force_default && $self->can('checked') && $self->checked ) {
+    elsif ($submitted
+        && $self->force_default
+        && $self->can('checked')
+        && $self->checked )
+    {
 
         # the checked attribute is set, so force input to be the original value
         $self->set_nested_hash_value( $input, $name, $original );
@@ -481,22 +494,22 @@ sub process_value {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig({
-        nested_name          => xml_escape( $self->nested_name ),
-        comment_attributes   => xml_escape( $self->comment_attributes ),
-        container_attributes => xml_escape( $self->container_attributes ),
-        label_attributes     => xml_escape( $self->label_attributes ),
-        comment              => xml_escape( $self->comment ),
-        label                => xml_escape( $self->label ),
-        field_filename       => $self->field_filename,
-        label_filename       => $self->label_filename,
-        label_tag            => $self->label_tag,
-        container_tag        => $self->container_tag,
-        reverse_single       => $self->reverse_single,
-        reverse_multi        => $self->reverse_multi,
-        javascript           => $self->javascript,
-        $args ? %$args : (),
-    });
+    my $render = $self->$orig( {
+            nested_name          => xml_escape( $self->nested_name ),
+            comment_attributes   => xml_escape( $self->comment_attributes ),
+            container_attributes => xml_escape( $self->container_attributes ),
+            label_attributes     => xml_escape( $self->label_attributes ),
+            comment              => xml_escape( $self->comment ),
+            label                => xml_escape( $self->label ),
+            field_filename       => $self->field_filename,
+            label_filename       => $self->label_filename,
+            label_tag            => $self->label_tag,
+            container_tag        => $self->container_tag,
+            reverse_single       => $self->reverse_single,
+            reverse_multi        => $self->reverse_multi,
+            javascript           => $self->javascript,
+            $args ? %$args : (),
+        } );
 
     $self->_render_container_class($render);
     $self->_render_comment_class($render);
@@ -802,8 +815,10 @@ sub _string_field_start {
         }
     }
 
-    if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
-         !$render->{reverse_single}) {
+    if (   defined $render->{label}
+        && $render->{label_tag} ne 'legend'
+        && !$render->{reverse_single} )
+    {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
@@ -836,8 +851,9 @@ sub _string_field_end {
 
     my $html = '';
 
-    if ( defined $render->{label} && $render->{label_tag} ne 'legend' &&
-         $render->{reverse_single} )
+    if (   defined $render->{label}
+        && $render->{label_tag} ne 'legend'
+        && $render->{reverse_single} )
     {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }

@@ -5,7 +5,8 @@ use Test::More tests => 3;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->auto_fieldset( { nested_name => 'nested' } );
 
@@ -27,9 +28,7 @@ EOF
 
 is( "$form", $form_xhtml, 'stringified form' );
 
-$form->process({
-    'nested.foo.bar' => 'aaa',
-});
+$form->process( { 'nested.foo.bar' => 'aaa', } );
 
 ok( $form->submitted_and_valid );
 

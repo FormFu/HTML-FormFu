@@ -13,10 +13,16 @@ $form->process;
 
 like( $form->get_field('foo'), qr/<span name="foo"><\/span>/, "element found" );
 
-like( $form->get_field('foo3'), qr/<div name="foo3">bar<\/div>/, "element with value and different tag found" );
+like(
+    $form->get_field('foo3'),
+    qr/<div name="foo3">bar<\/div>/,
+    "element with value and different tag found"
+);
 
-$form->process({
-    submit => 'Submit Value',
-});
+$form->process( { submit => 'Submit Value', } );
 
-like( $form->get_field('foo3'), qr/<div name="foo3">bar<\/div>/, "label retain_default works" );
+like(
+    $form->get_field('foo3'),
+    qr/<div name="foo3">bar<\/div>/,
+    "label retain_default works"
+);

@@ -2,10 +2,11 @@ package HTML::FormFu::Role::Element::Group;
 use Moose::Role;
 
 with 'HTML::FormFu::Role::Element::Field',
-     'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' },
-     'HTML::FormFu::Role::Element::ProcessOptionsFromModel',
-     'HTML::FormFu::Role::Element::SingleValueField',
-     'HTML::FormFu::Role::Element::Coercible';
+    'HTML::FormFu::Role::Element::SingleValueField' =>
+    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::ProcessOptionsFromModel',
+    'HTML::FormFu::Role::Element::SingleValueField',
+    'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Attribute qw( mk_output_accessors );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
@@ -77,7 +78,7 @@ sub options {
     if ( defined $arg ) {
         croak "options argument must be an array-ref"
             if reftype($arg) ne 'ARRAY';
-        
+
         @options = @$arg;
 
         if ( $self->empty_first ) {
@@ -229,7 +230,8 @@ sub _parse_option_hashref {
         $item->{placeholder} = literal( $item->{placeholder_xml} );
     }
     elsif ( defined $item->{placeholder_loc} ) {
-        $item->{placeholder} = $self->form->localize( $item->{placeholder_loc} );
+        $item->{placeholder}
+            = $self->form->localize( $item->{placeholder_loc} );
     }
 
     if ( defined $item->{value_xml} ) {
@@ -256,7 +258,7 @@ sub values {
     if ( defined $arg ) {
         croak "values argument must be an array-ref"
             if reftype($arg) ne 'ARRAY';
-        
+
         @values = @$arg;
     }
 
@@ -288,7 +290,7 @@ sub value_range {
     if ( defined $arg ) {
         croak "value_range argument must be an array-ref"
             if reftype($arg) ne 'ARRAY';
-        
+
         @values = @$arg;
     }
 
@@ -312,14 +314,17 @@ before prepare_attrs => sub {
         : undef;
 
     if ( ( reftype($value) || '' ) eq 'ARRAY' ) {
-        my $elems = $self->form->get_fields({ nested_name => $self->nested_name });
-        if ( $#$elems ) {
+        my $elems
+            = $self->form->get_fields( { nested_name => $self->nested_name } );
+        if ($#$elems) {
+
             # There are multiple fields with the same name; assume
             # none are multi-value fields, i.e. only one selected
             # option per field.  (Otherwise it might be ambiguous
             # which option came from which field.)
             for ( 0 .. @$elems - 1 ) {
                 if ( $self == $elems->[$_] ) {
+
                     # Use the value of the option actually selected in
                     # this group.
                     $value = $value->[$_];
@@ -365,12 +370,13 @@ sub _quote_options {
     my ( $self, $options ) = @_;
 
     foreach my $opt (@$options) {
-        $opt->{label} = xml_escape( $opt->{label} );
-        $opt->{placeholder} = xml_escape( $opt->{placeholder} );
-        $opt->{value} = xml_escape( $opt->{value} );
-        $opt->{attributes}           = xml_escape( $opt->{attributes} );
-        $opt->{label_attributes}     = xml_escape( $opt->{label_attributes} );
-        $opt->{container_attributes} = xml_escape( $opt->{container_attributes} );
+        $opt->{label}            = xml_escape( $opt->{label} );
+        $opt->{placeholder}      = xml_escape( $opt->{placeholder} );
+        $opt->{value}            = xml_escape( $opt->{value} );
+        $opt->{attributes}       = xml_escape( $opt->{attributes} );
+        $opt->{label_attributes} = xml_escape( $opt->{label_attributes} );
+        $opt->{container_attributes}
+            = xml_escape( $opt->{container_attributes} );
 
         if ( exists $opt->{group} ) {
             $self->_quote_options( $opt->{group} );

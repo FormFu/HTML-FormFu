@@ -20,10 +20,8 @@ sub filter {
     my $parent = $self->parent
         or die "Can't determine my parent.";
 
-    my $field_value = $self->get_nested_hash_value(
-        $parent->form->input,
-        $field_name,
-    );
+    my $field_value
+        = $self->get_nested_hash_value( $parent->form->input, $field_name, );
 
     return $field_value;
 }

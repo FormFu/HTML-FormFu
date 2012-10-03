@@ -8,7 +8,8 @@ use DateTime;
 
 my $dt = DateTime->new( day => 6, month => 8, year => 2007 );
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
     ->day( { prefix => '-- Day --', } )->month( {

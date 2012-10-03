@@ -2,8 +2,10 @@ package HTML::FormFu::Element::Multi;
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 
-with 'HTML::FormFu::Role::Element::SingleValueField' => { -excludes => 'nested_name' },
-     'HTML::FormFu::Role::Element::Field';
+with
+    'HTML::FormFu::Role::Element::SingleValueField' =>
+    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::Field';
 
 use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
@@ -159,7 +161,7 @@ sub string {
 
         next if !defined $render;
 
-        if($elem->can('_string_field')) {
+        if ( $elem->can('_string_field') ) {
             if ( $elem->reverse_multi ) {
                 $html .= $elem->_string_field($render);
 
@@ -174,8 +176,9 @@ sub string {
 
                 $html .= $elem->_string_field($render);
             }
-        } else {
-            $html .= $elem->string({ render_data => $render });
+        }
+        else {
+            $html .= $elem->string( { render_data => $render } );
         }
 
         $html .= "\n";

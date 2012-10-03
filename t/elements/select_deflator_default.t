@@ -6,17 +6,18 @@ use HTML::FormFu;
 use lib 't/lib';
 use HTMLFormFu::MyObject;
 
-my $object = HTMLFormFu::MyObject->new( 'bar' );
+my $object = HTMLFormFu::MyObject->new('bar');
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-my $field = $form->element({
-    type     => 'Select',
-    name     => 'foo',
-    values   => [qw/ foo bar baz /],
-    default  => $object,
-    deflator => '+HTMLFormFu::MyDeflator',
-});
+my $field = $form->element( {
+        type     => 'Select',
+        name     => 'foo',
+        values   => [qw/ foo bar baz /],
+        default  => $object,
+        deflator => '+HTMLFormFu::MyDeflator',
+    } );
 
 $form->process;
 

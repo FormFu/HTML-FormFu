@@ -7,8 +7,8 @@ extends 'HTML::FormFu::Constraint';
 use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 
-has regex => ( is => 'rw', traits  => ['Chained'] );
-has types => ( is => 'rw', traits  => ['Chained'] );
+has regex => ( is => 'rw', traits => ['Chained'] );
+has types => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

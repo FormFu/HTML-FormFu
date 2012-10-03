@@ -68,6 +68,6 @@ $form->process( { hello_world => 'not a file', } );
     ok( $form->has_errors('hello_world') );
 
     ok( !$form->valid('hello_world') );
-    
+
     like( "$form", qr/File-size must be at least 1 bytes/ );
 }

@@ -23,8 +23,8 @@ sub headers {
     my ( $self, $headers ) = @_;
 
     croak "headers must be passed as an array-ref"
-        if reftype( $headers ) ne 'ARRAY';
-    
+        if reftype($headers) ne 'ARRAY';
+
     # save any elements already added
     my @original_rows = @{ $self->_elements };
     $self->_elements( [] );
@@ -32,7 +32,7 @@ sub headers {
     my $header_row = $self->element('Block');
     $header_row->tag('tr');
 
-    for my $text ( @$headers ) {
+    for my $text (@$headers) {
         my $th = $header_row->element('Block');
         $th->tag('th');
         $th->content($text);
@@ -51,16 +51,16 @@ sub rows {
     croak "too many arguments" if @_ > 2;
 
     croak "rows must be passed as an array-ref"
-        if reftype( $rows ) ne 'ARRAY';
+        if reftype($rows) ne 'ARRAY';
 
-    for my $cells ( @$rows ) {
+    for my $cells (@$rows) {
         croak "each row must be an array-ref"
-            if reftype( $cells ) ne 'ARRAY';
+            if reftype($cells) ne 'ARRAY';
 
         my $row = $self->element('Block');
         $row->tag('tr');
 
-        for my $cell ( @$cells ) {
+        for my $cell (@$cells) {
             my $td = $row->element('Block');
             $td->tag('td');
             $td->element($cell);

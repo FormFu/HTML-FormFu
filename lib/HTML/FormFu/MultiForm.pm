@@ -2,9 +2,11 @@ package HTML::FormFu::MultiForm;
 use Moose;
 use MooseX::Attribute::Chained;
 
-with 'HTML::FormFu::Role::FormAndElementMethods' => { -excludes => 'model_config' },
-     'HTML::FormFu::Role::NestedHashUtils',
-     'HTML::FormFu::Role::Populate';
+with
+    'HTML::FormFu::Role::FormAndElementMethods' =>
+    { -excludes => 'model_config' },
+    'HTML::FormFu::Role::NestedHashUtils',
+    'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu;
 use HTML::FormFu::Attribute qw(
@@ -29,10 +31,10 @@ use Scalar::Util qw( blessed refaddr );
 use Storable qw( nfreeze thaw );
 
 use overload (
-    'eq' => '_string_equals',
-    '==' => '_object_equals',
-    '""' => sub { return shift->render },
-    bool => sub {1},
+    'eq'     => '_string_equals',
+    '=='     => '_object_equals',
+    '""'     => sub { return shift->render },
+    bool     => sub {1},
     fallback => 1
 );
 
@@ -53,18 +55,18 @@ our @ACCESSORS = qw(
     params_ignore_underscore    tmp_upload_dir
 );
 
-for my $name ( @ACCESSORS ) {
-    has $name => ( is => 'rw', traits  => ['Chained'] );
+for my $name (@ACCESSORS) {
+    has $name => ( is => 'rw', traits => ['Chained'] );
 }
 
-has forms                         => ( is => 'rw', traits  => ['Chained'] );
-has query                         => ( is => 'rw', traits  => ['Chained'] );
-has current_form_number           => ( is => 'rw', traits  => ['Chained'] );
-has current_form                  => ( is => 'rw', traits  => ['Chained'] );
-has multiform_hidden_name         => ( is => 'rw', traits  => ['Chained'] );
-has default_multiform_hidden_name => ( is => 'rw', traits  => ['Chained'] );
-has combine_params                => ( is => 'rw', traits  => ['Chained'] );
-has complete                      => ( is => 'rw', traits  => ['Chained'] );
+has forms                         => ( is => 'rw', traits => ['Chained'] );
+has query                         => ( is => 'rw', traits => ['Chained'] );
+has current_form_number           => ( is => 'rw', traits => ['Chained'] );
+has current_form                  => ( is => 'rw', traits => ['Chained'] );
+has multiform_hidden_name         => ( is => 'rw', traits => ['Chained'] );
+has default_multiform_hidden_name => ( is => 'rw', traits => ['Chained'] );
+has combine_params                => ( is => 'rw', traits => ['Chained'] );
+has complete                      => ( is => 'rw', traits => ['Chained'] );
 
 has _data => ( is => 'rw' );
 
@@ -96,13 +98,13 @@ __PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
 for my $name ( qw(
     persist_stash
     _file_fields
-     ) )
+    ) )
 {
     has $name => (
-        is       => 'rw',
-        default  => sub { [] },
-        lazy     => 1,
-        isa      => 'ArrayRef',
+        is      => 'rw',
+        default => sub { [] },
+        lazy    => 1,
+        isa     => 'ArrayRef',
     );
 }
 
@@ -112,6 +114,7 @@ has languages => (
     lazy    => 1,
     isa     => 'ArrayRef',
 );
+
 sub BUILD {
     my ( $self, $args ) = @_;
 

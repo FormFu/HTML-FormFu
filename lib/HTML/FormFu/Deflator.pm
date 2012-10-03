@@ -8,11 +8,12 @@ use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw( form name parent );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits  => ['Chained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_inherited_accessors(qw( locale ));
 
-sub BUILD {}
+sub BUILD { }
+
 sub process {
     my ( $self, $values ) = @_;
 

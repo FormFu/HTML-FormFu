@@ -24,7 +24,8 @@ my $form2_hidden_value;
 
     my $form2 = $multi->next_form;
 
-    my $hidden_field = $form2->get_field( { name => $multi->default_multiform_hidden_name } );
+    my $hidden_field = $form2->get_field(
+        { name => $multi->default_multiform_hidden_name } );
 
     $form2_hidden_value = $hidden_field->default;
 }
@@ -40,8 +41,8 @@ my $form3_hidden_value;
 
     $multi->process( {
             $multi->default_multiform_hidden_name => $form2_hidden_value,
-            bar    => 'def',
-            submit => 'Submit',
+            bar                                   => 'def',
+            submit                                => 'Submit',
         } );
 
     my $form = $multi->current_form;
@@ -50,7 +51,8 @@ my $form3_hidden_value;
 
     my $form3 = $multi->next_form;
 
-    my $hidden_field = $form3->get_field( { name => $multi->default_multiform_hidden_name } );
+    my $hidden_field = $form3->get_field(
+        { name => $multi->default_multiform_hidden_name } );
 
     $form3_hidden_value = $hidden_field->default;
 }
@@ -64,8 +66,8 @@ my $form3_hidden_value;
 
     $multi->process( {
             $multi->default_multiform_hidden_name => $form3_hidden_value,
-            baz    => 'ghi',
-            submit => 'Submit',
+            baz                                   => 'ghi',
+            submit                                => 'Submit',
         } );
 
     ok( $multi->complete );

@@ -5,7 +5,8 @@ use Test::More tests => 2;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Select')->name('foo')->values( [qw/ one two three /] )
     ->default('two')->multiple(1);
@@ -26,7 +27,8 @@ EOF
 
 is( "$form", $xhtml );
 
-$form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+$form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Select')->name('foo')->values( [qw/ one two three /] )
     ->default('two')->multiple(1);

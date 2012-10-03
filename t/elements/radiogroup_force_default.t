@@ -5,7 +5,8 @@ use Test::More tests => 9;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Radiogroup')->name('foo')->values( [qw/ one two three /] )
     ->default('two')->force_default(1);

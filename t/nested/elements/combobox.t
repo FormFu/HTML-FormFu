@@ -5,14 +5,13 @@ use Test::More tests => 5;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new({ tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } });
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->auto_fieldset( { nested_name => 'foo' } );
 
-my $field = $form->element('ComboBox')
-    ->name('bar')
-    ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] )
-    ;
+my $field = $form->element('ComboBox')->name('bar')
+    ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
 
 $form->process;
 
@@ -33,10 +32,10 @@ is( "$form", <<EOF );
 </form>
 EOF
 
-$form->process({
-    "foo.bar_select" => '2',
-    "foo.bar_text"   => '',
-});
+$form->process( {
+        "foo.bar_select" => '2',
+        "foo.bar_text"   => '',
+    } );
 
 is( $form->param("foo.bar"), 2 );
 
@@ -57,10 +56,10 @@ is( "$form", <<EOF );
 </form>
 EOF
 
-$form->process({
-    "foo.bar_select" => '',
-    "foo.bar_text"   => '3',
-});
+$form->process( {
+        "foo.bar_select" => '',
+        "foo.bar_text"   => '3',
+    } );
 
 is( $form->param("foo.bar"), 3 );
 
