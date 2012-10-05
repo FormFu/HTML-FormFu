@@ -1,3 +1,8 @@
+0.09010 2012-10-05
+
+    - Internal changes - all Repeatable/nested_name munging is moved out of
+      HTML::FormFu::Element::Repeatable into individual constraints
+
 0.09009 2012-09-29
     - Make sure object can('checked') before calling checked() (colinnewell)
     - Updated Repeatable control to update id_field on DBIC::Unique if present
