@@ -1,0 +1,6 @@
+---
+elements:
+    - name: foo
+    - name: foo
+constraints:
+    - type: Integer
