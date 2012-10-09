@@ -68,6 +68,7 @@ sub _prepare_id {
         my $id = $self->auto_id;
         $id =~ s/%([fn])/$string{$1}/g;
         $id =~ s/%c/ ++$$count_ref /gex;
+        $id =~ s/%v/ $option->{value} /gex;
 
         if ( defined( my $count = $self->repeatable_count ) ) {
             $id =~ s/%r/$count/g;
@@ -266,7 +267,9 @@ See L<HTML::FormFu::Role::Element::Group/value_range>.
 
 In addition to the substitutions documented by L<HTML::FormFu/auto_id>, 
 C<%c> will be replaced by an incremented integer, to ensure there are 
-no duplicated ID's.
+no duplicated ID's, and C<%v> will be replaced by the item's value to
+allow multiple elements with the same name to coexist, and their labels
+to correctly select the appropriate item.
 
     ---
     elements:
