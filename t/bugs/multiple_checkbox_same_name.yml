@@ -1,0 +1,8 @@
+---
+elements:
+    - type: Checkbox
+      name: foo
+      value: 1
+    - type: Checkbox
+      name: foo
+      value: 2

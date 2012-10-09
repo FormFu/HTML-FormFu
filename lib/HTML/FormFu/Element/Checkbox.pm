@@ -40,6 +40,10 @@ sub prepare_attrs {
         ? $self->get_nested_hash_value( $form->input, $self->nested_name )
         : undef;
 
+    if (defined $value and ref $value eq 'ARRAY') {
+        $value = $original if grep { $_ eq $original } @$value;
+    }
+
     if (   $submitted
         && defined $value
         && defined $original
