@@ -1,3 +1,9 @@
+0.09011
+
+    - Element::Number no longer generates `type="number"`, as the output
+      was neither valid xhtml or html5.
+      http://code.google.com/p/html-formfu/issues/detail?id=66
+
 0.09010 2012-10-05
 
     - Internal changes - all Repeatable/nested_name munging is moved out of

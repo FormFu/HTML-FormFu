@@ -6,8 +6,6 @@ extends 'HTML::FormFu::Element::Text';
 after BUILD => sub {
     my $self = shift;
 
-    $self->field_type('number');
-
     $self->deflator('FormatNumber');
     $self->filter('FormatNumber');
 
@@ -67,6 +65,14 @@ Set the precision for the number. Defaults to C<2>.
 =head2 trailing_zeroes
 
 If this is set to C<1> the number has trailing zeroes. Defaults to C<0>. 
+
+=head2 CHANGED BEHAVIOUR AS OF VERSION 0.09011
+
+Previous to version 0.09011, this element generated an input field with
+C<type="number"> attribute which was not valid xhtml.
+Neither was the formatted numbers valid html5 - which expects the value to
+be a floating-point number.
+This element now generates a C<type="text"> attribute.
 
 =head1 SEE ALSO
 
