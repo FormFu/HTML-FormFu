@@ -1,0 +1,4 @@
+---
+id: xxx
+roles:
+    - '+HTMLFormFu::MyRole'
