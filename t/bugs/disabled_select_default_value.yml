@@ -1,0 +1,22 @@
+---
+auto_fieldset: 1
+
+elements:
+    - type: Select
+      name: select
+      values:
+        - 1
+        - 2
+        - 3
+      empty_first: 1
+      retain_default: 1
+      attributes:
+        disabled: disabled
+    
+    - type: Text
+      name: text
+      constraints:
+        - Required
+    
+    - type: Submit
+      name: submit
