@@ -2,6 +2,9 @@
     - TT template files changed - update them if you use a local copy.
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted.
+    
+    - Remove support for non-field elements within a Multi, which was
+      introduced in v0.09011
 
 0.09011
 
