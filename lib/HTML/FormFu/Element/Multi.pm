@@ -218,7 +218,17 @@ HTML::FormFu::Element::Multi - Combine multiple fields in a single element
 
 Combine multiple form fields in a single logical element.
 
-=head1 METHODS
+Non-field elements cannot be added as children of the Multi element.
+
+=head1 RENDERING NOTES
+
+If the Multi element is rendered with the default 'string' render-method,
+all child fields will be rendered with the 'string' render-method, regardless
+of their L<HTML::FormFu/render_method> value.
+
+Likewise, if the Multi element is rendered with the 'tt' render-method,
+all child fields will be rendered with the 'tt' render-method, regardless of
+their L<HTML::FormFu/render_method> value.
 
 =head1 SEE ALSO
 
