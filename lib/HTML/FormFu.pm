@@ -1009,6 +1009,32 @@ sub string {
 
     $args_ref ||= {};
 
+    my $html = $self->_string_form_start( $args_ref );
+
+    # form template
+
+    $html .= "\n";
+
+    for my $element ( @{ $self->get_elements } ) {
+
+        # call render, so that child elements can use a different renderer
+        my $element_html = $element->render;
+
+        # skip Blank fields
+        if ( length $element_html ) {
+            $html .= $element_html . "\n";
+        }
+    }
+
+    $html .= $self->_string_form_end( $args_ref );
+    $html .= "\n";
+
+    return $html;
+}
+
+sub _string_form_start {
+    my ( $self, $args_ref ) = @_;
+    
     # start_form template
 
     my $render_ref
@@ -1044,45 +1070,44 @@ sub string {
             $render_ref->{javascript},
             ;
     }
-
-    # form template
-
-    $html .= "\n";
-
-    for my $element ( @{ $self->get_elements } ) {
-
-        # call render, so that child elements can use a different renderer
-        my $element_html = $element->render;
-
-        # skip Blank fields
-        if ( length $element_html ) {
-            $html .= $element_html . "\n";
-        }
-    }
-
-    # end_form template
-
-    $html .= "</form>\n";
-
+    
     return $html;
 }
 
-sub start {
-    my ($self) = @_;
+sub _string_form_end {
+    my ( $self ) = @_;
+    
+    # end_form template
 
-    return $self->tt( {
-            filename    => 'start_form',
-            render_data => $self->render_data_non_recursive,
-        } );
+    return "</form>";
+}
+
+sub start {
+    my $self = shift;
+
+    if ( 'tt' eq $self->render_method ) {
+        return $self->tt( {
+                filename    => 'start_form',
+                render_data => $self->render_data_non_recursive,
+            } );
+        }
+    else {
+        return $self->_string_form_start( @_ );
+    }
 }
 
 sub end {
-    my ($self) = @_;
+    my $self = shift;
 
-    return $self->tt( {
-            filename    => 'end_form',
-            render_data => $self->render_data_non_recursive,
-        } );
+    if ( 'tt' eq $self->render_method ) {
+        return $self->tt( {
+                filename    => 'end_form',
+                render_data => $self->render_data_non_recursive,
+            } );
+    }
+    else {
+        return $self->_string_form_end( @_ );
+    }
 }
 
 sub hidden_fields {
@@ -2807,15 +2832,11 @@ Return Value: $string
 Returns the form start tag, and any output of L</form_error_message> and
 L</javascript>.
 
-Implicitly uses the C<tt> L</render_method>.
-
 =head2 end
 
 Return Value: $string
 
 Returns the form end tag.
-
-Implicitly uses the C<tt> L</render_method>.
 
 =head2 hidden_fields
 
