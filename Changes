@@ -1,3 +1,8 @@
+
+    - TT template files changed - update them if you use a local copy.
+      Template file 'label_tag' renamed to 'label_element' - old file can
+      be deleted.
+
 0.09011
 
     - Element::Number no longer generates `type="number"`, as the output

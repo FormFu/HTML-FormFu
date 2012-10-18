@@ -25,7 +25,8 @@ has tag => (
 after BUILD => sub {
     my $self = shift;
 
-    $self->filename('label_tag');
+    $self->filename('input');
+    $self->field_filename('label_element');
     $self->non_param(1);
 
     #$self->field_type('label');
