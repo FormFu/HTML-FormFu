@@ -278,7 +278,7 @@ only if the value of another field contains a pattern
         my $params = shift;
         return 1 if $params->{other_field} =~ m/\A ice_cream \z/xms;
         return 0;
-    }
+    };
 
     $field->{constraints} = {
         type    => 'Required',
