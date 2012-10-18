@@ -5,7 +5,10 @@ use Test::More tests => 7;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new->indicator( sub {1} );
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
+$form->indicator( sub {1} );
 
 $form->load_config_file('t/constraints/constraint_other_siblings.yml');
 

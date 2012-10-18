@@ -4,7 +4,9 @@ use Test::More tests => 4;
 
 use HTML::FormFu;
 
-my $form        = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+
 my $config_file = 't/elements/label_value_submission.yml';
 
 $form->load_config_file($config_file);
@@ -38,7 +40,8 @@ HTML
 
     # new form object created to handle form submission
 
-    my $form = HTML::FormFu->new;
+    my $form = HTML::FormFu->new(
+        { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
     $form->load_config_file($config_file);
 
@@ -68,7 +71,8 @@ HTML
     # check that a submitted value isn't used by the Label element
     # when there's no other field with the same name in the form
 
-    my $form = HTML::FormFu->new;
+    my $form = HTML::FormFu->new(
+        { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
     $form->load_config_file($config_file);
 

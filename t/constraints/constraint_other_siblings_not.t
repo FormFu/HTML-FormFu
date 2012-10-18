@@ -5,7 +5,8 @@ use Test::More tests => 24;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
