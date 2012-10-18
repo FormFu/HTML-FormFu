@@ -17,8 +17,6 @@
 0.09009 2012-09-29
     - Make sure object can('checked') before calling checked() (colinnewell)
     - Updated Repeatable control to update id_field on DBIC::Unique if present
-    - Added support for arbitrary elements within Multi blocks so that they
-      don't need to support methods like _striing_field and label etc.
     - ComboBox new get_select_field_nested_name(), get_text_field_nested_name()
       accessors.
     - Fieldset new legend_attributes() method.
