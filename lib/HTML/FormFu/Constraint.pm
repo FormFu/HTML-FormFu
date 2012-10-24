@@ -9,6 +9,7 @@ extends 'HTML::FormFu::Processor';
 use HTML::FormFu::Exception::Constraint;
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
+    DEBUG_CONSTRAINTS_WHEN
     debug
 );
 use Clone ();
@@ -274,10 +275,10 @@ sub _process_when {
             if defined $value;
     }
 
-    DEBUG_CONSTRAINTS && debug( 'WHEN_FIELDS_VALUES' => \@when_fields_value );
+    DEBUG_CONSTRAINTS_WHEN && debug( 'WHEN_FIELDS_VALUES' => \@when_fields_value );
 
     if ( !@when_fields_value ) {
-        DEBUG_CONSTRAINTS
+        DEBUG_CONSTRAINTS_WHEN
             && debug("No 'when' fields values exist - returning false");
         return 0;
     }
@@ -305,14 +306,14 @@ sub _process_when {
         }
     }
 
-    DEBUG_CONSTRAINTS && debug( "'when' value matches" => \@ok );
+    DEBUG_CONSTRAINTS_WHEN && debug( "'when' value matches" => \@ok );
 
     my $return
         = $any
         ? any { $when->{not} ? !$_ : $_ } @ok
         : all { $when->{not} ? !$_ : $_ } @ok;
 
-    DEBUG_CONSTRAINTS && debug( "'when' return value" => $return );
+    DEBUG_CONSTRAINTS_WHEN && debug( "'when' return value" => $return );
 
     return $return;
 }

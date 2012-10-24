@@ -2,7 +2,7 @@ package HTML::FormFu::Role::Constraint::Others;
 use Moose::Role;
 
 use HTML::FormFu::Util qw(
-    DEBUG_CONSTRAINTS
+    DEBUG_CONSTRAINTS_OTHERS
     debug
 );
 use Clone ();
@@ -60,7 +60,7 @@ after repeatable_repeat => sub {
                 $block_fields );
 
             if ( defined $field ) {
-                DEBUG_CONSTRAINTS && debug(
+                DEBUG_CONSTRAINTS_OTHERS && debug(
                     sprintf
                         "Repeatable renaming constraint 'other' '%s' to '%s'",
                     $name, $field->nested_name,
@@ -85,7 +85,7 @@ after repeatable_repeat => sub {
                 $block_fields );
 
             if ( defined $field ) {
-                DEBUG_CONSTRAINTS && debug(
+                DEBUG_CONSTRAINTS_OTHERS && debug(
                     sprintf
                         "Repeatable renaming constraint 'attach_errors_to' '%s' to '%s'",
                     $name, $field->nested_name,
@@ -111,13 +111,13 @@ sub mk_errors {
 
     my $force = $self->force_errors || $self->parent->force_errors;
 
-    DEBUG_CONSTRAINTS && debug( PASS           => $pass );
-    DEBUG_CONSTRAINTS && debug( NAMES          => \@names );
-    DEBUG_CONSTRAINTS && debug( 'FAILED NAMES' => \@failed );
-    DEBUG_CONSTRAINTS && debug( FORCE          => $force );
+    DEBUG_CONSTRAINTS_OTHERS && debug( PASS           => $pass );
+    DEBUG_CONSTRAINTS_OTHERS && debug( NAMES          => \@names );
+    DEBUG_CONSTRAINTS_OTHERS && debug( 'FAILED NAMES' => \@failed );
+    DEBUG_CONSTRAINTS_OTHERS && debug( FORCE          => $force );
 
     if ( $pass && !$force ) {
-        DEBUG_CONSTRAINTS
+        DEBUG_CONSTRAINTS_OTHERS
             && debug(
             'constraint passed, or force_errors is false - returning no errors'
             );
@@ -160,8 +160,8 @@ sub mk_errors {
         }
     }
 
-    DEBUG_CONSTRAINTS && debug( 'CAN ERROR' => \@can_error );
-    DEBUG_CONSTRAINTS && debug( 'HAS ERROR' => \@has_error );
+    DEBUG_CONSTRAINTS_OTHERS && debug( 'CAN ERROR' => \@can_error );
+    DEBUG_CONSTRAINTS_OTHERS && debug( 'HAS ERROR' => \@has_error );
 
     my @errors;
 
@@ -169,7 +169,7 @@ sub mk_errors {
 
         next unless $force || grep { $name eq $_ } @has_error;
 
-        DEBUG_CONSTRAINTS && debug( 'CREATING ERROR' => $name );
+        DEBUG_CONSTRAINTS_OTHERS && debug( 'CREATING ERROR' => $name );
 
         my $field = $self->form->get_field( { nested_name => $name } )
             or die "others() field not found: '$name'";
@@ -179,7 +179,7 @@ sub mk_errors {
         $error->parent($field);
 
         if ( !grep { $name eq $_ } @has_error ) {
-            DEBUG_CONSTRAINTS && debug("setting '$name' error forced(1)");
+            DEBUG_CONSTRAINTS_OTHERS && debug("setting '$name' error forced(1)");
 
             $error->forced(1);
         }
