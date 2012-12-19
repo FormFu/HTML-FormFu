@@ -778,9 +778,9 @@ sub param_value {
 
     croak 'name parameter required' if @_ != 2;
 
-    # ignore $form->valid($name) and $form->submitted
+    return undef if !$self->valid($name);
+
     # this is guaranteed to always return a single value
-    # or undef
 
     my $value = $self->get_nested_hash_value( $self->_processed_params, $name );
 

@@ -5,6 +5,9 @@
     
     - Remove support for non-field elements within a Multi, which was
       introduced in v0.09011
+    
+    - param_value() form method now matches documented behaviour - returns
+      undef when field has errors.
 
 0.09011
 
