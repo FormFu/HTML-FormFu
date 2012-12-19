@@ -449,6 +449,10 @@ used to determine whether any element is a child of a Repeatable element.
 
 Only available after L<repeat> has been called.
 
+=head2 repeatable_count_no_inherit
+
+A non-inheriting variant of L</repeatable_count>.
+
 =head2 nested_name
 
 If the L</nested_name> attribute is set, the naming scheme of the Repeatable
