@@ -65,7 +65,7 @@ $form->process( {
     is( $errors->[0]->stage, 'constraint' );
 
     my $xhtml = qq{<div class="text error error_constraint_number">
-<span class="error_message error_constraint_number">This field must be a number</span>
+<span class="error_message error_constraint_number" for="bar">This field must be a number</span>
 <input name="bar" type="text" value="2" />
 </div>};
 

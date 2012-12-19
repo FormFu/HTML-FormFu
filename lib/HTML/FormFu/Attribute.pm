@@ -2,6 +2,7 @@ package HTML::FormFu::Attribute;
 
 use strict;
 use Exporter qw( import );
+use Carp qw( croak );
 use Class::MOP::Method;
 use HTML::FormFu::Util qw(
     append_xml_attribute remove_xml_attribute literal
@@ -315,13 +316,30 @@ sub mk_inherited_accessors {
             return $self->{$name};
         };
 
+        my $no_inherit_sub = sub {
+            my ( $self, $value ) = @_;
+
+            if ( @_ > 1 ) {
+                croak "Cannot call ${name}_no_inherit as a setter";
+            }
+
+            return $self->{$name};
+        };
+
         my $method = Class::MOP::Method->wrap(
             body         => $sub,
             name         => $name,
             package_name => $class,
         );
 
+        my $no_inherit_method = Class::MOP::Method->wrap(
+            body         => $no_inherit_sub,
+            name         => "${name}_no_inherit",
+            package_name => $class,
+        );
+
         $class->meta->add_method( $name, $method );
+        $class->meta->add_method( "${name}_no_inherit", $no_inherit_method );
     }
 
     return;

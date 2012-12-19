@@ -51,6 +51,7 @@ sub populate {
 
     my @keys = qw(
         default_args
+        roles
         auto_fieldset
         load_config_file
         element elements

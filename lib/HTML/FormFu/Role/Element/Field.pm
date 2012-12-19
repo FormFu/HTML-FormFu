@@ -808,8 +808,11 @@ sub _string_field_start {
 
     if ( $render->{errors} ) {
         for my $error ( @{ $render->{errors} } ) {
-            $html .= sprintf qq{\n<span class="error_message %s">%s</span>},
+            my $for = $error->for;
+
+            $html .= sprintf qq{\n<span class="error_message %s"%s>%s</span>},
                 $error->class,
+                ( defined($for) ? process_attrs({ for => $for }) : "" ),
                 $error->message,
                 ;
         }
