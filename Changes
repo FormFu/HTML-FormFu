@@ -9,6 +9,8 @@
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
     
+    - New Czech (cs) I18N translation by Jan Grmela.
+    
     - mk_inherited_accessors() now also creates a *_no_inherit() method.
     
     - Error message container tags now have a 'for' attribute - for use by
