@@ -135,6 +135,7 @@ __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
+        auto_label_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -2282,6 +2283,27 @@ L<< $field->name|HTML::FormFu::Element/name >>.
 The generated string will be passed to L</localize> to create the label.
 
 Default Value: not defined
+
+This method is a special 'inherited accessor', which means it can be set on
+the form, a block element or a single element. When the value is read, if
+no value is defined it automatically traverses the element's hierarchy of
+parents, through any block elements and up to the form, searching for a
+defined value.
+
+=head2 auto_label_class
+
+Arguments: [$string]
+
+If set, then the container of each field with a
+L<label|HTML::FormFu::Role::Element::Field/label> will be given an
+additional auto-generated class-name based on the given pattern.
+
+The following character substitution will be performed: C<%f> will be
+replaced by L<< $form->id|/id >>, C<%n> will be replaced by
+L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
+L<< lc( $field->label_tag )|HTML::FormFu::Role::ElementField/label_tag >>.
+
+Default Value: '%t'
 
 This method is a special 'inherited accessor', which means it can be set on
 the form, a block element or a single element. When the value is read, if

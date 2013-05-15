@@ -53,6 +53,7 @@ __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
+        auto_label_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -81,6 +82,7 @@ after BUILD => sub {
     $self->label_attributes(     {} );
     $self->label_filename('label');
     $self->label_tag('label');
+    $self->auto_label_class('%t');
     $self->container_tag('div');
     $self->is_field(1);
 
@@ -542,9 +544,32 @@ sub _render_label {
         $render->{label} = $self->form->localize($label);
     }
 
-    if ( defined $render->{label} ) {
+    if (    defined $render->{label}
+         && defined $self->auto_label_class
+         && length $self->auto_label_class
+        )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
+
+        my $field_name
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
+        
+        my %string = (
+            f => $form_name,
+            n => $field_name,
+            t => defined $self->label_tag ? lc( $self->label_tag ) : '',
+        );
+
+        my $class = $self->auto_label_class;
+        $class =~ s/%([fnt])/$string{$1}/g;
+        
         append_xml_attribute( $render->{container_attributes},
-            'class', $self->label_tag );
+            'class', $class );
     }
 
     # label "for" attribute
@@ -993,6 +1018,13 @@ Arguments: $localization_key
 
 Set the label using a L10N key.
 
+=head2 label_tag
+
+Determines which XHTML tag is used for any L</label>.
+Defaults to "label" for most fields.
+Is set to "legend" for L<Checkboxgroup|HTML::FormFu::Element::Checkboxgroup>
+elements.
+
 =head2 placeholder
 
 Sets the HTML5 attribute C<placeholder> to the specified value.
@@ -1336,6 +1368,10 @@ See L<HTML::FormFu/auto_id> for details.
 =head2 auto_label
 
 See L<HTML::FormFu/auto_label> for details.
+
+=head2 auto_label_class
+
+See L<HTML::FormFu/auto_label_class> for details.
 
 =head2 auto_error_class
 

@@ -1,0 +1,8 @@
+---
+auto_fieldset: 1
+auto_label: '%n'
+elements: 
+  - name: foo
+  
+  - name: bar
+    auto_label_class: 'formfu_%n_%t'
