@@ -31,7 +31,7 @@ has _elements => (
 __PACKAGE__->mk_output_accessors(qw( content ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
-        auto_id auto_label auto_label_class
+        auto_id auto_label auto_label_class auto_comment_class
         auto_error_class auto_error_message
         auto_constraint_class auto_inflator_class auto_validator_class
         auto_transformer_class render_processed_value force_errors

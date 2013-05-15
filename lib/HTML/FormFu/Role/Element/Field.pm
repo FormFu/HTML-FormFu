@@ -53,7 +53,7 @@ __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
-        auto_label_class
+        auto_label_class            auto_comment_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -83,6 +83,7 @@ after BUILD => sub {
     $self->label_filename('label');
     $self->label_tag('label');
     $self->auto_label_class('%t');
+    $self->auto_comment_class('%t');
     $self->container_tag('div');
     $self->is_field(1);
 
@@ -585,13 +586,36 @@ sub _render_label {
 
 sub _render_comment_class {
     my ( $self, $render ) = @_;
+    
+    if (    defined $render->{comment}
+         && defined $self->auto_comment_class
+         && length $self->auto_comment_class
+        )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
 
-    if ( defined $render->{comment} ) {
+        my $field_name
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
+        
+        my %string = (
+            f => $form_name,
+            n => $field_name,
+            t => 'comment',
+        );
+
+        my $class = $self->auto_comment_class;
+        $class =~ s/%([fnt])/$string{$1}/g;
+
         append_xml_attribute( $render->{comment_attributes},
-            'class', 'comment' );
+            'class', $class );
 
         append_xml_attribute( $render->{container_attributes},
-            'class', 'comment' );
+            'class', $class );
     }
 
     return;
@@ -1372,6 +1396,10 @@ See L<HTML::FormFu/auto_label> for details.
 =head2 auto_label_class
 
 See L<HTML::FormFu/auto_label_class> for details.
+
+=head2 auto_comment_class
+
+See L<HTML::FormFu/auto_comment_class> for details.
 
 =head2 auto_error_class
 
