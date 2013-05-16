@@ -54,7 +54,7 @@ __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
         auto_label_class            auto_comment_class
-        auto_container_class
+        auto_container_class        auto_container_error_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -86,6 +86,7 @@ after BUILD => sub {
     $self->auto_label_class('%t');
     $self->auto_comment_class('%t');
     $self->auto_container_class('%t');
+    $self->auto_container_error_class('error');
     $self->container_tag('div');
     $self->is_field(1);
 
@@ -835,18 +836,29 @@ sub _render_error_class {
 
     my @errors = @{ $self->get_errors( { forced => 1 } ) };
 
-    if (@errors) {
-        $render->{errors} = \@errors;
+    return if !@errors;
 
+    my $auto_container_error_class = $self->auto_container_error_class;
+
+    my %string = (
+        f => defined $self->form->id ? $self->form->id   : '',
+        n => defined $render->{name} ? $render->{name}   : '',
+    );
+
+    $render->{errors} = \@errors;
+
+    my $error_class = $auto_container_error_class;
+
+    $error_class =~ s/%([fn])/$string{$1}/g;
+
+    append_xml_attribute( $render->{container_attributes},
+        'class', $error_class );
+
+    my @class = uniq map { $_->class } @errors;
+
+    for my $class (@class) {
         append_xml_attribute( $render->{container_attributes},
-            'class', 'error' );
-
-        my @class = uniq map { $_->class } @errors;
-
-        for my $class (@class) {
-            append_xml_attribute( $render->{container_attributes},
-                'class', $class, );
-        }
+            'class', $class, );
     }
 
     return;
@@ -1434,6 +1446,10 @@ See L<HTML::FormFu/auto_container_class> for details.
 =head2 auto_error_class
 
 See L<HTML::FormFu/auto_error_class> for details.
+
+=head2 auto_container_error_class
+
+See L<HTML::FormFu/auto_container_error_class> for details.
 
 =head2 auto_error_message
 

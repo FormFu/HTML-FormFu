@@ -136,7 +136,7 @@ __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
         auto_label_class            auto_comment_class
-        auto_container_class
+        auto_container_class        auto_container_error_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -2370,6 +2370,25 @@ L<< lc( $field->type )|HTML::FormFu::Element/type >>, C<%s> will be replaced
 by L<< $error->stage|/"FORM LOGIC AND VALIDATION" >>.
 
 Default Value: 'error_%s_%t'
+
+This method is a special 'inherited accessor', which means it can be set on
+the form, a block element or a single element. When the value is read, if
+no value is defined it automatically traverses the element's hierarchy of
+parents, through any block elements and up to the form, searching for a
+defined value.
+
+=head2 auto_container_error_class
+
+Arguments: [$string]
+
+If set, then the container of each field with an error will be given an
+additional auto-generated class-name based on the given pattern.
+
+The following character substitution will be performed: C<%f> will be
+replaced by L<< $form->id|/id >>, C<%n> will be replaced by
+L<< $field->name|HTML::FormFu::Element/name >>.
+
+Default Value: 'error'
 
 This method is a special 'inherited accessor', which means it can be set on
 the form, a block element or a single element. When the value is read, if
