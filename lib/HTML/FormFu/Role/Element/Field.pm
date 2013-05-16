@@ -54,6 +54,7 @@ __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
         auto_label_class            auto_comment_class
+        auto_container_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
@@ -84,6 +85,7 @@ after BUILD => sub {
     $self->label_tag('label');
     $self->auto_label_class('%t');
     $self->auto_comment_class('%t');
+    $self->auto_container_class('%t');
     $self->container_tag('div');
     $self->is_field(1);
 
@@ -683,11 +685,35 @@ sub _render_value {
 sub _render_container_class {
     my ( $self, $render ) = @_;
 
-    my $type = $self->type;
-    $type =~ s/:://g;
+    if (    defined $self->auto_container_class
+         && length $self->auto_container_class
+        )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
 
-    append_xml_attribute( $render->{container_attributes}, 'class', lc($type),
-    );
+        my $field_name
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
+        
+        my $type = lc $self->type;
+        $type =~ s/:://g;
+        
+        my %string = (
+            f => $form_name,
+            n => $field_name,
+            t => $type,
+        );
+
+        my $class = $self->auto_container_class;
+        $class =~ s/%([fnt])/$string{$1}/g;
+
+        append_xml_attribute( $render->{container_attributes},
+            'class', $class );
+    }
 
     return;
 }
@@ -1400,6 +1426,10 @@ See L<HTML::FormFu/auto_label_class> for details.
 =head2 auto_comment_class
 
 See L<HTML::FormFu/auto_comment_class> for details.
+
+=head2 auto_container_class
+
+See L<HTML::FormFu/auto_container_class> for details.
 
 =head2 auto_error_class
 
