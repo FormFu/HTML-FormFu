@@ -1,0 +1,9 @@
+---
+auto_fieldset: 1
+elements: 
+  - name: foo
+    comment: 'Foo!'
+  
+  - name: bar
+    comment: 'Bar!'
+    auto_comment_class: 'formfu_%n_%t'
