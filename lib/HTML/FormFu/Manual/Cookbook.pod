@@ -457,7 +457,7 @@ we load this in the top-most auto action:
     sub auto : Private {
         my ($self, $c) = @_;
 
-        # We want to utilize alot of the magic that the controller
+        # We want to utilize a lot of the magic that the controller
         # gives us, so therefore we call $self->form like this
 
         my $login_form = $self->form;
