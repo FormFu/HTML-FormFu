@@ -89,7 +89,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::UploadParam
+HTML::FormFu::UploadParam - accessor class
 
 =head1 DESCRIPTION
 

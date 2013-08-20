@@ -51,7 +51,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::QueryType::CGI::Simple
+HTML::FormFu::QueryType::CGI::Simple - uploaded file
 
 =head1 METHODS
 

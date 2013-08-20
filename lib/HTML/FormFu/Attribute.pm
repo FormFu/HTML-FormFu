@@ -449,7 +449,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Attribute
+HTML::FormFu::Attribute - accessor class
 
 =head1 SYNOPSIS
 
