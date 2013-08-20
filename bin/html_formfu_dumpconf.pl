@@ -75,3 +75,23 @@ html_formfu_dumpconf.pl --help
 Uses Config::Any and Data::Dumper to display how your config file is parsed.
 HELP
 }
+
+__END__
+
+=head1 NAME
+
+html_formfu_dumpconf.pl - dump configuration files
+
+=head1 SYNOPSIS
+
+    html_formfu_dumpconf.pl F<file.conf>
+
+    html_formfu_dumpconf.pl F<file>
+
+=head1 DESCRIPTION
+
+Uses Config::Any and Data::Dumper to display how your config file is parsed.
+
+=head1 SEE ALSO
+
+Config::Any, Data::Dumper
