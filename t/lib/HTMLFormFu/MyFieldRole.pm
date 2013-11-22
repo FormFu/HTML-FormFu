@@ -20,8 +20,8 @@ sub _myfieldrole_attrs {
     my $attrs = $self->{container_attributes};
     my $done;
     
-    if ( exists $attrs->{class} ) {
-        my @vals = split /\s+/, $attrs->{class};
+    if ( exists $attrs->{$key} ) {
+        my @vals = split /\s+/, $attrs->{$key};
         
         if ( first { $_ eq $value } @vals ) {
             $done = 1;

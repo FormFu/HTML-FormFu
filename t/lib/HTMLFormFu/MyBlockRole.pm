@@ -21,8 +21,8 @@ sub _myblockrole_attrs {
     my $attrs = $self->{attributes};
     my $done;
     
-    if ( exists $attrs->{class} ) {
-        my @vals = split /\s+/, $attrs->{class};
+    if ( exists $attrs->{$key} ) {
+        my @vals = split /\s+/, $attrs->{$key};
         
         if ( first { $_ eq $value } @vals ) {
             $done = 1;
