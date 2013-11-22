@@ -1,0 +1,7 @@
+---
+elements:
+  - type: Block
+    roles:
+      - '+HTMLFormFu::MyBlockRole'
+    elements:
+      - name: foo

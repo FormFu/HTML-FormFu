@@ -4,7 +4,8 @@ use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Render',
     'HTML::FormFu::Role::FormAndElementMethods',
-    'HTML::FormFu::Role::HasParent';
+    'HTML::FormFu::Role::HasParent',
+    'HTML::FormFu::Role::CustomRoles';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs

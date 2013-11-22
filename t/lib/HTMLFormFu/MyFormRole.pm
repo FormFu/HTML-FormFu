@@ -1,4 +1,4 @@
-package HTMLFormFu::MyRole;
+package HTMLFormFu::MyFormRole;
 use Moose::Role;
 
 sub custom_role_method {

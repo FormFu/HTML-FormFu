@@ -9,6 +9,6 @@ use lib 't/lib';
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->load_config_file('t/roles/custom.yml');
+$form->load_config_file('t/roles/form.yml');
 
 is( $form->custom_role_method, "form ID: xxx" );
