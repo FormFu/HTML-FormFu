@@ -589,7 +589,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::MultiForm
+HTML::FormFu::MultiForm - Handle multi-page/stage forms
 
 =head1 AUTHOR
 

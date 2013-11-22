@@ -71,7 +71,7 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::QueryType::Catalyst
+HTML::FormFu::QueryType::Catalyst - uploaded file
 
 =head1 DESCRIPTION
 
