@@ -481,6 +481,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Date>
 
+=item L<HTML::FormFu::Element::Email>
+
 =item L<HTML::FormFu::Element::File>
 
 =item L<HTML::FormFu::Element::Hidden>
