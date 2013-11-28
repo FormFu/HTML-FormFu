@@ -133,6 +133,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
+        auto_datalist_id
         render_method               render_processed_value
         force_errors                repeatable_count
         config_file_path            locale
@@ -2517,6 +2518,27 @@ Default Value: 'form_error_message'
 Class attribute for the error message displayed at the top of the form.
 
 See L</"form_error_message">
+
+=head1 OTHER INHERITED ACCESSORS
+
+These methods are special 'inherited accessors', which means they can be set
+on the form, a block element or a single element. When the value is read, if
+no value is defined it automatically traverses the element's hierarchy of
+parents, through any block elements and up to the form, searching for a
+defined value.
+
+=HEAD2 auto_datalist_id
+
+Arguments: [$string]
+
+If any L<Input|HTML::FormFu::Role::Element::Input> element had a datalist,
+but does not have L<HTML::FormFu::Role::Element::Input/datalist_id> set,
+L</auto_datalist_id> is used to generate the datalist id.
+
+The following character substitution will be performed: C<%f> will be
+replaced by L<< $form->id|/id >>, C<%n> will be replaced by
+L<< $field->name|HTML::FormFu::Element/name >>, C<%r> will be replaced by
+L<< $block->repeatable_count|HTML::FormFu::Element::Repeatable/repeatable_count >>.
 
 =head1 LOCALIZATION
 

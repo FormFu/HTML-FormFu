@@ -1,0 +1,12 @@
+---
+id: form
+auto_id: '%f_%n'
+auto_datalist_id: '%f_%n_datalist'
+
+elements:
+  - type: Text
+    name: foo
+    datalist_values:
+      - one
+      - two
+      - three

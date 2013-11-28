@@ -9,6 +9,11 @@
     
     - New Element::Email and Element::URL HTML5 input fields.
     
+    - Role::Element::Input has new datalist_options(), datalist_values(),
+      datalist_id() and auto_datalist_id() methods to support HTML5 datalists.
+      auto_datalist_id() is an inherited accessor which can be set on the 
+      Form, MultiForm, or Block.
+    
     - Form and Elements have new title(), title_xml() and title_loc()
       attribute accessors.
     

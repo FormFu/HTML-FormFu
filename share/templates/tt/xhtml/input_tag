@@ -1,1 +1,4 @@
-<input[% IF self.nested_name.defined %] name="[% self.nested_name %]"[% END %] type="[% self.field_type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attributes) %] />
+[% IF self.datalist_options %]<datalist id="[% self.attributes.item('list') %]">[% FOREACH option = self.datalist_options %]
+<option value="[% option.value %]">[% option.label %]</option>[% END %]
+</datalist>
+[% END %]<input[% IF self.nested_name.defined %] name="[% self.nested_name %]"[% END %] type="[% self.field_type %]"[% IF self.value.defined %] value="[% self.value %]"[% END %][% process_attrs(self.attributes) %] />

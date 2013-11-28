@@ -1,0 +1,15 @@
+---
+id: form
+auto_id: '%f_%n'
+auto_datalist_id: '%f_%n_datalist'
+
+elements:
+  - type: Text
+    name: foo
+    datalist_options:
+      - [ one, One ]
+      - [ two, Two ]
+      - value: three
+        label_loc: test_label
+      - value_xml: '&gt;four'
+        label: Four
