@@ -68,11 +68,10 @@ the contents of the C<__DATA__> section with your own YAML config.
     use strict;
     use warnings;
     use HTML::FormFu;
-    use YAML::XS qw( Load );
+    use YAML::XS qw( LoadFile );
     
     my $form = HTML::FormFu->new;
-    my $yaml = do { local $/; <DATA> };
-    my $data = Load($yaml);
+    my $data = LoadFile(\*DATA);
     
     $form->populate($data);
     
@@ -161,7 +160,7 @@ decide which to load at runtime:
     
     $form->load_config_file( 'user_register.yml' );
 
-=head2 From and Field attributes
+=head2 Form and Field attributes
 
 You can add any arbitrary attributes to a form with 
 L<HTML::FormFu/attributes>, or to any element with 
@@ -186,16 +185,7 @@ supplied values do not make a valid date.
 
 =head2 Check valid URI / URLs
 
-L<HTML::FormFu::Constraint::Regex> supports L<Regexp::Common> regular 
-expressions:
-
-    ---
-    elements:
-        - type: Text
-          name: uri
-          constraints:
-            - type: Regex
-              common: [ URI, HTTP, { '-scheme': 'ftp|https?' ]
+See L<HTML::FormFu::Element::URL> or L<HTML::FormFu::Constraint::Regex>.
 
 =head2 Implement a custom constraint / validator
 
@@ -381,27 +371,27 @@ support such as IE6):
 
 =head2 Add a popup hint to a field
 
-Some visual browsers (including IE6/7, Firefox, Opera 9) display a tooltip when
-a user hovers their mouse pointer over an HTML element with a "title" tag. Aural
-browsers may try to turn the content into speech. You can take advantage of this
-behaviour to provide a hint to the user about how to complete a form field.
+Most display a tooltip when a user hovers their mouse pointer over an HTML
+element with a "title" tag.
+Aural browsers may try to turn the content into speech.
+You can take advantage of this behaviour to provide a hint to the user about 
+how to complete a form field.
 
     elements:
-      - type: Text
-        name: country_name
-        label: Country Name
-        attributes:
-          title: Name of country
+      - type: URL
+        name: url
+        label: Website
+        title: 'Must start with http:// or https://'
 
-The above will provide a hint when the "country_name" field receives focus. 
+The above will provide a hint when the "url" field receives focus. 
 Or you could provide the hint for the container tag around both field and label:
 
     elements:
-      - type: Text
-        name: country_name
-        label: Country Name
+      - type: URL
+        name: url
+        label: Website
         container_attributes:
-          title: Name of country
+            title: 'Must start with http:// or https://'
 
 =head2 Display filtered values
 
