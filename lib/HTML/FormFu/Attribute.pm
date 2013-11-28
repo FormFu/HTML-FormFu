@@ -12,7 +12,7 @@ our @EXPORT_OK = qw(
     mk_attrs                        mk_attr_accessors
     mk_attr_modifiers               mk_inherited_accessors
     mk_output_accessors             mk_inherited_merging_accessors
-    mk_attr_output_accessors
+    mk_attr_output_accessors        mk_attr_bool_accessors
 );
 
 sub mk_attrs {
@@ -501,6 +501,50 @@ sub mk_attr_output_accessors {
 
     return;
 }
+
+sub mk_attr_bool_accessors {
+    my ( $self, @names ) = @_;
+
+    my $class = ref $self || $self;
+
+    for my $name (@names) {
+        my $sub = sub {
+            my ( $self, $attr ) = @_;
+
+            if ( @_ == 1 ) {
+                # Getter
+                return undef if !exists $self->attributes->{$name};
+
+                return $self->attributes->{$name} ? $self->attributes->{$name}
+                                                  : undef;
+            }
+
+            # Any true value sets a bool attribute, e.g.
+            #     required="required"
+            # Any false value deletes the attribute
+
+            if ( $attr ) {
+                $self->attributes->{$name} = $name;
+            }
+            else {
+                delete $self->attributes->{$name};
+            }
+
+            return $self;
+        };
+
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
+
+        $class->meta->add_method( $name,         $method );
+    }
+
+    return;
+}
+
 
 1;
 

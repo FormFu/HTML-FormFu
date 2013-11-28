@@ -14,6 +14,10 @@
     
     - Constraint::Regex has new anchored() accessor.
     
+    - New Input attribute accessors: placeholder(), pattern(), autocomplete().
+    
+    - New Input boolean attribute accessors: autofocus(), multiple(), required().
+    
     - New Czech (cs) I18N translation by Jan Grmela.
     
     - mk_inherited_accessors() now also creates a *_no_inherit() method.

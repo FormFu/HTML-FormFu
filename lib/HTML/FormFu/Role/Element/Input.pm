@@ -12,6 +12,7 @@ use HTML::FormFu::Attribute qw(
     mk_output_accessors
     mk_inherited_accessors
     mk_inherited_merging_accessors
+    mk_attr_bool_accessors
 );
 use HTML::FormFu::Util qw( process_attrs );
 
@@ -21,7 +22,18 @@ has field_type => (
     #traits   => ['SetOnce'],
 );
 
-__PACKAGE__->mk_attr_accessors(qw( checked size maxlength alt ));
+__PACKAGE__->mk_attr_accessors(qw(
+    alt         autocomplete
+    checked     maxlength
+    pattern     placeholder
+    size
+));
+
+__PACKAGE__->mk_attr_bool_accessors(qw(
+    autofocus
+    multiple
+    required
+));
 
 after BUILD => sub {
     my $self = shift;
@@ -124,7 +136,50 @@ L<HTML::FormFu::Element::Password>,
 L<HTML::FormFu::Element::Radio>, 
 L<HTML::FormFu::Element::Text>.
 
-=head1 METHODS
+=head1 ATTRIBUTE ACCESSORS
+
+Get / set input attributes directly with these methods.
+
+Arguments: [$string]
+
+Return Value: $string
+
+=head2 alt
+
+=head2 autocomplete
+
+=head2 checked
+
+=head2 maxlength
+
+=head2 pattern
+
+=head2 placeholder
+
+=head2 size
+
+=head1 BOOLEAN ATTRIBUTE ACCESSORS
+
+Arguments: [$bool]
+
+Return Value: $self
+Return Value: $string
+Return Value: undef
+
+Get / set boolean XHTML attributes such as C<required="required">.
+
+If given any true argument, the attribute value will be set equal to the attribute
+key name. E.g. C<< $element->required(1) >> will set the attribute C<< required="required" >>.
+
+If given a false argument, the attribute key will be deleted.
+
+When used as a setter, the return value is C<< $self >> to allow chaining.
+
+=head2 autofocus
+
+=head2 multiple
+
+=head2 required
 
 =head1 SEE ALSO
 
