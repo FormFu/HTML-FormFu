@@ -12,6 +12,7 @@ our @EXPORT_OK = qw(
     mk_attrs                        mk_attr_accessors
     mk_attr_modifiers               mk_inherited_accessors
     mk_output_accessors             mk_inherited_merging_accessors
+    mk_attr_output_accessors
 );
 
 sub mk_attrs {
@@ -427,6 +428,64 @@ sub mk_output_accessors {
 
             return $self->$name(
                 literal( $self->form->localize( $mess, @args ) ) );
+        };
+
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "${name}_loc",
+            package_name => $class,
+        );
+
+        $class->meta->add_method( $name,         $method );
+        $class->meta->add_method( "${name}_xml", $xml_method );
+        $class->meta->add_method( "${name}_loc", $loc_method );
+    }
+
+    return;
+}
+
+sub mk_attr_output_accessors {
+    my ( $self, @names ) = @_;
+
+    my $class = ref $self || $self;
+
+    for my $name (@names) {
+        my $sub = sub {
+            my ( $self, $value ) = @_;
+            if ( @_ > 1 ) {
+                $self->attributes->{$name} = $value;
+                return $self;
+            }
+            return $self->{$name};
+        };
+
+        my $method = Class::MOP::Method->wrap(
+            body         => $sub,
+            name         => $name,
+            package_name => $class,
+        );
+
+        my $xml_sub = sub {
+            my ( $self, $arg ) = @_;
+
+            return $self->attributes->{$name} = literal($arg);
+        };
+
+        my $xml_method = Class::MOP::Method->wrap(
+            body         => $xml_sub,
+            name         => "${name}_xml",
+            package_name => $class,
+        );
+
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
+            return $self->attributes->{$name} =
+                literal( $self->form->localize( $mess, @args ) );
         };
 
         my $loc_method = Class::MOP::Method->wrap(

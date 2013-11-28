@@ -12,7 +12,7 @@ use HTML::FormFu;
 use HTML::FormFu::Attribute qw(
     mk_attrs                            mk_attr_accessors
     mk_inherited_accessors              mk_output_accessors
-    mk_inherited_merging_accessors
+    mk_inherited_merging_accessors      mk_attr_output_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     populate                    form
@@ -92,6 +92,8 @@ our @INHERITED_MERGING_ACCESSORS = qw(
 );
 
 __PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
+
+__PACKAGE__->mk_attr_output_accessors(qw( title ));
 
 *loc = \&localize;
 

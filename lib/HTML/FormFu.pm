@@ -2201,6 +2201,28 @@ or "get".
 
 Default Value: "post"
 
+=head2 title
+
+Arguments: [$title]
+
+Return Value: $title
+
+Get or set the form's title attribute.
+
+Default Value: none
+
+=head2 title_xml
+
+Arguments: $title
+
+Set the form's title attribute. Values won't be XML escaped.
+
+=head2 title_loc
+
+Arguments: $localization_key
+
+Set the form's title attribute using a L10N key.
+
 =head1 CSS CLASSES
 
 =head2 auto_id

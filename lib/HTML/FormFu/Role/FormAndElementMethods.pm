@@ -1,12 +1,15 @@
 package HTML::FormFu::Role::FormAndElementMethods;
 use Moose::Role;
 
+use HTML::FormFu::Attribute qw( mk_attr_output_accessors );
 use HTML::FormFu::Util qw(
     require_class
     _merge_hashes
 );
 use Carp qw( croak );
 use Scalar::Util qw( blessed refaddr );
+
+__PACKAGE__->mk_attr_output_accessors(qw( title ));
 
 sub _require_deflator {
     my ( $self, $type, $opt ) = @_;

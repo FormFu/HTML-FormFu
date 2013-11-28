@@ -11,7 +11,8 @@ our %Lexicon = (
     test_two_args                         => 'My [_1] [_2] args',
     label_foo                             => 'Foo label',
     label_form_bar                        => 'Bar label',
-    form_validator_htmlformfu_myvalidator => 'myvalidator error!'
+    form_validator_htmlformfu_myvalidator => 'myvalidator error!',
+    bar_title                             => 'The Bar Title',
 );
 
 1;

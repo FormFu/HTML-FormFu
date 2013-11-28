@@ -9,6 +9,9 @@
     
     - New Element::Email HTML5 input field.
     
+    - Form and Elements have new title(), title_xml() and title_loc()
+      attribute accessors.
+    
     - Constraint::Regex has new anchored() accessor.
     
     - New Czech (cs) I18N translation by Jan Grmela.
