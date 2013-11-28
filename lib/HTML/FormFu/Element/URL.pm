@@ -49,7 +49,7 @@ sub pre_process {
     });
 
     # 'pattern' attribute
-    $self->attrs->{pattern} = "$scheme://.*";
+    $self->pattern( "$scheme://.*" );
 
     return;
 };
