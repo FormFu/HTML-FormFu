@@ -507,6 +507,8 @@ See L<HTML::FormFu/render_method> for details.
 
 =item L<HTML::FormFu::Element::Text>
 
+=item L<HTML::FormFu::Element::URL>
+
 =back
 
 =head1 OTHER CORE ELEMENTS

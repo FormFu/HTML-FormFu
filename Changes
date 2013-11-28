@@ -7,7 +7,7 @@
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
     
-    - New Element::Email HTML5 input field.
+    - New Element::Email and Element::URL HTML5 input fields.
     
     - Form and Elements have new title(), title_xml() and title_loc()
       attribute accessors.

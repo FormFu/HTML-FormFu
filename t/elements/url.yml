@@ -1,0 +1,5 @@
+---
+elements:
+  - type: URL
+    name: foo
+    title: "Only http and https URLs allowed"
