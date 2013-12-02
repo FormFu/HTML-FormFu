@@ -5,13 +5,23 @@ extends 'HTML::FormFu::Element';
 
 with 'HTML::FormFu::Role::Element::Input';
 
+use HTML::FormFu::Attribute qw( mk_output_accessors );
+
 has http_only  => ( is => 'rw', traits => ['Chained'] );
 has https_only => ( is => 'rw', traits => ['Chained'] );
 
-has _has_constraint => (
+has error_message => (
+    is        => 'rw',
+    predicate => 'has_message',
+    traits    => ['Chained'],
+);
+
+has _has_auto_regex_constraint => (
     is       => 'rw',
     init_arg => undef,
 );
+
+__PACKAGE__->mk_output_accessors(qw( message ));
 
 after BUILD => sub {
     my $self = shift;
@@ -24,32 +34,44 @@ after BUILD => sub {
 sub pre_process {
     my ( $self ) = @_;
 
-    return if $self->_has_constraint;
+    my $constraint;
 
-    $self->_has_constraint(1);
-    my $scheme;
-
-    if ( $self->http_only ) {
-        $scheme = 'http';
-    }
-    elsif ( $self->https_only ) {
-        $scheme = 'https';
+    if ( $self->_has_auto_regex_constraint ) {
+        $constraint = $self->_has_auto_regex_constraint;
     }
     else {
-        $scheme = 'https?';
+        my $scheme;
+
+        if ( $self->http_only ) {
+            $scheme = 'http';
+        }
+        elsif ( $self->https_only ) {
+            $scheme = 'https';
+        }
+        else {
+            $scheme = 'https?';
+        }
+
+        $constraint = $self->constraint({
+            type => 'Regex',
+            common => [
+                'URI',
+                'HTTP',
+                { -scheme => $scheme },
+            ],
+        });
+
+        $self->_has_auto_regex_constraint( $constraint );
+
+        # 'pattern' attribute
+        $self->pattern( "$scheme://.*" );
+
     }
 
-    $self->constraint({
-        type => 'Regex',
-        common => [
-            'URI',
-            'HTTP',
-            { -scheme => $scheme },
-        ],
-    });
-
-    # 'pattern' attribute
-    $self->pattern( "$scheme://.*" );
+    my $message = $self->error_message;
+    if ( defined $message && length $message ) {
+        $constraint->message( $message );
+    }
 
     return;
 };
@@ -89,6 +111,26 @@ If neither L</http_only> or L</https_only> are set, the constraint allows any HT
 =head2 http_only
 
 =head2 https_only
+
+=head2 message
+
+Arguments: $string
+
+Set the error message on the L<Regex constraint|HTML::FormFu::Constraint::Regex> which is
+automatically added.
+
+=head2 message_xml
+
+Arguments: $string
+
+If you don't want your error message to be XML-escaped, use the L</message_xml> method 
+instead of L</message>.
+
+=head2 message_loc
+
+Arguments: $localization_key
+
+Set the error message using a L10N key.
 
 =head1 SEE ALSO
 
