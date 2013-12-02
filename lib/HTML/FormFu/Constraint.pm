@@ -318,6 +318,18 @@ sub _process_when {
     return $return;
 }
 
+sub fetch_error_message {
+    my ( $self ) = @_;
+
+    my $error = HTML::FormFu::Exception::Constraint->new({
+        form      => $self->form,
+        parent    => $self->parent,
+        processor => $self,
+    });
+
+    return $error->message;
+}
+
 sub clone {
     my $self = shift;
 
@@ -529,6 +541,22 @@ C<$constraint> (the Constraint object)
 =back
 
 =back
+
+=head1 EXPERIMENTAL METHODS
+
+=head2 fetch_error_message
+
+Return value: $string
+
+Attempt to return the error message that would be used if this constraint 
+generated an error.
+
+This will generally be correct for simple constraints with a fixed message or
+which use a placeholder from a known value, such as 
+L<HTML::FormFu::Constraint::Min/min>.
+This will generally C<not> return the correct message for constraints which
+use L<HTML::FormFu::Role::Constraint::Others/others>, where the field with an
+error is not known without actually fully processing a form submission.
 
 =head1 CORE CONSTRAINTS
 
