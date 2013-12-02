@@ -1,0 +1,2 @@
+[% IF self.errors %][% FOREACH error = self.errors %]
+<span class="error_message [% error.class %]"[% IF error.for.defined %][% process_attrs({for=>error.for}) %][% END %]>[% error.message %]</span>[% END %][% END %]

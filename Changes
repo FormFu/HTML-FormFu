@@ -2,7 +2,7 @@
 
     - TT template files changed - update them if you use a local copy.
       Template file 'label_tag' renamed to 'label_element' - old file can
-      be deleted.
+      be deleted. 'field' file changed. New 'errors' file.
     
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
@@ -24,6 +24,8 @@
     - New Input boolean attribute accessors: autofocus(), multiple(), required().
     
     - Constraints have new experimental method fetch_error_message().
+    
+    - All field elements have new method error_filename().
     
     - New Czech (cs) I18N translation by Jan Grmela.
     

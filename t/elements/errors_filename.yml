@@ -1,0 +1,11 @@
+---
+render_method: tt
+tt_args:
+  INCLUDE_PATH:
+    - t/templates/errors_filename
+    - share/templates/tt/xhtml
+
+elements:
+  - name: foo
+    constraints:
+      - type: Integer

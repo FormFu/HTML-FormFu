@@ -39,6 +39,7 @@ has container_tag        => ( is => 'rw', traits => ['Chained'] );
 has field_filename       => ( is => 'rw', traits => ['Chained'] );
 has label_filename       => ( is => 'rw', traits => ['Chained'] );
 has label_tag            => ( is => 'rw', traits => ['Chained'] );
+has errors_filename      => ( is => 'rw', traits => ['Chained'] );
 has retain_default       => ( is => 'rw', traits => ['Chained'] );
 has force_default        => ( is => 'rw', traits => ['Chained'] );
 has javascript           => ( is => 'rw', traits => ['Chained'] );
@@ -83,6 +84,7 @@ after BUILD => sub {
     $self->label_attributes(     {} );
     $self->label_filename('label');
     $self->label_tag('label');
+    $self->errors_filename('errors');
     $self->auto_label_class('%t');
     $self->auto_comment_class('%t');
     $self->auto_container_class('%t');
@@ -510,6 +512,7 @@ around render_data_non_recursive => sub {
             field_filename       => $self->field_filename,
             label_filename       => $self->label_filename,
             label_tag            => $self->label_tag,
+            errors_filename      => $self->errors_filename,
             container_tag        => $self->container_tag,
             reverse_single       => $self->reverse_single,
             reverse_multi        => $self->reverse_multi,
@@ -1484,7 +1487,13 @@ Must be set by more specific field classes.
 
 The template filename to be used to render the label.
 
-Must be set by more specific field classes.
+Defaults to C<label>.
+
+=head2 errors_filename
+
+The template filename to be used to render any error messages.
+
+Defaults to C<errors>.
 
 =head1 ERROR HANDLING
 

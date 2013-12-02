@@ -12,8 +12,9 @@ with 'HTML::FormFu::Role::Element::Field',
 use HTML::FormFu::Util qw( process_attrs );
 use List::MoreUtils qw( none );
 
-has field_type     => ( is => 'rw', traits => ['Chained'] );
-has label_filename => ( is => 'rw', traits => ['Chained'] );
+has field_type      => ( is => 'rw', traits => ['Chained'] );
+has label_filename  => ( is => 'rw', traits => ['Chained'] );
+has errors_filename => ( is => 'rw', traits => ['Chained'] );
 
 has tag => (
     is      => 'rw',
