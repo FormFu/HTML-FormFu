@@ -18,11 +18,11 @@ my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
 <div class="text error error_constraint_required">
-<span class="error_message error_constraint_required" for="foo">This field is required</span>
+<span class="error_message error_constraint_required">This field is required</span>
 <input name="foo" type="text" />
 </div>
 <div class="text formfu_error error_constraint_required">
-<span class="error_message error_constraint_required" for="bar">This field is required</span>
+<span class="error_message error_constraint_required">This field is required</span>
 <input name="bar" type="text" />
 </div>
 <div class="submit">

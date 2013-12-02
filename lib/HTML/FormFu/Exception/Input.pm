@@ -72,12 +72,6 @@ sub message {
     return $self->{message} = $error_message;
 }
 
-sub for {
-    my ($self) = @_;
-    
-    return $self->processor->field->nested_name;
-}
-
 sub type {
     my ($self) = @_;
 

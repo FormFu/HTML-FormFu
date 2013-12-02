@@ -337,7 +337,7 @@ is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
 <fieldset>
 <div class="date error error_inflator_datetime">
-<span class="error_message error_inflator_datetime" for="date.foo">Invalid date</span>
+<span class="error_message error_inflator_datetime">Invalid date</span>
 <span class="elements">
 <select name="date.foo_day">
 <option value="">-- Day --</option>

@@ -31,9 +31,6 @@
     
     - mk_inherited_accessors() now also creates a *_no_inherit() method.
     
-    - Error message container tags now have a 'for' attribute - for use by
-      client side scripts, such as jQuery validation.
-    
     - Experimental new roles() form method.
     
     - form methods start(), end() now respect render_method - no longer

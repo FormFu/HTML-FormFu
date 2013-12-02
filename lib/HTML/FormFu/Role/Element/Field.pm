@@ -934,11 +934,8 @@ sub _string_errors {
 
     if ( $render->{errors} ) {
         for my $error ( @{ $render->{errors} } ) {
-            my $for = $error->for;
-
-            $html .= sprintf qq{\n<span class="error_message %s"%s>%s</span>},
+            $html .= sprintf qq{\n<span class="error_message %s">%s</span>},
                 $error->class,
-                ( defined($for) ? process_attrs({ for => $for }) : "" ),
                 $error->message,
                 ;
         }
