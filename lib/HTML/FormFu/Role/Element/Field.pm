@@ -896,17 +896,7 @@ sub _string_field_start {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
-    if ( $render->{errors} ) {
-        for my $error ( @{ $render->{errors} } ) {
-            my $for = $error->for;
-
-            $html .= sprintf qq{\n<span class="error_message %s"%s>%s</span>},
-                $error->class,
-                ( defined($for) ? process_attrs({ for => $for }) : "" ),
-                $error->message,
-                ;
-        }
-    }
+    $html .= $self->_string_errors( $render );
 
     if (   defined $render->{label}
         && $render->{label_tag} ne 'legend'
@@ -933,6 +923,26 @@ sub _string_label {
         $render->{label},
         $render->{label_tag},
         ;
+
+    return $html;
+}
+
+sub _string_errors {
+    my ( $self, $render ) = @_;
+
+    my $html = '';
+
+    if ( $render->{errors} ) {
+        for my $error ( @{ $render->{errors} } ) {
+            my $for = $error->for;
+
+            $html .= sprintf qq{\n<span class="error_message %s"%s>%s</span>},
+                $error->class,
+                ( defined($for) ? process_attrs({ for => $for }) : "" ),
+                $error->message,
+                ;
+        }
+    }
 
     return $html;
 }
