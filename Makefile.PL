@@ -132,7 +132,7 @@ requires 'YAML::XS' => '0.32';
 test_requires 'CGI' => '3.37'; # for file POST tests
 test_requires 'POSIX';
 test_requires 'Test::More' => '0.92';
-test_requires 'Test::Aggregate::Nested';
+test_requires 'Test::Aggregate::Nested' => '0.371';
 test_requires 'Test::Exception';
 
 tests_recursive 't';
