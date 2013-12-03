@@ -27,6 +27,8 @@
     
     - All field elements have new method error_filename().
     
+    - default_args() now supports 'Block', 'Field', 'Input' pseudo-elements.
+    
     - New Czech (cs) I18N translation by Jan Grmela.
     
     - mk_inherited_accessors() now also creates a *_no_inherit() method.

@@ -140,13 +140,36 @@ sub _require_element {
             parent => $self,
         } );
 
+    my $default_args = $self->default_args;
+
     if ( $element->can('default_args') ) {
-        $element->default_args( Clone::clone( $self->default_args ) );
+        $element->default_args( Clone::clone( $default_args ) );
     }
 
-    # handle default_args
-    if ( exists $self->default_args->{elements}{$type} ) {
-        $arg = _merge_hashes( $self->default_args->{elements}{$type}, $arg, );
+    # handle Block default_args
+    if ( exists $default_args->{elements}{Block}
+        && $element->isa('HTML::FormFu::Element::Block') )
+    {
+        $arg = _merge_hashes( $default_args->{elements}{Block}, $arg, );
+    }
+
+    # handle Field default_args
+    if ( exists $default_args->{elements}{Field}
+        && $element->does('HTML::FormFu::Role::Element::Field') )
+    {
+        $arg = _merge_hashes( $default_args->{elements}{Field}, $arg, );
+    }
+
+    # handle Input default_args
+    if ( exists $default_args->{elements}{Input}
+        && $element->does('HTML::FormFu::Role::Element::Input') )
+    {
+        $arg = _merge_hashes( $default_args->{elements}{Input}, $arg, );
+    }
+
+    # handle explicit default_args
+    if ( exists $default_args->{elements}{$type} ) {
+        $arg = _merge_hashes( $default_args->{elements}{$type}, $arg, );
     }
 
     $element->populate($arg);

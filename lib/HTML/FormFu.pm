@@ -1654,17 +1654,31 @@ get an appropriate Strftime deflator and a DateTime inflator:
                     parser:
                         strptime: '%d-%m-%Y'
 
-To have defaults only be applied to the specific named type, rather than
-searching through derived types, append the type-name with C<+>.
+As a special case, you can also use the C<elements> keys C<Block>, C<Field>
+and C<Input> to match any element which inherits from 
+L<HTML::FormFu::Element::Block> or which C<does> 
+L<HTML::FormFu::Role::Element::Block> or
+L<HTML::FormFu::Role::Element::Input>.
 
-For example, to have the following attributes only be applied to a C<Block>
-element, rather than any element that inherits from C<Block>, such as C<Multi>:
+The arguments are applied in least- to most-specific order:
+C<Block>, C<Field>, C<Input>, C<$type>.
 
+The C<type> key must match the value returned by C<type>, e.g.
+L<HTML::FormFu::Element/type>. If, for example, you have a custom element
+outside of the C<HTML::FormFu::Element::*> namespace, which you load via
+C<< $form->element({ type => '+My::Custom::Element' }) >>, the key given to
+L</default_args> should B<not> include the leading C<+>, as that is
+stripped-out of the returned C<type()> value. Example:
+
+    # don't include the leading '+' here
     default_args:
-        elements:
-            +Block:
-                attributes:
-                    class: block
+      elements:
+        'My::Custom::Element':
+          class: whatever
+    
+    # do include the leading '+' here
+    elements:
+      - type: +My::Custom::Element
 
 Note: Unlike the proper methods which have aliases, for example L</elements>
 which is an alias for L</element> - the keys given to C<default_args> must

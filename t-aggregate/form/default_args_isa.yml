@@ -1,0 +1,21 @@
+---
+auto_fieldset: 1
+
+default_args:
+  elements:
+    Block:
+      attributes:
+        class: does_block
+    Field:
+      comment: 'Does Field'
+    Input:
+      id: bar
+    Multi:
+      label: 'My Multi'
+
+
+elements:
+  - type: Multi
+    name: foo
+    elements:
+      name: bar
