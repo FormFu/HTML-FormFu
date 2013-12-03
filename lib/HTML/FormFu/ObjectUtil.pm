@@ -18,7 +18,6 @@ use List::MoreUtils qw( none uniq );
 use Carp qw( croak );
 
 our @EXPORT_OK = ( qw(
-        populate
         deflator
         load_config_file        load_config_filestem
         form
@@ -35,55 +34,6 @@ our @EXPORT_OK = ( qw(
         _load_file
         ),
 );
-
-sub populate {
-    my ( $self, $arg_ref ) = @_;
-
-    croak "argument to populate() must be a hash-ref"
-        if reftype($arg_ref) ne 'HASH';
-
-    # shallow clone the args so we don't stomp on them
-    my %args = %$arg_ref;
-
-    # notes for @keys...
-    # 'options', 'values', 'value_range' is for _Group elements,
-    # to ensure any 'empty_first' value gets set first
-
-    my @keys = qw(
-        default_args
-        roles
-        auto_fieldset
-        load_config_file
-        element elements
-        default_values
-        filter              filters
-        constraint          constraints
-        inflator            inflators
-        deflator            deflators
-        query
-        validator           validators
-        transformer         transformers
-        plugins
-        options
-        values
-        value_range
-    );
-
-    my %defer;
-    for (@keys) {
-        $defer{$_} = delete $args{$_} if exists $args{$_};
-    }
-
-    eval {
-        map { $self->$_( $args{$_} ) } keys %args;
-
-        map      { $self->$_( $defer{$_} ) }
-            grep { exists $defer{$_} } @keys;
-    };
-    croak $@ if $@;
-
-    return $self;
-}
 
 sub load_config_file {
     my ( $self, @files ) = @_;

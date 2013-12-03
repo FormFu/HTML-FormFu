@@ -15,7 +15,7 @@ use HTML::FormFu::Attribute qw(
     mk_inherited_merging_accessors      mk_attr_output_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
-    populate                    form
+    form
     clone                       stash
     parent
     load_config_file            load_config_filestem

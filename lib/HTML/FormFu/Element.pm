@@ -5,7 +5,8 @@ use MooseX::Attribute::Chained;
 with 'HTML::FormFu::Role::Render',
     'HTML::FormFu::Role::FormAndElementMethods',
     'HTML::FormFu::Role::HasParent',
-    'HTML::FormFu::Role::CustomRoles';
+    'HTML::FormFu::Role::CustomRoles',
+    'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
@@ -17,7 +18,6 @@ use HTML::FormFu::Attribute qw(
 use HTML::FormFu::ObjectUtil qw(
     load_config_file
     load_config_filestem
-    populate
     form
     stash
     parent

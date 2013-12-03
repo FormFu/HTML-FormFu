@@ -26,7 +26,7 @@ use HTML::FormFu::Filter;
 use HTML::FormFu::Inflator;
 use HTML::FormFu::Localize;
 use HTML::FormFu::ObjectUtil qw(
-    populate                    form
+    form
     load_config_file            load_config_filestem
     clone                       stash
     constraints_from_dbic       parent
