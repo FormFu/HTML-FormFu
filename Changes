@@ -27,7 +27,8 @@
     
     - All field elements have new method error_filename().
     
-    - default_args() now supports 'Block', 'Field', 'Input' pseudo-elements.
+    - default_args() now supports 'Block', 'Field', 'Input' pseudo-elements,
+      '|' alternatives, and '+' and '-' ancestor modifiers.
     
     - New Czech (cs) I18N translation by Jan Grmela.
     

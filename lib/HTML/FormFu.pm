@@ -1626,7 +1626,7 @@ no field errors.
 Arguments: \%defaults
 
 Set defaults which will be added to every element, constraint, etc. of the
-listed type (or derived from the listed type) which is added to the form.
+given type which is subsequently added to the form.
 
 For example, to make every C<Text> element automatically have a size of
 C<10>, and make every C<Strftime> deflator automatically get its strftime
@@ -1640,8 +1640,8 @@ set to C<%d/%m/%Y>:
             Strftime:
                 strftime: '%d/%m/%Y'
 
-To take it even further, you can even make all DateTime elements automatically
-get an appropriate Strftime deflator and a DateTime inflator:
+An example to make all DateTime elements automatically get an appropriate 
+Strftime deflator and a DateTime inflator:
 
     default_args:
         elements:
@@ -1654,14 +1654,54 @@ get an appropriate Strftime deflator and a DateTime inflator:
                     parser:
                         strptime: '%d-%m-%Y'
 
+=head3 Pseudo types
+
 As a special case, you can also use the C<elements> keys C<Block>, C<Field>
 and C<Input> to match any element which inherits from 
 L<HTML::FormFu::Element::Block> or which C<does> 
-L<HTML::FormFu::Role::Element::Block> or
+L<HTML::FormFu::Role::Element::Field> or
 L<HTML::FormFu::Role::Element::Input>.
 
+=head3 Alternatives
+
+Each C<elements> key can contain an C<any> list using the C<|> divider: e.g. 
+
+    # apply the given class to any Element of type Password or Button
+    default_args:
+        elements:
+            'Password|Button':
+                attrs:
+                    class: novalidate
+
+=head3 Match ancestor
+
+Each C<elements> key list can contain a type starting with C<+> to only
+match elements with an ancestor of the given type: e.g.
+
+    # only apple the given class to an Input field within a Multi block
+    default_args:
+        elements:
+            'Input|+Multi':
+                attrs:
+                    class: novalidate
+
+=head3 Don't match ancestor
+
+Each C<elements> key list can contain a type starting with C<-> to only
+match elements who do not have an ancestor of the given type: e.g.
+
+    # apply the given class only to Input fields that are not in a Multi block
+    default_args:
+        elements:
+            'Input|-Multi':
+                attrs:
+                    clasS: validate
+
+=head3 Order
+
 The arguments are applied in least- to most-specific order:
-C<Block>, C<Field>, C<Input>, C<$type>.
+C<Block>, C<Field>, C<Input>, C<$type>. Within each of these, arguments are
+applied in order of shortest-first to longest-last.
 
 The C<type> key must match the value returned by C<type>, e.g.
 L<HTML::FormFu::Element/type>. If, for example, you have a custom element
@@ -1672,13 +1712,46 @@ stripped-out of the returned C<type()> value. Example:
 
     # don't include the leading '+' here
     default_args:
-      elements:
-        'My::Custom::Element':
-          class: whatever
+        elements:
+            'My::Custom::Element':
+                attrs:
+                    class: whatever
     
     # do include the leading '+' here
     elements:
-      - type: +My::Custom::Element
+        - type: +My::Custom::Element
+
+=head3 Clashes
+
+L</default_args> generates a single hashref to pass to L</populate>, merging
+arguments for each type in turn - meaning L</populate> is only called once
+in total - not once for each type.
+Because scalar values are B<not> merged - this means later values will 
+override earlier values: e.g.
+
+    # Normally, calling $field->add_attrs({ class => 'input' })
+    # then calling      $field->add_attrs({ class => 'not-in-multi' })
+    # would result in both values being retained:
+    #           class="input not-in-multi"
+    #
+    # However, default_args() creates a single data-structure to pass once
+    # to populate(), so any scalar values will overwrite earlier ones
+    # before they reach populate().
+    #
+    # The below example would result in the longest-matching key
+    # overwriting any others:
+    #           class="not-in-multi"
+    #
+    default_args:
+        elements:
+            Input:
+                add_attrs:
+                    class: input
+            'Input:-Multi':
+                add_attrs:
+                    class: not-in-multi
+
+=head3 Strictness
 
 Note: Unlike the proper methods which have aliases, for example L</elements>
 which is an alias for L</element> - the keys given to C<default_args> must

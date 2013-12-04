@@ -1,0 +1,17 @@
+---
+default_args:
+  elements:
+    Input:
+      add_attrs:
+        class: is_input
+    'Input|-Multi':
+      add_attrs:
+        class: not_in_multi
+
+elements:
+  - name: foo
+  
+  - type: Multi
+    name: multi
+    elements:
+      name: bar
