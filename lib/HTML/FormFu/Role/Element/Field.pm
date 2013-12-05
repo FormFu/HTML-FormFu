@@ -59,6 +59,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
+        auto_datalist_id
         render_processed_value      force_errors
         repeatable_count            default_empty_value
         locale

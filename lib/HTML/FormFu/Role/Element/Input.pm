@@ -15,7 +15,6 @@ use Carp qw( croak );
 
 use HTML::FormFu::Attribute qw(
     mk_attr_accessors
-    mk_inherited_accessors
     mk_attr_bool_accessors
 );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -41,10 +40,6 @@ __PACKAGE__->mk_attr_accessors(qw(
     checked     maxlength
     pattern     placeholder
     size
-));
-
-__PACKAGE__->mk_inherited_accessors(qw(
-    auto_datalist_id
 ));
 
 __PACKAGE__->mk_attr_bool_accessors(qw(
