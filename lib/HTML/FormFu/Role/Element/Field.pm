@@ -49,6 +49,7 @@ has reverse_multi        => ( is => 'rw', traits => ['Chained'] );
 has multi_value          => ( is => 'rw', traits => ['Chained'] );
 has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
+has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 
@@ -61,7 +62,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
         auto_validator_class        auto_transformer_class
         auto_datalist_id
         render_processed_value      force_errors
-        repeatable_count            default_empty_value
+        repeatable_count
         locale
 ) );
 
