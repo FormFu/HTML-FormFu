@@ -17,7 +17,7 @@ my $expected_form_xhtml = <<EOF;
 <label>foo</label>
 <input name="foo" type="text" />
 </div>
-<div class="text formfu_bar_label">
+<div class="text text_label">
 <label>bar</label>
 <input name="bar" type="text" />
 </div>

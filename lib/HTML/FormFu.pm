@@ -2394,7 +2394,7 @@ additional auto-generated class-name based on the given pattern.
 The following character substitution will be performed: C<%f> will be
 replaced by L<< $form->id|/id >>, C<%n> will be replaced by
 L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->label_tag )|HTML::FormFu::Role::ElementField/label_tag >>.
+L<< lc( $field->type )|HTML::FormFu::Element/type >>.
 
 Default Value: '%t'
 

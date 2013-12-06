@@ -5,4 +5,4 @@ elements:
   - name: foo
   
   - name: bar
-    auto_label_class: 'formfu_%n_%t'
+    auto_label_class: '%t_label'

@@ -87,7 +87,7 @@ after BUILD => sub {
     $self->label_filename('label');
     $self->label_tag('label');
     $self->errors_filename('errors');
-    $self->auto_label_class('%t');
+    $self->auto_label_class('label');
     $self->auto_comment_class('%t');
     $self->auto_container_class('%t');
     $self->auto_container_error_class('error');
@@ -568,10 +568,13 @@ sub _render_label {
             ? $render->{nested_name}
             : $EMPTY_STR;
         
+        my $type = lc $self->type;
+        $type =~ s/:://g;
+        
         my %string = (
             f => $form_name,
             n => $field_name,
-            t => defined $self->label_tag ? lc( $self->label_tag ) : '',
+            t => $type,
         );
 
         my $class = $self->auto_label_class;
