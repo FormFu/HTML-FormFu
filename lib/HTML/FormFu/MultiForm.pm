@@ -38,7 +38,7 @@ use overload (
     fallback => 1
 );
 
-__PACKAGE__->mk_attrs(qw( attributes crypt_args ));
+__PACKAGE__->mk_attrs(qw( attributes ));
 
 __PACKAGE__->mk_attr_accessors(qw( id action enctype method ));
 
@@ -67,6 +67,12 @@ has multiform_hidden_name         => ( is => 'rw', traits => ['Chained'] );
 has default_multiform_hidden_name => ( is => 'rw', traits => ['Chained'] );
 has combine_params                => ( is => 'rw', traits => ['Chained'] );
 has complete                      => ( is => 'rw', traits => ['Chained'] );
+
+has crypt_args => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    default => sub { +{} },
+);
 
 has _data => ( is => 'rw' );
 
