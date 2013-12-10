@@ -20,7 +20,10 @@ my @INHERITED = qw(
 
 __PACKAGE__->mk_inherited_accessors( @INHERITED );
 
-my @MERGING = qw( tt_args );
+my @MERGING = qw(
+    tt_args
+    config_callback
+);
 
 __PACKAGE__->mk_inherited_merging_accessors( @MERGING );
 

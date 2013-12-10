@@ -129,8 +129,6 @@ has _auto_fieldset => ( is => 'rw' );
 
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
-__PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
-
 *elements          = \&element;
 *constraints       = \&constraint;
 *filters           = \&filter;

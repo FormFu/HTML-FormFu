@@ -82,18 +82,10 @@ has _data => ( is => 'rw' );
 
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
-# accessors shared with HTML::FormFu
-our @INHERITED_MERGING_ACCESSORS = qw(
-    config_callback
-);
-
-__PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
-
 __PACKAGE__->mk_attr_output_accessors(qw( title ));
 
 our @SHARED_WITH_FORMFU = (
     @ACCESSORS,
-    @INHERITED_MERGING_ACCESSORS,
     @HTML::FormFu::Role::FormAndElementMethods::MULTIFORM_SHARED,
     @HTML::FormFu::Role::FormBlockAndFieldMethods::MULTIFORM_SHARED,
 );
@@ -124,7 +116,6 @@ sub BUILD {
     my ( $self, $args ) = @_;
 
     my %defaults = (
-        tt_args                       => {},
         model_config                  => {},
         combine_params                => 1,
         default_multiform_hidden_name => '_multiform',
