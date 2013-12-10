@@ -3,12 +3,12 @@ use Moose::Role;
 use MooseX::Aliases;
 
 with 'HTML::FormFu::Role::ContainsElementsSharedWithField',
-    'HTML::FormFu::Role::NestedHashUtils';
+    'HTML::FormFu::Role::NestedHashUtils',
+    'HTML::FormFu::Role::FormBlockAndFieldMethods';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
     mk_output_accessors
-    mk_inherited_accessors
 );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw(
@@ -54,22 +54,6 @@ has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
-
-__PACKAGE__->mk_inherited_accessors( qw(
-        auto_id                     auto_label
-        auto_label_class            auto_comment_class
-        auto_container_class
-        auto_container_error_class  auto_container_per_error_class
-        auto_error_container_class  auto_error_container_per_error_class
-        auto_error_class            auto_error_message
-        auto_constraint_class       auto_inflator_class
-        auto_validator_class        auto_transformer_class
-        auto_datalist_id
-        error_tag                   error_container_tag
-        render_processed_value      force_errors
-        repeatable_count
-        locale
-) );
 
 alias( "default",     "value" );
 alias( "default_xml", "value_xml" );

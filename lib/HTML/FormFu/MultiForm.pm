@@ -5,14 +5,18 @@ use MooseX::Attribute::Chained;
 with
     'HTML::FormFu::Role::FormAndElementMethods' =>
     { -excludes => 'model_config' },
+    'HTML::FormFu::Role::FormBlockAndFieldMethods',
     'HTML::FormFu::Role::NestedHashUtils',
     'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu;
 use HTML::FormFu::Attribute qw(
-    mk_attrs                            mk_attr_accessors
-    mk_inherited_accessors              mk_output_accessors
-    mk_inherited_merging_accessors      mk_attr_output_accessors
+    mk_attrs
+    mk_attr_accessors
+    mk_inherited_accessors
+    mk_inherited_merging_accessors
+    mk_output_accessors
+    mk_attr_output_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     form
@@ -79,21 +83,6 @@ has _data => ( is => 'rw' );
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 
 # accessors shared with HTML::FormFu
-our @INHERITED_ACCESSORS = qw(
-    auto_id                         auto_label
-    auto_error_class                auto_error_message
-    auto_constraint_class           auto_inflator_class
-    auto_validator_class            auto_transformer_class
-    auto_datalist_id
-    error_tag                       error_container_tag
-    render_method                   render_processed_value
-    force_errors                    repeatable_count
-    config_file_path                locale
-);
-
-__PACKAGE__->mk_inherited_accessors(@INHERITED_ACCESSORS);
-
-# accessors shared with HTML::FormFu
 our @INHERITED_MERGING_ACCESSORS = qw(
     config_callback
 );
@@ -104,9 +93,9 @@ __PACKAGE__->mk_attr_output_accessors(qw( title ));
 
 our @SHARED_WITH_FORMFU = (
     @ACCESSORS,
-    @INHERITED_ACCESSORS,
     @INHERITED_MERGING_ACCESSORS,
     @HTML::FormFu::Role::FormAndElementMethods::MULTIFORM_SHARED,
+    @HTML::FormFu::Role::FormBlockAndFieldMethods::MULTIFORM_SHARED,
 );
 
 *loc = \&localize;

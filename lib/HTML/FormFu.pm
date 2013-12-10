@@ -9,13 +9,16 @@ with 'HTML::FormFu::Role::Render',
     'HTML::FormFu::Role::ContainsElementsSharedWithField',
     'HTML::FormFu::Role::FormAndBlockMethods',
     'HTML::FormFu::Role::FormAndElementMethods',
+    'HTML::FormFu::Role::FormBlockAndFieldMethods',
     'HTML::FormFu::Role::NestedHashUtils',
     'HTML::FormFu::Role::Populate',
     'HTML::FormFu::Role::CustomRoles';
 
 use HTML::FormFu::Attribute qw(
-    mk_attrs                        mk_attr_accessors
-    mk_inherited_accessors          mk_output_accessors
+    mk_attrs
+    mk_attr_accessors
+    mk_output_accessors
+    mk_inherited_accessors
     mk_inherited_merging_accessors
 );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -125,22 +128,6 @@ has params_ignore_underscore => ( is => 'rw', traits => ['Chained'] );
 has _auto_fieldset => ( is => 'rw' );
 
 __PACKAGE__->mk_output_accessors(qw( form_error_message ));
-
-__PACKAGE__->mk_inherited_accessors( qw(
-        auto_id                     auto_label
-        auto_label_class            auto_comment_class
-        auto_container_class
-        auto_container_error_class  auto_container_per_error_class
-        auto_error_container_class  auto_error_container_per_error_class
-        auto_error_class            auto_error_message
-        auto_constraint_class       auto_inflator_class
-        auto_validator_class        auto_transformer_class
-        auto_datalist_id
-        error_tag                   error_container_tag
-        render_processed_value
-        force_errors                repeatable_count
-        locale
-) );
 
 __PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
 
