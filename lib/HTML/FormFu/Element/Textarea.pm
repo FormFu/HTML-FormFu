@@ -9,7 +9,7 @@ with 'HTML::FormFu::Role::Element::Field',
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_attr_accessors(qw( cols rows placeholder ));
+__PACKAGE__->mk_attr_accessors(qw( cols rows ));
 
 after BUILD => sub {
     my $self = shift;
@@ -52,17 +52,10 @@ sub _string_field {
 
     # textarea_tag template
 
-    my $html .= "<textarea";
-
-    $html .= sprintf qq{ name="%s"}, $render->{nested_name};
-
-    if ( defined $self->placeholder ) {
-        $html .= sprintf qq{ placeholder="%s"}, $self->placeholder;
-    }
-
-    $html .= process_attrs( $render->{attributes} );
-
-    $html .= '>';
+    my $html = sprintf qq{<textarea name="%s"%s>},
+        $render->{nested_name},
+        process_attrs( $render->{attributes} ),
+        ;
 
     if ( defined $render->{value} ) {
         $html .= $render->{value};

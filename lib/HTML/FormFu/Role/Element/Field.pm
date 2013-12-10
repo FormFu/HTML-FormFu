@@ -53,7 +53,7 @@ has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
 
-__PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
+__PACKAGE__->mk_output_accessors(qw( comment label value ));
 
 alias( "default",     "value" );
 alias( "default_xml", "value_xml" );

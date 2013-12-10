@@ -289,10 +289,6 @@ sub _string_field {
         $html .= sprintf qq{ value="%s"}, $render->{value};
     }
 
-    if ( defined $render->{placeholder} ) {
-        $html .= sprintf qq{ placeholder="%s"}, $render->{placeholder};
-    }
-
     $html .= sprintf "%s />", process_attrs( $render->{attributes} );
 
     return $html;
