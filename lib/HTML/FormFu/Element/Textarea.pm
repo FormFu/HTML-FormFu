@@ -9,7 +9,7 @@ with 'HTML::FormFu::Role::Element::Field',
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_attr_accessors(qw( cols rows ));
+__PACKAGE__->mk_attr_accessors(qw( cols rows placeholder ));
 
 after BUILD => sub {
     my $self = shift;
