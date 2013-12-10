@@ -137,12 +137,12 @@ __PACKAGE__->mk_inherited_accessors( qw(
         auto_validator_class        auto_transformer_class
         auto_datalist_id
         error_tag                   error_container_tag
-        render_method               render_processed_value
+        render_processed_value
         force_errors                repeatable_count
-        config_file_path            locale
+        locale
 ) );
 
-__PACKAGE__->mk_inherited_merging_accessors(qw( tt_args config_callback ));
+__PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
 
 *elements          = \&element;
 *constraints       = \&constraint;

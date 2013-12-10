@@ -95,13 +95,19 @@ __PACKAGE__->mk_inherited_accessors(@INHERITED_ACCESSORS);
 
 # accessors shared with HTML::FormFu
 our @INHERITED_MERGING_ACCESSORS = qw(
-    tt_args
     config_callback
 );
 
 __PACKAGE__->mk_inherited_merging_accessors(@INHERITED_MERGING_ACCESSORS);
 
 __PACKAGE__->mk_attr_output_accessors(qw( title ));
+
+our @SHARED_WITH_FORMFU = (
+    @ACCESSORS,
+    @INHERITED_ACCESSORS,
+    @INHERITED_MERGING_ACCESSORS,
+    @HTML::FormFu::Role::FormAndElementMethods::MULTIFORM_SHARED,
+);
 
 *loc = \&localize;
 
@@ -258,9 +264,7 @@ sub _load_current_form {
     my $current_data = Clone::clone( $self->forms->[ $current_form_num - 1 ] );
 
     # merge constructor args
-    for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
-        @INHERITED_MERGING_ACCESSORS )
-    {
+    for my $key ( @SHARED_WITH_FORMFU ) {
         my $value = $self->$key;
 
         if ( defined $value ) {
@@ -389,9 +393,7 @@ sub next_form {
     my $next_form = HTML::FormFu->new;
 
     # merge constructor args
-    for my $key ( @ACCESSORS, @INHERITED_ACCESSORS,
-        @INHERITED_MERGING_ACCESSORS )
-    {
+    for my $key ( @SHARED_WITH_FORMFU ) {
         my $value = $self->$key;
 
         if ( defined $value ) {
