@@ -27,10 +27,13 @@ my @MERGING = qw(
 
 __PACKAGE__->mk_inherited_merging_accessors( @MERGING );
 
-__PACKAGE__->mk_attr_output_accessors(qw( title ));
+my @OUTPUT = (qw( title ));
+
+__PACKAGE__->mk_attr_output_accessors( @OUTPUT );
 
 our @MULTIFORM_SHARED = (
     @INHERITED,
+    @OUTPUT,
     @MERGING,
 );
 
