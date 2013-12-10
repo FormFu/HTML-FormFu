@@ -60,8 +60,6 @@ use overload (
     'fallback' => 1,
 );
 
-__PACKAGE__->mk_attrs(qw( attributes ));
-
 __PACKAGE__->mk_attr_accessors(qw( id action enctype method ));
 
 for my $name ( qw(
