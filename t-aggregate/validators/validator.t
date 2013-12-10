@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 6;
 
 use lib 't/lib';
 use HTML::FormFu;
@@ -36,7 +36,6 @@ $form->validator('+HTMLFormFu::MyValidator');
 
     my ($error) = @{ $form->get_errors };
 
-    is( $error->class,   'error_validator_htmlformfu_myvalidator' );
     is( $error->type,    'HTMLFormFu::MyValidator' );
     is( $error->message, 'myvalidator error!' );
 }

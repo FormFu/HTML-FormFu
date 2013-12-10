@@ -129,11 +129,14 @@ __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
         auto_label_class            auto_comment_class
-        auto_container_class        auto_container_error_class
+        auto_container_class
+        auto_container_error_class  auto_container_per_error_class
+        auto_error_container_class  auto_error_container_per_error_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
         auto_datalist_id
+        error_tag                   error_container_tag
         render_method               render_processed_value
         force_errors                repeatable_count
         config_file_path            locale
@@ -166,8 +169,11 @@ our $build_defaults = {
     query_type         => 'CGI',
     default_model      => 'DBIC',
     localize_class     => 'HTML::FormFu::I18N',
-    auto_error_class   => 'error_%s_%t',
+    auto_error_class   => 'error_message error_%s_%t',
     auto_error_message => 'form_%s_%t',
+    auto_container_error_class     => 'error',
+    auto_container_per_error_class => 'error_%s_%t',
+    error_tag          => 'span',
 };
 
 sub BUILD {

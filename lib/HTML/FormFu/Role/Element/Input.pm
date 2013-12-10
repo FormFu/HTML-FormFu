@@ -18,7 +18,7 @@ use HTML::FormFu::Attribute qw(
     mk_attr_bool_accessors
 );
 use HTML::FormFu::Constants qw( $EMPTY_STR );
-use HTML::FormFu::Util qw( process_attrs );
+use HTML::FormFu::Util qw( process_attrs xml_escape );
 
 has field_type => (
     is => 'rw',
@@ -214,6 +214,8 @@ around render_data_non_recursive => sub {
     my $render = $self->$orig( {
             field_type  => $self->field_type,
             placeholder => $self->placeholder,
+            error_attributes           => xml_escape( $self->error_attributes ),
+            error_container_attributes => xml_escape( $self->error_attributes ),
             $args ? %$args : (),
         } );
 

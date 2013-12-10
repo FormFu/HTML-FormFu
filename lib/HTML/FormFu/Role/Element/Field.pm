@@ -25,6 +25,8 @@ __PACKAGE__->mk_attrs( qw(
         comment_attributes
         container_attributes
         label_attributes
+        error_attributes
+        error_container_attributes
 ) );
 
 has _constraints         => ( is => 'rw', traits => ['Chained'] );
@@ -56,11 +58,14 @@ __PACKAGE__->mk_output_accessors(qw( comment label value placeholder ));
 __PACKAGE__->mk_inherited_accessors( qw(
         auto_id                     auto_label
         auto_label_class            auto_comment_class
-        auto_container_class        auto_container_error_class
+        auto_container_class
+        auto_container_error_class  auto_container_per_error_class
+        auto_error_container_class  auto_error_container_per_error_class
         auto_error_class            auto_error_message
         auto_constraint_class       auto_inflator_class
         auto_validator_class        auto_transformer_class
         auto_datalist_id
+        error_tag                   error_container_tag
         render_processed_value      force_errors
         repeatable_count
         locale
@@ -81,16 +86,17 @@ after BUILD => sub {
     $self->_transformers( [] );
     $self->_plugins(      [] );
     $self->_errors(       [] );
-    $self->comment_attributes(   {} );
-    $self->container_attributes( {} );
-    $self->label_attributes(     {} );
+    $self->comment_attributes(         {} );
+    $self->container_attributes(       {} );
+    $self->label_attributes(           {} );
+    $self->error_attributes(           {} );
+    $self->error_container_attributes( {} );
     $self->label_filename('label');
     $self->label_tag('label');
     $self->errors_filename('errors');
     $self->auto_label_class('label');
     $self->auto_comment_class('%t');
     $self->auto_container_class('%t');
-    $self->auto_container_error_class('error');
     $self->container_tag('div');
     $self->is_field(1);
 
@@ -516,6 +522,8 @@ around render_data_non_recursive => sub {
             label_tag            => $self->label_tag,
             errors_filename      => $self->errors_filename,
             container_tag        => $self->container_tag,
+            error_container_tag  => $self->error_container_tag,
+            error_tag            => $self->error_tag,
             reverse_single       => $self->reverse_single,
             reverse_multi        => $self->reverse_multi,
             javascript           => $self->javascript,
@@ -846,27 +854,89 @@ sub _render_error_class {
 
     return if !@errors;
 
-    my $auto_container_error_class = $self->auto_container_error_class;
-
-    my %string = (
-        f => defined $self->form->id ? $self->form->id   : '',
-        n => defined $render->{name} ? $render->{name}   : '',
-    );
+    @errors = map { $_->render_data } @errors;
 
     $render->{errors} = \@errors;
 
-    my $error_class = $auto_container_error_class;
+    my @container_class;
 
-    $error_class =~ s/%([fn])/$string{$1}/g;
+    # auto_container_error_class
+    my $auto_class = $self->auto_container_error_class;
 
-    append_xml_attribute( $render->{container_attributes},
-        'class', $error_class );
+    if ( defined $auto_class && length $auto_class ) {
+        my %string = (
+            f => sub { defined $self->form->id ? $self->form->id   : '' },
+            n => sub { defined $render->{name} ? $render->{name}   : '' },
+        );
 
-    my @class = uniq map { $_->class } @errors;
+        $auto_class =~ s/%([fn])/$string{$1}->()/ge;
 
-    for my $class (@class) {
-        append_xml_attribute( $render->{container_attributes},
-            'class', $class, );
+        push @container_class, $auto_class;
+    }
+
+    # auto_container_per_error_class
+    my $item_class = $self->auto_container_per_error_class;
+
+    if ( defined $item_class && length $item_class ) {
+        for my $error (@errors) {
+            my %string = (
+                f => sub { defined $self->form->id ? $self->form->id   : '' },
+                n => sub { defined $render->{name} ? $render->{name}   : '' },
+                s => sub { $error->{stage} },
+                t => sub { lc $error->{type} },
+            );
+
+            my $string = $item_class;
+            $string =~ s/%([fnst])/$string{$1}->()/ge;
+
+            push @container_class, $string;
+        }
+    }
+
+    map {
+        append_xml_attribute( $render->{container_attributes}, 'class', $_ )
+    } uniq @container_class;
+
+    my @error_container_class;
+
+    if ( $self->error_container_tag ) {
+
+        # auto_error_container_class
+        my $auto_class = $self->auto_error_container_class;
+
+        if ( defined $auto_class && length $auto_class ) {
+            my %string = (
+                f => sub { defined $self->form->id ? $self->form->id   : '' },
+                n => sub { defined $render->{name} ? $render->{name}   : '' },
+            );
+
+            $auto_class =~ s/%([fn])/$string{$1}->()/ge;
+
+            push @error_container_class, $auto_class;
+        }
+
+        # auto_container_per_error_class
+        my $item_class = $self->auto_container_per_error_class;
+
+        if ( defined $item_class && length $item_class ) {
+            for my $error (@errors) {
+                my %string = (
+                    f => sub { defined $self->form->id ? $self->form->id   : '' },
+                    n => sub { defined $render->{name} ? $render->{name}   : '' },
+                    s => sub { $error->{stage} },
+                    t => sub { lc $error->{type} },
+                );
+
+                my $string = $item_class;
+                $string =~ s/%([fnst])/$string{$1}->()/ge;
+
+                push @error_container_class, $string;
+            }
+        }
+
+         map {
+            append_xml_attribute( $render->{error_container_attributes}, 'class', $_ )
+        } uniq @error_container_class;
     }
 
     return;
@@ -935,15 +1005,28 @@ sub _string_label {
 sub _string_errors {
     my ( $self, $render ) = @_;
 
+    return '' if !$render->{errors};
+
     my $html = '';
 
-    if ( $render->{errors} ) {
-        for my $error ( @{ $render->{errors} } ) {
-            $html .= sprintf qq{\n<span class="error_message %s">%s</span>},
-                $error->class,
-                $error->message,
-                ;
-        }
+    if ( $render->{error_container_tag} ) {
+        $html .= sprintf qq{<%s%s>\n},
+            $render->{error_container_tag},
+            process_attrs( $render->{error_container_attributes} ),
+            ;
+    }
+
+    for my $error ( @{ $render->{errors} } ) {
+        $html .= sprintf qq{\n<%s%s>%s</%s>},
+            $render->{error_tag},
+            process_attrs( $error->{attributes} ),
+            $error->{message},
+            $render->{error_tag},
+            ;
+    }
+
+    if ( $render->{error_container_tag} ) {
+        $html .= sprintf qq{\n</%s>}, $render->{error_container_tag};
     }
 
     return $html;

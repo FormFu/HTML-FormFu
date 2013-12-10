@@ -50,6 +50,7 @@ __PACKAGE__->mk_inherited_accessors( qw(
         tt_args
         render_method
         config_file_path
+        
 ) );
 
 __PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));

@@ -85,6 +85,7 @@ our @INHERITED_ACCESSORS = qw(
     auto_constraint_class           auto_inflator_class
     auto_validator_class            auto_transformer_class
     auto_datalist_id
+    error_tag                       error_container_tag
     render_method                   render_processed_value
     force_errors                    repeatable_count
     config_file_path                locale

@@ -23,6 +23,10 @@
     
     - New Input boolean attribute accessors: autofocus(), multiple(), required().
     
+    - New Field inherited accessors: auto_container_per_error_class(),
+      auto_error_container_class(), auto_error_container_per_error_class(),
+      error_tag(), error_container_tag
+    
     - Constraints have new experimental method fetch_error_message().
     
     - All field elements have new method error_filename().
