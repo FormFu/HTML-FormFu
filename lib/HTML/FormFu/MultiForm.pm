@@ -48,18 +48,15 @@ __PACKAGE__->mk_attr_accessors(qw( id action enctype method ));
 
 # accessors shared with HTML::FormFu
 our @ACCESSORS = qw(
-    indicator                   filename
-    javascript                  javascript_src
     default_args
-    query_type
-    force_error_message         localize_class
-    tt_module                   nested_name
-    nested_subscript            default_model
     model_config                auto_fieldset
-    params_ignore_underscore    tmp_upload_dir
 );
 
 for my $name (@ACCESSORS) {
+    has $name => ( is => 'rw', traits => ['Chained'] );
+}
+
+for my $name (@HTML::FormFu::MULTIFORM_SHARED) {
     has $name => ( is => 'rw', traits => ['Chained'] );
 }
 
@@ -86,6 +83,7 @@ __PACKAGE__->mk_attr_output_accessors(qw( title ));
 
 our @SHARED_WITH_FORMFU = (
     @ACCESSORS,
+    @HTML::FormFu::MULTIFORM_SHARED,
     @HTML::FormFu::Role::FormAndElementMethods::MULTIFORM_SHARED,
     @HTML::FormFu::Role::FormBlockAndFieldMethods::MULTIFORM_SHARED,
 );

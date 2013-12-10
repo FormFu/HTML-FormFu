@@ -109,21 +109,31 @@ has form_error_message_class => (
     lazy    => 1,
 );
 
-has javascript               => ( is => 'rw', traits => ['Chained'] );
-has javascript_src           => ( is => 'rw', traits => ['Chained'] );
-has submitted                => ( is => 'rw', traits => ['Chained'] );
-has indicator                => ( is => 'rw', traits => ['Chained'] );
-has filename                 => ( is => 'rw', traits => ['Chained'] );
-has query_type               => ( is => 'rw', traits => ['Chained'] );
-has force_error_message      => ( is => 'rw', traits => ['Chained'] );
-has localize_class           => ( is => 'rw', traits => ['Chained'] );
-has query                    => ( is => 'rw', traits => ['Chained'] );
-has tt_module                => ( is => 'rw', traits => ['Chained'] );
-has nested_name              => ( is => 'rw', traits => ['Chained'] );
-has nested_subscript         => ( is => 'rw', traits => ['Chained'] );
-has default_model            => ( is => 'rw', traits => ['Chained'] );
-has tmp_upload_dir           => ( is => 'rw', traits => ['Chained'] );
-has params_ignore_underscore => ( is => 'rw', traits => ['Chained'] );
+our @MULTIFORM_SHARED = (qw(
+        javascript
+        javascript_src
+        indicator
+        filename
+        query_type
+        force_error_message
+        localize_class
+        tt_module
+        nested_name
+        nested_subscript
+        default_model
+        tmp_upload_dir
+        params_ignore_underscore
+));
+
+for (@MULTIFORM_SHARED) {
+    has $_ => (
+        is     => 'rw',
+        traits => ['Chained'],
+    );
+}
+
+has submitted => ( is => 'rw', traits => ['Chained'] );
+has query     => ( is => 'rw', traits => ['Chained'] );
 
 has _auto_fieldset => ( is => 'rw' );
 
