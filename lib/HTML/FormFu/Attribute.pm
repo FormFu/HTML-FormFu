@@ -63,6 +63,23 @@ sub mk_attrs {
         $class->meta->add_method( $name,         $method );
         $class->meta->add_method( "${name}_xml", $xml_method );
 
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
+            return $self->$name(
+                literal( $self->form->localize( $mess, @args ) ) );
+        };
+
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "${name}_loc",
+            package_name => $class,
+        );
+
         # add shortcuts
         my $short = $name;
         if ( $short =~ s/attributes$/attrs/ ) {
@@ -79,8 +96,15 @@ sub mk_attrs {
                 package_name => $class,
             );
 
+            my $loc_method = Class::MOP::Method->wrap(
+                body         => $loc_sub,
+                name         => "${short}_loc",
+                package_name => $class,
+            );
+
             $class->meta->add_method( $short,         $method );
             $class->meta->add_method( "${short}_xml", $xml_method );
+            $class->meta->add_method( "${short}_loc", $loc_method );
         }
     }
 
@@ -187,8 +211,26 @@ sub mk_add_attrs {
             package_name => $class,
         );
 
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
+            return $self->$method(
+                literal( $self->form->localize( $mess, @args ) ) );
+        };
+
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "add_${name}_loc",
+            package_name => $class,
+        );
+
         $class->meta->add_method( "add_$name",       $method );
         $class->meta->add_method( "add_${name}_xml", $xml_method );
+        $class->meta->add_method( "add_${name}_loc", $loc_method );
 
         # add shortcuts
         my $short = $name;
@@ -206,8 +248,15 @@ sub mk_add_attrs {
                 package_name => $class,
             );
 
+            my $loc_method = Class::MOP::Method->wrap(
+                body         => $loc_sub,
+                name         => "add_${short}_loc",
+                package_name => $class,
+            );
+
             $class->meta->add_method( "add_$short",       $method );
             $class->meta->add_method( "add_${short}_xml", $xml_method );
+            $class->meta->add_method( "add_${short}_loc", $loc_method );
         }
     }
 
@@ -252,8 +301,26 @@ sub mk_del_attrs {
             package_name => $class,
         );
 
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
+            return $self->$method(
+                literal( $self->form->localize( $mess, @args ) ) );
+        };
+
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "del_${name}_loc",
+            package_name => $class,
+        );
+
         $class->meta->add_method( "del_$name",       $method );
         $class->meta->add_method( "del_${name}_xml", $xml_method );
+        $class->meta->add_method( "del_${name}_loc", $loc_method );
 
         # add shortcuts
         my $short = $name;
@@ -271,8 +338,15 @@ sub mk_del_attrs {
                 package_name => $class,
             );
 
+            my $loc_method = Class::MOP::Method->wrap(
+                body         => $loc_sub,
+                name         => "del_${short}_loc",
+                package_name => $class,
+            );
+
             $class->meta->add_method( "del_$short",       $method );
             $class->meta->add_method( "del_${short}_xml", $xml_method );
+            $class->meta->add_method( "del_${short}_loc", $loc_method );
         }
     }
 

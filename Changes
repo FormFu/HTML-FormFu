@@ -44,6 +44,8 @@
     
     - Bug fix: del_attribute() on empty attribute no longer sets the attribute.
     
+    - All attribute accessors generated with mk_attrs() now have *_loc variants.
+    
     - Tests now always require Test::Aggregate::Nested.
       Re-enable aggregate tests on Win32.
       Don't run all tests twice under both aggregate and t/ (doh!)
