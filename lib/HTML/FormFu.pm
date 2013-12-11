@@ -1467,9 +1467,7 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a
 defined value.
 
-=head2 config_file_path_no_inherit
-
-A non-inheriting variant of L</config_file_path>.
+Is an L<inheriting accessor|/INHERITING ACCESSORS>.
 
 =head2 indicator
 
@@ -1595,25 +1593,12 @@ appropriate form field. If you'd also like a general error message to be
 displayed at the top of the form, you can set the message with
 L</form_error_message>.
 
+To set the CSS class for the message, see L</form_error_message_class>.
+
 To change the markup used to display the message, edit the
-C<form_error_message> template file.
+C<form_error_message> template file. See L</render_method>.
 
-=head2 form_error_message_xml
-
-Arguments: $string
-
-If you don't want your error message to be XML-escaped, use the
-L</form_error_message_xml> method instead.
-
-=head2 form_error_message_loc
-
-Arguments: $localization_key
-
-For ease of use, if you'd like to use the provided localized error message,
-set L</form_error_message_loc> to the value C<form_error_message>.
-
-You can, of course, set L</form_error_message_loc> to any key in your I18N
-file.
+Is an L<output accessor|HTML::FormFu/OUTPUT ACCESSORS>.
 
 =head2 force_error_message
 
@@ -1768,10 +1753,17 @@ be of the plural form, e.g.:
 
 =head2 javascript
 
-Arguments: [$javascript]
-
 If set, the contents will be rendered within a C<script> tag, inside the top
 of the form.
+
+=head2 javascript_src
+
+Arguments: $url
+
+Arguments: \@urls
+
+Adds a C<script> tag for each URL, immediately before any L</javascript>
+section.
 
 =head2 stash
 
@@ -2122,9 +2114,7 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a
 defined value.
 
-=head2 render_processed_value_no_inherit
-
-A non-inheriting variant of L</render_processed_value>.
+Is an L<inheriting accessor|/INHERITING ACCESSORS>.
 
 =head2 force_errors
 
@@ -2142,9 +2132,7 @@ is read, if no value is defined it automatically traverses the element's
 hierarchy of parents, through any block elements and up to the form,
 searching for a defined value.
 
-=head2 force_errors_no_inherit
-
-A non-inheriting variant of L</force_errors>.
+Is an L<inheriting accessor|/INHERITING ACCESSORS>.
 
 =head2 params_ignore_underscore
 
@@ -2162,139 +2150,28 @@ All attributes are added to the rendered form's start tag.
 
 =head2 attributes
 
-=head2 attrs
-
-Arguments: [%attributes]
-
-Arguments: [\%attributes]
-
-Return Value: $form
-
-Accepts either a list of key/value pairs, or a hash-ref.
-
+    # Example
     ---
     attributes:
       id: form
       class: fancy_form
 
-As a special case, if no arguments are passed, the attributes hash-ref is
-returned. This allows the following idioms.
-
-    # set a value
-    $form->attributes->{id} = 'form';
-
-    # delete all attributes
-    %{ $form->attributes } = ();
-
-L</attrs> is an alias for L</attributes>.
-
-=head2 attributes_xml
-
-=head2 attrs_xml
-
-Provides the same functionality as L</attributes>, but values won't be
-XML-escaped.
-
-L</attrs_xml> is an alias for L</attributes_xml>.
-
-=head2 add_attributes
-
-=head2 add_attrs
-
-Arguments: [%attributes]
-
-Arguments: [\%attributes]
-
-Return Value: $form
-
-Accepts either a list of key/value pairs, or a hash-ref.
-
-    $form->add_attributes( $key => $value );
-    $form->add_attributes( { $key => $value } );
-
-All values are appended to existing values, with a preceding space
-character. This is primarily to allow the easy addition of new names to the class
-attribute.
-
-    $form->attributes({ class => 'foo' });
-
-    $form->add_attributes({ class => 'bar' });
-
-    # class is now 'foo bar'
-
-L</add_attrs> is an alias for L</add_attributes>.
-
-=head2 add_attributes_xml
-
-=head2 add_attrs_xml
-
-Provides the same functionality as L</add_attributes>, but values won't be
-XML-escaped.
-
-L</add_attrs_xml> is an alias for L</add_attributes_xml>.
-
-=head2 del_attributes
-
-=head2 del_attrs
-
-Arguments: [%attributes]
-
-Arguments: [\%attributes]
-
-Return Value: $form
-
-Accepts either a list of key/value pairs, or a hash-ref.
-
-    $form->del_attributes( $key => $value );
-    $form->del_attributes( { $key => $value } );
-
-All values are removed from the attribute value.
-
-    $form->attributes({ class => 'foo bar' });
-
-    $form->del_attributes({ class => 'bar' });
-
-    # class is now 'foo'
-
-L</del_attrs> is an alias for L</del_attributes>.
-
-=head2 del_attributes_xml
-
-=head2 del_attrs_xml
-
-Provides the same functionality as L</del_attributes>, but values won't be
-XML-escaped.
-
-L</del_attrs_xml> is an alias for L</del_attributes_xml>.
-
-The following methods are shortcuts for accessing L</attributes> keys.
+Is an L<attribute accessor|HTML::FormFu/ATTRIBUTE ACCESSOR>.
 
 =head2 id
 
-Arguments: [$id]
-
-Return Value: $id
-
-Get or set the form's DOM id.
-
-Default Value: none
+Is an L<attribute short-cut|HTML::FormFu/ATTRIBUTE SHORT-CUTS>.
 
 =head2 action
 
-Arguments: [$uri]
-
-Return Value: $uri
+Default Value: ""
 
 Get or set the action associated with the form. The default is no action,
 which causes most browsers to submit to the current URI.
 
-Default Value: ""
+Is an L<attribute short-cut|HTML::FormFu/ATTRIBUTE SHORT-CUTS>.
 
 =head2 enctype
-
-Arguments: [$enctype]
-
-Return Value: $enctype
 
 Get or set the encoding type of the form. Valid values are
 C<application/x-www-form-urlencoded> and C<multipart/form-data>.
@@ -2302,354 +2179,30 @@ C<application/x-www-form-urlencoded> and C<multipart/form-data>.
 If the form contains a File element, the enctype is automatically set to
 C<multipart/form-data>.
 
+Is an L<attribute short-cut|HTML::FormFu/ATTRIBUTE SHORT-CUTS>.
+
 =head2 method
 
-Arguments: [$method]
-
-Return Value: $method
+Default Value: "post"
 
 Get or set the method used to submit the form. Can be set to either "post"
 or "get".
 
-Default Value: "post"
+Is an L<attribute short-cut|HTML::FormFu/ATTRIBUTE SHORT-CUTS>.
 
 =head2 title
 
-Arguments: [$title]
-
-Return Value: $title
-
 Get or set the form's title attribute.
 
-Default Value: none
-
-=head2 title_xml
-
-Arguments: $title
-
-Set the form's title attribute. Values won't be XML escaped.
-
-=head2 title_loc
-
-Arguments: $localization_key
-
-Set the form's title attribute using a L10N key.
+Is an L<attribute short-cut|HTML::FormFu/ATTRIBUTE SHORT-CUTS>.
 
 =head1 CSS CLASSES
 
-=head2 auto_id
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated
-L<id|HTML::FormFu::Element/id> attribute, if it doesn't have one already.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%r> will be replaced by
-L<< $block->repeatable_count|HTML::FormFu::Element::Repeatable/repeatable_count >>.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_id_no_inherit
-
-A non-inheriting variant of L</auto_id>.
-
-=head2 auto_label
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated
-L<label|HTML::FormFu::Role::Element::Field/label>, if it doesn't have one already.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>.
-
-The generated string will be passed to L</localize> to create the label.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_label_class
-
-Arguments: [$string]
-
-If set, then the container of each field with a
-L<label|HTML::FormFu::Role::Element::Field/label> will be given an
-additional auto-generated class-name based on the given pattern.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
-
-Default Value: '%t'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_comment_class
-
-Arguments: [$string]
-
-If set, then the container and the comment container of each field with a
-L<comment|HTML::FormFu::Role::Element::Field/comment> will be given an
-additional auto-generated class-name based on the given pattern.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-the string "comment".
-
-Default Value: '%t'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_container_class
-
-Arguments: [$string]
-
-If set, then the container of each field will be given an
-additional auto-generated class-name based on the given pattern.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-the field type.
-
-Default Value: '%t'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_label_no_inherit
-
-A non-inheriting variant of L</auto_label>.
-
-=head2 auto_error_class
-
-Arguments: [$string]
-
-If set, then each form error will be given an auto-generated class-name.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>, C<%s> will be replaced
-by L<< $error->stage|/"FORM LOGIC AND VALIDATION" >>.
-
-Default Value: 'error_%s_%t'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_container_error_class
-
-Arguments: [$string]
-
-If set, then the container of each field with an error will be given an
-additional auto-generated class-name based on the given pattern.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>.
-
-Default Value: 'error'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_error_class_no_inherit
-
-A non-inheriting variant of L</auto_error_class>.
-
-=head2 auto_error_message
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated
-L<message|HTML::FormFu::Exception::Input/message>, if it doesn't have one
-already.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>, C<%s> will be replaced
-by L<< $error->stage >>.
-
-The generated string will be passed to L</localize> to create the message.
-
-For example, a L<Required constraint|HTML::FormFu::Constraint::Required>
-will return the string C<form_constraint_required>. Under the default
-localization behaviour, the appropriate message for
-C<form_constraint_required> will be used from the default I18N package.
-
-Default Value: 'form_%s_%t'
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_error_message_no_inherit
-
-A non-inheriting variant of L</auto_error_message>.
-
-=head2 auto_constraint_class
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated class-name
-for each associated constraint.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_constraint_class_no_inherit
-
-A non-inheriting variant of L</auto_constraint_class>.
-
-=head2 auto_inflator_class
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated class-name
-for each associated inflator.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_inflator_class_no_inherit
-
-A non-inheriting variant of L</auto_inflator_class>.
-
-=head2 auto_validator_class
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated class-name
-for each associated validator.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_validator_class_no_inherit
-
-A non-inheriting variant of L</auto_validator_class>.
-
-=head2 auto_transformer_class
-
-Arguments: [$string]
-
-If set, then each form field will be given an auto-generated class-name
-for each associated validator.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%t> will be replaced by
-L<< lc( $field->type )|HTML::FormFu::Element/type >>.
-
-Default Value: not defined
-
-This method is a special 'inherited accessor', which means it can be set on
-the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=head2 auto_transformer_class_no_inherit
-
-A non-inheriting variant of L</auto_transformer_class>.
-
 =head2 form_error_message_class
-
-Arguments: [$string]
-
-Default Value: 'form_error_message'
 
 Class attribute for the error message displayed at the top of the form.
 
 See L</"form_error_message">
-
-=head1 OTHER INHERITED ACCESSORS
-
-These methods are special 'inherited accessors', which means they can be set
-on the form, a block element or a single element. When the value is read, if
-no value is defined it automatically traverses the element's hierarchy of
-parents, through any block elements and up to the form, searching for a
-defined value.
-
-=HEAD2 auto_datalist_id
-
-Arguments: [$string]
-
-If any L<Input|HTML::FormFu::Role::Element::Input> element had a datalist,
-but does not have L<HTML::FormFu::Role::Element::Input/datalist_id> set,
-L</auto_datalist_id> is used to generate the datalist id.
-
-The following character substitution will be performed: C<%f> will be
-replaced by L<< $form->id|/id >>, C<%n> will be replaced by
-L<< $field->name|HTML::FormFu::Element/name >>, C<%r> will be replaced by
-L<< $block->repeatable_count|HTML::FormFu::Element::Repeatable/repeatable_count >>.
 
 =head1 LOCALIZATION
 
@@ -2690,9 +2243,7 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a
 defined value.
 
-=head2 locale_no_inherit
-
-A non-inheriting variant of L</locale>.
+Is an L<inheriting accessor|/INHERITING ACCESSORS>.
 
 =head1 PROCESSING A FORM
 
@@ -2989,9 +2540,7 @@ no value is defined it automatically traverses the element's hierarchy of
 parents, through any block elements and up to the form, searching for a
 defined value.
 
-=head2 render_method_no_inherit
-
-A non-inheriting variant of L</render_method>.
+Is an L<inheriting accessor|/INHERITING ACCESSORS>.
 
 =head2 filename
 
@@ -3354,6 +2903,172 @@ Returns a deep clone of the <$form> object.
 
 Because of scoping issues, code references (such as in Callback constraints)
 are copied instead of cloned.
+
+=head1 ATTRIBUTE ACCESSORS
+
+For the basic method, e.g. C</attributes>:
+
+Arguments: [%attributes]
+
+Arguments: [\%attributes]
+
+Return Value: $form
+
+As a special case, if no arguments are passed, the attributes hash-ref is
+returned. This allows the following idioms.
+
+    # set a value
+    $form->attributes->{id} = 'form';
+
+    # delete all attributes
+    %{ $form->attributes } = ();
+
+All methods documented as 'attribute accessors' also have the following
+variants generated:
+
+C<*_xml> can be used as a setter, and ensures that its argument is not
+XML-escaped in the rendered form.
+
+C<*_loc> can he used as a setter, and passes the arguments through
+L</localize>.
+
+C<add_*> can be used to append a word to an attribute without overwriting
+any already-existing value.
+
+    # Example
+    $form->attributes({ class => 'fancy' });
+    $form->add_attributes({ class => 'pants' });
+    # class="fancy pants"
+
+C<add_*_xml>, like C<add_*>, but ensures it doesn't get XML-escaped.
+
+C<add_*_loc>, like C<add_*>, but passing the arguments through L</localize>.
+
+C<del_*> can be used to remove a word from an attribute value.
+
+    # Example
+    $form->attributes({ class => 'fancy pants' });
+    $form->del_attributes({ class => 'pants' });
+    # class="fancy"
+
+C<del_*_xml>, like C<del_*>, but ensures it doesn't get XML-escaped.
+
+C<del_*_loc>, like C<del_*>, but passing the arguments through L</localize>.
+
+Also, any attribute method-name which contains the word C<attributes> also
+has aliases created for all these variants, with the word C<attributes>
+replaced by C<attrs>.
+
+    # For example, the attributes() method would have all these variant
+    # methods available
+    
+    $form->attributes({ class => 'fancy' });
+    $form->attributes_xml({ title => '<b>fancy</b>' });
+    $form->attributes_loc({ title => 'fancy' });
+    $form->add_attributes({ class => 'fancy' });
+    $form->add_attributes_xml({ title => '<b>fancy</b>' });
+    $form->add_attributes_loc({ title => 'fancy' });
+    $form->del_attributes({ class => 'fancy' });
+    $form->del_attributes_xml({ title => '<b>fancy</b>' });
+    $form->del_attributes_loc({ title => 'fancy' });
+    
+    # Because the method contains the word 'attributes', it also gets the
+    # following short-forms
+    
+    $form->attrs({ class => 'fancy' });
+    $form->attrs_xml({ title => '<b>fancy</b>' });
+    $form->attrs_loc({ title => 'fancy' });
+    $form->add_attrs({ class => 'fancy' });
+    $form->add_attrs_xml({ title => '<b>fancy</b>' });
+    $form->add_attrs_loc({ title => 'fancy' });
+    $form->del_attrs({ class => 'fancy' });
+    $form->del_attrs_xml({ title => '<b>fancy</b>' });
+    $form->del_attrs_loc({ title => 'fancy' });
+
+=head1 ATTRIBUTE SHORT-CUTS
+
+All methods documented as 'attribute short-cuts' are short-cuts to directly
+access individual attribute key/values.
+
+    # Example
+    $form->id( 'login' );
+    $id = $form->id;
+    
+    # is equivalent to:
+    $form->attributes({ id => 'login' });
+    $id = $form->attributes->{id};
+
+All attribute short-cuts also have a C<*_xml> variant.
+
+    # Example
+    $form->id_xml( $xml );
+    
+    # is equivalent to:
+    $form->attributes_xml({ id => $xml });
+
+All attribute short-cuts also have a C<*_loc> variant.
+
+    # Example
+    $form->title_loc( $key );
+    
+    # is equivalent to:
+    $form->attributes_loc({ title => $key });
+
+=head1 INHERITING ACCESSORS
+
+All methods documented as 'inheriting accessors' can be set on the form,
+a block element or a single field element.
+When the value is read, if no value is defined it automatically traverses
+the element's hierarchy of parents, searching for a defined value.
+
+All inherited accessors also have a C<*_no_inherit> variant, which can be
+used as a getter to fetch any defined value, without traversing the
+hierarchy of parents. This variant cannot be used as a setter.
+
+E.g., the L</auto_id> has a variant named C<auto_id_no_inherit>.
+
+=head1 OUTPUT ACCESSORS
+
+All methods documented as 'output accessors' also have C<*_xml> and C<*_loc>
+variants.
+
+The C<*_xml> variant can be used as a setter, and ensures that its
+argument is not XML-escaped in the rendered form.
+
+The C<*_loc> variant can be used as a setter, and passes the arguments
+through L</localize>.
+
+E.g., the L<label|HTML::FormFu::Role::Element::Field/label> method has
+variants named C<label_xml> and C<label_loc>.
+
+=head1 BOOLEAN ATTRIBUTE ACCESSORS
+
+To support boolean attributes, whose value should either be equal to the
+attribute name, or empty. Any true value will switch the attribute 'on', any
+false value will remove the attribute.
+
+    # Example
+    
+    $field->autofocus(1);
+    # equivalent to:
+    $field->attributes({ autofocus => 'autofocus' });
+    
+    $field->autofocus(0);;
+    # equivalent to:
+    delete $field->attributes->{autofocus};
+
+=head1 ATTRIBUTE SUBSTITUTIONS
+
+Some attributes support character substitutions: the following substitutions
+are possible:
+
+    %f # $form->id
+    %n # $field->name
+    %t # lc( $field->type )
+    %r # $block->repeatable_count
+    %s # $error->stage
+
+These allow each field to have consistent attributes, while remaining unique.
 
 =head1 DEPRECATION POLICY
 
