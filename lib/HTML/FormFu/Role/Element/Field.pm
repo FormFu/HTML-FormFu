@@ -899,8 +899,8 @@ sub _render_error_class {
             push @error_container_class, $auto_class;
         }
 
-        # auto_container_per_error_class
-        my $item_class = $self->auto_container_per_error_class;
+        # auto_error_container_per_error_class
+        my $item_class = $self->auto_error_container_per_error_class;
 
         if ( defined $item_class && length $item_class ) {
             for my $error (@errors) {
