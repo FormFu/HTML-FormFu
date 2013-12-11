@@ -44,8 +44,6 @@ has is_field      => ( is => 'rw', traits => ['Chained'] );
 has is_block      => ( is => 'rw', traits => ['Chained'] );
 has is_repeatable => ( is => 'rw', traits => ['Chained'] );
 
-__PACKAGE__->mk_inherited_merging_accessors(qw( config_callback ));
-
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
