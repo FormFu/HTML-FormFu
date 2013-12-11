@@ -12,7 +12,7 @@ our @EXPORT_OK = qw(
     mk_attrs                        mk_attr_accessors
     mk_attr_modifiers               mk_inherited_accessors
     mk_output_accessors             mk_inherited_merging_accessors
-    mk_attr_output_accessors        mk_attr_bool_accessors
+    mk_attr_bool_accessors
 );
 
 sub mk_attrs {
@@ -113,21 +113,9 @@ sub mk_attr_accessors {
         );
 
         my $xml_sub = sub {
-            my ( $self, @attrs ) = @_;
-            my @args;
+            my ( $self, $value ) = @_;
 
-            for my $item (@attrs) {
-                if ( ref $item eq 'HASH' ) {
-                    push @args, { map { $_, literal($_) } keys %$item };
-                }
-                elsif ( ref $item eq 'ARRAY' ) {
-                    push @args, [ map { literal($_) } @$item ];
-                }
-                else {
-                    push @args, literal($item);
-                }
-            }
-            return $self->$name( [@args] );
+            return $self->attributes->{$name} = literal $value;
         };
 
         my $xml_method = Class::MOP::Method->wrap(
@@ -136,8 +124,26 @@ sub mk_attr_accessors {
             package_name => $class,
         );
 
+        my $loc_sub = sub {
+            my ( $self, $mess, @args ) = @_;
+
+            if ( ref $mess eq 'ARRAY' ) {
+                ( $mess, @args ) = ( @$mess, @args );
+            }
+
+            return $self->attributes->{$name} =
+                literal( $self->form->localize( $mess, @args ) );
+        };
+
+        my $loc_method = Class::MOP::Method->wrap(
+            body         => $loc_sub,
+            name         => "${name}_loc",
+            package_name => $class,
+        );
+
         $class->meta->add_method( $name,         $method );
         $class->meta->add_method( "${name}_xml", $xml_method );
+        $class->meta->add_method( "${name}_loc", $loc_method );
     }
 
     return;
@@ -408,64 +414,6 @@ sub mk_output_accessors {
 
             return $self->$name(
                 literal( $self->form->localize( $mess, @args ) ) );
-        };
-
-        my $loc_method = Class::MOP::Method->wrap(
-            body         => $loc_sub,
-            name         => "${name}_loc",
-            package_name => $class,
-        );
-
-        $class->meta->add_method( $name,         $method );
-        $class->meta->add_method( "${name}_xml", $xml_method );
-        $class->meta->add_method( "${name}_loc", $loc_method );
-    }
-
-    return;
-}
-
-sub mk_attr_output_accessors {
-    my ( $self, @names ) = @_;
-
-    my $class = ref $self || $self;
-
-    for my $name (@names) {
-        my $sub = sub {
-            my ( $self, $value ) = @_;
-            if ( @_ > 1 ) {
-                $self->attributes->{$name} = $value;
-                return $self;
-            }
-            return $self->{$name};
-        };
-
-        my $method = Class::MOP::Method->wrap(
-            body         => $sub,
-            name         => $name,
-            package_name => $class,
-        );
-
-        my $xml_sub = sub {
-            my ( $self, $arg ) = @_;
-
-            return $self->attributes->{$name} = literal($arg);
-        };
-
-        my $xml_method = Class::MOP::Method->wrap(
-            body         => $xml_sub,
-            name         => "${name}_xml",
-            package_name => $class,
-        );
-
-        my $loc_sub = sub {
-            my ( $self, $mess, @args ) = @_;
-
-            if ( ref $mess eq 'ARRAY' ) {
-                ( $mess, @args ) = ( @$mess, @args );
-            }
-
-            return $self->attributes->{$name} =
-                literal( $self->form->localize( $mess, @args ) );
         };
 
         my $loc_method = Class::MOP::Method->wrap(

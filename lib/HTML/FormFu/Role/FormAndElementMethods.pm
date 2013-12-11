@@ -3,9 +3,9 @@ use Moose::Role;
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
+    mk_attr_accessors
     mk_inherited_accessors
     mk_inherited_merging_accessors
-    mk_attr_output_accessors
 );
 use HTML::FormFu::Util qw(
     require_class
@@ -17,6 +17,10 @@ use Scalar::Util qw( blessed refaddr );
 my @ATTRS = (qw( attributes ));
 
 __PACKAGE__->mk_attrs( @ATTRS );
+
+my @ATTR_ACCESSOR = (qw( title ));
+
+__PACKAGE__->mk_attr_accessors( @ATTR_ACCESSOR );
 
 my @INHERITED = qw(
     render_method
@@ -32,14 +36,10 @@ my @MERGING = qw(
 
 __PACKAGE__->mk_inherited_merging_accessors( @MERGING );
 
-my @OUTPUT = (qw( title ));
-
-__PACKAGE__->mk_attr_output_accessors( @OUTPUT );
-
 our @MULTIFORM_SHARED = (
     @ATTRS,
+    @ATTR_ACCESSOR,
     @INHERITED,
-    @OUTPUT,
     @MERGING,
 );
 

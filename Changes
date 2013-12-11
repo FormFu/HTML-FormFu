@@ -14,8 +14,7 @@
       auto_datalist_id() is an inherited accessor which can be set on the 
       Form, MultiForm, or Block.
     
-    - Form and Elements have new title(), title_xml() and title_loc()
-      attribute accessors.
+    - Form and Elements has new title() attribute short-cut.
     
     - Constraint::Regex has new anchored() accessor.
     

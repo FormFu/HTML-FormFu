@@ -16,7 +16,6 @@ use HTML::FormFu::Attribute qw(
     mk_inherited_accessors
     mk_inherited_merging_accessors
     mk_output_accessors
-    mk_attr_output_accessors
 );
 use HTML::FormFu::ObjectUtil qw(
     form
