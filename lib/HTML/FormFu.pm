@@ -149,7 +149,7 @@ __PACKAGE__->mk_output_accessors(qw( form_error_message ));
 *plugins           = \&plugin;
 *add_plugins       = \&add_plugin;
 
-our $VERSION = '0.09010';
+our $VERSION = '1.00';
 $VERSION = eval $VERSION;
 
 our $build_defaults = {
