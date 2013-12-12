@@ -79,7 +79,7 @@ after BUILD => sub {
     $self->label_tag('label');
     $self->errors_filename('errors');
     $self->auto_label_class('label');
-    $self->auto_comment_class('%t');
+    $self->auto_comment_class('comment');
     $self->auto_container_class('%t');
     $self->container_tag('div');
     $self->is_field(1);
@@ -608,11 +608,10 @@ sub _render_comment_class {
         my %string = (
             f => $form_name,
             n => $field_name,
-            t => 'comment',
         );
 
         my $class = $self->auto_comment_class;
-        $class =~ s/%([fnt])/$string{$1}/g;
+        $class =~ s/%([fn])/$string{$1}/g;
 
         append_xml_attribute( $render->{comment_attributes},
             'class', $class );
