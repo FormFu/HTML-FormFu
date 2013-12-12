@@ -4,6 +4,10 @@
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted. 'field' file changed. New 'errors' file.
     
+    - auto_error_class() no longer has a default value.
+      See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
+      previous behaviour.
+    
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
     

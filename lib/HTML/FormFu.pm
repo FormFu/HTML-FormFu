@@ -162,7 +162,6 @@ our $build_defaults = {
     query_type         => 'CGI',
     default_model      => 'DBIC',
     localize_class     => 'HTML::FormFu::I18N',
-    auto_error_class   => 'error_message error_%s_%t',
     auto_error_message => 'form_%s_%t',
     auto_container_error_class     => 'error',
     auto_container_per_error_class => 'error_%s_%t',
@@ -3076,6 +3075,21 @@ We try our best to not make incompatible changes, but if they're required
 we'll make every effort possible to provide backwards compatibility for
 several release-cycles, issuing a warnings about the changes, before removing
 the legacy features.
+
+=head1 RESTORING LEGACY HTML CLASSES
+
+C<v1.00> dropped most of the default HTML class-names, with the intention
+that each application should define just what it needs, without needing to
+reset unwanted options first. We also gain the benefit of less markup being
+generated, speeding up both L<render|/render> and HTTP tranfers.
+
+To restore the previous behaviour, set the following options.
+
+If you're using L<best practices|/"BEST PRACTICES">, you'll only need to set
+these once per-application in your app-wide config file.
+
+    ---
+    auto_error_class: 'error_message error_%s_%t'
 
 =head1 REMOVED METHODS
 

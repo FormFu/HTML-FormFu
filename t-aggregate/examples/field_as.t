@@ -68,7 +68,7 @@ is( $output, $xhtml );
 <body>
 <form action="" method="post">
 <div class="password comment label error error_constraint_required">
-<span class="error_message error_constraint_required">This field is required</span>
+<span>This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" value="" />
 <span class="comment">
@@ -76,7 +76,7 @@ Comment
 </span>
 </div>
 <div class="text comment label error error_constraint_required">
-<span class="error_message error_constraint_required">This field is required</span>
+<span>This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" value="" disabled="disabled" />
 <span class="comment">

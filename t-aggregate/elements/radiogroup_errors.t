@@ -40,7 +40,7 @@ is( "$field", $xhtml );
     my $xhtml
         = qq{<fieldset class="radiogroup label error error_constraint_required">
 <legend>My legend</legend>
-<span class="error_message error_constraint_required">This field is required</span>
+<span>This field is required</span>
 <span>
 <span>
 <input name="foo" type="radio" value="one" />

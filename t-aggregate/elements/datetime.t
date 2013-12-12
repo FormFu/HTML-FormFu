@@ -374,7 +374,7 @@ ok( !defined $form->params->{foo} );
 is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
 <div class="datetime error error_inflator_datetime">
-<span class="error_message error_inflator_datetime">Invalid date</span>
+<span>Invalid date</span>
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>
