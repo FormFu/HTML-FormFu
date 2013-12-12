@@ -25,18 +25,18 @@ bar
 </tr>
 <tr>
 <td>
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
-<div class="radio">
+<div>
 <input name="foo" type="radio" value="1" />
 </div>
 </td>
 <td>
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
-<div class="radio">
+<div>
 <input name="bar" type="radio" value="1" />
 </div>
 </td>

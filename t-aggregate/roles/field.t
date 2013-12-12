@@ -14,7 +14,7 @@ $form->load_config_file('t-aggregate/roles/field.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="myfieldrole text">
+<div class="myfieldrole">
 <input name="foo" type="text" />
 </div>
 </fieldset>

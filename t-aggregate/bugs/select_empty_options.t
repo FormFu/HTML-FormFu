@@ -12,11 +12,11 @@ $form->element('Select')->name('bar')->options();
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="select">
+<div>
 <select name="foo">
 </select>
 </div>
-<div class="select">
+<div>
 <select name="bar">
 </select>
 </div>

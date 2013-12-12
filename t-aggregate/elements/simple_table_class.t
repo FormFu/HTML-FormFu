@@ -20,21 +20,21 @@ foo
 </tr>
 <tr class="x">
 <td>
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
 </td>
 </tr>
 <tr class="y">
 <td>
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
 </td>
 </tr>
 <tr class="x">
 <td>
-<div class="text">
+<div>
 <input name="baz" type="text" />
 </div>
 </td>

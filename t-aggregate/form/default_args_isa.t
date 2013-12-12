@@ -27,7 +27,7 @@ is( $text->id, 'bar' );
 is ( "$form", <<HTML );
 <form action="" method="post">
 <fieldset class="does_block">
-<div class="multi">
+<div>
 <label>My Multi</label>
 <span class="does_block elements">
 <input name="foo.bar" type="text" id="bar" />

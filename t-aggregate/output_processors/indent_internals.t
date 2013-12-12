@@ -20,27 +20,27 @@ my $input = <<INPUT;
 <pre>
     foo bar
 </pre>
-<span class="text">
+<span>
 <label for="text">Label</label>
 <input name="text" type="text" />
 <span>Comment</span>
 </span>
-<span class="textarea">
+<span>
 <textarea name="textarea" cols="40" rows="20">foo
 bar
 </textarea>
 </span>
-<span class="textarea">
+<span>
 <textarea name="empty_textarea" cols="40" rows="20"></textarea>
 </span>
-<span class="select">
+<span>
 <select name="select">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
 </select>
 </span>
-<span class="submit">
+<span>
 <input name="submit" type="submit" />
 </span>
 </fieldset>
@@ -55,27 +55,27 @@ my $output = <<OUTPUT;
         <pre>
     foo bar
 </pre>
-        <span class="text">
+        <span>
             <label for="text">Label</label>
             <input name="text" type="text" />
             <span>Comment</span>
         </span>
-        <span class="textarea">
+        <span>
             <textarea name="textarea" cols="40" rows="20">foo
 bar
 </textarea>
         </span>
-        <span class="textarea">
+        <span>
             <textarea name="empty_textarea" cols="40" rows="20"></textarea>
         </span>
-        <span class="select">
+        <span>
             <select name="select">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
         </span>
-        <span class="submit">
+        <span>
             <input name="submit" type="submit" />
         </span>
     </fieldset>

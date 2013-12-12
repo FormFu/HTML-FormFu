@@ -29,7 +29,7 @@ $form->process( {} );
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="multi">
+<div>
 <span>This field is required</span>
 <span>This field is required</span>
 <label>My multi</label>
@@ -38,7 +38,7 @@ my $xhtml = <<EOF;
 <input name="bar" type="radio" value="1" />
 </span>
 </div>
-<div class="submit">
+<div>
 <input type="submit" />
 </div>
 </form>

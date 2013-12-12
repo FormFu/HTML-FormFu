@@ -13,7 +13,7 @@ my $field = $form->element('Textarea')->name('foo');
 # add more elements to test accessor output
 $form->element('Textarea')->name('bar')->default("foo\nbar")->cols(10)->rows(2);
 
-my $field_xhtml = qq{<div class="textarea">
+my $field_xhtml = qq{<div>
 <textarea name="foo" cols="40" rows="20"></textarea>
 </div>};
 
@@ -22,7 +22,7 @@ is( "$field", $field_xhtml );
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<div class="textarea">
+<div>
 <textarea name="bar" cols="10" rows="2">foo
 bar</textarea>
 </div>

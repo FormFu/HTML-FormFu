@@ -18,7 +18,7 @@ $form->process;
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="date">
+<div>
 <span class="elements">
 <select name="foo_day">
 <option value="1">1</option>

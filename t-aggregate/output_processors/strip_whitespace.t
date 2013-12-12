@@ -16,23 +16,23 @@ $form->load_config_file('t-aggregate/output_processors/strip_whitespace.yml');
 <fieldset>
 <legend>fieldset</legend>
 <input name="hidden" type="hidden" value="1" />
-<div class="text">
+<div>
 <label>Foo</label>
 <input name="foo" type="text" />
 </div>
-<div class="textarea">
+<div>
 <textarea name="textarea" cols="40" rows="20">foo
 bar
 </textarea>
 </div>
-<div class="select">
+<div>
 <select name="select">
 <option value="a">A</option>
 <option value="b">B</option>
 <option value="d">D</option>
 </select>
 </div>
-<div class="select">
+<div>
 <select name="select2">
 <option value="1">one</option>
 <optgroup>
@@ -41,13 +41,13 @@ bar
 </optgroup>
 </select>
 </div>
-<div class="multi">
+<div>
 <span class="elements">
 <input name="multi1" type="text" />
 <input name="multi2" type="text" />
 </span>
 </div>
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="radiogroup" type="radio" value="a" />
@@ -63,7 +63,7 @@ bar
 </span>
 </span>
 </fieldset>
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="radiogroup2" type="radio" value="1" />
@@ -81,7 +81,7 @@ bar
 </span>
 </span>
 </fieldset>
-<div class="radio">
+<div>
 <input name="radio" type="radio" value="1" />
 </div>
 <table class="simpletable">
@@ -95,7 +95,7 @@ bar
 </tr>
 <tr>
 <td>
-<div class="text">
+<div>
 <input name="table1" type="text" />
 </div>
 </td>
@@ -107,7 +107,7 @@ foo
 </tr>
 <tr>
 <td>
-<div class="text">
+<div>
 <input name="table2" type="text" />
 </div>
 </td>
@@ -119,7 +119,7 @@ bar
 </tr>
 </table>
 <hr />
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </fieldset>
@@ -134,23 +134,23 @@ $form->output_processor('StripWhitespace');
 {
     my $xhtml
         = qq{<form action="" method="post"><fieldset><legend>fieldset</legend><input name="hidden" type="hidden" value="1" />
-<div class="text">
+<div>
 <label>Foo</label>
 <input name="foo" type="text" />
-</div><div class="textarea">
+</div><div>
 <textarea name="textarea" cols="40" rows="20">foo
 bar
 </textarea>
-</div><div class="select">
+</div><div>
 <select name="select"><option value="a">A</option><option value="b">B</option><option value="d">D</option></select>
-</div><div class="select">
+</div><div>
 <select name="select2"><option value="1">one</option><optgroup><option value="2">two</option><option value="3">three</option></optgroup></select>
-</div><div class="multi">
+</div><div>
 <span class="elements">
 <input name="multi1" type="text" />
 <input name="multi2" type="text" />
 </span>
-</div><fieldset class="radiogroup"><span><span>
+</div><fieldset><span><span>
 <input name="radiogroup" type="radio" value="a" />
 <label>A</label>
 </span><span>
@@ -159,7 +159,7 @@ bar
 </span><span>
 <input name="radiogroup" type="radio" value="c" />
 <label>C</label>
-</span></span></fieldset><fieldset class="radiogroup"><span><span>
+</span></span></fieldset><fieldset><span><span>
 <input name="radiogroup2" type="radio" value="1" />
 <label>one</label>
 </span><span class="subgroup"><span>
@@ -168,15 +168,15 @@ bar
 </span><span>
 <input name="radiogroup2" type="radio" value="3" />
 <label>three</label>
-</span></span></span></fieldset><div class="radio">
+</span></span></span></fieldset><div>
 <input name="radio" type="radio" value="1" />
-</div><table class="simpletable"><tr><th>foo</th><th>bar</th></tr><tr><td><div class="text">
+</div><table class="simpletable"><tr><th>foo</th><th>bar</th></tr><tr><td><div>
 <input name="table1" type="text" />
 </div></td><td><div>
-foo</div></td></tr><tr><td><div class="text">
+foo</div></td></tr><tr><td><div>
 <input name="table2" type="text" />
 </div></td><td><div>
-bar</div></td></tr></table><hr /><div class="submit">
+bar</div></td></tr></table><hr /><div>
 <input name="submit" type="submit" />
 </div></fieldset></form>};
     is( "$form", $xhtml );

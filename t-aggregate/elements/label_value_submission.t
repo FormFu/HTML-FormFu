@@ -24,11 +24,11 @@ $form->load_config_file($config_file);
 <form action="" method="post">
 <fieldset>
 <input name="id" type="hidden" value="2" />
-<div class="label">
+<div>
 <span name="name">billy bob</span>
 </div>
 <input name="name" type="hidden" value="billy bob" />
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </fieldset>
@@ -54,11 +54,11 @@ HTML
 <form action="" method="post">
 <fieldset>
 <input name="id" type="hidden" value="2" />
-<div class="label">
+<div>
 <span name="name">billy bob</span>
 </div>
 <input name="name" type="hidden" value="billy bob" />
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </fieldset>

@@ -30,7 +30,7 @@ $form->process;
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="date">
+<div>
 <span class="elements">
 <select name="foo_month">
 <option value="">-- Month --</option>
@@ -97,7 +97,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date">
+<div>
 <span class="elements">
 <select name="bar_year">
 <option value="2007" selected="selected">2007</option>
@@ -182,7 +182,7 @@ is( $bar, "01-07-2007" );
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="date">
+<div>
 <span class="elements">
 <select name="foo_month">
 <option value="">-- Month --</option>
@@ -249,7 +249,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date">
+<div>
 <span class="elements">
 <select name="bar_year">
 <option value="2007" selected="selected">2007</option>

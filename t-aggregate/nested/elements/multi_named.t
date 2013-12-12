@@ -17,7 +17,7 @@ $multi->element('Text')->name('bar');
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="multi">
+<div>
 <span class="elements">
 <input name="nested.foo.bar" type="text" />
 </span>

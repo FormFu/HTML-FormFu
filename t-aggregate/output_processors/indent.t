@@ -15,14 +15,14 @@ $form->element('Textarea')->name('baz');
 {
     my $xhtml = <<XHTML;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
-<div class="textarea">
+<div>
 <textarea name="bar" cols="40" rows="20">Bar
 </textarea>
 </div>
-<div class="textarea">
+<div>
 <textarea name="baz" cols="40" rows="20"></textarea>
 </div>
 </form>
@@ -36,14 +36,14 @@ $form->output_processor('Indent');
 {
     my $xhtml = <<XHTML;
 <form action="" method="post">
-	<div class="text">
+	<div>
 		<input name="foo" type="text" />
 	</div>
-	<div class="textarea">
+	<div>
 		<textarea name="bar" cols="40" rows="20">Bar
 </textarea>
 	</div>
-	<div class="textarea">
+	<div>
 		<textarea name="baz" cols="40" rows="20"></textarea>
 	</div>
 </form>

@@ -13,11 +13,11 @@ $form->load_config_file('t-aggregate/elements/text_auto_label_class.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="text">
+<div>
 <label>foo</label>
 <input name="foo" type="text" />
 </div>
-<div class="text text_label">
+<div class="text_label">
 <label>bar</label>
 <input name="bar" type="text" />
 </div>

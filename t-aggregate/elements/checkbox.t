@@ -17,7 +17,7 @@ my $moo
 my $fad
     = $form->element('Checkbox')->name('fad')->value('fadx')->default('fadx');
 
-my $field_xhtml = qq{<div class="checkbox">
+my $field_xhtml = qq{<div>
 <input name="foo" type="checkbox" value="foox" />
 </div>};
 
@@ -26,13 +26,13 @@ is( "$foo", $field_xhtml, 'field xhtml' );
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<div class="checkbox">
+<div>
 <input name="bar" type="checkbox" value="barx" />
 </div>
-<div class="checkbox">
+<div>
 <input name="moo" type="checkbox" value="moox" checked="checked" />
 </div>
-<div class="checkbox">
+<div>
 <input name="fad" type="checkbox" value="fadx" checked="checked" />
 </div>
 </form>

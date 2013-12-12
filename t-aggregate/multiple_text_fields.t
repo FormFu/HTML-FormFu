@@ -15,10 +15,10 @@ $form->process( { foo => [qw/ a b /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" value="a" />
 </div>
-<div class="text">
+<div>
 <input name="foo" type="text" value="b" />
 </div>
 </form>

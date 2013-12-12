@@ -15,7 +15,7 @@ $form->process( { foo => [qw/ one three /], } );
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="select">
+<div>
 <select name="foo" multiple="1">
 <option value="one" selected="selected">One</option>
 <option value="two">Two</option>

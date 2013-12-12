@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new(
 
 my $element = $form->element('File')->name('foo');
 
-my $field_xhtml = qq{<div class="file">
+my $field_xhtml = qq{<div>
 <input name="foo" type="file" />
 </div>};
 

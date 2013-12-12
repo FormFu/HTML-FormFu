@@ -27,7 +27,7 @@ $form->element('Select')->name('foo')->value(2)->options( [
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="select">
+<div>
 <select name="foo">
 <optgroup>
 <option value="1">one</option>

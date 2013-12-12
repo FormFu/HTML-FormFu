@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new(
 
 my $field = $form->element('Button')->name('foo');
 
-my $field_xhtml = qq{<div class="button">
+my $field_xhtml = qq{<div>
 <input name="foo" type="button" />
 </div>};
 

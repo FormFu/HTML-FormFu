@@ -13,7 +13,7 @@ $form->process;
 
 my $field = $form->get_field('foo');
 
-my $html = qq{<fieldset class="checkboxgroup">
+my $html = qq{<fieldset>
 <span>
 <span myattr="escape&#38;container">
 <input name="foo" type="checkbox" value="1" myattr="escape&#38;attr" />

@@ -28,7 +28,7 @@ my $field = $form->element('Radiogroup')->name('foo')->options( [ {
 
 is( "$form", <<EOF );
 <form action="" method="post">
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="&gt;1" />

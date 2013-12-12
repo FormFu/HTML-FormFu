@@ -21,7 +21,7 @@ ok( !$form->has_errors );
 my $xhtml = <<EOF;
 <form action="" method="post">
 <div class="form_error_message">Forced Error Message</div>
-<div class="text">
+<div>
 <input name="foo" type="text" value="1" />
 </div>
 </form>

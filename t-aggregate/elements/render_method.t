@@ -18,7 +18,7 @@ $form->element('Text')->name('bar');
 is( "$form", <<HTML );
 <form action="" method="post">
 <TEXT name="foo" />
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
 </form>

@@ -18,7 +18,7 @@ my $form = HTML::FormFu->new( {
                 value     => 'foo',
             } ] );
 
-    my $field_xhtml = qq{<div class="select">
+    my $field_xhtml = qq{<div>
 <select name="foo">
 <option value="foo">Foo label</option>
 </select>

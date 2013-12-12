@@ -23,7 +23,7 @@ $form->element('Checkboxgroup')->name('foo3')->options( [
 $form->element('Checkboxgroup')->name('bar')->values( [qw/ one two three /] )
     ->value('two')->label('My Bar');
 
-my $field1_xhtml = qq{<fieldset class="checkboxgroup">
+my $field1_xhtml = qq{<fieldset>
 <span>
 <span>
 <input name="foo" type="checkbox" value="1" />
@@ -38,7 +38,7 @@ my $field1_xhtml = qq{<fieldset class="checkboxgroup">
 
 is( "$field1", $field1_xhtml, 'basic checkboxgroup' );
 
-my $field2_xhtml = qq{<fieldset class="checkboxgroup">
+my $field2_xhtml = qq{<fieldset>
 <span>
 <span>
 <label>A</label>
@@ -57,7 +57,7 @@ my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field1_xhtml
 $field2_xhtml
-<fieldset class="checkboxgroup">
+<fieldset>
 <span>
 <span>
 <input name="foo3" type="checkbox" value="1" />
@@ -69,7 +69,7 @@ $field2_xhtml
 </span>
 </span>
 </fieldset>
-<fieldset class="checkboxgroup">
+<fieldset>
 <legend>My Bar</legend>
 <span>
 <span>
@@ -98,7 +98,7 @@ is( "$form", $form_xhtml, 'stringified form' );
             bar => 'three',
         } );
 
-    my $foo_xhtml = qq{<fieldset class="checkboxgroup">
+    my $foo_xhtml = qq{<fieldset>
 <span>
 <span>
 <input name="foo" type="checkbox" value="1" checked="checked" />
@@ -113,7 +113,7 @@ is( "$form", $form_xhtml, 'stringified form' );
 
     is( $form->get_field('foo'), $foo_xhtml, 'checkboxgroup after query' );
 
-    my $bar_xhtml = qq{<fieldset class="checkboxgroup">
+    my $bar_xhtml = qq{<fieldset>
 <legend>My Bar</legend>
 <span>
 <span>

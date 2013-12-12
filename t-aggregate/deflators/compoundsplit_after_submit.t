@@ -21,7 +21,7 @@ is( $form->param_value('address'), '10 Downing Street' );
 
 my $html = <<HTML;
 <form action="" method="post">
-<div class="multi">
+<div>
 <span class="elements">
 <input name="address.number" type="text" value="10" />
 <input name="address.street" type="text" value="Downing Street" />

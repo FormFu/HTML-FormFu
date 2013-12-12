@@ -18,7 +18,7 @@ $form->process;
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="combobox">
+<div>
 <span class="elements">
 <select name="foo.bar_select">
 <option value=""></option>
@@ -42,7 +42,7 @@ is( $form->param("foo.bar"), 2 );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="combobox">
+<div>
 <span class="elements">
 <select name="foo.bar_select">
 <option value=""></option>
@@ -66,7 +66,7 @@ is( $form->param("foo.bar"), 3 );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="combobox">
+<div>
 <span class="elements">
 <select name="foo.bar_select">
 <option value="" selected="selected"></option>

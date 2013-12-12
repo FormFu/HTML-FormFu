@@ -37,21 +37,21 @@ my $xhtml = <<EOF;
 <html>
 <body>
 <form action="" method="post">
-<div class="password">
+<div>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" />
 <span>
 Comment
 </span>
 </div>
-<div class="text">
+<div>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" disabled="disabled" />
 <span>
 Comment
 </span>
 </div>
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </form>
@@ -67,7 +67,7 @@ is( $output, $xhtml );
 <html>
 <body>
 <form action="" method="post">
-<div class="password">
+<div>
 <span>This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="password" value="" />
@@ -75,7 +75,7 @@ is( $output, $xhtml );
 Comment
 </span>
 </div>
-<div class="text">
+<div>
 <span>This field is required</span>
 <label class="my_label">Foo</label>
 <input name="foo" type="text" value="" disabled="disabled" />
@@ -83,7 +83,7 @@ Comment
 Comment
 </span>
 </div>
-<div class="submit">
+<div>
 <input name="submit" type="submit" value="Submit" />
 </div>
 </form>

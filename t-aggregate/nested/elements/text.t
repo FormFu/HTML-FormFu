@@ -15,7 +15,7 @@ my $element = $form->element('Text')->name('foo');
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="text">
+<div>
 <input name="text.foo" type="text" />
 </div>
 </fieldset>
@@ -29,7 +29,7 @@ is( $form->param('text.foo'), 42 );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="text">
+<div>
 <input name="text.foo" type="text" value="42" />
 </div>
 </fieldset>

@@ -13,7 +13,7 @@ $form->element('Text')->name('bar');
 $form->element('Submit')->name('submit');
 
 {
-    my $xhtml = qq{<div class="submit">
+    my $xhtml = qq{<div>
 <input name="submit" type="submit" />
 </div>};
 
@@ -31,7 +31,7 @@ because the browser won't display the default text label,
 {
     $form->process( { bar => 1 } );
 
-    my $xhtml = qq{<div class="submit">
+    my $xhtml = qq{<div>
 <input name="submit" type="submit" />
 </div>};
 

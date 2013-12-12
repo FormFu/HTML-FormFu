@@ -19,7 +19,7 @@ $form->element( { type => 'Submit' } );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="multi">
+<div>
 <label>My multi</label>
 <span class="elements">
 <label>My text</label>
@@ -29,7 +29,7 @@ my $form_xhtml = <<EOF;
 <label>My radio</label>
 </span>
 </div>
-<div class="submit">
+<div>
 <input type="submit" />
 </div>
 </form>

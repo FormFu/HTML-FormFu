@@ -31,7 +31,7 @@ $form->process;
 is( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
-<div class="date">
+<div>
 <span class="elements">
 <select name="date.foo_day">
 <option value="">-- Day --</option>
@@ -98,7 +98,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date">
+<div>
 <span class="elements">
 <select name="date.bar_day">
 <option value="1">1</option>
@@ -189,7 +189,7 @@ my $bar_field = $form->get_field('bar');
 is( "$form", <<HTML );
 <form action="" method="post">
 <fieldset>
-<div class="date">
+<div>
 <span class="elements">
 <select name="date.foo_day">
 <option value="">-- Day --</option>
@@ -256,7 +256,7 @@ is( "$form", <<HTML );
 </select>
 </span>
 </div>
-<div class="date">
+<div>
 <span class="elements">
 <select name="date.bar_day">
 <option value="1" selected="selected">1</option>
@@ -336,7 +336,7 @@ ok( !defined $form->param('date.foo') );
 is( "$form", <<HTML_ERRORS );
 <form action="" method="post">
 <fieldset>
-<div class="date">
+<div>
 <span>Invalid date</span>
 <span class="elements">
 <select name="date.foo_day">
@@ -404,7 +404,7 @@ is( "$form", <<HTML_ERRORS );
 </select>
 </span>
 </div>
-<div class="date">
+<div>
 <span class="elements">
 <select name="date.bar_day">
 <option value="1">1</option>

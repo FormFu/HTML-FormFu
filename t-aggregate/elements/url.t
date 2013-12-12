@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t-aggregate/elements/url.yml');
 
-my $expected_field_xhtml = qq{<div class="url">
+my $expected_field_xhtml = qq{<div>
 <input name="foo" type="url" title="Only http and https URLs allowed" />
 </div>};
 

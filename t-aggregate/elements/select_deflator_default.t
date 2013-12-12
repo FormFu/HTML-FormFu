@@ -21,7 +21,7 @@ my $field = $form->element( {
 
 $form->process;
 
-my $field_xhtml = qq{<div class="select">
+my $field_xhtml = qq{<div>
 <select name="foo">
 <option value="foo">Foo</option>
 <option value="bar" selected="selected">Bar</option>

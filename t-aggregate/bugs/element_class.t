@@ -20,10 +20,10 @@ $form->element('Text')->name('bar');
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
 </form>

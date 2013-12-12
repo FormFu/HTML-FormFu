@@ -11,7 +11,7 @@ use HTML::FormFu;
 
     $form->element('Text')->name('foo')->id('fid')->label('Foo');
 
-    my $field_xhtml = qq{<div class="text">
+    my $field_xhtml = qq{<div>
 <label for="fid">Foo</label>
 <input name="foo" type="text" id="fid" />
 </div>};
@@ -28,7 +28,7 @@ use HTML::FormFu;
 
     $form->element('Text')->name('foo')->label('Foo');
 
-    my $field_xhtml = qq{<div class="text">
+    my $field_xhtml = qq{<div>
 <label for="foo">Foo</label>
 <input name="foo" type="text" id="foo" />
 </div>};
@@ -53,7 +53,7 @@ HTML
 
     $form->element('Text')->name('foo')->label('Foo')->auto_id('%f_%n');
 
-    my $field_xhtml = qq{<div class="text">
+    my $field_xhtml = qq{<div>
 <label for="my_form_foo">Foo</label>
 <input name="foo" type="text" id="my_form_foo" />
 </div>};

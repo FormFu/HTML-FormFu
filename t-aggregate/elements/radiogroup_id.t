@@ -14,7 +14,7 @@ $form->id('form')->auto_id('%n%c');
 
 my $foo = $form->element('Radiogroup')->name('foo')->values( [ 1, 2 ] );
 
-my $foo_xhtml = qq{<fieldset class="radiogroup">
+my $foo_xhtml = qq{<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="1" id="foo1" />

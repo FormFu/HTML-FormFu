@@ -24,18 +24,18 @@ $form->element('Text')->name('yam');
 my $xhtml = <<EOF;
 <form action="" method="post">
 <fieldset id="fs">
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
 </fieldset>
 <fieldset>
-<div class="text">
+<div>
 <input name="baz" type="text" />
 </div>
-<div class="text">
+<div>
 <input name="yam" type="text" />
 </div>
 </fieldset>

@@ -13,7 +13,7 @@ $form->load_config_file('t-aggregate/elements/combobox.yml');
     $form->process;
 
     is( $form->get_element( { type => 'ComboBox' } ),
-        qq{<div class="combobox">
+        qq{<div>
 <span class="elements">
 <select name="combo_select">
 <option value=""></option>
@@ -32,7 +32,7 @@ $form->load_config_file('t-aggregate/elements/combobox.yml');
     $form->process;
 
     is( $form->get_element( { type => 'ComboBox' } ),
-        qq{<div class="combobox">
+        qq{<div>
 <span class="elements">
 <select name="combo_select">
 <option value=""></option>
@@ -51,7 +51,7 @@ $form->load_config_file('t-aggregate/elements/combobox.yml');
     $form->process;
 
     is( $form->get_element( { type => 'ComboBox' } ),
-        qq{<div class="combobox">
+        qq{<div>
 <span class="elements">
 <select name="combo_select">
 <option value=""></option>

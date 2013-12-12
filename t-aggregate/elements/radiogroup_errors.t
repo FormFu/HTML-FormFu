@@ -17,7 +17,7 @@ $field->values( [qw/ one two /] );
 $field->label('My legend');
 $field->constraint('Required');
 
-my $xhtml = qq{<fieldset class="radiogroup">
+my $xhtml = qq{<fieldset>
 <legend>My legend</legend>
 <span>
 <span>
@@ -38,7 +38,7 @@ is( "$field", $xhtml );
     $form->process( {} );
 
     my $xhtml
-        = qq{<fieldset class="radiogroup">
+        = qq{<fieldset>
 <legend>My legend</legend>
 <span>This field is required</span>
 <span>

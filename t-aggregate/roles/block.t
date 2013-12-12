@@ -14,7 +14,7 @@ $form->load_config_file('t-aggregate/roles/block.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <div class="myblockrole">
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
 </div>

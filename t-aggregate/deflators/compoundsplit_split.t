@@ -16,7 +16,7 @@ $form->process;
 
 my $html = <<HTML;
 <form action="" method="post">
-<div class="multi">
+<div>
 <span class="elements">
 <input name="sortcode.p1" type="text" value="01" />
 <input name="sortcode.p2" type="text" value="02" />

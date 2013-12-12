@@ -15,7 +15,7 @@ $form->element('Radio')->name('foo')->value('foox');
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="radio">
+<div>
 <input name="radio.foo" type="radio" value="foox" />
 </div>
 </fieldset>

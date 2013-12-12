@@ -21,10 +21,10 @@ like( $bar->attrs->{class}, qr/is_input/ );
 
 is ( "$form", <<HTML );
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" class="not_in_multi" />
 </div>
-<div class="multi">
+<div>
 <span class="elements">
 <input name="multi.bar" type="text" class="is_input" />
 </span>

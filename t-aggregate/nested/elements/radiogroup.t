@@ -16,7 +16,7 @@ my $field = $form->element('Radiogroup')->name('foo')->value(2)
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="rg.foo" type="radio" value="1" />
@@ -39,7 +39,7 @@ is( $form->param('rg.foo'), 1 );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="rg.foo" type="radio" value="1" checked="checked" />

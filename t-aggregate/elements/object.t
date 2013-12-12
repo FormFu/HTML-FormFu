@@ -34,14 +34,14 @@ $form->element('Submit')->name('submit');
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" /> **
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" />
 </div>
 <input name="baz" type="hidden" />
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </form>

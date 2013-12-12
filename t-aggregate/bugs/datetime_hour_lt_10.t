@@ -28,7 +28,7 @@ my $foo_field = $form->get_field('foo');
 
 $foo_field->default($dt);
 
-my $xhtml = qq{<div class="datetime">
+my $xhtml = qq{<div>
 <span class="elements">
 <select name="foo_day">
 <option value="">-- Day --</option>

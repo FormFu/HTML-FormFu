@@ -30,7 +30,7 @@ $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
 
 $form->process;
 
-my $field1_xhtml = qq{<fieldset class="radiogroup">
+my $field1_xhtml = qq{<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="1" />
@@ -45,7 +45,7 @@ my $field1_xhtml = qq{<fieldset class="radiogroup">
 
 is( "$field1", $field1_xhtml, 'basic radiogroup' );
 
-my $field2_xhtml = qq{<fieldset class="radiogroup">
+my $field2_xhtml = qq{<fieldset>
 <span>
 <span>
 <label>A</label>
@@ -64,7 +64,7 @@ my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field1_xhtml
 $field2_xhtml
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="foo3" type="radio" value="1" />
@@ -76,7 +76,7 @@ $field2_xhtml
 </span>
 </span>
 </fieldset>
-<fieldset class="radiogroup">
+<fieldset>
 <legend>My Bar</legend>
 <span>
 <span>
@@ -105,7 +105,7 @@ is( "$form", $form_xhtml, 'stringified form' );
             bar => 'three',
         } );
 
-    my $foo_xhtml = qq{<fieldset class="radiogroup">
+    my $foo_xhtml = qq{<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="1" checked="checked" />
@@ -120,7 +120,7 @@ is( "$form", $form_xhtml, 'stringified form' );
 
     is( $form->get_field('foo'), $foo_xhtml, 'radiogroup after query' );
 
-    my $bar_xhtml = qq{<fieldset class="radiogroup">
+    my $bar_xhtml = qq{<fieldset>
 <legend>My Bar</legend>
 <span>
 <span>

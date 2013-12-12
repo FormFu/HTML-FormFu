@@ -21,7 +21,7 @@ $form->get_field('dob')->default($datetime);
 
 my $html = <<HTML;
 <form action="" method="post">
-<div class="multi">
+<div>
 <span class="elements">
 <input name="dob.m" type="text" value="12" />
 <input name="dob.d" type="text" value="31" />

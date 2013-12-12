@@ -15,7 +15,7 @@ $form->load_config_file('t-aggregate/elements/text_datalist_options.yml');
 
 my $expected_form_xhtml = <<EOF;
 <form action="" id="form" method="post">
-<div class="text">
+<div>
 <datalist id="form_foo_datalist">
 <option value="one">One</option>
 <option value="two">Two</option>

@@ -13,7 +13,7 @@ my $foo = $form->element('Select')->name('foo')->value_range( [ 2000, 2010 ] );
 my $bar = $form->element('Select')->name('bar')
     ->value_range( [ 'year', 2000, 2002 ] );
 
-my $foo_xhtml = qq{<div class="select">
+my $foo_xhtml = qq{<div>
 <select name="foo">
 <option value="2000">2000</option>
 <option value="2001">2001</option>
@@ -31,7 +31,7 @@ my $foo_xhtml = qq{<div class="select">
 
 is( "$foo", $foo_xhtml );
 
-my $bar_xhtml = qq{<div class="select">
+my $bar_xhtml = qq{<div>
 <select name="bar">
 <option value="year">Year</option>
 <option value="2000">2000</option>

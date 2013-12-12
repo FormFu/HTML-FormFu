@@ -18,13 +18,13 @@ ok( $form->submitted_and_valid );
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="submit">
+<div>
 <input name="foo" type="submit" value="a" />
 </div>
-<div class="submit">
+<div>
 <input name="foo" type="submit" value="b" />
 </div>
-<div class="submit">
+<div>
 <input name="foo" type="submit" value="c" />
 </div>
 </form>

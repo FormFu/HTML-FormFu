@@ -18,7 +18,7 @@ is( $form->get_field('bar')->field_tag, "" );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
 </form>

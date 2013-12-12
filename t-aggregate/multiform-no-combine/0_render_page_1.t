@@ -15,10 +15,10 @@ $multi->process;
 my $html = <<HTML;
 <form action="" id="form" method="post">
 <fieldset>
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </fieldset>

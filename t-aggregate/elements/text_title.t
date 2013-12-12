@@ -16,10 +16,10 @@ $form->element('Text')->name('bar')->title_loc('bar_title');
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="text">
+<div>
 <input name="foo" type="text" title="The Foo" />
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" title="The Bar Title" />
 </div>
 </form>

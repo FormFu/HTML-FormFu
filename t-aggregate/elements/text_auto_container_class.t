@@ -13,7 +13,7 @@ $form->load_config_file('t-aggregate/elements/text_auto_container_class.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="text">
+<div>
 <input name="foo" type="text" />
 </div>
 <div class="formfu_bar_text">

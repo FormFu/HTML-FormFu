@@ -19,7 +19,7 @@ $form->process({
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="text">
+<div>
 <ul>
 <li>This field must be an integer</li>
 </ul>

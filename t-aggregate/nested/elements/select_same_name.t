@@ -15,13 +15,13 @@ $form->process( { 'x.foo' => [ 1, 2 ], } );
 is( "$form", <<EOF );
 <form action="" method="post">
 <fieldset>
-<div class="select">
+<div>
 <select name="x.foo">
 <option value="1" selected="selected">One</option>
 <option value="2">Two</option>
 </select>
 </div>
-<div class="select">
+<div>
 <select name="x.foo">
 <option value="1">One</option>
 <option value="2" selected="selected">Two</option>

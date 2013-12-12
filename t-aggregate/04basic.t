@@ -75,14 +75,14 @@ my $xhtml = <<EOF;
 <form action="/foo/bar" id="form" method="post">
 <fieldset>
 <legend>Jimi</legend>
-<div class="text">
+<div>
 <label for="age">Age</label>
 <input name="age" type="text" id="age" />
 <span>
 x
 </span>
 </div>
-<div class="text">
+<div>
 <label for="name">Name</label>
 <input name="name" type="text" id="name" />
 </div>

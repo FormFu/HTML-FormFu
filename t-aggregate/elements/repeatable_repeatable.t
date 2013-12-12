@@ -31,37 +31,37 @@ is( "$form", <<HTML );
 <fieldset>
 <input name="count" type="hidden" value="2" />
 <div>
-<div class="text">
+<div>
 <input name="foo_1" type="text" value="a" />
 </div>
 <input name="count_1" type="hidden" value="1" />
 <div>
-<div class="text">
+<div>
 <input name="foo_1_1" type="text" value="c" />
 </div>
-<div class="text">
+<div>
 <input name="bar_1_1" type="text" value="d" />
 </div>
 </div>
 </div>
 <div>
-<div class="text">
+<div>
 <input name="foo_2" type="text" value="b" />
 </div>
 <input name="count_2" type="hidden" value="2" />
 <div>
-<div class="text">
+<div>
 <input name="foo_2_1" type="text" value="e" />
 </div>
-<div class="text">
+<div>
 <input name="bar_2_1" type="text" value="g" />
 </div>
 </div>
 <div>
-<div class="text">
+<div>
 <input name="foo_2_2" type="text" value="f" />
 </div>
-<div class="text">
+<div>
 <input name="bar_2_2" type="text" value="h" />
 </div>
 </div>

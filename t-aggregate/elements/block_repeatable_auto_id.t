@@ -19,22 +19,22 @@ is( $form, <<HTML );
 <form action="" method="post">
 <fieldset>
 <div>
-<div class="text">
+<div>
 <input name="foo" type="text" id="foo_1" />
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" id="bar_1" />
 </div>
 </div>
 <div>
-<div class="text">
+<div>
 <input name="foo" type="text" id="foo_2" />
 </div>
-<div class="text">
+<div>
 <input name="bar" type="text" id="bar_2" />
 </div>
 </div>
-<div class="submit">
+<div>
 <input name="submit" type="submit" />
 </div>
 </fieldset>

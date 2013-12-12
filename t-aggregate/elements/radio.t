@@ -15,7 +15,7 @@ $form->element('Radio')->name('bar')->value('barx');
 $form->element('Radio')->name('moo')->value('moox')->checked('checked');
 $form->element('Radio')->name('fad')->value('fadx')->checked('checked');
 
-my $field_xhtml = qq{<div class="radio">
+my $field_xhtml = qq{<div>
 <input name="foo" type="radio" value="foox" />
 </div>};
 
@@ -24,13 +24,13 @@ is( "$field", $field_xhtml, 'stringified field' );
 my $form_xhtml = <<EOF;
 <form action="" method="post">
 $field_xhtml
-<div class="radio">
+<div>
 <input name="bar" type="radio" value="barx" />
 </div>
-<div class="radio">
+<div>
 <input name="moo" type="radio" value="moox" checked="checked" />
 </div>
-<div class="radio">
+<div>
 <input name="fad" type="radio" value="fadx" checked="checked" />
 </div>
 </form>

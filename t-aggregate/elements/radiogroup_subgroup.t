@@ -29,7 +29,7 @@ $form->element('Radiogroup')->name('foo')->default(2)->options( [
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span class="subgroup">
 <span>

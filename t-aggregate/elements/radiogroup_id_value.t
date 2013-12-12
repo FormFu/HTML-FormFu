@@ -17,7 +17,7 @@ $form->element('Radiogroup')->name('foo')->values( [qw( c d )] );
 
 my $form_xhtml = <<XHTML;
 <form action="" id="form" method="post">
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="a" id="foo_a" />
@@ -29,7 +29,7 @@ my $form_xhtml = <<XHTML;
 </span>
 </span>
 </fieldset>
-<fieldset class="radiogroup">
+<fieldset>
 <span>
 <span>
 <input name="foo" type="radio" value="c" id="foo_c" />

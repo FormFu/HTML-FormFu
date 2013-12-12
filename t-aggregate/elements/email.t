@@ -10,7 +10,7 @@ my $form = HTML::FormFu->new(
 
 ok( my $element = $form->element('Email')->name('foo') );
 
-my $expected_field_xhtml = qq{<div class="email">
+my $expected_field_xhtml = qq{<div>
 <input name="foo" type="email" />
 </div>};
 

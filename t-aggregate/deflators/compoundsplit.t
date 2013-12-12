@@ -16,7 +16,7 @@ $form->process;
 
 my $html = <<HTML;
 <form action="" method="post">
-<div class="multi">
+<div>
 <span class="elements">
 <input name="address.number" type="text" value="10" />
 <input name="address.street" type="text" value="Downing Street" />

@@ -13,7 +13,7 @@ $form->process;
 
 my $field = $form->get_field('foo');
 
-my $html = qq{<div class="select">
+my $html = qq{<div>
 <select name="foo">
 <option value="1" myattr="escape&#38;attr">First</option>
 <option value="2" myattr="noescape&amp;">Second</option>

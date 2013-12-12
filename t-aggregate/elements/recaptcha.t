@@ -12,7 +12,7 @@ $form->load_config_file('t-aggregate/elements/recaptcha.yml');
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="recaptcha">
+<div>
 <span class="elements">
 <script type="text/javascript">
 //<![CDATA[
