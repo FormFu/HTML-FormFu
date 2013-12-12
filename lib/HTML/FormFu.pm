@@ -3087,6 +3087,7 @@ If you're using L<best practices|/"BEST PRACTICES">, you'll only need to set
 these once per-application in your app-wide config file.
 
     ---
+    auto_label_class: 'label'
     auto_container_error_class: 'error'
     auto_container_per_error_class: 'error_%s_%t'
     auto_error_class: 'error_message error_%s_%t'

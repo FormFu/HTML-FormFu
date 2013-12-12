@@ -29,7 +29,7 @@ $form->process( {} );
 
 my $xhtml = <<EOF;
 <form action="" method="post">
-<div class="multi label">
+<div class="multi">
 <span>This field is required</span>
 <span>This field is required</span>
 <label>My multi</label>

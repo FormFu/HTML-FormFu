@@ -37,7 +37,7 @@ $field_xhtml
 <option value="2" class="foobar">Zwei</option>
 </select>
 </div>
-<div class="select label">
+<div class="select">
 <label for="bar">Bar</label>
 <select name="bar" id="bar">
 <option value="one">One</option>
@@ -54,7 +54,7 @@ is( "$form", $form_xhtml, 'stringified form' );
 {
     $form->process( { bar => 'three', } );
 
-    my $bar_xhtml = qq{<div class="select label">
+    my $bar_xhtml = qq{<div class="select">
 <label for="bar">Bar</label>
 <select name="bar" id="bar">
 <option value="one">One</option>

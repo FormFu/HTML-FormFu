@@ -47,14 +47,14 @@ my $xhtml = <<EOF;
 <form action="/foo/bar" id="form" method="post">
 <fieldset>
 <legend>Jimi</legend>
-<div class="text comment label">
+<div class="text comment">
 <label>Age</label>
 <input name="age" type="text" />
 <span class="comment">
 x
 </span>
 </div>
-<div class="text label">
+<div class="text">
 <label>Name</label>
 <input name="name" type="text" />
 </div>

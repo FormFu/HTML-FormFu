@@ -20,7 +20,7 @@ my $input = <<INPUT;
 <pre>
     foo bar
 </pre>
-<span class="text comment label">
+<span class="text comment">
 <label for="text">Label</label>
 <input name="text" type="text" />
 <span class="comment">Comment</span>
@@ -55,7 +55,7 @@ my $output = <<OUTPUT;
         <pre>
     foo bar
 </pre>
-        <span class="text comment label">
+        <span class="text comment">
             <label for="text">Label</label>
             <input name="text" type="text" />
             <span class="comment">Comment</span>

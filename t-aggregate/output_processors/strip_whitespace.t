@@ -16,7 +16,7 @@ $form->load_config_file('t-aggregate/output_processors/strip_whitespace.yml');
 <fieldset>
 <legend>fieldset</legend>
 <input name="hidden" type="hidden" value="1" />
-<div class="text label">
+<div class="text">
 <label>Foo</label>
 <input name="foo" type="text" />
 </div>
@@ -134,7 +134,7 @@ $form->output_processor('StripWhitespace');
 {
     my $xhtml
         = qq{<form action="" method="post"><fieldset><legend>fieldset</legend><input name="hidden" type="hidden" value="1" />
-<div class="text label">
+<div class="text">
 <label>Foo</label>
 <input name="foo" type="text" />
 </div><div class="textarea">

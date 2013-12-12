@@ -6,4 +6,4 @@ elements:
   
   - name: bar
     comment: 'Bar!'
-    auto_comment_class: 'formfu_%n_%t'
+    auto_comment_class: 'formfu_%n_comment'

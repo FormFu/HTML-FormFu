@@ -76,7 +76,7 @@ $field2_xhtml
 </span>
 </span>
 </fieldset>
-<fieldset class="radiogroup label">
+<fieldset class="radiogroup">
 <legend>My Bar</legend>
 <span>
 <span>
@@ -120,7 +120,7 @@ is( "$form", $form_xhtml, 'stringified form' );
 
     is( $form->get_field('foo'), $foo_xhtml, 'radiogroup after query' );
 
-    my $bar_xhtml = qq{<fieldset class="radiogroup label">
+    my $bar_xhtml = qq{<fieldset class="radiogroup">
 <legend>My Bar</legend>
 <span>
 <span>

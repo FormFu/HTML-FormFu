@@ -30,7 +30,7 @@ is_deeply(
 # add more elements to test accessor output
 $form->element('Text')->name('bar')->container_attributes( { class => 'bar' } );
 
-my $expected_field_xhtml = qq{<div class="text comment label">
+my $expected_field_xhtml = qq{<div class="text comment">
 <label>Foo</label>
 <input name="foo" type="text" value="bar" maxlength="50" size="30" />
 <span class="comment">

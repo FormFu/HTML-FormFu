@@ -69,7 +69,7 @@ $field2_xhtml
 </span>
 </span>
 </fieldset>
-<fieldset class="checkboxgroup label">
+<fieldset class="checkboxgroup">
 <legend>My Bar</legend>
 <span>
 <span>
@@ -113,7 +113,7 @@ is( "$form", $form_xhtml, 'stringified form' );
 
     is( $form->get_field('foo'), $foo_xhtml, 'checkboxgroup after query' );
 
-    my $bar_xhtml = qq{<fieldset class="checkboxgroup label">
+    my $bar_xhtml = qq{<fieldset class="checkboxgroup">
 <legend>My Bar</legend>
 <span>
 <span>

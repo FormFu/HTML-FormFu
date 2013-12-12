@@ -15,7 +15,7 @@ $form->constraint( Number   => 'foo' );
 $form->constraint( Word     => 'bar' );
 $form->constraint( Required => 'foo', 'bar' );
 
-my $foo_xhtml = qq{<div class="text label">
+my $foo_xhtml = qq{<div class="text">
 <label>My Foo</label>
 <input name="foo" type="text" />
 </div>};

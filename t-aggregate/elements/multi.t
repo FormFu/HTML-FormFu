@@ -19,7 +19,7 @@ $form->element( { type => 'Submit' } );
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="multi label">
+<div class="multi">
 <label>My multi</label>
 <span class="elements">
 <label>My text</label>
