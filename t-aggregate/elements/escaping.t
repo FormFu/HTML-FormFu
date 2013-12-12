@@ -19,17 +19,17 @@ $form->element('Text')->name('foo&')->label_xml('<foo')->comment_xml('foo>')
 
 my $form_xhtml = <<EOF;
 <form action="" method="post">
-<div class="foo&#34; text comment">
+<div class="foo&#34; text">
 <label>&lt;foo</label>
 <input name="foo&#38;" type="text" value="&#39;foo" class="foo&#39; bar&#34;" />
-<span class="comment">
+<span>
 foo&gt;
 </span>
 </div>
-<div class="foo" text comment">
+<div class="foo" text">
 <label><foo</label>
 <input name="foo&#38;" type="text" value="'foo" class="foo' bar"" />
-<span class="comment">
+<span>
 foo>
 </span>
 </div>

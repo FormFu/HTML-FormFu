@@ -78,7 +78,6 @@ after BUILD => sub {
     $self->label_filename('label');
     $self->label_tag('label');
     $self->errors_filename('errors');
-    $self->auto_comment_class('comment');
     $self->auto_container_class('%t');
     $self->container_tag('div');
     $self->is_field(1);

@@ -20,10 +20,10 @@ my $input = <<INPUT;
 <pre>
     foo bar
 </pre>
-<span class="text comment">
+<span class="text">
 <label for="text">Label</label>
 <input name="text" type="text" />
-<span class="comment">Comment</span>
+<span>Comment</span>
 </span>
 <span class="textarea">
 <textarea name="textarea" cols="40" rows="20">foo
@@ -55,10 +55,10 @@ my $output = <<OUTPUT;
         <pre>
     foo bar
 </pre>
-        <span class="text comment">
+        <span class="text">
             <label for="text">Label</label>
             <input name="text" type="text" />
-            <span class="comment">Comment</span>
+            <span>Comment</span>
         </span>
         <span class="textarea">
             <textarea name="textarea" cols="40" rows="20">foo

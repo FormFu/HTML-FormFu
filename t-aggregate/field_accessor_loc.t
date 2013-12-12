@@ -14,10 +14,10 @@ my $form = HTML::FormFu->new( {
 $form->element('Text')->name('foo')->label_loc('test_label')
     ->comment_loc('test_comment')->default_loc('test_default_value');
 
-my $xhtml = qq{<div class="text comment">
+my $xhtml = qq{<div class="text">
 <label>My Label</label>
 <input name="foo" type="text" value="My Default" />
-<span class="comment">
+<span>
 My Comment
 </span>
 </div>};

@@ -27,12 +27,12 @@ is( $text->id, 'bar' );
 is ( "$form", <<HTML );
 <form action="" method="post">
 <fieldset class="does_block">
-<div class="multi comment">
+<div class="multi">
 <label>My Multi</label>
 <span class="does_block elements">
 <input name="foo.bar" type="text" id="bar" />
 </span>
-<span class="comment">
+<span>
 Does Field
 </span>
 </div>

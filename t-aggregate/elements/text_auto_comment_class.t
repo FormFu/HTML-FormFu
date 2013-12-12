@@ -13,9 +13,9 @@ $form->load_config_file('t-aggregate/elements/text_auto_comment_class.yml');
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="text comment">
+<div class="text">
 <input name="foo" type="text" />
-<span class="comment">
+<span>
 Foo!
 </span>
 </div>
