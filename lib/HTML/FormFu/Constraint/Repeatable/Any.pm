@@ -100,6 +100,12 @@ sub constrain_value {
     return defined $value && length $value;
 }
 
+sub _localize_args {
+    my ($self) = @_;
+
+    return $self->parent->label || $self->parent->original_name || $self->parent->name;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

@@ -35,6 +35,7 @@ our %Lexicon = (
     form_constraint_range     => 'Must be between [_1] and [_2]',
     form_constraint_recaptcha => 'reCAPTCHA error',
     form_constraint_regex     => 'Invalid input',
+    form_constraint_repeatable_any => "At least one of the '[_1]' fields is required",
     form_constraint_required  => 'This field is required',
     form_constraint_set       => 'Field contains an invalid choice',
     form_constraint_singlevalue    => 'This field only accepts a single value',
