@@ -38,7 +38,7 @@ is( "$field", $xhtml );
     $form->process( {} );
 
     my $xhtml
-        = qq{<fieldset class="radiogroup label error error_constraint_required">
+        = qq{<fieldset class="radiogroup label error_constraint_required">
 <legend>My legend</legend>
 <span>This field is required</span>
 <span>

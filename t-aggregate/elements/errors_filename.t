@@ -19,7 +19,7 @@ $form->process({
 
 is( "$form", <<HTML );
 <form action="" method="post">
-<div class="text error error_constraint_integer">
+<div class="text error_constraint_integer">
 <ul>
 <li>This field must be an integer</li>
 </ul>

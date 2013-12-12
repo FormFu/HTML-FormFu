@@ -17,7 +17,7 @@ $form->process({
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
 <fieldset>
-<div class="text error error_constraint_required">
+<div class="text error_constraint_required">
 <span>This field is required</span>
 <input name="foo" type="text" />
 </div>
