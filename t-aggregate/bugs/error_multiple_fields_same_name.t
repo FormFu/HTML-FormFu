@@ -20,5 +20,5 @@ my @fields = @{ $form->get_fields };
 ok( ! @{ $fields[0]->get_errors } );
 is( scalar( @{ $fields[1]->get_errors } ), 1 );
 
-unlike( $fields[0], qr/error/i );
-like( $fields[1], qr/error/i );
+unlike( $fields[0], qr/This field must be an integer/i );
+like( $fields[1], qr/This field must be an integer/i );

@@ -59,9 +59,9 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     is( scalar @{ $bar1->get_errors }, 0 );
     is( scalar @{ $bar2->get_errors }, 1 );
 
-    like( $foo1, qr/error/ );
-    unlike( $foo2, qr/error/ );
+    like( $foo1, qr/This field is required/ );
+    unlike( $foo2, qr/This field is required/ );
 
-    unlike( $bar1, qr/error/ );
-    like( $bar2, qr/error/ );
+    unlike( $bar1, qr/This field is required/ );
+    like( $bar2, qr/This field is required/ );
 }

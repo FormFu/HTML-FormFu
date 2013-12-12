@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use HTML::FormFu;
 
@@ -18,6 +18,7 @@ $form->process( {
         bar => 'b',
     } );
 
-like( $form->get_field('foo'), qr!\berror_constraint_number\b! );
+unlike( $form->get_field('foo'), qr/error/ );
+like( $form->get_field('foo'), qr/This field must be a number/i );
 
 like( $form->get_field('bar'), qr!\bform_number_constraint_error\b! );

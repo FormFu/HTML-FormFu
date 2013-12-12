@@ -82,7 +82,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
     is_deeply( [ $form->has_errors ], ['foo_1'] );
 
-    like( $form->get_field( { nested_name => 'foo_1' } ), qr/error/ );
-    unlike( $form->get_field( { nested_name => 'foo_2' } ), qr/error/ );
+    like( $form->get_field( { nested_name => 'foo_1' } ), qr/is required/ );
+    unlike( $form->get_field( { nested_name => 'foo_2' } ), qr/is required/ );
 }
 

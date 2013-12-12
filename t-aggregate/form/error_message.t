@@ -27,7 +27,7 @@ $form->process( { foo => 'a', } );
 my $xhtml = <<EOF;
 <form action="" method="post">
 <div class="form_error_message">There were errors with your submission, see below for details</div>
-<div class="text error_constraint_number">
+<div class="text">
 <span>This field must be a number</span>
 <input name="foo" type="text" value="a" />
 </div>

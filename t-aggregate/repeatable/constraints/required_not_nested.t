@@ -51,9 +51,9 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     ok( !$form->has_errors('foo_2') );
     ok( $form->has_errors('bar_2') );
 
-    like( $form->get_field('foo_1'), qr/error/ );
-    unlike( $form->get_field('bar_1'), qr/error/ );
-    unlike( $form->get_field('foo_2'), qr/error/ );
-    like( $form->get_field('bar_2'), qr/error/ );
+    like( $form->get_field('foo_1'), qr/This field is required/ );
+    unlike( $form->get_field('bar_1'), qr/This field is required/ );
+    unlike( $form->get_field('foo_2'), qr/This field is required/ );
+    like( $form->get_field('bar_2'), qr/This field is required/ );
 }
 

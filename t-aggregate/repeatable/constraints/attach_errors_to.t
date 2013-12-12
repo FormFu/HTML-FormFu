@@ -27,7 +27,7 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     ok( $form->has_errors('rep_1.foo') );
     ok( $form->has_errors('rep_1.bar') );
 
-    like( $form->get_field( { nested_name => 'rep_1.foo' } ), qr/error/ );
-    like( $form->get_field( { nested_name => 'rep_1.bar' } ), qr/error/ );
+    like( $form->get_field( { nested_name => 'rep_1.foo' } ), qr/Error/ );
+    like( $form->get_field( { nested_name => 'rep_1.bar' } ), qr/Error/ );
 }
 

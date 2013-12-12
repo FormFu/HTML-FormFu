@@ -4,8 +4,8 @@
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted. 'field' file changed. New 'errors' file.
     
-    - auto_container_error_class(), auto_error_class()
-      no longer have default values.
+    - auto_container_error_class(), auto_container_per_error_class(),
+      auto_error_class() no longer have default values.
       See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
       previous behaviour.
     
