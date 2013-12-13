@@ -4,6 +4,9 @@
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted. 'field' file changed. New 'errors' file.
     
+    - TT no longer listed as a prerequisite. If you use the TT files,
+      you must add 'Template' to your own app's prereqs.
+    
     - Element::reCAPTCHA and Constraint::reCAPTCHA moved out to separate
       distribution.
     

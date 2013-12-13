@@ -6,7 +6,7 @@ eval { require Template; };
 
 if ($@) {
     plan skip_all => 'Template.pm required';
-    exit;
+    die $@;
 }
 else {
     plan tests => 1;

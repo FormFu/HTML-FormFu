@@ -500,6 +500,10 @@ In F<root/foo/edit.tt>:
 It only makes sense to use the template files if you plan on customising
 them, as the default C<string> render-method is faster.
 
+As of C<HTML::FormFu v1.00>, L<TT|Template> is no longer listed a required
+prerequisite - so you'll need to install it manually if you with to use the
+template files.
+
 If you're using the L<Catalyst> web framework, install 
 L<Catalyst::Controller::HTML::FormFu> and run the following command:
 
