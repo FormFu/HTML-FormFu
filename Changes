@@ -57,6 +57,9 @@
     
     - All attribute accessors generated with mk_attrs() now have *_loc variants.
     
+    - form methods start(), end() now respect render_method - no longer
+      force use of tt templates.
+    
     - Tests now always require Test::Aggregate::Nested.
       Re-enable aggregate tests on Win32.
       Don't run all tests twice under both aggregate and t/ (doh!)
