@@ -7,6 +7,8 @@
     - Element::reCAPTCHA and Constraint::reCAPTCHA moved out to separate
       distribution.
     
+    - HTML::FormFu::MultiForm moved out to separate distribution.
+    
     - auto_container_class(), auto_label_class(), auto_comment_class(),
       auto_container_error_class(), auto_container_per_error_class(),
       auto_error_class() no longer have default values.
