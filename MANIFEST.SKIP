@@ -2,57 +2,10 @@
 ^lib\/HTML\/FormFu\/Filter\/Default\.pm$
 
 # not ready yet
-^t\/elements\/repeatable_select\.t$
-^t\/elements\/repeatable_select\.yml$
-^lib\/HTML\/FormFu\/Manual\.pod$
-^t\/multiform-misc\/file
-
-\.disabled$
-^recaptcha\.txt$
-^t\/datetime
+^t-aggregate\/multiform-misc\/file
 
 ^benchmarks\b
-^dojo\b
-^examples\/repeatable\b
 ^examples\/client-side-constraint\b
-^t\b.*\.disabled
-^t\b.*CatalystApp
 ^xt\/
 
-^\.prove\b
 ^\.perltidyrc$
-
-# Eclipse workspace file
-^\.project$
-^\.includepath$
-^\.settings\b
-
-# Komodo project file
-\.kpf$
-
-# Avoid version control files.
-\bRCS\b
-\bCVS\b
-,v$
-\B\.svn\b
-.git
-
-# Avoid Makemaker generated and utility files.
-\bMakefile$
-\bblib
-\bMakeMaker-\d
-\bpm_to_blib$
-\bblibdirs$
-^MANIFEST\.SKIP$
-
-# Avoid Module::Build generated and utility files.
-\bBuild$
-\b_build
-
-# Avoid temp and backup files.
-~$
-\.tmp$
-\.old$
-\.bak$
-\#$
-\b\.#
