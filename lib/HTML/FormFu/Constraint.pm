@@ -612,8 +612,6 @@ error is not known without actually fully processing a form submission.
 
 =item L<HTML::FormFu::Constraint::Range>
 
-=item L<HTML::FormFu::Constraint::reCAPTCHA>
-
 =item L<HTML::FormFu::Constraint::Regex>
 
 =item L<HTML::FormFu::Constraint::Required>
@@ -623,6 +621,14 @@ error is not known without actually fully processing a form submission.
 =item L<HTML::FormFu::Constraint::SingleValue>
 
 =item L<HTML::FormFu::Constraint::Word>
+
+=back
+
+=head1 NON-CORE CONSTRAINTS AVAILABLE ON CPAN
+
+=over
+
+=item L<HTML::FormFu::Constraint::reCAPTCHA>
 
 =back
 
