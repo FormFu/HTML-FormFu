@@ -8,7 +8,7 @@ use IO::File;
 eval "use CGI";
 if ($@) {
     plan skip_all => 'CGI required';
-    exit;
+    die $!;
 }
 
 plan tests => 25;

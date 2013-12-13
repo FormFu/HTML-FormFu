@@ -7,7 +7,7 @@ use HTML::FormFu;
 eval "use CGI::Simple";
 if ($@) {
     plan skip_all => 'CGI::Simple required';
-    exit;
+    die $!;
 }
 
 plan tests => 20;
