@@ -18,6 +18,18 @@
       See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
       previous behaviour.
     
+    - auto_label_class() no longer adds class to container.
+      auto_label_class() now adds class to label tag.
+      new auto_container_label_class() adds class to container.
+      See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
+      previous behaviour.
+    
+    - auto_comment_class() no longer adds class to both container and comment.
+      auto_comment_class() now only adds class to comment tag.
+      new auto_container_comment_class() adds class to container.
+      See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
+      previous behaviour.
+    
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
     

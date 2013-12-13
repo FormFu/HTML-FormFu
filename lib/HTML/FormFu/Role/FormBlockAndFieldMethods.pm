@@ -9,6 +9,8 @@ our @MULTIFORM_SHARED = (qw(
         auto_label_class
         auto_comment_class
         auto_container_class
+        auto_container_label_class
+        auto_container_comment_class
         auto_container_error_class
         auto_container_per_error_class
         auto_error_container_class

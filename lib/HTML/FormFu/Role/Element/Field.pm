@@ -569,6 +569,37 @@ sub _render_label {
         my $class = $self->auto_label_class;
         $class =~ s/%([fnt])/$string{$1}/g;
         
+        append_xml_attribute( $render->{label_attributes},
+            'class', $class );
+    }
+
+    if (    defined $render->{label}
+         && defined $self->auto_container_label_class
+         && length $self->auto_container_label_class
+        )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
+
+        my $field_name
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
+        
+        my $type = lc $self->type;
+        $type =~ s/:://g;
+        
+        my %string = (
+            f => $form_name,
+            n => $field_name,
+            t => $type,
+        );
+
+        my $class = $self->auto_container_label_class;
+        $class =~ s/%([fnt])/$string{$1}/g;
+        
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
     }
@@ -612,6 +643,30 @@ sub _render_comment_class {
 
         append_xml_attribute( $render->{comment_attributes},
             'class', $class );
+    }
+
+    if (    defined $render->{comment}
+         && defined $self->auto_container_comment_class
+         && length $self->auto_container_comment_class
+        )
+    {
+        my $form_name
+            = defined $self->form->id
+            ? $self->form->id
+            : $EMPTY_STR;
+
+        my $field_name
+            = defined $render->{nested_name}
+            ? $render->{nested_name}
+            : $EMPTY_STR;
+        
+        my %string = (
+            f => $form_name,
+            n => $field_name,
+        );
+
+        my $class = $self->auto_container_comment_class;
+        $class =~ s/%([fn])/$string{$1}/g;
 
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
@@ -1328,7 +1383,7 @@ Supports L<substitutions|HTML::FormFu/ATTRIBUTE SUBSTITUTIONS>: C<%f>, C<%n>, C<
 
 Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
 
-=head3 auto_label_class
+=head3 auto_container_label_class
 
 Default Value: 'label'
 
@@ -1339,7 +1394,7 @@ Supports L<substitutions|HTML::FormFu/ATTRIBUTE SUBSTITUTIONS>: C<%f>, C<%n>, C<
 
 Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
 
-=head3 auto_comment_class
+=head3 auto_container_comment_class
 
 Default Value: '%t'
 
@@ -1438,6 +1493,18 @@ Is an L<output accessor|HTML::FormFu/OUTPUT ACCESSORS>.
 Attributes added to the comment container.
 
 Is an L<attribute accessor|HTML::FormFu/ATTRIBUTE ACCESSOR>.
+
+=head3 auto_comment_class
+
+Default Value: '%t'
+
+If set, and if the field has a
+L<comment|HTML::FormFu::Role::Element::Field/comment>, the comment tag will
+be given a class-name based on the given pattern.
+
+Supports L<substitutions|HTML::FormFu/ATTRIBUTE SUBSTITUTIONS>: C<%f>, C<%n>, C<%t>.
+
+Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
 
 =head2 ERROR CONTAINER
 

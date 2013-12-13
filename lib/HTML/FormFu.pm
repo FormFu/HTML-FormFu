@@ -3089,7 +3089,8 @@ these once per-application in your app-wide config file.
 
     ---
     auto_container_class: '%t'
-    auto_label_class: 'label'
+    auto_container_label_class: 'label'
+    auto_container_comment_class: 'comment'
     auto_comment_class: 'comment'
     auto_container_error_class: 'error'
     auto_container_per_error_class: 'error_%s_%t'

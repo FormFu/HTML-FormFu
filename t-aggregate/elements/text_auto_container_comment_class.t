@@ -8,7 +8,7 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->load_config_file('t-aggregate/elements/text_auto_comment_class.yml');
+$form->load_config_file('t-aggregate/elements/text_auto_container_comment_class.yml');
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">
@@ -19,9 +19,9 @@ my $expected_form_xhtml = <<EOF;
 Foo!
 </span>
 </div>
-<div>
+<div class="formfu_bar_comment">
 <input name="bar" type="text" />
-<span class="formfu_bar_comment">
+<span>
 Bar!
 </span>
 </div>
