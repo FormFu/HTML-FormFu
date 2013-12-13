@@ -13,6 +13,7 @@ our %Lexicon = (
     form_constraint_bool      => 'Field must be a boolean value',
     form_constraint_callback  => 'Invalid input',
     form_constraint_datetime  => 'Invalid date',
+    form_constraint_dbic_unique => 'Value already exists in database',
     form_constraint_dependon =>
         "This field is required if field '[_1]' is filled in",
     form_constraint_email        => 'This field must contain an email address',
