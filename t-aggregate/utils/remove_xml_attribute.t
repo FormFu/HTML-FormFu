@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 
 use HTML::FormFu::Util qw(
     literal
@@ -111,4 +111,20 @@ use HTML::FormFu::Util qw(
     remove_xml_attribute( \%attr, "key", '<bar' );
 
     is( xml_escape( \%attr )->{key}, "&lt;bar" );
+}
+
+{
+
+    # doesn't exist
+    my %attr = ( key => "foo" );
+
+    remove_xml_attribute( \%attr, "NOT EXIST", 'bar' );
+
+    is_deeply(
+        \%attr,
+        {
+            key => "foo",
+        },
+        "didn't change attributes",
+    );
 }

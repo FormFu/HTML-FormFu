@@ -316,9 +316,6 @@ sub remove_xml_attribute {
 
         $attrs->{$key} = $dispatcher{$orig}->{$new}->( $attrs->{$key}, $value );
     }
-    else {
-        $attrs->{$key} = $value;
-    }
 
     return $attrs;
 }
