@@ -3080,7 +3080,7 @@ the legacy features.
 C<v1.00> dropped most of the default HTML class-names, with the intention
 that each application should define just what it needs, without needing to
 reset unwanted options first. We also gain the benefit of less markup being
-generated, speeding up both L<render|/render> and HTTP tranfers.
+generated, speeding up both L<render|/render> and HTTP transfers.
 
 To restore the previous behaviour, set the following options.
 
