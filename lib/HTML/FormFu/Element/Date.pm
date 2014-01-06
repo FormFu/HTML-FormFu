@@ -767,11 +767,11 @@ L</auto_inflate>.
 
 Although this element inherits from L<HTML::FormFu::Element::Block>, its 
 behaviour for the methods 
-L<filter/filters|HTML::FormFu/filters>, 
-L<constraint/constraints|HTML::FormFu/constraints>, 
-L<inflator/inflators|HTML::FormFu/inflators>, 
-L<validator/validators|HTML::FormFu/validators> and 
-L<transformer/transformers|HTML::FormFu/transformers> is more like that of 
+L<filterE<sol>filters|HTML::FormFu/filters>,
+L<constraintE<sol>constraints|HTML::FormFu/constraints>,
+L<inflatorE<sol>inflators|HTML::FormFu/inflators>,
+L<validatorE<sol>validators|HTML::FormFu/validators> and
+L<transformerE<sol>transformers|HTML::FormFu/transformers> is more like that of
 a L<field element|HTML::FormFu::Role::Element::Field>, meaning all processors are 
 added directly to the date element, not to its select-menu child elements.
 
