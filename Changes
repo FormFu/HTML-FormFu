@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+    - New Filter::ForceListValue addresses rt bug #90813
+
 1.00 2013-12-16
 
     - TT template files changed - update them if you use a local copy.

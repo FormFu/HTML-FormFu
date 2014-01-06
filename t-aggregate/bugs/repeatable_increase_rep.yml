@@ -1,0 +1,14 @@
+---
+auto_fieldset: 1
+
+elements:
+  - type: Repeatable
+    increment_field_names: 0
+    elements:
+      - name: foo
+        render_processed_value: 1
+        filter:
+          ForceListValue
+  
+  - type: Submit
+    name: submit

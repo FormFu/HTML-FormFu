@@ -134,6 +134,8 @@ Shorthand for C<< $filter->parent->name >>
 
 =item L<HTML::FormFu::Filter::Encode>
 
+=item L<HTML::FormFu::Filter::ForceListValue>
+
 =item L<HTML::FormFu::Filter::FormatNumber>
 
 =item L<HTML::FormFu::Filter::HTMLEscape>
