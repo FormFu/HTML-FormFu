@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+1.00 2013-12-16
+
     - TT template files changed - update them if you use a local copy.
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted. 'field' file changed. New 'errors' file.
