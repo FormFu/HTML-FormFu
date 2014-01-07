@@ -980,13 +980,17 @@ sub _render_error_class {
 sub render_label {
     my ($self) = @_;
 
-    return $self->tt( { filename => $self->{label_filename} } );
+    my $render = $self->render_data;
+
+    return $self->_string_label( $render );
 }
 
 sub render_field {
     my ($self) = @_;
 
-    return $self->tt( { filename => $self->{field_filename} } );
+    my $render = $self->render_data;
+
+    return $self->_string_field( $render );
 }
 
 sub _string_field_start {

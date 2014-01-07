@@ -2,6 +2,9 @@
 
     - New Filter::ForceListValue addresses rt bug #90813
 
+    - render_label() and render_field() no longer require TT.
+      Include render_label() in tests.
+
 1.00 2013-12-16
 
     - TT template files changed - update them if you use a local copy.

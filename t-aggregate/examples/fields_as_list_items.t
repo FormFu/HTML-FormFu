@@ -15,11 +15,10 @@ else {
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new(
-    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
+my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo');
-$form->element('Textarea')->name('bar');
+$form->element('Text')->name('foo')->label('Foo');
+$form->element('Textarea')->name('bar')->label('Bar');
 
 my $template = Template->new;
 my $output;
@@ -32,8 +31,8 @@ my $xhtml = <<EOF;
 <body>
 <form action="" method="post">
 <ul>
-    <li><input name="foo" type="text" /></li>
-    <li><textarea name="bar" cols="40" rows="20"></textarea></li>
+    <li><label>Foo</label> : <input name="foo" type="text" /></li>
+    <li><label>Bar</label> : <textarea name="bar" cols="40" rows="20"></textarea></li>
 </ul>
 </form>
 </body>
@@ -47,7 +46,7 @@ __DATA__
 <body>
 [% form.start %]
 <ul>[% FOREACH field = form.get_fields %]
-    <li>[% field.render_field %]</li>[% END %]
+    <li>[% field.render_label %] : [% field.render_field %]</li>[% END %]
 </ul>
 [% form.end %]
 </body>
