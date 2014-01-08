@@ -5,8 +5,7 @@ use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
 
 with 'HTML::FormFu::Role::Element::Field',
-    'HTML::FormFu::Role::Element::SingleValueField' =>
-    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::SingleValueField',
     'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Util qw( process_attrs );

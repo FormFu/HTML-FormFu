@@ -3,8 +3,8 @@ package HTML::FormFu::Element::ContentButton;
 use Moose;
 use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
-with 'HTML::FormFu::Role::Element::Field';
-with "HTML::FormFu::Role::Element::SingleValueField";
+with 'HTML::FormFu::Role::Element::Field',
+    'HTML::FormFu::Role::Element::SingleValueField';
 
 use HTML::FormFu::Util qw( xml_escape process_attrs );
 

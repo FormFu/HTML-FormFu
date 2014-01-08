@@ -2,10 +2,8 @@ package HTML::FormFu::Role::Element::Group;
 use Moose::Role;
 
 with 'HTML::FormFu::Role::Element::Field',
-    'HTML::FormFu::Role::Element::SingleValueField' =>
-    { -excludes => 'nested_name' },
-    'HTML::FormFu::Role::Element::ProcessOptionsFromModel',
     'HTML::FormFu::Role::Element::SingleValueField',
+    'HTML::FormFu::Role::Element::ProcessOptionsFromModel',
     'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Attribute qw( mk_output_accessors );

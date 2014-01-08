@@ -3,29 +3,6 @@ use Moose::Role;
 
 use Carp qw( croak );
 
-sub nested_name {
-    my ($self) = @_;
-
-    croak 'cannot set nested_name' if @_ > 1;
-
-    return if !defined $self->name;
-
-    my @names = $self->nested_names;
-
-    if ( $self->form->nested_subscript ) {
-        my $name = shift @names;
-        map { $name .= "[$_]" } @names;
-
-     # TODO - Mario Minati 19.05.2009
-     # Does this (name formatted as '[name]') collide with FF::Model::HashRef as
-     # it uses /_\d/ to parse repeatable names?
-        return $name;
-    }
-    else {
-        return join ".", @names;
-    }
-}
-
 sub add_error {
     my ( $self, @errors ) = @_;
 

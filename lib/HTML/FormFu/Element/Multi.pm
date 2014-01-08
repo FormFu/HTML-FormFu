@@ -3,9 +3,8 @@ use Moose;
 extends 'HTML::FormFu::Element::Block';
 
 with
-    'HTML::FormFu::Role::Element::SingleValueField' =>
-    { -excludes => 'nested_name' },
-    'HTML::FormFu::Role::Element::Field';
+    'HTML::FormFu::Role::Element::Field',
+    'HTML::FormFu::Role::Element::SingleValueField';
 
 use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
