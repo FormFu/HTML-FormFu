@@ -294,17 +294,6 @@ sub _string_field {
     return $html;
 }
 
-sub as {
-    my ( $self, $type, %attrs ) = @_;
-
-    return $self->_coerce(
-        type       => $type,
-        attributes => \%attrs,
-        errors     => $self->_errors,
-        package    => __PACKAGE__,
-    );
-}
-
 around clone => sub {
     my ( $orig, $self ) = @_;
 

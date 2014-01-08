@@ -4,6 +4,17 @@ use Moose::Role;
 use Carp qw( croak );
 use HTML::FormFu::Util qw( require_class );
 
+sub as {
+    my ( $self, $type, %attrs ) = @_;
+
+    return $self->_coerce(
+        type       => $type,
+        attributes => \%attrs,
+        errors     => $self->_errors,
+        package    => __PACKAGE__,
+    );
+}
+
 sub _coerce {
     my ( $self, %args ) = @_;
 
