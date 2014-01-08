@@ -237,31 +237,6 @@ sub _quote_options {
     }
 }
 
-sub string {
-    my ( $self, $args ) = @_;
-
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # input_tag template
-
-    $html .= $self->_string_field($render);
-
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
-}
-
 sub _string_field {
     my ( $self, $render ) = @_;
 

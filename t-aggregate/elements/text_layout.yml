@@ -1,0 +1,8 @@
+---
+id: form
+
+elements:
+  - name: foo
+    label: Foo
+    comment: The foo
+    auto_id: '%f_%n'

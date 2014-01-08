@@ -4,7 +4,8 @@ use MooseX::Aliases;
 
 with 'HTML::FormFu::Role::ContainsElementsSharedWithField',
     'HTML::FormFu::Role::NestedHashUtils',
-    'HTML::FormFu::Role::FormBlockAndFieldMethods';
+    'HTML::FormFu::Role::FormBlockAndFieldMethods',
+    'HTML::FormFu::Role::Element::Layout';
 
 use HTML::FormFu::Attribute qw(
     mk_attrs
@@ -19,7 +20,7 @@ use HTML::FormFu::Util qw(
 use Class::MOP::Method;
 use Clone ();
 use List::MoreUtils qw( uniq );
-use Carp qw( croak );
+use Carp qw( croak carp );
 
 __PACKAGE__->mk_attrs( qw(
         comment_attributes
@@ -46,12 +47,12 @@ has retain_default       => ( is => 'rw', traits => ['Chained'] );
 has force_default        => ( is => 'rw', traits => ['Chained'] );
 has javascript           => ( is => 'rw', traits => ['Chained'] );
 has non_param            => ( is => 'rw', traits => ['Chained'] );
-has reverse_single       => ( is => 'rw', traits => ['Chained'] );
-has reverse_multi        => ( is => 'rw', traits => ['Chained'] );
 has multi_value          => ( is => 'rw', traits => ['Chained'] );
 has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
+has _reverse_single      => ( is => 'rw', traits => ['Chained'] );
+has _reverse_multi        => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value ));
 
@@ -83,6 +84,55 @@ after BUILD => sub {
 
     return;
 };
+
+sub reverse_single {
+    my $self = shift;
+
+    if ( @_ ) {
+        $self->_reverse_single(@_);
+        return $self;
+    }
+
+    my $value = $self->_reverse_single;
+
+    if ( $value && 'string' eq $self->render_method ) {
+         carp "reverse_single() is deprecated - see new layout() method.";
+
+         $self->layout( [
+            'errors',
+            'field',
+            'label',
+            'comment',
+            'javascript',
+        ] );
+
+    }
+    
+    return $value;
+}
+
+sub reverse_multi {
+    my $self = shift;
+
+    if ( @_ ) {
+        $self->_reverse_multi(@_);
+        return $self;
+    }
+
+    my $value = $self->_reverse_multi;
+
+    if ( $value && 'string' eq $self->render_method ) {
+         carp "reverse_multi() is deprecated - see new multi_layout() method.";
+
+         $self->multi_layout( [
+            'field',
+            'label',
+        ] );
+
+    }
+    
+    return $value;
+}
 
 sub nested {
     my ($self) = @_;
@@ -1055,14 +1105,16 @@ sub _string_errors {
             ;
     }
 
+    my @error_html;
     for my $error ( @{ $render->{errors} } ) {
-        $html .= sprintf qq{\n<%s%s>%s</%s>},
+        push @error_html, sprintf qq{<%s%s>%s</%s>},
             $render->{error_tag},
             process_attrs( $error->{attributes} ),
             $error->{message},
             $render->{error_tag},
             ;
     }
+    $html .= join "\n", @error_html;
 
     if ( $render->{error_container_tag} ) {
         $html .= sprintf qq{\n</%s>}, $render->{error_container_tag};
@@ -1223,35 +1275,6 @@ enabling it), NOT the default value assigned to the element (if any).
 
 Default Value: C<false>
 
-=head2 reverse_single
-
-If true, then the field's label should be rendered to the right of the
-field control.  (When the field is used within a
-L<Multi|HTML::FormFu::Element::Multi> block, the position of the label
-is controlled by the L</reverse_multi> option instead.)
-
-The default value is C<false>, causing the label to be rendered to the left
-of the field control (or to be explicit: the markup for the label comes
-before the field control in the source).
-
-Exception: If the label tag is 'legend', then the reverse_single attribute
-is ignored; the legend always appears as the first tag within the container
-tag.
-
-Default Value: C<false>
-
-=head2 reverse_multi
-
-If true, then when the field is used within a 
-L<Multi|HTML::FormFu::Element::Multi> block, the field's label should be 
-rendered to the right of the field control.
-
-The default value is C<false>, causing the label to be rendered to the left
-of the field control (or to be explicit: the markup for the label comes 
-before the field control in the source).
-
-Default Value: C<false>
-
 =head2 repeatable_count
 
 Only available for fields attached to a
@@ -1361,6 +1384,9 @@ Example of generated form:
     # Line 8 shows a 'label'.
     # Line 9 shows the field's 'input' tag.
     # Lines 10 starts a 'comment'.
+
+To re-order the various parts of each form (label, input, errors, etc) and
+arbitrary extra tags, see the L<layout|/layout> method.
 
 =head2 CONTAINER
 
@@ -1625,6 +1651,168 @@ Supports L<substitutions|HTML::FormFu/ATTRIBUTE SUBSTITUTIONS>: C<%f>, C<%n>, C<
 
 Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
 
+=head2 REORDERING FIELD COMPONENTS
+
+=head2 layout
+
+Specify the order that each sub-part of the element should appear in the
+rendered markup.
+
+    # Default Value
+    $element->layout( [
+        'errors',
+        'label',
+        'field',
+        'comment',
+        'javascript',
+    ] );
+
+Example: Move the form field (the input tag or equivalent) inside the label
+tag, after the label text.
+Remove the comment - this will now never be rendered.
+
+    # YAML config
+    layout:
+      - errors
+      - label:
+          - label_text
+          - field
+      - javascript
+    
+    # prettified example of rendered markup
+    <div>
+        <span>This field is required.</span>
+        <label>
+            Foo
+            <input name="foo" type="text" />
+        </label>
+    </div>
+
+Example: Don't wrap the label text inside it's usual tag.
+Insert the form field (the input tag or equivalent) inside an arbitrary
+extra tag.
+
+    # YAML config
+    layout:
+      - errors
+      - label_text
+      - 
+        div:
+          attributes:
+            class: xxx
+          content: field
+      - comment
+      - javascript
+    
+    # prettified example of rendered markup
+    <div>
+        <span>This field is required.</span>
+        Foo
+        <div class="xxx">
+            <input name="foo" type="text" />
+        </div>
+    </div>
+
+The following elements override the default L<layout> value:
+
+=over
+
+=item L<HTML::FormFu::Element::Checkboxgroup|HTML::FormFu::Element::Checkboxgroup>
+
+=item L<HTML::FormFu::Element::Hidden|HTML::FormFu::Element::Hidden>
+
+=back
+
+=head3 Specification
+
+The L<layout|/layout> method accepts an array-ref, hash-ref, or string
+argument.
+
+The processing is recursive, so each item in an array-ref may be any value
+accepted by the L<layout|/layout> method.
+
+A hash-ref must contain a single key and value pair.
+If the hash key is the string C<label>, it creates a C<label> tag, using any
+previously defined L<LABEL|/LABEL> customizations.
+This allows the label tag to contains other elements, such as the form field.
+
+All other hash key values are asssumed to be an arbitrary block tag name.
+The value must be a hash-ref, and may contain one or both C<attributes> or
+C<content> keys.
+
+Any C<attributes> value must be a hash-ref, whose key/values are added to
+the block tag. No processing or expansion is done to the C<attributes>
+hash-ref at all.
+
+The C<content> value may be anything accepted by the L<layout|/layout>
+method.
+
+The following strings are accepted:
+
+=over
+
+=item errors
+
+Renders the element error messages.
+
+See L<ERROR CONTAINER|/"ERROR CONTAINER"> and
+L<ERROR MESSAGES|/"ERROR MESSAGES"> to customize the tags and attributes.
+
+=item label
+
+Renders the element L<label|/label>.
+
+See L<LABEL|/LABEL> to customize the tag and attributes.
+
+=item label_text
+
+Renders the element L<label|/label> text, without the usual 
+L<label_tag|/label_tag>.
+
+=item field
+
+Renders the form field control (an input tag, button, or other control).
+
+=item comment
+
+Renders the element L<comment|/comment>.
+
+See L<COMMENT|/COMMENT> to customize the tag and attributes.
+
+=item javascript
+
+Renders a C<script> tag containing any L<javascript|/javascript>.
+
+=back
+
+=head2 multi_layout
+
+Specify the order that each sub-part of each element within a 
+L<HTML::FormFu::Element::Multi|HTML::FormFu::Element::Multi> should
+appear in the rendered markup.
+
+    # Default Value
+    $element->multi_layout( [
+        'label',
+        'field',
+    ] );
+
+Example: Swap the label/field order. This is equivalent to the 
+now-deprecated L<reverse_multi|/reverse_multi> method.
+
+    # YAML config
+    multi_layout:
+      - field
+      - label
+
+The following elements override the default C<multi_layout> value:
+
+=over
+
+=item L<HTML::FormFu::Element::Checkbox|HTML::FormFu::Element::Checkbox>
+
+=back
+
 =head1 RENDERING
 
 =head2 field_filename
@@ -1715,6 +1903,20 @@ See L<HTML::FormFu/get_errors> for details.
 =head2 clear_errors
 
 See L<HTML::FormFu/clear_errors> for details.
+
+=head1 DEPRECATED METHODS
+
+=over
+
+=item reverse_single
+
+See L<layout|/layout> instead.
+
+=item reverse_multi
+
+See L<multi_layout|/multi_layout> instead.
+
+=back
 
 =head1 SEE ALSO
 

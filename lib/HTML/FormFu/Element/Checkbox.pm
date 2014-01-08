@@ -16,6 +16,11 @@ after BUILD => sub {
     $self->reverse_multi(1);
     $self->value(1);
 
+    $self->multi_layout( [
+        'field',
+        'label',
+    ] );
+
     return;
 };
 

@@ -32,6 +32,14 @@ after BUILD => sub {
     $self->reverse_group(1);
     $self->input_type('checkbox');
 
+    $self->layout( [
+        'label',
+        'errors',
+        'field',
+        'comment',
+        'javascript',
+    ] );
+
     return;
 };
 

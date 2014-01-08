@@ -10,26 +10,14 @@ after BUILD => sub {
 
     $self->field_type('hidden');
     $self->filename('input_tag');
+    $self->container_tag(undef);
+
+    $self->layout( [
+        'field',
+    ] );
 
     return;
 };
-
-sub string {
-    my ( $self, $args ) = @_;
-
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data;
-
-    # input template
-
-    my $html .= $self->_string_field($render);
-
-    return $html;
-}
 
 __PACKAGE__->meta->make_immutable;
 

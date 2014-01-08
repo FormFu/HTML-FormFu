@@ -137,54 +137,26 @@ sub render_data_non_recursive {
     return $render;
 }
 
-sub string {
-    my ( $self, $args ) = @_;
+sub _parse_layout_field {
+    my ( $self, $render ) = @_;
 
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data_non_recursive;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # multi template
-
-    $html .= sprintf "<span%s>\n", process_attrs( $render->{attributes} );
+    my @html = (
+        sprintf "<span%s>", process_attrs( $render->{attributes} ),
+    );
 
     for my $elem ( @{ $self->get_elements } ) {
         my $render = $elem->render_data;
 
         next if !defined $render;
 
-        if ( $elem->reverse_multi ) {
-            $html .= $elem->_string_field($render);
+        $render->{container_tag} = undef;
 
-            if ( defined $elem->label ) {
-                $html .= sprintf "\n%s", $elem->_string_label($render);
-            }
-        }
-        else {
-            if ( defined $elem->label ) {
-                $html .= $elem->_string_label($render) . "\n";
-            }
-
-            $html .= $elem->_string_field($render);
-        }
-
-        $html .= "\n";
+        push @html, $elem->string( { render_data => $render, layout => $elem->multi_layout } );
     }
 
-    $html .= "</span>";
+    push @html, "</span>";
 
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
+    return join "\n", @html;
 }
 
 sub clone {
