@@ -11,7 +11,8 @@ use HTML::FormFu;
 # how to achieve legacy HTML generation
 #
 
-my $form = HTML::FormFu->new;
+my $form = HTML::FormFu->new(
+    { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file('t-aggregate/bugs/pre_1_00_compat.yml');
 
