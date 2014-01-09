@@ -47,12 +47,12 @@ has retain_default       => ( is => 'rw', traits => ['Chained'] );
 has force_default        => ( is => 'rw', traits => ['Chained'] );
 has javascript           => ( is => 'rw', traits => ['Chained'] );
 has non_param            => ( is => 'rw', traits => ['Chained'] );
+has reverse_single       => ( is => 'rw', traits => ['Chained'] );
+has reverse_multi        => ( is => 'rw', traits => ['Chained'] );
 has multi_value          => ( is => 'rw', traits => ['Chained'] );
 has original_name        => ( is => 'rw', traits => ['Chained'] );
 has original_nested_name => ( is => 'rw', traits => ['Chained'] );
 has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
-has _reverse_single      => ( is => 'rw', traits => ['Chained'] );
-has _reverse_multi        => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value ));
 
@@ -84,55 +84,6 @@ after BUILD => sub {
 
     return;
 };
-
-sub reverse_single {
-    my $self = shift;
-
-    if ( @_ ) {
-        $self->_reverse_single(@_);
-        return $self;
-    }
-
-    my $value = $self->_reverse_single;
-
-    if ( $value && 'string' eq $self->render_method ) {
-         carp "reverse_single() is deprecated - see new layout() method.";
-
-         $self->layout( [
-            'errors',
-            'field',
-            'label',
-            'comment',
-            'javascript',
-        ] );
-
-    }
-    
-    return $value;
-}
-
-sub reverse_multi {
-    my $self = shift;
-
-    if ( @_ ) {
-        $self->_reverse_multi(@_);
-        return $self;
-    }
-
-    my $value = $self->_reverse_multi;
-
-    if ( $value && 'string' eq $self->render_method ) {
-         carp "reverse_multi() is deprecated - see new multi_layout() method.";
-
-         $self->multi_layout( [
-            'field',
-            'label',
-        ] );
-
-    }
-    
-    return $value;
-}
 
 sub nested {
     my ($self) = @_;

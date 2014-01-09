@@ -1,28 +1,129 @@
 package HTML::FormFu::Role::Element::Layout;
 use Moose::Role;
-use Carp qw( croak );
+use Carp qw( carp croak );
+use List::MoreUtils qw( first_index );
+use Scalar::Util qw( reftype );
+
 use HTML::FormFu::Util qw( process_attrs );
 
-has layout => ( is => 'rw' );
-
-has multi_layout => (
+has _layout => (
     is => 'rw',
-    default => sub { ['label', 'field'] },
+    default => sub {
+        return [
+            'errors',
+            'label',
+            'field',
+            'comment',
+            'javascript',
+        ];
+    },
 );
 
-after BUILD => sub {
+# if we ever remove the reverse_single() method, we can make layout()
+# a standard Moose attribute
+
+sub layout {
     my $self = shift;
 
-    $self->layout( [
-        'errors',
-        'label',
-        'field',
-        'comment',
-        'javascript',
-    ] );
+    if ( @_ ) {
+        $self->_layout(@_);
+        return $self;
+    }
 
-    return;
-};
+    my $value = $self->_layout;
+
+    if ( defined $value && $self->reverse_single ) {
+        # if it's an array-ref,
+        # and 'label' and 'field' are consecutive values (in any order)
+        # then just swap them around
+        # otherwise warn that reverse_single() is deprecated
+
+        my ( $ok, $field_index, $label_index );
+
+        if ( ref $value && 'ARRAY' eq reftype($value) ) {
+            $field_index = first_index { 'field' eq $_ } @$value;
+            $label_index = first_index { 'label' eq $_ } @$value;
+
+            if ( defined $field_index
+                && defined $label_index
+                && 1 == abs( $field_index - $label_index )
+            ) {
+                $ok = 1;
+            }
+        }
+
+        if ($ok) {
+            # create new arrayref so we don't change the stored value
+            $value = [ @$value ];
+
+            @$value[$field_index] = 'label';
+            @$value[$label_index] = 'field';
+        }
+        else {
+            carp "reverse_single() is deprecated, and is having no affect.";
+        }
+    }
+
+    return $value;
+}
+
+has _multi_layout => (
+    is => 'rw',
+    default => sub {
+        return [
+            'label',
+            'field',
+        ];
+    },
+);
+
+# if we ever remove the reverse_multi() method, we can make multi_layout()
+# a standard Moose attribute
+
+sub multi_layout {
+    my $self = shift;
+
+    if ( @_ ) {
+        $self->_multi_layout(@_);
+        return $self;
+    }
+
+    my $value = $self->_multi_layout;
+
+    if ( defined $value && $self->reverse_multi ) {
+        # if it's an array-ref,
+        # and 'label' and 'field' are consecutive values (in any order)
+        # then just swap them around
+        # otherwise warn that reverse_multi() is deprecated
+
+        my ( $ok, $field_index, $label_index );
+
+        if ( ref $value && 'ARRAY' eq reftype($value) ) {
+            $field_index = first_index { 'field' eq $_ } @$value;
+            $label_index = first_index { 'label' eq $_ } @$value;
+
+            if ( defined $field_index
+                && defined $label_index
+                && 1 == abs( $field_index - $label_index )
+            ) {
+                $ok = 1;
+            }
+        }
+
+        if ($ok) {
+            # create new arrayref so we don't change the stored value
+            $value = [ @$value ];
+
+            @$value[$field_index] = 'label';
+            @$value[$label_index] = 'field';
+        }
+        else {
+            carp "reverse_multi() is deprecated, and is having no affect.";
+        }
+    }
+
+    return $value;
+}
 
 sub string {
     my ( $self, $args ) = @_;
