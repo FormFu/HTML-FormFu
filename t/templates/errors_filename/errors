@@ -1,4 +1,0 @@
-[% IF self.errors %]
-<ul>[% FOREACH error = self.errors %]
-<li[% IF error.for.defined %][% process_attrs({for=>error.for}) %][% END %]>[% error.message %]</li>[% END %]
-</ul>[% END %]

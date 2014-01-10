@@ -57,15 +57,6 @@ my @ALLOWED_OPTION_KEYS = qw(
     label_loc
 );
 
-after BUILD => sub {
-    my $self = shift;
-
-    $self->filename('input');
-    $self->field_filename('input_tag');
-
-    return;
-};
-
 sub datalist_options {
     my ( $self, $arg ) = @_;
     my ( @options, @new );

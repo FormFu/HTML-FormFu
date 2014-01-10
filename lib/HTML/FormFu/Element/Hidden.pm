@@ -9,7 +9,6 @@ after BUILD => sub {
     my $self = shift;
 
     $self->field_type('hidden');
-    $self->filename('input_tag');
     $self->container_tag(undef);
 
     $self->layout( [

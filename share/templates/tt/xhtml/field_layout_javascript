@@ -1,0 +1,4 @@
+[% IF self.javascript.defined %]
+<script type="text/javascript">
+[% self.javascript %]
+</script>[% END %]

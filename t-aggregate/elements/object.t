@@ -27,7 +27,7 @@ my $form = HTML::FormFu->new( {
 $form->render_method('tt');
 $form->auto_fieldset;
 
-$form->element('Text')->name('foo')->constraint('Required');
+$form->element('Text')->name('foo')->layout_field_filename('field_layout_field_custom')->constraint('Required');
 $form->element('Text')->name('bar');
 $form->element('Hidden')->name('baz');
 $form->element('Submit')->name('submit');

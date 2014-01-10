@@ -20,7 +20,7 @@ has field_type => (
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->filename('content_button');
+    $self->layout_field_filename('field_layout_contentbutton_field');
 
     return;
 };

@@ -1,10 +1,22 @@
 package HTML::FormFu::Role::Element::Layout;
 use Moose::Role;
+use MooseX::Attribute::Chained;
+
 use Carp qw( carp croak );
 use List::MoreUtils qw( first_index );
 use Scalar::Util qw( reftype );
 
 use HTML::FormFu::Util qw( process_attrs );
+
+has layout_errors_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_errors' );
+has layout_label_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label' );
+has layout_field_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_field' );
+has layout_comment_filename    => ( is => 'rw', traits => ['Chained'], default => 'field_layout_comment' );
+has layout_javascript_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_javascript' );
+has layout_label_text_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label_text' );
+has layout_block_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_block' );
+
+has layout_parser_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_parser' );
 
 has _layout => (
     is => 'rw',
@@ -124,6 +136,34 @@ sub multi_layout {
 
     return $value;
 }
+
+after BUILD => sub {
+    my $self = shift;
+
+    $self->filename('field_layout');
+
+    return;
+};
+
+around render_data_non_recursive => sub {
+    my ( $orig, $self, $args ) = @_;
+
+    my $render = $self->$orig( {
+            layout                     => $self->layout,
+            multi_layout               => $self->multi_layout,
+            layout_errors_filename     => $self->layout_errors_filename,
+            layout_label_filename      => $self->layout_label_filename,
+            layout_field_filename      => $self->layout_field_filename,
+            layout_comment_filename    => $self->layout_comment_filename,
+            layout_javascript_filename => $self->layout_javascript_filename,
+            layout_label_text_filename => $self->layout_label_text_filename,
+            layout_block_filename      => $self->layout_block_filename,
+            layout_parser_filename     => $self->layout_parser_filename,
+            $args ? %$args : (),
+        } );
+
+    return $render;
+};
 
 sub string {
     my ( $self, $args ) = @_;

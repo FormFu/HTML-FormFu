@@ -1,12 +1,3 @@
-[% IF self.container_tag.defined %]<[% self.container_tag %][% process_attrs(self.container_attributes) %]>[% END %][% IF self.label.defined && self.label_tag == 'legend' %]
-[% INCLUDE $self.label_filename %][% END %][% INCLUDE $self.errors_filename %][% IF self.label.defined && self.label_tag != 'legend' && !self.reverse_single %]
-[% INCLUDE $self.label_filename %][% END %][% IF self.container_tag.defined %]
-[% END %][% content %][% IF self.label.defined && self.label_tag != 'legend' && self.reverse_single %]
-[% INCLUDE $self.label_filename %][% END %][% IF self.comment.defined %]
-<span[% process_attrs(self.comment_attributes) %]>
-[% self.comment %]
-</span>[% END %][% IF self.container_tag.defined %]
-</[% self.container_tag %]>[% END %][% IF self.javascript.defined %]
-<script type="text/javascript">
-[% self.javascript %]
-</script>[% END %]
+[% IF self.container_tag.defined %]<[% self.container_tag %][% process_attrs(self.container_attributes) %]>
+[% END %][% content %][% IF self.container_tag.defined %]
+</[% self.container_tag %]>[% END %]

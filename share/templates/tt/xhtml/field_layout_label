@@ -1,0 +1,11 @@
+[% tag=''; opts={} 
+%][% IF arguments.size 
+%][%    tag     = arguments.shift;
+        content = arguments.shift;
+        opts.content    = content;
+        opts.attributes = self.label_attributes;
+%][%    INCLUDE $self.layout_block_filename arguments=[tag, opts] 
+%][% ELSE 
+%][%    IF self.label.defined %]<[% self.label_tag %][% process_attrs(self.label_attributes) %]>[% self.label %]</[% self.label_tag 
+%]>[%   END 
+%][% END %]

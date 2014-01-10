@@ -19,8 +19,7 @@ __PACKAGE__->mk_attr_accessors(qw(
 after BUILD => sub {
     my $self = shift;
 
-    $self->filename('input');
-    $self->field_filename('textarea_tag');
+    $self->layout_field_filename('field_layout_textarea_field');
     $self->cols(40);
     $self->rows(20);
 

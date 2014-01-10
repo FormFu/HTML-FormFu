@@ -1,0 +1,1 @@
+[% INCLUDE field_layout_field %][% IF self.object.get_constraint({type => 'Required'}) %] **[% END %]

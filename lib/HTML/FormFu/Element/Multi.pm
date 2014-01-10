@@ -1,5 +1,6 @@
 package HTML::FormFu::Element::Multi;
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 with
@@ -16,8 +17,7 @@ after BUILD => sub {
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
-    $self->filename('multi');
-    $self->label_filename('label');
+    $self->layout_field_filename('field_layout_multi_field');
     $self->label_tag('label');
 
     return;
@@ -125,6 +125,18 @@ sub clear_errors {
     map { $_->clear_errors } @{ $self->_elements };
 
     return;
+}
+
+sub render_data {
+    my $self = shift;
+
+    my $render = $self->SUPER::render_data(@_);
+
+    map {
+        delete $_->{container_tag}
+    } @{ $render->{elements} || [] };
+
+    return $render;
 }
 
 sub render_data_non_recursive {
