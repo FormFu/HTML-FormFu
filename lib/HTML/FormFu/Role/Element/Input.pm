@@ -57,15 +57,6 @@ my @ALLOWED_OPTION_KEYS = qw(
     label_loc
 );
 
-after BUILD => sub {
-    my $self = shift;
-
-    $self->filename('input');
-    $self->field_filename('input_tag');
-
-    return;
-};
-
 sub datalist_options {
     my ( $self, $arg ) = @_;
     my ( @options, @new );
@@ -237,31 +228,6 @@ sub _quote_options {
     }
 }
 
-sub string {
-    my ( $self, $args ) = @_;
-
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # input_tag template
-
-    $html .= $self->_string_field($render);
-
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
-}
-
 sub _string_field {
     my ( $self, $render ) = @_;
 
@@ -292,17 +258,6 @@ sub _string_field {
     $html .= sprintf "%s />", process_attrs( $render->{attributes} );
 
     return $html;
-}
-
-sub as {
-    my ( $self, $type, %attrs ) = @_;
-
-    return $self->_coerce(
-        type       => $type,
-        attributes => \%attrs,
-        errors     => $self->_errors,
-        package    => __PACKAGE__,
-    );
 }
 
 around clone => sub {

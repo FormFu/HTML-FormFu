@@ -3,8 +3,8 @@ package HTML::FormFu::Element::ContentButton;
 use Moose;
 use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
-with 'HTML::FormFu::Role::Element::Field';
-with "HTML::FormFu::Role::Element::SingleValueField";
+with 'HTML::FormFu::Role::Element::Field',
+    'HTML::FormFu::Role::Element::SingleValueField';
 
 use HTML::FormFu::Util qw( xml_escape process_attrs );
 
@@ -20,7 +20,7 @@ has field_type => (
 after BUILD => sub {
     my ( $self, $args ) = @_;
 
-    $self->filename('content_button');
+    $self->layout_field_filename('field_layout_contentbutton_field');
 
     return;
 };
@@ -35,31 +35,6 @@ sub render_data_non_recursive {
         } );
 
     return $render;
-}
-
-sub string {
-    my ( $self, $args ) = @_;
-
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # input_tag template
-
-    $html .= $self->_string_field($render);
-
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
 }
 
 sub _string_field {

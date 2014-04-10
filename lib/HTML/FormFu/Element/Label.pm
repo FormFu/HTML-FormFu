@@ -5,16 +5,13 @@ use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
 
 with 'HTML::FormFu::Role::Element::Field',
-    'HTML::FormFu::Role::Element::SingleValueField' =>
-    { -excludes => 'nested_name' },
+    'HTML::FormFu::Role::Element::SingleValueField',
     'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Util qw( process_attrs );
 use List::MoreUtils qw( none );
 
-has field_type      => ( is => 'rw', traits => ['Chained'] );
-has label_filename  => ( is => 'rw', traits => ['Chained'] );
-has errors_filename => ( is => 'rw', traits => ['Chained'] );
+has field_type => ( is => 'rw', traits => ['Chained'] );
 
 has tag => (
     is      => 'rw',
@@ -26,8 +23,7 @@ has tag => (
 after BUILD => sub {
     my $self = shift;
 
-    $self->filename('input');
-    $self->field_filename('label_element');
+    $self->layout_field_filename('field_layout_label_field');
     $self->non_param(1);
 
     #$self->field_type('label');
@@ -36,31 +32,6 @@ after BUILD => sub {
 
     return;
 };
-
-sub string {
-    my ( $self, $args ) = @_;
-
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # input_tag template
-
-    $html .= $self->_string_field($render);
-
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
-}
 
 sub _string_field {
     my ( $self, $render ) = @_;

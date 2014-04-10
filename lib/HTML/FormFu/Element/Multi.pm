@@ -1,11 +1,11 @@
 package HTML::FormFu::Element::Multi;
 use Moose;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 with
-    'HTML::FormFu::Role::Element::SingleValueField' =>
-    { -excludes => 'nested_name' },
-    'HTML::FormFu::Role::Element::Field';
+    'HTML::FormFu::Role::Element::Field',
+    'HTML::FormFu::Role::Element::SingleValueField';
 
 use HTML::FormFu::Util
     qw( append_xml_attribute xml_escape process_attrs _parse_args _get_elements _filter_components );
@@ -17,8 +17,7 @@ after BUILD => sub {
     $self->comment_attributes(   {} );
     $self->container_attributes( {} );
     $self->label_attributes(     {} );
-    $self->filename('multi');
-    $self->label_filename('label');
+    $self->layout_field_filename('field_layout_multi_field');
     $self->label_tag('label');
 
     return;
@@ -128,6 +127,18 @@ sub clear_errors {
     return;
 }
 
+sub render_data {
+    my $self = shift;
+
+    my $render = $self->SUPER::render_data(@_);
+
+    map {
+        delete $_->{container_tag}
+    } @{ $render->{elements} || [] };
+
+    return $render;
+}
+
 sub render_data_non_recursive {
     my $self = shift;
 
@@ -138,54 +149,26 @@ sub render_data_non_recursive {
     return $render;
 }
 
-sub string {
-    my ( $self, $args ) = @_;
+sub _parse_layout_field {
+    my ( $self, $render ) = @_;
 
-    $args ||= {};
-
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data_non_recursive;
-
-    # field wrapper template - start
-
-    my $html = $self->_string_field_start($render);
-
-    # multi template
-
-    $html .= sprintf "<span%s>\n", process_attrs( $render->{attributes} );
+    my @html = (
+        sprintf "<span%s>", process_attrs( $render->{attributes} ),
+    );
 
     for my $elem ( @{ $self->get_elements } ) {
         my $render = $elem->render_data;
 
         next if !defined $render;
 
-        if ( $elem->reverse_multi ) {
-            $html .= $elem->_string_field($render);
+        $render->{container_tag} = undef;
 
-            if ( defined $elem->label ) {
-                $html .= sprintf "\n%s", $elem->_string_label($render);
-            }
-        }
-        else {
-            if ( defined $elem->label ) {
-                $html .= $elem->_string_label($render) . "\n";
-            }
-
-            $html .= $elem->_string_field($render);
-        }
-
-        $html .= "\n";
+        push @html, $elem->string( { render_data => $render, layout => $elem->multi_layout } );
     }
 
-    $html .= "</span>";
+    push @html, "</span>";
 
-    # field wrapper template - end
-
-    $html .= $self->_string_field_end($render);
-
-    return $html;
+    return join "\n", @html;
 }
 
 sub clone {

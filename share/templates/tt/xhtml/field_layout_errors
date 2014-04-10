@@ -1,0 +1,16 @@
+[% IF self.errors 
+%][%    IF self.error_container_tag.defined 
+%]<[%       self.error_container_tag %][% process_attrs(self.error_container_attributes) %]>
+[%      END 
+%][%    output = []
+%][%    FOREACH error = self.errors 
+%][%        item = []
+%][%        item.push("<", self.error_tag, process_attrs(error.attributes), ">", error.message, "</", self.error_tag, ">" ) 
+%][%        output.push( item.join("") )
+%][%    END
+%][%    output.join("\n")
+%][%    IF self.error_container_tag.defined 
+%]
+</[% self.error_container_tag 
+%][%    END 
+%][% END %]

@@ -113,10 +113,8 @@ effect throughout your entire application, for example:
       constructor:
         default_args:
           elements:
-            Checkbox:
-              reverse_multi: 1
-            Radio:
-              reverse_multi: 1
+            Textarea:
+              rows: 10
 
 =head1 MODIFYING A FORM
 

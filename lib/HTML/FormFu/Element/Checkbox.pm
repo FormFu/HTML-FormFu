@@ -13,8 +13,12 @@ after BUILD => sub {
     my ( $self, $args ) = @_;
 
     $self->field_type('checkbox');
-    $self->reverse_multi(1);
     $self->value(1);
+
+    $self->multi_layout( [
+        'field',
+        'label',
+    ] );
 
     return;
 };
@@ -97,9 +101,11 @@ Default Value: 1
 
 Inherited. See L<HTML::FormFu::Role::Element::Field/default_empty_value> for details.
 
-=head2 reverse_multi
+=head2 multi_layout
 
-Overrides the default value, so it's C<true>.
+Overrides the default value of 
+L<multi_layout|HTML::FormFu::Role::Element::Field/multi_layout>
+to swap the C<field> and C<label> around.
 
 =head1 SEE ALSO
 

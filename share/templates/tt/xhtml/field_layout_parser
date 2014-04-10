@@ -1,0 +1,22 @@
+[% IF reftype(layout) == 'ARRAY' 
+%][%    items = []
+%][%    FOREACH item = layout 
+%][%        output = INCLUDE $self.layout_parser_filename layout=item 
+%][%        IF output.length 
+%][%            items.push(output) 
+%][%        END 
+%][%    END 
+%][%    items.join("\n") 
+%][% ELSIF reftype(layout) == 'HASH' 
+%][%    key = layout.keys.first;
+        value = layout.$key 
+%][%    method_name = "layout_" _ key _ "_filename";
+        file_name = self.$method_name 
+%][%    TRY %][% INCLUDE $file_name arguments=[key, value] 
+%][%    CATCH file %][% INCLUDE $self.layout_block_filename arguments=[key, value] 
+%][%    END 
+%][% ELSE 
+%][%    method_name = "layout_" _ layout _ "_filename";
+        file_name = self.$method_name 
+%][%    INCLUDE $file_name arguments=[] 
+%][% END %]

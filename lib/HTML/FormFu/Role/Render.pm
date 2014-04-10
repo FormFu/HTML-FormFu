@@ -1,6 +1,7 @@
 package HTML::FormFu::Role::Render;
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );
+use Scalar::Util qw( reftype );
 
 use Moose::Role;
 
@@ -70,6 +71,7 @@ sub tt {
     my %vars = (
         self          => $args->{render_data},
         process_attrs => \&process_attrs,
+        reftype       => \&reftype,
     );
 
     if ( !$template->process( $args->{filename}, \%vars, \$output ) ) {

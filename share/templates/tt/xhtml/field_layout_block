@@ -1,0 +1,3 @@
+[% tag=arguments.shift; opts=arguments.shift %]<[% tag %][% IF opts.attributes %][% process_attrs(opts.attributes) %][% END %]>
+[% IF opts.content %][% INCLUDE $self.layout_parser_filename layout=opts.content %]
+[% END %]</[% tag %]>

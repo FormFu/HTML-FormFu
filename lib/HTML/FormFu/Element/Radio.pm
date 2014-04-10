@@ -33,12 +33,6 @@ HTML::FormFu::Element::Radio - Radio form field
 
 Radio form field.
 
-=head1 METHODS
-
-=head2 reverse_multi
-
-Overrides the default value, so it's C<true>.
-
 =head1 SEE ALSO
 
 Is a sub-class of, and inherits methods from
