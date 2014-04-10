@@ -196,8 +196,8 @@ It should implement a C<validate_value> method, which returns true is the
 value is valid, or false otherwise.
 
     package My::Custom::Validator;
-    use strict;
-    use base 'HTML::FormFu::Validator';
+    use Moose;
+    extends 'HTML::FormFu::Validator';
     
     sub validate_value {
       my ( $self, $value, $params ) = @_;
@@ -510,8 +510,8 @@ L<Catalyst::Controller::HTML::FormFu> and run the following command:
 This will create a directory, C<root/formfu>, containing the HTML::FormFu 
 template files.
 
-If you use L<Catalyst::Controller::HTML::FormFu> as a base class and you 
-don't set HTML::FormFu's INCLUDE_PATH yourself, it will automatically be set 
+If you extend L<Catalyst::Controller::HTML::FormFu> and you don't set
+HTML::FormFu's INCLUDE_PATH yourself, it will automatically be set 
 to C<root/formfu> if that directory exists.
 
 If you're not using L<Catalyst>, you can create the template files by 
