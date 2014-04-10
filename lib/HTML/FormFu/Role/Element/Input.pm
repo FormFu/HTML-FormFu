@@ -1,6 +1,5 @@
 package HTML::FormFu::Role::Element::Input;
 use Moose::Role;
-use MooseX::SetOnce;
 
 with 'HTML::FormFu::Role::Element::Field',
     'HTML::FormFu::Role::Element::FieldMethods' =>
@@ -22,8 +21,6 @@ use HTML::FormFu::Util qw( process_attrs xml_escape );
 
 has field_type => (
     is => 'rw',
-
-    #traits   => ['SetOnce'],
 );
 
 has datalist_id => ( is => 'rw' );
