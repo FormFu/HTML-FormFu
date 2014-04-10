@@ -1238,8 +1238,8 @@ distribution.
 If you're using L<Catalyst>, a more suitable example might be:
 
     package MyApp::Controller::User;
-    use strict;
-    use base 'Catalyst::Controller::HTML::FormFu';
+    use Moose;
+    extends 'Catalyst::Controller::HTML::FormFu';
 
     sub user : Chained CaptureArgs(1) {
         my ( $self, $c, $id ) = @_;
