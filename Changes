@@ -1,6 +1,15 @@
 {{$NEXT}}
 
+    - New layout() method for customizing output of fields.
+
     - New Filter::ForceListValue addresses rt bug #90813
+
+    - Deprecated: reverse_single() and reverse_multi() are deprecated,
+      and warn when used.
+      If the new layout() is used, and there is no simple way to replicate
+      the behaviour, these methods will have no affect.
+
+    - 'checkboxgroup' TT file removed - was not being used.
 
     - render_label() and render_field() no longer require TT.
       Include render_label() in tests.
