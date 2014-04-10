@@ -1,6 +1,6 @@
 package HTML::FormFu;
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::Render',
     'HTML::FormFu::Role::CreateChildren',
@@ -83,7 +83,7 @@ has languages => (
     default => sub { ['en'] },
     lazy    => 1,
     isa     => 'ArrayRef',
-    traits  => ['Chained'],
+    traits  => ['FormFuChained'],
 );
 
 has input => (
@@ -91,7 +91,7 @@ has input => (
     default => sub { {} },
     lazy    => 1,
     isa     => 'HashRef',
-    traits  => ['Chained'],
+    traits  => ['FormFuChained'],
 );
 
 has _processed_params => (
@@ -126,12 +126,12 @@ our @MULTIFORM_SHARED = (qw(
 for (@MULTIFORM_SHARED) {
     has $_ => (
         is     => 'rw',
-        traits => ['Chained'],
+        traits => ['FormFuChained'],
     );
 }
 
-has submitted => ( is => 'rw', traits => ['Chained'] );
-has query     => ( is => 'rw', traits => ['Chained'] );
+has submitted => ( is => 'rw', traits => ['FormFuChained'] );
+has query     => ( is => 'rw', traits => ['FormFuChained'] );
 
 has _auto_fieldset => ( is => 'rw' );
 
@@ -1241,7 +1241,7 @@ If you're using L<Catalyst>, a more suitable example might be:
     use Moose;
     extends 'Catalyst::Controller::HTML::FormFu';
 
-    sub user : Chained CaptureArgs(1) {
+    sub user : FormFuChained CaptureArgs(1) {
         my ( $self, $c, $id ) = @_;
 
         my $rs = $c->model('Schema')->resultset('User');
@@ -1251,7 +1251,7 @@ If you're using L<Catalyst>, a more suitable example might be:
         return;
     }
 
-    sub edit : Chained('user') Args(0) FormConfig {
+    sub edit : FormFuChained('user') Args(0) FormConfig {
         my ( $self, $c ) = @_;
 
         my $form = $c->stash->{form};

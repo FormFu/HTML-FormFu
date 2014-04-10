@@ -1,5 +1,6 @@
 package HTML::FormFu::Role::Constraint::Others;
 use Moose::Role;
+use MooseX::Attribute::FormFuChained;
 
 use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS_OTHERS
@@ -8,11 +9,11 @@ use HTML::FormFu::Util qw(
 use Clone ();
 use List::MoreUtils qw( any none );
 
-has others                  => ( is => 'rw', traits => ['Chained'] );
-has other_siblings          => ( is => 'rw', traits => ['Chained'] );
-has attach_errors_to        => ( is => 'rw', traits => ['Chained'] );
-has attach_errors_to_base   => ( is => 'rw', traits => ['Chained'] );
-has attach_errors_to_others => ( is => 'rw', traits => ['Chained'] );
+has others                  => ( is => 'rw', traits => ['FormFuChained'] );
+has other_siblings          => ( is => 'rw', traits => ['FormFuChained'] );
+has attach_errors_to        => ( is => 'rw', traits => ['FormFuChained'] );
+has attach_errors_to_base   => ( is => 'rw', traits => ['FormFuChained'] );
+has attach_errors_to_others => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub pre_process {
     my ($self) = @_;

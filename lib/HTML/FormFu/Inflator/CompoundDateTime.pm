@@ -1,7 +1,7 @@
 package HTML::FormFu::Inflator::CompoundDateTime;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Inflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -11,8 +11,8 @@ use List::MoreUtils qw( none );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-has strptime    => ( is => 'rw', traits => ['Chained'] );
-has field_order => ( is => 'rw', traits => ['Chained'] );
+has strptime    => ( is => 'rw', traits => ['FormFuChained'] );
+has field_order => ( is => 'rw', traits => ['FormFuChained'] );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

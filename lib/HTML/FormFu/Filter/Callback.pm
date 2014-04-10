@@ -1,10 +1,10 @@
 package HTML::FormFu::Filter::Callback;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub filter {
     my ( $self, $value, $params ) = @_;

@@ -1,6 +1,6 @@
 package HTML::FormFu::Deflator;
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::Populate';
 
@@ -8,7 +8,7 @@ use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw( form name parent );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits => ['Chained'] );
+has type => ( is => 'rw', traits => ['FormFuChained'] );
 
 __PACKAGE__->mk_inherited_accessors(qw( locale ));
 

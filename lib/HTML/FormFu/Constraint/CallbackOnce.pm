@@ -1,10 +1,10 @@
 package HTML::FormFu::Constraint::CallbackOnce;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Constraint';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub process {
     my ( $self, $params ) = @_;

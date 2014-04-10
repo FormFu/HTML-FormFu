@@ -1,14 +1,14 @@
 package HTML::FormFu::Deflator::CompoundSplit;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-has split       => ( is => 'rw', traits => ['Chained'] );
-has join        => ( is => 'rw', traits => ['Chained'] );
-has field_order => ( is => 'rw', traits => ['Chained'] );
+has split       => ( is => 'rw', traits => ['FormFuChained'] );
+has join        => ( is => 'rw', traits => ['FormFuChained'] );
+has field_order => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

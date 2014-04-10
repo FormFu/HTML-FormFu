@@ -1,10 +1,10 @@
 package HTML::FormFu::Deflator::Callback;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

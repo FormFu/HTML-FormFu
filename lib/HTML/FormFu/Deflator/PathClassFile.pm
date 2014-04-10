@@ -1,12 +1,12 @@
 package HTML::FormFu::Deflator::PathClassFile;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
 
-has relative => ( is => 'rw', traits => ['Chained'] );
-has absolute => ( is => 'rw', traits => ['Chained'] );
-has basename => ( is => 'rw', traits => ['Chained'] );
+has relative => ( is => 'rw', traits => ['FormFuChained'] );
+has absolute => ( is => 'rw', traits => ['FormFuChained'] );
+has basename => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

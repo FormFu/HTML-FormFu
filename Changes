@@ -5,6 +5,9 @@
     - render_label() and render_field() no longer require TT.
       Include render_label() in tests.
 
+    - Bundle our own (renamed) copy of MooseX::Attribute::Chained to avoid
+      warnings under perl 5.19.x
+
 1.00 2013-12-16
 
     - TT template files changed - update them if you use a local copy.

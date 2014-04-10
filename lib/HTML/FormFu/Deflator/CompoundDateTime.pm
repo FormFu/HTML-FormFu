@@ -1,7 +1,7 @@
 package HTML::FormFu::Deflator::CompoundDateTime;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -9,7 +9,7 @@ use DateTime;
 use List::MoreUtils qw( none );
 use Carp qw( croak );
 
-has field_order => ( is => 'rw', traits => ['Chained'] );
+has field_order => ( is => 'rw', traits => ['FormFuChained'] );
 
 my @known_fields = qw( year month day hour minute second nanosecond time_zone );
 

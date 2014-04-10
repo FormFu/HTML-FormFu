@@ -1,10 +1,10 @@
 package HTML::FormFu::Transformer::Callback;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Transformer';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub transformer {
     my ( $self, $value, $params ) = @_;

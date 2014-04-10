@@ -1,6 +1,6 @@
 package HTML::FormFu::Constraint;
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Constraint;
@@ -18,10 +18,10 @@ use List::MoreUtils qw( any all );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );
 
-has not          => ( is => 'rw', traits => ['Chained'] );
-has force_errors => ( is => 'rw', traits => ['Chained'] );
-has when         => ( is => 'rw', traits => ['Chained'] );
-has only_on_reps => ( is => 'rw', traits => ['Chained'] );
+has not          => ( is => 'rw', traits => ['FormFuChained'] );
+has force_errors => ( is => 'rw', traits => ['FormFuChained'] );
+has when         => ( is => 'rw', traits => ['FormFuChained'] );
+has only_on_reps => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub repeatable_repeat {
     my ( $self, $repeatable, $new_block ) = @_;

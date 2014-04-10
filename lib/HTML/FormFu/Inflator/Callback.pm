@@ -1,10 +1,10 @@
 package HTML::FormFu::Inflator::Callback;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Inflator';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub inflator {
     my ( $self, $value ) = @_;

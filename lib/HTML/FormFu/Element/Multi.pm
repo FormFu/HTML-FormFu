@@ -1,6 +1,5 @@
 package HTML::FormFu::Element::Multi;
 use Moose;
-use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 with

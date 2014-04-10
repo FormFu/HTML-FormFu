@@ -1,10 +1,10 @@
 package HTML::FormFu::Validator::Callback;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Validator';
 
-has callback => ( is => 'rw', traits => ['Chained'] );
+has callback => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub validate_value {
     my ( $self, $value ) = @_;

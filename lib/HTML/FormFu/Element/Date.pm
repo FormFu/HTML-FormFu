@@ -1,6 +1,6 @@
 package HTML::FormFu::Element::Date;
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 
 extends 'HTML::FormFu::Element::Multi';
 
@@ -16,12 +16,12 @@ use Carp qw( croak );
 
 __PACKAGE__->mk_attrs(qw( day  month  year ));
 
-has auto_inflate          => ( is => 'rw', traits => ['Chained'] );
-has default_natural       => ( is => 'rw', traits => ['Chained'] );
-has default_datetime_args => ( is => 'rw', traits => ['Chained'] );
-has printf_day            => ( is => 'rw', traits => ['Chained'] );
-has printf_month          => ( is => 'rw', traits => ['Chained'] );
-has printf_year           => ( is => 'rw', traits => ['Chained'] );
+has auto_inflate          => ( is => 'rw', traits => ['FormFuChained'] );
+has default_natural       => ( is => 'rw', traits => ['FormFuChained'] );
+has default_datetime_args => ( is => 'rw', traits => ['FormFuChained'] );
+has printf_day            => ( is => 'rw', traits => ['FormFuChained'] );
+has printf_month          => ( is => 'rw', traits => ['FormFuChained'] );
+has printf_year           => ( is => 'rw', traits => ['FormFuChained'] );
 
 has _known_fields => ( is => 'rw' );
 
@@ -29,7 +29,7 @@ has strftime => (
     is      => 'rw',
     default => '%d-%m-%Y',
     lazy    => 1,
-    traits  => ['Chained'],
+    traits  => ['FormFuChained'],
 );
 
 *default = \&value;

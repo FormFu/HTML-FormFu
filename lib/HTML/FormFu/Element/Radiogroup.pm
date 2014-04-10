@@ -1,6 +1,5 @@
 package HTML::FormFu::Element::Radiogroup;
 use Moose;
-use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Checkboxgroup';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );

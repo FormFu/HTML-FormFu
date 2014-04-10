@@ -1,10 +1,10 @@
 package HTML::FormFu::Filter::Default;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
 
-has value => ( is => 'rw', traits => ['Chained'] );
+has value => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

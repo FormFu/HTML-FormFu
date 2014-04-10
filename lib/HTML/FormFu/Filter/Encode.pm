@@ -1,12 +1,12 @@
 package HTML::FormFu::Filter::Encode;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
 
 use Encode qw(encode decode FB_CROAK);
 
-has encode_to => ( is => 'rw', traits => ['Chained'] );
+has encode_to => ( is => 'rw', traits => ['FormFuChained'] );
 
 has _candidates => ( is => 'rw' );
 

@@ -1,6 +1,6 @@
 package HTML::FormFu::Role::Element::Layout;
 use Moose::Role;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 
 use Carp qw( carp croak );
 use List::MoreUtils qw( first_index );
@@ -8,15 +8,15 @@ use Scalar::Util qw( reftype );
 
 use HTML::FormFu::Util qw( process_attrs );
 
-has layout_errors_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_errors' );
-has layout_label_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label' );
-has layout_field_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_field' );
-has layout_comment_filename    => ( is => 'rw', traits => ['Chained'], default => 'field_layout_comment' );
-has layout_javascript_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_javascript' );
-has layout_label_text_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label_text' );
-has layout_block_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_block' );
+has layout_errors_filename     => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_errors' );
+has layout_label_filename      => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_label' );
+has layout_field_filename      => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_field' );
+has layout_comment_filename    => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_comment' );
+has layout_javascript_filename => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_javascript' );
+has layout_label_text_filename => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_label_text' );
+has layout_block_filename      => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_block' );
 
-has layout_parser_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_parser' );
+has layout_parser_filename     => ( is => 'rw', traits => ['FormFuChained'], default => 'field_layout_parser' );
 
 has _layout => (
     is => 'rw',

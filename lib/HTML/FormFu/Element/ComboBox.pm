@@ -1,6 +1,6 @@
 package HTML::FormFu::Element::ComboBox;
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element::Multi';
 
 with 'HTML::FormFu::Role::Element::ProcessOptionsFromModel';
@@ -17,11 +17,11 @@ our @DEFER_TO_SELECT = qw(
 );
 
 for my $name (@DEFER_TO_SELECT) {
-    has $name => ( is => 'rw', traits => ['Chained'] );
+    has $name => ( is => 'rw', traits => ['FormFuChained'] );
 }
 
-has select => ( is => 'rw', traits => ['Chained'], default => sub { {} } );
-has text   => ( is => 'rw', traits => ['Chained'], default => sub { {} } );
+has select => ( is => 'rw', traits => ['FormFuChained'], default => sub { {} } );
+has text   => ( is => 'rw', traits => ['FormFuChained'], default => sub { {} } );
 
 *default = \&value;
 

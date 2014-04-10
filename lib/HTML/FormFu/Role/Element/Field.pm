@@ -1,6 +1,7 @@
 package HTML::FormFu::Role::Element::Field;
 use Moose::Role;
 use MooseX::Aliases;
+use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::ContainsElementsSharedWithField',
     'HTML::FormFu::Role::NestedHashUtils',
@@ -30,28 +31,28 @@ __PACKAGE__->mk_attrs( qw(
         error_container_attributes
 ) );
 
-has _constraints         => ( is => 'rw', traits => ['Chained'] );
-has _filters             => ( is => 'rw', traits => ['Chained'] );
-has _inflators           => ( is => 'rw', traits => ['Chained'] );
-has _deflators           => ( is => 'rw', traits => ['Chained'] );
-has _validators          => ( is => 'rw', traits => ['Chained'] );
-has _transformers        => ( is => 'rw', traits => ['Chained'] );
-has _plugins             => ( is => 'rw', traits => ['Chained'] );
-has _errors              => ( is => 'rw', traits => ['Chained'] );
-has container_tag        => ( is => 'rw', traits => ['Chained'] );
-has field_filename       => ( is => 'rw', traits => ['Chained'] );
-has label_filename       => ( is => 'rw', traits => ['Chained'] );
-has label_tag            => ( is => 'rw', traits => ['Chained'] );
-has retain_default       => ( is => 'rw', traits => ['Chained'] );
-has force_default        => ( is => 'rw', traits => ['Chained'] );
-has javascript           => ( is => 'rw', traits => ['Chained'] );
-has non_param            => ( is => 'rw', traits => ['Chained'] );
-has reverse_single       => ( is => 'rw', traits => ['Chained'] );
-has reverse_multi        => ( is => 'rw', traits => ['Chained'] );
-has multi_value          => ( is => 'rw', traits => ['Chained'] );
-has original_name        => ( is => 'rw', traits => ['Chained'] );
-has original_nested_name => ( is => 'rw', traits => ['Chained'] );
-has default_empty_value  => ( is => 'rw', traits => ['Chained'] );
+has _constraints         => ( is => 'rw', traits => ['FormFuChained'] );
+has _filters             => ( is => 'rw', traits => ['FormFuChained'] );
+has _inflators           => ( is => 'rw', traits => ['FormFuChained'] );
+has _deflators           => ( is => 'rw', traits => ['FormFuChained'] );
+has _validators          => ( is => 'rw', traits => ['FormFuChained'] );
+has _transformers        => ( is => 'rw', traits => ['FormFuChained'] );
+has _plugins             => ( is => 'rw', traits => ['FormFuChained'] );
+has _errors              => ( is => 'rw', traits => ['FormFuChained'] );
+has container_tag        => ( is => 'rw', traits => ['FormFuChained'] );
+has field_filename       => ( is => 'rw', traits => ['FormFuChained'] );
+has label_filename       => ( is => 'rw', traits => ['FormFuChained'] );
+has label_tag            => ( is => 'rw', traits => ['FormFuChained'] );
+has retain_default       => ( is => 'rw', traits => ['FormFuChained'] );
+has force_default        => ( is => 'rw', traits => ['FormFuChained'] );
+has javascript           => ( is => 'rw', traits => ['FormFuChained'] );
+has non_param            => ( is => 'rw', traits => ['FormFuChained'] );
+has reverse_single       => ( is => 'rw', traits => ['FormFuChained'] );
+has reverse_multi        => ( is => 'rw', traits => ['FormFuChained'] );
+has multi_value          => ( is => 'rw', traits => ['FormFuChained'] );
+has original_name        => ( is => 'rw', traits => ['FormFuChained'] );
+has original_nested_name => ( is => 'rw', traits => ['FormFuChained'] );
+has default_empty_value  => ( is => 'rw', traits => ['FormFuChained'] );
 
 __PACKAGE__->mk_output_accessors(qw( comment label value ));
 

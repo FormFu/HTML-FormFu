@@ -1,14 +1,14 @@
 package HTML::FormFu::Constraint::Regex;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Constraint';
 
 use Regexp::Common;
 
-has common   => ( is => 'rw', traits => ['Chained'] );
-has regex    => ( is => 'rw', traits => ['Chained'] );
-has anchored => ( is => 'rw', traits => ['Chained'] );
+has common   => ( is => 'rw', traits => ['FormFuChained'] );
+has regex    => ( is => 'rw', traits => ['FormFuChained'] );
+has anchored => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

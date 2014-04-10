@@ -1,7 +1,8 @@
 package HTML::FormFu::Role::Filter::Compound;
 use Moose::Role;
+use MooseX::Attribute::FormFuChained;
 
-has field_order => ( is => 'rw', traits => ['Chained'] );
+has field_order => ( is => 'rw', traits => ['FormFuChained'] );
 
 sub _get_values {
     my ( $self, $value ) = @_;

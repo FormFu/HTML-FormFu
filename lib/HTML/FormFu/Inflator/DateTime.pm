@@ -1,7 +1,7 @@
 package HTML::FormFu::Inflator::DateTime;
 
 use Moose;
-use MooseX::Attribute::Chained;
+use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Inflator';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -9,8 +9,8 @@ use DateTime::Format::Builder;
 use DateTime::Format::Strptime;
 use Scalar::Util qw( reftype );
 
-has strptime  => ( is => 'rw', traits => ['Chained'] );
-has time_zone => ( is => 'rw', traits => ['Chained'] );
+has strptime  => ( is => 'rw', traits => ['FormFuChained'] );
+has time_zone => ( is => 'rw', traits => ['FormFuChained'] );
 
 has _builder => (
     is      => 'rw',
