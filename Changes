@@ -1,18 +1,35 @@
 {{$NEXT}}
 
-    - New layout() method for customizing output of fields.
+2.00 2014-04-11
 
-    - New Filter::ForceListValue addresses rt bug #90813
+    - New layout() method for customizing output of fields.
+      Any custom elements which override string() will likely need modified.
 
     - Deprecated: reverse_single() and reverse_multi() are deprecated,
       and warn when used.
       If the new layout() is used, and there is no simple way to replicate
       the behaviour, these methods will have no affect.
 
-    - 'checkboxgroup' TT file removed - was not being used.
+    - TT template files changed - update them if you use a local copy.
+      Files updated: field
+      New files: field_layout, field_layout_block,
+        field_layout_checkboxgroup_field, field_layout_comment,
+        field_layout_contentbutton_field, field_layout_errors,
+        field_layout_field, field_layout_javascript, field_layout_label,
+        field_layout_label_field, field_layout_label_text,
+        field_layout_multi_field, field_layout_parser,
+        field_layout_select_field, field_layout_textarea_field.
+      Files deleted due to layout() changes: checkboxgroup_tag, 
+        content_button, errors, input, input_tag, label, label_element,
+        multi, select_tag, textarea_tag
+      Unused files deleted: checkboxgroup.
+
+    - New Filter::ForceListValue addresses rt bug #90813
 
     - render_label() and render_field() no longer require TT.
       Include render_label() in tests.
+
+    - Fix typo in I18N::ja (Yusuke Watase).
 
     - Bundle our own (renamed) copy of MooseX::Attribute::Chained to avoid
       warnings under perl 5.19.x
