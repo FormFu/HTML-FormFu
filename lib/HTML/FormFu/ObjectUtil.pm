@@ -1,6 +1,7 @@
 package HTML::FormFu::ObjectUtil;
 
 use strict;
+use warnings;
 use Exporter qw( import );
 
 use HTML::FormFu::Util qw(

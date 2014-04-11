@@ -1,6 +1,7 @@
 package HTML::FormFu::Literal;
 
 use strict;
+use warnings;
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
 use overload

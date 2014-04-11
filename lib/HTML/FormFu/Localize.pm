@@ -1,6 +1,7 @@
 package HTML::FormFu::Localize;
 
 use strict;
+use warnings;
 
 use HTML::FormFu::Util qw( require_class );
 use List::MoreUtils qw( any );

@@ -1,6 +1,7 @@
 package HTML::FormFu::Attribute;
 
 use strict;
+use warnings;
 use Exporter qw( import );
 use Carp qw( croak );
 use Class::MOP::Method;
