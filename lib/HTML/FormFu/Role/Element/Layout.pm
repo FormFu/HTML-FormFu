@@ -246,7 +246,9 @@ sub _parse_layout_label {
     my $self   = shift;
     my $render = shift;
 
-    return "" unless exists $render->{label} && length $render->{label};
+    return "" unless exists $render->{label}
+        && defined $render->{label}
+        && length $render->{label};
 
     if ( @_ ) {
         my ( $tag, @content ) = @_;
