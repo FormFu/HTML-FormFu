@@ -1075,6 +1075,10 @@ sub _string_errors {
         push @error_html, sprintf qq{<%s%s>%s</%s>},
             $render->{error_tag},
             process_attrs( $error->{attributes} ),
+# works for Text
+#            process_attrs( $render->{error_attributes} ),
+# works for Select
+#            process_attrs( $self->{error_attributes} ),
             $error->{message},
             $render->{error_tag},
             ;
