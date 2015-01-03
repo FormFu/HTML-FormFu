@@ -5,7 +5,6 @@ extends 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Inflator;
 use Scalar::Util qw( blessed );
-use Carp qw( croak );
 
 sub process {
     my ( $self, $values ) = @_;

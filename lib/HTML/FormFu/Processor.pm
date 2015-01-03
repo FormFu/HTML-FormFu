@@ -15,9 +15,6 @@ use HTML::FormFu::ObjectUtil qw(
     name                    nested_name
     nested_names            parent );
 
-use Scalar::Util qw( refaddr reftype );
-use Carp qw( croak );
-
 has type => ( is => 'rw', traits => ['FormFuChained'] );
 
 __PACKAGE__->mk_output_accessors(qw( message ));

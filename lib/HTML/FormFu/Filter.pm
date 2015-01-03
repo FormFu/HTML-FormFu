@@ -9,7 +9,6 @@ with 'HTML::FormFu::Role::NestedHashUtils',
 use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
     form name parent nested_name nested_names );
-use Carp qw( croak );
 
 has type => ( is => 'rw', traits => ['FormFuChained'] );
 

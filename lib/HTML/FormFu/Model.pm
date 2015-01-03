@@ -5,7 +5,6 @@ use MooseX::Attribute::FormFuChained;
 with 'HTML::FormFu::Role::HasParent';
 
 use HTML::FormFu::ObjectUtil qw( form parent );
-use Scalar::Util qw( refaddr reftype );
 use Carp qw( croak );
 
 has type => ( is => 'rw', traits => ['FormFuChained'] );

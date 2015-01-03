@@ -4,11 +4,8 @@ use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::Populate';
 
-use Carp qw( croak );
-
 use HTML::FormFu::ObjectUtil qw( form parent );
 use HTML::FormFu::UploadParam;
-use Scalar::Util qw( reftype );
 
 has headers  => ( is => 'rw', traits => ['FormFuChained'] );
 has filename => ( is => 'rw', traits => ['FormFuChained'] );
