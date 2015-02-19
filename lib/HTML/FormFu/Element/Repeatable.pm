@@ -331,7 +331,7 @@ HTML::FormFu::Element::Repeatable - repeatable block element
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         elements:
           - name: foo
           - name: bar
@@ -352,7 +352,7 @@ Example of constraints:
     ----
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         elements:
           - name: id
 
@@ -491,7 +491,7 @@ Any attributes set will be passed to every repeated Block of elements.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         attributes:
           class: rep
         elements:
@@ -515,7 +515,7 @@ The L</tag> value will be passed to every repeated Block of elements.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         tag: span
         elements:
           - name: foo
@@ -541,7 +541,7 @@ See L<HTML::FormFu::Element::Block/auto_id> for further details.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         auto_id: "%n_%r"
         elements:
           - name: foo
@@ -564,19 +564,19 @@ a setter.
 
 =head2 Unsupported Constraints
 
-Note that constraints with an L<others|HTML::FormFu::Role::Constraint::Others> 
+Note that constraints with an L<others|HTML::FormFu::Role::Constraint::Others>
 method do not work correctly within a Repeatable block. Currently, these are:
-L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>, 
-L<DependOn|HTML::FormFu::Constraint::DependOn>, 
-L<Equal|HTML::FormFu::Constraint::Equal>, 
-L<MinMaxFields|HTML::FormFu::Constraint::MinMaxFields>, 
+L<AllOrNone|HTML::FormFu::Constraint::AllOrNone>,
+L<DependOn|HTML::FormFu::Constraint::DependOn>,
+L<Equal|HTML::FormFu::Constraint::Equal>,
+L<MinMaxFields|HTML::FormFu::Constraint::MinMaxFields>,
 L<reCAPTCHA|HTML::FormFu::Constraint::reCAPTCHA>.
 Also, the L<CallbackOnce|HTML::FormFu::Constraint::CallbackOnce> constraint
 won't work within a Repeatable block, as it wouldn't make much sense.
 
 =head2 Work-arounds
 
-See L<HTML::FormFu::Filter::ForceListValue> to address a problem with 
+See L<HTML::FormFu::Filter::ForceListValue> to address a problem with
 L<increment_field_names> disabled, and increading the L<repeat> on the
 server-side.
 
