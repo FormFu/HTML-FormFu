@@ -11,11 +11,9 @@ use HTML::FormFu::Util qw(
 );
 use Clone ();
 use Config::Any;
-use Clone ();
 use Data::Visitor::Callback;
 use File::Spec;
-use Scalar::Util qw( refaddr reftype weaken blessed );
-use List::MoreUtils qw( none uniq );
+use Scalar::Util qw( refaddr weaken blessed );
 use Carp qw( croak );
 
 our @EXPORT_OK = ( qw(
