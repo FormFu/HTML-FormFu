@@ -1,7 +1,8 @@
-package HTML::FormFu::Preload;
-
 use strict;
 use warnings;
+
+package HTML::FormFu::Preload;
+
 use HTML::FormFu;
 
 use Module::Pluggable (
