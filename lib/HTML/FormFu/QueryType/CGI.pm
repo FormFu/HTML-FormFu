@@ -11,6 +11,10 @@ sub parse_uploads {
     my ( $class, $form, $name ) = @_;
 
     my $query  = $form->query;
+    ## CGI wants you to use $query->multi_param($foo).
+    ## doing so breaks CGI::Simple. So shoosh it up for now.
+    local $CGI::LIST_CONTEXT_WARN = 0; 
+
     my @params = $query->param($name);
     my @new;
 

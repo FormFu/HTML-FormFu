@@ -29,6 +29,8 @@ sub new {
     return bless $self, $class;
 }
 
+sub multi_param { goto &param }
+
 sub param {
     my $self = shift;
 
