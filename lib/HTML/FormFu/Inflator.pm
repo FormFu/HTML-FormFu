@@ -19,7 +19,7 @@ sub process {
 
             if ($@) {
                 push @errors, $self->return_error($@);
-                push @return, undef;
+                push @return, $value;
             }
             else {
                 push @return, $return;
@@ -32,6 +32,7 @@ sub process {
 
         if ($@) {
             push @errors, $self->return_error($@);
+            $return = $values;
         }
     }
 
