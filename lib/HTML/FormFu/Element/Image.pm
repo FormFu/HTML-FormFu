@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Image;
+
 use Moose;
 
 extends 'HTML::FormFu::Element::Button';

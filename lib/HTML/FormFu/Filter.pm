@@ -1,4 +1,5 @@
 package HTML::FormFu::Filter;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

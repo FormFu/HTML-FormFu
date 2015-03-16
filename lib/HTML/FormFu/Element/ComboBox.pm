@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::ComboBox;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element::Multi';

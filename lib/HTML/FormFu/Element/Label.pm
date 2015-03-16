@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Label;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

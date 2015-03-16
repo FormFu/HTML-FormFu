@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::Range;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 use MooseX::Aliases;

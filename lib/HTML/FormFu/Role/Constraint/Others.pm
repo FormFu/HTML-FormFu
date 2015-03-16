@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Constraint::Others;
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 

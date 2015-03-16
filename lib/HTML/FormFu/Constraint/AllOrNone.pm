@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::AllOrNone;
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 

@@ -1,4 +1,5 @@
 package HTML::FormFu::Filter::CompoundJoin;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
@@ -44,16 +45,16 @@ HTML::FormFu::Filter::CompoundJoin - CompoundJoin filter
     element:
       - type: Multi
         name: address
-        
+
         elements:
           - name: number
           - name: street
-        
+
         filter:
           - type: CompoundJoin
 
     # get the compound-value
-    
+
     my $address = $form->param_value('address');
 
 =head1 DESCRIPTION
@@ -70,7 +71,7 @@ Arguments: $string
 
 Default Value: C<' '>
 
-String used to join the individually submitted parts. Defaults to a single 
+String used to join the individually submitted parts. Defaults to a single
 space.
 
 =head2 field_order
@@ -81,11 +82,11 @@ Inherited. See L<HTML::FormFu::Filter::_Compound/field_order> for details.
     element:
       - type: Multi
         name: address
-        
+
         elements:
           - name: street
           - name: number
-        
+
         filter:
           - type: CompoundJoin
             field_order:

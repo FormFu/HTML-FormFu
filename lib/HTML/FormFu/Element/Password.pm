@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Password;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

@@ -1,4 +1,5 @@
 package HTML::FormFu::QueryType::CGI;
+
 use Moose;
 
 extends 'HTML::FormFu::Upload';

@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::Field;
+
 use Moose::Role;
 use MooseX::Aliases;
 use MooseX::Attribute::FormFuChained;
@@ -555,10 +556,10 @@ sub _render_label {
             = defined $render->{nested_name}
             ? $render->{nested_name}
             : $EMPTY_STR;
-        
+
         my $type = lc $self->type;
         $type =~ s/:://g;
-        
+
         my %string = (
             f => $form_name,
             n => $field_name,
@@ -567,7 +568,7 @@ sub _render_label {
 
         my $class = $self->auto_label_class;
         $class =~ s/%([fnt])/$string{$1}/g;
-        
+
         append_xml_attribute( $render->{label_attributes},
             'class', $class );
     }
@@ -586,10 +587,10 @@ sub _render_label {
             = defined $render->{nested_name}
             ? $render->{nested_name}
             : $EMPTY_STR;
-        
+
         my $type = lc $self->type;
         $type =~ s/:://g;
-        
+
         my %string = (
             f => $form_name,
             n => $field_name,
@@ -598,7 +599,7 @@ sub _render_label {
 
         my $class = $self->auto_container_label_class;
         $class =~ s/%([fnt])/$string{$1}/g;
-        
+
         append_xml_attribute( $render->{container_attributes},
             'class', $class );
     }
@@ -616,7 +617,7 @@ sub _render_label {
 
 sub _render_comment_class {
     my ( $self, $render ) = @_;
-    
+
     if (    defined $render->{comment}
          && defined $self->auto_comment_class
          && length $self->auto_comment_class
@@ -631,7 +632,7 @@ sub _render_comment_class {
             = defined $render->{nested_name}
             ? $render->{nested_name}
             : $EMPTY_STR;
-        
+
         my %string = (
             f => $form_name,
             n => $field_name,
@@ -658,7 +659,7 @@ sub _render_comment_class {
             = defined $render->{nested_name}
             ? $render->{nested_name}
             : $EMPTY_STR;
-        
+
         my %string = (
             f => $form_name,
             n => $field_name,
@@ -749,10 +750,10 @@ sub _render_container_class {
             = defined $render->{nested_name}
             ? $render->{nested_name}
             : $EMPTY_STR;
-        
+
         my $type = lc $self->type;
         $type =~ s/:://g;
-        
+
         my %string = (
             f => $form_name,
             n => $field_name,
@@ -1153,16 +1154,16 @@ Is an L<output accessor|HTML::FormFu/OUTPUT ACCESSORS>.
 
 For most fields, L</value> is an alias for L</default>.
 
-For the L<HTML::FormFu::Element::Checkbox> and 
-L<HTML::FormFu::Element::Radio> elements, L</value> sets what the value of 
-the field will be if it is checked or selected. If the L</default> is the 
-same as the L</value>, then the field will be checked or selected when 
+For the L<HTML::FormFu::Element::Checkbox> and
+L<HTML::FormFu::Element::Radio> elements, L</value> sets what the value of
+the field will be if it is checked or selected. If the L</default> is the
+same as the L</value>, then the field will be checked or selected when
 rendered.
 
-For the L<HTML::FormFu::Element::Radiogroup> and 
-L<HTML::FormFu::Element::Select> elements, the L</value> is ignored: 
-L<values|HTML::FormFu::Role::Element::Group/values> or 
-L<options|HTML::FormFu::Role::Element::Group/options> provides the equivalent 
+For the L<HTML::FormFu::Element::Radiogroup> and
+L<HTML::FormFu::Element::Select> elements, the L</value> is ignored:
+L<values|HTML::FormFu::Role::Element::Group/values> or
+L<options|HTML::FormFu::Role::Element::Group/options> provides the equivalent
 function.
 
 Is an L<output accessor|HTML::FormFu/OUTPUT ACCESSORS>.
@@ -1173,10 +1174,10 @@ Arguments: bool
 
 Default Value: false
 
-If true, values for this field are never returned by L<HTML::FormFu/params>, 
+If true, values for this field are never returned by L<HTML::FormFu/params>,
 L<HTML::FormFu/param> and L<HTML::FormFu/valid>.
 
-This is useful for Submit buttons, when you only use its value as an 
+This is useful for Submit buttons, when you only use its value as an
 L<indicator|HTML::FormFu/indicator>
 
 =head2 placeholder
@@ -1189,14 +1190,14 @@ Is an L<output accessor|HTML::FormFu/OUTPUT ACCESSORS>.
 
 Arguments: [$javascript]
 
-If set, the contents will be rendered within a C<script> tag, within the 
+If set, the contents will be rendered within a C<script> tag, within the
 field's container.
 
 =head2 retain_default
 
-If L</retain_default> is true and the form was submitted, but the field 
-didn't have a value submitted, then when the form is redisplayed to the user 
-the field will have its value set to its default value, rather than the 
+If L</retain_default> is true and the form was submitted, but the field
+didn't have a value submitted, then when the form is redisplayed to the user
+the field will have its value set to its default value, rather than the
 usual behaviour of having an empty value.
 
 Default Value: C<false>
@@ -1494,7 +1495,7 @@ wrapped around all of the field error messages.
 
     # Example - this would wrap each individual error in a 'li' tag,
     # with a single 'ul' tag wrapped around all the errors.
-    
+
     element:
       name: foo
       error_container_tag: ul
@@ -1627,7 +1628,7 @@ Remove the comment - this will now never be rendered.
           - label_text
           - field
       - javascript
-    
+
     # prettified example of rendered markup
     <div>
         <span>This field is required.</span>
@@ -1645,14 +1646,14 @@ extra tag.
     layout:
       - errors
       - label_text
-      - 
+      -
         div:
           attributes:
             class: xxx
           content: field
       - comment
       - javascript
-    
+
     # prettified example of rendered markup
     <div>
         <span>This field is required.</span>
@@ -1715,7 +1716,7 @@ See L<LABEL|/LABEL> to customize the tag and attributes.
 
 =item label_text
 
-Renders the element L<label|/label> text, without the usual 
+Renders the element L<label|/label> text, without the usual
 L<label_tag|/label_tag>.
 
 =item field
@@ -1736,7 +1737,7 @@ Renders a C<script> tag containing any L<javascript|/javascript>.
 
 =head2 multi_layout
 
-Specify the order that each sub-part of each element within a 
+Specify the order that each sub-part of each element within a
 L<HTML::FormFu::Element::Multi|HTML::FormFu::Element::Multi> should
 appear in the rendered markup.
 
@@ -1746,7 +1747,7 @@ appear in the rendered markup.
         'field',
     ] );
 
-Example: Swap the label/field order. This is equivalent to the 
+Example: Swap the label/field order. This is equivalent to the
 now-deprecated L<reverse_multi|/reverse_multi> method.
 
     # YAML config
@@ -1766,8 +1767,8 @@ The following elements override the default C<multi_layout> value:
 
 =head2 field_filename
 
-The template filename to be used for just the form field - not including the 
-display of any container, label, errors, etc. 
+The template filename to be used for just the form field - not including the
+display of any container, label, errors, etc.
 
 Must be set by more specific field classes.
 
@@ -1867,10 +1868,10 @@ See L<layout_errors_filename|/layout_errors_filename> instead.
 
 =head1 SEE ALSO
 
-Base-class for L<HTML::FormFu::Role::Element::Group>, 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Element::Multi>, 
-L<HTML::FormFu::Element::ContentButton>, 
+Base-class for L<HTML::FormFu::Role::Element::Group>,
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Element::Multi>,
+L<HTML::FormFu::Element::ContentButton>,
 L<HTML::FormFu::Element::Textarea>.
 
 Is a sub-class of, and inherits methods from L<HTML::FormFu::Element>

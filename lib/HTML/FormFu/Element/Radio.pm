@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Radio;
+
 use Moose;
 
 extends 'HTML::FormFu::Element::Checkbox';

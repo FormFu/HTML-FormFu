@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Email;
+
 use Moose;
 
 extends 'HTML::FormFu::Element';

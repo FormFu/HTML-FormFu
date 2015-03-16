@@ -1,4 +1,5 @@
 package HTML::FormFu::Model::HashRef;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

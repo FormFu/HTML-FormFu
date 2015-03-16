@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Populate;
+
 use Moose::Role;
 
 use Scalar::Util qw( reftype );

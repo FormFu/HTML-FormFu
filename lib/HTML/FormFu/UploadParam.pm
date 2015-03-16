@@ -1,4 +1,5 @@
 package HTML::FormFu::UploadParam;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

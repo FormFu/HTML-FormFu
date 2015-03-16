@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::SingleValueField;
+
 use Moose::Role;
 
 use Carp qw( croak );

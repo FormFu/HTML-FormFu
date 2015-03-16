@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::CreateChildren;
+
 use Moose::Role;
 
 use HTML::FormFu::Util qw( _merge_hashes require_class );

@@ -1,4 +1,5 @@
 package HTML::FormFu::I18N::zh_cn;
+
 use utf8;
 
 use Moose;

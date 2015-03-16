@@ -1,4 +1,5 @@
 package HTML::FormFu::OutputProcessor;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

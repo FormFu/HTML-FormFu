@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Multi;
+
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 

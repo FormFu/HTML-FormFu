@@ -1,4 +1,5 @@
 package HTML::FormFu::Plugin;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

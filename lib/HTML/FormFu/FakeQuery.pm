@@ -1,4 +1,5 @@
 package HTML::FormFu::FakeQuery;
+
 use strict;
 use warnings;
 use Scalar::Util qw( reftype );
