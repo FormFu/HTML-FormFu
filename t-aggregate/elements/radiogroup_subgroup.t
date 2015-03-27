@@ -27,7 +27,7 @@ $form->element('Radiogroup')->name('foo')->default(2)->options( [
         },
     ] );
 
-my $expected_form_xhtml = <<EOF;
+my $expected_form_xhtml = <<'EOF';
 <form action="" method="post">
 <fieldset>
 <span>
@@ -42,6 +42,7 @@ my $expected_form_xhtml = <<EOF;
 </span>
 </span>
 <span class="subgroup">
+<p>foo2</p>
 <span>
 <input name="foo" type="radio" value="foo2_1" />
 <label>One</label>
@@ -56,6 +57,7 @@ my $expected_form_xhtml = <<EOF;
 <label>non-opt</label>
 </span>
 <span class="opt4 subgroup">
+<p>foo3</p>
 <span>
 <input name="foo" type="radio" value="foo3_1" />
 <label>wun</label>
