@@ -1,0 +1,10 @@
+---
+elements:
+    - type: Select
+      name: foo
+      options:
+        - [1, One]
+        - [2, Two]
+      constraints:
+        - type: AutoSet
+          message: 'test'

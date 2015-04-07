@@ -1,0 +1,11 @@
+---
+elements:
+    - type: Text
+      name: foo
+      label: Foo
+      error_attributes:
+          class: 'class-error_attributes'
+      constraints:
+        - type: MaxLength
+          max: 3
+          message: 'test'

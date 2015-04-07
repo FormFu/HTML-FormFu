@@ -12,5 +12,5 @@
 %][%    IF self.error_container_tag.defined 
 %]
 </[% self.error_container_tag 
-%][%    END 
+%]>[%   END 
 %][% END %]
