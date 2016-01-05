@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::Coercible;
+
 use Moose::Role;
 
 use Carp qw( croak );
@@ -23,7 +24,7 @@ sub _coerce {
     }
 
     my $class = $args{type};
-    if ( $class !~ /^\+/ ) {
+    if ( $class !~ m/^\+/ ) {
         $class = "HTML::FormFu::Element::$class";
     }
 

@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::DependOn;
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 

@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::MinMaxFields;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 use MooseX::Aliases;

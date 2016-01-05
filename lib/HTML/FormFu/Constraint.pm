@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Processor';
@@ -13,7 +14,6 @@ use Clone ();
 use List::MoreUtils qw( any );
 use Scalar::Util qw( blessed );
 use Carp qw( croak );
-use Clone ();
 use List::MoreUtils qw( any all );
 use List::Util qw( first );
 use Scalar::Util qw( reftype blessed );

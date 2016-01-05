@@ -20,6 +20,9 @@ sub _parse_value {
         return map { _parse_value($_) } @{ $item->{group} };
     }
     else {
+        # disabled attributes should be ignored
+        return if ($item->{attributes} and $item->{attributes}->{disabled});
+        # anything else is fine
         return $item->{value};
     }
 }

@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::Layout;
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 

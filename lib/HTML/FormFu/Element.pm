@@ -1,4 +1,5 @@
 package HTML::FormFu::Element;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -25,7 +26,7 @@ use HTML::FormFu::ObjectUtil qw(
 );
 use HTML::FormFu::Util qw( require_class xml_escape process_attrs _merge_hashes );
 use Clone ();
-use Scalar::Util qw( refaddr weaken );
+use Scalar::Util qw( weaken );
 use Carp qw( croak );
 
 use overload (

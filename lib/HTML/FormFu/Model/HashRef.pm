@@ -1,4 +1,5 @@
 package HTML::FormFu::Model::HashRef;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -93,7 +94,7 @@ sub create {
     my $self = shift;
     if ( $self->form->submitted ) {
         my $input = _escape_hash( $self->form->input );
-        my $hf    = new Hash::Flatten(
+        my $hf    = Hash::Flatten->new(
             { ArrayDelimiter => '_', HashDelimiter => '.' } );
         $input = _unescape_hash( $hf->unflatten( $self->form->input ) );
         $self->default_values(
@@ -102,7 +103,7 @@ sub create {
     $self->form->render_data;
     my $obj = $self->_as_object_get( $self->form );
     if ( $self->flatten ) {
-        my $hf = new Hash::Flatten(
+        my $hf = Hash::Flatten->new(
             { ArrayDelimiter => '_', HashDelimiter => '.' } );
         $obj = $self->_unfold_repeatable( $self->form, $hf->flatten($obj) );
     }
@@ -160,7 +161,7 @@ sub _as_object_get {
         if ( blessed $names->{$es_name} ) { delete $names->{$es_name} }
     }
 
-    my $hf = new Hash::Flatten( { ArrayDelimiter => '_' } );
+    my $hf = Hash::Flatten->new( { ArrayDelimiter => '_' } );
 
     return $self->_unfold_repeatable( $form,
         $self->flatten ? $names : $hf->unflatten($names) );

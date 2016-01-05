@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::NestedHashUtils;
+
 use Moose::Role;
 
 use HTML::FormFu::Util qw( split_name );

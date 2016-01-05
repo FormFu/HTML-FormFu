@@ -1,4 +1,5 @@
 package HTML::FormFu::Processor;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -14,9 +15,6 @@ use HTML::FormFu::ObjectUtil qw(
     form
     name                    nested_name
     nested_names            parent );
-
-use Scalar::Util qw( refaddr reftype );
-use Carp qw( croak );
 
 has type => ( is => 'rw', traits => ['FormFuChained'] );
 

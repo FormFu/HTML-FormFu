@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Radiogroup;
+
 use Moose;
 extends 'HTML::FormFu::Element::Checkboxgroup';
 

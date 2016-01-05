@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Checkboxgroup;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element';
@@ -158,6 +159,10 @@ sub _string_field {
             $html .= sprintf "<span%s>\n",
                 process_attrs( $option->{attributes} ),
                 ;
+
+            if ( defined $option->{label} ) {
+                $html .= sprintf "<p>%s</p>\n", $option->{label};
+            }
 
             for my $item ( @{ $option->{group} } ) {
                 $html .= sprintf

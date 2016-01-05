@@ -23,7 +23,7 @@
         field_layout_label_field, field_layout_label_text,
         field_layout_multi_field, field_layout_parser,
         field_layout_select_field, field_layout_textarea_field.
-      Files deleted due to layout() changes: checkboxgroup_tag, 
+      Files deleted due to layout() changes: checkboxgroup_tag,
         content_button, errors, input, input_tag, label, label_element,
         multi, select_tag, textarea_tag
       Unused files deleted: checkboxgroup.
@@ -43,78 +43,78 @@
     - TT template files changed - update them if you use a local copy.
       Template file 'label_tag' renamed to 'label_element' - old file can
       be deleted. 'field' file changed. New 'errors' file.
-    
+
     - TT no longer listed as a prerequisite. If you use the TT files,
       you must add 'Template' to your own app's prereqs.
-    
+
     - Element::reCAPTCHA and Constraint::reCAPTCHA moved out to separate
       distribution.
-    
+
     - HTML::FormFu::MultiForm moved out to separate distribution.
-    
+
     - auto_container_class(), auto_label_class(), auto_comment_class(),
       auto_container_error_class(), auto_container_per_error_class(),
       auto_error_class() no longer have default values.
       See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
       previous behaviour.
-    
+
     - auto_label_class() no longer adds class to container.
       auto_label_class() now adds class to label tag.
       new auto_container_label_class() adds class to container.
       See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
       previous behaviour.
-    
+
     - auto_comment_class() no longer adds class to both container and comment.
       auto_comment_class() now only adds class to comment tag.
       new auto_container_comment_class() adds class to container.
       See "RESTORING LEGACY HTML CLASSES" in HTML::FormFu docs to restore
       previous behaviour.
-    
+
     - Bug fix: param_value() form method now matches documented behaviour -
       returns undef when field has errors. (Reported by Hailin Hu).
-    
+
     - New Element::Email and Element::URL HTML5 input fields.
-    
+
     - Role::Element::Input has new datalist_options(), datalist_values(),
       datalist_id() and auto_datalist_id() methods to support HTML5 datalists.
-      auto_datalist_id() is an inherited accessor which can be set on the 
+      auto_datalist_id() is an inherited accessor which can be set on the
       Form, MultiForm, or Block.
-    
+
     - Form and Elements has new title() attribute short-cut.
-    
+
     - Constraint::Regex has new anchored() accessor.
-    
+
     - New Input attribute accessors: placeholder(), pattern(), autocomplete().
-    
+
     - New Input boolean attribute accessors: autofocus(), multiple(), required().
-    
+
     - New Field inherited accessors: auto_container_per_error_class(),
       auto_error_container_class(), auto_error_container_per_error_class(),
       error_tag(), error_container_tag
-    
+
     - Constraints have new experimental method fetch_error_message().
-    
+
     - All field elements have new method error_filename().
-    
+
     - default_args() now supports 'Block', 'Field', 'Input' pseudo-elements,
       '|' alternatives, and '+' and '-' ancestor modifiers.
-    
+
     - New Czech (cs) I18N translation by Jan Grmela.
-    
+
     - mk_inherited_accessors() now also creates a *_no_inherit() method.
-    
+
     - Experimental new roles() form method.
-    
+
     - form methods start(), end() now respect render_method - no longer
       force use of tt templates.
-    
+
     - Bug fix: del_attribute() on empty attribute no longer sets the attribute.
-    
+
     - All attribute accessors generated with mk_attrs() now have *_loc variants.
-    
+
     - form methods start(), end() now respect render_method - no longer
       force use of tt templates.
-    
+
     - Tests now always require Test::Aggregate::Nested.
       Re-enable aggregate tests on Win32.
       Don't run all tests twice under both aggregate and t/ (doh!)
@@ -179,49 +179,49 @@
       http://www.mail-archive.com/html-formfu@lists.scsys.co.uk/msg02325.html
       Or ask for help on the mailing list:
       http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/html-formfu
-    
+
     - Bug fix: was a fatal error when a value was submitted for Label element
       (code called delete_nested_hash_value instead of deleted_nested_hash_key).
-    
+
     - Bug fix: RT#65728 Filter::Split shouldn't return a value if no value was
       submitted.
-    
+
     - Bug fix: Element::Date now uses default() in preference to
       default_natural(). RT#65727
-    
+
     - DateTime elements, minutes and seconds have new 'interval' option.
-    
+
     - Now only delete submitted value if there's no other field on the form with
       the same name.
-    
+
     - load_config_file(stem) now honours the include path order, to mimic TT
       behaviour.
 
 0.08002 2010-09-22
 
     - Incompatible Change: removed all previously deprecated methods.
-    
+
     - Incompatible Change: HTML::FormFu::QueryType::Catalyst
       File uploads under Catalyst no longer have copy_to(), link_to() and
       catalyst_upload() methods
-    
+
     - Deprecated passing multiple arguments to many methods, where they were
       being implicitly converted to a hash-ref or array-ref.
       A warning is now issued.
-    
+
     - Fix: Constraint::Equal with not(1) set no longer sets an error when both
       field values are empty strings.
-    
+
     - Fix: An empty block with nested_name set, containing Label elements and
       no other fields, was causing the block's nested_name to be added to
       $form->valid(). RT #54967
-    
+
     - Constraints that inherit from HTML::FormFu::Constraint::_others have a new
       'other_siblings' option, which auto-generates the 'others' list.
-    
+
     - Constraint 'when' condition now supports new 'fields' and 'any_field'
       options.
-    
+
     - Bumped required version of DateTime to 0.54 - needed to pass tests under
       Test::More 0.96.
 
@@ -229,36 +229,36 @@
 
     - Fix: Group element now escapes each items attributes, label_attributes
       and container attributes (based on by patch by Jeff Dairiki).
-    
+
     - Fix: If using default_natural, use default_datetime_args{set_time_zone}
       if it's also set (Radek).
-    
+
     - Filter::HTMLScrubber extra functionality.
-    
+
     - Update _merge_hashes() so it can also merge arrays and hashes into a new
       array. This is necessary to allow default_args() to define a different
       ref-type than the element or processor which uses its values.
-    
+
     - Update Element::reCAPTCHA tests after changes to Captcha::reCAPTHCA
       (bump dependency version).
 
 0.07002 2010-06-24
 
     - Fix: Use MRO::Compat before mro to support perl 5.8
-    
+
     - Fix: Date and ComboBox elements need to run deflators before trying to
       use any default value - reported by Matija Grabnar.
-    
+
     - Overloading comparisons no longer assume both arguments are a blessed
       object - change needed for latest Test::More (Test-Simple-0.95_02)
       (RT#57747)
-    
+
     - Change Element::Date to not use deprecated DateTime::Locale methods.
-    
+
     - Bump DateTime::Locale and DateTime::Format::Strptime required versions
       as DateTime::Locale Changes file has no mention of when the methods
       we're now using were added.
-    
+
     - Removed Regexp::Copy from prereqs.
 
 0.07001 2010-05-16
@@ -271,73 +271,73 @@
       inheriting from the specified type, rather than just an instance of that
       type. Old behaviour is still supported with a minor change, see docs for
       details. - (Daniel Hilton)
-    
+
     - Change of behaviour: default_args() key/values are now applied in order
       of inheritance, rather than the random order returned by keys()
-    
+
     - New reverse_single attribute for all field elements.  New reverse_group
       attribute for Checkboxgroup and Radiogroup elements. (Ronald Kimball)
-    
+
     - New default_datetime_args() method on Date and DateTime elements.
-    
+
     - Element::DateTime now supports a 'second' select menu.
-    
+
     - Allow empty string as default value for Date element. (Ronald Kimball)
-    
+
     - Now use Clone instead of Storable (ntyni@iki.fi).
-    
+
     - Change from Class::C3 to mro, to get built-in support in perl >= 5.9
-    
+
     - New Bulgarian translation (Kamen Naydenov).
-    
+
     - Fix bad links and markup in POD. (Ronald Kimball)
-    
+
     - Fix spelling errors in POD (Ansgar Burchardt)
-    
+
     - Documented Element::Textarea cols() and rows() methods.
-    
+
     - Bump Config::Any requirement to version 0.18 for YAML::XS support
-    
+
     - Refactored ObjectUtil (Daniel Hilton)
 
 0.06001 2010-01-08
 
     - Fixed issue with Model::HashRef where form fields with an underscore
       and overlapping name (e.g. 'foo' and 'foo_bar') were causing problems
-    
+
     - Fix test suite year issue.
 
 0.06000 2009-12-10
 
     - New get_parent() method that traverses the parent hierarchy, returning
       the first parent that matches the supplied options.
-    
+
     - Date element, year menu now supports 'reverse' option to reverse order
       of year list. - patch from Ozum Eldogan.
-    
+
     - New Element::Block method auto_block_id().
-    
+
     - New only_on_reps() method for constraints on fields within a Repeatable
       element. Causes the constraint to only be run if the field's
       repeatable_count() matches one of the set values.
-    
+
     - New Repeatable::Any constraint.
-    
+
     - Bugfix: after submission, group-type fields were getting the wrong value
       when multiple fields had the same name. - patch by Doug Orleans.
-    
+
     - Bugfix: If a field in a Repeatable block had an error, all copies of that
       field were displaying the error. - report by Doug Orleans.
-    
+
     - Repeatable elements inside a Repeatable element, now works without
       having nested_name set.
-    
+
     - Performance fix: change all uses of eval() to check for array/hash-refs
       to Scalar::Util::reftype() instead. - Was causing a hit for group-type
       fields with large numbers of options. - initial patch by Steve Nolte.
-    
+
     - Bump required version of Data::Visitor to 0.26
-    
+
     - Minor pod fixes.
 
 0.05004 2009-12-02
@@ -352,32 +352,32 @@
 0.05002 2009-11-25
 
     - Fix handling of counter_name in nested-repeatables.
-    
+
     - Element::reCAPTCHA new constraint_args() method to pass options to the
       automatically-created Constraint::reCAPTCHA.
-    
+
     - Model::HashRef->create() now works with submitted input.
-    
+
     - Kwalitee updates. (RT #47998)
-    
+
     - Pod fixes. (RT #49120, #49114, #46363)
 
 0.05001 2009-07-03
 
     - get_field(s), get_element(s), get_all_elements() now support a Regex
       object for any conditional argument.
-    
+
     - Model::Hashref now searches for Multi and Repeatable elements using the
       regexes qr/Multi/ and qr/Repeatable/ to all for custom/derived classes.
-    
+
     - New $form->add_localize_object_from_class() method.
-    
+
     - New Element::Label.
-    
+
     - Bugfix: DateTime element, hour/minute select menus didn't display correct
       value when hour/minute value was less than 10, and $form->process()
       wasn't called after $form->model->default_values().
-    
+
     - Silence "undef value in string eq" warnings.
 
 0.05000 2009-05-26
@@ -389,71 +389,71 @@
 
     - Incompatible Change: Element::Repeatable->repeat() now defaults to 1
       instead of 0. This allows empty Repeatables.
-    
+
     - Fix test failures on Win32.
-    
+
     - During Element::Repeatable->process() call children's process() before
       $self->repeat().
-    
+
     - Support nested Repeatable elements.
-    
+
     - Ensure plugins are correctly cloned.
 
 0.04001 2009-04-15
 
     - Fix handling of arguments to plugin().
-    
+
     - HTML::FormFu::Model::HashRef supports now empty repeatable elements.
-    
+
     - vertically-aligned CSS example updated.
 
 0.04000 2009-03-26
 
     - Incompatible Change: plugins process() method is now run *after*
       elements' process() method.
-    
+
     - Incompatible Change: Button element no longer sets retain_default(1) -
       now sets force_default(1). Fixes bug where multiple buttons with same
       name were getting the wrong value after being redisplayed after errors.
-    
+
     - New pre_process() plugin method that runs at the same time as the old
       process() hook.
-    
+
     - New Model::HashRef.
-    
+
     - New inherited method locale() available on forms, blocks and fields.
-    
+
     - New Element::Number.
-    
+
     - New Deflators: FormatNumber, PathClassFile, Callback.
-    
+
     - New Filter::FormatNumber.
-    
+
     - New Inflator::Callback.
-    
+
     - New Norwegian I18N translation.
-    
+
     - Updated vertically-aligned CSS.
-    
+
     - config_file_path() now supports a list of directories.
-    
+
     - Checkboxgroup + Radiogroup elements others() method now supports
       'container_attributes' hash-key
-    
+
     - Constraint when() condition no longer demands a 'value' or 'values'
       key - if it's missing, the constraint will pass on any true value.
-    
+
     - Bugfix: _Group elements - ensure 'empty_first' gets set before any
       'options', 'values', 'value_range'.
-    
+
     - Bugfixes for constraint attach_errors_to_base(),
       attach_errors_to_others().
-    
+
     - Bugfix: Repeatable blocks now correctly rename nested-names in
       constraints' others().
-    
+
     - Bugfix: Repeatable blocks now rename field names in constraints' when().
-    
+
     - Bugfix: Repeatable blocks now reparent fields' plugins.
 
 0.03007 2008-12-08
@@ -463,112 +463,112 @@
 0.03006 2008-12-03
 
     - New DateTime element.
-    
+
     - New MinRange, MaxRange, File::MinSize, File::MaxSize constraints to
       provide more specific error messages.
-    
+
     - New File::Size constraint methods: min_kilobyte(), max_kilobyte(),
       min_megabyte(), max_megabyte().
-    
+
     - New config_file_path() method, used by load_config_file() and
       load_config_filestem().
-    
+
     - New field_order() method for Date elements.
-    
+
     - New I18N translations for Romanian, Russian, Ukranian.
-    
+
     - New MultiForm system for multi-page forms (not yet documented, file
       upload tests skipped due to test problems on MS Win32).
-    
+
     - Length, Range and File::Size constraints now pass min() and max()
       values as I18N args, for use in strings.
-    
+
     - DependOn and Equal constraints now pass the root field label as I18N
       arg, for use in strings.
-    
+
     - Checkbox + Radio elements now default to value(1).
-    
+
     - Constraint when() method now works with nested_names().
-    
+
     - Using test aggregate to speed-up tests.
 
 0.03005 2008-09-08
 
     - New ComboBox element.
-    
+
     - Don't use Pod::Help - some people were getting test failures.
 
 0.03004 2008-09-03
 
     - New reCAPTCHA element.
-    
+
     - New pt_br (Brazilian Portuguese) translation from Daniel Nicoletti.
-    
+
     - New load_config_filestem() method for loading config files without
       having to specify the file extension.
-    
+
     - New html_formfu_dumpconf.pl script, for viewing config files structure.
-    
+
     - Assorted optimizations, providing over 20% runtime speedup.
-    
+
     - Radio element now inherits from Checkbox, to remove duplicated code.
-    
+
     - Radiogroup element now inherits from Checkboxgroup, to remove duplicated
       code.
-    
+
     - checkboxgroup_tag template file has been removed - Checkboxgroup now just
       uses radiogroup_tag file.
-    
+
     - All non-english I18N packages now correctly "use utf8;"
-    
+
     - load_config_file() now switches on Config-General's UTF8, so that files
       are correctly decoded.
-    
+
     - Regex filter now has an eval() method, which if true, eval's the
       contents of replace(), to allow the use of $1 variables or any other
       perl expression.
-    
+
     - Allow languages() to be a single value, rather than just an arrayref.
-    
+
     - CompoundJoin filter now ignores empty values.
-    
+
     - examples/unicode updated.
-    
+
     - Manual-Unicode cat. config examples changed to use MyApp->config().
-    
+
     - Stop warnings for undefined attributes - reported by Rod Taylor.
-    
+
     - Documentation improvements by Ansgar Burchardt.
 
 0.03003 2008-08-21
 
     - Form and elements inside template files now have access to original
       object via self.object
-    
+
     - Having a named Multi block within a Block with nested_name set, now works.
-    
+
     - New Element method is_block() which is true for Block elements.
-    
+
     - Multi no longers sets is_field(0) - it's now true for both is_field() and is_block().
-    
+
     - prereqs - set minimum version of Exporter.pm that exports import()
 
 0.03002 2008-08-11
 
     - Deprecate element_defaults() method.
-    
+
     - New default_args() method.
-    
+
     - New CompoundSprintf filter.
-    
+
     - New DateTime constraint.
-    
+
     - New field method default_empty_value().
-    
+
     - New I18N translations for Danish, French and Italian.
-    
+
     - Added time_zone support to Inflator::DateTime
-    
+
     - Documented that process() must be called before render() - this has
       been the case since 0.03000.
 
@@ -580,120 +580,120 @@
 
     - Field container_tag() now defaults to 'div' rather than 'span' to provide
       better layout without CSS.
-    
+
     - Multi block no longer sets container_tag() to 'span' - defaults to 'div'.
-    
+
     - HTML::FormFu::Model::DBIC moved out into a separate distribution.
-    
+
     - Models now accessed through new form method: model(), with accompanying
       methods: default_model() and model_config.
-    
+
     - Deprecated form methods: model_class(), defaults_from_model(),
       save_to_model().
-    
+
     - Model methods renamed to: default_model(), default_values() and update().
-    
+
     - New model method: create().
-    
+
     - Deprecated element method: db().
-    
+
     - Bugfixes for perl 5.10.0 (missing imports).
-    
-    - Bugfix: insert_before() and insert_after() now check if the object is 
-      already a child, and if so, removes it first. Reported by Ferruccio 
+
+    - Bugfix: insert_before() and insert_after() now check if the object is
+      already a child, and if so, removes it first. Reported by Ferruccio
       Zamuner.
-    
-    - Bugfix: update() many_to_many multi-value fields where 
+
+    - Bugfix: update() many_to_many multi-value fields where
       'default_column' included the table name (or 'me.') failed.
-    
+
     - Bugfix: make inflators work with multiple submitted values.
-    
+
     - Bugfix for Bool constraint: use '?' quantifier, not '*'.
-    
+
     - Bugfix in Email constraint: ensure Email::Valid->address() is called in
       scalar context.
-    
+
     - New Split and CompoundJoin filters.
-    
+
     - New CompoundDateTime inflator.
-    
+
     - New CompoundSplit and CompoundDateTime deflators.
-    
+
     - New Plugin system (see tests, not yet documented) and StashValid plugin.
-    
+
     - New form methods: stash_valid(), params_ignore_underscore() and
       tmp_upload_dir().
-    
+
     - New method for _Group fields: empty_first_label().
-    
+
     - Multi->render_data() now builds itself before it's children, so that
       deflators on the Multi work.
-    
+
     - insert_before() and insert_after() now first removes the object if it's
       already a child of the target.
-    
+
     - Callback filter and transformers now receive $params as a 2nd argument.
-    
+
     - _Group field options() now supports value_xml, value_loc, label_xml and
       label_loc args.
-    
+
     - get_* methods (fields, elements, constraints, etc) now accept any valid
       method-name as a search parameter.
 
-    - add default_natural() method to Date element, allowing the use of 
+    - add default_natural() method to Date element, allowing the use of
       DateTime::Format::Natural to parse dates such as "today" or "yesterday".
 
     - when() method for Constraints can now accept a callback
-    
+
     - Transformer callbacks now get $params as second argument (as Constraints
       aready were getting)
-    
+
     - Form method add_valid() now expects a full nested-name.
-    
+
     - auto_id() now translates "%n" into the full nested-name.
-    
+
     - Add a END block to DBICTestLib that cleans up the t/test.db
 
 0.02004 2008-02-22
 
     - Incompatible Change: $upload->headers no longer returns a hashref, it now
       returns a HTTP::Headers object.
-      Tests for $upload->headers->{'Content-Type'} changed to 
+      Tests for $upload->headers->{'Content-Type'} changed to
       $upload->headers->content_type.
-      Tests for $upload->headers->{'Content-Length'} changed to 
+      Tests for $upload->headers->{'Content-Length'} changed to
       $upload->headers->content_length.
-    
-    - Catalyst upload object now provides basename(), copy_to(), link_to(), 
-      size(), tempname() and type() methods which delegate to the 
+
+    - Catalyst upload object now provides basename(), copy_to(), link_to(),
+      size(), tempname() and type() methods which delegate to the
       Catalyst::Request::Upload object.
-    
-    - The original Catalyst::Request::Upload objects can be retrived with the 
+
+    - The original Catalyst::Request::Upload objects can be retrived with the
       catalyst_upload() method.
-    
+
     - CGI and CGI::Simple upload objects provide size() and type() methods.
-    
+
     - New Constraints: File::Size, File::MIME and File.
-    
+
     - 'Required' and other constraints now work with file uploads.
-    
+
     - Spanish I18N added.
-    
-    - Support for DBIx::Class schema methods which don't correspond to a 
+
+    - Support for DBIx::Class schema methods which don't correspond to a
       database column or relationship.
-    
+
     - Fixed test failures due to hardcoded date element output expecting the
       year 2007.
-    
+
     - Fixed circular references in upload objects.
 
 0.02003 2007-12-20
 
     - Bugfix for has-many rels in defaults_from_model()
-    
+
     - Added Template.pm back into prereqs
-    
+
     - Repeatable element, increment_field_names() is now true by default
-    
+
     - Fixed javascript rendering in _Field
 
 0.02002 2007-12-12
@@ -707,61 +707,61 @@
 0.02000 2007-12-12
 
     - New HTML::FormFu::Model::DBIC module to replace DBIx::Class::HTML::FormFu
-    
+
     - New Repeatable block element
-    
-    - New "nested" params support. Form and Block elements have a new 
-      nested_name() method. Field elements have new nested(), nested_name() 
-      and nested_names() methods. Doesn't require CGI::Expand or 
+
+    - New "nested" params support. Form and Block elements have a new
+      nested_name() method. Field elements have new nested(), nested_name()
+      and nested_names() methods. Doesn't require CGI::Expand or
       Catalyst::Plugin::NestedParams
-    
+
     - Uses new "string" renderer by default - doesn't use template files,
       Generated markup still exactly the same,
       Set render_method("tt") to use the template files (old behaviour),
       render_class_args() renamed to tt_args(),
       Template files now installed into @INC path by File::ShareDir,
       INCLUDE_PATH no longer set by default
-    
+
     - New Checkboxgroup element. Works much like Radiogroup, but with
       checkboxes
-    
+
     - Support multiple yaml documents in a single file - calls populate()
       once for each document
-    
-    - Date element now uses names of the form "date_day" instead of 
-      "date.day", so as to not conflict with the new nested-params. This 
-      should only affect you if your client-side code (CSS, JS) references 
+
+    - Date element now uses names of the form "date_day" instead of
+      "date.day", so as to not conflict with the new nested-params. This
+      should only affect you if your client-side code (CSS, JS) references
       the field names
-    
+
     - Group elements (Select, Radiogroup, Checkboxgroup) now support a
       'label_loc' argument, to provide the item labels via localize()
-    
+
     - *_loc() methods now accept an arrayref argument, to allowing setting
       in YAML config files
-    
+
     - render() now returns a string, not an object.
       $form->render->start_form() must be changed to $form->start(),
       $form->render->end_form() must be changed to $form->end,
       $form->render->field('foo') must be changed to $form->get_field('foo'),
       $form->render->hidden_fields() must be changed to $form->hidden_fields()
-    
+
     - Bugfix: OutputProcessor::Indent was indenting closing tag, when it's
       value was empty (RT 30239)
-    
+
     - Bugfix: Objects were getting wrong parents during clone() and
       auto_fieldset()
 
 0.01006 2007-10-23
 
-    - render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not 
-      set - previously was only set if the entire render_class_args hashref 
+    - render_class_args->{INCLUDE_PATH} now defaults to 'root' if it's not
+      set - previously was only set if the entire render_class_args hashref
       was empty
     - New StripWhitespace OutputProcessor
     - New CopyValue Filter
     - New Cookbook and Unicode manual pages
     - New unicode example Catalyst application
     - New portuguese I18N translation
-    - Callback Filters, Constraints and Validators now accept a fully 
+    - Callback Filters, Constraints and Validators now accept a fully
       qualified subroutine name instead of a code-ref
     - Date element month names from DateTime::Locale are run through ucfirst
     - Documentation improvements

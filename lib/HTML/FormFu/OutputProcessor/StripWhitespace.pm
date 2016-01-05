@@ -120,6 +120,7 @@ sub process {
 __PACKAGE__->meta->make_immutable;
 
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

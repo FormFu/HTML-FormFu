@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::ProcessOptionsFromModel;
+
 use Moose::Role;
 
 sub _process_options_from_model {

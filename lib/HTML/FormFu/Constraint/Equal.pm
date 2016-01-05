@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::Equal;
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 

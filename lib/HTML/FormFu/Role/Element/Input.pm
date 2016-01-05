@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Element::Input;
+
 use Moose::Role;
 
 with 'HTML::FormFu::Role::Element::Field',

@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::CustomRoles;
+
 use Moose::Role;
 use Moose::Util qw( ensure_all_roles );
 
@@ -13,17 +14,17 @@ has _roles => (
 
 sub roles {
     my $self = shift;
-    
+
     my @roles = @{ $self->_roles };
     my @new;
-    
+
     if ( 1 == @_ && 'ARRAY' eq ref $_[0] ) {
         @new = @{ $_[0] };
     }
     elsif ( @_ ) {
         @new = @_;
     }
-    
+
     if (@new) {
         for my $role (@new) {
             if ( !ref($role) && $role =~ s/^\+// ) {
@@ -36,14 +37,14 @@ sub roles {
                 push @roles, $role;
             }
         }
-        
+
         @roles = uniq @roles;
-        
+
         ensure_all_roles( $self, @roles );
-        
+
         $self->_roles(\@roles);
     }
-    
+
     return [@roles];
 }
 

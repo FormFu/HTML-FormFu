@@ -5,7 +5,6 @@ extends 'HTML::FormFu::Processor';
 
 use HTML::FormFu::Exception::Inflator;
 use Scalar::Util qw( blessed );
-use Carp qw( croak );
 
 sub process {
     my ( $self, $values ) = @_;
@@ -20,7 +19,7 @@ sub process {
 
             if ($@) {
                 push @errors, $self->return_error($@);
-                push @return, undef;
+                push @return, $value;
             }
             else {
                 push @return, $return;
@@ -33,6 +32,7 @@ sub process {
 
         if ($@) {
             push @errors, $self->return_error($@);
+            $return = $values;
         }
     }
 

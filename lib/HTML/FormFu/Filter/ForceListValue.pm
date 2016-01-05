@@ -1,4 +1,5 @@
 package HTML::FormFu::Filter::ForceListValue;
+
 use Moose;
 extends 'HTML::FormFu::Filter';
 

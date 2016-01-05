@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Checkbox;
+
 use Moose;
 
 extends 'HTML::FormFu::Element';

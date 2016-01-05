@@ -1,4 +1,5 @@
 package HTML::FormFu::Constraint::Repeatable::Any;
+
 use Moose;
 
 extends 'HTML::FormFu::Constraint';

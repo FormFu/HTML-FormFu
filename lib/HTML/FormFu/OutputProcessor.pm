@@ -1,12 +1,11 @@
 package HTML::FormFu::OutputProcessor;
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::HasParent', 'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::ObjectUtil qw( form parent );
-use Scalar::Util qw( reftype );
-use Carp qw( croak );
 
 has type => ( is => 'rw', traits => ['FormFuChained'] );
 

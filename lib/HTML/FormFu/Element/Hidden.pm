@@ -1,4 +1,5 @@
 package HTML::FormFu::Element::Hidden;
+
 use Moose;
 
 extends 'HTML::FormFu::Element';

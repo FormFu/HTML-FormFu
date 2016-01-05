@@ -6,7 +6,7 @@ use warnings;
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Cwd qw( getcwd );
 use Fatal qw( open binmode close mkdir );
-use File::Copy qw( copy move );
+use File::Copy qw( move );
 use File::Find qw( find );
 use File::ShareDir qw( dist_file );
 use File::Spec;

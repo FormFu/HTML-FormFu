@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::GetProcessors;
+
 use Moose::Role;
 
 use HTML::FormFu::Util qw(

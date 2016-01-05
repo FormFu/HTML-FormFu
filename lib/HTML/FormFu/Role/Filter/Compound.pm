@@ -1,4 +1,5 @@
 package HTML::FormFu::Role::Filter::Compound;
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 

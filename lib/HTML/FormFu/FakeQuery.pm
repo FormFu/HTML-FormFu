@@ -1,4 +1,5 @@
 package HTML::FormFu::FakeQuery;
+
 use strict;
 use warnings;
 use Scalar::Util qw( reftype );
@@ -27,6 +28,8 @@ sub new {
 
     return bless $self, $class;
 }
+
+sub multi_param { goto &param }
 
 sub param {
     my $self = shift;
