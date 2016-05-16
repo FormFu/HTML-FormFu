@@ -3171,10 +3171,6 @@ C<vertically-aligned-ie.css>.
 
 =head1 SUPPORT
 
-Website:
-
-L<http://www.formfu.org>
-
 Project Page:
 
 L<http://code.google.com/p/html-formfu/>
