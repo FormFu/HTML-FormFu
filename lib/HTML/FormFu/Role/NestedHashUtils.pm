@@ -119,7 +119,7 @@ sub nested_hash_key_exists {
     my ( $root, @names ) = split_name($name);
 
     if ( !@names ) {
-        return exists $param->{$root};
+        return defined($root) && exists( $param->{$root} );
     }
 
     my $ref = \$param->{$root};
