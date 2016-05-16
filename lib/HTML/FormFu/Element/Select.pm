@@ -34,6 +34,7 @@ sub _prepare_attrs {
     elsif ($submitted
         && $self->retain_default
         && ( !defined $value || $value eq $EMPTY_STR )
+        && defined( $self->value )
         && $self->value eq $option->{value} )
     {
         $option->{attributes}{selected} = 'selected';
