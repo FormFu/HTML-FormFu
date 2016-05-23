@@ -1,0 +1,27 @@
+language: perl
+perl: 
+  - "5.22"
+  - "5.20"
+  - "5.18"
+  - "5.16"
+  - "5.14"
+  - "5.12"
+  - "5.10"
+  ###- "5.8.8"          # fails due to Number::Format depedancy  
+  #- "dev"              # installs latest developer release of perl (e.g. 5.21.8)
+  #- "blead"            # builds perl from git
+
+sudo: false             # faster builds as long as you don't need sudo access
+
+before_install:
+  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+  - source ~/travis-perl-helpers/init --auto
+
+matrix:
+  allow_failures:
+    - perl: blead       # ignore failures for blead perl
+  include:
+    - perl: 5.20
+      env: COVERAGE=1   # enables coverage+coveralls reporting
+
+# end
