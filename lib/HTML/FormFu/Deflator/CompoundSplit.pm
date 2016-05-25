@@ -1,5 +1,8 @@
 package HTML::FormFu::Deflator::CompoundSplit;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
@@ -85,16 +88,16 @@ HTML::FormFu::Deflator::CompoundSplit - CompoundSplit deflator
     element:
       - type: Multi
         name: address
-        
+
         elements:
           - name: number
           - name: street
-        
+
         deflator:
           - type: CompoundSplit
 
     # set the default
-    
+
     $form->get_field('address')->default( $address );
 
 =head1 DESCRIPTION
@@ -103,8 +106,8 @@ Deflator to allow you to set several field's values at once.
 
 For use with a L<HTML::FormFu::Element::Multi> group of fields.
 
-A L<default|HTML::FormFu::Role::Element::Field/default> value passed to the 
-L<Multi|HTML::FormFu::Element::Multi> field will be split according to the 
+A L<default|HTML::FormFu::Role::Element::Field/default> value passed to the
+L<Multi|HTML::FormFu::Element::Multi> field will be split according to the
 L</split> setting, and its resulting parts passed to its child elements.
 
 =head1 METHODS
@@ -115,7 +118,7 @@ Arguments: $regex
 
 Default Value: C<qr/ +/>
 
-Regex used to split the default value. Defaults to a regex matching 1 or more 
+Regex used to split the default value. Defaults to a regex matching 1 or more
 space characters.
 
 =head2 join
@@ -124,36 +127,36 @@ Arguments: $string
 
 Default Value: C<' '>
 
-If spliting the value results in more parts than there are fields, any extra 
-parts are joined again to form the value for the last field. The value of 
+If spliting the value results in more parts than there are fields, any extra
+parts are joined again to form the value for the last field. The value of
 L</join> is used to join these values.
 
 Defaults to a single space.
 
-For example, if the Multi element contains fields C<number> and C<name>, 
-and is given the value C<10 Downing Street>; when split this results in 3 
-parts: C<10>, C<Downing> and C<Street>. In this case, the 1st part, C<10> is 
-assigned to the first field, and the 2nd and 3rd parts are re-joined with a 
-space to give the single value C<Downing Street>, which is assigned to the 
+For example, if the Multi element contains fields C<number> and C<name>,
+and is given the value C<10 Downing Street>; when split this results in 3
+parts: C<10>, C<Downing> and C<Street>. In this case, the 1st part, C<10> is
+assigned to the first field, and the 2nd and 3rd parts are re-joined with a
+space to give the single value C<Downing Street>, which is assigned to the
 2nd field.
 
 =head2 field_order
 
 Arguments: \@order
 
-If the parts from the split value should be assigned to the fields in a 
-different order, you must provide an arrayref containing the names, in the 
+If the parts from the split value should be assigned to the fields in a
+different order, you must provide an arrayref containing the names, in the
 order they should be assigned to.
 
     ---
     element:
       - type: Multi
         name: address
-        
+
         elements:
           - name: street
           - name: number
-        
+
         deflator:
           - type: CompoundSplit
             field_order:

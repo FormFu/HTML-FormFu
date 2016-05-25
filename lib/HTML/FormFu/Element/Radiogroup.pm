@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Radiogroup;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Element::Checkboxgroup';
 
@@ -40,8 +43,8 @@ YAML config:
 
 Convenient to use group of radio button fields.
 
-Use the same syntax as you would to create a Select element optgroup to 
-create RadioGroup sub-groups, see L<HTML::FormFu::Role::Element::Group/options> 
+Use the same syntax as you would to create a Select element optgroup to
+create RadioGroup sub-groups, see L<HTML::FormFu::Role::Element::Group/options>
 for details.
 
 =head1 METHODS
@@ -64,8 +67,8 @@ See L<HTML::FormFu::Role::Element::Group/empty_first>.
 
 =head2 auto_id
 
-In addition to the substitutions documented by L<HTML::FormFu/auto_id>, 
-C<%c> will be replaced by an incremented integer, to ensure there are 
+In addition to the substitutions documented by L<HTML::FormFu/auto_id>,
+C<%c> will be replaced by an incremented integer, to ensure there are
 no duplicated ID's.
 
     ---
@@ -84,10 +87,10 @@ See L<HTML::FormFu::Element::Checkboxgroup/reverse_group>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::Checkboxgroup>, 
-L<HTML::FormFu::Role::Element::Group>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::Checkboxgroup>,
+L<HTML::FormFu::Role::Element::Group>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

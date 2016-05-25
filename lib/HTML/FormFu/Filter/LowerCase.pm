@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::LowerCase;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Filter';
 
@@ -29,7 +32,7 @@ LowerCase transforming filter.
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Filter::LowerCase>, by 
+Based on the original source code of L<HTML::Widget::Filter::LowerCase>, by
 Lyo Kato, C<lyo.kato@gmail.com>
 
 =head1 LICENSE

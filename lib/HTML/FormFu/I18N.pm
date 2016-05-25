@@ -1,5 +1,8 @@
 package HTML::FormFu::I18N;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'Locale::Maketext';

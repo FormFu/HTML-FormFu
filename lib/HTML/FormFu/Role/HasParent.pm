@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::HasParent;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 sub BUILD {

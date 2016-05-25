@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Filter::Compound;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 
@@ -45,19 +48,19 @@ HTML::FormFu::Role::Filter::Compound - Role for Compound filters
 
 Arguments: \@order
 
-If the submitted parts should be joined in an order different than that of the 
-order of the fields, you must provide an arrayref containing the names, in the 
+If the submitted parts should be joined in an order different than that of the
+order of the fields, you must provide an arrayref containing the names, in the
 order they should be joined.
 
     ---
     element:
       - type: Multi
         name: address
-        
+
         elements:
           - name: street
           - name: number
-        
+
         filter:
           - type: CompoundJoin
             field_order:

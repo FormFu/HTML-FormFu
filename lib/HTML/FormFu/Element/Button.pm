@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Button;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'HTML::FormFu::Element';
@@ -31,17 +34,17 @@ HTML::FormFu::Element::Button - Button form field
 
 =head1 DESCRIPTION
 
-Button form field, and base-class for L<HTML::FormFu::Element::Image>, 
-L<HTML::FormFu::Element::Reset>, 
+Button form field, and base-class for L<HTML::FormFu::Element::Image>,
+L<HTML::FormFu::Element::Reset>,
 L<HTML::FormFu::Element::Submit>
 
 =head1 METHODS
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

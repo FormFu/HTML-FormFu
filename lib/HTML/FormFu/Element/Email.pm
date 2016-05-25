@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Email;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'HTML::FormFu::Element';
@@ -29,7 +32,7 @@ HTML::FormFu::Element::Email - HTML5 email form field
 =head1 SYNOPSIS
 
     my $element = $form->element( Email => 'foo' );
-    
+
     # no need to add a separate Constraint::Email
 
 =head1 DESCRIPTION
@@ -43,9 +46,9 @@ so you don't have to.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>.
 
 L<HTML::FormFu>

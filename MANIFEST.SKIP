@@ -6,6 +6,5 @@
 
 ^benchmarks\b
 ^examples\/client-side-constraint\b
-^xt\/
 
 ^\.perltidyrc$

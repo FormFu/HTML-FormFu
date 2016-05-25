@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::MinRange;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint::Range';
 
@@ -23,7 +26,7 @@ HTML::FormFu::Constraint::MinRange - Minimum Value Constraint
 
 Checks the input value is equal to or greater than a minimum value.
 
-Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of 
+Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of
 L</minimum> is passed as an argument to L<localize|HTML::FormFu/localize>.
 
 This constraint doesn't honour the C<not()> value.

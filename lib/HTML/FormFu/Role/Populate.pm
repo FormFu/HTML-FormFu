@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Populate;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use Scalar::Util qw( reftype );

@@ -12,27 +12,27 @@ my $value = 'myfieldrole';
 sub _myfieldrole_attrs {
     my $orig = shift;
     my $self = shift;
-    
+
     if (@_) {
         return $self->$orig(@_);
     }
-    
+
     my $attrs = $self->{container_attributes};
     my $done;
-    
+
     if ( exists $attrs->{$key} ) {
         my @vals = split /\s+/, $attrs->{$key};
-        
+
         if ( first { $_ eq $value } @vals ) {
             $done = 1;
         }
     }
-    
+
     if ( !$done ) {
-        $self->add_container_attrs({ $key => $value });
+        $self->add_container_attrs( { $key => $value } );
     }
-    
+
     return $attrs;
-};
+}
 
 1;

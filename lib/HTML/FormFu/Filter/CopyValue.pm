@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::CopyValue;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';

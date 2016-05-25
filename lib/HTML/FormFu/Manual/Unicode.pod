@@ -6,27 +6,27 @@ HTML::FormFu::Manual::Unicode - Working with unicode
 
 Working with unicode.
 
-For a practical example, see the Catalyst application in the 
+For a practical example, see the Catalyst application in the
 C<examples/unicode> directory in this distribution.
 
 =head1 ASSUMPTIONS
 
-In this tutorial, we're assuming that all encodings are UTF-8. It's 
-relatively simple to combine different encodings from different sources, 
+In this tutorial, we're assuming that all encodings are UTF-8. It's
+relatively simple to combine different encodings from different sources,
 but that's beyond the scope of this tutorial.
 
-For simplicity, we're also going to assume that you're using L<Catalyst> 
-for your web-framework, L<DBIx::Class> for your database ORM, 
-L<TT|Template> for your templating system, and YAML format C<HTML::FormFu> 
-configuration files, with L<YAML::XS> installed. However, the principles 
+For simplicity, we're also going to assume that you're using L<Catalyst>
+for your web-framework, L<DBIx::Class> for your database ORM,
+L<TT|Template> for your templating system, and YAML format C<HTML::FormFu>
+configuration files, with L<YAML::XS> installed. However, the principles
 we'll cover should translate to whatever technologies you chose to work with.
 
 =head1 BASICS
 
-To make it short and sweet: you must decode all data going into your 
+To make it short and sweet: you must decode all data going into your
 program, and encode all data coming from your program.
 
-Skip to L</CHANGES REQUIRED> if you want to see what you need to do without 
+Skip to L</CHANGES REQUIRED> if you want to see what you need to do without
 any other explanation.
 
 =head1 INPUT
@@ -58,7 +58,7 @@ Set TT to decode all template files - see L</TT Configuration>.
 
 =head2 HTML::FormFu's own template files
 
-Set C<HTML::FormFu> to decode all template files - see 
+Set C<HTML::FormFu> to decode all template files - see
 L</HTML::FormFu Template Configuration>.
 
 =head2 HTML::FormFu form configuration files
@@ -115,7 +115,7 @@ Add L<Catalyst::Plugin::Unicode> to the list of Catalyst plugins:
 
 =head2 DBIx::Class Configuration
 
-Add L<DBIx::Class::UTF8Columns> to the list of components loaded, for each 
+Add L<DBIx::Class::UTF8Columns> to the list of components loaded, for each
 table that has columns storing unicode:
 
     __PACKAGE__->load_components( qw( UTF8Columns HTML::FormFu PK::Auto Core ) );
@@ -126,32 +126,32 @@ Pass each column name that will store unicode to C<utf8_columns()>:
 
 =head2 TT Configuration
 
-Tell TT to decode all template files, by adding the following to your 
+Tell TT to decode all template files, by adding the following to your
 application config in MyApp.pm
 
     package MyApp;
     use strict;
     use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
-    
+
     MyApp->config({
         'View::TT' => {
             ENCODING => 'UTF-8',
         },
     });
-    
+
     1;
 
 =head2 HTML::FormFu Template Configuration
 
-Make C<HTML::FormFu> tell TT to decode all template files, by adding the 
+Make C<HTML::FormFu> tell TT to decode all template files, by adding the
 following to your C<myapp.yml> Catalyst configuration file:
 
     package MyApp;
     use strict;
     use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
-    
+
     MyApp->config({
         'Controller::HTML::FormFu' => {
             constructor => {
@@ -161,7 +161,7 @@ following to your C<myapp.yml> Catalyst configuration file:
             },
         },
     });
-    
+
     1;
 
 These above 2 examples should be combined, like so:
@@ -170,7 +170,7 @@ These above 2 examples should be combined, like so:
     use strict;
     use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
-    
+
     MyApp->config({
         'Controller::HTML::FormFu' => {
             constructor => {
@@ -183,7 +183,7 @@ These above 2 examples should be combined, like so:
             ENCODING => 'UTF-8',
         },
     });
-    
+
     1;
 
 =head1 AUTHORS

@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::Field;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 use MooseX::Aliases;
 use MooseX::Attribute::FormFuChained;

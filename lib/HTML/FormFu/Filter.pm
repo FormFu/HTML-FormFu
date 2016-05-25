@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -56,7 +59,7 @@ HTML::FormFu::Filter - Filter Base Class
 =head1 SYNOPSIS
 
     ---
-    elements: 
+    elements:
       - type: Text
         name: foo
         filters:
@@ -66,23 +69,23 @@ HTML::FormFu::Filter - Filter Base Class
               - Hebrew
       - type: Text
         name: bar
-        filters: 
+        filters:
           - LowerCase
           - Encode
-    filters: 
+    filters:
       - TrimEdges
 
 =head1 DESCRIPTION
 
-C<filters()> and C<filter> can be called on any L<form|HTML::FormFu>, 
-L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or 
+C<filters()> and C<filter> can be called on any L<form|HTML::FormFu>,
+L<block element|HTML::FormFu::Element::Block> (includes fieldsets) or
 L<field element|HTML::FormFu::Role::Element::Field>.
 
 If called on a field element, no C<name> argument should be passed.
 
-If called on a L<form|HTML::FormFu> or 
-L<block element|HTML::FormFu::Element::Block>, if no C<name> argument is 
-provided, a new filter is created for and added to every field on that form 
+If called on a L<form|HTML::FormFu> or
+L<block element|HTML::FormFu::Element::Block>, if no C<name> argument is
+provided, a new filter is created for and added to every field on that form
 or block.
 
 See L<HTML::FormFu/"FORM LOGIC AND VALIDATION"> for further details.
@@ -95,12 +98,12 @@ Returns the C<type> argument originally used to create the filter.
 
 =head2 localise_args
 
-Provide arguments that should be passed to L<localize|HTML::FormFu/localize> 
+Provide arguments that should be passed to L<localize|HTML::FormFu/localize>
 to replace C<[_1]>, C<[_2]>, etc. in the localized string.
 
 =head2 parent
 
-Returns the L<HTML::FormFu::Role::Element::Field> object that the filter is 
+Returns the L<HTML::FormFu::Role::Element::Field> object that the filter is
 associated with.
 
 =head2 get_parent
@@ -160,7 +163,7 @@ Shorthand for C<< $filter->parent->name >>
 
 =head1 FILTER BASE CLASSES
 
-The following are base classes for other filters, and generally needn't be 
+The following are base classes for other filters, and generally needn't be
 used directly.
 
 =over
@@ -173,7 +176,7 @@ used directly.
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Filter>, by 
+Based on the original source code of L<HTML::Widget::Filter>, by
 Sebastian Riedel.
 
 =head1 LICENSE

@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::Set;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Constraint';

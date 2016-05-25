@@ -2,6 +2,9 @@ package HTML::FormFu::ObjectUtil;
 
 use strict;
 use warnings;
+
+# VERSION
+
 use Exporter qw( import );
 
 use HTML::FormFu::Util qw(

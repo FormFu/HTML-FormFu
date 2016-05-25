@@ -1,5 +1,8 @@
 package HTML::FormFu::Upload;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -79,7 +82,7 @@ object is associated with.
 
 =head2 form
 
-Returns the L<HTML::FormFu> object that the upload object's field is attached 
+Returns the L<HTML::FormFu> object that the upload object's field is attached
 to.
 
 =head2 populate

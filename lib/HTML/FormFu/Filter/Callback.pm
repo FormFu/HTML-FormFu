@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::Callback;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
@@ -11,6 +14,7 @@ sub filter {
 
     my $callback = $self->callback || sub {$value};
 
+    ## no critic (ProhibitNoStrict);
     no strict 'refs';
 
     return $callback->( $value, $params );
@@ -43,9 +47,9 @@ HTML::FormFu::Filter::Callback - filter with custom subroutine
 
     sub my_filter {
         my ($value) = @_;
-        
+
         # do something to $value
-        
+
         return $value;
     }
 
@@ -65,7 +69,7 @@ Arguments: "subroutine-name"
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Filter::Callback>, by 
+Based on the original source code of L<HTML::Widget::Filter::Callback>, by
 Lyo Kato, C<lyo.kato@gmail.com>
 
 =head1 LICENSE

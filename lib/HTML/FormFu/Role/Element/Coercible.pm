@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::Coercible;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use Carp qw( croak );

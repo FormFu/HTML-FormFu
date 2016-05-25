@@ -1,5 +1,8 @@
 package HTML::FormFu::Exception;
 
+use strict;
+# VERSION
+
 use Moose;
 
 with 'HTML::FormFu::Role::Populate';

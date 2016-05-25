@@ -4,6 +4,9 @@ use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );
 use Scalar::Util qw( reftype );
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 our $SHARE_DIR;
@@ -85,7 +88,7 @@ $error
 The template files should have been installed somewhere in \@INC as part of
 the installation process.
 If you're using Catalyst, see Catalyst::Helper::HTML::FormFu.
-Alternatively, you can create a local copy of the files by running 
+Alternatively, you can create a local copy of the files by running
     `html_formfu_deploy.pl`.
 Then set \$form->tt_args->{INCLUDE_PATH} to point to the template directory.
 ERROR_MESSAGE
@@ -106,8 +109,8 @@ sub _share_dir {
     return if $SHARE_ERROR;
 
     eval {
-        require 'File/ShareDir.pm';
-        require 'File/Spec.pm';
+        require File::ShareDir;
+        require File::Spec;
 
         # dist_dir() doesn't reliably return the directory our files are in.
         # find the path of one of our files, then get the directory from that

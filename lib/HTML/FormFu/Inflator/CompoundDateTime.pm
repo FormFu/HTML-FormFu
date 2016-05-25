@@ -1,5 +1,8 @@
 package HTML::FormFu::Inflator::CompoundDateTime;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Inflator';
@@ -85,17 +88,17 @@ HTML::FormFu::Inflator::CompoundDateTime - CompoundDateTime inflator
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: day
           - name: month
           - name: year
-        
+
         inflator:
           - type: CompoundDateTime
 
     # get the submitted value as a DateTime object
-    
+
     my $date = $form->param_value('date');
 
 =head1 DESCRIPTION
@@ -132,20 +135,20 @@ By default, expects the field names to be any of the following:
 
 Arguments: \@order
 
-If your field names doesn't follow the convention listed above, you must 
-provide an arrayref containing the above names, in the order they correspond 
+If your field names doesn't follow the convention listed above, you must
+provide an arrayref containing the above names, in the order they correspond
 with your own fields.
 
     ---
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: m
           - name: d
           - name: y
-        
+
         inflator:
           - type: CompoundDateTime
             field_order:
@@ -159,12 +162,12 @@ Arguments: \%args
 
 Arguments: $string
 
-Optional. Define the format that should be used if the L<DateTime> object is 
+Optional. Define the format that should be used if the L<DateTime> object is
 stringified.
 
-Accepts a hashref of arguments to be passed to 
-L<DateTime::Format::Strptime/new>. Alternatively, accepts a single string 
-argument, suitable for passing to 
+Accepts a hashref of arguments to be passed to
+L<DateTime::Format::Strptime/new>. Alternatively, accepts a single string
+argument, suitable for passing to
 C<< DateTime::Format::Strptime->new( pattern => $string ) >>.
 
     ---

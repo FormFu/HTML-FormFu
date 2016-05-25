@@ -1,5 +1,8 @@
 package HTML::FormFu::I18N::hu;
 
+use strict;
+# VERSION
+
 use Moose;
 use utf8;
 

@@ -10,9 +10,9 @@
 # the same terms as the Perl 5 programming language system itself.
 #
 package MooseX::Attribute::FormFuChained;
-{
-  $MooseX::Attribute::FormFuChained::VERSION = '1.0.1';
-}
+
+use strict;
+# VERSION
 
 # ABSTRACT: Attribute that returns the instance to allow for chaining
 use Moose::Util;
@@ -20,9 +20,10 @@ Moose::Util::meta_attribute_alias(
     FormFuChained => 'MooseX::Traits::Attribute::FormFuChained' );
 
 package MooseX::Traits::Attribute::FormFuChained;
-{
-  $MooseX::Traits::Attribute::FormFuChained::VERSION = '1.0.1';
-}
+
+use strict;
+# VERSION
+
 use Moose::Role;
 
 override accessor_metaclass => sub {
@@ -30,9 +31,10 @@ override accessor_metaclass => sub {
 };
 
 package MooseX::Attribute::FormFuChained::Method::Accessor;
-{
-  $MooseX::Attribute::FormFuChained::Method::Accessor::VERSION = '1.0.1';
-}
+
+use strict;
+# VERSION
+
 use Carp qw(confess);
 use Try::Tiny;
 use base 'Moose::Meta::Method::Accessor';

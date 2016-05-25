@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::ContentButton;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends "HTML::FormFu::Element";
@@ -90,8 +93,8 @@ content_button form field, rendered using provided markup.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

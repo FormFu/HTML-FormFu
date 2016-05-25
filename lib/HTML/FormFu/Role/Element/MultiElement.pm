@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::MultiElement;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use Carp qw( croak );

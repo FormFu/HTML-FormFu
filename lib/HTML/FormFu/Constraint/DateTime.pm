@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::DateTime;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 
@@ -57,9 +60,9 @@ HTML::FormFu::Constraint::DateTime - DateTime constraint
         name: start_date
         constraints:
           - type: DateTime
-            parser: 
+            parser:
               strptime: '%d-%m-%Y'
-      
+
       - type: Text
         name: end_time
         constraints:
@@ -93,7 +96,7 @@ Ensure input can later be inflated to a DateTime object.
 
 Arguments: \%args
 
-Required. Define the expected input string, so L<DateTime::Format::Builder> 
+Required. Define the expected input string, so L<DateTime::Format::Builder>
 knows how to turn it into a L<DateTime> object.
 
 Accepts arguments to be passed to L<DateTime::Format::Builder/parser>.

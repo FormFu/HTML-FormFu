@@ -1,5 +1,19 @@
 {{$NEXT}}
 
+    - cleanup unused modules and functions
+    - fix indirect object notation
+    - add label functionality
+    - ensure disabled attributes are ignored
+    - strip excessive/trailing whitespace
+    - fix inflator bug RT76034
+    - avoid warnings from CGI
+    - enable more author/release tests
+    - it language fixes
+    - Remove link to old website - now unrelated/NSFW
+    - avoid emitting unecessary warnings
+    - enable use of Travis CI & coverage tests
+    - fixes to ensure we pass all the additional author tests
+
 2.01 2014-05-05
 
     - Avoid uninitialized warning

@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::Group;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 
@@ -393,7 +396,7 @@ HTML::FormFu::Role::Element::Group - Role for grouped form fields
 =head1 DESCRIPTION
 
 Base class for L<HTML::FormFu::Element::Checkboxgroup>,
-L<HTML::FormFu::Element::Radiogroup>, and 
+L<HTML::FormFu::Element::Radiogroup>, and
 L<HTML::FormFu::Element::Select> fields.
 
 =head1 METHODS
@@ -421,13 +424,13 @@ If passed no arguments, it returns an arrayref of the currently set options.
 
 Use to set the list of items in the select menu / radiogroup.
 
-Its arguments must be an array-ref of items. Each item may be an array ref 
-of the form C<[ $value, $label ]> or a hash-ref of the form 
+Its arguments must be an array-ref of items. Each item may be an array ref
+of the form C<[ $value, $label ]> or a hash-ref of the form
 C<< { value => $value, label => $label } >>. Each hash-ref may also have an
 C<attributes> key.
 
-Passing an item containing a C<group> key will, for 
-L<Select fields|HTML::FormFu::Element::Select>, create an optgroup. And for 
+Passing an item containing a C<group> key will, for
+L<Select fields|HTML::FormFu::Element::Select>, create an optgroup. And for
 L<Radiogroup fields|HTML::FormFu::Element::Radiogroup> or
 L<Checkboxgroup fields|HTML::FormFu::Element::Checkboxgroup>, create a
 sub-group of radiobuttons or checkboxes with a new C<span> block, with the
@@ -449,19 +452,19 @@ An example of Select optgroups:
               - [2a, 'item 2a']
               - [2b, 'item 2b']
 
-When using the hash-ref construct, the C<label_xml> and C<label_loc> 
-variants of C<label> are supported, as are the C<value_xml> and C<value_loc> 
-variants of C<value>, the C<attributes_xml> variant of C<attributes> and the 
+When using the hash-ref construct, the C<label_xml> and C<label_loc>
+variants of C<label> are supported, as are the C<value_xml> and C<value_loc>
+variants of C<value>, the C<attributes_xml> variant of C<attributes> and the
 C<label_attributes_xml> variant of C<label_attributes>.
 
-C<container_attributes> or C<container_attributes_xml> is used by 
-L<HTML::FormFu::Element::Checkboxgroup> and 
+C<container_attributes> or C<container_attributes_xml> is used by
+L<HTML::FormFu::Element::Checkboxgroup> and
 L<HTML::FormFu::Element::Radiogroup> for the c<span> surrounding each
 item's input and label. It is ignored by L<HTML::FormFu::Element::Select>
 elements.
 
-C<label_attributes> / C<label_attributes_xml> is used by 
-L<HTML::FormFu::Element::Checkboxgroup> and 
+C<label_attributes> / C<label_attributes_xml> is used by
+L<HTML::FormFu::Element::Checkboxgroup> and
 L<HTML::FormFu::Element::Radiogroup> for the c<label> tag of each item.
 It is ignored by L<HTML::FormFu::Element::Select> elements.
 
@@ -479,10 +482,10 @@ Arguments: \@values
           - mar
           - apr
 
-A more concise alternative to L</options>. Use to set the list of values in 
+A more concise alternative to L</options>. Use to set the list of values in
 the select menu / radiogroup.
 
-Its arguments must be an array-ref of values. The labels used are the 
+Its arguments must be an array-ref of values. The labels used are the
 result of C<ucfirst($value)>.
 
 =head2 value_range
@@ -496,9 +499,9 @@ Arguments: \@values
         value_range:
           - ""
           - 1
-          - 12 
+          - 12
 
-Similar to L</values>, but the last 2 values are expanded to a range. Any 
+Similar to L</values>, but the last 2 values are expanded to a range. Any
 preceding values are used literally, allowing the common empty first item
 in select menus.
 
@@ -520,7 +523,7 @@ will be empty.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Role::Element::Field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

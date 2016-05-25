@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Multi;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 
@@ -215,8 +218,8 @@ their L<HTML::FormFu/render_method> value.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

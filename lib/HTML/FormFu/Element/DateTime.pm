@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::DateTime;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element::Date';
@@ -216,10 +219,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head3 prefix_loc
@@ -256,10 +259,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head3 prefix_loc
@@ -296,10 +299,10 @@ Arguments: $value
 
 Arguments: \@values
 
-A string or arrayref of strings to be inserted into the start of the select 
+A string or arrayref of strings to be inserted into the start of the select
 menu.
 
-Each value is only used as the label for a select item - the value for each 
+Each value is only used as the label for a select item - the value for each
 of these items is always the empty string C<''>.
 
 =head3 prefix_loc
@@ -344,9 +347,9 @@ See L<HTML::FormFu::Element::Date/CAVEATS>
 
 Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Element::Date>
-L<HTML::FormFu::Role::Element::Field>, 
-L<HTML::FormFu::Element::Multi>, 
-L<HTML::FormFu::Element::Block>, 
+L<HTML::FormFu::Role::Element::Field>,
+L<HTML::FormFu::Element::Multi>,
+L<HTML::FormFu::Element::Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

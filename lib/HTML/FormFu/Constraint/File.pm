@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::File;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 
@@ -27,18 +30,18 @@ HTML::FormFu::Constraint::File - File Upload Constraint
 
 Ensure the submitted value is a file upload.
 
-This Constraint is not needed if you use any of the C<File::*> Constraints, 
+This Constraint is not needed if you use any of the C<File::*> Constraints,
 as they all make the same check as this Constraint does.
 
 =head1 LIMITATIONS
 
-This can only verify that your CGI backend (CGI, Catalyst, CGI::Simple) 
-thinks it was a file upload. If the user submits a filename which doesn't 
-exist on their system, you will probably get a valid L<HTML::FormFu::Upload> 
-object, with a valid filehandle, but no Content-Length. This Constraint 
-would still see this as a valid uploaded file - if you want to ensure that 
-you get a file with content, instead use 
-L<HTML::FormFu::Constraint::File::Size> with 
+This can only verify that your CGI backend (CGI, Catalyst, CGI::Simple)
+thinks it was a file upload. If the user submits a filename which doesn't
+exist on their system, you will probably get a valid L<HTML::FormFu::Upload>
+object, with a valid filehandle, but no Content-Length. This Constraint
+would still see this as a valid uploaded file - if you want to ensure that
+you get a file with content, instead use
+L<HTML::FormFu::Constraint::File::Size> with
 L<min|HTML::FormFu::Constraint::File::Size/min> set to C<1>.
 
 =head1 SEE ALSO

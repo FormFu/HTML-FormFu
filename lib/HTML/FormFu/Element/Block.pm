@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Block;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -267,12 +270,12 @@ HTML::FormFu::Element::Block - Block element
 =head1 SYNOPSIS
 
     ---
-    elements: 
+    elements:
       - type: Block
-        elements: 
+        elements:
           - type: Text
             name: foo
-    
+
       - type: Block
         tag: span
         content: Whatever
@@ -291,21 +294,21 @@ Default Value: 'div'
 
 =head2 content
 
-If L</content> is set, it is used as the block's contents, and any attached 
+If L</content> is set, it is used as the block's contents, and any attached
 elements are ignored.
 
 =head2 content_xml
 
 Arguments: $string
 
-If you don't want the content to be XML-escaped, use the L</content_xml> 
+If you don't want the content to be XML-escaped, use the L</content_xml>
 method instead of L</content>.
 
 =head2 content_loc
 
 Arguments: $localization_key
 
-To set the content to a localized string, set L</content_loc> to a key in 
+To set the content to a localized string, set L</content_loc> to a key in
 your L10N file instead of using L</content>.
 
 =head2 elements

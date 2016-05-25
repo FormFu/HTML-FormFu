@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::CompoundSprintf;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
@@ -43,18 +46,18 @@ HTML::FormFu::Filter::CompoundSprintf - CompoundSprintf filter
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: day
           - name: month
           - name: year
-        
+
         filter:
           - type: CompoundSprintf
             sprintf: '%02d-%02d-%04d'
 
     # get the compound-value
-    
+
     my $date = $form->param_value('date');
 
 =head1 DESCRIPTION
@@ -81,12 +84,12 @@ Inherited. See L<HTML::FormFu::Filter::_Compound/field_order> for details.
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: month
           - name: day
           - name year
-        
+
         filter:
           - type: CompoundSprintf
             field_order:

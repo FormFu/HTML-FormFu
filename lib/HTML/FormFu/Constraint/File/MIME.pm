@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::File::MIME;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Constraint';
@@ -62,8 +65,8 @@ Arguments: \@mime_types
 
 Optional.
 
-Accepts a single MIME-type or an arrayref of MIME-types. Each is checked 
-against the uploaded file's MIME-type (as given by the browser), and the 
+Accepts a single MIME-type or an arrayref of MIME-types. Each is checked
+against the uploaded file's MIME-type (as given by the browser), and the
 constraint passes if any one of the given types matches.
 
 =head2 regex
@@ -72,10 +75,10 @@ Arguments: $regex
 
 Optional.
 
-Accepts a string to be interpreted as a regex, and is checked against the 
+Accepts a string to be interpreted as a regex, and is checked against the
 uploaded files's MIME-type (as given by the browser).
 
-The regex uses the C</x> flag, so that whitespace in the given string is 
+The regex uses the C</x> flag, so that whitespace in the given string is
 ignored.
 
 =head1 SEE ALSO

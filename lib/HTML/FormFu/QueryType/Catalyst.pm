@@ -1,5 +1,8 @@
 package HTML::FormFu::QueryType::Catalyst;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -118,7 +121,7 @@ L<Catalyst::Request::Upload|Catalyst::Request::Upload> method.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Upload>
 
 L<HTML::FormFu>, L<HTML::FormFu::Element::File>

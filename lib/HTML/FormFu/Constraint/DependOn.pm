@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::DependOn;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 
@@ -93,7 +96,7 @@ HTML::FormFu::Constraint::DependOn - Multi-field Dependency Constraint
 
 =head1 DESCRIPTION
 
-If a value is submitted for the field this constraint is attached to, then a 
+If a value is submitted for the field this constraint is attached to, then a
 value must also be submitted for all fields named in
 L<HTML::FormFu::Role::Constraint::Others/others>.
 
@@ -101,14 +104,14 @@ By default, if any of the named fields in
 L<HTML::FormFu::Role::Constraint::Others/others> are missing, an error will be
 attached to each missing field. This behaviour can be changed by setting
 any of L<HTML::FormFu::Role::Constraint::Others/attach_errors_to_base>,
-L<HTML::FormFu::Role::Constraint::Others/attach_errors_to_others> or 
+L<HTML::FormFu::Role::Constraint::Others/attach_errors_to_others> or
 L<HTML::FormFu::Role::Constraint::Others/attach_errors_to>.
 
 This constraint doesn't honour the C<not()> value.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from  
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Role::Constraint::Others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>

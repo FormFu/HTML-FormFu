@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::CustomRoles;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 use Moose::Util qw( ensure_all_roles );
 

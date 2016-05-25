@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::Regex;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Filter';
@@ -54,14 +57,14 @@ Regular expression-based match / replace filter.
 
 =head2 match
 
-A regex object or string to be used in the "left-hand side" of a C<s///g> 
+A regex object or string to be used in the "left-hand side" of a C<s///g>
 regular expression.
 
 Default Value: qr/./
 
 =head2 replace
 
-A string to be used in the "right-hand side" of a C<s///g> regular 
+A string to be used in the "right-hand side" of a C<s///g> regular
 expression. The string will replace every occurrence of L</match>.
 
 Default Value: ''

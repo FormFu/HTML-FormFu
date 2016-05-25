@@ -1,5 +1,8 @@
 package HTML::FormFu::Deflator;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 

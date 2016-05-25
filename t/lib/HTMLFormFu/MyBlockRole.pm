@@ -13,27 +13,27 @@ my $value = 'myblockrole';
 sub _myblockrole_attrs {
     my $orig = shift;
     my $self = shift;
-    
+
     if (@_) {
         return $self->$orig(@_);
     }
-    
+
     my $attrs = $self->{attributes};
     my $done;
-    
+
     if ( exists $attrs->{$key} ) {
         my @vals = split /\s+/, $attrs->{$key};
-        
+
         if ( first { $_ eq $value } @vals ) {
             $done = 1;
         }
     }
-    
+
     if ( !$done ) {
-        $self->add_attrs({ $key => $value });
+        $self->add_attrs( { $key => $value } );
     }
-    
+
     return $attrs;
-};
+}
 
 1;

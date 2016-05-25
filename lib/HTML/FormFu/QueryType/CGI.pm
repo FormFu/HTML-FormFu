@@ -1,5 +1,8 @@
 package HTML::FormFu::QueryType::CGI;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'HTML::FormFu::Upload';
@@ -13,7 +16,7 @@ sub parse_uploads {
     my $query  = $form->query;
     ## CGI wants you to use $query->multi_param($foo).
     ## doing so breaks CGI::Simple. So shoosh it up for now.
-    local $CGI::LIST_CONTEXT_WARN = 0; 
+    local $CGI::LIST_CONTEXT_WARN = 0;
 
     my @params = $query->param($name);
     my @new;
@@ -98,7 +101,7 @@ Returns the browser-submitted Content-Type of the uploaded file.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Upload>
 
 L<HTML::FormFu>, L<HTML::FormFu::Element::File>

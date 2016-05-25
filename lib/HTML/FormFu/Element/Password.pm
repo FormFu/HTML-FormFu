@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Password;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -78,9 +81,9 @@ Default value: false
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

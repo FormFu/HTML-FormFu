@@ -1,5 +1,8 @@
 package HTML::FormFu::Deflator::CompoundDateTime;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
@@ -66,17 +69,17 @@ HTML::FormFu::Deflator::CompoundDateTime - CompoundDateTime deflator
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: day
           - name: month
           - name: year
-        
+
         deflator:
           - type: CompoundDateTime
 
     # set the default
-    
+
     $form->get_field('date')->default( $datetime );
 
 =head1 DESCRIPTION
@@ -113,20 +116,20 @@ By default, expects the field names to be any of the following:
 
 Arguments: \@order
 
-If your field names don't follow the convention listed above, you must 
-provide an arrayref containing the above names, in the order they correspond 
+If your field names don't follow the convention listed above, you must
+provide an arrayref containing the above names, in the order they correspond
 with your own fields.
 
     ---
     element:
       - type: Multi
         name: date
-        
+
         elements:
           - name: m
           - name: d
           - name: y
-        
+
         deflator:
           - type: CompoundDateTime
             field_order:

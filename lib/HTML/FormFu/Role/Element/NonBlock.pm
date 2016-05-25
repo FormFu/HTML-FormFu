@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::NonBlock;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;
 

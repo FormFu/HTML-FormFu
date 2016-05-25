@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Number;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'HTML::FormFu::Element::Text';
@@ -65,7 +68,7 @@ Set the precision for the number. Defaults to C<2>.
 
 =head2 trailing_zeroes
 
-If this is set to C<1> the number has trailing zeroes. Defaults to C<0>. 
+If this is set to C<1> the number has trailing zeroes. Defaults to C<0>.
 
 =head2 CHANGED BEHAVIOUR AS OF VERSION 0.09011
 

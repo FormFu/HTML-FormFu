@@ -1,5 +1,8 @@
 package HTML::FormFu::Inflator::DateTime;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Inflator';
@@ -100,12 +103,12 @@ HTML::FormFu::Inflator::DateTime - DateTime inflator
         name: start_date
         inflators:
           - type: DateTime
-            parser: 
+            parser:
               strptime: '%d-%m-%Y'
             strptime:
               pattern: '%d-%b-%Y'
               locale: de
-      
+
       - type: Text
         name: end_time
         inflators:
@@ -143,7 +146,7 @@ For a corresponding deflator, see L<HTML::FormFu::Deflator::Strftime>.
 
 Arguments: \%args
 
-Required. Define the expected input string, so L<DateTime::Format::Builder> 
+Required. Define the expected input string, so L<DateTime::Format::Builder>
 knows how to inflate it into a L<DateTime> object.
 
 Accepts arguments to be passed to L<DateTime::Format::Builder/parser>.
@@ -154,7 +157,7 @@ Arguments: \%args
 
 Arguments: $string
 
-Optional. Define the format that should be used if the L<DateTime> object is 
+Optional. Define the format that should be used if the L<DateTime> object is
 stringified.
 
 =head2 time_zone
@@ -166,9 +169,9 @@ created. This is useful if the string to parse does not contain time zone
 information and you want the DateTime to be in a specific zone instead
 of the floating one (which is likely).
 
-Accepts a hashref of arguments to be passed to 
-L<DateTime::Format::Strptime/new>. Alternatively, accepts a single string 
-argument, suitable for passing to 
+Accepts a hashref of arguments to be passed to
+L<DateTime::Format::Strptime/new>. Alternatively, accepts a single string
+argument, suitable for passing to
 C<< DateTime::Format::Strptime->new( pattern => $string ) >>.
 
 =head1 AUTHOR

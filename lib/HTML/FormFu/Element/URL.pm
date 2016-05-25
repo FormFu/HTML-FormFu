@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::URL;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -91,7 +94,7 @@ HTML::FormFu::Element::URL - HTML5 URL form field
 =head1 SYNOPSIS
 
     my $element = $form->element( URL => 'foo' );
-    
+
     # no need to add a separate constraint
 
 =head1 DESCRIPTION
@@ -125,7 +128,7 @@ automatically added.
 
 Arguments: $string
 
-If you don't want your error message to be XML-escaped, use the L</message_xml> method 
+If you don't want your error message to be XML-escaped, use the L</message_xml> method
 instead of L</message>.
 
 =head2 message_loc
@@ -136,9 +139,9 @@ Set the error message using a L10N key.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>.
 
 L<HTML::FormFu>

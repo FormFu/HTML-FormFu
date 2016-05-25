@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::TrimEdges;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Filter';
 

@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::HTMLEscape;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Filter';
 
@@ -34,7 +37,7 @@ HTML escaping filter.
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Filter::HTMLEscape>, by 
+Based on the original source code of L<HTML::Widget::Filter::HTMLEscape>, by
 Lyo Kato, C<lyo.kato@gmail.com>
 
 =head1 LICENSE

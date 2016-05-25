@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::Element::Input;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 with 'HTML::FormFu::Role::Element::Field',
@@ -230,7 +233,7 @@ sub _string_field {
     my ( $self, $render ) = @_;
 
     my $html = "";
-    
+
     if ( $render->{datalist_options} ) {
         $html .= sprintf qq{<datalist id="%s">\n}, $render->{attributes}{list};
         for my $option ( @{ $render->{datalist_options} } ) {
@@ -240,7 +243,7 @@ sub _string_field {
         }
         $html .= sprintf qq{</datalist>\n};
     }
-    
+
     $html .= "<input";
 
     if ( defined $render->{nested_name} ) {
@@ -278,12 +281,12 @@ HTML::FormFu::Role::Element::Input - Role for input fields
 
 =head1 DESCRIPTION
 
-Base-class for L<HTML::FormFu::Element::Button>, 
-L<HTML::FormFu::Element::Checkbox>, 
-L<HTML::FormFu::Element::File>, 
-L<HTML::FormFu::Element::Hidden>, 
-L<HTML::FormFu::Element::Password>, 
-L<HTML::FormFu::Element::Radio>, 
+Base-class for L<HTML::FormFu::Element::Button>,
+L<HTML::FormFu::Element::Checkbox>,
+L<HTML::FormFu::Element::File>,
+L<HTML::FormFu::Element::Hidden>,
+L<HTML::FormFu::Element::Password>,
+L<HTML::FormFu::Element::Radio>,
 L<HTML::FormFu::Element::Text>.
 
 =head1 METHODS
@@ -294,7 +297,7 @@ Arguments: none
 
 Arguments: \@options
 
-Use either L</datalist_options> or L</datalist_values> to generate a 
+Use either L</datalist_options> or L</datalist_values> to generate a
 HTML5-compatible C<datalist> group of C<option> tags. This will be associated
 with the C<input> element via a C<list> attribute on the C<input> tag.
 
@@ -316,12 +319,12 @@ except hash-ref items only accept C<value> and C<label> keys (and their variants
 
 If passed no arguments, it returns an arrayref of the currently set datalist options.
 
-Its arguments must be an array-ref of items. Each item may be an array ref 
-of the form C<[ $value, $label ]> or a hash-ref of the form 
+Its arguments must be an array-ref of items. Each item may be an array ref
+of the form C<[ $value, $label ]> or a hash-ref of the form
 C<< { value => $value, label => $label } >>.
 
-When using the hash-ref construct, the C<label_xml> and C<label_loc> 
-variants of C<label> are supported, as are the C<value_xml> and C<value_loc> 
+When using the hash-ref construct, the C<label_xml> and C<label_loc>
+variants of C<label> are supported, as are the C<value_xml> and C<value_loc>
 variants of C<value>.
 
 =head2 datalist_values
@@ -340,7 +343,7 @@ Arguments: \@values
 
 A more concise alternative to L</datalist_options>.
 
-Its arguments must be an array-ref of values. The labels used are the 
+Its arguments must be an array-ref of values. The labels used are the
 result of C<ucfirst($value)>.
 
 =head2 datalist_id
@@ -404,7 +407,7 @@ When used as a setter, the return value is C<< $self >> to allow chaining.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Role::Element::Field>, L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

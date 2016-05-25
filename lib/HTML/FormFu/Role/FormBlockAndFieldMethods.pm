@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::FormBlockAndFieldMethods;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use HTML::FormFu::Attribute qw( mk_inherited_accessors );

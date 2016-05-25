@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Select;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Element';
 
@@ -122,7 +125,7 @@ YAML config:
 
 Select form field.
 
-Supports optgroups, see L<HTML::FormFu::Role::Element::Group/options> for 
+Supports optgroups, see L<HTML::FormFu::Role::Element::Group/options> for
 details.
 
 =head1 METHODS
@@ -149,9 +152,9 @@ See L<HTML::FormFu::Role::Element::Group/empty_first_label>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Group>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Group>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::MinLength;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint::Length';
 
@@ -23,7 +26,7 @@ HTML::FormFu::Constraint::MinLength - Minimum Length String Constraint
 
 Checks the input value meets a minimum length.
 
-Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of 
+Overrides L<HTML::FormFu::Constraint/localize_args>, so that the value of
 L</minimum> is passed as an argument to L<localize|HTML::FormFu/localize>.
 
 This constraint doesn't honour the C<not()> value.

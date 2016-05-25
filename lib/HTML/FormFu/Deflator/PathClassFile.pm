@@ -1,5 +1,8 @@
 package HTML::FormFu::Deflator::PathClassFile;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Deflator';
@@ -64,14 +67,14 @@ There are three types of deflation:
 
 =item relative
 
-Set this to 1 to deflate to a relative path. Anything else than 1 specifies the 
-directory to use as the base of relativity - otherwise the current working 
+Set this to 1 to deflate to a relative path. Anything else than 1 specifies the
+directory to use as the base of relativity - otherwise the current working
 directory will be used.
 
 =item absolute
 
-Set this to 1 to deflate to an absolute path. Anything else than 1 specifies the 
-directory to use as the base of relativity - otherwise the current working 
+Set this to 1 to deflate to an absolute path. Anything else than 1 specifies the
+directory to use as the base of relativity - otherwise the current working
 directory will be used.
 
 =item basename

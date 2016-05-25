@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Checkboxgroup;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element';
@@ -257,8 +260,8 @@ YAML config:
 
 Convenient to use group of checkbox fields.
 
-Use the same syntax as you would to create a Select element optgroup to 
-create Checkboxgroup sub-groups, see L<HTML::FormFu::Role::Element::Group/options> 
+Use the same syntax as you would to create a Select element optgroup to
+create Checkboxgroup sub-groups, see L<HTML::FormFu::Role::Element::Group/options>
 for details.
 
 =head1 METHODS
@@ -277,8 +280,8 @@ See L<HTML::FormFu::Role::Element::Group/value_range>.
 
 =head2 auto_id
 
-In addition to the substitutions documented by L<HTML::FormFu/auto_id>, 
-C<%c> will be replaced by an incremented integer, to ensure there are 
+In addition to the substitutions documented by L<HTML::FormFu/auto_id>,
+C<%c> will be replaced by an incremented integer, to ensure there are
 no duplicated ID's, and C<%v> will be replaced by the item's value to
 allow multiple elements with the same name to coexist, and their labels
 to correctly select the appropriate item.
@@ -303,9 +306,9 @@ Default Value: C<true>
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Group>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Group>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

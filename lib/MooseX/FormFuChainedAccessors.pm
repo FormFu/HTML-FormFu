@@ -10,9 +10,10 @@
 # the same terms as the Perl 5 programming language system itself.
 #
 package MooseX::FormFuChainedAccessors;
-{
-  $MooseX::FormFuChainedAccessors::VERSION = '1.0.1';
-}
+
+use strict;
+# VERSION
+
 # ABSTRACT: DEPRECATED
 use strict;
 use warnings;

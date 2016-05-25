@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Fieldset;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 
@@ -57,13 +60,13 @@ If L</legend> is set, it is used as the fieldset's legend
 
 Arguments: $localization_key
 
-To set the legend to a localized string, set L</legend_loc> to a key in 
+To set the legend to a localized string, set L</legend_loc> to a key in
 your L10N file instead of using L</legend>.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::Block>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

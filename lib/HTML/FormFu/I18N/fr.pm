@@ -2,6 +2,9 @@ package HTML::FormFu::I18N::fr;
 
 use utf8;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::I18N';
 

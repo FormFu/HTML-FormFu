@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::Integer;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';
 
@@ -30,7 +33,7 @@ L<HTML::FormFu>
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Constraint::Integer>, by 
+Based on the original source code of L<HTML::Widget::Constraint::Integer>, by
 Sebastian Riedel, C<sri@oook.de>.
 
 =head1 LICENSE

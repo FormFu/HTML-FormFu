@@ -1,5 +1,8 @@
 package HTML::FormFu::Transformer::Callback;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Transformer';
@@ -11,6 +14,7 @@ sub transformer {
 
     my $callback = $self->callback || sub {1};
 
+    ## no critic (ProhibitNoStrict);
     no strict 'refs';
 
     my $return = $callback->( $value, $params );
@@ -42,8 +46,8 @@ HTML::FormFu::Transformer::Callback - Callback transformer
 
 =head1 DESCRIPTION
 
-The first argument passed to the callback is the submitted value for the 
-associated field. The second argument passed to the callback is a hashref of 
+The first argument passed to the callback is the submitted value for the
+associated field. The second argument passed to the callback is a hashref of
 name/value pairs for all input fields.
 
 =head1 METHODS

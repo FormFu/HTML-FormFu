@@ -21,7 +21,7 @@ matrix:
   allow_failures:
     - perl: blead       # ignore failures for blead perl
   include:
-    - perl: 5.20
+    - perl: "5.20"
       env: COVERAGE=1   # enables coverage+coveralls reporting
 
 # end

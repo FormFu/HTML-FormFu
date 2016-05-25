@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::ContainsElements;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use HTML::FormFu::Util qw(

@@ -10,9 +10,10 @@
 # the same terms as the Perl 5 programming language system itself.
 #
 package MooseX::Traits::Attribute::FormFuChained;
-{
-  $MooseX::Traits::Attribute::FormFuChained::VERSION = '1.0.1';
-}
+
+use strict;
+# VERSION
+
 # ABSTRACT: DEPRECATED
 use Moose::Role;
 use MooseX::FormFuChainedAccessors;

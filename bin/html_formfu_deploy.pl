@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+# VERSION
+
 use HTML::FormFu::Deploy;
 
 warn <<END;

@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Checkbox;
 
+use strict;
+# VERSION
+
 use Moose;
 
 extends 'HTML::FormFu::Element';
@@ -104,15 +107,15 @@ Inherited. See L<HTML::FormFu::Role::Element::Field/default_empty_value> for det
 
 =head2 multi_layout
 
-Overrides the default value of 
+Overrides the default value of
 L<multi_layout|HTML::FormFu::Role::Element::Field/multi_layout>
 to swap the C<field> and C<label> around.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Role::Element::Input>, 
-L<HTML::FormFu::Role::Element::Field>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Role::Element::Input>,
+L<HTML::FormFu::Role::Element::Field>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

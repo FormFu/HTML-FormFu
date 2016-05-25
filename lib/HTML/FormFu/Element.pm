@@ -1,5 +1,8 @@
 package HTML::FormFu::Element;
 
+use strict;
+# VERSION
+
 use Moose;
 use MooseX::Attribute::FormFuChained;
 
@@ -288,53 +291,53 @@ HTML::FormFu::Element - Element Base Class
         name: username
         constraints:
           - type: Required
-      
+
       - type: Password
         name: password
         constraints:
           - type: Required
           - type: Equal
             others: repeat-password
-      
+
       - type: Password
         name: repeat-password
-      
+
       - type: Submit
 
 =head1 DESCRIPTION
 
-Elements are the basic building block of all forms. Elements may be logical 
-form-fields, blocks such as C<div>s and C<fieldset>s, non-blocks such as 
+Elements are the basic building block of all forms. Elements may be logical
+form-fields, blocks such as C<div>s and C<fieldset>s, non-blocks such as
 C<hr>s and other special elements such as tables.
 
-For simple, automatic handling of fieldsets see the 
+For simple, automatic handling of fieldsets see the
 L<HTML::FormFu/auto_fieldset> setting.
 
-See L<HTML::FormFu/deflators> for details of 
+See L<HTML::FormFu/deflators> for details of
 L<Deflators|HTML::FormFu::Deflator>.
 
-See L<HTML::FormFu/FORM LOGIC AND VALIDATION> for details of 
-L<Filters|HTML::FormFu::Filter>, 
-L<Constraints|HTML::FormFu::Constraint>, 
-L<Inflators|HTML::FormFu::Inflator>, 
-L<Validators|HTML::FormFu::Validator> and 
+See L<HTML::FormFu/FORM LOGIC AND VALIDATION> for details of
+L<Filters|HTML::FormFu::Filter>,
+L<Constraints|HTML::FormFu::Constraint>,
+L<Inflators|HTML::FormFu::Inflator>,
+L<Validators|HTML::FormFu::Validator> and
 L<Transformers|HTML::FormFu::Transformer>.
 
 =head1 METHODS
 
 =head2 name
 
-For L<field|HTML::FormFu::Role::Element::Field> element, this value is used as 
+For L<field|HTML::FormFu::Role::Element::Field> element, this value is used as
 the C<name> attribute which the field's value is associated with.
 
-For all elements, the L</name> value can be useful for identifying and 
+For all elements, the L</name> value can be useful for identifying and
 retrieving specific elements.
 
 =head2 is_field
 
 Return Value: boolean
 
-Returns C<true> or C<false> depending on whether the element is a logical 
+Returns C<true> or C<false> depending on whether the element is a logical
 form-field.
 
 This is used by L<HTML::FormFu/get_fields>.
@@ -376,10 +379,10 @@ L</load_config_file>.
 
 Default Value: not defined
 
-This method is a special 'inherited accessor', which means it can be set on 
-the form, a block element or a single element. When the value is read, if 
-no value is defined it automatically traverses the element's hierarchy of 
-parents, through any block elements and up to the form, searching for a 
+This method is a special 'inherited accessor', which means it can be set on
+the form, a block element or a single element. When the value is read, if
+no value is defined it automatically traverses the element's hierarchy of
+parents, through any block elements and up to the form, searching for a
 defined value.
 
 =head2 config_callback
@@ -502,7 +505,7 @@ Arguments: \%config
 
 =head2 filename
 
-This value identifies which template file should be used by 
+This value identifies which template file should be used by
 L</render> to render the element.
 
 =head2 prepare_id
@@ -539,7 +542,7 @@ supplied options.
 
 =head2 form
 
-Returns the L<HTML::FormFu> object that the constraint's field is attached 
+Returns the L<HTML::FormFu> object that the constraint's field is attached
 to.
 
 =head2 clone
@@ -628,7 +631,7 @@ See L<HTML::FormFu/render_method> for details.
 
 =head1 ELEMENT BASE CLASSES
 
-The following are base classes for other elements, and generally needn't be 
+The following are base classes for other elements, and generally needn't be
 used directly.
 
 =over

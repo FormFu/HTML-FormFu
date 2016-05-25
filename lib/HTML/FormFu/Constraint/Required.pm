@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::Required;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 
@@ -33,7 +36,7 @@ L<HTML::FormFu>
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Constraint::All>, by 
+Based on the original source code of L<HTML::Widget::Constraint::All>, by
 Sebastian Riedel, C<sri@oook.de>.
 
 =head1 LICENSE

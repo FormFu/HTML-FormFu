@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::ASCII;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';
 

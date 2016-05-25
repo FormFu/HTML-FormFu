@@ -1,5 +1,8 @@
 package HTML::FormFu::Role::FormAndElementMethods;
 
+use strict;
+# VERSION
+
 use Moose::Role;
 
 use HTML::FormFu::Attribute qw(

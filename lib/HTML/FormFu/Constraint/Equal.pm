@@ -1,5 +1,8 @@
 package HTML::FormFu::Constraint::Equal;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Constraint';
 
@@ -131,12 +134,12 @@ HTML::FormFu::Constraint::Equal - Multi-field Equality Constraint
 
 =head1 DESCRIPTION
 
-All fields named in L<HTML::FormFu::Role::Constraint::Others/others> must have an equal value to the field this 
+All fields named in L<HTML::FormFu::Role::Constraint::Others/others> must have an equal value to the field this
 constraint is attached to.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from  
+Is a sub-class of, and inherits methods from
 L<HTML::FormFu::Role::Constraint::Others>, L<HTML::FormFu::Constraint>
 
 L<HTML::FormFu>

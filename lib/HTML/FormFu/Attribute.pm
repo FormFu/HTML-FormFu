@@ -2,6 +2,9 @@ package HTML::FormFu::Attribute;
 
 use strict;
 use warnings;
+
+# VERSION
+
 use Exporter qw( import );
 use Carp qw( croak );
 use Class::MOP::Method;
@@ -516,7 +519,8 @@ sub mk_attr_bool_accessors {
 
             if ( @_ == 1 ) {
                 # Getter
-                return undef if !exists $self->attributes->{$name};
+                return undef    ## no critic (ProhibitExplicitReturnUndef);
+                    if !exists $self->attributes->{$name};
 
                 return $self->attributes->{$name} ? $self->attributes->{$name}
                                                   : undef;
@@ -567,7 +571,7 @@ HTML::FormFu::Attribute - accessor class
 
 Carl Franks, C<cfranks@cpan.org>
 
-Based on the original source code of L<HTML::Widget::Accessor>, by 
+Based on the original source code of L<HTML::Widget::Accessor>, by
 Sebastian Riedel, C<sri@oook.de>.
 
 =head1 LICENSE

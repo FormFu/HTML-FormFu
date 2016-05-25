@@ -3,6 +3,8 @@ package HTML::FormFu::Localize;
 use strict;
 use warnings;
 
+# VERSION
+
 use HTML::FormFu::Util qw( require_class );
 use List::MoreUtils qw( any );
 use List::MoreUtils qw( pairwise );

@@ -1,5 +1,8 @@
 package HTML::FormFu::Element::Src;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Element::Block';
 
@@ -23,13 +26,13 @@ HTML::FormFu::Element::Src - custom HTML element
 
 =head1 DESCRIPTION
 
-Allows you to add markup directly into the form, without surrounding 
+Allows you to add markup directly into the form, without surrounding
 C<< <div> </div> >> tags.
 
 =head1 SEE ALSO
 
-Is a sub-class of, and inherits methods from 
-L<HTML::FormFu::Element::Block>, 
+Is a sub-class of, and inherits methods from
+L<HTML::FormFu::Element::Block>,
 L<HTML::FormFu::Element>
 
 L<HTML::FormFu>

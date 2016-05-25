@@ -1,5 +1,8 @@
 package HTML::FormFu::Filter::ForceListValue;
 
+use strict;
+# VERSION
+
 use Moose;
 extends 'HTML::FormFu::Filter';
 
@@ -35,17 +38,17 @@ HTML::FormFu::Filter::ForceListValue - convert a single value into a 1-item-list
 
 Causes a single submitted value to be changed to a list containing 1 item.
 
-Solves an uncommon problem with a 
-L<Repeatable block|HTML::FormFu::Element::Repeatable> with 
+Solves an uncommon problem with a
+L<Repeatable block|HTML::FormFu::Element::Repeatable> with
 L<increment_field_names|HTML::FormFu::Element::Repeatable/increment_field_names>
-disabled, when manually increasing the 
+disabled, when manually increasing the
 L<repeat|HTML::FormFu::Element::Repeatable/repeat> count after the form was
 submitted with only a single value for each of the Repeatable's fields.
 
 If these circumstances, when rendered, every repeated field would have the
 initially-submitted value as its default.
 
-Using this filter, and setting 
+Using this filter, and setting
 L<render_processed_value|HTML::FormFu/render_processed_value> to C<true> will
 ensure that only the first repetition of each field will have the submitted
 value as its default; all subsequent repetitions will have no default value.
