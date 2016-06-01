@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+    - Public release of 2.02
+
+2.01_03 2016-05-25
+
     - cleanup unused modules and functions
     - fix indirect object notation
     - add label functionality
