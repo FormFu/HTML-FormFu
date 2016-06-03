@@ -1,5 +1,6 @@
 {{$NEXT}}
 
+    - Bug fix: RT#109159 Number formatting tests can fail
     - Bug fix: RT#112582 Date tests fail on leap day
 
 2.02 2016-06-01
