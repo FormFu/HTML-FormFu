@@ -6,7 +6,7 @@ HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
 =head1 VERSION
 
-version 2.02
+version 2.02_01
 
 =head1 SYNOPSIS
 
