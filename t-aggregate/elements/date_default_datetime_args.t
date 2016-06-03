@@ -37,7 +37,7 @@ $form->process;
 {
     my $bar = $form->get_field('bar');
 
-    my $year_xhtml = qq{<option value="2001" selected="selected">2001</option>};
+    my $year_xhtml = qq{<option value="2004" selected="selected">2004</option>};
 
     cmp_ok( $bar, '=~', $year_xhtml );
 }
