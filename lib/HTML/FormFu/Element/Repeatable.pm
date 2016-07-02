@@ -536,7 +536,7 @@ See L<HTML::FormFu::Element::Block/tag> for details.
 
 =head2 auto_id
 
-As well as the usual subtitutions, any instances of C<%r> will be
+As well as the usual substitutions, any instances of C<%r> will be
 replaced with the value of L</repeatable_count>.
 
 See L<HTML::FormFu::Element::Block/auto_id> for further details.

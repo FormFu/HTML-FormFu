@@ -52,7 +52,7 @@ Split a single input value into an arrayref of values.
 
 A regex object or string to be passed as the C<PATTERN> argument to C<split>.
 
-Default Value: '' (emtpy string)
+Default Value: '' (empty string)
 
 =head2 limit
 

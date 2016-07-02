@@ -216,8 +216,8 @@ sub mk_error {
 sub _process_when {
     my ( $self, $params ) = @_;
 
-    # returns 1 if when condition is fullfilled or not defined
-    # returns 0 if when condition is defined and not fullfilled
+    # returns 1 if when condition is fulfilled or not defined
+    # returns 0 if when condition is defined and not fulfilled
     # If it's a callback, return callback's return value (so 'when'
     # condition is met if callback returns a true value)
 
@@ -477,7 +477,7 @@ Shorthand for C<< $constraint->parent->name >>
 
 =head2 when
 
-Defines a condition for the constraint. Only when the condition is fullfilled
+Defines a condition for the constraint. Only when the condition is fulfilled
 the constraint will be applied.
 
 This method expects a hashref.
@@ -513,7 +513,7 @@ Expected value in the form field 'field'
 
 =item values
 
-Array of multiple values, one must match to fullfill the condition
+Array of multiple values, one must match to fulfill the condition
 
 =item not
 

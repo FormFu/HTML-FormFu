@@ -252,7 +252,7 @@ Note: if you rely on the value of a checkbox for a when-restricted
 contraint, you might want to consider setting C<default_empty_value> for
 that checkbox. Take a look at L<HTML::FormFu::Role::Element::Field> to learn more.
 
-Please read L<HTML::FormFu::Constraint> for futher information.
+Please read L<HTML::FormFu::Constraint> for further information.
 
 =head2 Constrain one form field based on the return value of a callback
 
@@ -276,7 +276,7 @@ only if the value of another field contains a pattern
     }
 
 
-Please read L<HTML::FormFu::Constraint> for futher information.
+Please read L<HTML::FormFu::Constraint> for further information.
 
 =head1 HTML MARKUP
 
