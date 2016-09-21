@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+    - HTML::FormFu::Validator::Callback now passes the $params hash to
+      callback subs.
+
 2.03 2016-06-24
 
     - Bug fix: RT#109159 Number formatting tests can fail

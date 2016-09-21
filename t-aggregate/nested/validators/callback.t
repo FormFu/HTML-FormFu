@@ -7,13 +7,15 @@ package My::Nested::Validators::Callback;
 
 sub cb {
     my $value = shift;
+    my $params = shift;
     ::ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
+    ::ok(ref($params) eq 'HASH' && keys %$params, 'params hashref is passed');
     return 1;
 }
 
 package main;
 
-use Test::More tests => 7;
+use Test::More tests => 11;
 
 use HTML::FormFu;
 
