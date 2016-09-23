@@ -81,6 +81,12 @@ HTML::FormFu::Validator - Validator Base Class
 
 =head1 CORE VALIDATORS
 
+=over
+
+=item L<HTML::FormFu::Validator::Callback>
+
+=back
+
 =head1 BEST PRACTICES
 
 Try to avoid using callbacks if possible. Below is a more maintainable
@@ -122,12 +128,6 @@ use Moose;
     }
 
     1;
-
-=over
-
-=item L<HTML::FormFu::Validator::Callback>
-
-=back
 
 =head1 AUTHOR
 
