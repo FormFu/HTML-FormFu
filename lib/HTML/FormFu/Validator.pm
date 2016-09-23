@@ -43,12 +43,7 @@ sub validate_values {
     for my $value (@$values) {
         my $ok = eval { $self->validate_value( $value, $params ) };
 
-        if ( blessed $@ && $@->isa('HTML::FormFu::Exception::Validator') ) {
-            push @errors, $@;
-        }
-        elsif ( $@ or !$ok ) {
-            push @errors, HTML::FormFu::Exception::Validator->new;
-        }
+        push @errors, $self->return_error($@) if !$ok;
     }
 
     return @errors;
@@ -62,7 +57,7 @@ sub return_error {
     my ( $self, $err ) = @_;
 
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Validator') ) {
-        $err = HTML::FormFu::Exception::Validator->new;
+        $err = HTML::FormFu::Exception::Validator->new( $err ? { message => $err } : () );
     }
 
     return $err;
