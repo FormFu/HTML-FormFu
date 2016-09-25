@@ -493,7 +493,7 @@ The following keys are supported:
 
 =item field
 
-Nested-name of form field that shall be checked against - if C<when->{value}>
+Nested-name of form field that shall be checked against - if C<< when->{value} >>
 is set, the C<when> condition passes if the named field's value matches that,
 otherwise the C<when> condition passes if the named field's value is true.
 
@@ -523,7 +523,7 @@ Inverts the when condition - value(s) must not match
 
 A callback subroutine-reference or fully resolved subroutine name can be
 supplied to perform complex checks. An hashref of all parameters is passed
-to the callback sub. In this case all other keys are ignored, including not.
+to the callback sub. In this case all other keys are ignored, including C<not>.
 You need to return a true value for the constraint to be applied or a false
 value to not apply it.
 
