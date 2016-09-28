@@ -14,8 +14,6 @@ use HTML::FormFu::Util qw(
     debug
 );
 use Clone ();
-use List::MoreUtils qw( any );
-use Scalar::Util qw( blessed );
 use Carp qw( croak );
 use List::MoreUtils qw( any all );
 use List::Util qw( first );
