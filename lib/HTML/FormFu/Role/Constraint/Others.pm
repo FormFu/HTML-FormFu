@@ -11,7 +11,7 @@ use HTML::FormFu::Util qw(
     debug
 );
 use Clone ();
-use List::MoreUtils qw( any none );
+use List::Util 1.33 qw( any none );
 
 has others                  => ( is => 'rw', traits => ['FormFuChained'] );
 has other_siblings          => ( is => 'rw', traits => ['FormFuChained'] );

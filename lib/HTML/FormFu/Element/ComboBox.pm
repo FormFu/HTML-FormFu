@@ -10,7 +10,7 @@ extends 'HTML::FormFu::Element::Multi';
 with 'HTML::FormFu::Role::Element::ProcessOptionsFromModel';
 
 use HTML::FormFu::Util qw( _filter_components _parse_args );
-use List::MoreUtils qw( any );
+use List::Util 1.33 qw( any );
 use Moose::Util qw( apply_all_roles );
 
 our @DEFER_TO_SELECT = qw(

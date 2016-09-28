@@ -15,8 +15,7 @@ use HTML::FormFu::Util qw(
 );
 use Clone ();
 use Carp qw( croak );
-use List::MoreUtils qw( any all );
-use List::Util qw( first );
+use List::Util 1.33 qw( any all first );
 use Scalar::Util qw( reftype blessed );
 
 has not          => ( is => 'rw', traits => ['FormFuChained'] );

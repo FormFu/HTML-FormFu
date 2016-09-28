@@ -24,7 +24,7 @@ use HTML::FormFu::Util qw(
 );
 use Class::MOP::Method;
 use Clone ();
-use List::MoreUtils qw( uniq );
+use List::Util 1.45 qw( uniq );
 use Carp qw( croak carp );
 
 __PACKAGE__->mk_attrs( qw(

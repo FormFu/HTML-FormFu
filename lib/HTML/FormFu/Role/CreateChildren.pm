@@ -8,7 +8,7 @@ use Moose::Role;
 use HTML::FormFu::Util qw( _merge_hashes require_class );
 use Carp qw( croak );
 use Clone ();
-use List::MoreUtils qw( uniq );
+use List::Util 1.45 qw( uniq );
 use Scalar::Util qw( weaken );
 
 sub element {

@@ -51,8 +51,7 @@ use HTML::FormFu::Util qw(
 );
 
 use Clone ();
-use List::Util qw( first );
-use List::MoreUtils qw( any none uniq );
+use List::Util 1.45 qw( first any none uniq );
 use Scalar::Util qw( blessed weaken reftype );
 use Carp qw( croak );
 

@@ -11,7 +11,7 @@ with 'HTML::FormFu::Role::Element::Group';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( append_xml_attribute process_attrs );
-use List::MoreUtils qw( any );
+use List::Util 1.33 qw( any );
 
 has input_type => (
     is      => 'rw',

@@ -9,7 +9,7 @@ extends 'HTML::FormFu::OutputProcessor';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 use HTML::TokeParser::Simple;
-use List::MoreUtils qw( any );
+use List::Util 1.33 qw( any );
 
 has indent => (
     is      => 'rw',
