@@ -10,8 +10,6 @@ use HTML::FormFu::Util qw(
     _merge_hashes
 );
 use Carp qw( croak );
-use List::MoreUtils qw( none uniq );
-use Scalar::Util qw( refaddr weaken );
 
 sub get_error {
     my $self = shift;
