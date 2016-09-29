@@ -8,7 +8,6 @@ use MooseX::Attribute::FormFuChained;
 extends 'HTML::FormFu::Element::Date';
 
 use Moose::Util qw( apply_all_roles );
-use Scalar::Util qw( blessed );
 
 __PACKAGE__->mk_attrs(qw/ hour minute second /);
 

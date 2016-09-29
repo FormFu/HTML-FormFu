@@ -14,11 +14,8 @@ use HTML::FormFu::Util qw(
     debug
 );
 use Clone ();
-use List::MoreUtils qw( any );
-use Scalar::Util qw( blessed );
 use Carp qw( croak );
-use List::MoreUtils qw( any all );
-use List::Util qw( first );
+use List::Util 1.33 qw( any all first );
 use Scalar::Util qw( reftype blessed );
 
 has not          => ( is => 'rw', traits => ['FormFuChained'] );

@@ -12,7 +12,7 @@ with 'HTML::FormFu::Role::Element::Field',
 
 use HTML::FormFu::Util qw( literal xml_escape );
 use Clone ();
-use List::MoreUtils qw( none );
+use List::Util 1.33 qw( none );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 

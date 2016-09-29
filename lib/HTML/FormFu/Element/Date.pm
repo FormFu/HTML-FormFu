@@ -15,7 +15,7 @@ use DateTime::Format::Natural;
 use DateTime::Locale;
 use Moose::Util qw( apply_all_roles );
 use Scalar::Util qw( blessed );
-use List::MoreUtils qw( all none uniq );
+use List::Util 1.45 qw( all none uniq );
 use Carp qw( croak );
 
 __PACKAGE__->mk_attrs(qw( day  month  year ));

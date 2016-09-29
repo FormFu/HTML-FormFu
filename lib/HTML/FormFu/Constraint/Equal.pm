@@ -12,7 +12,7 @@ use HTML::FormFu::Util qw(
     DEBUG_CONSTRAINTS
     debug
 );
-use List::MoreUtils qw( all );
+use List::Util 1.33 qw( all );
 
 our $EMPTY_STR = q{};
 

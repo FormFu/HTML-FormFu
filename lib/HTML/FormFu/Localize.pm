@@ -6,7 +6,7 @@ use warnings;
 # VERSION
 
 use HTML::FormFu::Util qw( require_class );
-use List::MoreUtils qw( any );
+use List::Util 1.33 qw( any );
 use List::MoreUtils qw( pairwise );
 use Scalar::Util qw( weaken isweak blessed );
 use Exporter qw( import );

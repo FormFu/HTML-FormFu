@@ -6,7 +6,7 @@ use strict;
 use Moose::Role;
 use Moose::Util qw( ensure_all_roles );
 
-use List::MoreUtils qw( uniq );
+use List::Util 1.45 qw( uniq );
 
 has _roles => (
     is      => 'rw',

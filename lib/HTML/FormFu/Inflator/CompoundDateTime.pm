@@ -10,7 +10,7 @@ extends 'HTML::FormFu::Inflator';
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use DateTime;
 use DateTime::Format::Strptime;
-use List::MoreUtils qw( none );
+use List::Util 1.33 qw( none );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 

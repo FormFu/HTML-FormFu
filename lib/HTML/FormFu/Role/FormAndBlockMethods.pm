@@ -7,7 +7,7 @@ use Moose::Role;
 
 use HTML::FormFu::Util qw( _merge_hashes );
 use Carp qw( croak );
-use List::MoreUtils qw( none );
+use List::Util 1.33 qw( none );
 
 sub default_args {
     my ( $self, $defaults ) = @_;

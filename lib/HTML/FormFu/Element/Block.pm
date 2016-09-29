@@ -18,7 +18,7 @@ with 'HTML::FormFu::Role::CreateChildren',
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( _get_elements xml_escape process_attrs );
 use Clone ();
-use List::MoreUtils qw( uniq );
+use List::Util 1.45 qw( uniq );
 use Carp qw( croak );
 
 has tag                  => ( is => 'rw', traits => ['FormFuChained'] );

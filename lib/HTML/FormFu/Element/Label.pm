@@ -13,7 +13,7 @@ with 'HTML::FormFu::Role::Element::Field',
     'HTML::FormFu::Role::Element::Coercible';
 
 use HTML::FormFu::Util qw( process_attrs );
-use List::MoreUtils qw( none );
+use List::Util 1.33 qw( none );
 
 has field_type => ( is => 'rw', traits => ['FormFuChained'] );
 
