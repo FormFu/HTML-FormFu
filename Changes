@@ -2,7 +2,16 @@
 
     - HTML::FormFu::Validator::Callback now passes the $params hash to
       callback subs.
-    - No longer use Test::Aggregate - RT117137
+    - No longer use Test::Aggregate - RT#117137
+    - Update list of contributors
+    - Code tidying (Karen Etheridge):-
+      - remove duplicate "use" lines
+      - remove unused exports
+      - use subs from List::Util preferentially (which is in core)
+      - fix some pod markup
+      - properly document core validators (RT#118022)
+      - preserve the exception message in case of validation error
+    - Spelling fixes from Debian - RT#115812
 
 2.03 2016-06-24
 
