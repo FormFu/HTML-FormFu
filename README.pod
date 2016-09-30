@@ -6,7 +6,7 @@ HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
 =head1 VERSION
 
-version 2.03
+version 2.04
 
 =head1 SYNOPSIS
 
@@ -2040,6 +2040,8 @@ Matthias Dietrich
 Dean Hamstead
 
 Karen Etheridge
+
+Nigel Metheringham
 
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
