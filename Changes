@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+2.04 2016-09-30
+
     - HTML::FormFu::Validator::Callback now passes the $params hash to
       callback subs.
     - No longer use Test::Aggregate - RT#117137
