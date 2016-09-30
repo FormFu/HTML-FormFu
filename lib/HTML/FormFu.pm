@@ -3249,6 +3249,12 @@ Doug Orleans
 
 Matthias Dietrich
 
+Dean Hamstead
+
+Karen Etheridge
+
+Nigel Metheringham
+
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
 
