@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+    - Release machinery - dzil transition to @Starter and simplification
+
 2.04 2016-09-30
 
     - HTML::FormFu::Validator::Callback now passes the $params hash to
@@ -14,6 +16,7 @@
       - properly document core validators (RT#118022)
       - preserve the exception message in case of validation error
     - Spelling fixes from Debian - RT#115812
+    - [Release of 2.04 was a trial/devel release only]
 
 2.03 2016-06-24
 
