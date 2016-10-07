@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+2.05      2016-10-07 15:34:52+01:00 Europe/London
+
     - Release machinery - dzil transition to @Starter and simplification
 
 2.04 2016-09-30
