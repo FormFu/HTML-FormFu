@@ -1,5 +1,4 @@
-use strict;
-
+#!perl
 package HTML::FormFu::I18N::tr;
 # ABSTRACT: Turkish
 

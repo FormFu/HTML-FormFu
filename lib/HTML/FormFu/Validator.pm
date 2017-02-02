@@ -1,5 +1,4 @@
-use strict;
-
+#!perl
 package HTML::FormFu::Validator;
 
 # ABSTRACT: Validator Base Class
