@@ -107,9 +107,8 @@ And the class would be something like this:
 
     package HTML::FormFu::Validator::MyApp::SomeValidator;
     use strict;
-# VERSION
 
-use Moose;
+    use Moose;
     extends 'HTML::FormFu::Validator';
 
     sub validate_value {
