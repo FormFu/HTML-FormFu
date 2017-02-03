@@ -26,10 +26,10 @@ our %Lexicon = (
     form_constraint_file_mime    => 'Dosya türü geçerli değil',
     form_constraint_file_maxsize => 'Dosya boyutu [_1] bayttan büyük olmamalıdır',
     form_constraint_file_minsize => 'Dosya boyutu [_1] bayttan küçük olmamalıdır',
-    form_constraint_file_size => 
+    form_constraint_file_size =>
         'Dosya boyutu [_1] ila [_2] bayt arasında olmalıdır',
     form_constraint_integer => 'Bu alana bir tam sayı girmelisiniz',
-    form_constraint_length  => 
+    form_constraint_length  =>
         'Bu alandaki metnin uzunluğu [_1] ila [_2] karakter arasında olmalıdır',
     form_constraint_minlength    => 'Bu alana en az [_1] karakter girmelisiniz',
     form_constraint_minrange     => 'Bu alan en az [_1] olmalıdır',
