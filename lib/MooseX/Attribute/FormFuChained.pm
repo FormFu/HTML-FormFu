@@ -33,7 +33,7 @@ package MooseX::Attribute::FormFuChained::Method::Accessor;
 
 
 use Carp qw(confess);
-use Try::Tiny;
+use Syntax::Keyword::Try;
 use base 'Moose::Meta::Method::Accessor';
 
 sub _generate_accessor_method_inline {
@@ -45,8 +45,8 @@ sub _generate_accessor_method_inline {
         : 'bless { %{$_[0]} }, ref $_[0]';
 
     if ( $Moose::VERSION >= 1.9900 ) {
-        return try {
-            $self->_compile_code(
+        try {
+            return $self->_compile_code(
                 [   'sub {',
                     'if (@_ > 1) {',
                     $attr->_inline_set_value( '$_[0]', '$_[1]' ),
@@ -58,8 +58,8 @@ sub _generate_accessor_method_inline {
             );
         }
         catch {
-            confess "Could not generate inline accessor because : $_";
-        };
+            confess "Could not generate inline accessor because : $@";
+        }
     }
     else {
         return $self->next::method(@_);
@@ -74,16 +74,16 @@ sub _generate_writer_method_inline {
         ? '$_[0]->clone'
         : 'bless { %{$_[0]} }, ref $_[0]';
     if ( $Moose::VERSION >= 1.9900 ) {
-        return try {
-            $self->_compile_code(
+        try {
+            return $self->_compile_code(
                 [   'sub {', $attr->_inline_set_value( '$_[0]', '$_[1]' ),
                     '$_[0]', '}',
                 ]
             );
         }
         catch {
-            confess "Could not generate inline writer because : $_";
-        };
+            confess "Could not generate inline writer because : $@";
+        }
     }
     else {
         return $self->next::method(@_);
