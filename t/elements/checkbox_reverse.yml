@@ -3,7 +3,7 @@ elements:
     - type: Checkbox
       name: foo
       label: Foo
-    
+
     - type: Checkbox
       name: bar
       label: Bar

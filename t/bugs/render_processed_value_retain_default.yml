@@ -7,7 +7,7 @@ elements:
     deflator:
       - type: Strftime
         strftime: '%d/%m/%Y'
-    
+
   - type: Submit
     name: submit
-          
+

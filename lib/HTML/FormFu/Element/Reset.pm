@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::Reset;
 
-use strict;
-# VERSION
 
 use Moose;
 

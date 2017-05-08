@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::Text;
 
-use strict;
-# VERSION
 
 use Moose;
 

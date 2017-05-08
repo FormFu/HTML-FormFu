@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Constraint::AutoSet;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Set';

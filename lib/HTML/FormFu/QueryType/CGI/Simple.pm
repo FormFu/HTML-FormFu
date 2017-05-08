@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::QueryType::CGI::Simple;
 
-use strict;
-# VERSION
 
 use Moose;
 

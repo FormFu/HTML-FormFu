@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::Date;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;

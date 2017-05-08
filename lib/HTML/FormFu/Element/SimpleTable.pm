@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::SimpleTable;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;

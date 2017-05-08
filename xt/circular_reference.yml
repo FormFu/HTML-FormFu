@@ -6,43 +6,43 @@ elements:
     elements:
       - type: Text
         name: foo
-  
+
   - type: Checkbox
     name: checkbox
     value: 1
-  
+
   - type: ContentButton
     name: contentbutton
     content: foo
-  
+
   - type: Date
     name: date
 #    auto_inflate: 1
-  
+
   - type: Fieldset
     legend: foo
     elements:
       - name: fs1
       - name: fs2
-  
+
   - type: Image
     name: image
     src: 'image.png'
     width: 10
     height: 10
-  
+
   - type: Multi
     elements:
       - name: multi1
       - name: multi2
-  
+
   - type: Radiogroup
     name: radiogroup
     values: [yes, no]
     constraints:
       - type: Set
         set: [yes, no]
-  
+
   - type: Select
     name: select
     options:
@@ -57,100 +57,100 @@ elements:
         label: three
     constraints:
       - type: AutoSet
-  
+
   - type: SimpleTable
     headers:
       - One
       - Two
     rows:
-      - 
+      -
         - name: one_a
         - name: two_a
-      - 
+      -
         - name: one_b
         - name: two_b
-  
+
   - type: Submit
     name: submit
-  
+
   - type: Text
     name: text
     deflators:
       - type: Strftime
         strftime: '%d-%m-%Y'
-    
+
 #    inflators:
 #      - type: DateTime
-#        parser: 
+#        parser:
 #          strptime: '%d-%m-%Y'
-    
+
     constraints:
       - type: AllOrNone
         others: [text2]
-      
+
       - type: DependOn
         others: [text2]
-      
+
       - type: Equal
         others: [text2]
-      
+
       - type: MinMaxFields
         min: 2
         max: 2
-  
+
   - type: Text
     name: text2
 
 filters:
   - type: Encode
     candidates: [utf8]
-  
+
   - type: HTMLEscape
-  
+
   - type: HTMLScrubber
-  
+
   - type: LowerCase
-  
+
   - type: NonNumeric
-  
+
   - type: Regex
-  
+
   - type: TrimEdges
-  
+
   - type: UpperCase
-  
+
   - type: Whitespace
 
 constraints:
   - type: ASCII
-  
+
   - type: Bool
-  
+
   - type: Email
-  
+
   - type: Integer
-  
+
   - type: Length
     min: 3
     max: 8
-  
+
   - type: Number
-  
+
   - type: Printable
-  
+
   - type: Range
     min: 1
     max: 1000
-  
+
   - type: Regex
-    common: 
+    common:
       - URI
       - HTTP
       - { '-scheme': 'https?' }
-  
+
   - type: Required
-  
+
   - type: SingleValue
-  
+
   - type: Word
 

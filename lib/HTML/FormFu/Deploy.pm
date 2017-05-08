@@ -1,9 +1,8 @@
+use strict;
 package HTML::FormFu::Deploy;
 
-use strict;
 use warnings;
 
-# VERSION
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Cwd qw( getcwd );

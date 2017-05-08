@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Plugin::StashValid;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Plugin';

@@ -1,3 +1,5 @@
+# PODNAME: Unicode.pod
+
 =head1 NAME
 
 HTML::FormFu::Manual::Unicode - Working with unicode
@@ -130,8 +132,7 @@ Tell TT to decode all template files, by adding the following to your
 application config in MyApp.pm
 
     package MyApp;
-    use strict;
-    use parent 'Catalyst';
+        use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
 
     MyApp->config({
@@ -148,8 +149,7 @@ Make C<HTML::FormFu> tell TT to decode all template files, by adding the
 following to your C<myapp.yml> Catalyst configuration file:
 
     package MyApp;
-    use strict;
-    use parent 'Catalyst';
+        use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
 
     MyApp->config({
@@ -167,8 +167,7 @@ following to your C<myapp.yml> Catalyst configuration file:
 These above 2 examples should be combined, like so:
 
     package MyApp;
-    use strict;
-    use parent 'Catalyst';
+        use parent 'Catalyst';
     use Catalyst qw( ConfigLoader );
 
     MyApp->config({

@@ -1,17 +1,17 @@
 ---
 auto_fieldset: 1
-elements: 
+elements:
   - type: SimpleTable
     headers:
       - foo
       - bar
-    rows: 
-      - 
+    rows:
+      -
           - type: Text
             name: foo
           - type: Text
             name: bar
-      - 
+      -
           - type: Radio
             name: foo
           - type: Radio

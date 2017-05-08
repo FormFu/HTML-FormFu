@@ -4,7 +4,7 @@ auto_fieldset: 1
 elements:
   - type: Hidden
     name: count
-  
+
   - type: Repeatable
     nested_name: rep
     increment_field_names: 1

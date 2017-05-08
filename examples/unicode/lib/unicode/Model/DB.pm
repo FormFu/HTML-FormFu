@@ -7,9 +7,9 @@ __PACKAGE__->config(
     schema_class => 'unicode::Schema',
     connect_info => [
         'dbi:SQLite:dbname=unicode.db',
-        
+
     ],
-    
+
 );
 
 =head1 NAME

@@ -62,30 +62,30 @@ cmpthese(
     {
         'HTML::FormFu' => sub {
             my $formfu = formfu();
-            
+
             $formfu->process($query);
-            
+
             die 'formfu not submitted'
                 if ! $formfu->submitted_and_valid;
-            
+
             $output = "$formfu";
         },
         'HTML::Widget' => sub {
             my $widget = widget();
-            
+
             my $result = $widget->process($query);
-            
+
             die "widget not submitted"
                 if !$result->submitted || $result->has_errors;
-            
+
             $output = $result->as_xml;
         },
         'CGI::FormBuilder' => sub {
             my $builder = builder( params => $query );
-            
+
             die 'builder not submitted'
                 if ! $builder->submitted || ! $builder->validate;
-            
+
             $output = $builder->confirm;
         },
     }
@@ -93,27 +93,27 @@ cmpthese(
 
 sub formfu {
     my $form = HTML::FormFu->new;
-    
+
     $form->load_config_file( $formfu_file );
-    
+
     return $form;
 }
 
 sub widget {
     my $form = HTML::Widget->new;
-    
+
     $form->element( "Textfield", "username" )
         ->label("Username")
         ->size(10);
-    
+
     $form->element( "Password", "password" )
         ->label("Password")
         ->size(10);
-    
+
     $form->element( "Submit", "_submit" );
 
     $form->constraint( "All", "username", "password" );
-    
+
     return $form;
 }
 
@@ -122,6 +122,6 @@ sub builder {
         source => $builder_file,
         @_,
     );
-    
+
     return $form;
 }

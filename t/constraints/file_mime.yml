@@ -7,7 +7,7 @@ elements:
     constraints:
       - type: File::MIME
         types: ['text/rtf', 'text/plain']
-  
+
   - type: File
     name: 100x100_gif
     constraints:

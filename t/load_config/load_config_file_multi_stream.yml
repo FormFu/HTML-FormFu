@@ -8,7 +8,7 @@ elements:
 constraints:
   - type: Required
 
-# baz below won't have a constraint, because it's loaded after the above 
+# baz below won't have a constraint, because it's loaded after the above
 # call to constraints()
 
 ---

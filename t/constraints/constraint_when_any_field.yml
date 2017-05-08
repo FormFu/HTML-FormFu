@@ -15,9 +15,9 @@ elements:
               - 'b'
               - 'c'
               - 'd'
-    
+
     - name: b
-    
+
     - name: c
-    
+
     - name: d

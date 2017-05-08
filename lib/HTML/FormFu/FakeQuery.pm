@@ -1,9 +1,8 @@
+use strict;
 package HTML::FormFu::FakeQuery;
 
-use strict;
 use warnings;
 
-# VERSION
 
 use Scalar::Util qw( reftype );
 use Carp qw( croak );

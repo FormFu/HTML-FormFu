@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Constraint::File::MinSize;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Constraint::File::Size';

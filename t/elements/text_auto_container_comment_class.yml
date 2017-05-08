@@ -1,9 +1,9 @@
 ---
 auto_fieldset: 1
-elements: 
+elements:
   - name: foo
     comment: 'Foo!'
-  
+
   - name: bar
     comment: 'Bar!'
     auto_container_comment_class: 'formfu_%n_comment'

@@ -11,7 +11,7 @@ unicode::View::TT - TT View for unicode
 
 =head1 DESCRIPTION
 
-TT View for unicode. 
+TT View for unicode.
 
 =head1 AUTHOR
 
