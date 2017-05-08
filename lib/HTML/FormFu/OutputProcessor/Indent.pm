@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::OutputProcessor::Indent;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;

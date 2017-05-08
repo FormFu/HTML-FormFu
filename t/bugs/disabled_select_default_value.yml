@@ -12,11 +12,11 @@ elements:
       retain_default: 1
       attributes:
         disabled: disabled
-    
+
     - type: Text
       name: text
       constraints:
         - Required
-    
+
     - type: Submit
       name: submit

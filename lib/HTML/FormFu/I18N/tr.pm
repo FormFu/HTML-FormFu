@@ -1,9 +1,7 @@
+use strict;
 package HTML::FormFu::I18N::tr;
 
 use utf8;
-
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::I18N';

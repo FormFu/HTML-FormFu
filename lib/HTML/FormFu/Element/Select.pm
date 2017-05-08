@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::Select;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Element';

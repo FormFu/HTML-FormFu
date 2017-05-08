@@ -8,7 +8,7 @@ elements:
       options:
         - [1, One]
         - [2, Two]
-    
+
     - type: Select
       name: foo
       options:

@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Exception;
 
-use strict;
-# VERSION
 
 use Moose;
 

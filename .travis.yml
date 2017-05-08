@@ -1,5 +1,5 @@
 language: perl
-perl: 
+perl:
   - "5.24"
   - "5.22"
   - "5.20"
@@ -8,7 +8,7 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
-  ###- "5.8.8"          # fails due to Number::Format depedancy  
+  ###- "5.8.8"          # fails due to Number::Format depedancy
   #- "dev"              # installs latest developer release of perl (e.g. 5.21.8)
   #- "blead"            # builds perl from git
 

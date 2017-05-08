@@ -22,7 +22,7 @@ $form->element('Submit')->name('submit');
 
 =pod
 
-After an error, check that submit doesn't contain C<< value="" >>, 
+After an error, check that submit doesn't contain C<< value="" >>,
 because the browser won't display the default text label,
 "submit Query" or whatever.
 

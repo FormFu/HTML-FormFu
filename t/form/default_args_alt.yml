@@ -10,7 +10,7 @@ default_args:
 
 elements:
   - name: foo
-  
+
   - type: Multi
     name: multi
     elements:

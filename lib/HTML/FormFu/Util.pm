@@ -1,8 +1,7 @@
+use strict;
 package HTML::FormFu::Util;
 
-use strict;
 use warnings;
-# VERSION
 
 use HTML::FormFu::Constants qw( $SPACE );
 use HTML::FormFu::Literal;

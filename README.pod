@@ -1,12 +1,14 @@
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
-HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
+HTML::FormFu
 
 =head1 VERSION
 
-version 2.05
+version 2.06
 
 =head1 SYNOPSIS
 
@@ -119,6 +121,10 @@ This documentation follows the convention that method arguments surrounded
 by square brackets C<[]> are I<optional>, and all other arguments are
 required.
 
+=head1 NAME
+
+HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
+
 =head1 BUILDING A FORM
 
 =head2 new
@@ -201,7 +207,6 @@ L</load_config_file>:
         s/\.yml/.yaml/;
       }
     });
-
 
 Default Value: not defined
 
@@ -1400,7 +1405,6 @@ would normally be passed onto the C<string> or C<tt> render-methods.
 As with L</render>, you must call L</process> once after building the form,
 and before calling L</render_data>.
 
-
 =head2 render_data_non_recursive
 
 Like L</render_data>, but doesn't include the data for any child-elements.
@@ -1997,9 +2001,9 @@ Mailing list messages are limited to 256KB, so gzip the patch if necessary.
 =head1 GITHUB REPOSITORY
 
 This module's sourcecode is maintained in a git repository at
-L<git://github.com/fireartist/HTML-FormFu.git>
+L<git://github.com/FormFu/HTML-FormFu.git>
 
-The project page is L<https://github.com/fireartist/HTML-FormFu>
+The project page is L<https://github.com/FormFu/HTML-FormFu>
 
 =head1 SEE ALSO
 
@@ -2008,10 +2012,6 @@ L<HTML::FormFu::Imager>
 L<Catalyst::Controller::HTML::FormFu>
 
 L<HTML::FormFu::Model::DBIC>
-
-=head1 AUTHORS
-
-Carl Franks
 
 =head1 CONTRIBUTORS
 
@@ -2046,13 +2046,19 @@ Nigel Metheringham
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
 
-=head1 LICENSE
-
-This library is free software, you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
 =head1 PERL GAME
 
 Play the MMO written in perl: L<http://www.lacunaexpanse.com>!
+
+=head1 AUTHOR
+
+Carl Franks <cpan@fireartist.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2017 by Carl Franks.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut

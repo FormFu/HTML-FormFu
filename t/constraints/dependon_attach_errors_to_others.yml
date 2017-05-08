@@ -1,7 +1,7 @@
 ---
 elements:
     - name: foo
-    
+
     - name: bar
       constraints:
         - type: DependOn

@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::OutputProcessor::StripWhitespace;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;
@@ -122,10 +121,9 @@ sub process {
 
 __PACKAGE__->meta->make_immutable;
 
+use strict;
 package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;

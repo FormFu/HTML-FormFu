@@ -1,10 +1,9 @@
 ---
 elements:
     - name: foo
-    
+
     - name: bar
       constraints:
         - type: DependOn
           others: foo
           attach_errors_to_base: 1
-    

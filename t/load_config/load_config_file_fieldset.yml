@@ -15,4 +15,4 @@ elements:
    label: Name
  - type: Hidden
    name: ok
-   value: OK 
+   value: OK

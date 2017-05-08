@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Filter::NonNumeric;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Filter::Regex';

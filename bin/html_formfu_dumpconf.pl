@@ -1,13 +1,14 @@
 #!/usr/bin/perl
+
 use strict;
 use warnings;
 use Config::Any;
 use Data::Dumper ();
 use Regexp::Assemble;
 
-# VERSION
+# PODNAME: html_formfu_dumpconf.pl
 
-if ( @ARGV == 1 && $ARGV[0] =~ /\A --? h(?:elp)? \z/ix) {
+if ( @ARGV == 1 && $ARGV[0] =~ m/\A --? h(?:elp)? \z/ix) {
     help();
     exit;
 }
@@ -52,7 +53,7 @@ if ( @ARGV == 1 ) {
     print $dumper->Dump;
 }
 else {
-    die <<ERROR;
+    die <<'ERROR';
 html_formfu_dumpconf.pl: requires a single filename argument.
 Try "--help" for help.
 ERROR

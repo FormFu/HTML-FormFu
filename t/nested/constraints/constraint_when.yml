@@ -6,21 +6,21 @@ elements:
         - name: foo
           constraints:
             - type: Integer
-        
+
         - name: bar
           constraints:
             - type: Required
               when:
                 field: xyz.foo
                 value: 1
-        
+
         - name: moo
           constraints:
             type: Required
             when:
                 field: xyz.foo
                 values: [2,3,4]
-        
+
         - name: zoo
           constraints:
             - type: Required
@@ -28,11 +28,11 @@ elements:
                 field: xyz.foo
                 value: 5
                 not: 1
-        
+
         - name: coo
           constraints:
             - type: Number
-        
+
         - name: coo2
           constraints:
             - type: Integer

@@ -5,7 +5,7 @@ auto_fieldset:
 
 elements:
   - name: bar
-  
+
   - type: Block
     nested_name: baz
     elements:

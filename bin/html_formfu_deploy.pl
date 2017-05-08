@@ -2,15 +2,15 @@
 use strict;
 use warnings;
 
-# VERSION
+# PODNAME: html_formfu_deploy.pl
 
 use HTML::FormFu::Deploy;
 
-warn <<END;
+warn <<'END';
 You only need to create a local copy of the HTML::FormFu template files
 if you intend on customising them.
 Otherwise, HTML::FormFu should automatically locate the system-wide copy of
-the files, installed in the perl \@INC paths.
+the files, installed in the perl @INC paths.
 
 END
 

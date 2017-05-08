@@ -7,7 +7,7 @@ elements:
             fields:
               - 'b'
               - 'c'
-    
+
     - name: b
-    
+
     - name: c

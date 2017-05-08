@@ -7,7 +7,7 @@ use HTML::FormFu;
 
 =pod
 
-Using auto_fieldset, elements were incorrectly getting the form 
+Using auto_fieldset, elements were incorrectly getting the form
 as their parent, not the fieldset
 
 =cut

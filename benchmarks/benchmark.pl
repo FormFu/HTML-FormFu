@@ -37,52 +37,52 @@ cmpthese(
 
 sub formfu {
     my $form = HTML::FormFu->new;
-    
+
     $form->render_method('string');
-    
+
 #    $form->tt_args({
 #        TEMPLATE_ALLOY => 1,
 #        COMPILE_DIR    => 'benchmarks/cache',
 #        COMPILE_PERL   => 1,
 #        INCLUDE_PATH   => 'share/templates/tt/xhtml',
 #    });
-    
+
     for (1..10) {
         $form->element({ type => 'Text', name => "text$_" })
             ->label("text & $_")
             ->size(10);
     }
-    
+
     $form->element({ type => 'Select', name => 'select' })
         ->values( [1907 .. 2007] )
         ->default(2007);
-    
+
     $form->element({ type => 'Submit', name => 'submit' });
-    
+
     return $form;
 }
 
 sub widget {
     my $form = HTML::Widget->new;
-    
+
     for (1..10) {
         $form->element( "Textfield", "text$_" )
             ->label("text & $_")
             ->size(10);
     }
-    
+
     $form->element( "Select", "select" )
         ->options( map { $_, $_ } 1907 .. 2007 )
         ->selected(2007);
-    
+
     $form->element( "Submit", "submit" );
-    
+
     return $form;
 }
 
 sub builder {
     my $form = CGI::FormBuilder->new;
-    
+
     for (1..10) {
         $form->field(
             name  => "text$_",
@@ -90,13 +90,13 @@ sub builder {
             label => "text &amp; $_",
         );
     }
-    
+
     $form->field(
         name    => "select",
         options => [ 1907 .. 2007 ],
         value   => 2007,
-        
+
     );
-    
+
     return $form;
 }

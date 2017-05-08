@@ -69,7 +69,7 @@ elements:
   - type: Select
     name: select2
     label: Select with optgroups
-    options: 
+    options:
       - group: [[1, one], [2, two]]
         label: opt1
       - [3, non-optgroup]
@@ -111,7 +111,7 @@ elements:
     name: radiogroup3
     label: RadioGroup, vertical, with subgroups
     container_attrs: { class: vertical }
-    options: 
+    options:
       - group: [[1, one], [2, two]]
         label: opt1
       - group: [[3, three], [4, four]]
@@ -130,7 +130,7 @@ elements:
   - type: Fieldset
   - type: Multi
     label: Multi containing Radio fields
-    elements: 
+    elements:
       - type: Radio
         name: radio1
         label: One
@@ -147,7 +147,7 @@ elements:
     label: Multi, Radio, vertical
     container_attrs:
       class: vertical
-    elements: 
+    elements:
       - type: Radio
         name: radio2
         label: One
@@ -162,7 +162,7 @@ elements:
 
   - type: Multi
     label: Multi, 3 Select fields
-    elements: 
+    elements:
       - type: Select
         name: select2
         label: a
@@ -180,14 +180,14 @@ elements:
 
   - type: Multi
     label: Another Multi
-    elements: 
+    elements:
       - type: Checkbox
         name: checkbox2
       - type: Text
         name: text5
       - type: Textarea
         name: textarea3
-    constraints: 
+    constraints:
       - Required
 
   - type: Fieldset

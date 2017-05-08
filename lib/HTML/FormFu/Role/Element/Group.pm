@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Role::Element::Group;
 
-use strict;
-# VERSION
 
 use Moose::Role;
 use MooseX::Attribute::FormFuChained;

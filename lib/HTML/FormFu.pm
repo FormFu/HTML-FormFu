@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu;
 
-use strict;
-# VERSION
 
 use Moose;
 use MooseX::Attribute::FormFuChained;
@@ -3209,9 +3208,9 @@ Mailing list messages are limited to 256KB, so gzip the patch if necessary.
 =head1 GITHUB REPOSITORY
 
 This module's sourcecode is maintained in a git repository at
-L<git://github.com/fireartist/HTML-FormFu.git>
+L<git://github.com/FormFu/HTML-FormFu.git>
 
-The project page is L<https://github.com/fireartist/HTML-FormFu>
+The project page is L<https://github.com/FormFu/HTML-FormFu>
 
 =head1 SEE ALSO
 
@@ -3220,10 +3219,6 @@ L<HTML::FormFu::Imager>
 L<Catalyst::Controller::HTML::FormFu>
 
 L<HTML::FormFu::Model::DBIC>
-
-=head1 AUTHORS
-
-Carl Franks
 
 =head1 CONTRIBUTORS
 
@@ -3257,11 +3252,6 @@ Nigel Metheringham
 
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
-
-=head1 LICENSE
-
-This library is free software, you can redistribute it and/or modify it under
-the same terms as Perl itself.
 
 =head1 PERL GAME
 

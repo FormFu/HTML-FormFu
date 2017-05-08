@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Validator;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Processor';
@@ -106,7 +105,6 @@ Then, the form config file would just need:
 And the class would be something like this:
 
     package HTML::FormFu::Validator::MyApp::SomeValidator;
-    use strict;
 
     use Moose;
     extends 'HTML::FormFu::Validator';

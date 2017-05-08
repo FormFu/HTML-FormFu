@@ -2,7 +2,7 @@
 elements:
   - type: Hidden
     name: count
-  
+
   - type: Repeatable
     nested_name: rep
     increment_field_names: 1
@@ -14,6 +14,6 @@ elements:
             others:
                 - bar
                 - 'rep.baz'
-      
+
       - name: bar
       - name: baz

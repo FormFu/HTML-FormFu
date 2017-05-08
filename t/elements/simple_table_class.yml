@@ -1,18 +1,18 @@
 ---
 auto_fieldset: 1
-elements: 
+elements:
   - type: SimpleTable
     odd_class: x
     even_class: y
     headers:
       - foo
-    rows: 
-      - 
+    rows:
+      -
           - type: Text
             name: foo
-      - 
+      -
           - type: Text
             name: bar
-      - 
+      -
           - type: Text
             name: baz

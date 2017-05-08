@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Inflator;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Processor';

@@ -8,9 +8,9 @@ use HTML::FormFu;
 
 for ( 1..100 ) {
     my $form = HTML::FormFu->new;
-    
+
     $form->load_config_file('benchmarks/formfu.yml');
-    
+
     $form->process({
         hidden1     => 42,
         text1       => 'aaa',
@@ -39,10 +39,10 @@ for ( 1..100 ) {
         textarea3   => "foo\nbar",
         submit      => 'Submit Value',
     });
-    
+
     $form->submitted_and_valid
         or do { eval "use Data::Dumper"; die Dumper( $form->has_errors ) };
-    
+
     my $output = "$form";
 }
 

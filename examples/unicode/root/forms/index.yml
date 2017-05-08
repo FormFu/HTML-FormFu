@@ -11,7 +11,7 @@ elements:
         - type: AutoSet
         - type: Required
         - type: SingleValue
-    
+
     - type: Select
       name: render_method
       label: 'FormFu render_method'
@@ -22,7 +22,7 @@ elements:
         - type: AutoSet
         - type: Required
         - type: SingleValue
-    
+
     - type: Select
       name: tt_module
       label: 'FormFu tt_module'
@@ -33,7 +33,7 @@ elements:
         - type: AutoSet
         - type: Required
         - type: SingleValue
-    
+
     - type: Select
       name: config_file_ext
       label: 'Config file type'
@@ -44,6 +44,6 @@ elements:
         - type: AutoSet
         - type: Required
         - type: SingleValue
-    
+
     - type: Submit
       name: submit

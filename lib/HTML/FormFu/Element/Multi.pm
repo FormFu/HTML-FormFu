@@ -1,7 +1,6 @@
+use strict;
 package HTML::FormFu::Element::Multi;
 
-use strict;
-# VERSION
 
 use Moose;
 extends 'HTML::FormFu::Element::Block';

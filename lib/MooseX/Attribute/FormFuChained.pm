@@ -9,20 +9,18 @@
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
 #
+use strict;
 package MooseX::Attribute::FormFuChained;
 
-use strict;
-# VERSION
 
 # ABSTRACT: Attribute that returns the instance to allow for chaining
 use Moose::Util;
 Moose::Util::meta_attribute_alias(
     FormFuChained => 'MooseX::Traits::Attribute::FormFuChained' );
 
+use strict;
 package MooseX::Traits::Attribute::FormFuChained;
 
-use strict;
-# VERSION
 
 use Moose::Role;
 
@@ -30,10 +28,9 @@ override accessor_metaclass => sub {
     'MooseX::Attribute::FormFuChained::Method::Accessor';
 };
 
+use strict;
 package MooseX::Attribute::FormFuChained::Method::Accessor;
 
-use strict;
-# VERSION
 
 use Carp qw(confess);
 use Try::Tiny;

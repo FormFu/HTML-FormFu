@@ -1,11 +1,10 @@
+use strict;
 package HTML::FormFu::Role::Render;
 
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );
 use Scalar::Util qw( reftype );
 
-use strict;
-# VERSION
 
 use Moose::Role;
 

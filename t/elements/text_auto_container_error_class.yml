@@ -1,14 +1,14 @@
 ---
 auto_fieldset: 1
-elements: 
+elements:
   - name: foo
     constraint:
       - Required
-  
+
   - name: bar
     auto_container_error_class: 'formfu_error'
     constraint:
       - Required
-  
+
   - type: Submit
     name: submit

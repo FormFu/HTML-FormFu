@@ -3,11 +3,11 @@
 elements:
   - type: Multi
     name: address
-    
+
     elements:
       - name: street
       - name: number
-    
+
     deflators:
       type: CompoundSplit
       field_order:

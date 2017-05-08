@@ -2,12 +2,12 @@
   elements:
     - type: Label
       name: foo
-    
+
     - type: Label
       name: foo3
       default: bar
       retain_default: 1
       tag: div
-    
+
     - type: Submit
       name: submit
