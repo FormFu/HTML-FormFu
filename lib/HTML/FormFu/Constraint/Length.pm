@@ -3,7 +3,7 @@ package HTML::FormFu::Constraint::Length;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 use MooseX::Aliases;
 
 extends 'HTML::FormFu::Constraint';
@@ -11,13 +11,13 @@ extends 'HTML::FormFu::Constraint';
 has minimum => (
     is     => 'rw',
     alias  => 'min',
-    traits => ['FormFuChained'],
+    traits => ['Chained'],
 );
 
 has maximum => (
     is     => 'rw',
     alias  => 'max',
-    traits => ['FormFuChained'],
+    traits => ['Chained'],
 );
 
 sub constrain_value {

@@ -3,14 +3,14 @@ package HTML::FormFu::Filter::CompoundJoin;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 with 'HTML::FormFu::Role::Filter::Compound';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
 
-has join => ( is => 'rw', traits => ['FormFuChained'] );
+has join => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

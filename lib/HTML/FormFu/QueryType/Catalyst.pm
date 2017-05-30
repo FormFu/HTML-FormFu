@@ -3,15 +3,15 @@ package HTML::FormFu::QueryType::Catalyst;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Upload';
 
 use IO::File ();
 use Scalar::Util qw( weaken );
 
-has basename => ( is => 'rw', traits => ['FormFuChained'] );
-has tempname => ( is => 'rw', traits => ['FormFuChained'] );
+has basename => ( is => 'rw', traits => ['Chained'] );
+has tempname => ( is => 'rw', traits => ['Chained'] );
 
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;

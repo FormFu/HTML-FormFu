@@ -3,11 +3,10 @@ package HTML::FormFu::Role::Element::NonBlock;
 
 
 use Moose::Role;
-use MooseX::Attribute::FormFuChained;
 
 use HTML::FormFu::Util qw( process_attrs );
 
-has tag => ( is => 'rw', traits => ['FormFuChained'] );
+has tag => ( is => 'rw', traits => ['Chained'] );
 
 after BUILD => sub {
     my $self = shift;

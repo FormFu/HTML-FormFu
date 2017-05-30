@@ -3,7 +3,7 @@ package HTML::FormFu::Deflator::FormatNumber;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
 use Number::Format;
@@ -14,7 +14,7 @@ has precision => (
     default => 2,
     lazy    => 1,
     isa     => 'Int',
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 has trailing_zeroes => (
@@ -22,7 +22,7 @@ has trailing_zeroes => (
     default => 0,
     lazy    => 1,
     isa     => 'Int',
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 sub deflator {

@@ -3,13 +3,13 @@ package HTML::FormFu::OutputProcessor;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::HasParent', 'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::ObjectUtil qw( form parent );
 
-has type => ( is => 'rw', traits => ['FormFuChained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 sub clone {
     my ($self) = @_;

@@ -3,7 +3,7 @@ package HTML::FormFu::Filter;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::NestedHashUtils',
     'HTML::FormFu::Role::HasParent',
@@ -13,9 +13,9 @@ use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw(
     form name parent nested_name nested_names );
 
-has type => ( is => 'rw', traits => ['FormFuChained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
-has localize_args => ( is => 'rw', traits => ['FormFuChained'] );
+has localize_args => ( is => 'rw', traits => ['Chained'] );
 
 sub process {
     my ( $self, $result, $params ) = @_;

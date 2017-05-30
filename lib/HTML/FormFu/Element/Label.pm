@@ -3,7 +3,7 @@ package HTML::FormFu::Element::Label;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 extends "HTML::FormFu::Element";
 
@@ -14,13 +14,13 @@ with 'HTML::FormFu::Role::Element::Field',
 use HTML::FormFu::Util qw( process_attrs );
 use List::Util 1.33 qw( none );
 
-has field_type => ( is => 'rw', traits => ['FormFuChained'] );
+has field_type => ( is => 'rw', traits => ['Chained'] );
 
 has tag => (
     is      => 'rw',
     default => 'span',
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 after BUILD => sub {

@@ -3,14 +3,14 @@ package HTML::FormFu::Filter::Regex;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-has match   => ( is => 'rw', traits => ['FormFuChained'] );
-has replace => ( is => 'rw', traits => ['FormFuChained'] );
-has eval    => ( is => 'rw', traits => ['FormFuChained'] );
+has match   => ( is => 'rw', traits => ['Chained'] );
+has replace => ( is => 'rw', traits => ['Chained'] );
+has eval    => ( is => 'rw', traits => ['Chained'] );
 
 sub filter {
     my ( $self, $value ) = @_;

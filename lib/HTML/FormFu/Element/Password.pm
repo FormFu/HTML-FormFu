@@ -3,7 +3,7 @@ package HTML::FormFu::Element::Password;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Element';
 
@@ -11,7 +11,7 @@ with 'HTML::FormFu::Role::Element::Input';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 
-has render_value => ( is => 'rw', traits => ['FormFuChained'] );
+has render_value => ( is => 'rw', traits => ['Chained'] );
 
 after BUILD => sub {
     my $self = shift;

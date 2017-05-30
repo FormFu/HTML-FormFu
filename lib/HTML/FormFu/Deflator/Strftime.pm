@@ -3,10 +3,10 @@ package HTML::FormFu::Deflator::Strftime;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Deflator';
 
-has strftime => ( is => 'rw', traits => ['FormFuChained'] );
+has strftime => ( is => 'rw', traits => ['Chained'] );
 
 sub deflator {
     my ( $self, $value ) = @_;

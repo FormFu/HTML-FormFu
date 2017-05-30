@@ -3,7 +3,7 @@ package HTML::FormFu::OutputProcessor::Indent;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::OutputProcessor';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR $SPACE );
@@ -14,14 +14,14 @@ has indent => (
     is      => 'rw',
     default => "\t",
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 has preserve_tags => (
     is      => 'rw',
     default => sub { [qw( pre textarea )] },
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 sub process {

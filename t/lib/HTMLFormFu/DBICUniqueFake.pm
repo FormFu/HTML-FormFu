@@ -1,10 +1,10 @@
 package HTMLFormFu::DBICUniqueFake;
+
 use Moose;
-use MooseX::Attribute::FormFuChained;
 
 extends 'HTML::FormFu::Constraint';
 
-has id_field => ( is => 'rw', traits => ['FormFuChained'] );
+has id_field => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

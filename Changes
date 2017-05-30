@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+    - remove bundled/renamed MooseX::Attribute::Chained and depend on the
+      fixed version
+
 2.05      2016-10-07 15:34:52+01:00 Europe/London
 
     - Release machinery - dzil transition to @Starter and simplification

@@ -3,12 +3,12 @@ package HTML::FormFu::Constraint::Set;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 use Clone ();
 
-has set => ( is => 'rw', traits => ['FormFuChained'] );
+has set => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

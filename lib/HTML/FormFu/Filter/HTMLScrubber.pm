@@ -3,16 +3,16 @@ package HTML::FormFu::Filter::HTMLScrubber;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Filter';
 
 use Clone ();
 
-has allow   => ( is => 'rw', traits => ['FormFuChained'] );
-has comment => ( is => 'rw', traits => ['FormFuChained'] );
-has default => ( is => 'rw', traits => ['FormFuChained'] );
-has rules   => ( is => 'rw', traits => ['FormFuChained'] );
-has script  => ( is => 'rw', traits => ['FormFuChained'] );
+has allow   => ( is => 'rw', traits => ['Chained'] );
+has comment => ( is => 'rw', traits => ['Chained'] );
+has default => ( is => 'rw', traits => ['Chained'] );
+has rules   => ( is => 'rw', traits => ['Chained'] );
+has script  => ( is => 'rw', traits => ['Chained'] );
 
 use HTML::Scrubber;
 

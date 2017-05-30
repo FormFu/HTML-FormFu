@@ -3,7 +3,7 @@ package HTML::FormFu::Element::Checkboxgroup;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element';
 
 with 'HTML::FormFu::Role::Element::Group';
@@ -16,12 +16,12 @@ has input_type => (
     is      => 'rw',
     default => 'checkbox',
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 has reverse_group => (
     is     => 'rw',
-    traits => ['FormFuChained'],
+    traits => ['Chained'],
 );
 
 after BUILD => sub {

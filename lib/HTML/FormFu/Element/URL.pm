@@ -3,7 +3,6 @@ package HTML::FormFu::Element::URL;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
 
 extends 'HTML::FormFu::Element';
 
@@ -11,13 +10,13 @@ with 'HTML::FormFu::Role::Element::Input';
 
 use HTML::FormFu::Attribute qw( mk_output_accessors );
 
-has http_only  => ( is => 'rw', traits => ['FormFuChained'] );
-has https_only => ( is => 'rw', traits => ['FormFuChained'] );
+has http_only  => ( is => 'rw', traits => ['Chained'] );
+has https_only => ( is => 'rw', traits => ['Chained'] );
 
 has error_message => (
     is        => 'rw',
     predicate => 'has_message',
-    traits    => ['FormFuChained'],
+    traits    => ['Chained'],
 );
 
 has _has_auto_regex_constraint => (

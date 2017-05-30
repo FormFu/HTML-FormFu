@@ -3,15 +3,15 @@ package HTML::FormFu::Element::SimpleTable;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 use HTML::FormFu::Util qw( append_xml_attribute );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-has odd_class  => ( is => 'rw', traits => ['FormFuChained'] );
-has even_class => ( is => 'rw', traits => ['FormFuChained'] );
+has odd_class  => ( is => 'rw', traits => ['Chained'] );
+has even_class => ( is => 'rw', traits => ['Chained'] );
 
 after BUILD => sub {
     my $self = shift;

@@ -3,14 +3,14 @@ package HTML::FormFu::Element::Repeatable;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Element::Block';
 
 use HTML::FormFu::Util qw( DEBUG_PROCESS debug );
 use List::Util qw( first );
 use Carp qw( croak );
 
-has counter_name => ( is => 'rw', traits => ['FormFuChained'] );
+has counter_name => ( is => 'rw', traits => ['Chained'] );
 
 has _original_elements => ( is => 'rw' );
 
@@ -18,7 +18,7 @@ has increment_field_names => (
     is      => 'rw',
     default => 1,
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 # This attribute is currently not documented as FF::Model::HashRef
@@ -28,7 +28,7 @@ has repeatable_delimiter => (
     is      => 'rw',
     default => '_',
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 after BUILD => sub {

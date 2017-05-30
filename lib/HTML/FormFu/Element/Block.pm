@@ -3,7 +3,7 @@ package HTML::FormFu::Element::Block;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Element';
 
@@ -20,10 +20,10 @@ use Clone ();
 use List::Util 1.45 qw( uniq );
 use Carp qw( croak );
 
-has tag                  => ( is => 'rw', traits => ['FormFuChained'] );
-has nested_name          => ( is => 'rw', traits => ['FormFuChained'] );
-has original_nested_name => ( is => 'rw', traits => ['FormFuChained'] );
-has auto_block_id        => ( is => 'rw', traits => ['FormFuChained'] );
+has tag                  => ( is => 'rw', traits => ['Chained'] );
+has nested_name          => ( is => 'rw', traits => ['Chained'] );
+has original_nested_name => ( is => 'rw', traits => ['Chained'] );
+has auto_block_id        => ( is => 'rw', traits => ['Chained'] );
 
 has _elements => (
     is      => 'rw',

@@ -3,7 +3,7 @@ package HTML::FormFu::Element::ContentButton;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends "HTML::FormFu::Element";
 with 'HTML::FormFu::Role::Element::Field',
     'HTML::FormFu::Role::Element::SingleValueField';
@@ -16,7 +16,7 @@ has field_type => (
     is      => 'rw',
     default => 'button',
     lazy    => 1,
-    traits  => ['FormFuChained'],
+    traits  => ['Chained'],
 );
 
 after BUILD => sub {

@@ -3,7 +3,6 @@ package HTML::FormFu::Role::Element::Group;
 
 
 use Moose::Role;
-use MooseX::Attribute::FormFuChained;
 
 with 'HTML::FormFu::Role::Element::Field',
     'HTML::FormFu::Role::Element::SingleValueField',
@@ -17,7 +16,7 @@ use List::Util 1.33 qw( none );
 use Scalar::Util qw( reftype );
 use Carp qw( croak );
 
-has empty_first => ( is => 'rw', traits => ['FormFuChained'] );
+has empty_first => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( empty_first_label ));
 

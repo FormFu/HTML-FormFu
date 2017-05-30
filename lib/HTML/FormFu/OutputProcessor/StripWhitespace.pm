@@ -3,7 +3,7 @@ package HTML::FormFu::OutputProcessor::StripWhitespace;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::OutputProcessor';
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
@@ -27,7 +27,7 @@ has collapse_tags => (
                 ) ];
     },
     lazy   => 1,
-    traits => ['FormFuChained'],
+    traits => ['Chained'],
 );
 
 has collapse_consecutive_tags => (
@@ -39,7 +39,7 @@ has collapse_consecutive_tags => (
                 ) ];
     },
     lazy   => 1,
-    traits => ['FormFuChained'],
+    traits => ['Chained'],
 );
 
 sub process {
@@ -126,7 +126,7 @@ package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 sub new {
     my ( $class, @tags ) = @_;

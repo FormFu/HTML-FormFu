@@ -3,7 +3,7 @@ package HTML::FormFu::UploadParam;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 use Carp qw( croak );
 
@@ -11,8 +11,8 @@ use File::Temp qw( tempfile );
 use Scalar::Util qw( weaken );
 use Storable qw( nfreeze thaw );
 
-has param => ( is => 'rw', traits => ['FormFuChained'], required => 1 );
-has filename => ( is => 'rw', traits => ['FormFuChained'] );
+has param => ( is => 'rw', traits => ['Chained'], required => 1 );
+has filename => ( is => 'rw', traits => ['Chained'] );
 
 sub form {
     my $self = shift;

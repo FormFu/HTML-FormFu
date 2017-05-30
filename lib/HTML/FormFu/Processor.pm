@@ -3,7 +3,7 @@ package HTML::FormFu::Processor;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::NestedHashUtils',
     'HTML::FormFu::Role::HasParent',
@@ -18,7 +18,7 @@ use HTML::FormFu::ObjectUtil qw(
     name                    nested_name
     nested_names            parent );
 
-has type => ( is => 'rw', traits => ['FormFuChained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_output_accessors(qw( message ));
 

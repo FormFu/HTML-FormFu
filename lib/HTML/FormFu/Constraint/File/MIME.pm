@@ -3,14 +3,14 @@ package HTML::FormFu::Constraint::File::MIME;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Constraint';
 
 use List::Util 1.33 qw( any );
 use Scalar::Util qw( blessed );
 
-has regex => ( is => 'rw', traits => ['FormFuChained'] );
-has types => ( is => 'rw', traits => ['FormFuChained'] );
+has regex => ( is => 'rw', traits => ['Chained'] );
+has types => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;

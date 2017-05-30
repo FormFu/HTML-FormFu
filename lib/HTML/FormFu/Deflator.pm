@@ -3,14 +3,14 @@ package HTML::FormFu::Deflator;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::Populate';
 
 use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 use HTML::FormFu::ObjectUtil qw( form name parent );
 
-has type => ( is => 'rw', traits => ['FormFuChained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_inherited_accessors(qw( locale ));
 

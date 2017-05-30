@@ -3,14 +3,14 @@ package HTML::FormFu::Exception::Input;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Attribute qw( mk_attrs );
 use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
 
-has processor => ( is => 'rw', traits => ['FormFuChained'] );
-has forced    => ( is => 'rw', traits => ['FormFuChained'] );
+has processor => ( is => 'rw', traits => ['Chained'] );
+has forced    => ( is => 'rw', traits => ['Chained'] );
 
 __PACKAGE__->mk_attrs(qw( attributes ));
 

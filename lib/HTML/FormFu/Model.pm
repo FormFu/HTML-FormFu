@@ -3,14 +3,14 @@ package HTML::FormFu::Model;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 with 'HTML::FormFu::Role::HasParent';
 
 use HTML::FormFu::ObjectUtil qw( form parent );
 use Carp qw( croak );
 
-has type => ( is => 'rw', traits => ['FormFuChained'] );
+has type => ( is => 'rw', traits => ['Chained'] );
 
 sub default_values {
     croak "'default_values' method not implemented by Model class";
