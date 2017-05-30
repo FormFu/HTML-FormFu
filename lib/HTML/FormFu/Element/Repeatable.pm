@@ -333,7 +333,7 @@ HTML::FormFu::Element::Repeatable - repeatable block element
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         elements:
           - name: foo
           - name: bar
@@ -354,7 +354,7 @@ Example of constraints:
     ----
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         elements:
           - name: id
 
@@ -493,7 +493,7 @@ Any attributes set will be passed to every repeated Block of elements.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         attributes:
           class: rep
         elements:
@@ -517,7 +517,7 @@ The L</tag> value will be passed to every repeated Block of elements.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         tag: span
         elements:
           - name: foo
@@ -543,7 +543,7 @@ See L<HTML::FormFu::Element::Block/auto_id> for further details.
     ---
     elements:
       - type: Repeatable
-        name: my_rep
+        nested_name: my_rep
         auto_id: "%n_%r"
         elements:
           - name: foo
