@@ -21,4 +21,4 @@ $form->process( {
 unlike( $form->get_field('foo'), qr/error/ );
 like( $form->get_field('foo'), qr/This field must be a number/i );
 
-like( $form->get_field('bar'), qr!\bform_number_constraint_error\b! );
+like( $form->get_field('bar'), qr!\Q<span class="form_number_constraint_error">! );
