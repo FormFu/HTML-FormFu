@@ -395,6 +395,10 @@ Unlike most other auto_* methods, this is not an 'inherited accessor'.
 
 See L<HTML::FormFu/auto_label> for details.
 
+=head2 auto_error_field_class
+
+See L<HTML::FormFu/auto_error_field_class> for details.
+
 =head2 auto_error_class
 
 See L<HTML::FormFu/auto_error_class> for details.

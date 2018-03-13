@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+    - add new auto_error_field_class() method to add classes directly
+      to field tag
+
     - remove bundled/renamed MooseX::Attribute::Chained and depend on the
       fixed version
 

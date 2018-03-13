@@ -18,6 +18,7 @@ our @MULTIFORM_SHARED = (qw(
         auto_container_per_error_class
         auto_error_container_class
         auto_error_container_per_error_class
+        auto_error_field_class
         auto_error_class
         auto_error_message
         auto_constraint_class

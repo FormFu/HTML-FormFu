@@ -894,6 +894,20 @@ sub _render_error_class {
 
     $render->{errors} = \@errors;
 
+    # auto_error_field_class
+    my $field_class = $self->auto_error_field_class;
+
+    if ( defined $field_class && length $field_class ) {
+        my %string = (
+            f => sub { defined $self->form->id ? $self->form->id   : '' },
+            n => sub { defined $render->{name} ? $render->{name}   : '' },
+        );
+
+        $field_class =~ s/%([fn])/$string{$1}->()/ge;
+
+        append_xml_attribute( $render->{attributes}, 'class', $field_class );
+    }
+
     my @container_class;
 
     # auto_container_error_class
@@ -1557,6 +1571,12 @@ Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
 Set attributes on the tag of each error message.
 
 Is an L<attribute accessor|HTML::FormFu/ATTRIBUTE ACCESSOR>.
+
+=head3 auto_error_field_class
+
+Upon error, add a class name firectly to the field tag (e.g. C<input>, C<select> tag).
+
+Supports L<substitutions|HTML::FormFu/ATTRIBUTE SUBSTITUTIONS>: C<%f>, C<%n>.
 
 =head3 auto_error_class
 
