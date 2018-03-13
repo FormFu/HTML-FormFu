@@ -3,13 +3,13 @@ package HTML::FormFu::Constraint::Email;
 
 
 use Moose;
-use MooseX::Attribute::FormFuChained;
+use MooseX::Attribute::Chained;
 
 extends 'HTML::FormFu::Constraint';
 
 use Email::Valid;
 
-has options => ( is => 'rw', traits => ['FormFuChained'] );
+has options => ( is => 'rw', traits => ['Chained'] );
 
 sub constrain_value {
     my ( $self, $value ) = @_;
