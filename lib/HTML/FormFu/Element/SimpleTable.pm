@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::SimpleTable;
+# ABSTRACT: simple table element
 
 
 use Moose;
@@ -120,10 +121,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::SimpleTable - simple table element
 
 =head1 SYNOPSIS
 

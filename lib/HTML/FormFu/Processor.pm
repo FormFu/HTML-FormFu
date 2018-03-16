@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Processor;
+# ABSTRACT: base class for constraints
 
 
 use Moose;
@@ -65,10 +66,6 @@ sub clone {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Processor - base class for constraints
 
 =head1 AUTHOR
 

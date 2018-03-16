@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::Encode;
+# ABSTRACT: Encode/Decode Submitted Values
 
 
 use Moose;
@@ -85,10 +86,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Encode - Encode/Decode Submitted Values
 
 =head1 SYNOPSIS
 

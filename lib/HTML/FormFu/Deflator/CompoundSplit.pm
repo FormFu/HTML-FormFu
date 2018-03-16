@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::CompoundSplit;
+# ABSTRACT: CompoundSplit deflator
 
 
 use Moose;
@@ -76,10 +77,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::CompoundSplit - CompoundSplit deflator
 
 =head1 SYNOPSIS
 

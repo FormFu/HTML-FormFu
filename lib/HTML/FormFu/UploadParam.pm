@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::UploadParam;
+# ABSTRACT: accessor class
 
 
 use Moose;
@@ -89,10 +90,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::UploadParam - accessor class
 
 =head1 DESCRIPTION
 

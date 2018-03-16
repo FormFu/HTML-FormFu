@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Multi;
+# ABSTRACT: Combine multiple fields in a single element
 
 
 use Moose;
@@ -191,10 +192,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Multi - Combine multiple fields in a single element
 
 =head1 SYNOPSIS
 

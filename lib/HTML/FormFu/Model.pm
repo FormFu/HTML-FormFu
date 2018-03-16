@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Model;
+# ABSTRACT: base class for models
 
 
 use Moose;
@@ -41,10 +42,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Model - base class for models
 
 =head1 SEE ALSO
 

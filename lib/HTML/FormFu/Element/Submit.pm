@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Submit;
+# ABSTRACT: Submit button form field
 
 
 use Moose;
@@ -19,10 +20,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Submit - Submit button form field
 
 =head1 SYNOPSIS
 

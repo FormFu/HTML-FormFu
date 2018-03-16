@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::ForceListValue;
+# ABSTRACT: convert a single value into a 1-item-list
 
 
 use Moose;
@@ -17,10 +18,6 @@ sub process {
 };
 
 1;
-
-=head1 NAME
-
-HTML::FormFu::Filter::ForceListValue - convert a single value into a 1-item-list
 
 =head1 SYNOPSIS
 

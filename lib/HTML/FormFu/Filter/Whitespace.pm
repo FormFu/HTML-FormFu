@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::Whitespace;
+# ABSTRACT: filter stripping all whitespace
 
 
 use Moose;
@@ -12,10 +13,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Whitespace - filter stripping all whitespace
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Checkbox;
+# ABSTRACT: Checkbox form field
 
 
 use Moose;
@@ -81,10 +82,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Checkbox - Checkbox form field
 
 =head1 SYNOPSIS
 

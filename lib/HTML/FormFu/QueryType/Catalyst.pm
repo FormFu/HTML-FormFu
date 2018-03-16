@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::QueryType::Catalyst;
+# ABSTRACT: uploaded file
 
 
 use Moose;
@@ -71,10 +72,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::QueryType::Catalyst - uploaded file
 
 =head1 DESCRIPTION
 

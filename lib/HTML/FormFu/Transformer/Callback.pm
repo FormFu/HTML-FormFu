@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Transformer::Callback;
+# ABSTRACT: Callback transformer
 
 
 use Moose;
@@ -26,10 +27,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Transformer::Callback - Callback transformer
 
 =head1 SYNOPSIS
 

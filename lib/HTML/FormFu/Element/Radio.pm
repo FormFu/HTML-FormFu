@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Radio;
+# ABSTRACT: Radio form field
 
 
 use Moose;
@@ -23,10 +24,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Radio - Radio form field
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::LowerCase;
+# ABSTRACT: filter transforming to lower case
 
 
 use Moose;
@@ -18,10 +19,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::LowerCase - filter transforming to lower case
 
 =head1 DESCRIPTION
 

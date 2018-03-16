@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::CompoundSprintf;
+# ABSTRACT: CompoundSprintf filter
 
 
 use Moose;
@@ -34,10 +35,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::CompoundSprintf - CompoundSprintf filter
 
 =head1 SYNOPSIS
 

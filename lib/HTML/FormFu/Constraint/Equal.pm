@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Equal;
+# ABSTRACT: Multi-field Equality Constraint
 
 
 use Moose;
@@ -116,10 +117,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Equal - Multi-field Equality Constraint
 
 =head1 SYNOPSIS
 

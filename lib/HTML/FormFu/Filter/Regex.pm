@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::Regex;
+# ABSTRACT: regexp-based match/replace filter
 
 
 use Moose;
@@ -35,10 +36,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Regex - regexp-based match/replace filter
 
 =head1 SYNOPSIS
 

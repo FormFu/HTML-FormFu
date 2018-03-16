@@ -1,8 +1,5 @@
-#PODNAME: Cookbook.pod
-
-=head1 NAME
-
-HTML::FormFu::Manual::Cookbook - Cooking with HTML::FormFu
+# PODNAME: HTML::FormFu::Manual::Cookbook
+# ABSTRACT: Cooking with HTML::FormFu
 
 =head1 DESCRIPTION
 

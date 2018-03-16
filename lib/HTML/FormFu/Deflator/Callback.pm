@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::Callback;
+# ABSTRACT: Callback deflator
 
 
 use Moose;
@@ -24,10 +25,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::Callback - Callback deflator
 
 =head1 SYNOPSIS
 

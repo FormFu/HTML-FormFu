@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Transformer;
+# ABSTRACT: Transformer Base Class
 
 
 use Moose;
@@ -57,10 +58,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Transformer - Transformer Base Class
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Password;
+# ABSTRACT: Password form field
 
 
 use Moose;
@@ -54,10 +55,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Password - Password form field
 
 =head1 SYNOPSIS
 

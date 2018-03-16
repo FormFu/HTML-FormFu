@@ -7,6 +7,7 @@ use Data::Dumper ();
 use Regexp::Assemble;
 
 # PODNAME: html_formfu_dumpconf.pl
+# ABSTRACT: dump configuration files
 
 if ( @ARGV == 1 && $ARGV[0] =~ m/\A --? h(?:elp)? \z/ix) {
     help();
@@ -80,10 +81,6 @@ HELP
 }
 
 __END__
-
-=head1 NAME
-
-html_formfu_dumpconf.pl - dump configuration files
 
 =head1 SYNOPSIS
 

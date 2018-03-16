@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Checkboxgroup;
+# ABSTRACT: Group of checkbox form fields
 
 
 use Moose;
@@ -237,10 +238,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Checkboxgroup - Group of checkbox form fields
 
 =head1 SYNOPSIS
 

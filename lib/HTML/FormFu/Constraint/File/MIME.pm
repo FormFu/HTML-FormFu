@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::File::MIME;
+# ABSTRACT: MIME Type Constraint
 
 
 use Moose;
@@ -43,10 +44,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::File::MIME - MIME Type Constraint
 
 =head1 DESCRIPTION
 

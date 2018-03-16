@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Hr;
+# ABSTRACT: horizontal-rule element
 
 
 use Moose;
@@ -21,10 +22,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Hr - horizontal-rule element
 
 =head1 DESCRIPTION
 

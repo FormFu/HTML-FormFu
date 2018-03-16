@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Repeatable::Any;
+# ABSTRACT: Ensure at least 1 of a repeated field is filled-in
 
 
 use Moose;
@@ -114,10 +115,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Repeatable::Any - Ensure at least 1 of a repeated field is filled-in
 
 =head1 SYNOPSIS
 

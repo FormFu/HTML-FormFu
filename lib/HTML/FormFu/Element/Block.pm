@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Block;
+# ABSTRACT: Block element
 
 
 use Moose;
@@ -261,10 +262,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Block - Block element
 
 =head1 SYNOPSIS
 

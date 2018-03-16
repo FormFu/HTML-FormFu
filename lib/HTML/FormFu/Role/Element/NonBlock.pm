@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Element::NonBlock;
+# ABSTRACT: base class for single-tag elements
 
 
 use Moose::Role;
@@ -50,10 +51,6 @@ sub string {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Element::NonBlock - base class for single-tag elements
 
 =head1 DESCRIPTION
 

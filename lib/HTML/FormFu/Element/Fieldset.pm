@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Fieldset;
+# ABSTRACT: Fieldset element
 
 
 use Moose;
@@ -36,10 +37,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Fieldset - Fieldset element
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::OutputProcessor;
+# ABSTRACT: Post-process HTML output
 
 
 use Moose;
@@ -24,10 +25,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::OutputProcessor - Post-process HTML output
 
 =head1 DESCRIPTION
 

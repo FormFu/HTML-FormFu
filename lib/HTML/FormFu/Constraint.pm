@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint;
+# ABSTRACT: Constrain User Input
 
 
 use Moose;
@@ -344,10 +345,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint - Constrain User Input
 
 =head1 SYNOPSIS
 

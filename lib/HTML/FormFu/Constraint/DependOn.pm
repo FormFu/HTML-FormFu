@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::DependOn;
+# ABSTRACT: Multi-field Dependency Constraint
 
 
 use Moose;
@@ -82,10 +83,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::DependOn - Multi-field Dependency Constraint
 
 =head1 SYNOPSIS
 

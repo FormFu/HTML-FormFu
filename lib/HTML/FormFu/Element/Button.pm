@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Button;
+# ABSTRACT: Button form field
 
 
 use Moose;
@@ -22,10 +23,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Button - Button form field
 
 =head1 SYNOPSIS
 

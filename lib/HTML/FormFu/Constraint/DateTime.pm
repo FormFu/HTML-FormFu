@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::DateTime;
+# ABSTRACT: DateTime constraint
 
 
 use Moose;
@@ -46,10 +47,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::DateTime - DateTime constraint
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::Callback;
+# ABSTRACT: filter with custom subroutine
 
 
 use Moose;
@@ -24,10 +25,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Callback - filter with custom subroutine
 
 =head1 SYNOPSIS
 

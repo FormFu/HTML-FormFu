@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Repeatable;
+# ABSTRACT: repeatable block element
 
 
 use Moose;
@@ -323,10 +324,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Repeatable - repeatable block element
 
 =head1 SYNOPSIS
 

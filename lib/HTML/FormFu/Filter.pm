@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter;
+# ABSTRACT: Filter Base Class
 
 
 use Moose;
@@ -50,10 +51,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter - Filter Base Class
 
 =head1 SYNOPSIS
 
