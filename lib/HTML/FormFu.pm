@@ -3253,8 +3253,4 @@ Nigel Metheringham
 Based on the original source code of L<HTML::Widget>, by Sebastian Riedel,
 C<sri@oook.de>.
 
-=head1 PERL GAME
-
-Play the MMO written in perl: L<http://www.lacunaexpanse.com>!
-
 =cut
