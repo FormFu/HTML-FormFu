@@ -44,7 +44,8 @@ sub constrain_value {
 
     }
 
-    my $ok = Email::Valid->address( %options );
+    my $validated_address = (Email::Valid->address( %options ) // '');
+    my $ok = $value eq $validated_address;
 
     return $ok;
 }

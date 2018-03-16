@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 use HTML::FormFu;
 
@@ -99,6 +99,15 @@ $form->element('Text')->name('foo')->constraint('Email')->options({'allow_ip' =>
     $form->process( { foo => 'rjbs@[1.2.3.4]' } );
 
     ok( $form->has_errors('foo'), 'foo valid - ip invalid when turned off' );
+
+}
+
+# Email with space - invalid
+{
+
+    $form->process( { foo => 'Valid+except @space.org' } );
+
+    ok( $form->has_errors('foo'), 'email with space is invalid' );
 
 }
 
