@@ -77,7 +77,7 @@ Arguments: \%keypairs
 
 Options are passed to L<Email::Valid>. An array or single option is
 passd through with each option as 'true'. Using a hash instead, you
-can pass through more specific key pair options. Remeber in both
+can pass through more specific key pair options. Remember in both
 cases to omitted the leading dash that you would otherwise need if
 using L<Email::Valid> directly.
 
