@@ -1070,15 +1070,18 @@ sub _string_errors {
             ;
     }
 
+    # work around leaky abstraction to fix #24
+    my $default_error_attributes = defined $self->{error_attributes}
+                                 ? $self->{error_attributes}
+                                 : $render->{error_attributes};
     my @error_html;
     for my $error ( @{ $render->{errors} } ) {
+        my $error_attributes = %{ $error->{attributes}}
+                             ? $error->{attributes}
+                             : $default_error_attributes;
         push @error_html, sprintf qq{<%s%s>%s</%s>},
             $render->{error_tag},
-            process_attrs( $error->{attributes} ),
-# works for Text
-#            process_attrs( $render->{error_attributes} ),
-# works for Select
-#            process_attrs( $self->{error_attributes} ),
+            process_attrs( $error_attributes ),
             $error->{message},
             $render->{error_tag},
             ;
