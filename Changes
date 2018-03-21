@@ -1,5 +1,11 @@
 {{$NEXT}}
 
+    - Improve email tests, so that MX tests are only run if internet access
+
+    - Tests improved to ensure all locales pass
+
+    - Corrected Email Validation so that spaces in the address cause failures
+
     - add new auto_error_field_class() method to add classes directly
       to field tag
 
