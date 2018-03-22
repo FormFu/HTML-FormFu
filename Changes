@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+    - New JSON Constraint
+
     - Improve email tests, so that MX tests are only run if internet access
 
     - Tests improved to ensure all locales pass

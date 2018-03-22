@@ -591,6 +591,8 @@ error is not known without actually fully processing a form submission.
 
 =item L<HTML::FormFu::Constraint::Integer>
 
+=item L<HTML::FormFu::Constraint::JSON>
+
 =item L<HTML::FormFu::Constraint::Length>
 
 =item L<HTML::FormFu::Constraint::MaxLength>

@@ -28,6 +28,7 @@ our %Lexicon = (
     form_constraint_file_size =>
         'File-size must be between [_1] and [_2] bytes',
     form_constraint_integer => 'This field must be an integer',
+    form_constraint_json    => 'This field must be a valid JSON string',
     form_constraint_length  => 'Must be between [_1] and [_2] characters long',
     form_constraint_minlength    => 'Must be at least [_1] characters long',
     form_constraint_minrange     => 'Must be at least [_1]',
