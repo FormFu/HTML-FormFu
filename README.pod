@@ -2,6 +2,14 @@
 
 =encoding UTF-8
 
+=head1 NAME
+
+HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
+
+=head1 VERSION
+
+version 2.06
+
 =head1 SYNOPSIS
 
 Note: These examples make use of L<HTML::FormFu::Model::DBIC>. As of
