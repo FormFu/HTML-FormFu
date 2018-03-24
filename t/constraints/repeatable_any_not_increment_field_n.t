@@ -10,7 +10,7 @@ use HTMLFormFu::TestLib;
 my $form = HTML::FormFu->new;
 
 $form->load_config_file(
-    't/constraints/repeatable_any_not_increment_field_names.yml');
+    't/constraints/repeatable_any_not_increment_field_n.yml');
 
 # Valid
 {

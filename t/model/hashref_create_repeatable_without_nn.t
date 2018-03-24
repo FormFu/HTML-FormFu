@@ -9,7 +9,7 @@ my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->load_config_file(
-    't/model/hashref_create_repeatable_without_nestedname.yml');
+    't/model/hashref_create_repeatable_without_nn.yml');
 
 $form->default_model('HashRef');
 

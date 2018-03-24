@@ -34,18 +34,18 @@ XHTML
 $form->output_processor('Indent');
 
 {
-    my $xhtml = <<XHTML;
+    my $xhtml = <<"XHTML";
 <form action="" method="post">
-	<div>
-		<input name="foo" type="text" />
-	</div>
-	<div>
-		<textarea name="bar" cols="40" rows="20">Bar
+\t<div>
+\t\t<input name="foo" type="text" />
+\t</div>
+\t<div>
+\t\t<textarea name="bar" cols="40" rows="20">Bar
 </textarea>
-	</div>
-	<div>
-		<textarea name="baz" cols="40" rows="20"></textarea>
-	</div>
+\t</div>
+\t<div>
+\t\t<textarea name="baz" cols="40" rows="20"></textarea>
+\t</div>
 </form>
 XHTML
 
