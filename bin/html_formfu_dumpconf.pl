@@ -95,3 +95,5 @@ Uses Config::Any and Data::Dumper to display how your config file is parsed.
 =head1 SEE ALSO
 
 Config::Any, Data::Dumper
+
+=cut
