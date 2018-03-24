@@ -2,14 +2,6 @@
 
 =encoding UTF-8
 
-=head1 NAME
-
-HTML::FormFu
-
-=head1 VERSION
-
-version 2.08
-
 =head1 SYNOPSIS
 
 Note: These examples make use of L<HTML::FormFu::Model::DBIC>. As of
@@ -120,10 +112,6 @@ will mainly be shown in L<YAML> config syntax.
 This documentation follows the convention that method arguments surrounded
 by square brackets C<[]> are I<optional>, and all other arguments are
 required.
-
-=head1 NAME
-
-HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
 =head1 BUILDING A FORM
 
