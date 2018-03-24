@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Date;
+# ABSTRACT: 3 select menu multi-field
 
 
 use Moose;
@@ -491,10 +492,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Date - 3 select menu multi-field
 
 =head1 SYNOPSIS
 

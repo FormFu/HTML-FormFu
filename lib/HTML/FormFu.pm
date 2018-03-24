@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu;
+# ABSTRACT: HTML Form Creation, Rendering and Validation Framework
 
 
 use Moose;
@@ -1214,10 +1215,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu - HTML Form Creation, Rendering and Validation Framework
 
 =head1 SYNOPSIS
 

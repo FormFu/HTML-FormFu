@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 # PODNAME: html_formfu_deploy.pl
+# ABSTRACT: deploy local copy of HTML::FormFu template files
 
 use HTML::FormFu::Deploy;
 
@@ -21,10 +22,6 @@ if ( @ARGV != 1 ) {
 HTML::FormFu::Deploy::deploy( $ARGV[0] );
 
 __END__
-
-=head1 NAME
-
-html_formfu_deploy.pl - deploy local copy of HTML::FormFu template files
 
 =head1 SYNOPSIS
 

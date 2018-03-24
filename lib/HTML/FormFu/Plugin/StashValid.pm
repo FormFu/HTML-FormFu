@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Plugin::StashValid;
+# ABSTRACT: place valid params on form stash
 
 
 use Moose;
@@ -23,10 +24,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Plugin::StashValid - place valid params on form stash
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::FormatNumber;
+# ABSTRACT: Convert a formatted number from a known locale
 
 
 use Moose;
@@ -39,10 +40,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::FormatNumber - Convert a formatted number from a known locale
 
 =head1 SYNOPSIS
 

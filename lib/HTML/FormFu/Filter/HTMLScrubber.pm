@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::HTMLScrubber;
+# ABSTRACT: filter removing HTML markup
 
 
 use Moose;
@@ -48,10 +49,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::HTMLScrubber - filter removing HTML markup
 
 =head1 DESCRIPTION
 

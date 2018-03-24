@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Radiogroup;
+# ABSTRACT: Group of radiobutton form fields
 
 
 use Moose;
@@ -22,10 +23,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Radiogroup - Group of radiobutton form fields
 
 =head1 SYNOPSIS
 

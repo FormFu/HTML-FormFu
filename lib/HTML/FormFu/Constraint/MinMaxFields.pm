@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::MinMaxFields;
+# ABSTRACT: Min/Max Multi-field Constraint
 
 
 use Moose;
@@ -102,10 +103,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::MinMaxFields - Min/Max Multi-field Constraint
 
 =head1 SYNOPSIS
 

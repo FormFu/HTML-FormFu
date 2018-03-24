@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::ComboBox;
+# ABSTRACT: Select / Text hybrid
 
 
 use Moose;
@@ -290,10 +291,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::ComboBox - Select / Text hybrid
 
 =head1 SYNOPSIS
 

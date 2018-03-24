@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Hidden;
+# ABSTRACT: Hidden form field
 
 
 use Moose;
@@ -26,10 +27,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Hidden - Hidden form field
 
 =head1 SYNOPSIS
 

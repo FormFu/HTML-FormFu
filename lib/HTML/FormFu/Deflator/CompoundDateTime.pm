@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::CompoundDateTime;
+# ABSTRACT: CompoundDateTime deflator
 
 
 use Moose;
@@ -57,10 +58,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::CompoundDateTime - CompoundDateTime deflator
 
 =head1 SYNOPSIS
 

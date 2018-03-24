@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::CopyValue;
+# ABSTRACT: copy the value from another field
 
 
 use Moose;
@@ -33,10 +34,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::CopyValue - copy the value from another field
 
 =head1 SYNOPSIS
 

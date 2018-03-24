@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Element::Group;
+# ABSTRACT: Role for grouped form fields
 
 
 use Moose::Role;
@@ -386,10 +387,6 @@ around clone => sub {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Element::Group - Role for grouped form fields
 
 =head1 DESCRIPTION
 

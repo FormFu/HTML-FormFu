@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::MinLength;
+# ABSTRACT: Minimum Length String Constraint
 
 
 use Moose;
@@ -16,10 +17,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::MinLength - Minimum Length String Constraint
 
 =head1 DESCRIPTION
 

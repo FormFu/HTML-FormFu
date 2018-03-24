@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Range;
+# ABSTRACT: Numerical Range Constraint
 
 
 use Moose;
@@ -51,10 +52,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Range - Numerical Range Constraint
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::AllOrNone;
+# ABSTRACT: Multi-field All or None Constraint
 
 
 use Moose;
@@ -67,10 +68,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::AllOrNone - Multi-field All or None Constraint
 
 =head1 SYNOPSIS
 

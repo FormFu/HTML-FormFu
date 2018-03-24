@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Src;
+# ABSTRACT: custom HTML element
 
 
 use Moose;
@@ -18,10 +19,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Src - custom HTML element
 
 =head1 DESCRIPTION
 

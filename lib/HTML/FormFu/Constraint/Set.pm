@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Set;
+# ABSTRACT: Set of Values Constraint
 
 
 use Moose;
@@ -39,10 +40,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Set - Set of Values Constraint
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Number;
+# ABSTRACT: Numerical Constraint
 
 
 use Moose;
@@ -22,10 +23,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Number - Numerical Constraint
 
 =head1 DESCRIPTION
 

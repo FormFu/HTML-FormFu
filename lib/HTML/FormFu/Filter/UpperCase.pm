@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::UpperCase;
+# ABSTRACT: filter transforming to upper case
 
 
 use Moose;
@@ -18,10 +19,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::UpperCase - filter transforming to upper case
 
 =head1 DESCRIPTION
 

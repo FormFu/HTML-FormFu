@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Filter::Compound;
+# ABSTRACT: Role for Compound filters
 
 
 use Moose::Role;
@@ -35,10 +36,6 @@ sub _get_values {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Filter::Compound - Role for Compound filters
 
 =head1 METHODS
 

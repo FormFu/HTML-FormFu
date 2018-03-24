@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Blank;
+# ABSTRACT: blank element
 
 
 use Moose;
@@ -38,10 +39,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Blank - blank element
 
 =head1 SEE ALSO
 

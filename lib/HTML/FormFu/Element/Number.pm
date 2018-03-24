@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Number;
+# ABSTRACT: Number element with formatting
 
 
 use Moose;
@@ -33,10 +34,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Number - Number element with formatting
 
 =head1 SYNOPSIS
 

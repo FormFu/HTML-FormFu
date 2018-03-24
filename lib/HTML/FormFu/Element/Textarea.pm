@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Textarea;
+# ABSTRACT: Textarea form field
 
 
 use Moose;
@@ -53,10 +54,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Textarea - Textarea form field
 
 =head1 SYNOPSIS
 

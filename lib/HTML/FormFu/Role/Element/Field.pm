@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Element::Field;
+# ABSTRACT: Role for all form-field elements
 
 
 use Moose::Role;
@@ -1148,10 +1149,6 @@ around clone => sub {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Element::Field - Role for all form-field elements
 
 =head1 DESCRIPTION
 

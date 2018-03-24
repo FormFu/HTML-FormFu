@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::Strftime;
+# ABSTRACT: Strftime deflator
 
 
 use Moose;
@@ -33,10 +34,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::Strftime - Strftime deflator
 
 =head1 SYNOPSIS
 

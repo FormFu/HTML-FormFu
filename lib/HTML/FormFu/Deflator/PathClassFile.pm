@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::PathClassFile;
+# ABSTRACT: Deflator for Path::Class::File objects
 
 
 use Moose;
@@ -39,10 +40,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::PathClassFile - Deflator for Path::Class::File objects
 
 =head1 SYNOPSIS
 

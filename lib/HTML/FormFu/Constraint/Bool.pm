@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Bool;
+# ABSTRACT: Boolean Constraint
 
 
 use Moose;
@@ -14,10 +15,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Bool - Boolean Constraint
 
 =head1 DESCRIPTION
 

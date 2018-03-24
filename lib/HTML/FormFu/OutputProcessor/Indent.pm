@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::OutputProcessor::Indent;
+# ABSTRACT: Nicely Indent HTML Output
 
 
 use Moose;
@@ -100,10 +101,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::OutputProcessor::Indent - Nicely Indent HTML Output
 
 =head1 SYNOPSIS
 

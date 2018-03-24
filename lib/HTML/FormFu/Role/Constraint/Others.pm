@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Constraint::Others;
+# ABSTRACT: Base class for constraints needing others() method
 
 
 use Moose::Role;
@@ -208,10 +209,6 @@ around clone => sub {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Constraint::Others - Base class for constraints needing others() method
 
 =head1 METHODS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Select;
+# ABSTRACT: Select form field
 
 
 use Moose;
@@ -103,10 +104,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Select - Select form field
 
 =head1 SYNOPSIS
 

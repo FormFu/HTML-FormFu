@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Email;
+# ABSTRACT: HTML5 email form field
 
 
 use Moose;
@@ -23,10 +24,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Email - HTML5 email form field
 
 =head1 SYNOPSIS
 

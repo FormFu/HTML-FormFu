@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Inflator::DateTime;
+# ABSTRACT: DateTime inflator
 
 
 use Moose;
@@ -89,10 +90,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Inflator::DateTime - DateTime inflator
 
 =head1 SYNOPSIS
 

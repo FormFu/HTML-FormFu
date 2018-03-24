@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::QueryType::CGI;
+# ABSTRACT: uploaded file
 
 
 use Moose;
@@ -62,10 +63,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::QueryType::CGI - uploaded file
 
 =head1 METHODS
 

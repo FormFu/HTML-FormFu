@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Deflator::FormatNumber;
+# ABSTRACT: Format a number for a locale
 
 
 use Moose;
@@ -55,10 +56,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Deflator::FormatNumber - Format a number for a locale
 
 =head1 SYNOPSIS
 

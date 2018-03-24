@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::Split;
+# ABSTRACT: filter splitting a singe value into an arrayref
 
 
 use Moose;
@@ -31,10 +32,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Split - filter splitting a singe value into an arrayref
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Label;
+# ABSTRACT: field for displaying only
 
 
 use Moose;
@@ -90,10 +91,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Label - field for displaying only
 
 =head1 DESCRIPTION
 

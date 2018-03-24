@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::HTMLEscape;
+# ABSTRACT: filter escaping HTML
 
 
 use Moose;
@@ -23,10 +24,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::HTMLEscape - filter escaping HTML
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Attribute;
+# ABSTRACT: accessor class
 
 use warnings;
 
@@ -555,10 +556,6 @@ sub mk_attr_bool_accessors {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Attribute - accessor class
 
 =head1 SYNOPSIS
 

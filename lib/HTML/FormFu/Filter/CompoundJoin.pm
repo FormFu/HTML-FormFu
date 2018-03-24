@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::CompoundJoin;
+# ABSTRACT: CompoundJoin filter
 
 
 use Moose;
@@ -36,10 +37,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::CompoundJoin - CompoundJoin filter
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Constraint::Integer;
+# ABSTRACT: Unsigned Integer Constraint
 
 
 use Moose;
@@ -12,10 +13,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::Integer - Unsigned Integer Constraint
 
 =head1 DESCRIPTION
 

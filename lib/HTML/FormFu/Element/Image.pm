@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::Image;
+# ABSTRACT: Image button form field
 
 
 use Moose;
@@ -25,10 +26,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::Image - Image button form field
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Model::HashRef;
+# ABSTRACT: handle hashrefs
 
 
 use Moose;
@@ -309,10 +310,6 @@ sub get_repeatable {
 __PACKAGE__->meta->make_immutable;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Model::HashRef - handle hashrefs
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Element::File;
+# ABSTRACT: File upload form field
 
 
 use Moose;
@@ -23,10 +24,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Element::File - File upload form field
 
 =head1 SYNOPSIS
 

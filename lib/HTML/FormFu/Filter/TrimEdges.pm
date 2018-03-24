@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Filter::TrimEdges;
+# ABSTRACT: filter trimming whitespace
 
 
 use Moose;
@@ -21,10 +22,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::TrimEdges - filter trimming whitespace
 
 =head1 DESCRIPTION
 

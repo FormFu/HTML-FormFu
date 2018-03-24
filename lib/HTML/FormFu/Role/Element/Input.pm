@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Role::Element::Input;
+# ABSTRACT: Role for input fields
 
 
 use Moose::Role;
@@ -273,10 +274,6 @@ around clone => sub {
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Role::Element::Input - Role for input fields
 
 =head1 DESCRIPTION
 

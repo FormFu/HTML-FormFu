@@ -1,5 +1,6 @@
 use strict;
 package HTML::FormFu::Plugin;
+# ABSTRACT: base class for plugins
 
 
 use Moose;
@@ -34,10 +35,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Plugin - base class for plugins
 
 =head2 DESCRIPTION
 
