@@ -1988,7 +1988,7 @@ between January and May 2007 also contain discussion regarding HTML::FormFu.
 =head1 BUGS
 
 Please submit bugs / feature requests to
-L<http://code.google.com/p/html-formfu/issues/list> (preferred) or
+L<https://github.com/FormFu/HTML-FormFu/issues> (preferred) or
 L<http://rt.perl.org>.
 
 =head1 PATCHES
