@@ -39,5 +39,6 @@ before_install:
 install:
   - perl -M5.014 -e1 2>/dev/null || cpan-install Dist::Zilla@5.047
   - cpan-install --deps
+  - if [ "$COVERAGE" ]; then cpanm Devel::Cover; fi
 
 # end
