@@ -1,28 +1,43 @@
 language: perl
+os:
+  - linux
 perl:
-  - "5.24"
-  - "5.22"
-  - "5.20"
-  - "5.18"
-  - "5.16"
-  - "5.14"
-  - "5.12"
-  - "5.10"
+  - 'blead'
+  - '5.26'
+  - '5.24'
+  - '5.22'
+  - '5.20'
+  - '5.18'
+  - '5.16'
+  - '5.14'
+  - '5.12'
+  - '5.10'
   ###- "5.8.8"          # fails due to Number::Format depedancy
   #- "dev"              # installs latest developer release of perl (e.g. 5.21.8)
   #- "blead"            # builds perl from git
 
 sudo: false             # faster builds as long as you don't need sudo access
 
-before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init --auto
+env:
+  global:
+    - AUTHOR_TESTING=1
+    - AUTOMATED_TESTING=1
+    - RELEASE_TESTING=0
 
 matrix:
   allow_failures:
     - perl: blead       # ignore failures for blead perl
+  fast_finish: true
   include:
     - perl: "5.20"
       env: COVERAGE=1   # enables coverage+coveralls reporting
+
+before_install:
+  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+  - source ~/travis-perl-helpers/init --auto
+
+install:
+  - perl -M5.014 -e1 2>/dev/null || cpan-install Dist::Zilla@5.047
+  - cpan-install --deps
 
 # end
