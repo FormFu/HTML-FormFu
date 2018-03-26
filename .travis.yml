@@ -28,9 +28,9 @@ matrix:
   allow_failures:
     - perl: blead       # ignore failures for blead perl
   fast_finish: true
-  include:
-    - perl: "5.20"
-      env: COVERAGE=1   # enables coverage+coveralls reporting
+  #  include: # takes too long for travis
+  #    - perl: "5.20"
+  #      env: COVERAGE=1   # enables coverage+coveralls reporting
 
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
