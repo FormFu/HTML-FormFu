@@ -37,6 +37,10 @@ sub default_args {
 sub constraints_from_dbic {
     my ( $self, $source, $map ) = @_;
 
+    if ( 2 == @_ && 'ARRAY' eq ref $source ) {
+        ( $source, $map ) = @$source;
+    }
+
     $map ||= {};
 
     $source = _result_source($source);
