@@ -71,7 +71,33 @@ sub _result_source {
 sub _add_constraints {
     my ( $self, $col, $info ) = @_;
 
-    return if !defined $self->get_field($col);
+    # We need to ensure we're only using this Block's children,
+    # as far as 'nested_name' is concerned.
+    # But we can't use get_elements() in case the fields are in sub-Blocks
+    # that don't have 'nested_name' set.
+
+    my $parent = $self;
+    my @parent_names;
+
+    do {
+        my $nested_name = $parent->nested_name;
+        if ( defined $nested_name && length $nested_name ) {
+            push @parent_names, $nested_name;
+        }
+    } while ( $parent = $parent->parent );
+
+    my $fields = $self->get_fields($col);
+    return if !@$fields;
+
+    if (@parent_names) {
+        my $pre = join ".", reverse @parent_names;
+        @$fields = grep { $_->nested_name eq "$pre." . $_->name } @$fields;
+    }
+    else {
+        @$fields = grep { $_->nested_name eq $_->name } @$fields;
+    }
+
+    return if !@$fields;
 
     return if !defined $info->{data_type};
 
@@ -80,58 +106,44 @@ sub _add_constraints {
     if ( $type =~ /(char|text|binary)\z/ && defined $info->{size} ) {
 
         # char, varchar, *text, binary, varbinary
-        _add_constraint_max_length( $self, $col, $info );
+        _add_constraint_max_length( $self, $fields, $info );
     }
     elsif ( $type =~ /int/ ) {
-        _add_constraint_integer( $self, $col, $info );
+        _add_constraint_integer( $self, $fields, $info );
 
         if ( $info->{extra}{unsigned} ) {
-            _add_constraint_unsigned( $self, $col, $info );
+            _add_constraint_unsigned( $self, $fields, $info );
         }
-
     }
     elsif ( $type =~ /enum|set/ && defined $info->{extra}{list} ) {
-        _add_constraint_set( $self, $col, $info );
+        _add_constraint_set( $self, $fields, $info );
     }
 }
 
 sub _add_constraint_max_length {
-    my ( $self, $col, $info ) = @_;
+    my ( $self, $fields, $info ) = @_;
 
-    $self->constraint(
-        {   type => 'MaxLength',
-            name => $col,
-            max  => $info->{size},
-        } );
+    map { $_->constraint( { type => 'MaxLength', max => $info->{size}, } ) }
+        @$fields;
 }
 
 sub _add_constraint_integer {
-    my ( $self, $col, $info ) = @_;
+    my ( $self, $fields, $info ) = @_;
 
-    $self->constraint(
-        {   type => 'Integer',
-            name => $col,
-        } );
+    map { $_->constraint( { type => 'Integer', } ) } @$fields;
 }
 
 sub _add_constraint_unsigned {
-    my ( $self, $col, $info ) = @_;
+    my ( $self, $fields, $info ) = @_;
 
-    $self->constraint(
-        {   type => 'Range',
-            name => $col,
-            min  => 0,
-        } );
+    map { $_->constraint( { type => 'Range', min => 0, } ) } @$fields;
 }
 
 sub _add_constraint_set {
-    my ( $self, $col, $info ) = @_;
+    my ( $self, $fields, $info ) = @_;
 
-    $self->constraint(
-        {   type => 'Set',
-            name => $col,
-            set  => $info->{extra}{list},
-        } );
+    map { $_->constraint( { type => 'Set', set => $info->{extra}{list}, } ) }
+        @$fields;
 }
 
 1;

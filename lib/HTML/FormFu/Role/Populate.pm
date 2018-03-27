@@ -54,6 +54,7 @@ sub populate {
         load_config_file
         element elements
         default_values
+        constraints_from_dbic
         filter              filters
         constraint          constraints
         inflator            inflators
