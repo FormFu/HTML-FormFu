@@ -1,0 +1,26 @@
+---
+default_args:
+  elements:
+    Field:
+      default_empty_value: 1
+
+elements:
+  - name: f1
+  - name: f2
+
+  - type: Block
+    nested_name: nested
+    elements:
+      - name: g1
+      - name: g2
+
+  - name: count
+    type: Hidden
+
+  - type: Repeatable
+    nested_name: rep
+    counter_name: count
+    increment_field_names: 1
+    elements:
+      - name: h1
+      - name: h2
