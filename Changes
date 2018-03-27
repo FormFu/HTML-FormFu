@@ -11,6 +11,9 @@
     - add new auto_error_field_class() method to add classes directly
       to field tag
 
+    - constraints_from_dbic() can now be called on Blocks,
+      handles 'nested_name', and support added for BOOL and DECIMAL columns
+
     - remove bundled/renamed MooseX::Attribute::Chained and depend on the
       fixed version
 

@@ -30,7 +30,17 @@ __PACKAGE__->add_columns(
     {   data_type   => "INT",
         is_nullable => 0,
         size        => 10,
-        extra       => { unsigned => 1, } } );
+        extra       => { unsigned => 1, }
+    },
+    "is_human",
+    {   data_type   => "BOOLEAN",
+        is_nullable => 0,
+    },
+    "income",
+    {   data_type   => "DECIMAL",
+        is_nullable => 0,
+        size        => [ 8, 2 ],
+    } );
 
 __PACKAGE__->set_primary_key("person_id");
 
@@ -39,4 +49,3 @@ __PACKAGE__->might_have(
     { 'foreign.person_id' => 'self.person_id' } );
 
 1;
-

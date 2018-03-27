@@ -9,6 +9,8 @@ elements:
       - name: name
       - name: age
       - name: dongle
+      - name: is_human
+      - name: income
 
       - type: Block
         nested_name: parent

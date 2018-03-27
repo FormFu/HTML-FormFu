@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 our $count;
-BEGIN { $count = 17 }
+BEGIN { $count = 23 }
 use Test::More tests => $count;
 
 use HTML::FormFu;
@@ -27,6 +27,14 @@ SKIP: {
         },
         1
     );
+    is( @{  $form->get_field( { nested_name => 'is_human' } )->get_constraints
+        },
+        1
+    );
+    is( @{  $form->get_field( { nested_name => 'income' } )->get_constraints
+        },
+        1
+    );
 
     is( @{  $form->get_field( { nested_name => 'parent.title' } )
                 ->get_constraints
@@ -45,7 +53,7 @@ SKIP: {
     );
 
     is( @{ $form->get_constraints },
-        9, "parent Block fields didn't get duplicate constraints" );
+        11, "parent Block fields didn't get duplicate constraints" );
 
     # title - set
     {
@@ -90,6 +98,26 @@ SKIP: {
     }
     {
         $form->process( { dongle => 'a' x 11 } );
+        ok( $form->has_errors );
+    }
+
+    # is_human - string length
+    {
+        $form->process( { is_human => 1 } );
+        ok( $form->submitted_and_valid );
+    }
+    {
+        $form->process( { is_human => 'kinda' } );
+        ok( $form->has_errors );
+    }
+
+    # income - string length
+    {
+        $form->process( { income => '12000.00' } );
+        ok( $form->submitted_and_valid );
+    }
+    {
+        $form->process( { income => '1000000.00' } );
         ok( $form->has_errors );
     }
 }

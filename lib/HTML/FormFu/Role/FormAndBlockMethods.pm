@@ -118,6 +118,12 @@ sub _add_constraints {
     elsif ( $type =~ /enum|set/ && defined $info->{extra}{list} ) {
         _add_constraint_set( $self, $fields, $info );
     }
+    elsif ( $type =~ /bool/ ) {
+        _add_constraint_bool( $self, $fields, $info );
+    }
+    elsif ( $type =~ /decimal/ ) {
+        _add_constraint_decimal( $self, $fields, $info );
+    }
 }
 
 sub _add_constraint_max_length {
@@ -144,6 +150,41 @@ sub _add_constraint_set {
 
     map { $_->constraint( { type => 'Set', set => $info->{extra}{list}, } ) }
         @$fields;
+}
+
+sub _add_constraint_bool {
+    my ( $self, $fields, $info ) = @_;
+
+    map { $_->constraint( { type => 'Set', set => [ 0, 1 ] } ) } @$fields;
+}
+
+sub _add_constraint_decimal {
+    my ( $self, $fields, $info ) = @_;
+
+    my $size = $info->{size};
+    my $regex;
+
+    if ( defined $size ) {
+        if ( 'ARRAY' eq ref $size && 2 == @$size ) {
+            my ( $i, $j ) = @$size;
+            $i -= $j;
+            $regex = qr/^ [0-9]{0,$i} (?: \. [0-9]{0,$j} )? \z/x;
+        }
+        elsif ( 'ARRAY' eq ref $size && 1 == @$size ) {
+            my ($i) = @$size;
+            $regex = qr/^ [0-9]{0,$i} \z/x;
+        }
+        elsif ( 0 == $size ) {
+            $regex = qr/^ [0-9]+ \z/x;
+        }
+        elsif ( $size =~ /^[0-9]+\z/ ) {
+            $regex = qr/^ [0-9]{0,$size} \z/x;
+        }
+    }
+
+    $regex ||= qr/^ [0-9]+ (?: \. [0-9]+ )? \z/x;
+
+    map { $_->constraint( { type => 'Regex', regex => $regex } ) } @$fields;
 }
 
 1;
