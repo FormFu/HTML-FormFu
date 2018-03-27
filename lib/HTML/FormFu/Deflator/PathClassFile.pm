@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::PathClassFile;
-# ABSTRACT: Deflator for Path::Class::File objects
 
+package HTML::FormFu::Deflator::PathClassFile;
+
+# ABSTRACT: Deflator for Path::Class::File objects
 
 use Moose;
 use MooseX::Attribute::Chained;

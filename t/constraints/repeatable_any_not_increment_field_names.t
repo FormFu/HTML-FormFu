@@ -14,8 +14,8 @@ $form->load_config_file(
 
 # Valid
 {
-    $form->process( {
-            foo   => [ 'a', 'b' ],
+    $form->process(
+        {   foo   => [ 'a', 'b' ],
             count => 2,
         } );
 
@@ -32,8 +32,8 @@ $form->load_config_file(
 
 # Valid - 1 missing
 {
-    $form->process( {
-            foo   => [ 'a', '' ],
+    $form->process(
+        {   foo   => [ 'a', '' ],
             count => 2,
         } );
 
@@ -50,8 +50,8 @@ $form->load_config_file(
 
 # Valid - 1 missing
 {
-    $form->process( {
-            foo   => [ '', 'b' ],
+    $form->process(
+        {   foo   => [ '', 'b' ],
             count => 2,
         } );
 
@@ -68,8 +68,8 @@ $form->load_config_file(
 
 # Missing - Invalid
 {
-    $form->process( {
-            foo   => [ '', '' ],
+    $form->process(
+        {   foo   => [ '', '' ],
             count => 2,
         } );
 

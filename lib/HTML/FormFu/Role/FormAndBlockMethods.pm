@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::FormAndBlockMethods;
 
+package HTML::FormFu::Role::FormAndBlockMethods;
 
 use Moose::Role;
 

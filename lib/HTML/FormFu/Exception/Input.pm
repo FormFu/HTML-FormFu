@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Exception::Input;
 
+package HTML::FormFu::Exception::Input;
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -17,7 +17,7 @@ __PACKAGE__->mk_attrs(qw( attributes ));
 sub BUILD {
     my ( $self, $args ) = @_;
 
-    $self->attributes({});
+    $self->attributes( {} );
 
     return;
 }
@@ -76,14 +76,14 @@ sub clone {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            processor => $self->processor,
+    my $render = $self->$orig(
+        {   processor => $self->processor,
             forced    => $self->forced,
             name      => $self->name,
             message   => $self->message,
             type      => $self->type,
             $args ? %$args : (),
-        });
+        } );
 
     $self->_render_attributes($render);
 

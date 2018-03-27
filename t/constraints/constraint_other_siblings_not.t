@@ -12,8 +12,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'boba',
             baz => 'sith',
         } );
@@ -25,8 +25,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => '',
             baz => '',
         } );
@@ -38,8 +38,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 'yada',
             baz => 'boba',
         } );
@@ -51,8 +51,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => '',
             baz => '',
         } );
@@ -64,8 +64,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 'yada',
             baz => '',
         } );
@@ -77,8 +77,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'yada',
             baz => 'x',
         } );
@@ -90,8 +90,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'x',
             baz => 'yada',
         } );
@@ -103,8 +103,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings_not.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'yada',
             baz => 'yada',
         } );

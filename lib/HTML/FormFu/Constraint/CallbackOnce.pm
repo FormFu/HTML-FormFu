@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::CallbackOnce;
-# ABSTRACT: Code Callback Constraint
 
+package HTML::FormFu::Constraint::CallbackOnce;
+
+# ABSTRACT: Code Callback Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -24,8 +25,8 @@ sub process {
 
     my $ok = eval { $callback->( $value, $params ) };
 
-    return $self->mk_errors( {
-            pass => ( $@ or !$ok ) ? 0 : 1,
+    return $self->mk_errors(
+        {   pass => ( $@ or !$ok ) ? 0 : 1,
             message => $@,
         } );
 }

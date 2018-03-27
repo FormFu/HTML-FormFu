@@ -12,8 +12,8 @@ $form->element('Text')->name('foo');
 
 $form->element('Checkbox')->name('bar')->value('y');
 
-$form->default_values( {
-        foo => 'x',
+$form->default_values(
+    {   foo => 'x',
         bar => 'y',
     } );
 

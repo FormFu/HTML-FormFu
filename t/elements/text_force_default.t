@@ -14,8 +14,8 @@ $form->element('Text')->name('baz')->default('c')->force_default(1);
 $form->element('Textarea')->name('ta')->default('d')->force_default(1);
 $form->element('Textarea')->name('tb')->force_default(1);
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => 'z',
     } );
 

@@ -21,12 +21,13 @@ my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->validator('Callback')
     ->callback( \&My::Validators::Callback::cb );
-$form->element('Text')->name('bar')->validator('Callback')->callback("My::Validators::Callback::cb");
+$form->element('Text')->name('bar')->validator('Callback')
+    ->callback("My::Validators::Callback::cb");
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => [ 0, 'a', 'b' ],
         } );
 

@@ -13,8 +13,8 @@ $form->element('Text')->name('bar')->auto_error_field_class('is-invalid');
 
 $form->constraint('Number');
 
-$form->process( {
-        foo => 'a',
+$form->process(
+    {   foo => 'a',
         bar => 'b',
     } );
 

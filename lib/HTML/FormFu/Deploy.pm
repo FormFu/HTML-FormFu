@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::Deploy;
 
 use warnings;
-
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use Cwd qw( getcwd );
@@ -16,8 +16,7 @@ use Carp qw( croak );
 our $SHARE_DIR;
 
 if ( -f 'MANIFEST.SKIP' && -d 'share/templates/tt/xhtml' ) {
-    warn
-        "Running as a developer, using the local, not installed templates\n\n"
+    warn "Running as a developer, using the local, not installed templates\n\n"
         unless ( $ENV{HARNESS_ACTIVE} );
 
     my $cwd = getcwd();

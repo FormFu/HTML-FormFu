@@ -14,8 +14,8 @@ $form->constraint('Regex');
 
 # Valid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => 'bbbbbbb',
         } );
 
@@ -28,8 +28,8 @@ $form->constraint('Regex');
 
 # "0" is valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => 2,
         } );
 

@@ -12,8 +12,8 @@ $form->element('Text')->name('bar')->constraint('Set')->set( [qw/ yes no /] );
 
 # Valid
 {
-    $form->process( {
-            foo => 'yes',
+    $form->process(
+        {   foo => 'yes',
             bar => 'no',
         } );
 
@@ -23,8 +23,8 @@ $form->element('Text')->name('bar')->constraint('Set')->set( [qw/ yes no /] );
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yes',
+    $form->process(
+        {   foo => 'yes',
             bar => 'x',
         } );
 

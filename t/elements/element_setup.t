@@ -10,8 +10,8 @@ $::name = undef;
 
 my $form = HTML::FormFu->new( { auto_fieldset => 1, } );
 
-$form->element( {
-        type => '+HTMLFormFu::ElementSetup',
+$form->element(
+    {   type => '+HTMLFormFu::ElementSetup',
         name => 'xxx',
     } );
 

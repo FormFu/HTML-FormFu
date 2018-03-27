@@ -7,22 +7,22 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->element('Text')->name('foo')->constraint('CallbackOnce')->force_errors(1)
-    ->callback(
+$form->element('Text')->name('foo')->constraint('CallbackOnce')
+    ->force_errors(1)->callback(
     sub {
         return $_[0] eq 'a';
     } );
 
-$form->element('Text')->name('bar')->constraint('CallbackOnce')->force_errors(1)
-    ->callback(
+$form->element('Text')->name('bar')->constraint('CallbackOnce')
+    ->force_errors(1)->callback(
     sub {
         return $_[0] eq 'b';
     } );
 
 # valid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => 'b',
         } );
 
@@ -37,8 +37,8 @@ $form->element('Text')->name('bar')->constraint('CallbackOnce')->force_errors(1)
 
 # invalid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => 'c',
         } );
 

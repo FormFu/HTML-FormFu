@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::DependOn;
-# ABSTRACT: Multi-field Dependency Constraint
 
+package HTML::FormFu::Constraint::DependOn;
+
+# ABSTRACT: Multi-field Dependency Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';
@@ -57,8 +58,8 @@ sub process {
         }
     }
 
-    return $self->mk_errors( {
-            pass => @failed ? 0 : 1,
+    return $self->mk_errors(
+        {   pass   => @failed ? 0 : 1,
             failed => \@failed,
             names  => [ $self->nested_name, @names ],
         } );

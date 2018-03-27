@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::I18N::ua;
 
 use utf8;
-
 
 use Moose;
 extends 'HTML::FormFu::I18N';

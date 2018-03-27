@@ -14,8 +14,8 @@ my $deflated_bar = "ABCdef";
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->element( {
-        name     => 'foo',
+$form->element(
+    {   name     => 'foo',
         default  => $original_foo,
         deflator => {
             type     => 'Callback',
@@ -23,8 +23,8 @@ $form->element( {
         },
     } );
 
-$form->element( {
-        name     => 'bar',
+$form->element(
+    {   name     => 'bar',
         default  => $original_bar,
         deflator => {
             type     => 'Callback',

@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::ContainsElements;
 
+package HTML::FormFu::Role::ContainsElements;
 
 use Moose::Role;
 

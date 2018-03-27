@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::ContentButton;
-# ABSTRACT: Button form field containing markup
 
+package HTML::FormFu::Element::ContentButton;
+
+# ABSTRACT: Button form field containing markup
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -31,8 +32,8 @@ after BUILD => sub {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            field_type => $self->field_type,
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   field_type => $self->field_type,
             content    => xml_escape( $self->content ),
             $args ? %$args : (),
         } );

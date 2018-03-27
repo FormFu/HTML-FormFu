@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/plugins/stashvalid.yml');
 
-$form->process( {
-        foo => 'a',
+$form->process(
+    {   foo => 'a',
         bar => 'b',
     } );
 

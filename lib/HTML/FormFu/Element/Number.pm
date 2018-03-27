@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Number;
-# ABSTRACT: Number element with formatting
 
+package HTML::FormFu::Element::Number;
+
+# ABSTRACT: Number element with formatting
 
 use Moose;
 

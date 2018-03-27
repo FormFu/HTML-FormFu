@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint;
-# ABSTRACT: Constrain User Input
 
+package HTML::FormFu::Constraint;
+
+# ABSTRACT: Constrain User Input
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -81,8 +82,8 @@ sub process {
 
         if ($@) {
             push @errors,
-                $self->mk_errors( {
-                    pass    => 0,
+                $self->mk_errors(
+                {   pass    => 0,
                     message => $@,
                 } );
         }
@@ -94,8 +95,8 @@ sub process {
         DEBUG_CONSTRAINTS && debug( '$@' => $@ );
 
         push @errors,
-            $self->mk_errors( {
-                pass => ( $@ || !$ok ) ? 0 : 1,
+            $self->mk_errors(
+            {   pass => ( $@ || !$ok ) ? 0 : 1,
                 message => $@,
             } );
     }
@@ -167,8 +168,8 @@ sub constrain_values {
         DEBUG_CONSTRAINTS && debug( '$@' => $@ );
 
         push @errors,
-            $self->mk_errors( {
-                pass => ( $@ || !$ok ) ? 0 : 1,
+            $self->mk_errors(
+            {   pass => ( $@ || !$ok ) ? 0 : 1,
                 message => $@,
             } );
     }
@@ -273,7 +274,8 @@ sub _process_when {
             if defined $value;
     }
 
-    DEBUG_CONSTRAINTS_WHEN && debug( 'WHEN_FIELDS_VALUES' => \@when_fields_value );
+    DEBUG_CONSTRAINTS_WHEN
+        && debug( 'WHEN_FIELDS_VALUES' => \@when_fields_value );
 
     if ( !@when_fields_value ) {
         DEBUG_CONSTRAINTS_WHEN
@@ -317,13 +319,13 @@ sub _process_when {
 }
 
 sub fetch_error_message {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
-    my $error = HTML::FormFu::Exception::Constraint->new({
-        form      => $self->form,
-        parent    => $self->parent,
-        processor => $self,
-    });
+    my $error = HTML::FormFu::Exception::Constraint->new(
+        {   form      => $self->form,
+            parent    => $self->parent,
+            processor => $self,
+        } );
 
     return $error->message;
 }

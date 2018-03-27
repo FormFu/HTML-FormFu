@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Set;
-# ABSTRACT: Set of Values Constraint
 
+package HTML::FormFu::Constraint::Set;
+
+# ABSTRACT: Set of Values Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

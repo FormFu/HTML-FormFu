@@ -25,8 +25,8 @@ my $filtered_bar = "ab123456";
 my $original_baz = "abcdef";
 my $filtered_baz = "ABCdef";
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => $original_bar,
         baz => $original_baz,
     } );

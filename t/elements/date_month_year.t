@@ -12,12 +12,12 @@ my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
 $form->element('Date')->name('foo')->default($dt)
-    ->field_order( [qw/ month year /] )->strftime('%m/%Y')->month( {
-        prefix      => '-- Month --',
+    ->field_order( [qw/ month year /] )->strftime('%m/%Y')->month(
+    {   prefix      => '-- Month --',
         short_names => 1,
     }
-    )->year( {
-        prefix => '-- Year --',
+)->year(
+    {   prefix => '-- Year --',
         list   => [ 2007 .. 2017 ],
     } )->auto_inflate(1)->constraint('Required');
 

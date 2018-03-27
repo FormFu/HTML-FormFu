@@ -18,8 +18,8 @@ $form->element('Text')->name('baz');
 $form->element('Submit')->name('submit');
 
 {
-    $form->process( {
-            'foo.bar' => 'x',
+    $form->process(
+        {   'foo.bar' => 'x',
             'foo.baz' => 'y',
             'submit'  => 'Submit',
         } );
@@ -36,8 +36,8 @@ $form->element('Submit')->name('submit');
 }
 
 {
-    $form->process( {
-            'foo.bar' => 'x',
+    $form->process(
+        {   'foo.bar' => 'x',
             'submit'  => 'Submit',
         } );
 

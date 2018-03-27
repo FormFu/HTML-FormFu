@@ -16,8 +16,8 @@ $form->element('Password')->name('doo')->value('d')->retain_default(1)
 $form->element('Password')->name('doc')->value('e')->retain_default(1)
     ->render_value(1);
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => '',
         baz => '',
         doo => '',

@@ -14,9 +14,9 @@ $form->auto_fieldset(1);
 
 $form->default_model('HashRef');
 
-$form->populate( {
-        elements => [ {
-                type         => "DateTime",
+$form->populate(
+    {   elements => [
+            {   type         => "DateTime",
                 name         => "datetime",
                 auto_inflate => 1,
                 year         => { list => [1999] }
@@ -50,9 +50,9 @@ $form->populate( {
                 name     => "address",
                 elements => [ { name => "street" }, { name => "number" } ]
             },
-            {   type     => "Multi",
-                name     => "address-split",
-                elements => [ { name => "street" }, { name => "number" } ],
+            {   type      => "Multi",
+                name      => "address-split",
+                elements  => [ { name => "street" }, { name => "number" } ],
                 deflators => [ { type => "CompoundSplit" } ]
             },
             {   type => "SimpleTable",
@@ -60,8 +60,8 @@ $form->populate( {
 
 $form->auto_fieldset(0);
 
-$form->model->default_values( {
-        datetime => '30-08-1999 22:00',
+$form->model->default_values(
+    {   datetime => '30-08-1999 22:00',
         bar      => 'y',
         many     => [ { id => 1, foo => "bar" }, { id => 2, foo => "baz" } ],
         'single-select' => 1,
@@ -170,8 +170,8 @@ is_deeply(
 
 $form->model->flatten(0);
 
-$form->model->default_values( {
-        many => [ { id => undef } ],
+$form->model->default_values(
+    {   many => [ { id => undef } ],
         bar  => 'zzz',
     } );
 
@@ -184,7 +184,7 @@ is_deeply(
             'number' => undef,
             'street' => undef
         },
-        'many' => [ { id => undef, foo => undef } ],
+        'many'            => [ { id => undef, foo => undef } ],
         'datetime_day'    => { value => undef, label => undef },
         'nested'          => { 'foo' => undef },
         'datetime'        => undef,

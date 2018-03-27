@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter;
-# ABSTRACT: Filter Base Class
 
+package HTML::FormFu::Filter;
+
+# ABSTRACT: Filter Base Class
 
 use Moose;
 use MooseX::Attribute::Chained;

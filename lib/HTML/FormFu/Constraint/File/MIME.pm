@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::File::MIME;
-# ABSTRACT: MIME Type Constraint
 
+package HTML::FormFu::Constraint::File::MIME;
+
+# ABSTRACT: MIME Type Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

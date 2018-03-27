@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu;
-# ABSTRACT: HTML Form Creation, Rendering and Validation Framework
 
+package HTML::FormFu;
+
+# ABSTRACT: HTML Form Creation, Rendering and Validation Framework
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -110,7 +111,7 @@ has form_error_message_class => (
     lazy    => 1,
 );
 
-our @MULTIFORM_SHARED = (qw(
+our @MULTIFORM_SHARED = ( qw(
         javascript
         javascript_src
         indicator
@@ -124,7 +125,7 @@ our @MULTIFORM_SHARED = (qw(
         default_model
         tmp_upload_dir
         params_ignore_underscore
-));
+) );
 
 for (@MULTIFORM_SHARED) {
     has $_ => (
@@ -228,8 +229,8 @@ sub model {
 
     require_class($class);
 
-    my $model = $class->new( {
-            type   => $model_name,
+    my $model = $class->new(
+        {   type   => $model_name,
             parent => $self,
         } );
 
@@ -414,7 +415,7 @@ sub _build_params {
 
         next
             if !$self->nested_hash_key_exists( $self->input, $name )
-                && !$field->default_empty_value;
+            && !$field->default_empty_value;
 
         my $input = $self->get_nested_hash_value( $self->input, $name );
 
@@ -969,8 +970,8 @@ around render => sub {
 sub render_data {
     my ( $self, $args ) = @_;
 
-    my $render = $self->render_data_non_recursive( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
+    my $render = $self->render_data_non_recursive(
+        {   elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );
 
@@ -1010,7 +1011,7 @@ sub string {
 
     $args_ref ||= {};
 
-    my $html = $self->_string_form_start( $args_ref );
+    my $html = $self->_string_form_start($args_ref);
 
     # form template
 
@@ -1027,7 +1028,7 @@ sub string {
         }
     }
 
-    $html .= $self->_string_form_end( $args_ref );
+    $html .= $self->_string_form_end($args_ref);
     $html .= "\n";
 
     return $html;
@@ -1076,7 +1077,7 @@ sub _string_form_start {
 }
 
 sub _string_form_end {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     # end_form template
 
@@ -1087,13 +1088,13 @@ sub start {
     my $self = shift;
 
     if ( 'tt' eq $self->render_method ) {
-        return $self->tt( {
-                filename    => 'start_form',
+        return $self->tt(
+            {   filename    => 'start_form',
                 render_data => $self->render_data_non_recursive,
             } );
-        }
+    }
     else {
-        return $self->_string_form_start( @_ );
+        return $self->_string_form_start(@_);
     }
 }
 
@@ -1101,13 +1102,13 @@ sub end {
     my $self = shift;
 
     if ( 'tt' eq $self->render_method ) {
-        return $self->tt( {
-                filename    => 'end_form',
+        return $self->tt(
+            {   filename    => 'end_form',
                 render_data => $self->render_data_non_recursive,
             } );
     }
     else {
-        return $self->_string_form_end( @_ );
+        return $self->_string_form_end(@_);
     }
 }
 
@@ -1171,8 +1172,8 @@ sub _require_output_processor {
 
     require_class($class);
 
-    my $object = $class->new( {
-            type   => $type,
+    my $object = $class->new(
+        {   type   => $type,
             parent => $self,
         } );
 

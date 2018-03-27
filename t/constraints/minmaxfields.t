@@ -15,8 +15,8 @@ $form->element('Text')->name('boz');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => [2],
             boz => '',
@@ -24,8 +24,8 @@ $form->element('Text')->name('boz');
 
     ok( !$form->has_errors );
 
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => '',
             boz => '',
@@ -36,8 +36,8 @@ $form->element('Text')->name('boz');
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => 2,
             boz => '22',
@@ -61,8 +61,8 @@ $form->element('Text')->name('boz');
     $form->element('Text')->name('bar');
 
     {
-        $form->process( {
-                foo => 1,
+        $form->process(
+            {   foo => 1,
                 bar => '',
             } );
 

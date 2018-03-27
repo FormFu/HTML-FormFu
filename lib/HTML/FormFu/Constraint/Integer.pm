@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Integer;
-# ABSTRACT: Unsigned Integer Constraint
 
+package HTML::FormFu::Constraint::Integer;
+
+# ABSTRACT: Unsigned Integer Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';

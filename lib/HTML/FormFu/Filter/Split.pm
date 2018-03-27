@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::Split;
-# ABSTRACT: filter splitting a singe value into an arrayref
 
+package HTML::FormFu::Filter::Split;
+
+# ABSTRACT: filter splitting a singe value into an arrayref
 
 use Moose;
 use MooseX::Attribute::Chained;

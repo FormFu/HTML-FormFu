@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Email;
-# ABSTRACT: HTML5 email form field
 
+package HTML::FormFu::Element::Email;
+
+# ABSTRACT: HTML5 email form field
 
 use Moose;
 

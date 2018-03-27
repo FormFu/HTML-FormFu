@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Plugin::StashValid;
-# ABSTRACT: place valid params on form stash
 
+package HTML::FormFu::Plugin::StashValid;
+
+# ABSTRACT: place valid params on form stash
 
 use Moose;
 extends 'HTML::FormFu::Plugin';

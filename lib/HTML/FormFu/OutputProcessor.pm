@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::OutputProcessor;
-# ABSTRACT: Post-process HTML output
 
+package HTML::FormFu::OutputProcessor;
+
+# ABSTRACT: Post-process HTML output
 
 use Moose;
 use MooseX::Attribute::Chained;

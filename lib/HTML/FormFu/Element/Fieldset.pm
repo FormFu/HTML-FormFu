@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Fieldset;
-# ABSTRACT: Fieldset element
 
+package HTML::FormFu::Element::Fieldset;
+
+# ABSTRACT: Fieldset element
 
 use Moose;
 extends 'HTML::FormFu::Element::Block';
@@ -23,8 +24,8 @@ after BUILD => sub {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            legend            => $self->legend,
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   legend            => $self->legend,
             legend_attributes => xml_escape( $self->legend_attributes ),
             $args ? %$args : (),
         } );

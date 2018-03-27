@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Word;
-# ABSTRACT: Single Word Constraint
 
+package HTML::FormFu::Constraint::Word;
+
+# ABSTRACT: Single Word Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';

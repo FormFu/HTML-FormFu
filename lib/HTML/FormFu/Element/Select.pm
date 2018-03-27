@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Select;
-# ABSTRACT: Select form field
 
+package HTML::FormFu::Element::Select;
+
+# ABSTRACT: Select form field
 
 use Moose;
 extends 'HTML::FormFu::Element';

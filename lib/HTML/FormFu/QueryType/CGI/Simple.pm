@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::QueryType::CGI::Simple;
-# ABSTRACT: uploaded file
 
+package HTML::FormFu::QueryType::CGI::Simple;
+
+# ABSTRACT: uploaded file
 
 use Moose;
 
@@ -18,8 +19,8 @@ sub parse_uploads {
         if ( my $file = $query->upload($param) ) {
             my $filename = $param;
 
-            $param = $class->new( {
-                    _param   => $file,
+            $param = $class->new(
+                {   _param   => $file,
                     filename => $filename,
                     parent   => $form,
                 } );

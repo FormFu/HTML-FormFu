@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::HasParent;
 
+package HTML::FormFu::Role::HasParent;
 
 use Moose::Role;
 

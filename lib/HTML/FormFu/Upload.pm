@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Upload;
-# ABSTRACT: uploaded file
 
+package HTML::FormFu::Upload;
+
+# ABSTRACT: uploaded file
 
 use Moose;
 use MooseX::Attribute::Chained;

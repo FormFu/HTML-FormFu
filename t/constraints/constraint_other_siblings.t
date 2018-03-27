@@ -14,8 +14,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 'a',
             baz => [2],
             bif => [ 3, 4 ],
@@ -33,8 +33,8 @@ $form->load_config_file('t/constraints/constraint_other_siblings.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => [2],
             bif => [ 3, 4 ],

@@ -16,8 +16,8 @@ $form->element('Text')->name('bif');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 'a',
             baz => [2],
             bif => [ 3, 4 ],
@@ -55,8 +55,8 @@ $form->element('Text')->name('bif');
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => [2],
             bif => [ 3, 4 ],

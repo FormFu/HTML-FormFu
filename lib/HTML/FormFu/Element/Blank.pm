@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Blank;
-# ABSTRACT: blank element
 
+package HTML::FormFu::Element::Blank;
+
+# ABSTRACT: blank element
 
 use Moose;
 

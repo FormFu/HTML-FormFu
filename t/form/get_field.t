@@ -54,8 +54,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 }
 
 {
-    my @fields = $form->get_field( {
-            name => 'foo',
+    my @fields = $form->get_field(
+        {   name => 'foo',
             type => 'Hidden',
         } );
 

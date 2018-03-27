@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::I18N::en;
 
 use utf8;
-
 
 use Moose;
 extends 'HTML::FormFu::I18N';
@@ -10,12 +10,12 @@ extends 'HTML::FormFu::I18N';
 our %Lexicon = (
     form_error_message =>
         'There were errors with your submission, see below for details',
-    form_constraint_allornone => 'Error',
-    form_constraint_ascii     => 'Field contains non-ASCII characters',
-    form_constraint_autoset   => 'Field contains an invalid choice',
-    form_constraint_bool      => 'Field must be a boolean value',
-    form_constraint_callback  => 'Invalid input',
-    form_constraint_datetime  => 'Invalid date',
+    form_constraint_allornone   => 'Error',
+    form_constraint_ascii       => 'Field contains non-ASCII characters',
+    form_constraint_autoset     => 'Field contains an invalid choice',
+    form_constraint_bool        => 'Field must be a boolean value',
+    form_constraint_callback    => 'Invalid input',
+    form_constraint_datetime    => 'Invalid date',
     form_constraint_dbic_unique => 'Value already exists in database',
     form_constraint_dependon =>
         "This field is required if field '[_1]' is filled in",
@@ -40,9 +40,10 @@ our %Lexicon = (
     form_constraint_range     => 'Must be between [_1] and [_2]',
     form_constraint_recaptcha => 'reCAPTCHA error',
     form_constraint_regex     => 'Invalid input',
-    form_constraint_repeatable_any => "At least one of the '[_1]' fields is required",
-    form_constraint_required  => 'This field is required',
-    form_constraint_set       => 'Field contains an invalid choice',
+    form_constraint_repeatable_any =>
+        "At least one of the '[_1]' fields is required",
+    form_constraint_required       => 'This field is required',
+    form_constraint_set            => 'Field contains an invalid choice',
     form_constraint_singlevalue    => 'This field only accepts a single value',
     form_constraint_word           => 'Field contains non-word characters',
     form_inflator_compounddatetime => 'Invalid date',

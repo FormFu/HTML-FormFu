@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Filter::Compound;
-# ABSTRACT: Role for Compound filters
 
+package HTML::FormFu::Role::Filter::Compound;
+
+# ABSTRACT: Role for Compound filters
 
 use Moose::Role;
 

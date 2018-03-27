@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::OutputProcessor::Indent;
-# ABSTRACT: Nicely Indent HTML Output
 
+package HTML::FormFu::OutputProcessor::Indent;
+
+# ABSTRACT: Nicely Indent HTML Output
 
 use Moose;
 use MooseX::Attribute::Chained;

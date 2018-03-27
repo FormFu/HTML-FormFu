@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Text;
-# ABSTRACT: Text form field
 
+package HTML::FormFu::Element::Text;
+
+# ABSTRACT: Text form field
 
 use Moose;
 

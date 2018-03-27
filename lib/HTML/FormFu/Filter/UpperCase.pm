@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::UpperCase;
-# ABSTRACT: filter transforming to upper case
 
+package HTML::FormFu::Filter::UpperCase;
+
+# ABSTRACT: filter transforming to upper case
 
 use Moose;
 extends 'HTML::FormFu::Filter';

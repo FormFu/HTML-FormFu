@@ -14,8 +14,8 @@ map { $_->common( [ 'URI', 'HTTP', { -scheme => 'https?' } ] ) }
     $form->constraint('Regex');
 
 {
-    $form->process( {
-            foo => 'http://perl.org',
+    $form->process(
+        {   foo => 'http://perl.org',
             bar => 'ftp://perl.org',
         } );
 
@@ -24,8 +24,8 @@ map { $_->common( [ 'URI', 'HTTP', { -scheme => 'https?' } ] ) }
 }
 
 {
-    $form->process( {
-            foo => 'https://perl.org',
+    $form->process(
+        {   foo => 'https://perl.org',
             bar => 'www.perl.org',
         } );
 

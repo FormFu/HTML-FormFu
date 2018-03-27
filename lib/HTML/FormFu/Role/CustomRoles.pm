@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::CustomRoles;
 
+package HTML::FormFu::Role::CustomRoles;
 
 use Moose::Role;
 use Moose::Util qw( ensure_all_roles );
@@ -23,7 +23,7 @@ sub roles {
     if ( 1 == @_ && 'ARRAY' eq ref $_[0] ) {
         @new = @{ $_[0] };
     }
-    elsif ( @_ ) {
+    elsif (@_) {
         @new = @_;
     }
 
@@ -44,7 +44,7 @@ sub roles {
 
         ensure_all_roles( $self, @roles );
 
-        $self->_roles(\@roles);
+        $self->_roles( \@roles );
     }
 
     return [@roles];

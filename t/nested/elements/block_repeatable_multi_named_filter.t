@@ -15,8 +15,8 @@ my $fieldset   = $form->get_element;
 my $repeatable = $fieldset->get_element;
 my $multi      = $repeatable->get_element;
 
-$form->process( {
-        'counter'            => 1,
+$form->process(
+    {   'counter'            => 1,
         'nested_1.foo'       => 'aaa',
         'nested_1.multi.bar' => 'bbb',
         'nested_1.multi.baz' => 'ccc',

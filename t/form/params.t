@@ -13,8 +13,8 @@ $form->element('Text')->name('string');
 
 $form->constraint( 'Number', 'foo', 'bar', 'string' );
 
-$form->process( {
-        foo     => 1,
+$form->process(
+    {   foo     => 1,
         bar     => [ 2, 3 ],
         string  => 'yada',
         unknown => 4,

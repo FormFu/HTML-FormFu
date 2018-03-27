@@ -19,8 +19,8 @@ delete $ENV{HTML_FORMFU_RENDER_METHOD};
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( {
-        tt_args =>
+my $form = HTML::FormFu->new(
+    {   tt_args =>
             { INCLUDE_PATH => [ 't/form/object', 'share/templates/tt/xhtml' ] }
     } );
 

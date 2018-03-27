@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::ContainsElementsSharedWithField;
 
+package HTML::FormFu::Role::ContainsElementsSharedWithField;
 
 use Moose::Role;
 
@@ -46,8 +46,8 @@ sub _require_constraint {
 
     require_class($class);
 
-    my $constraint = $class->new( {
-            type   => $type,
+    my $constraint = $class->new(
+        {   type   => $type,
             not    => $not,
             parent => $self,
         } );

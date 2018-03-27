@@ -14,8 +14,8 @@ $form->constraint('Printable');
 
 # Valid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => 'bbbbbbb',
         } );
 
@@ -25,8 +25,8 @@ $form->constraint('Printable');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => '日本語',
         } );
 

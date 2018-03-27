@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Equal;
-# ABSTRACT: Multi-field Equality Constraint
 
+package HTML::FormFu::Constraint::Equal;
+
+# ABSTRACT: Multi-field Equality Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';
@@ -66,8 +67,8 @@ sub process {
         return;
     }
 
-    return $self->mk_errors( {
-            pass => @failed ? 0 : 1,
+    return $self->mk_errors(
+        {   pass   => @failed ? 0 : 1,
             failed => \@failed,
             names  => [ $self->nested_name, @names ],
         } );

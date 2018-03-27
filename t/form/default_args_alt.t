@@ -12,14 +12,14 @@ my $form = HTML::FormFu->new(
 $form->load_config_file('t/form/default_args_alt.yml');
 
 # longest match - 'not_in_multi' longer then 'is_input'
-my $foo = $form->get_field({ name => 'foo' });
+my $foo = $form->get_field( { name => 'foo' } );
 like( $foo->attrs->{class}, qr/not_in_multi/ );
 
 # Input within the Multi does not get the 'not_in_multi' class
-my $bar = $form->get_field({ name => 'bar' });
+my $bar = $form->get_field( { name => 'bar' } );
 like( $bar->attrs->{class}, qr/is_input/ );
 
-is ( "$form", <<HTML );
+is( "$form", <<HTML );
 <form action="" method="post">
 <div>
 <input name="foo" type="text" class="not_in_multi" />

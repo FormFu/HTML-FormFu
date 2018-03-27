@@ -15,8 +15,8 @@ $form->constraint('Integer');
 # Valid
 # linebreak not valid
 {
-    $form->process( {
-            foo => '12',
+    $form->process(
+        {   foo => '12',
             bar => "12\n",
         } );
 
@@ -30,8 +30,8 @@ $form->constraint('Integer');
 # "0" is valid
 # linebreak not valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => "0\n",
         } );
 

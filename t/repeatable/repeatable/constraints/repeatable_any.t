@@ -14,8 +14,8 @@ $form->load_config_file(
 
 # Valid
 {
-    $form->process( {
-            outer_count   => 3,
+    $form->process(
+        {   outer_count   => 3,
             foo_1         => 'a',
             foo_2         => '',
             foo_3         => '',
@@ -35,8 +35,8 @@ $form->load_config_file(
 
 # Missing - Invalid
 {
-    $form->process( {
-            outer_count   => 3,
+    $form->process(
+        {   outer_count   => 3,
             foo_1         => '',
             foo_2         => '',
             foo_3         => '',

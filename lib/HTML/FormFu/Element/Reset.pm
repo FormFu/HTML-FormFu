@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Reset;
-# ABSTRACT: Reset button form field
 
+package HTML::FormFu::Element::Reset;
+
+# ABSTRACT: Reset button form field
 
 use Moose;
 

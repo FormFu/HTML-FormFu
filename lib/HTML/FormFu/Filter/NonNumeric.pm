@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::NonNumeric;
-# ABSTRACT: filter removing all non-numeric characters
 
+package HTML::FormFu::Filter::NonNumeric;
+
+# ABSTRACT: filter removing all non-numeric characters
 
 use Moose;
 extends 'HTML::FormFu::Filter::Regex';

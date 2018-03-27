@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Label;
-# ABSTRACT: field for displaying only
 
+package HTML::FormFu::Element::Label;
+
+# ABSTRACT: field for displaying only
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -78,8 +79,8 @@ sub process_input {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            tag => $self->tag,
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   tag => $self->tag,
             $args ? %$args : (),
         } );
 

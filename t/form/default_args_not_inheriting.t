@@ -9,8 +9,8 @@ use Storable qw( dclone );
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->default_args( {
-        elements => {
+$form->default_args(
+    {   elements => {
             '+Block'    => { auto_id    => 'ID' },
             SimpleTable => { attributes => { class => 'custom class' } },
         },
@@ -20,9 +20,9 @@ $form->default_args( {
 
 my $default_args = dclone( $form->default_args );
 
-$form->populate( {
-        elements => [ {
-                type => 'SimpleTable',
+$form->populate(
+    {   elements => [
+            {   type => 'SimpleTable',
                 name => 'foo',
             },
         ],

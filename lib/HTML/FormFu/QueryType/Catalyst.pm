@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::QueryType::Catalyst;
-# ABSTRACT: uploaded file
 
+package HTML::FormFu::QueryType::Catalyst;
+
+# ABSTRACT: uploaded file
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -32,8 +33,8 @@ sub parse_uploads {
     }
 
     for my $upload (@uploads) {
-        my $param = $class->new( {
-                parent   => $form,
+        my $param = $class->new(
+            {   parent   => $form,
                 basename => $upload->basename,
                 headers  => $upload->headers,
                 filename => $upload->filename,

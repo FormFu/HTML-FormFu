@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Src;
-# ABSTRACT: custom HTML element
 
+package HTML::FormFu::Element::Src;
+
+# ABSTRACT: custom HTML element
 
 use Moose;
 extends 'HTML::FormFu::Element::Block';

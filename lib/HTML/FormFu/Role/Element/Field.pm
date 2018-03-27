@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Element::Field;
-# ABSTRACT: Role for all form-field elements
 
+package HTML::FormFu::Role::Element::Field;
+
+# ABSTRACT: Role for all form-field elements
 
 use Moose::Role;
 use MooseX::Aliases;
@@ -494,8 +495,8 @@ sub process_value {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            nested_name          => xml_escape( $self->nested_name ),
+    my $render = $self->$orig(
+        {   nested_name          => xml_escape( $self->nested_name ),
             comment_attributes   => xml_escape( $self->comment_attributes ),
             container_attributes => xml_escape( $self->container_attributes ),
             label_attributes     => xml_escape( $self->label_attributes ),
@@ -544,10 +545,9 @@ sub _render_label {
         $render->{label} = $self->form->localize($label);
     }
 
-    if (    defined $render->{label}
-         && defined $self->auto_label_class
-         && length $self->auto_label_class
-        )
+    if (   defined $render->{label}
+        && defined $self->auto_label_class
+        && length $self->auto_label_class )
     {
         my $form_name
             = defined $self->form->id
@@ -571,14 +571,12 @@ sub _render_label {
         my $class = $self->auto_label_class;
         $class =~ s/%([fnt])/$string{$1}/g;
 
-        append_xml_attribute( $render->{label_attributes},
-            'class', $class );
+        append_xml_attribute( $render->{label_attributes}, 'class', $class );
     }
 
-    if (    defined $render->{label}
-         && defined $self->auto_container_label_class
-         && length $self->auto_container_label_class
-        )
+    if (   defined $render->{label}
+        && defined $self->auto_container_label_class
+        && length $self->auto_container_label_class )
     {
         my $form_name
             = defined $self->form->id
@@ -620,10 +618,9 @@ sub _render_label {
 sub _render_comment_class {
     my ( $self, $render ) = @_;
 
-    if (    defined $render->{comment}
-         && defined $self->auto_comment_class
-         && length $self->auto_comment_class
-        )
+    if (   defined $render->{comment}
+        && defined $self->auto_comment_class
+        && length $self->auto_comment_class )
     {
         my $form_name
             = defined $self->form->id
@@ -643,14 +640,12 @@ sub _render_comment_class {
         my $class = $self->auto_comment_class;
         $class =~ s/%([fn])/$string{$1}/g;
 
-        append_xml_attribute( $render->{comment_attributes},
-            'class', $class );
+        append_xml_attribute( $render->{comment_attributes}, 'class', $class );
     }
 
-    if (    defined $render->{comment}
-         && defined $self->auto_container_comment_class
-         && length $self->auto_container_comment_class
-        )
+    if (   defined $render->{comment}
+        && defined $self->auto_container_comment_class
+        && length $self->auto_container_comment_class )
     {
         my $form_name
             = defined $self->form->id
@@ -691,8 +686,8 @@ sub _render_value {
     {
         if ( $self->render_processed_value ) {
             $input
-                = $self->get_nested_hash_value( $form->_processed_params, $name,
-                );
+                = $self->get_nested_hash_value( $form->_processed_params,
+                $name, );
         }
         else {
             $input = $self->get_nested_hash_value( $form->input, $name, );
@@ -739,9 +734,8 @@ sub _render_value {
 sub _render_container_class {
     my ( $self, $render ) = @_;
 
-    if (    defined $self->auto_container_class
-         && length $self->auto_container_class
-        )
+    if ( defined $self->auto_container_class
+        && length $self->auto_container_class )
     {
         my $form_name
             = defined $self->form->id
@@ -900,8 +894,8 @@ sub _render_error_class {
 
     if ( defined $field_class && length $field_class ) {
         my %string = (
-            f => sub { defined $self->form->id ? $self->form->id   : '' },
-            n => sub { defined $render->{name} ? $render->{name}   : '' },
+            f => sub { defined $self->form->id ? $self->form->id : '' },
+            n => sub { defined $render->{name} ? $render->{name} : '' },
         );
 
         $field_class =~ s/%([fn])/$string{$1}->()/ge;
@@ -916,8 +910,8 @@ sub _render_error_class {
 
     if ( defined $auto_class && length $auto_class ) {
         my %string = (
-            f => sub { defined $self->form->id ? $self->form->id   : '' },
-            n => sub { defined $render->{name} ? $render->{name}   : '' },
+            f => sub { defined $self->form->id ? $self->form->id : '' },
+            n => sub { defined $render->{name} ? $render->{name} : '' },
         );
 
         $auto_class =~ s/%([fn])/$string{$1}->()/ge;
@@ -931,8 +925,8 @@ sub _render_error_class {
     if ( defined $item_class && length $item_class ) {
         for my $error (@errors) {
             my %string = (
-                f => sub { defined $self->form->id ? $self->form->id   : '' },
-                n => sub { defined $render->{name} ? $render->{name}   : '' },
+                f => sub { defined $self->form->id ? $self->form->id : '' },
+                n => sub { defined $render->{name} ? $render->{name} : '' },
                 s => sub { $error->{stage} },
                 t => sub { lc $error->{type} },
             );
@@ -944,9 +938,8 @@ sub _render_error_class {
         }
     }
 
-    map {
-        append_xml_attribute( $render->{container_attributes}, 'class', $_ )
-    } uniq @container_class;
+    map { append_xml_attribute( $render->{container_attributes}, 'class', $_ ) }
+        uniq @container_class;
 
     my @error_container_class;
 
@@ -957,8 +950,8 @@ sub _render_error_class {
 
         if ( defined $auto_class && length $auto_class ) {
             my %string = (
-                f => sub { defined $self->form->id ? $self->form->id   : '' },
-                n => sub { defined $render->{name} ? $render->{name}   : '' },
+                f => sub { defined $self->form->id ? $self->form->id : '' },
+                n => sub { defined $render->{name} ? $render->{name} : '' },
             );
 
             $auto_class =~ s/%([fn])/$string{$1}->()/ge;
@@ -972,8 +965,8 @@ sub _render_error_class {
         if ( defined $item_class && length $item_class ) {
             for my $error (@errors) {
                 my %string = (
-                    f => sub { defined $self->form->id ? $self->form->id   : '' },
-                    n => sub { defined $render->{name} ? $render->{name}   : '' },
+                    f => sub { defined $self->form->id ? $self->form->id : '' },
+                    n => sub { defined $render->{name} ? $render->{name} : '' },
                     s => sub { $error->{stage} },
                     t => sub { lc $error->{type} },
                 );
@@ -985,8 +978,9 @@ sub _render_error_class {
             }
         }
 
-         map {
-            append_xml_attribute( $render->{error_container_attributes}, 'class', $_ )
+        map {
+            append_xml_attribute( $render->{error_container_attributes},
+                'class', $_ )
         } uniq @error_container_class;
     }
 
@@ -998,7 +992,7 @@ sub render_label {
 
     my $render = $self->render_data;
 
-    return $self->_string_label( $render );
+    return $self->_string_label($render);
 }
 
 sub render_field {
@@ -1006,7 +1000,7 @@ sub render_field {
 
     my $render = $self->render_data;
 
-    return $self->_string_field( $render );
+    return $self->_string_field($render);
 }
 
 sub _string_field_start {
@@ -1026,7 +1020,7 @@ sub _string_field_start {
         $html .= sprintf "\n%s", $self->_string_label($render);
     }
 
-    $html .= $self->_string_errors( $render );
+    $html .= $self->_string_errors($render);
 
     if (   defined $render->{label}
         && $render->{label_tag} ne 'legend'

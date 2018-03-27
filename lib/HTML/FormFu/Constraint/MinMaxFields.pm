@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::MinMaxFields;
-# ABSTRACT: Min/Max Multi-field Constraint
 
+package HTML::FormFu::Constraint::MinMaxFields;
+
+# ABSTRACT: Min/Max Multi-field Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -82,8 +83,8 @@ sub process {
 
     my $pass = ( $count < $min || $count > $max ) ? 0 : 1;
 
-    return $self->mk_errors( {
-            pass   => $pass,
+    return $self->mk_errors(
+        {   pass   => $pass,
             failed => $pass ? [] : \@names,
             names  => \@names,
         } );

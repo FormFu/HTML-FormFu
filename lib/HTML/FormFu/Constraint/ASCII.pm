@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::ASCII;
-# ABSTRACT: ASCII Characters Constraint
 
+package HTML::FormFu::Constraint::ASCII;
+
+# ABSTRACT: ASCII Characters Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';

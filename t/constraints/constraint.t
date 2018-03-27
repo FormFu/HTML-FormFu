@@ -10,8 +10,8 @@ my $form = HTML::FormFu->new;
 $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 
-my @c1 = $form->constraint( {
-        type  => 'Number',
+my @c1 = $form->constraint(
+    {   type  => 'Number',
         names => [qw/ foo bar /],
     } );
 
@@ -22,8 +22,8 @@ is( $c1[1]->name, 'bar' );
 is( $c1[1]->type, 'Number' );
 
 {
-    my @a = $form->constraint( [ {
-                type  => 'Regex',
+    my @a = $form->constraint( [
+            {   type  => 'Regex',
                 names => [qw/ foo bar /],
             },
             {   type  => 'Required',
@@ -48,8 +48,8 @@ $ec_element->constraint('Regex')->regex(qr/^\d+$/);
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 2,
             ec  => 3,
         } );
@@ -65,8 +65,8 @@ $ec_element->constraint('Regex')->regex(qr/^\d+$/);
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 'baz',
             ec  => 'a',
         } );
@@ -82,8 +82,8 @@ $ec_element->constraint('Regex')->regex(qr/^\d+$/);
 
 # Empty string Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 2,
             ec  => '',
         } );
@@ -99,8 +99,8 @@ $ec_element->constraint('Regex')->regex(qr/^\d+$/);
 
 # Missing Invalid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 2,
         } );
 
@@ -115,8 +115,8 @@ $ec_element->constraint('Regex')->regex(qr/^\d+$/);
 
 # zero "0" Valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => 1,
             ec  => 0,
         } );

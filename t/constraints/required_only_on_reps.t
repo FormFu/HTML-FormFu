@@ -13,8 +13,8 @@ $form->load_config_file('t/constraints/required_only_on_reps.yml');
 
 # Valid
 {
-    $form->process( {
-            foo_1 => 'a',
+    $form->process(
+        {   foo_1 => 'a',
             bar_1 => '',
             buz_1 => 'g',
             moo_1 => 'j',
@@ -34,8 +34,8 @@ $form->load_config_file('t/constraints/required_only_on_reps.yml');
 
 # Valid
 {
-    $form->process( {
-            foo_1 => 'a',
+    $form->process(
+        {   foo_1 => 'a',
             bar_1 => 'd',
             buz_1 => 'g',
             moo_1 => 'j',
@@ -55,8 +55,8 @@ $form->load_config_file('t/constraints/required_only_on_reps.yml');
 
 # Missing - Invalid
 {
-    $form->process( {
-            foo_1 => '',
+    $form->process(
+        {   foo_1 => '',
             bar_1 => '',
             buz_1 => '',
             moo_1 => '',

@@ -67,8 +67,8 @@ $form->load_config_file('t/elements/combobox.yml');
 
 # valid select value
 {
-    $form->process( {
-            combo_select => 'one',
+    $form->process(
+        {   combo_select => 'one',
             combo_text   => '',
         } );
 
@@ -79,8 +79,8 @@ $form->load_config_file('t/elements/combobox.yml');
 
 # valid text value
 {
-    $form->process( {
-            combo_select => '',
+    $form->process(
+        {   combo_select => '',
             combo_text   => 'four',
         } );
 
@@ -91,8 +91,8 @@ $form->load_config_file('t/elements/combobox.yml');
 
 # valid - text is used in preference to select value
 {
-    $form->process( {
-            combo_select => 'one',
+    $form->process(
+        {   combo_select => 'one',
             combo_text   => 'four',
         } );
 

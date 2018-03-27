@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::LowerCase;
-# ABSTRACT: filter transforming to lower case
 
+package HTML::FormFu::Filter::LowerCase;
+
+# ABSTRACT: filter transforming to lower case
 
 use Moose;
 extends 'HTML::FormFu::Filter';

@@ -6,15 +6,15 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( {
-        localize_class => 'HTMLFormFu::I18N',
+my $form = HTML::FormFu->new(
+    {   localize_class => 'HTMLFormFu::I18N',
         tt_args        => { INCLUDE_PATH => 'share/templates/tt/xhtml' },
     } );
 
 {
     my $field = $form->element('Select')->name('foo');
-    $field->options( [ {
-                label_loc => 'label_foo',
+    $field->options( [
+            {   label_loc => 'label_foo',
                 value     => 'foo',
             } ] );
 

@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/filters/compoundsprintf_field_order.yml');
 
-$form->process( {
-        'date.month' => '6',
+$form->process(
+    {   'date.month' => '6',
         'date.day'   => '26',
         'date.year'  => '2008',
     } );

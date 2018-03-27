@@ -323,8 +323,8 @@ is( "$form", <<HTML );
 </form>
 HTML
 
-$form->process( {
-        foo_hour   => '00',
+$form->process(
+    {   foo_hour   => '00',
         foo_minute => '00',
         foo_day    => 30,
         foo_month  => 6,
@@ -359,8 +359,8 @@ like( $form->get_field('bar'),
 
 # incorrect date
 
-$form->process( {
-        foo_hour   => '00',
+$form->process(
+    {   foo_hour   => '00',
         foo_minute => '00',
         foo_day    => 29,
         foo_month  => 2,

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Submit;
-# ABSTRACT: Submit button form field
 
+package HTML::FormFu::Element::Submit;
+
+# ABSTRACT: Submit button form field
 
 use Moose;
 

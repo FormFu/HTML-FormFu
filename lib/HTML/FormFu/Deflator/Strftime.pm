@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::Strftime;
-# ABSTRACT: Strftime deflator
 
+package HTML::FormFu::Deflator::Strftime;
+
+# ABSTRACT: Strftime deflator
 
 use Moose;
 use MooseX::Attribute::Chained;

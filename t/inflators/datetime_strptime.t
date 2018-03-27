@@ -14,8 +14,8 @@ $form->element('Text')->name('bar')->inflator('DateTime')
     ->parser( { strptime => '%d/%m/%Y' } )
     ->strptime( { pattern => '%m-%d-%Y' } );
 
-$form->process( {
-        foo => '31/12/2006',
+$form->process(
+    {   foo => '31/12/2006',
         bar => '1/07/2007',
     } );
 

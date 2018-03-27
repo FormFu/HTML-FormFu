@@ -8,8 +8,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->element('Radiogroup')->name('foo')->default(2)->options( [
-        { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
+$form->element('Radiogroup')->name('foo')->default(2)->options(
+    [   { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
         {   group => [ [ foo2_1 => 'One' ], [ foo2_2 => 'Two' ] ],
             label => 'foo2',
         },

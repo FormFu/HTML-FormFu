@@ -8,8 +8,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->element('Select')->name('foo')->value(2)->options( [
-        { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
+$form->element('Select')->name('foo')->value(2)->options(
+    [   { group => [ [ 1 => 'one' ], [ 2 => 'two' ] ] },
         {   group => [ [ foo2_1 => 'One' ], [ foo2_2 => 'Two' ] ],
             label => 'foo2',
         },

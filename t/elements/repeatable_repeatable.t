@@ -10,8 +10,8 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/elements/repeatable_repeatable.yml');
 
-$form->process( {
-        count   => 2,
+$form->process(
+    {   count   => 2,
         foo_1   => 'a',
         foo_2   => 'b',
         count_1 => 1,

@@ -11,8 +11,8 @@ $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 $form->element('Text')->name('bif')->constraint('Number');
 
-$form->filter( {
-        type  => 'HTMLEscape',
+$form->filter(
+    {   type  => 'HTMLEscape',
         names => [qw/ bar bif /],
     } );
 
@@ -21,8 +21,8 @@ my $original_foo = qq{escape "this"};
 my $original_bar = qq{escape "that"};
 my $escaped_bar  = qq{escape &quot;that&quot;};
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => $original_bar,
         bif => "not a number",
     } );

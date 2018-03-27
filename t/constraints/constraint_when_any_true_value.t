@@ -11,8 +11,8 @@ $form->load_config_file('t/constraints/constraint_when_any_true_value.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => 'b',
         } );
 
@@ -24,8 +24,8 @@ $form->load_config_file('t/constraints/constraint_when_any_true_value.yml');
 
 # valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 'b',
         } );
 
@@ -37,8 +37,8 @@ $form->load_config_file('t/constraints/constraint_when_any_true_value.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => '',
         } );
 

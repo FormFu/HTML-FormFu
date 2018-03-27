@@ -12,8 +12,8 @@ $form->element('Checkbox')->name('foo')->value('a')->retain_default(1);
 $form->element('Checkbox')->name('fox')->value('b')->retain_default(1);
 $form->element('Checkbox')->name('bar')->value('c');
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => '',
     } );
 

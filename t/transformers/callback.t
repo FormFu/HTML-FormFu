@@ -41,8 +41,8 @@ $form->element('Text')->name('coo')->transformer('Callback')
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => [ 0, 'a', 'b' ],
             coo => 'sTrinG I waNT to CaNonize ',
         } );

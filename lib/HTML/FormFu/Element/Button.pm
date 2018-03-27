@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Button;
-# ABSTRACT: Button form field
 
+package HTML::FormFu::Element::Button;
+
+# ABSTRACT: Button form field
 
 use Moose;
 

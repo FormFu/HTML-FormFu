@@ -6,10 +6,10 @@ use warnings;
 package My::Nested::Validators::Callback;
 
 sub cb {
-    my $value = shift;
+    my $value  = shift;
     my $params = shift;
     ::ok(1) if grep { $value eq $_ ? 1 : 0 } qw/ 1 0 a /;
-    ::ok(ref($params) eq 'HASH' && keys %$params, 'params hashref is passed');
+    ::ok( ref($params) eq 'HASH' && keys %$params, 'params hashref is passed' );
     return 1;
 }
 
@@ -29,16 +29,16 @@ $form->element('Text')->name('bar')->validator('Callback')
 $form->element('Text')->name('baz');
 
 # attached via form
-$form->validator( {
-        type     => 'Callback',
+$form->validator(
+    {   type     => 'Callback',
         name     => 'foo.baz',
         callback => 'My::Nested::Validators::Callback::cb',
     } );
 
 # Valid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => [ 0, 'a', 'b' ],
         } );
 

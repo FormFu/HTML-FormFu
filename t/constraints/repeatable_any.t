@@ -16,8 +16,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Valid
 {
-    $form->process( {
-            foo_1 => 'a',
+    $form->process(
+        {   foo_1 => 'a',
             foo_2 => 'b',
             count => 2,
         } );
@@ -34,8 +34,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Valid - 1 missing
 {
-    $form->process( {
-            foo_1 => 'a',
+    $form->process(
+        {   foo_1 => 'a',
             foo_2 => '',
             count => 2,
         } );
@@ -52,8 +52,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Valid - 1 missing
 {
-    $form->process( {
-            foo_1 => '',
+    $form->process(
+        {   foo_1 => '',
             foo_2 => 'b',
             count => 2,
         } );
@@ -70,8 +70,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Missing - Invalid
 {
-    $form->process( {
-            foo_1 => '',
+    $form->process(
+        {   foo_1 => '',
             foo_2 => '',
             count => 2,
         } );

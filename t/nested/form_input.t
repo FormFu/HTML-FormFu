@@ -11,8 +11,8 @@ $form->auto_fieldset( { nested_name => 'foo' } );
 
 my $bar = $form->element('Text')->name('bar');
 
-$form->process( {
-        'foo.bar' => 'x',
+$form->process(
+    {   'foo.bar' => 'x',
         foo       => { bar => 'x', },
     } );
 

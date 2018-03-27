@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::Whitespace;
-# ABSTRACT: filter stripping all whitespace
 
+package HTML::FormFu::Filter::Whitespace;
+
+# ABSTRACT: filter stripping all whitespace
 
 use Moose;
 extends 'HTML::FormFu::Filter::Regex';

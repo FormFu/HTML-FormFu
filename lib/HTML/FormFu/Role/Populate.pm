@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::Populate;
 
+package HTML::FormFu::Role::Populate;
 
 use Moose::Role;
 
@@ -13,12 +13,10 @@ after BUILD => sub {
     $args ||= {};
 
     # get args handled by Moose so they aren't set twice
-    my %init_args =
-        map { $_->{init_arg} => 1 }
-        grep { defined $_->{init_arg} }
-            $self->meta->get_all_attributes;
+    my %init_args = map { $_->{init_arg} => 1 }
+        grep { defined $_->{init_arg} } $self->meta->get_all_attributes;
 
-    # remove defaults set in HTML::FormFu::BUILD because they need to be set for a third time
+# remove defaults set in HTML::FormFu::BUILD because they need to be set for a third time
     delete @init_args{ keys %{$HTML::FormFu::build_defaults} };
     my %args
         = map { $_ => $args->{$_} } grep { !exists $init_args{$_} } keys %$args;
@@ -75,8 +73,8 @@ sub populate {
     }
 
     eval {
-        if ( $roles ) {
-            $self->roles( $roles );
+        if ($roles) {
+            $self->roles($roles);
         }
 
         map { $self->$_( delete $args{$_} ) } keys %args;

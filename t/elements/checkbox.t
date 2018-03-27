@@ -42,8 +42,8 @@ is( "$form", $form_xhtml, 'stringified form' );
 
 # With mocked basic query
 {
-    $form->process( {
-            foo => 'foox',
+    $form->process(
+        {   foo => 'foox',
             moo => 'moox',
         } );
 

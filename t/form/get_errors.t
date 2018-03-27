@@ -14,8 +14,8 @@ $form->element('Text')->name('string');
 
 $form->constraint( 'Number', 'foo', 'bar', 'string' );
 
-$form->process( {
-        foo    => 1,
+$form->process(
+    {   foo    => 1,
         bar    => [ 2, 'c' ],
         string => 'yada',
     } );
@@ -53,8 +53,8 @@ $form->process( {
 }
 
 {
-    my $errors = $form->get_errors( {
-            name => 'bar',
+    my $errors = $form->get_errors(
+        {   name => 'bar',
             type => 'Number',
         } );
 

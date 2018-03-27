@@ -38,8 +38,7 @@ my $q;
 {
     my $file = 't/elements/file_post.txt';
     local *STDIN;
-    open STDIN,
-        "<", $file
+    open STDIN, "<", $file
         or die "missing test file $file";
     binmode STDIN;
     $q = CGI->new;

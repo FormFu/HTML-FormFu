@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Radio;
-# ABSTRACT: Radio form field
 
+package HTML::FormFu::Element::Radio;
+
+# ABSTRACT: Radio form field
 
 use Moose;
 

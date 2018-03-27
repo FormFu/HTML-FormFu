@@ -6,10 +6,10 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( {
-    localize_class => 'HTMLFormFu::I18N',
-    tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' },
-} );
+my $form = HTML::FormFu->new(
+    {   localize_class => 'HTMLFormFu::I18N',
+        tt_args        => { INCLUDE_PATH => 'share/templates/tt/xhtml' },
+    } );
 
 $form->element('Text')->name('foo')->title('The Foo');
 $form->element('Text')->name('bar')->title_loc('bar_title');

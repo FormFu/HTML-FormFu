@@ -21,8 +21,8 @@ $form->element('Text')->name('bar')->constraint('CallbackOnce')->callback(
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => [ 0, 'a' ],
         } );
 

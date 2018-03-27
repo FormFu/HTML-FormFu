@@ -15,8 +15,8 @@ $form->validator('+HTMLFormFu::MyValidator');
 
 # Valid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => 'bbbbbbb',
         } );
 
@@ -26,8 +26,8 @@ $form->validator('+HTMLFormFu::MyValidator');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => 'foo',
         } );
 

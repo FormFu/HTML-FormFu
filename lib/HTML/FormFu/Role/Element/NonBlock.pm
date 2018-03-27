@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Element::NonBlock;
-# ABSTRACT: base class for single-tag elements
 
+package HTML::FormFu::Role::Element::NonBlock;
+
+# ABSTRACT: base class for single-tag elements
 
 use Moose::Role;
 
@@ -20,8 +21,8 @@ after BUILD => sub {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            tag => $self->tag,
+    my $render = $self->$orig(
+        {   tag => $self->tag,
             $args ? %$args : (),
         } );
 

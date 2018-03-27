@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Multi;
-# ABSTRACT: Combine multiple fields in a single element
 
+package HTML::FormFu::Element::Multi;
+
+# ABSTRACT: Combine multiple fields in a single element
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -136,9 +137,7 @@ sub render_data {
 
     my $render = $self->SUPER::render_data(@_);
 
-    map {
-        delete $_->{container_tag}
-    } @{ $render->{elements} || [] };
+    map { delete $_->{container_tag} } @{ $render->{elements} || [] };
 
     return $render;
 }
@@ -156,9 +155,7 @@ sub render_data_non_recursive {
 sub _parse_layout_field {
     my ( $self, $render ) = @_;
 
-    my @html = (
-        sprintf "<span%s>", process_attrs( $render->{attributes} ),
-    );
+    my @html = ( sprintf "<span%s>", process_attrs( $render->{attributes} ), );
 
     for my $elem ( @{ $self->get_elements } ) {
         my $render = $elem->render_data;
@@ -167,7 +164,9 @@ sub _parse_layout_field {
 
         $render->{container_tag} = undef;
 
-        push @html, $elem->string( { render_data => $render, layout => $elem->multi_layout } );
+        push @html,
+            $elem->string(
+            { render_data => $render, layout => $elem->multi_layout } );
     }
 
     push @html, "</span>";

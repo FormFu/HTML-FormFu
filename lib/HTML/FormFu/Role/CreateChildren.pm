@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::CreateChildren;
 
+package HTML::FormFu::Role::CreateChildren;
 
 use Moose::Role;
 
@@ -138,21 +138,22 @@ sub _require_element {
 
     require_class($class);
 
-    my $element = $class->new( {
-            type   => $type,
+    my $element = $class->new(
+        {   type   => $type,
             parent => $self,
         } );
 
     my $default_args = $self->default_args;
 
-    if ( %$default_args ) {
+    if (%$default_args) {
         if ( $element->can('default_args') ) {
-            $element->default_args( Clone::clone( $default_args ) );
+            $element->default_args( Clone::clone($default_args) );
         }
 
-        $default_args = $element->_match_default_args( Clone::clone( $default_args->{elements} ) );
+        $default_args = $element->_match_default_args(
+            Clone::clone( $default_args->{elements} ) );
 
-        if ( %$default_args ) {
+        if (%$default_args) {
             $arg = _merge_hashes( $arg, $default_args );
         }
     }

@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/filters/compoundsprintf.yml');
 
-$form->process( {
-        'date.day'   => '26',
+$form->process(
+    {   'date.day'   => '26',
         'date.month' => '6',
         'date.year'  => '2008',
     } );

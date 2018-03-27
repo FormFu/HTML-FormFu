@@ -28,8 +28,8 @@ $form->element('Text')->name('baz')->transformer('Callback')
 
 # Valid
 {
-    $form->process( {
-            "foo.bar" => 1,
+    $form->process(
+        {   "foo.bar" => 1,
             "foo.baz" => [ 0, 'a', 'b' ],
         } );
 

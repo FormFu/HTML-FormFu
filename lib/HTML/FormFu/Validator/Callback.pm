@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Validator::Callback;
-# ABSTRACT: Callback validator
 
+package HTML::FormFu::Validator::Callback;
+
+# ABSTRACT: Callback validator
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -17,7 +18,7 @@ sub validate_value {
     ## no critic (ProhibitNoStrict);
     no strict 'refs';
 
-    my $ok = $callback->($value, $params);
+    my $ok = $callback->( $value, $params );
 
     return $ok;
 }

@@ -16,8 +16,8 @@ my $field2 = $form->element('Radiogroup')->name('foo2')
     ->options( [ [ 'a' => 'A' ], [ 'b' => 'B' ] ] )->reverse_group(0);
 
 # add more elements to test accessor output
-$form->element('Radiogroup')->name('foo3')->options( [
-        { label => 'Ein', value => 1 },
+$form->element('Radiogroup')->name('foo3')->options(
+    [   { label => 'Ein', value => 1 },
         {   label                => 'Zwei',
             value                => 2,
             attributes           => { class => 'foobar' },
@@ -100,8 +100,8 @@ is( "$form", $form_xhtml, 'stringified form' );
 
 # With mocked basic query
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 'three',
         } );
 

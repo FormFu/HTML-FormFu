@@ -17,8 +17,8 @@ $form->element('Text')->name('bag');
 
 # Valid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => 'a',
             'foo.bag' => [2],
         } );
@@ -28,8 +28,8 @@ $form->element('Text')->name('bag');
 
 # Invalid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => '',
             'foo.bag' => 2,
         } );

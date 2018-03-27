@@ -47,8 +47,8 @@ local *STDIN = $io;
 
 my $q = CGI->new();
 
-my $form = HTML::FormFu->new( {
-        action        => 'http://www.perl.org/test.cgi',
+my $form = HTML::FormFu->new(
+    {   action        => 'http://www.perl.org/test.cgi',
         auto_fieldset => { nested_name => 'foo', },
         elements      => [
             { type => 'Text', name => 'bar' },

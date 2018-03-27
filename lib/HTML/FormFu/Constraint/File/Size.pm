@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::File::Size;
-# ABSTRACT: File Size Constraint
 
+package HTML::FormFu::Constraint::File::Size;
+
+# ABSTRACT: File Size Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

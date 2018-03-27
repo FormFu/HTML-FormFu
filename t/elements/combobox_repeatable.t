@@ -13,8 +13,8 @@ $form->load_config_file('t/elements/combobox_repeatable.yml');
 {
     my $container = $form->get_all_element('container');
 
-    $form->process( {
-            count          => 3,
+    $form->process(
+        {   count          => 3,
             combo_1_select => 'one',
             combo_2_select => 'two',
             combo_3_select => 'three',

@@ -27,8 +27,8 @@ EOF
 is( $form, $form_xhtml );
 
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => '23',
         } );
 

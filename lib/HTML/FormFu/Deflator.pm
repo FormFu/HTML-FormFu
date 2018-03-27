@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator;
-# ABSTRACT: Deflator Base Class
 
+package HTML::FormFu::Deflator;
+
+# ABSTRACT: Deflator Base Class
 
 use Moose;
 use MooseX::Attribute::Chained;

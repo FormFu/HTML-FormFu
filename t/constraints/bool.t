@@ -14,8 +14,8 @@ $form->constraint('Bool');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 0,
         } );
 
@@ -25,8 +25,8 @@ $form->constraint('Bool');
 
 # Invalid
 {
-    $form->process( {
-            foo => '01',
+    $form->process(
+        {   foo => '01',
             bar => 'a',
         } );
 

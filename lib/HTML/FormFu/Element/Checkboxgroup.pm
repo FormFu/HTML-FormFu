@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Checkboxgroup;
-# ABSTRACT: Group of checkbox form fields
 
+package HTML::FormFu::Element::Checkboxgroup;
+
+# ABSTRACT: Group of checkbox form fields
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -35,13 +36,7 @@ after BUILD => sub {
     $self->reverse_group(1);
     $self->input_type('checkbox');
 
-    $self->layout( [
-        'label',
-        'errors',
-        'field',
-        'comment',
-        'javascript',
-    ] );
+    $self->layout( [ 'label', 'errors', 'field', 'comment', 'javascript', ] );
 
     return;
 };
@@ -134,8 +129,8 @@ sub _prepare_attrs {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            field_filename => $self->field_filename,
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   field_filename => $self->field_filename,
             reverse_group  => $self->reverse_group,
             input_type     => $self->input_type,
             $args ? %$args : (),

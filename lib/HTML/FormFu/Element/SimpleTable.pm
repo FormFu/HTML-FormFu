@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::SimpleTable;
-# ABSTRACT: simple table element
 
+package HTML::FormFu::Element::SimpleTable;
+
+# ABSTRACT: simple table element
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -106,8 +107,8 @@ sub render_data_non_recursive {    # though it is really recursive
         $i++;
     }
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );
 

@@ -11,8 +11,8 @@ $form->load_config_file('t/elements/combobox_required.yml');
 
 # valid select value
 {
-    $form->process( {
-            combo_select => 'one',
+    $form->process(
+        {   combo_select => 'one',
             combo_text   => '',
         } );
 
@@ -23,8 +23,8 @@ $form->load_config_file('t/elements/combobox_required.yml');
 
 # valid text value
 {
-    $form->process( {
-            combo_select => '',
+    $form->process(
+        {   combo_select => '',
             combo_text   => 'four',
         } );
 
@@ -35,8 +35,8 @@ $form->load_config_file('t/elements/combobox_required.yml');
 
 # invalid
 {
-    $form->process( {
-            combo_select => '',
+    $form->process(
+        {   combo_select => '',
             combo_text   => '',
             submit       => 'Submit Value',
         } );

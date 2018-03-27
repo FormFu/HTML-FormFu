@@ -12,8 +12,8 @@ $form->element('Text')->name('foo')->default('a')->retain_default(1);
 $form->element('Text')->name('bar')->default('b');
 $form->element('Text')->name('baz')->default('c')->retain_default(1);
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => '',
     } );
 

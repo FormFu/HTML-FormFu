@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Number;
-# ABSTRACT: Numerical Constraint
 
+package HTML::FormFu::Constraint::Number;
+
+# ABSTRACT: Numerical Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';

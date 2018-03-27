@@ -13,8 +13,8 @@ $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 $form->element('Text')->name('_baz');
 
-$form->process( {
-        foo  => 'a',
+$form->process(
+    {   foo  => 'a',
         bar  => 'b',
         _baz => 'c',
     } );

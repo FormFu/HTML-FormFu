@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Checkbox;
-# ABSTRACT: Checkbox form field
 
+package HTML::FormFu::Element::Checkbox;
+
+# ABSTRACT: Checkbox form field
 
 use Moose;
 
@@ -19,10 +20,7 @@ after BUILD => sub {
     $self->field_type('checkbox');
     $self->value(1);
 
-    $self->multi_layout( [
-        'field',
-        'label',
-    ] );
+    $self->multi_layout( [ 'field', 'label', ] );
 
     return;
 };
@@ -48,7 +46,7 @@ sub prepare_attrs {
         ? $self->get_nested_hash_value( $form->input, $self->nested_name )
         : undef;
 
-    if (defined $value and ref $value eq 'ARRAY') {
+    if ( defined $value and ref $value eq 'ARRAY' ) {
         $value = $original if grep { $_ eq $original } @$value;
     }
 

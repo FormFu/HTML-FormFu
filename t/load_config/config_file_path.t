@@ -34,8 +34,8 @@ $form2->load_config_file('form.yml');
 ok( $form2->get_field('found-me') );
 
 my $form3 = HTML::FormFu->new;
-$form3->config_file_path( [
-        't/load_config/config_file_path2', @dirs,
+$form3->config_file_path(
+    [   't/load_config/config_file_path2', @dirs,
         't/load_config/config_file_path'
     ] );
 $form3->load_config_file('form.yml');

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Hidden;
-# ABSTRACT: Hidden form field
 
+package HTML::FormFu::Element::Hidden;
+
+# ABSTRACT: Hidden form field
 
 use Moose;
 
@@ -15,9 +16,7 @@ after BUILD => sub {
     $self->field_type('hidden');
     $self->container_tag(undef);
 
-    $self->layout( [
-        'field',
-    ] );
+    $self->layout( [ 'field', ] );
 
     return;
 };

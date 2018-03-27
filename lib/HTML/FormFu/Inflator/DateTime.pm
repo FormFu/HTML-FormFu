@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Inflator::DateTime;
-# ABSTRACT: DateTime inflator
 
+package HTML::FormFu::Inflator::DateTime;
+
+# ABSTRACT: DateTime inflator
 
 use Moose;
 use MooseX::Attribute::Chained;

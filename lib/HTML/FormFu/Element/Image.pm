@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Image;
-# ABSTRACT: Image button form field
 
+package HTML::FormFu::Element::Image;
+
+# ABSTRACT: Image button form field
 
 use Moose;
 

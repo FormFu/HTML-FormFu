@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Printable;
-# ABSTRACT: Printable Characters Constraint
 
+package HTML::FormFu::Constraint::Printable;
+
+# ABSTRACT: Printable Characters Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';

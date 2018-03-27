@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Model::HashRef;
-# ABSTRACT: handle hashrefs
 
+package HTML::FormFu::Model::HashRef;
+
+# ABSTRACT: handle hashrefs
 
 use Moose;
 use MooseX::Attribute::Chained;

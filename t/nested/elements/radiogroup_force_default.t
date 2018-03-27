@@ -17,8 +17,8 @@ $form->element('Radiogroup')->name('bar')->values( [qw/ one two three /] )
 $form->element('Radiogroup')->name('baz')->values( [qw/ one two three /] )
     ->default('three')->force_default(1);
 
-$form->process( {
-        "rg.foo" => '',
+$form->process(
+    {   "rg.foo" => '',
         "rg.bar" => 'three',
     } );
 

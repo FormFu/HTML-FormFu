@@ -19,8 +19,8 @@ $form->element('Radio')->name('moo')->value('e')->default('e')
 $form->element('Radio')->name('mox')->value('f')->default('f')
     ->force_default(1);
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => 'z',
         moo => 'y',
     } );

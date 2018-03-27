@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::File::MaxSize;
-# ABSTRACT: Maximum File Size Constraint
 
+package HTML::FormFu::Constraint::File::MaxSize;
+
+# ABSTRACT: Maximum File Size Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::File::Size';

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::MinRange;
-# ABSTRACT: Minimum Value Constraint
 
+package HTML::FormFu::Constraint::MinRange;
+
+# ABSTRACT: Minimum Value Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Range';

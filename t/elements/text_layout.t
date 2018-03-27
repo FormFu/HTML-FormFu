@@ -24,16 +24,11 @@ The foo
 </form>
 HTML
 
-my $foo = $form->get_field({ name => 'foo' });
+my $foo = $form->get_field( { name => 'foo' } );
 
 ###
 
-$foo->layout( {
-    label => [
-        'field',
-        'label_text',
-    ],
-} );
+$foo->layout( { label => [ 'field', 'label_text', ], } );
 
 is( $form, <<HTML, 'label tag contains both input tag and label text' );
 <form action="" id="form" method="post">
@@ -48,17 +43,14 @@ HTML
 
 ###
 
-$foo->layout( [
-    'label',
-    {
-        div => {
-            attributes => {
-                class => 'xxx'
+$foo->layout(
+    [   'label',
+        {   div => {
+                attributes => { class => 'xxx' },
+                content    => 'field'
             },
-            content => 'field'
         },
-    },
-] );
+    ] );
 
 is( $form, <<HTML, 'arbitrary div with attributes containing input tag' );
 <form action="" id="form" method="post">
@@ -73,28 +65,20 @@ HTML
 
 ###
 
-$foo->layout( {
-    div => {
-        attributes => {
-            class => 'xxx',
-        },
-        content => {
-            div => {
-                attributes => {
-                    class => 'yyy',
-                },
-                content => {
-                    label => [
-                        'field',
-                        'label_text',
-                    ],
+$foo->layout(
+    {   div => {
+            attributes => { class => 'xxx', },
+            content    => {
+                div => {
+                    attributes => { class => 'yyy', },
+                    content    => { label => [ 'field', 'label_text', ], },
                 },
             },
         },
-    },
-} );
+    } );
 
-is( $form, <<HTML, '2 nested arbitrary divs with attributes, containing label tag containing input tag and label text' );
+is( $form,
+    <<HTML, '2 nested arbitrary divs with attributes, containing label tag containing input tag and label text' );
 <form action="" id="form" method="post">
 <div>
 <div class="xxx">

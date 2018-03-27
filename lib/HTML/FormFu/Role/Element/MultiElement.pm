@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::Element::MultiElement;
 
+package HTML::FormFu::Role::Element::MultiElement;
 
 use Moose::Role;
 

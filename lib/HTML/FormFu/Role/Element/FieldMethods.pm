@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::Element::FieldMethods;
 
+package HTML::FormFu::Role::Element::FieldMethods;
 
 use Moose::Role;
 

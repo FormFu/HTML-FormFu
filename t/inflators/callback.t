@@ -19,8 +19,8 @@ my $inflated_foo = "ABC123";
 my $original_bar = "abcdef";
 my $inflated_bar = "ABCdef";
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => $original_bar,
     } );
 

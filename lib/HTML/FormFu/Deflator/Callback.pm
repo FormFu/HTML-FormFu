@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::Callback;
-# ABSTRACT: Callback deflator
 
+package HTML::FormFu::Deflator::Callback;
+
+# ABSTRACT: Callback deflator
 
 use Moose;
 use MooseX::Attribute::Chained;

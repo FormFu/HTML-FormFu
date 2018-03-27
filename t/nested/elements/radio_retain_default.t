@@ -14,8 +14,8 @@ $form->element('Radio')->name('foo')->value('a')->retain_default(1);
 $form->element('Radio')->name('fox')->value('b')->retain_default(1);
 $form->element('Radio')->name('bar')->value('c');
 
-$form->process( {
-        "radio.foo" => '',
+$form->process(
+    {   "radio.foo" => '',
         "radio.bar" => '',
     } );
 

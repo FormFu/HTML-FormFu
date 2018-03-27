@@ -11,8 +11,8 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '',
             c => '',
         } );
@@ -26,26 +26,8 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '1',
-            b => '',
-            c => '',
-        } );
-
-    ok( $form->submitted_and_valid );
-
-    ok( $form->valid('a'), 'a valid' );
-    ok( $form->valid('b'), 'b valid' );
-    ok( $form->valid('c'), 'c valid' );
-}
-
-# Valid
-{
-
-    # Bool constraint doesn't run because b & c don't both have values
-
-    $form->process( {
-            a => 'a',
+    $form->process(
+        {   a => '1',
             b => '',
             c => '',
         } );
@@ -62,8 +44,26 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
     # Bool constraint doesn't run because b & c don't both have values
 
-    $form->process( {
-            a => 'a',
+    $form->process(
+        {   a => 'a',
+            b => '',
+            c => '',
+        } );
+
+    ok( $form->submitted_and_valid );
+
+    ok( $form->valid('a'), 'a valid' );
+    ok( $form->valid('b'), 'b valid' );
+    ok( $form->valid('c'), 'c valid' );
+}
+
+# Valid
+{
+
+    # Bool constraint doesn't run because b & c don't both have values
+
+    $form->process(
+        {   a => 'a',
             b => '',
             c => '1',
         } );
@@ -77,8 +77,8 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '1',
+    $form->process(
+        {   a => '1',
             b => '1',
             c => '1',
         } );
@@ -95,8 +95,8 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
     # Empty is valid
 
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '1',
             c => '1',
         } );
@@ -110,8 +110,8 @@ $form->load_config_file('t/constraints/constraint_when_fields.yml');
 
 # Invalid
 {
-    $form->process( {
-            a => 'a',
+    $form->process(
+        {   a => 'a',
             b => '1',
             c => '1',
         } );

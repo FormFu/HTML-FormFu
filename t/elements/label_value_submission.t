@@ -15,8 +15,8 @@ $form->load_config_file($config_file);
 
     # before 1st render
 
-    $form->default_values( {
-            id   => 2,
+    $form->default_values(
+        {   id   => 2,
             name => 'billy bob',
         } );
 
@@ -45,8 +45,8 @@ HTML
 
     $form->load_config_file($config_file);
 
-    $form->process( {
-            id   => '2',
+    $form->process(
+        {   id   => '2',
             name => 'billy bob',
         } );
 
@@ -76,15 +76,15 @@ HTML
 
     $form->load_config_file($config_file);
 
-    my $hidden = $form->get_field( {
-            type => 'Hidden',
+    my $hidden = $form->get_field(
+        {   type => 'Hidden',
             name => 'name',
         } );
 
     $hidden->parent->remove_element($hidden);
 
-    $form->process( {
-            id   => '2',
+    $form->process(
+        {   id   => '2',
             name => 'billy bob',
         } );
 

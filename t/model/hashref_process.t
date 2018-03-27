@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-$form->populate( {
-        elements => [
+$form->populate(
+    {   elements => [
             { type => 'Hidden', name => 'count' },
             {   type         => 'Repeatable',
                 nested_name  => 'rep',

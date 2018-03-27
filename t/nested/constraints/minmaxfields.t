@@ -18,8 +18,8 @@ $form->element('Text')->name('nod');
 
 # Valid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => '',
             'foo.bag' => [2],
             'foo.nod' => '',
@@ -30,8 +30,8 @@ $form->element('Text')->name('nod');
 
 # Valid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => '',
             'foo.bag' => '',
             'foo.nod' => '',
@@ -42,8 +42,8 @@ $form->element('Text')->name('nod');
 
 # Invalid
 {
-    $form->process( {
-            'foo.bar' => 1,
+    $form->process(
+        {   'foo.bar' => 1,
             'foo.baz' => 2,
             'foo.bag' => '',
             'foo.nod' => 22,

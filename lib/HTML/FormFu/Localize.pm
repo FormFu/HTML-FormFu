@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::Localize;
 
 use warnings;
-
 
 use HTML::FormFu::Util qw( require_class );
 use List::Util 1.33 qw( any );

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::ForceListValue;
-# ABSTRACT: convert a single value into a 1-item-list
 
+package HTML::FormFu::Filter::ForceListValue;
+
+# ABSTRACT: convert a single value into a 1-item-list
 
 use Moose;
 extends 'HTML::FormFu::Filter';
@@ -15,7 +16,7 @@ sub process {
     return if 'ARRAY' eq ref $value;
 
     $self->set_nested_hash_value( $params, $name, [$value] );
-};
+}
 
 1;
 

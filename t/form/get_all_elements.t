@@ -77,8 +77,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 }
 
 {
-    my $elems = $form->get_all_elements( {
-            name => 'foo',
+    my $elems = $form->get_all_elements(
+        {   name => 'foo',
             type => 'Hidden',
         } );
 

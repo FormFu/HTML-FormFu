@@ -46,8 +46,7 @@ my $q;
 {
     my $file = 't/elements/file_post.txt';
     local *STDIN;
-    open STDIN,
-        "<", $file
+    open STDIN, "<", $file
         or die "missing test file $file";
     binmode STDIN;
 
@@ -57,8 +56,8 @@ my $q;
     $q = CGI::Simple->new;
 }
 
-my $form = HTML::FormFu->new( {
-        action   => 'http://www.perl.org/test.cgi',
+my $form = HTML::FormFu->new(
+    {   action   => 'http://www.perl.org/test.cgi',
         elements => [
             { type => 'Text', name => 'multiple' },
             { type => 'File', name => 'multiple' },

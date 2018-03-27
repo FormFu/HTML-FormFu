@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/inflators/compounddatetime.yml');
 
-$form->process( {
-        'dob.day'   => '31',
+$form->process(
+    {   'dob.day'   => '31',
         'dob.month' => '12',
         'dob.year'  => '1999',
     } );

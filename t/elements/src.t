@@ -10,8 +10,8 @@ my $form = HTML::FormFu->new(
 
 $form->auto_fieldset(1);
 
-my $block = $form->element( {
-        type        => 'Src',
+my $block = $form->element(
+    {   type        => 'Src',
         content_xml => 'Hello <i>World</i>!',
     } );
 

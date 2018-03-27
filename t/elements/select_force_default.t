@@ -15,8 +15,8 @@ $form->element('Select')->name('bar')->values( [qw/ one two three /] )
 $form->element('Select')->name('baz')->values( [qw/ one two three /] )
     ->default('three')->force_default(1);
 
-$form->process( {
-        foo => '',
+$form->process(
+    {   foo => '',
         bar => 'three',
     } );
 

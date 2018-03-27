@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::HTMLEscape;
-# ABSTRACT: filter escaping HTML
 
+package HTML::FormFu::Filter::HTMLEscape;
+
+# ABSTRACT: filter escaping HTML
 
 use Moose;
 extends 'HTML::FormFu::Filter';

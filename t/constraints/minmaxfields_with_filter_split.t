@@ -11,24 +11,24 @@ $form->load_config_file('t/constraints/minmaxfields_with_filter_split.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => '',
             baz => '',
         } );
 
     ok( !$form->has_errors );
 
-    $form->process( {
-            foo => '1',
+    $form->process(
+        {   foo => '1',
             bar => '',
             baz => '',
         } );
 
     ok( !$form->has_errors );
 
-    $form->process( {
-            foo => '1,2',
+    $form->process(
+        {   foo => '1,2',
             bar => '',
             baz => '',
         } );
@@ -38,8 +38,8 @@ $form->load_config_file('t/constraints/minmaxfields_with_filter_split.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => 2,
         } );

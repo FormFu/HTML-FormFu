@@ -18,27 +18,21 @@ is( $form->get_field('foo'), $expected_field_xhtml );
 
 # Valid
 {
-    $form->process( {
-            foo => 'http://example.com',
-        } );
+    $form->process( { foo => 'http://example.com', } );
 
     ok( $form->valid('foo'), 'foo valid' );
 }
 
 # Invalid
 {
-    $form->process( {
-            foo => 'example.com',
-        } );
+    $form->process( { foo => 'example.com', } );
 
-    ok( ! $form->valid('foo'), 'foo invalid' );
+    ok( !$form->valid('foo'), 'foo invalid' );
 }
 
 # Invalid
 {
-    $form->process( {
-            foo => 'ftp://example.com',
-        } );
+    $form->process( { foo => 'ftp://example.com', } );
 
-    ok( ! $form->valid('foo'), 'foo invalid' );
+    ok( !$form->valid('foo'), 'foo invalid' );
 }

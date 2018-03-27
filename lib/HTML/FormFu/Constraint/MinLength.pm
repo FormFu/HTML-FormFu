@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::MinLength;
-# ABSTRACT: Minimum Length String Constraint
 
+package HTML::FormFu::Constraint::MinLength;
+
+# ABSTRACT: Minimum Length String Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Length';

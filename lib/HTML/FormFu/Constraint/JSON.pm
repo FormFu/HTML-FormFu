@@ -1,4 +1,5 @@
 use strict;
+
 package HTML::FormFu::Constraint::JSON;
 
 use JSON::MaybeXS qw( decode_json );
@@ -11,7 +12,7 @@ sub constrain_value {
 
     return 1 if !defined $value || $value eq '';
 
-    my $ok = decode_json( $value );
+    my $ok = decode_json($value);
 
     return $self->not ? !$ok : $ok;
 }

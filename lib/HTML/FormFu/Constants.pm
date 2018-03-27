@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::Constants;
 
 use warnings;
-
 
 use Readonly;
 use Exporter qw( import );

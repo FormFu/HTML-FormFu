@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::File;
-# ABSTRACT: File upload form field
 
+package HTML::FormFu::Element::File;
+
+# ABSTRACT: File upload form field
 
 use Moose;
 

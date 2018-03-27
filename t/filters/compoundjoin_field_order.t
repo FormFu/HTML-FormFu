@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/filters/compoundjoin_field_order.yml');
 
-$form->process( {
-        'address.street' => 'Downing Street',
+$form->process(
+    {   'address.street' => 'Downing Street',
         'address.number' => '10',
     } );
 

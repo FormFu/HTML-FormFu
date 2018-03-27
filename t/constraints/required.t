@@ -16,8 +16,8 @@ $form->constraint('Required');
 
 # Valid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'nada',
         } );
 
@@ -41,8 +41,8 @@ $form->constraint('Required');
 
 # Empty string - Invalid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 2,
         } );
 
@@ -55,8 +55,8 @@ $form->constraint('Required');
 
 # "0" is valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => 2,
         } );
 

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Model;
-# ABSTRACT: base class for models
 
+package HTML::FormFu::Model;
+
+# ABSTRACT: base class for models
 
 use Moose;
 use MooseX::Attribute::Chained;

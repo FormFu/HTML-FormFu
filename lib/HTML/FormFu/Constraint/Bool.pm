@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Bool;
-# ABSTRACT: Boolean Constraint
 
+package HTML::FormFu::Constraint::Bool;
+
+# ABSTRACT: Boolean Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Regex';

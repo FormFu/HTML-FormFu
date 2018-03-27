@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Inflator;
-# ABSTRACT: Inflator Base Class
 
+package HTML::FormFu::Inflator;
+
+# ABSTRACT: Inflator Base Class
 
 use Moose;
 extends 'HTML::FormFu::Processor';

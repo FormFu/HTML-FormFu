@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Validator;
-# ABSTRACT: Validator Base Class
 
+package HTML::FormFu::Validator;
+
+# ABSTRACT: Validator Base Class
 
 use Moose;
 extends 'HTML::FormFu::Processor';
@@ -57,7 +58,8 @@ sub return_error {
     my ( $self, $err ) = @_;
 
     if ( !blessed $err || !$err->isa('HTML::FormFu::Exception::Validator') ) {
-        $err = HTML::FormFu::Exception::Validator->new( $err ? { message => $err } : () );
+        $err = HTML::FormFu::Exception::Validator->new(
+            $err ? { message => $err } : () );
     }
 
     return $err;

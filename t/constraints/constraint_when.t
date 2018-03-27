@@ -28,8 +28,8 @@ $form->get_element('coo')
 
 # Valid
 {
-    $form->process( {
-            foo  => 1,
+    $form->process(
+        {   foo  => 1,
             bar  => 'bar_value',
             moo  => undef,
             zoo  => 'zoo_value',
@@ -54,8 +54,8 @@ $form->get_element('coo')
     ok( grep { $_ eq 'coo' } $form->valid );
     ok( grep { $_ eq 'coo2' } $form->valid );
 
-    $form->process( {
-            foo => 2,
+    $form->process(
+        {   foo => 2,
             bar => undef,
             moo => 'moo_value',
             zoo => 'zoo_value',
@@ -77,8 +77,8 @@ $form->get_element('coo')
     ok( grep { $_ eq 'zoo' } $form->valid );
     ok( grep { $_ eq 'coo' } $form->valid );
 
-    $form->process( {
-            foo => 5,
+    $form->process(
+        {   foo => 5,
             bar => undef,
             moo => undef,
             zoo => undef,
@@ -103,8 +103,8 @@ $form->get_element('coo')
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             moo => undef,
             coo => 'not_a_number',
         } );
@@ -117,8 +117,8 @@ $form->get_element('coo')
     ok( !$form->valid('zoo'), 'zoo not valid' );
     ok( !$form->valid('coo'), 'coo not valid' );
 
-    $form->process( {
-            foo => 'false value',
+    $form->process(
+        {   foo => 'false value',
             bar => undef,
             moo => undef,
             zoo => 'zoo_value',

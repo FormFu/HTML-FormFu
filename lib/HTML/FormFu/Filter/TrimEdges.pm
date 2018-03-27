@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::TrimEdges;
-# ABSTRACT: filter trimming whitespace
 
+package HTML::FormFu::Filter::TrimEdges;
+
+# ABSTRACT: filter trimming whitespace
 
 use Moose;
 extends 'HTML::FormFu::Filter';

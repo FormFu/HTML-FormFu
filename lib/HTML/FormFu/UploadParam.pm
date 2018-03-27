@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::UploadParam;
-# ABSTRACT: accessor class
 
+package HTML::FormFu::UploadParam;
+
+# ABSTRACT: accessor class
 
 use Moose;
 use MooseX::Attribute::Chained;

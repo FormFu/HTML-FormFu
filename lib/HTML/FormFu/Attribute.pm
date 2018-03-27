@@ -1,9 +1,10 @@
 use strict;
+
 package HTML::FormFu::Attribute;
+
 # ABSTRACT: accessor class
 
 use warnings;
-
 
 use Exporter qw( import );
 use Carp qw( croak );
@@ -52,8 +53,8 @@ sub mk_attrs {
         my $xml_sub = sub {
             my ( $self, $attrs ) = @_;
 
-            return $self->$name( {
-                    map { $_, literal( $attrs->{$_} ) }
+            return $self->$name(
+                {   map { $_, literal( $attrs->{$_} ) }
                         keys %$attrs
                 } );
         };
@@ -159,8 +160,8 @@ sub mk_attr_accessors {
                 ( $mess, @args ) = ( @$mess, @args );
             }
 
-            return $self->attributes->{$name} =
-                literal( $self->form->localize( $mess, @args ) );
+            return $self->attributes->{$name}
+                = literal( $self->form->localize( $mess, @args ) );
         };
 
         my $loc_method = Class::MOP::Method->wrap(
@@ -203,8 +204,8 @@ sub mk_add_attrs {
 
             my $method = "add_$name";
 
-            return $self->$method( {
-                    map { $_, literal( $attrs->{$_} ) }
+            return $self->$method(
+                {   map { $_, literal( $attrs->{$_} ) }
                         keys %$attrs
                 } );
         };
@@ -293,8 +294,8 @@ sub mk_del_attrs {
 
             my $method = "del_$name";
 
-            return $self->$method( {
-                    map { $_, literal( $attrs->{$_} ) }
+            return $self->$method(
+                {   map { $_, literal( $attrs->{$_} ) }
                         keys %$attrs
                 } );
         };
@@ -403,7 +404,7 @@ sub mk_inherited_accessors {
             package_name => $class,
         );
 
-        $class->meta->add_method( $name, $method );
+        $class->meta->add_method( $name,                $method );
         $class->meta->add_method( "${name}_no_inherit", $no_inherit_method );
     }
 
@@ -518,19 +519,21 @@ sub mk_attr_bool_accessors {
             my ( $self, $attr ) = @_;
 
             if ( @_ == 1 ) {
+
                 # Getter
                 return undef    ## no critic (ProhibitExplicitReturnUndef);
                     if !exists $self->attributes->{$name};
 
-                return $self->attributes->{$name} ? $self->attributes->{$name}
-                                                  : undef;
+                return $self->attributes->{$name}
+                    ? $self->attributes->{$name}
+                    : undef;
             }
 
             # Any true value sets a bool attribute, e.g.
             #     required="required"
             # Any false value deletes the attribute
 
-            if ( $attr ) {
+            if ($attr) {
                 $self->attributes->{$name} = $name;
             }
             else {
@@ -546,12 +549,11 @@ sub mk_attr_bool_accessors {
             package_name => $class,
         );
 
-        $class->meta->add_method( $name,         $method );
+        $class->meta->add_method( $name, $method );
     }
 
     return;
 }
-
 
 1;
 

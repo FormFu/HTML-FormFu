@@ -9,14 +9,14 @@ use Clone ();
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->default_args( {
-        elements => {
+$form->default_args(
+    {   elements => {
             Password => { render_value => 1, },
             Block    => { attributes   => { class => 'block' }, },
             Text => {
                 attributes => { class => 'custom' },
-                constraint => [ {
-                        type  => 'Regex',
+                constraint => [
+                    {   type  => 'Regex',
                         regex => qr/\w/,
                     }
                 ],
@@ -29,9 +29,9 @@ $form->default_args( {
 
 my $default_args = Clone::clone( $form->default_args );
 
-$form->populate( {
-        elements => [ {
-                type        => 'Password',
+$form->populate(
+    {   elements => [
+            {   type        => 'Password',
                 name        => 'foo',
                 constraints => [ { type => 'MaxLength' } ],
             },

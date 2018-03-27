@@ -12,8 +12,8 @@ $form->element('Text')->name('bar')->constraint('MaxRange')->max(5);
 
 # Valid
 {
-    $form->process( {
-            foo => 3,
+    $form->process(
+        {   foo => 3,
             bar => 4,
         } );
 
@@ -23,8 +23,8 @@ $form->element('Text')->name('bar')->constraint('MaxRange')->max(5);
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 6,
         } );
 

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Range;
-# ABSTRACT: Numerical Range Constraint
 
+package HTML::FormFu::Constraint::Range;
+
+# ABSTRACT: Numerical Range Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

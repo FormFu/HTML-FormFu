@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::DateTime;
-# ABSTRACT: Date / Time combo field
 
+package HTML::FormFu::Element::DateTime;
+
+# ABSTRACT: Date / Time combo field
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -68,8 +69,8 @@ sub _add_hour {
 
     @hour_prefix = map { [ '', $_ ] } @hour_prefix;
 
-    my $element = $self->element( {
-            type    => 'Select',
+    my $element = $self->element(
+        {   type    => 'Select',
             name    => $hour_name,
             options => [
                 @hour_prefix,
@@ -110,8 +111,8 @@ sub _add_minute {
 
     my @minutes = $self->_build_number_list( 0, 59, $minute->{interval} );
 
-    my $element = $self->element( {
-            type    => 'Select',
+    my $element = $self->element(
+        {   type    => 'Select',
             name    => $minute_name,
             options => [
                 @minute_prefix,
@@ -152,8 +153,8 @@ sub _add_second {
 
     my @seconds = $self->_build_number_list( 0, 59, $second->{interval} );
 
-    my $element = $self->element( {
-            type    => 'Select',
+    my $element = $self->element(
+        {   type    => 'Select',
             name    => $second_name,
             options => [
                 @second_prefix,

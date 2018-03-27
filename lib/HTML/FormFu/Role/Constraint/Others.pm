@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Constraint::Others;
-# ABSTRACT: Base class for constraints needing others() method
 
+package HTML::FormFu::Role::Constraint::Others;
+
+# ABSTRACT: Base class for constraints needing others() method
 
 use Moose::Role;
 
@@ -183,7 +184,8 @@ sub mk_errors {
         $error->parent($field);
 
         if ( !grep { $name eq $_ } @has_error ) {
-            DEBUG_CONSTRAINTS_OTHERS && debug("setting '$name' error forced(1)");
+            DEBUG_CONSTRAINTS_OTHERS
+                && debug("setting '$name' error forced(1)");
 
             $error->forced(1);
         }

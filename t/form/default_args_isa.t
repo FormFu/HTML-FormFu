@@ -11,20 +11,21 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/form/default_args_isa.yml');
 
-is( $form->get_element({ type => 'Fieldset' })->attrs->{class}, 'does_block' );
+is( $form->get_element( { type => 'Fieldset' } )->attrs->{class},
+    'does_block' );
 
 # Multi gets default_args for Block, Field, Multi
-my $multi = $form->get_all_element({ type => 'Multi' });
+my $multi = $form->get_all_element( { type => 'Multi' } );
 is( $multi->attrs->{class}, 'does_block' );
-is( $multi->comment, 'Does Field' );
-is( $multi->label, 'My Multi' );
+is( $multi->comment,        'Does Field' );
+is( $multi->label,          'My Multi' );
 
 # Text gets default_args for Field, Input
-my $text = $form->get_field({ name => 'bar' });
+my $text = $form->get_field( { name => 'bar' } );
 is( $text->comment, 'Does Field' );
-is( $text->id, 'bar' );
+is( $text->id,      'bar' );
 
-is ( "$form", <<HTML );
+is( "$form", <<HTML );
 <form action="" method="post">
 <fieldset class="does_block">
 <div>

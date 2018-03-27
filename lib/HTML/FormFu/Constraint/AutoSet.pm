@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::AutoSet;
-# ABSTRACT: Set Constraint for Selects / Radiogroups / Checkboxgroups
 
+package HTML::FormFu::Constraint::AutoSet;
+
+# ABSTRACT: Set Constraint for Selects / Radiogroups / Checkboxgroups
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Set';
@@ -24,7 +25,8 @@ sub _parse_value {
     }
     else {
         # disabled attributes should be ignored
-        return if ($item->{attributes} and $item->{attributes}->{disabled});
+        return if ( $item->{attributes} and $item->{attributes}->{disabled} );
+
         # anything else is fine
         return $item->{value};
     }

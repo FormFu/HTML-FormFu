@@ -15,8 +15,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(1);
 
 # Valid
 {
-    $form->process( {
-            'rep_1.foo' => 'a',
+    $form->process(
+        {   'rep_1.foo' => 'a',
             'rep_1.bar' => 'b',
             count       => 1,
         } );
@@ -26,8 +26,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(1);
 
 # Missing - Invalid
 {
-    $form->process( {
-            'rep_1.foo' => 'a',
+    $form->process(
+        {   'rep_1.foo' => 'a',
             'rep_1.bar' => '',
             count       => 1,
         } );

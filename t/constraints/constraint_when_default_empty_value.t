@@ -29,8 +29,8 @@ $form->load_config_file(
 
 # valid - foo Checkbox present - bar optional
 {
-    $form->process( {
-            foo => '1',
+    $form->process(
+        {   foo => '1',
             bar => '42',
         } );
 

@@ -15,9 +15,9 @@ my $callback = sub {
 
 my $form = HTML::FormFu->new;
 
-$form->populate( {
-        elements => [ {
-                name       => 'foo',
+$form->populate(
+    {   elements => [
+            {   name       => 'foo',
                 constraint => {
                     type     => 'Callback',
                     callback => $callback,

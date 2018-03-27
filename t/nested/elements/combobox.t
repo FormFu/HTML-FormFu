@@ -32,8 +32,8 @@ is( "$form", <<EOF );
 </form>
 EOF
 
-$form->process( {
-        "foo.bar_select" => '2',
+$form->process(
+    {   "foo.bar_select" => '2',
         "foo.bar_text"   => '',
     } );
 
@@ -56,8 +56,8 @@ is( "$form", <<EOF );
 </form>
 EOF
 
-$form->process( {
-        "foo.bar_select" => '',
+$form->process(
+    {   "foo.bar_select" => '',
         "foo.bar_text"   => '3',
     } );
 

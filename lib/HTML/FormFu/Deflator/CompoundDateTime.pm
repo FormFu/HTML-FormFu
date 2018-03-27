@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::CompoundDateTime;
-# ABSTRACT: CompoundDateTime deflator
 
+package HTML::FormFu::Deflator::CompoundDateTime;
+
+# ABSTRACT: CompoundDateTime deflator
 
 use Moose;
 use MooseX::Attribute::Chained;

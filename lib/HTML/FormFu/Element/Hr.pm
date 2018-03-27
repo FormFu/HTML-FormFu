@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Hr;
-# ABSTRACT: horizontal-rule element
 
+package HTML::FormFu::Element::Hr;
+
+# ABSTRACT: horizontal-rule element
 
 use Moose;
 

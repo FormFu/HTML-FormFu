@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::File;
-# ABSTRACT: File Upload Constraint
 
+package HTML::FormFu::Constraint::File;
+
+# ABSTRACT: File Upload Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';

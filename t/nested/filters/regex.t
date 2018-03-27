@@ -12,15 +12,15 @@ $form->auto_fieldset( { nested_name => 'foo' } );
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 
-$form->filters( {
-        type    => 'Regex',
+$form->filters(
+    {   type    => 'Regex',
         names   => [qw/ foo.bar foo.baz /],
         match   => 'a',
         replace => 'A',
     } );
 
-$form->process( {
-        'foo.bar' => 'abc',
+$form->process(
+    {   'foo.bar' => 'abc',
         'foo.baz' => 'def',
     } );
 

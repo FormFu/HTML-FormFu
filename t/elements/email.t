@@ -18,18 +18,14 @@ is( "$element", $expected_field_xhtml );
 
 # Valid
 {
-    $form->process( {
-            foo => 'test@example.com',
-        } );
+    $form->process( { foo => 'test@example.com', } );
 
     ok( $form->valid('foo'), 'foo valid' );
 }
 
 # Invalid
 {
-    $form->process( {
-            foo => 'example.com',
-        } );
+    $form->process( { foo => 'example.com', } );
 
-    ok( ! $form->valid('foo'), 'foo invalid' );
+    ok( !$form->valid('foo'), 'foo invalid' );
 }

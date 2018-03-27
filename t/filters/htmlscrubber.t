@@ -22,8 +22,8 @@ my $original_fum
     = "<p class=\"y\"><b>message</b><a href=\"#somewhere\" class=\"x\">text</a></p>";
 my $filtered_fum = "<p>message<a href=\"#somewhere\">text</a></p>";
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => $original_bar,
         fum => $original_fum,
     } );

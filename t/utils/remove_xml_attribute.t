@@ -120,11 +120,5 @@ use HTML::FormFu::Util qw(
 
     remove_xml_attribute( \%attr, "NOT EXIST", 'bar' );
 
-    is_deeply(
-        \%attr,
-        {
-            key => "foo",
-        },
-        "didn't change attributes",
-    );
+    is_deeply( \%attr, { key => "foo", }, "didn't change attributes", );
 }

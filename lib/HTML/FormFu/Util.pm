@@ -1,4 +1,5 @@
 use strict;
+
 package HTML::FormFu::Util;
 
 use warnings;
@@ -327,7 +328,7 @@ sub _remove_subs {
             string => sub {
                 my $x = "$_[0]";
                 my $y = xml_escape("$_[1]");
-                $x        =~ s/^\Q$y\E ?//
+                $x =~ s/^\Q$y\E ?//
                     || $x =~ s/ \Q$y\E / /
                     || $x =~ s/ ?\Q$y\E$//;
                 return literal($x);
@@ -335,7 +336,7 @@ sub _remove_subs {
             literal => sub {
                 my $x = "$_[0]";
                 my $y = "$_[1]";
-                $x        =~ s/^\Q$y\E ?//
+                $x =~ s/^\Q$y\E ?//
                     || $x =~ s/ \Q$y\E / /
                     || $x =~ s/ ?\Q$y\E$//;
                 return literal($x);
@@ -344,7 +345,7 @@ sub _remove_subs {
         string => {
             string => sub {
                 my ( $x, $y ) = @_;
-                $x        =~ s/^\Q$y\E ?//
+                $x =~ s/^\Q$y\E ?//
                     || $x =~ s/ \Q$y\E / /
                     || $x =~ s/ ?\Q$y\E$//;
                 return $x;
@@ -352,7 +353,7 @@ sub _remove_subs {
             literal => sub {
                 my $x = xml_escape( $_[0] );
                 my $y = "$_[1]";
-                $x        =~ s/^\Q$y\E ?//
+                $x =~ s/^\Q$y\E ?//
                     || $x =~ s/ \Q$y\E / /
                     || $x =~ s/ ?\Q$y\E$//;
                 return literal($x);

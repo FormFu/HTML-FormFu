@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Transformer;
-# ABSTRACT: Transformer Base Class
 
+package HTML::FormFu::Transformer;
+
+# ABSTRACT: Transformer Base Class
 
 use Moose;
 extends 'HTML::FormFu::Processor';

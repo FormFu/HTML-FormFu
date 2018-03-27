@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::I18N;
 
+package HTML::FormFu::I18N;
 
 use Moose;
 

@@ -16,8 +16,8 @@ $form->constraints('Required');
 # indicator not affected by non_param()
 $form->indicator('submit');
 
-$form->process( {
-        foo    => 1,
+$form->process(
+    {   foo    => 1,
         submit => 'Submit',
     } );
 

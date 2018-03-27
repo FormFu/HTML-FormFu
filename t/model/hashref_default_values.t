@@ -14,9 +14,9 @@ $form->auto_fieldset(1);
 
 $form->default_model('HashRef');
 
-$form->populate( {
-        elements => [ {
-                type         => "DateTime",
+$form->populate(
+    {   elements => [
+            {   type         => "DateTime",
                 name         => "datetime",
                 auto_inflate => 1,
                 year         => { list => [1999] }
@@ -50,9 +50,9 @@ $form->populate( {
                 name     => "address",
                 elements => [ { name => "street" }, { name => "number" } ]
             },
-            {   type     => "Multi",
-                name     => "address-split",
-                elements => [ { name => "street" }, { name => "number" } ],
+            {   type      => "Multi",
+                name      => "address-split",
+                elements  => [ { name => "street" }, { name => "number" } ],
                 deflators => [ { type => "CompoundSplit" } ]
             },
             {   type => "SimpleTable",
@@ -61,8 +61,8 @@ $form->populate( {
 for ( 0 .. 1 ) {
 
     $form->auto_fieldset($_);
-    $form->model->default_values( {
-            datetime => '30-08-1999 22:00',
+    $form->model->default_values(
+        {   datetime => '30-08-1999 22:00',
             bar      => 'y',
             many => [ { id => 1, foo => "bar" }, { id => 2, foo => "baz" } ],
             'single-select' => 1,

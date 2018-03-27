@@ -10,8 +10,8 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/form/render_processed_value.yml');
 
-$form->process( {
-        foo => '27/04/2007',
+$form->process(
+    {   foo => '27/04/2007',
         bar => 'hello',
     } );
 

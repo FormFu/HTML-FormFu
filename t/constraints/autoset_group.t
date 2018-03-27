@@ -11,8 +11,8 @@ my $form = HTML::FormFu->new;
 
 my $field = $form->element('Select')->name('foo');
 
-$field->options( [
-        ['item 1'],
+$field->options(
+    [   ['item 1'],
         { value => 'item 2', },
         { group => [ ['item 3'], { value => 'item 4', } ], },
         ['item 5'],
@@ -28,7 +28,8 @@ $field->constraint('AutoSet');
     # Constraint set has 7 values
     is_deeply(
         $form->get_constraint->set,
-        [   'item 1', 'item 2', 'item 3', 'item 4', 'item 5', 'item 6', 'item 7'
+        [   'item 1', 'item 2', 'item 3', 'item 4', 'item 5', 'item 6',
+            'item 7'
         ],
     );
 

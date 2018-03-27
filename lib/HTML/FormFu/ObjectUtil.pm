@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::ObjectUtil;
 
 use warnings;
-
 
 use Exporter qw( import );
 
@@ -100,8 +100,8 @@ sub _load_config {
                 $fullpath = $file;
             }
 
-            my $config = Config::Any->$config_any_method( {
-                    $config_any_arg => [$fullpath],
+            my $config = Config::Any->$config_any_method(
+                {   $config_any_arg => [$fullpath],
                     use_ext         => 1,
                     driver_args => { General => { -UTF8 => 1 }, },
                 } );
@@ -271,8 +271,8 @@ sub _add_constraints {
 sub _add_constraint_max_length {
     my ( $self, $col, $info ) = @_;
 
-    $self->constraint( {
-            type => 'MaxLength',
+    $self->constraint(
+        {   type => 'MaxLength',
             name => $col,
             max  => $info->{size},
         } );
@@ -281,8 +281,8 @@ sub _add_constraint_max_length {
 sub _add_constraint_integer {
     my ( $self, $col, $info ) = @_;
 
-    $self->constraint( {
-            type => 'Integer',
+    $self->constraint(
+        {   type => 'Integer',
             name => $col,
         } );
 }
@@ -290,8 +290,8 @@ sub _add_constraint_integer {
 sub _add_constraint_unsigned {
     my ( $self, $col, $info ) = @_;
 
-    $self->constraint( {
-            type => 'Range',
+    $self->constraint(
+        {   type => 'Range',
             name => $col,
             min  => 0,
         } );
@@ -300,8 +300,8 @@ sub _add_constraint_unsigned {
 sub _add_constraint_set {
     my ( $self, $col, $info ) = @_;
 
-    $self->constraint( {
-            type => 'Set',
+    $self->constraint(
+        {   type => 'Set',
             name => $col,
             set  => $info->{extra}{list},
         } );

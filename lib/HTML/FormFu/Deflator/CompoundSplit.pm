@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::CompoundSplit;
-# ABSTRACT: CompoundSplit deflator
 
+package HTML::FormFu::Deflator::CompoundSplit;
+
+# ABSTRACT: CompoundSplit deflator
 
 use Moose;
 use MooseX::Attribute::Chained;

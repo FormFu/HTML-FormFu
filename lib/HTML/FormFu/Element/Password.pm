@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Password;
-# ABSTRACT: Password form field
 
+package HTML::FormFu::Element::Password;
+
+# ABSTRACT: Password form field
 
 use Moose;
 use MooseX::Attribute::Chained;

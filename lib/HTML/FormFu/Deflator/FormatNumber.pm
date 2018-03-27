@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Deflator::FormatNumber;
-# ABSTRACT: Format a number for a locale
 
+package HTML::FormFu::Deflator::FormatNumber;
+
+# ABSTRACT: Format a number for a locale
 
 use Moose;
 use MooseX::Attribute::Chained;

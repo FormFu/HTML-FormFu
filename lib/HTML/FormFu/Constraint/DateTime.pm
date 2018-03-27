@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::DateTime;
-# ABSTRACT: DateTime constraint
 
+package HTML::FormFu::Constraint::DateTime;
+
+# ABSTRACT: DateTime constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';

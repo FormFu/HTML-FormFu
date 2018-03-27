@@ -29,8 +29,8 @@ EOF
 
 # WITH QUERY
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => '23',
         } );
 

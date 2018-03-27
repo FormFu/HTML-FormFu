@@ -21,8 +21,8 @@ $form->element('Text')->name('baz')->constraint('CallbackOnce')->callback(
         return 1;
     } );
 
-$form->process( {
-        'foo.bar' => 'x',
+$form->process(
+    {   'foo.bar' => 'x',
         'foo.baz' => [ 1, 2 ],
     } );
 

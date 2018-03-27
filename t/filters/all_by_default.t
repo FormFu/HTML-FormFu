@@ -19,8 +19,8 @@ my $escaped_foo  = qq{escape &quot;this&quot;};
 my $original_bar = qq{escape "that"};
 my $escaped_bar  = qq{escape &quot;that&quot;};
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => $original_bar,
     } );
 

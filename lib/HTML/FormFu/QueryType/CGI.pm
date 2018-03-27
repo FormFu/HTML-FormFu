@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::QueryType::CGI;
-# ABSTRACT: uploaded file
 
+package HTML::FormFu::QueryType::CGI;
+
+# ABSTRACT: uploaded file
 
 use Moose;
 
@@ -13,7 +14,7 @@ use Scalar::Util qw( blessed );
 sub parse_uploads {
     my ( $class, $form, $name ) = @_;
 
-    my $query  = $form->query;
+    my $query = $form->query;
     ## CGI wants you to use $query->multi_param($foo).
     ## doing so breaks CGI::Simple. So shoosh it up for now.
     local $CGI::LIST_CONTEXT_WARN = 0;
@@ -25,8 +26,8 @@ sub parse_uploads {
         if ( blessed $param ) {
             my $filename = $param;
 
-            $param = $class->new( {
-                    _param   => $param,
+            $param = $class->new(
+                {   _param   => $param,
                     filename => sprintf( "%s", $filename ),
                     parent   => $form,
 

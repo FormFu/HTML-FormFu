@@ -30,9 +30,7 @@ The Foo
 </form>
 HTML
 
-$form->process( {
-        foo => '',
-} );
+$form->process( { foo => '', } );
 
 is( "$form", <<HTML );
 <form action="" id="formfu" method="post">

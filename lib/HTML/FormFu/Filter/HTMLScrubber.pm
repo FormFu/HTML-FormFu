@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::HTMLScrubber;
-# ABSTRACT: filter removing HTML markup
 
+package HTML::FormFu::Filter::HTMLScrubber;
+
+# ABSTRACT: filter removing HTML markup
 
 use Moose;
 use MooseX::Attribute::Chained;

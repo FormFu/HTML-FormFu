@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::CompoundJoin;
-# ABSTRACT: CompoundJoin filter
 
+package HTML::FormFu::Filter::CompoundJoin;
+
+# ABSTRACT: CompoundJoin filter
 
 use Moose;
 use MooseX::Attribute::Chained;

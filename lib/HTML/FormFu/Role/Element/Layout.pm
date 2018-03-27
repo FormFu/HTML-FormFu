@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::Element::Layout;
 
+package HTML::FormFu::Role::Element::Layout;
 
 use Moose::Role;
 use MooseX::Attribute::Chained;
@@ -11,26 +11,28 @@ use Scalar::Util qw( reftype );
 
 use HTML::FormFu::Util qw( process_attrs );
 
-has layout_errors_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_errors' );
-has layout_label_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label' );
-has layout_field_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_field' );
-has layout_comment_filename    => ( is => 'rw', traits => ['Chained'], default => 'field_layout_comment' );
-has layout_javascript_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_javascript' );
-has layout_label_text_filename => ( is => 'rw', traits => ['Chained'], default => 'field_layout_label_text' );
-has layout_block_filename      => ( is => 'rw', traits => ['Chained'], default => 'field_layout_block' );
+has layout_errors_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_errors' );
+has layout_label_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_label' );
+has layout_field_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_field' );
+has layout_comment_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_comment' );
+has layout_javascript_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_javascript' );
+has layout_label_text_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_label_text' );
+has layout_block_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_block' );
 
-has layout_parser_filename     => ( is => 'rw', traits => ['Chained'], default => 'field_layout_parser' );
+has layout_parser_filename =>
+    ( is => 'rw', traits => ['Chained'], default => 'field_layout_parser' );
 
 has _layout => (
-    is => 'rw',
+    is      => 'rw',
     default => sub {
-        return [
-            'errors',
-            'label',
-            'field',
-            'comment',
-            'javascript',
-        ];
+        return [ 'errors', 'label', 'field', 'comment', 'javascript', ];
     },
 );
 
@@ -40,7 +42,7 @@ has _layout => (
 sub layout {
     my $self = shift;
 
-    if ( @_ ) {
+    if (@_) {
         $self->_layout(@_);
         return $self;
     }
@@ -48,6 +50,7 @@ sub layout {
     my $value = $self->_layout;
 
     if ( defined $value && $self->reverse_single ) {
+
         # if it's an array-ref,
         # and 'label' and 'field' are consecutive values (in any order)
         # then just swap them around
@@ -59,17 +62,18 @@ sub layout {
             $field_index = first_index { 'field' eq $_ } @$value;
             $label_index = first_index { 'label' eq $_ } @$value;
 
-            if ( defined $field_index
+            if (   defined $field_index
                 && defined $label_index
-                && 1 == abs( $field_index - $label_index )
-            ) {
+                && 1 == abs( $field_index - $label_index ) )
+            {
                 $ok = 1;
             }
         }
 
         if ($ok) {
+
             # create new arrayref so we don't change the stored value
-            $value = [ @$value ];
+            $value = [@$value];
 
             @$value[$field_index] = 'label';
             @$value[$label_index] = 'field';
@@ -83,12 +87,9 @@ sub layout {
 }
 
 has _multi_layout => (
-    is => 'rw',
+    is      => 'rw',
     default => sub {
-        return [
-            'label',
-            'field',
-        ];
+        return [ 'label', 'field', ];
     },
 );
 
@@ -98,7 +99,7 @@ has _multi_layout => (
 sub multi_layout {
     my $self = shift;
 
-    if ( @_ ) {
+    if (@_) {
         $self->_multi_layout(@_);
         return $self;
     }
@@ -106,6 +107,7 @@ sub multi_layout {
     my $value = $self->_multi_layout;
 
     if ( defined $value && $self->reverse_multi ) {
+
         # if it's an array-ref,
         # and 'label' and 'field' are consecutive values (in any order)
         # then just swap them around
@@ -117,17 +119,18 @@ sub multi_layout {
             $field_index = first_index { 'field' eq $_ } @$value;
             $label_index = first_index { 'label' eq $_ } @$value;
 
-            if ( defined $field_index
+            if (   defined $field_index
                 && defined $label_index
-                && 1 == abs( $field_index - $label_index )
-            ) {
+                && 1 == abs( $field_index - $label_index ) )
+            {
                 $ok = 1;
             }
         }
 
         if ($ok) {
+
             # create new arrayref so we don't change the stored value
-            $value = [ @$value ];
+            $value = [@$value];
 
             @$value[$field_index] = 'label';
             @$value[$label_index] = 'field';
@@ -151,8 +154,8 @@ after BUILD => sub {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            layout                     => $self->layout,
+    my $render = $self->$orig(
+        {   layout                     => $self->layout,
             multi_layout               => $self->multi_layout,
             layout_errors_filename     => $self->layout_errors_filename,
             layout_label_filename      => $self->layout_label_filename,
@@ -209,28 +212,25 @@ sub _parse_layout {
 
     if ( ref $layout && 'ARRAY' eq ref $layout ) {
         my @item_html;
-        for my $item ( @$layout ) {
+        for my $item (@$layout) {
             push @item_html, $self->_parse_layout( $render, $item );
         }
         $html .=
             join "\n",
-            grep {
-                defined && length
-            }
-                @item_html;
+            grep { defined && length } @item_html;
     }
     elsif ( ref $layout && 'HASH' eq ref $layout ) {
         my ( $key, $value ) = %$layout;
 
-        if ( my $method = $self->can( "_parse_layout_$key" ) ) {
+        if ( my $method = $self->can("_parse_layout_$key") ) {
             $html .= $self->$method( $render, $key, $value );
         }
         else {
             $html .= $self->_parse_layout_block( $render, $key, $value );
         }
     }
-    elsif ( my $method = $self->can( "_parse_layout_$layout" ) ) {
-        $html .= $self->$method( $render );
+    elsif ( my $method = $self->can("_parse_layout_$layout") ) {
+        $html .= $self->$method($render);
     }
     else {
         croak "Unknown layout() option: '$layout'";
@@ -242,38 +242,37 @@ sub _parse_layout {
 sub _parse_layout_errors {
     my ( $self, $render ) = @_;
 
-    return $self->_string_errors( $render );
+    return $self->_string_errors($render);
 }
 
 sub _parse_layout_label {
     my $self   = shift;
     my $render = shift;
 
-    return "" unless exists $render->{label}
+    return ""
+        unless exists $render->{label}
         && defined $render->{label}
         && length $render->{label};
 
-    if ( @_ ) {
+    if (@_) {
         my ( $tag, @content ) = @_;
 
         return $self->_parse_layout_block(
-            $render,
-            $tag,
-            {
-                attributes => $render->{label_attributes},
+            $render, $tag,
+            {   attributes => $render->{label_attributes},
                 content    => \@content,
             },
         );
     }
     else {
-        return $self->_string_label( $render );
+        return $self->_string_label($render);
     }
 }
 
 sub _parse_layout_field {
     my ( $self, $render ) = @_;
 
-    return $self->_string_field( $render );
+    return $self->_string_field($render);
 }
 
 sub _parse_layout_comment {

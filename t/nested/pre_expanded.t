@@ -13,8 +13,8 @@ $form->element('Text')->name('bar')->constraint('Number');
 $form->element('Text')->name('baz')->constraint('Number');
 $form->element('Text')->name('bag')->constraint('Number');
 
-$form->process( {
-        foo => {
+$form->process(
+    {   foo => {
             bar     => 1,
             baz     => [ 2, 3 ],
             bag     => 'yada',

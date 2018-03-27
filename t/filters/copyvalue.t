@@ -15,8 +15,8 @@ my $filtered_foo = "ab123456";
 
 my $filtered_bar = $filtered_foo;
 
-$form->process( {
-        foo => $original_foo,
+$form->process(
+    {   foo => $original_foo,
         bar => undef,
     } );
 

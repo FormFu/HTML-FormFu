@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Plugin;
-# ABSTRACT: base class for plugins
 
+package HTML::FormFu::Plugin;
+
+# ABSTRACT: base class for plugins
 
 use Moose;
 use MooseX::Attribute::Chained;

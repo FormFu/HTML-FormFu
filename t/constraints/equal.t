@@ -14,8 +14,8 @@ $form->element('Text')->name('baz');
 
 # Valid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'yada',
             baz => 'yada',
         } );
@@ -27,8 +27,8 @@ $form->element('Text')->name('baz');
 
 # Valid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => '',
             baz => '',
         } );
@@ -40,8 +40,8 @@ $form->element('Text')->name('baz');
 
 # Valid
 {
-    $form->process( {
-            foo => [ 'a', 'b' ],
+    $form->process(
+        {   foo => [ 'a', 'b' ],
             bar => [ 'a', 'b' ],
             baz => [ 'b', 'a' ],
         } );
@@ -53,8 +53,8 @@ $form->element('Text')->name('baz');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'yada',
             baz => 'x',
         } );
@@ -66,8 +66,8 @@ $form->element('Text')->name('baz');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => 'yada',
             baz => '',
         } );
@@ -79,8 +79,8 @@ $form->element('Text')->name('baz');
 
 # Invalid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 'yada',
             baz => 'yada',
         } );
@@ -92,8 +92,8 @@ $form->element('Text')->name('baz');
 
 # Invalid
 {
-    $form->process( {
-            foo => [ 'a', 'b' ],
+    $form->process(
+        {   foo => [ 'a', 'b' ],
             bar => [ 'a', 'b' ],
             baz => ['a'],
         } );

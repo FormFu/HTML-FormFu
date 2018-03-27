@@ -13,12 +13,12 @@ my $form = HTML::FormFu->new(
 
 $form->element('Date')->name('foo')->strftime("%m/%d/%Y")
     ->field_order( [qw/ month day year /] )->day( { prefix => '-- Day --', } )
-    ->month( {
-        prefix      => '-- Month --',
+    ->month(
+    {   prefix      => '-- Month --',
         short_names => 1,
     }
-    )->year( {
-        prefix => '-- Year --',
+)->year(
+    {   prefix => '-- Year --',
         list   => [ 2007 .. 2017 ],
     } )->default($dt)->auto_inflate(1)->constraint('Required');
 
@@ -164,8 +164,8 @@ is( "$form", <<HTML );
 </form>
 HTML
 
-$form->process( {
-        'foo_day', 30, 'foo_month', 6, 'foo_year', 2007,
+$form->process(
+    {   'foo_day', 30, 'foo_month', 6, 'foo_year', 2007,
         'bar_day', 1,  'bar_month', 7, 'bar_year', 2007,
     } );
 

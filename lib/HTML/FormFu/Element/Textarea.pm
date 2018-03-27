@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Textarea;
-# ABSTRACT: Textarea form field
 
+package HTML::FormFu::Element::Textarea;
+
+# ABSTRACT: Textarea form field
 
 use Moose;
 
@@ -12,13 +13,13 @@ with 'HTML::FormFu::Role::Element::Field',
 
 use HTML::FormFu::Util qw( process_attrs );
 
-__PACKAGE__->mk_attr_accessors(qw(
-    autocomplete
-    cols
-    maxlength
-    rows
-    placeholder
-));
+__PACKAGE__->mk_attr_accessors( qw(
+        autocomplete
+        cols
+        maxlength
+        rows
+        placeholder
+) );
 
 after BUILD => sub {
     my $self = shift;

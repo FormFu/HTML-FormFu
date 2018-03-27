@@ -10,10 +10,7 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/bugs/multiple_checkbox_same_name.yml');
 
-
-$form->process( {
-    foo => [qw( 1 2 )],
-} );
+$form->process( { foo => [qw( 1 2 )], } );
 
 my $foo = $form->get_fields('foo');
 

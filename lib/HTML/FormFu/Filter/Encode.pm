@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::Encode;
-# ABSTRACT: Encode/Decode Submitted Values
 
+package HTML::FormFu::Filter::Encode;
+
+# ABSTRACT: Encode/Decode Submitted Values
 
 use Moose;
 use MooseX::Attribute::Chained;

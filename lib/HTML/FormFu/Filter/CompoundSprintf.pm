@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::CompoundSprintf;
-# ABSTRACT: CompoundSprintf filter
 
+package HTML::FormFu::Filter::CompoundSprintf;
+
+# ABSTRACT: CompoundSprintf filter
 
 use Moose;
 use MooseX::Attribute::Chained;

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Processor;
-# ABSTRACT: base class for constraints
 
+package HTML::FormFu::Processor;
+
+# ABSTRACT: base class for constraints
 
 use Moose;
 use MooseX::Attribute::Chained;

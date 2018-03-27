@@ -14,8 +14,8 @@ $form->constraint('Word');
 
 # Valid
 {
-    $form->process( {
-            foo => 'aaa',
+    $form->process(
+        {   foo => 'aaa',
             bar => 'bbbbbbb',
         } );
 
@@ -28,8 +28,8 @@ $form->constraint('Word');
 
 # [space] - Invalid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => 'b c',
         } );
 
@@ -42,8 +42,8 @@ $form->constraint('Word');
 
 # [newline] - Invalid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => "b\nc",
         } );
 
@@ -56,8 +56,8 @@ $form->constraint('Word');
 
 # "0" is valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => 2,
         } );
 

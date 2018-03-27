@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Repeatable;
-# ABSTRACT: repeatable block element
 
+package HTML::FormFu::Element::Repeatable;
+
+# ABSTRACT: repeatable block element
 
 use Moose;
 use MooseX::Attribute::Chained;

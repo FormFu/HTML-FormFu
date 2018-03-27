@@ -1,10 +1,10 @@
 use strict;
+
 package HTML::FormFu::Role::Render;
 
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );
 use Scalar::Util qw( reftype );
-
 
 use Moose::Role;
 
@@ -57,7 +57,7 @@ sub tt {
 
     $tt_module = $ENV{HTML_FORMFU_TT_MODULE}
         if defined $ENV{HTML_FORMFU_TT_MODULE}
-            && length $ENV{HTML_FORMFU_TT_MODULE};
+        && length $ENV{HTML_FORMFU_TT_MODULE};
 
     my $class = $tt_module;
     $class =~ s|::|/|g;

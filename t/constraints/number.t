@@ -14,8 +14,8 @@ $form->constraint('Number');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 2,
         } );
 
@@ -28,8 +28,8 @@ $form->constraint('Number');
 
 # "0" is valid
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => 2,
         } );
 

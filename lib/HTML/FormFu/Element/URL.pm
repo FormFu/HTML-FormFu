@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::URL;
-# ABSTRACT: HTML5 URL form field
 
+package HTML::FormFu::Element::URL;
+
+# ABSTRACT: HTML5 URL form field
 
 use Moose;
 
@@ -36,7 +37,7 @@ after BUILD => sub {
 };
 
 sub pre_process {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $constraint;
 
@@ -56,29 +57,25 @@ sub pre_process {
             $scheme = 'https?';
         }
 
-        $constraint = $self->constraint({
-            type => 'Regex',
-            common => [
-                'URI',
-                'HTTP',
-                { -scheme => $scheme },
-            ],
-        });
+        $constraint = $self->constraint(
+            {   type   => 'Regex',
+                common => [ 'URI', 'HTTP', { -scheme => $scheme }, ],
+            } );
 
-        $self->_has_auto_regex_constraint( $constraint );
+        $self->_has_auto_regex_constraint($constraint);
 
         # 'pattern' attribute
-        $self->pattern( "$scheme://.*" );
+        $self->pattern("$scheme://.*");
 
     }
 
     my $message = $self->error_message;
     if ( defined $message && length $message ) {
-        $constraint->message( $message );
+        $constraint->message($message);
     }
 
     return;
-};
+}
 
 __PACKAGE__->meta->make_immutable;
 

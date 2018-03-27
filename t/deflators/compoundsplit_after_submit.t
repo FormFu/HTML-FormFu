@@ -10,8 +10,8 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/deflators/compoundsplit_after_submit.yml');
 
-$form->process( {
-        'address.number' => '10',
+$form->process(
+    {   'address.number' => '10',
         'address.street' => 'Downing Street',
     } );
 

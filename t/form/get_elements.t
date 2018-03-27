@@ -57,8 +57,8 @@ my $e3 = $fs->element('Hidden')->name('bar');
 }
 
 {
-    my $elems = $fs->get_elements( {
-            name => 'foo',
+    my $elems = $fs->get_elements(
+        {   name => 'foo',
             type => 'Hidden',
         } );
 

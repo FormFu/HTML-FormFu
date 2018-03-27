@@ -9,7 +9,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo')->constraint('Callback')->callback( \&cb );
-$form->element('Text')->name('bar')->constraint('Callback')->callback("My::Constraints::Callback::cb");
+$form->element('Text')->name('bar')->constraint('Callback')
+    ->callback("My::Constraints::Callback::cb");
 
 sub cb {
     my $value = shift;
@@ -23,8 +24,8 @@ use Test::More tests => 5;
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => [ 0, 'a', 'b' ],
         } );
 

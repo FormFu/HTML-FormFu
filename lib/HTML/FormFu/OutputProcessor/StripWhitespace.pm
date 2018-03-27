@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::OutputProcessor::StripWhitespace;
-# ABSTRACT: Strip shitespace from HTML output
 
+package HTML::FormFu::OutputProcessor::StripWhitespace;
+
+# ABSTRACT: Strip shitespace from HTML output
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -123,8 +124,8 @@ sub process {
 __PACKAGE__->meta->make_immutable;
 
 use strict;
-package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
+package HTML::FormFu::OutputProcessor::StripWhitespace::_iter;
 
 use Moose;
 use MooseX::Attribute::Chained;

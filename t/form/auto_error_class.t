@@ -13,12 +13,13 @@ $form->element('Text')->name('bar')->auto_error_class('form_%t_%s_error');
 
 $form->constraint('Number');
 
-$form->process( {
-        foo => 'a',
+$form->process(
+    {   foo => 'a',
         bar => 'b',
     } );
 
 unlike( $form->get_field('foo'), qr/error/ );
 like( $form->get_field('foo'), qr/This field must be a number/i );
 
-like( $form->get_field('bar'), qr!\Q<span class="form_number_constraint_error">! );
+like( $form->get_field('bar'),
+    qr!\Q<span class="form_number_constraint_error">! );

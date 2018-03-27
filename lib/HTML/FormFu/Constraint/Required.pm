@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Required;
-# ABSTRACT: Required Field Constraint
 
+package HTML::FormFu::Constraint::Required;
+
+# ABSTRACT: Required Field Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';

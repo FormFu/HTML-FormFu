@@ -237,8 +237,8 @@ is( "$form", <<HTML );
 </form>
 HTML
 
-$form->process( {
-        foo_hour   => '00',
+$form->process(
+    {   foo_hour   => '00',
         foo_minute => '00',
         foo_second => '59',
         foo_day    => 30,

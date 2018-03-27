@@ -8,8 +8,8 @@ use Path::Class::File;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-$form->elements( [ {
-            type     => "Text",
+$form->elements( [
+        {   type     => "Text",
             name     => "test1",
             deflator => { type => "PathClassFile" }
         },

@@ -20,8 +20,8 @@ while ( my ( $k, $v ) = each %test ) {
 is( HTML::FormFu::Model::HashRef::_unescape_name('foo\\_bar'), 'foo_bar' );
 
 is_deeply(
-    HTML::FormFu::Model::HashRef::_escape_hash( {
-            'name_2'       => 'foo',
+    HTML::FormFu::Model::HashRef::_escape_hash(
+        {   'name_2'       => 'foo',
             'name_bar_foo' => 'bar',
             'name_2_bar'   => 'baz',
             'name_2.bar'   => { 'bas_z' => 1 },
@@ -35,8 +35,8 @@ is_deeply(
         'bar\\_z'          => [ { 'foo\\_w' => 1, foo_2 => 2 } ] } );
 
 is_deeply(
-    HTML::FormFu::Model::HashRef::_unescape_hash( {
-            'name_2'           => 'foo',
+    HTML::FormFu::Model::HashRef::_unescape_hash(
+        {   'name_2'           => 'foo',
             'name\\_bar\\_foo' => 'bar',
             'name\\_2\\_bar'   => 'baz',
             'name_2.bar'       => { 'bas\\_z' => 1 },
@@ -52,8 +52,8 @@ is_deeply(
     } );
 
 my $form = HTML::FormFu->new;
-$form->populate( {
-        elements =>
+$form->populate(
+    {   elements =>
             [ { name => 'foo' }, { name => 'bar' }, { name => 'foo_bar' } ] } );
 $form->process( { foo => 1, bar => 2, foo_bar => 3 } );
 

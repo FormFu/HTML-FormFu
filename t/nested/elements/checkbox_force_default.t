@@ -21,8 +21,8 @@ $form->element('Checkbox')->name('moo')->value('e')->checked('checked')
 $form->element('Checkbox')->name('mox')->value('f')->checked('checked')
     ->force_default(1);
 
-$form->process( {
-        "cb.foo" => '',
+$form->process(
+    {   "cb.foo" => '',
         "cb.bar" => 'z',
     } );
 

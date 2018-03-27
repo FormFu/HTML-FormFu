@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Email;
-# ABSTRACT: Email Address Constraint
 
+package HTML::FormFu::Constraint::Email;
+
+# ABSTRACT: Email Address Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -19,34 +20,34 @@ sub constrain_value {
 
     my %options = ( -address => $value );
 
-    if (defined $self->options) {
+    if ( defined $self->options ) {
 
-       if (ref $self->options eq 'ARRAY') {
+        if ( ref $self->options eq 'ARRAY' ) {
 
-          for my $foo (@{ $self->options }) {
-              next if $foo eq 'address';
-              $options{ '-' . $foo } = 1
-          }
+            for my $foo ( @{ $self->options } ) {
+                next if $foo eq 'address';
+                $options{ '-' . $foo } = 1;
+            }
 
-       }
-       elsif (ref $self->options eq 'HASH') {
+        }
+        elsif ( ref $self->options eq 'HASH' ) {
 
-          for my $foo (keys %{ $self->options }) {
-              next if $foo eq 'address';
-              $options{ '-' . $foo } = $self->options->{$foo}
-          }
+            for my $foo ( keys %{ $self->options } ) {
+                next if $foo eq 'address';
+                $options{ '-' . $foo } = $self->options->{$foo};
+            }
 
-       }
-       else {
+        }
+        else {
 
-           $options{ '-' . $self->options } = 1
+            $options{ '-' . $self->options } = 1;
 
-       }
+        }
 
     }
 
-    my $validated_address = (Email::Valid->address( %options ) // '');
-    my $ok = $value eq $validated_address;
+    my $validated_address = ( Email::Valid->address(%options) // '' );
+    my $ok                = $value eq $validated_address;
 
     return $ok;
 }

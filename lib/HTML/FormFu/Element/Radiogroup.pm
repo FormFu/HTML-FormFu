@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Radiogroup;
-# ABSTRACT: Group of radiobutton form fields
 
+package HTML::FormFu::Element::Radiogroup;
+
+# ABSTRACT: Group of radiobutton form fields
 
 use Moose;
 use MooseX::Attribute::Chained;

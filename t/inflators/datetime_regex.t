@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->element('Text')->name('foo');
 
-$form->inflator('DateTime')->parser( {
-        regex  => qr/^ (\d{2}) \/ (\d{2}) \/ (\d{4}) $/x,
+$form->inflator('DateTime')->parser(
+    {   regex  => qr/^ (\d{2}) \/ (\d{2}) \/ (\d{4}) $/x,
         params => [qw/ month day year /],
     } );
 

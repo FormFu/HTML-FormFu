@@ -16,8 +16,8 @@ my $field2 = $form->element('Checkboxgroup')->name('foo2')
     ->options( [ [ 'a' => 'A' ], [ 'b' => 'B' ] ] )->reverse_group(0);
 
 # add more elements to test accessor output
-$form->element('Checkboxgroup')->name('foo3')->options( [
-        { label => 'Ein',  value => 1 },
+$form->element('Checkboxgroup')->name('foo3')->options(
+    [   { label => 'Ein',  value => 1 },
         { label => 'Zwei', value => 2, attributes => { class => 'foobar' } },
     ] );
 $form->element('Checkboxgroup')->name('bar')->values( [qw/ one two three /] )
@@ -93,8 +93,8 @@ is( "$form", $form_xhtml, 'stringified form' );
 
 # With mocked basic query
 {
-    $form->process( {
-            foo => [ 1, 2, ],
+    $form->process(
+        {   foo => [ 1, 2, ],
             bar => 'three',
         } );
 

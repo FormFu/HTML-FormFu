@@ -6,8 +6,8 @@ use HTML::FormFu;
 use lib 't/lib';
 use HTMLFormFu::RegressLocalization::en;
 
-my @elements = ( {
-        name => 'foo',
+my @elements = (
+    {   name => 'foo',
 
         # deliberately using formfu's built-in name to trigger
         # text replacement

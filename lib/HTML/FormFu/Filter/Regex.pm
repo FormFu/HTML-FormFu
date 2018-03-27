@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::Regex;
-# ABSTRACT: regexp-based match/replace filter
 
+package HTML::FormFu::Filter::Regex;
+
+# ABSTRACT: regexp-based match/replace filter
 
 use Moose;
 use MooseX::Attribute::Chained;

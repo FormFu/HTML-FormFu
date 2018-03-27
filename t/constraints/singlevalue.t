@@ -15,8 +15,8 @@ $form->element('Text')->name('bom');
 
 $form->constraint('SingleValue');
 
-$form->process( {
-        foo => 1,
+$form->process(
+    {   foo => 1,
         bar => '',
         baz => [2],
         bif => [ 3, 4 ],

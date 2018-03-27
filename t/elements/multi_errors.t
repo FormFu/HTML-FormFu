@@ -5,12 +5,12 @@ use Test::More tests => 1;
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( {
-        elements => [ {
-                type     => 'Multi',
+my $form = HTML::FormFu->new(
+    {   elements => [
+            {   type     => 'Multi',
                 label    => 'My multi',
-                elements => [ {
-                        type => 'Text',
+                elements => [
+                    {   type => 'Text',
                         name => 'foo',
                     },
                     {   type => 'Radio',

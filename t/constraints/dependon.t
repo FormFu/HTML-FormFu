@@ -14,8 +14,8 @@ $form->element('Text')->name('baz');
 
 # Valid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => 'a',
             baz => [2],
         } );
@@ -25,8 +25,8 @@ $form->element('Text')->name('baz');
 
 # Invalid
 {
-    $form->process( {
-            foo => 1,
+    $form->process(
+        {   foo => 1,
             bar => '',
             baz => 2,
         } );

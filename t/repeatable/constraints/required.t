@@ -16,8 +16,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Valid
 {
-    $form->process( {
-            'rep_1.foo' => 'a',
+    $form->process(
+        {   'rep_1.foo' => 'a',
             'rep_1.bar' => 'b',
             'rep_2.foo' => 'c',
             'rep_2.bar' => 'd',
@@ -42,8 +42,8 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
 
 # Missing - Invalid
 {
-    $form->process( {
-            'rep_1.bar' => 'b',
+    $form->process(
+        {   'rep_1.bar' => 'b',
             'rep_2.foo' => 'c',
             count       => 2,
         } );
@@ -55,9 +55,13 @@ $form->get_element( { type => 'Repeatable' } )->repeat(2);
     ok( !$form->has_errors('rep_2.foo') );
     ok( $form->has_errors('rep_2.bar') );
 
-    like( $form->get_field( { nested_name => 'rep_1.foo' } ), qr/This field is required/ );
-    unlike( $form->get_field( { nested_name => 'rep_1.bar' } ), qr/This field is required/ );
-    unlike( $form->get_field( { nested_name => 'rep_2.foo' } ), qr/This field is required/ );
-    like( $form->get_field( { nested_name => 'rep_2.bar' } ), qr/This field is required/ );
+    like( $form->get_field( { nested_name => 'rep_1.foo' } ),
+        qr/This field is required/ );
+    unlike( $form->get_field( { nested_name => 'rep_1.bar' } ),
+        qr/This field is required/ );
+    unlike( $form->get_field( { nested_name => 'rep_2.foo' } ),
+        qr/This field is required/ );
+    like( $form->get_field( { nested_name => 'rep_2.bar' } ),
+        qr/This field is required/ );
 }
 

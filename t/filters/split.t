@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/filters/split.yml');
 
-$form->process( {
-        foo => 'FOO',
+$form->process(
+    {   foo => 'FOO',
         bar => '1-2-3',
     } );
 

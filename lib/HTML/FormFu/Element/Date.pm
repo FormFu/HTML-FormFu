@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Date;
-# ABSTRACT: 3 select menu multi-field
 
+package HTML::FormFu::Element::Date;
+
+# ABSTRACT: 3 select menu multi-field
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -80,8 +81,8 @@ after BUILD => sub {
 
     $self->month( { prefix => [], } );
 
-    $self->year( {
-            prefix  => [],
+    $self->year(
+        {   prefix  => [],
             less    => 0,
             plus    => 10,
             reverse => 0,
@@ -226,8 +227,8 @@ sub _add_day {
 
     @day_prefix = map { [ '', $_ ] } @day_prefix;
 
-    my $element = $self->element( {
-            type       => 'Select',
+    my $element = $self->element(
+        {   type       => 'Select',
             name       => $day_name,
             options    => [ @day_prefix, map { [ $_, $_ ] } 1 .. 31 ],
             attributes => $day->{attributes},
@@ -265,8 +266,8 @@ sub _add_month {
 
     my $options = [ @month_prefix, map { [ $_ + 1, $months[$_] ] } 0 .. 11 ];
 
-    my $element = $self->element( {
-            type       => 'Select',
+    my $element = $self->element(
+        {   type       => 'Select',
             name       => $month_name,
             options    => $options,
             attributes => $month->{attributes},
@@ -314,8 +315,8 @@ sub _add_year {
 
     @year_prefix = map { [ '', $_ ] } @year_prefix;
 
-    my $element = $self->element( {
-            type       => 'Select',
+    my $element = $self->element(
+        {   type       => 'Select',
             name       => $year_name,
             options    => [ @year_prefix, map { [ $_, $_ ] } @years ],
             attributes => $year->{attributes},
@@ -391,8 +392,8 @@ sub _build_name {
 sub _add_inflator {
     my ($self) = @_;
 
-    $self->inflator( {
-            type     => "DateTime",
+    $self->inflator(
+        {   type     => "DateTime",
             parser   => { strptime => $self->strftime, },
             strptime => $self->strftime,
         } );
@@ -479,8 +480,8 @@ sub render_data {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );
 

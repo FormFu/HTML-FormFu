@@ -8,8 +8,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new(
     { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-my $field = $form->element('Radiogroup')->name('foo')->options( [ {
-            label     => 'One',
+my $field = $form->element('Radiogroup')->name('foo')->options( [
+        {   label     => 'One',
             attrs     => { class => 'foo' },
             attrs_xml => { onsubmit => '<dont-quote>' },
         } ] );

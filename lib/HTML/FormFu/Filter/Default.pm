@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Filter::Default;
 
+package HTML::FormFu::Filter::Default;
 
 use Moose;
 use MooseX::Attribute::Chained;

@@ -10,12 +10,12 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/bugs/repeatable_increase_rep.yml');
 
-my $repeatable = $form->get_all_element({ type => 'Repeatable' });
+my $repeatable = $form->get_all_element( { type => 'Repeatable' } );
 
 {
     # form is submitted with a single value
 
-    $form->process({ foo => 'a' });
+    $form->process( { foo => 'a' } );
 
     my $html = qq{<div>
 <div>

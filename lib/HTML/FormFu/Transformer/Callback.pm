@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Transformer::Callback;
-# ABSTRACT: Callback transformer
 
+package HTML::FormFu::Transformer::Callback;
+
+# ABSTRACT: Callback transformer
 
 use Moose;
 use MooseX::Attribute::Chained;

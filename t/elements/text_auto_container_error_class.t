@@ -10,9 +10,7 @@ my $form = HTML::FormFu->new(
 
 $form->load_config_file('t/elements/text_auto_container_error_class.yml');
 
-$form->process({
-    submit => 'Submit',
-});
+$form->process( { submit => 'Submit', } );
 
 my $expected_form_xhtml = <<EOF;
 <form action="" method="post">

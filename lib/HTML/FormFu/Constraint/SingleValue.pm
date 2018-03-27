@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::SingleValue;
-# ABSTRACT: Single Value Constraint
 
+package HTML::FormFu::Constraint::SingleValue;
+
+# ABSTRACT: Single Value Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';

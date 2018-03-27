@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Regex;
-# ABSTRACT: Regex Constraint
 
+package HTML::FormFu::Constraint::Regex;
+
+# ABSTRACT: Regex Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

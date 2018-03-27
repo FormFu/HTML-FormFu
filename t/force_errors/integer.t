@@ -11,8 +11,8 @@ $form->element('Text')->name('foo')->constraint('Integer')->force_errors(1);
 $form->element('Text')->name('bar')->constraint('Integer')->force_errors(1);
 
 {
-    $form->process( {
-            foo => '12',
+    $form->process(
+        {   foo => '12',
             bar => "12\n",
         } );
 
@@ -23,8 +23,8 @@ $form->element('Text')->name('bar')->constraint('Integer')->force_errors(1);
 }
 
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => "0\n",
         } );
 

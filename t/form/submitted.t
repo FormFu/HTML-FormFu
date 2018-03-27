@@ -17,8 +17,8 @@ $form->element('Text')->name('bar');
 
 # NO INDICATOR, SUBMITTED
 {
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => '23',
         } );
 
@@ -36,8 +36,8 @@ $form->element('Text')->name('bar');
 {
     $form->indicator('foo');
 
-    $form->process( {
-            foo => 'yada',
+    $form->process(
+        {   foo => 'yada',
             bar => '23',
         } );
 

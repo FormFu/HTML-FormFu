@@ -13,8 +13,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '',
             c => '',
             d => '',
@@ -30,8 +30,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '1',
+    $form->process(
+        {   a => '1',
             b => '',
             c => '',
             d => '',
@@ -47,8 +47,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '1',
             c => '',
             d => '',
@@ -64,8 +64,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '',
             c => '1',
             d => '',
@@ -81,8 +81,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '',
             c => '',
             d => '1',
@@ -98,8 +98,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '1',
+    $form->process(
+        {   a => '1',
             b => '1',
             c => '',
             d => '',
@@ -115,8 +115,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Valid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '1',
             c => '1',
             d => '',
@@ -132,8 +132,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Invalid
 {
-    $form->process( {
-            a => '1',
+    $form->process(
+        {   a => '1',
             b => '1',
             c => '1',
             d => '',
@@ -149,8 +149,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Invalid
 {
-    $form->process( {
-            a => '',
+    $form->process(
+        {   a => '',
             b => '1',
             c => '1',
             d => '1',
@@ -166,8 +166,8 @@ $form->load_config_file('t/constraints/constraint_when_any_field.yml');
 
 # Invalid
 {
-    $form->process( {
-            a => '1',
+    $form->process(
+        {   a => '1',
             b => '1',
             c => '1',
             d => '1',

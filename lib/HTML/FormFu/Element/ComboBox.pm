@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::ComboBox;
-# ABSTRACT: Select / Text hybrid
 
+package HTML::FormFu::Element::ComboBox;
+
+# ABSTRACT: Select / Text hybrid
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -158,8 +159,8 @@ sub _add_select {
 
     my $select_name = _build_field_name( $self, 'select' );
 
-    my $select_element = $self->element( {
-            type => 'Select',
+    my $select_element = $self->element(
+        {   type => 'Select',
             name => $select_name,
         } );
 
@@ -193,8 +194,8 @@ sub _add_text {
 
     my $text_name = _build_field_name( $self, 'text' );
 
-    my $text_element = $self->element( {
-            type => 'Text',
+    my $text_element = $self->element(
+        {   type => 'Text',
             name => $text_name,
         } );
 
@@ -264,8 +265,8 @@ sub process_input {
         );
     }
     elsif ( defined $select_value && length $select_value ) {
-        $self->set_nested_hash_value( $input, $self->nested_name, $select_value,
-        );
+        $self->set_nested_hash_value( $input, $self->nested_name,
+            $select_value, );
     }
 
     return $self->SUPER::process_input($input);
@@ -278,8 +279,8 @@ sub render_data {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            elements => [ map { $_->render_data } @{ $self->_elements } ],
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   elements => [ map { $_->render_data } @{ $self->_elements } ],
             $args ? %$args : (),
         } );
 

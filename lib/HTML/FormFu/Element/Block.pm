@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Element::Block;
-# ABSTRACT: Block element
 
+package HTML::FormFu::Element::Block;
+
+# ABSTRACT: Block element
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -130,8 +131,8 @@ sub render_data {
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
 
-    my $render = $self->SUPER::render_data_non_recursive( {
-            tag     => $self->tag,
+    my $render = $self->SUPER::render_data_non_recursive(
+        {   tag     => $self->tag,
             content => xml_escape( $self->content ),
             $args ? %$args : (),
         } );
@@ -228,8 +229,8 @@ sub string {
 sub start {
     my ($self) = @_;
 
-    return $self->tt( {
-            filename    => 'start_block',
+    return $self->tt(
+        {   filename    => 'start_block',
             render_data => $self->render_data_non_recursive,
         } );
 }
@@ -237,8 +238,8 @@ sub start {
 sub end {
     my ($self) = @_;
 
-    return $self->tt( {
-            filename    => 'end_block',
+    return $self->tt(
+        {   filename    => 'end_block',
             render_data => $self->render_data_non_recursive,
         } );
 }

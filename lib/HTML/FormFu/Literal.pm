@@ -1,8 +1,8 @@
 use strict;
+
 package HTML::FormFu::Literal;
 
 use warnings;
-
 
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::Callback;
-# ABSTRACT: filter with custom subroutine
 
+package HTML::FormFu::Filter::Callback;
+
+# ABSTRACT: filter with custom subroutine
 
 use Moose;
 use MooseX::Attribute::Chained;

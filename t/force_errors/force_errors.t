@@ -11,8 +11,8 @@ $form->element('Text')->name('foo')->constraint('Integer');
 $form->element('Text')->name('bar')->constraint('Integer');
 
 {
-    $form->process( {
-            foo => '1',
+    $form->process(
+        {   foo => '1',
             bar => '0',
         } );
 
@@ -31,8 +31,8 @@ $form->element('Text')->name('bar')->constraint('Integer');
 }
 
 {
-    $form->process( {
-            foo => 0,
+    $form->process(
+        {   foo => 0,
             bar => "0\n",
         } );
 

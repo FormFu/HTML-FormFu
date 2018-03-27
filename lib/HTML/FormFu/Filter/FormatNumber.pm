@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::FormatNumber;
-# ABSTRACT: Convert a formatted number from a known locale
 
+package HTML::FormFu::Filter::FormatNumber;
+
+# ABSTRACT: Convert a formatted number from a known locale
 
 use Moose;
 extends 'HTML::FormFu::Filter';

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::MaxRange;
-# ABSTRACT: Maximum Value Constraint
 
+package HTML::FormFu::Constraint::MaxRange;
+
+# ABSTRACT: Maximum Value Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint::Range';

@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::AllOrNone;
-# ABSTRACT: Multi-field All or None Constraint
 
+package HTML::FormFu::Constraint::AllOrNone;
+
+# ABSTRACT: Multi-field All or None Constraint
 
 use Moose;
 extends 'HTML::FormFu::Constraint';
@@ -48,8 +49,8 @@ sub process {
 
     my $pass = @failed && scalar @failed != scalar @names ? 0 : 1;
 
-    return $self->mk_errors( {
-            pass   => $pass,
+    return $self->mk_errors(
+        {   pass   => $pass,
             failed => $pass ? [] : \@failed,
             names  => \@names,
         } );

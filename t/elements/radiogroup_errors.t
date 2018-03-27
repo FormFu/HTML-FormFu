@@ -37,8 +37,7 @@ is( "$field", $xhtml );
 {
     $form->process( {} );
 
-    my $xhtml
-        = qq{<fieldset>
+    my $xhtml = qq{<fieldset>
 <legend>My legend</legend>
 <span>This field is required</span>
 <span>

@@ -11,8 +11,8 @@ $form->load_config_file('t/constraints/dependon_attach_errors_to_base.yml');
 
 # Valid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => 'b',
         } );
 
@@ -21,8 +21,8 @@ $form->load_config_file('t/constraints/dependon_attach_errors_to_base.yml');
 
 # Invalid
 {
-    $form->process( {
-            foo => '',
+    $form->process(
+        {   foo => '',
             bar => 'b',
         } );
 

@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Exception::Validator;
 
+package HTML::FormFu::Exception::Validator;
 
 use Moose;
 extends 'HTML::FormFu::Exception::Input';
@@ -16,11 +16,11 @@ sub validator {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            stage     => $self->stage,
+    my $render = $self->$orig(
+        {   stage     => $self->stage,
             validator => $self->validator,
             $args ? %$args : (),
-        });
+        } );
 
     return $render;
 };

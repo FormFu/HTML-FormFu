@@ -13,8 +13,8 @@ $form->element('Text')->name('bar')->constraint('Number');
 $form->element('Text')->name('baz')->constraint('Number');
 $form->element('Text')->name('bag')->constraint('Number');
 
-$form->process( {
-        'foo.bar'     => 1,
+$form->process(
+    {   'foo.bar'     => 1,
         'foo.baz'     => [ 2, 3 ],
         'foo.bag'     => 'yada',
         'foo.unknown' => 4,
@@ -40,8 +40,8 @@ ok( !$form->valid('foo') );
 
 # with no errors...
 
-$form->process( {
-        'foo.bar'     => 1,
+$form->process(
+    {   'foo.bar'     => 1,
         'foo.baz'     => [ 2, 3 ],
         'foo.bag'     => 9,
         'foo.unknown' => 4,

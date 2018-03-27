@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Inflator::Callback;
-# ABSTRACT: Callback inflator
 
+package HTML::FormFu::Inflator::Callback;
+
+# ABSTRACT: Callback inflator
 
 use Moose;
 use MooseX::Attribute::Chained;

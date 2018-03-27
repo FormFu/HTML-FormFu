@@ -19,15 +19,17 @@ delete $ENV{HTML_FORMFU_RENDER_METHOD};
 
 use HTML::FormFu;
 
-my $form = HTML::FormFu->new( {
-        tt_args => {
+my $form = HTML::FormFu->new(
+    {   tt_args => {
             INCLUDE_PATH => [ 't/elements/object', 'share/templates/tt/xhtml' ]
         } } );
 
 $form->render_method('tt');
 $form->auto_fieldset;
 
-$form->element('Text')->name('foo')->layout_field_filename('field_layout_field_custom')->constraint('Required');
+$form->element('Text')->name('foo')
+    ->layout_field_filename('field_layout_field_custom')
+    ->constraint('Required');
 $form->element('Text')->name('bar');
 $form->element('Hidden')->name('baz');
 $form->element('Submit')->name('submit');

@@ -1,6 +1,6 @@
 use strict;
-package HTML::FormFu::Role::GetProcessors;
 
+package HTML::FormFu::Role::GetProcessors;
 
 use Moose::Role;
 

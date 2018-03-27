@@ -14,8 +14,8 @@ $form->element('Text')->name('bar')
 
 $form->constraint('Number');
 
-$form->process( {
-        foo => 'a',
+$form->process(
+    {   foo => 'a',
         bar => 'b',
     } );
 

@@ -12,8 +12,8 @@ my $field = $form->element('Select')->name('foo')
     ->options( [ [ 1 => 'One' ], [ 2 => 'Two' ] ] );
 
 # add more elements to test accessor output
-$form->element('Select')->name('foo2')->options( [
-        { label => 'Ein',  value => 1 },
+$form->element('Select')->name('foo2')->options(
+    [   { label => 'Ein',  value => 1 },
         { label => 'Zwei', value => 2, attributes => { class => 'foobar' } },
     ] );
 $form->element('Select')->name('bar')->values( [qw/ one two three /] )

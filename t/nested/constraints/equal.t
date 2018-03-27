@@ -14,8 +14,8 @@ $form->element('Text')->name('bar')->constraint('Equal')->others('foo.baz');
 $form->element('Text')->name('baz');
 
 {
-    $form->process( {
-            'foo.bar' => 'x',
+    $form->process(
+        {   'foo.bar' => 'x',
             'foo.baz' => 'x',
         } );
 
@@ -24,8 +24,8 @@ $form->element('Text')->name('baz');
 }
 
 {
-    $form->process( {
-            'foo.bar' => 'x',
+    $form->process(
+        {   'foo.bar' => 'x',
             'foo.baz' => 'y',
         } );
 

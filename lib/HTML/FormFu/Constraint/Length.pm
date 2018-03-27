@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Length;
-# ABSTRACT: Min/Max Length String Constraint
 
+package HTML::FormFu::Constraint::Length;
+
+# ABSTRACT: Min/Max Length String Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

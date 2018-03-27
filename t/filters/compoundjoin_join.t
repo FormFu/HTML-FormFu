@@ -9,8 +9,8 @@ my $form = HTML::FormFu->new;
 
 $form->load_config_file('t/filters/compoundjoin_join.yml');
 
-$form->process( {
-        'sortcode.p1' => '01',
+$form->process(
+    {   'sortcode.p1' => '01',
         'sortcode.p2' => '02',
         'sortcode.p3' => '03',
     } );

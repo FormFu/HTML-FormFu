@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Element::Group;
-# ABSTRACT: Role for grouped form fields
 
+package HTML::FormFu::Role::Element::Group;
+
+# ABSTRACT: Role for grouped form fields
 
 use Moose::Role;
 
@@ -253,8 +254,8 @@ sub values {
         @values = @$arg;
     }
 
-    my @new = map { {
-            value                => $_,
+    my @new = map {
+        {   value                => $_,
             label                => ucfirst $_,
             attributes           => {},
             container_attributes => {},
@@ -347,8 +348,8 @@ before prepare_attrs => sub {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            options => Clone::clone( $self->_options ),
+    my $render = $self->$orig(
+        {   options => Clone::clone( $self->_options ),
             $args ? %$args : (),
         } );
 

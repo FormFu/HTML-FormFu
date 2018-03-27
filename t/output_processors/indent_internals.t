@@ -7,8 +7,8 @@ use HTML::FormFu;
 
 my $form = HTML::FormFu->new;
 
-my $proc = $form->output_processor( {
-        type   => 'Indent',
+my $proc = $form->output_processor(
+    {   type   => 'Indent',
         indent => " " x 4,
     } );
 

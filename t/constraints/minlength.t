@@ -12,8 +12,8 @@ $form->element('Text')->name('bar')->constraint('MinLength')->min(3);
 
 # Valid
 {
-    $form->process( {
-            foo => 'abc',
+    $form->process(
+        {   foo => 'abc',
             bar => 'abcd',
         } );
 
@@ -23,8 +23,8 @@ $form->element('Text')->name('bar')->constraint('MinLength')->min(3);
 
 # Invalid
 {
-    $form->process( {
-            foo => 'ab',
+    $form->process(
+        {   foo => 'ab',
             bar => 'abcdef',
         } );
 

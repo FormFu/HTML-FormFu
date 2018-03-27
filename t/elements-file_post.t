@@ -48,8 +48,8 @@ local *STDIN = $io;
 
 my $q = CGI->new();
 
-my $form = HTML::FormFu->new( {
-        action   => 'http://www.perl.org/test.cgi',
+my $form = HTML::FormFu->new(
+    {   action   => 'http://www.perl.org/test.cgi',
         elements => [
             { type => 'Text', name => 'multiple' },
             { type => 'File', name => 'multiple' },

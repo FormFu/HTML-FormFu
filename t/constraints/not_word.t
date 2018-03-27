@@ -14,8 +14,8 @@ $form->constraint('Not_Word');
 
 # Valid
 {
-    $form->process( {
-            foo => ' ',
+    $form->process(
+        {   foo => ' ',
             bar => "\t",
         } );
 
@@ -25,8 +25,8 @@ $form->constraint('Not_Word');
 
 # Invalid
 {
-    $form->process( {
-            foo => 'a',
+    $form->process(
+        {   foo => 'a',
             bar => "\n",
         } );
 

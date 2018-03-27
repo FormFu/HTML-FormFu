@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Role::Element::Input;
-# ABSTRACT: Role for input fields
 
+package HTML::FormFu::Role::Element::Input;
+
+# ABSTRACT: Role for input fields
 
 use Moose::Role;
 
@@ -23,9 +24,7 @@ use HTML::FormFu::Attribute qw(
 use HTML::FormFu::Constants qw( $EMPTY_STR );
 use HTML::FormFu::Util qw( process_attrs xml_escape );
 
-has field_type => (
-    is => 'rw',
-);
+has field_type => ( is => 'rw', );
 
 has datalist_id => ( is => 'rw' );
 
@@ -36,18 +35,18 @@ has _datalist_options => (
     isa     => 'ArrayRef',
 );
 
-__PACKAGE__->mk_attr_accessors(qw(
-    alt         autocomplete
-    checked     maxlength
-    pattern     placeholder
-    size
-));
+__PACKAGE__->mk_attr_accessors( qw(
+        alt         autocomplete
+        checked     maxlength
+        pattern     placeholder
+        size
+) );
 
-__PACKAGE__->mk_attr_bool_accessors(qw(
-    autofocus
-    multiple
-    required
-));
+__PACKAGE__->mk_attr_bool_accessors( qw(
+        autofocus
+        multiple
+        required
+) );
 
 my @ALLOWED_OPTION_KEYS = qw(
     value
@@ -134,7 +133,8 @@ sub _parse_option_hashref {
 sub datalist_values {
     my ( $self, $arg ) = @_;
 
-    croak "datalist_values argument must be a single array-ref of values" if @_ > 2;
+    croak "datalist_values argument must be a single array-ref of values"
+        if @_ > 2;
 
     my @values;
 
@@ -145,11 +145,7 @@ sub datalist_values {
         @values = @$arg;
     }
 
-    my @new = map { {
-            value => $_,
-            label => ucfirst $_,
-        }
-    } @values;
+    my @new = map { { value => $_, label => ucfirst $_, } } @values;
 
     $self->_datalist_options( \@new );
 
@@ -161,7 +157,7 @@ around prepare_id => sub {
 
     $self->$orig($render);
 
-    return if ! @{ $self->_datalist_options };
+    return if !@{ $self->_datalist_options };
 
     if ( defined $render->{datalist_id} ) {
         $render->{attributes}{list} = $render->{datalist_id};
@@ -194,7 +190,8 @@ around prepare_id => sub {
         $render->{attributes}{list} = $id;
     }
     else {
-        croak "either 'datalist_id' or 'auto_datalist_id' must be set when using a datalist";
+        croak
+            "either 'datalist_id' or 'auto_datalist_id' must be set when using a datalist";
     }
 
     return;
@@ -203,9 +200,9 @@ around prepare_id => sub {
 around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
-    my $render = $self->$orig( {
-            field_type  => $self->field_type,
-            placeholder => $self->placeholder,
+    my $render = $self->$orig(
+        {   field_type                 => $self->field_type,
+            placeholder                => $self->placeholder,
             error_attributes           => xml_escape( $self->error_attributes ),
             error_container_attributes => xml_escape( $self->error_attributes ),
             $args ? %$args : (),

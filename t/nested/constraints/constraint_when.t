@@ -27,8 +27,8 @@ $form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
 
 # Valid
 {
-    $form->process( {
-            'xyz.foo'  => 1,
+    $form->process(
+        {   'xyz.foo'  => 1,
             'xyz.bar'  => 'bar_value',
             'xyz.moo'  => undef,
             'xyz.zoo'  => 'zoo_value',
@@ -54,8 +54,8 @@ $form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
     ok( grep { $_ eq 'xyz.coo2' } $form->valid );
 }
 {
-    $form->process( {
-            'xyz.foo' => 2,
+    $form->process(
+        {   'xyz.foo' => 2,
             'xyz.bar' => undef,
             'xyz.moo' => 'moo_value',
             'xyz.zoo' => 'zoo_value',
@@ -78,8 +78,8 @@ $form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
     ok( grep { $_ eq 'xyz.coo' } $form->valid );
 }
 {
-    $form->process( {
-            'xyz.foo' => 5,
+    $form->process(
+        {   'xyz.foo' => 5,
             'xyz.bar' => undef,
             'xyz.moo' => undef,
             'xyz.zoo' => undef,
@@ -104,8 +104,8 @@ $form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
 
 # Invalid
 {
-    $form->process( {
-            'xyz.foo' => 1,
+    $form->process(
+        {   'xyz.foo' => 1,
             'xyz.moo' => undef,
             'xyz.coo' => 'not_a_number',
         } );
@@ -118,8 +118,8 @@ $form->get_field('coo')->get_constraint->when( { callback => $when_closure } );
     ok( !$form->valid('xyz.zoo'), 'zoo not valid' );
     ok( !$form->valid('xyz.coo'), 'coo not valid' );
 
-    $form->process( {
-            'xyz.foo' => 'false value',
+    $form->process(
+        {   'xyz.foo' => 'false value',
             'xyz.bar' => undef,
             'xyz.moo' => undef,
             'xyz.zoo' => 'zoo_value',

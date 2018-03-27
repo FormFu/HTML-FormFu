@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Constraint::Callback;
-# ABSTRACT: Code Callback Constraint
 
+package HTML::FormFu::Constraint::Callback;
+
+# ABSTRACT: Code Callback Constraint
 
 use Moose;
 use MooseX::Attribute::Chained;

@@ -1,12 +1,12 @@
 use strict;
-package HTML::FormFu::Role::FormBlockAndFieldMethods;
 
+package HTML::FormFu::Role::FormBlockAndFieldMethods;
 
 use Moose::Role;
 
 use HTML::FormFu::Attribute qw( mk_inherited_accessors );
 
-our @MULTIFORM_SHARED = (qw(
+our @MULTIFORM_SHARED = ( qw(
         auto_id
         auto_label
         auto_label_class
@@ -32,9 +32,9 @@ our @MULTIFORM_SHARED = (qw(
         force_errors
         repeatable_count
         locale
-));
+) );
 
-__PACKAGE__->mk_inherited_accessors( @MULTIFORM_SHARED );
+__PACKAGE__->mk_inherited_accessors(@MULTIFORM_SHARED);
 
 1;
 

@@ -11,8 +11,8 @@ $form->element('Text')->name('foo');
 $form->element('Text')->name('bar');
 $form->element('Text')->name('baz');
 
-$form->process( {
-        foo => 'a',
+$form->process(
+    {   foo => 'a',
         bar => [ 'b', 'c' ],
     } );
 

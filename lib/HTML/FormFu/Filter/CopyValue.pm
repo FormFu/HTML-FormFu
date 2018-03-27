@@ -1,7 +1,8 @@
 use strict;
-package HTML::FormFu::Filter::CopyValue;
-# ABSTRACT: copy the value from another field
 
+package HTML::FormFu::Filter::CopyValue;
+
+# ABSTRACT: copy the value from another field
 
 use Moose;
 use MooseX::Attribute::Chained;

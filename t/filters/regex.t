@@ -8,8 +8,8 @@ use HTML::FormFu;
 my $form = HTML::FormFu->new;
 
 # add config-callback to replicate Catalyst-Controller-HTML-FormFu
-$form->config_callback( {
-        plain_value => sub {
+$form->config_callback(
+    {   plain_value => sub {
             return if !defined $_;
             s{__uri_for()\((.+?)\)__}
          {$1}g;

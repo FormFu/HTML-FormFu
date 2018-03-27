@@ -16,8 +16,8 @@ my $block = $fs->get_element;
 # we don't call repeat() ourselves
 # this should happen in $form->process()
 
-$form->process( {
-        foo_1 => 'a',
+$form->process(
+    {   foo_1 => 'a',
         bar_1 => 'b',
         foo_2 => 'c',
         bar_2 => 'd',
