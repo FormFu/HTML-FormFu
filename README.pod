@@ -39,7 +39,7 @@ If you're using L<Catalyst>, a more suitable example might be:
     use Moose;
     extends 'Catalyst::Controller::HTML::FormFu';
 
-    sub user : FormFuChained CaptureArgs(1) {
+    sub user : Chained CaptureArgs(1) {
         my ( $self, $c, $id ) = @_;
 
         my $rs = $c->model('Schema')->resultset('User');
@@ -49,7 +49,7 @@ If you're using L<Catalyst>, a more suitable example might be:
         return;
     }
 
-    sub edit : FormFuChained('user') Args(0) FormConfig {
+    sub edit : Chained('user') Args(0) FormConfig {
         my ( $self, $c ) = @_;
 
         my $form = $c->stash->{form};
@@ -2048,7 +2048,7 @@ Carl Franks <cpan@fireartist.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Carl Franks.
+This software is copyright (c) 2018 by Carl Franks.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
