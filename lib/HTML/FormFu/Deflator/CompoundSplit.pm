@@ -124,7 +124,7 @@ Arguments: $string
 
 Default Value: C<' '>
 
-If spliting the value results in more parts than there are fields, any extra
+If splitting the value results in more parts than there are fields, any extra
 parts are joined again to form the value for the last field. The value of
 L</join> is used to join these values.
 
