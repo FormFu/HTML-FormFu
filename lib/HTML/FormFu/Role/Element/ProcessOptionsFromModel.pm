@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Element::ProcessOptionsFromModel;
+# ABSTRACT: process_options_from_model role
 
 use Moose::Role;
 

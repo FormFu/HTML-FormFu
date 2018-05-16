@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::zh_cn;
+# ABSTRACT: Chinese
 
 use utf8;
 

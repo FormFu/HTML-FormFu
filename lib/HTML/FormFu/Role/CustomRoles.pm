@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::CustomRoles;
+# ABSTRACT: add custom roles
 
 use Moose::Role;
 use Moose::Util qw( ensure_all_roles );

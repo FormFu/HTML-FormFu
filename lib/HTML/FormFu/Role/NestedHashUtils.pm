@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::NestedHashUtils;
+# ABSTRACT: role for nested hashes
 
 use Moose::Role;
 

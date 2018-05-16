@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::ua;
+# ABSTRACT: Ukranian
 
 use utf8;
 

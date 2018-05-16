@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Constraint::JSON;
+# ABSTRACT: Valid JSON string
 
 use JSON::MaybeXS qw( decode_json );
 use Moose;
@@ -22,10 +23,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Constraint::JSON - Valid JSON string
 
 =head1 DESCRIPTION
 

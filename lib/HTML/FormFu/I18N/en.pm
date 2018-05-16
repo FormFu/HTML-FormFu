@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::en;
+# ABSTRACT: English
 
 use utf8;
 

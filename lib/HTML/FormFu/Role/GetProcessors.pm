@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::GetProcessors;
+# ABSTRACT: processor getter roles
 
 use Moose::Role;
 

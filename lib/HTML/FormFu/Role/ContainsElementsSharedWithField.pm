@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::ContainsElementsSharedWithField;
+# ABSTRACT: Role for constraints on elements and fields
 
 use Moose::Role;
 

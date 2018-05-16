@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Exception::Inflator;
+# ABSTRACT: Inflator exception
 
 use Moose;
 extends 'HTML::FormFu::Exception::Input';

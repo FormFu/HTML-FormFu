@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Preload;
+# ABSTRACT: preload plugins
 
 use warnings;
 

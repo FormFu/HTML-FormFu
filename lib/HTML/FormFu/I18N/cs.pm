@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::cs;
+# ABSTRACT: Czech
 
 use utf8;
 

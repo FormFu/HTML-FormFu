@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Element::Layout;
+# ABSTRACT: layout role
 
 use Moose::Role;
 use MooseX::Attribute::Chained;

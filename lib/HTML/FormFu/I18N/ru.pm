@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::ru;
+# ABSTRACT: Russian
 
 use utf8;
 

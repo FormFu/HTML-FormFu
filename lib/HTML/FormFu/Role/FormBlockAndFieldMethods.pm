@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::FormBlockAndFieldMethods;
+# ABSTRACT: role for form, block and field methods
 
 use Moose::Role;
 
@@ -37,10 +38,6 @@ our @MULTIFORM_SHARED = ( qw(
 __PACKAGE__->mk_inherited_accessors(@MULTIFORM_SHARED);
 
 1;
-
-=head1 NAME
-
-HTML::FormFu::Role::FormBlockAndFieldMethods
 
 =head1 DESCRIPTION
 

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::ContainsElements;
+# ABSTRACT: Role for contained elements and fields
 
 use Moose::Role;
 

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Exception::Validator;
+# ABSTRACT: Validator exception
 
 use Moose;
 extends 'HTML::FormFu::Exception::Input';

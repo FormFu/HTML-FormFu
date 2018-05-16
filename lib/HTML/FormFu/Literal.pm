@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Literal;
+# ABSTRACT: a FormFu literal
 
 use warnings;
 

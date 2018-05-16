@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::es;
+# ABSTRACT: Spanish
 
 use utf8;
 

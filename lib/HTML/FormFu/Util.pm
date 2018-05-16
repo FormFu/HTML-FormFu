@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Util;
+# ABSTRACT: various utilities
 
 use warnings;
 

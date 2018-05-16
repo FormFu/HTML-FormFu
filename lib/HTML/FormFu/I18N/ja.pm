@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::ja;
+# ABSTRACT: Japanese
 
 use utf8;
 

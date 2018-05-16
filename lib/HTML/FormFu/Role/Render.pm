@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Render;
+# ABSTRACT: Render role
 
 use HTML::FormFu::Util qw( process_attrs );
 use Carp qw( croak );

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::FakeQuery;
+# ABSTRACT: fake query
 
 use warnings;
 

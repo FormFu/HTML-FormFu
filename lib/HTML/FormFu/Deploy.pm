@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Deploy;
+# ABSTRACT: deploy project
 
 use warnings;
 

@@ -1,8 +1,5 @@
 # PODNAME: Unicode.pod
-
-=head1 NAME
-
-HTML::FormFu::Manual::Unicode - Working with unicode
+# ABSTRACT: Working with unicode
 
 =head1 DESCRIPTION
 

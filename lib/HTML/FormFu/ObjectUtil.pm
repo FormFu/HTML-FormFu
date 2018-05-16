@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::ObjectUtil;
+# ABSTRACT: utilities for dealing with FormFu objects
 
 use warnings;
 

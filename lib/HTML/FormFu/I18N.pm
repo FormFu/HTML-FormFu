@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N;
+# ABSTRACT: localization base class
 
 use Moose;
 
