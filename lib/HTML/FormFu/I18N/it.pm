@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::it;
+# ABSTRACT: Italian
 
 use utf8;
 

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Localize;
+# ABSTRACT: Localization
 
 use warnings;
 

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::CreateChildren;
+# ABSTRACT: CreateChildren role
 
 use Moose::Role;
 

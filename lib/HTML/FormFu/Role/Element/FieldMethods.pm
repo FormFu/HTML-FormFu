@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Element::FieldMethods;
+# ABSTRACT: Role for field methods
 
 use Moose::Role;
 

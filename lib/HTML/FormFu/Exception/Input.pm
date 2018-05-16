@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Exception::Input;
+# ABSTRACT: Input exception
 
 use Moose;
 use MooseX::Attribute::Chained;

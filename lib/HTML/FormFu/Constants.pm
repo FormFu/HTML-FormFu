@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Constants;
+# ABSTRACT: FormFU constants EMPTY_STR and SPACE
 
 use warnings;
 

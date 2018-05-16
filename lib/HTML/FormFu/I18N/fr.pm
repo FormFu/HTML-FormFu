@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::fr;
+# ABSTRACT: French
 
 use utf8;
 

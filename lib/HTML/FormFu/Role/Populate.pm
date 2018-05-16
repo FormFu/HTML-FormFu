@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Populate;
+# ABSTRACT: Populate role
 
 use Moose::Role;
 

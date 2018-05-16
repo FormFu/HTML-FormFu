@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::ro;
+# ABSTRACT: Romanian
 
 use utf8;
 

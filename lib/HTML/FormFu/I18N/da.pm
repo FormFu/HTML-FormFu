@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::da;
+# ABSTRACT: Dansk
 
 use utf8;
 

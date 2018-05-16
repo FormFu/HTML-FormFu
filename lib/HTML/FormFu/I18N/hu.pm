@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::hu;
+# ABSTRACT: Ungarian
 
 use Moose;
 use utf8;

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Exception::Transformer;
+# ABSTRACT: Transformer exception
 
 use Moose;
 extends 'HTML::FormFu::Exception::Input';

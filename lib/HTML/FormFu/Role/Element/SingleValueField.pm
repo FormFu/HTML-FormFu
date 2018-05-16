@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Element::SingleValueField;
+# ABSTRACT: role for single value fields
 
 use Moose::Role;
 

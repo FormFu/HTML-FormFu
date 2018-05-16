@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::pt_pt;
+# ABSTRACT: Portuguese
 
 use utf8;
 

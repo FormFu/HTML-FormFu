@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::de;
+# ABSTRACT: German
 
 use utf8;
 

@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Exception::Constraint;
+# ABSTRACT: Constraint exception
 
 use Moose;
 extends 'HTML::FormFu::Exception::Input';

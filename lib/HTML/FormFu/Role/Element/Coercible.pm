@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Role::Element::Coercible;
+# ABSTRACT: coercible element role
 
 use Moose::Role;
 

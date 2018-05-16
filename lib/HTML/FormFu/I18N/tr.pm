@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::tr;
+# ABSTRACT: Turkish
 
 use utf8;
 

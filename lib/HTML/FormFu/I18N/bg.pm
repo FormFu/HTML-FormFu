@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::bg;
+# ABSTRACT: Bulgarian
 
 use utf8;
 

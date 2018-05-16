@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::Filter::Default;
+# ABSTRACT: default filter value
 
 use Moose;
 use MooseX::Attribute::Chained;
@@ -21,10 +22,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::FormFu::Filter::Default
 
 =head1 DESCRIPTION
 

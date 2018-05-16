@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::no;
+# ABSTRACT: Norwegian
 
 use utf8;
 

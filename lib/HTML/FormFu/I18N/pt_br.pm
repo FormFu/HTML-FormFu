@@ -1,6 +1,7 @@
 use strict;
 
 package HTML::FormFu::I18N::pt_br;
+# ABSTRACT: Brazilian
 
 use utf8;
 
