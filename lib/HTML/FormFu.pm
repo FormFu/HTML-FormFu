@@ -282,6 +282,8 @@ sub process {
     }
 
     my $submitted;
+    # refetch query in-case anything in pre_process/process changed it
+    $query = $self->query;
 
     if ( defined $query ) {
         eval { my @params = $query->param };
