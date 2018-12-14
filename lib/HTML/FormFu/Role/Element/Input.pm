@@ -201,10 +201,8 @@ around render_data_non_recursive => sub {
     my ( $orig, $self, $args ) = @_;
 
     my $render = $self->$orig(
-        {   field_type                 => $self->field_type,
-            placeholder                => $self->placeholder,
-            error_attributes           => xml_escape( $self->error_attributes ),
-            error_container_attributes => xml_escape( $self->error_attributes ),
+        {   field_type  => $self->field_type,
+            placeholder => $self->placeholder,
             $args ? %$args : (),
         } );
 

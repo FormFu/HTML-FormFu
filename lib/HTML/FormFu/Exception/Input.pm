@@ -8,7 +8,7 @@ use MooseX::Attribute::Chained;
 extends 'HTML::FormFu::Exception';
 
 use HTML::FormFu::Attribute qw( mk_attrs );
-use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape );
+use HTML::FormFu::Util qw( append_xml_attribute literal xml_escape _merge_hashes );
 
 has processor => ( is => 'rw', traits => ['Chained'] );
 has forced    => ( is => 'rw', traits => ['Chained'] );
@@ -94,7 +94,10 @@ around render_data_non_recursive => sub {
 sub _render_attributes {
     my ( $self, $render ) = @_;
 
-    my $attrs = xml_escape( $self->attributes );
+    my $attrs = xml_escape(
+        $self->parent->error_attributes,
+        $self->attributes,
+    );
 
     my $auto_error_class = $self->parent->auto_error_class;
 

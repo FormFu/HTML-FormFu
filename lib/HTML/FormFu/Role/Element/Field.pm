@@ -1065,18 +1065,11 @@ sub _string_errors {
             ;
     }
 
-    # work around leaky abstraction to fix #24
-    my $default_error_attributes = defined $self->{error_attributes}
-                                 ? $self->{error_attributes}
-                                 : $render->{error_attributes};
     my @error_html;
     for my $error ( @{ $render->{errors} } ) {
-        my $error_attributes = %{ $error->{attributes}}
-                             ? $error->{attributes}
-                             : $default_error_attributes;
         push @error_html, sprintf qq{<%s%s>%s</%s>},
             $render->{error_tag},
-            process_attrs( $error_attributes ),
+            process_attrs( $error->{attributes} ),
             $error->{message},
             $render->{error_tag},
             ;
@@ -1515,6 +1508,12 @@ wrapped around all of the field error messages.
       error_tag: li
 
 Is an L<inheriting accessor|HTML::FormFu/INHERITING ACCESSORS>.
+
+=head3 error_container_attributes
+
+Set attributes on the container-tag, if L</error_container_tag> is set.
+
+Is an L<attribute accessor|HTML::FormFu/ATTRIBUTE ACCESSOR>.
 
 =head3 auto_error_container_class
 
