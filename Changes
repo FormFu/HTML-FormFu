@@ -1,5 +1,11 @@
 {{$NEXT}}
 
+    - Fix handling or error_attributes & error_container_attributes
+
+    - Allow pre_process() plugins to replace query() object
+
+2.06
+
     - New JSON Constraint
 
     - Improve email tests, so that MX tests are only run if internet access
