@@ -4,7 +4,7 @@
 
     - Allow pre_process() plugins to replace query() object
 
-2.06
+2.06      2018-04-09 20:23:54+00:00 UTC
 
     - New JSON Constraint
 
