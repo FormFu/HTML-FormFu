@@ -9,7 +9,7 @@ use HTML::FormFu;
     my $form = HTML::FormFu->new(
         { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-    $form->load_config_file('t-aggregate/elements/error_attributes_failing_test.text-with-attrs.yml');
+    $form->load_config_file('t/elements/error_attributes_failing_test.text-with-attrs.yml');
 
     $form->process({
         foo => 3333,
@@ -45,7 +45,7 @@ EOF
     });
 
 
-    $form->load_config_file('t-aggregate/elements/error_attributes_failing_test.text.yml');
+    $form->load_config_file('t/elements/error_attributes_failing_test.text.yml');
 
     $form->process({
         foo => 3333,
@@ -66,7 +66,7 @@ EOF
     my $form = HTML::FormFu->new(
         { tt_args => { INCLUDE_PATH => 'share/templates/tt/xhtml' } } );
 
-    $form->load_config_file('t-aggregate/elements/error_attributes_failing_test.select-with-attrs.yml');
+    $form->load_config_file('t/elements/error_attributes_failing_test.select-with-attrs.yml');
 
     $form->process({
         foo => 3333,
@@ -103,7 +103,7 @@ EOF
         },
     });
 
-    $form->load_config_file('t-aggregate/elements/error_attributes_failing_test.select.yml');
+    $form->load_config_file('t/elements/error_attributes_failing_test.select.yml');
 
     $form->process({
         foo => 3333,
