@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+2.07      2018-12-14 15:55:00+00:00 UTC
+
     - Fix handling or error_attributes & error_container_attributes
 
     - Allow pre_process() plugins to replace query() object
