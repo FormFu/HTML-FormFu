@@ -548,7 +548,7 @@ C<COMPILE_EXT> or C<COMPILE_DIR>. If you're running under a persistent
 environment such as modperl or fastcgi, you should also set C<COMPILE_PERL>
 to compile the cached templates down to perl code.
 
-Of cource, if you wish you can still use L<Template::Toolkit|Template> to
+Of course, if you wish you can still use L<Template::Toolkit|Template> to
 process your own application templates, letting L<Template::Alloy> process
 just the HTML::FormFu templates.
 
