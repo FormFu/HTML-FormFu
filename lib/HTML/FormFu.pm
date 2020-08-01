@@ -2516,7 +2516,7 @@ L<Petal>: C<< <form tal:replace="form"></form> >>
 or L<Template::Magic>: C<< <!-- {form} --> >>.
 
 As of C<HTML::FormFu v1.00>, L<TT|Template> is no longer listed a required
-prerequisite - so you'll need to install it manually if you with to use the
+prerequisite - so you'll need to install it manually if you wish to use the
 template files.
 
 =head2 render_method
@@ -2913,7 +2913,7 @@ first transformer found.
 
 =head2 clone
 
-Returns a deep clone of the <$form> object.
+Returns a deep clone of the C<$form> object.
 
 Because of scoping issues, code references (such as in Callback constraints)
 are copied instead of cloned.
