@@ -1,5 +1,9 @@
 {{$NEXT}}
 
+2.08      2021-01-15 10:16:00+00:00 UTC
+
+    - Fix label template default name in label_filename method 
+
 2.07      2018-12-14 15:55:00+00:00 UTC
 
     - Fix handling or error_attributes & error_container_attributes

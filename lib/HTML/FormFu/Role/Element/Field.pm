@@ -80,7 +80,7 @@ after BUILD => sub {
     $self->label_attributes(           {} );
     $self->error_attributes(           {} );
     $self->error_container_attributes( {} );
-    $self->label_filename('label');
+    $self->label_filename('field_layout_label');
     $self->label_tag('label');
     $self->container_tag('div');
     $self->is_field(1);
@@ -1795,7 +1795,7 @@ Must be set by more specific field classes.
 
 The template filename to be used to render the label.
 
-Defaults to C<label>.
+Defaults to C<field_layout_label>.
 
 =head1 ERROR HANDLING
 
