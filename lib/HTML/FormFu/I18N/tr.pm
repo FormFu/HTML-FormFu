@@ -1,10 +1,11 @@
-#!perl
+use strict;
+
 package HTML::FormFu::I18N::tr;
 # ABSTRACT: Turkish
 
-use Moose;
 use utf8;
 
+use Moose;
 extends 'HTML::FormFu::I18N';
 
 our %Lexicon = (
