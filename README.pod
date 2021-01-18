@@ -1952,47 +1952,6 @@ This uses the L<Template Toolkit|Template> file C<vertically-aligned.tt>,
 and the CSS is defined in files C<vertically-aligned.css> and
 C<vertically-aligned-ie.css>.
 
-=head1 SUPPORT
-
-Project Page:
-
-L<http://code.google.com/p/html-formfu/>
-
-Mailing list:
-
-L<http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/html-formfu>
-
-Mailing list archives:
-
-L<http://lists.scsys.co.uk/pipermail/html-formfu/>
-
-IRC:
-
-C<irc.perl.org>, channel C<#formfu>
-
-The HTML::Widget archives L<http://lists.scsys.co.uk/pipermail/html-widget/>
-between January and May 2007 also contain discussion regarding HTML::FormFu.
-
-=head1 BUGS
-
-Please submit bugs / feature requests to
-L<https://github.com/FormFu/HTML-FormFu/issues> (preferred) or
-L<http://rt.perl.org>.
-
-=head1 PATCHES
-
-To help patches be applied quickly, please send them to the mailing list;
-attached, rather than inline; against subversion, rather than a cpan version
-(run C<< svn diff > patchfile >>); mention which svn version it's against.
-Mailing list messages are limited to 256KB, so gzip the patch if necessary.
-
-=head1 GITHUB REPOSITORY
-
-This module's sourcecode is maintained in a git repository at
-L<git://github.com/FormFu/HTML-FormFu.git>
-
-The project page is L<https://github.com/FormFu/HTML-FormFu>
-
 =head1 SEE ALSO
 
 L<HTML::FormFu::Imager>
