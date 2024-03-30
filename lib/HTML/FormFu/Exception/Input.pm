@@ -16,7 +16,7 @@ has forced    => ( is => 'rw', traits => ['Chained'] );
 __PACKAGE__->mk_attrs(qw( attributes ));
 
 sub BUILD {
-    my ( $self, $args ) = @_;
+    my ( $self ) = @_;
 
     $self->attributes( {} );
 

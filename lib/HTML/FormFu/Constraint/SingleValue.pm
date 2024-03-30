@@ -8,7 +8,7 @@ use Moose;
 extends 'HTML::FormFu::Constraint';
 
 sub constrain_values {
-    my ( $self, $values ) = @_;
+    my ( $self ) = @_;
 
     die;
 }

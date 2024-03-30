@@ -118,7 +118,7 @@ sub _share_dir {
         my $path = File::ShareDir::dist_file( 'HTML-FormFu',
             'templates/tt/xhtml/form' );
 
-        my ( $volume, $dirs, $file ) = File::Spec->splitpath($path);
+        my ( $volume, $dirs ) = File::Spec->splitpath($path);
 
         $SHARE_DIR = File::Spec->catpath( $volume, $dirs, '' );
     };

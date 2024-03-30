@@ -306,10 +306,6 @@ sub string {
 
     $args ||= {};
 
-    my $render
-        = exists $args->{render_data}
-        ? $args->{render_data}
-        : $self->render_data_non_recursive;
 
     # block template
 

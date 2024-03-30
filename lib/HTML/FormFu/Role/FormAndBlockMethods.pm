@@ -135,13 +135,13 @@ sub _add_constraint_max_length {
 }
 
 sub _add_constraint_integer {
-    my ( $self, $fields, $info ) = @_;
+    my ( $self, $fields ) = @_;
 
     map { $_->constraint( { type => 'Integer', } ) } @$fields;
 }
 
 sub _add_constraint_unsigned {
-    my ( $self, $fields, $info ) = @_;
+    my ( $self, $fields ) = @_;
 
     map { $_->constraint( { type => 'Range', min => 0, } ) } @$fields;
 }
@@ -154,7 +154,7 @@ sub _add_constraint_set {
 }
 
 sub _add_constraint_bool {
-    my ( $self, $fields, $info ) = @_;
+    my ( $self, $fields ) = @_;
 
     map { $_->constraint( { type => 'Set', set => [ 0, 1 ] } ) } @$fields;
 }

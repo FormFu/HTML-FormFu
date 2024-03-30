@@ -28,7 +28,7 @@ sub constrain_value {
 
     return 1 if !defined $value || $value eq '';
 
-    my $dt = $self->_builder->parse_datetime($value);
+    $self->_builder->parse_datetime($value);
 
     return 1;
 }

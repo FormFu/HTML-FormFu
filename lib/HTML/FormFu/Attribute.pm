@@ -79,7 +79,7 @@ sub mk_attrs {
                 literal( $self->form->localize( $mess, @args ) ) );
         };
 
-        my $loc_method = Class::MOP::Method->wrap(
+        Class::MOP::Method->wrap(
             body         => $loc_sub,
             name         => "${name}_loc",
             package_name => $class,
@@ -383,7 +383,7 @@ sub mk_inherited_accessors {
         };
 
         my $no_inherit_sub = sub {
-            my ( $self, $value ) = @_;
+            my ( $self ) = @_;
 
             if ( @_ > 1 ) {
                 croak "Cannot call ${name}_no_inherit as a setter";
