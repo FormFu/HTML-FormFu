@@ -297,7 +297,6 @@ sub _single_plugin {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
