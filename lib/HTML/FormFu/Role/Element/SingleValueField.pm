@@ -136,7 +136,6 @@ sub _single_deflator {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
@@ -160,7 +159,6 @@ sub _single_filter {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
@@ -230,7 +228,6 @@ sub _single_validator {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
@@ -254,7 +251,6 @@ sub _single_transformer {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
@@ -278,7 +274,6 @@ sub _single_plugin {
         croak 'invalid args';
     }
 
-    my @return;
 
     my $type = delete $arg->{type};
 
