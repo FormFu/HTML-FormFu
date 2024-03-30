@@ -406,7 +406,6 @@ sub _process_input {
 sub _build_params {
     my ($self) = @_;
 
-    my $input = $self->input;
     my %params;
 
     for my $field ( @{ $self->get_fields } ) {

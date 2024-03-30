@@ -522,8 +522,8 @@ sub _merge_hashes {
 
         if ( exists $lefthash->{$key} ) {
 
-            my $is_left_ref = exists $lefthash->{$key}
-                && ref $lefthash->{$key} eq 'HASH';
+            # my $is_left_ref = exists $lefthash->{$key}
+            #     && ref $lefthash->{$key} eq 'HASH';
 
             if ( ref $left_value eq 'HASH' && ref $right_value eq 'ARRAY' ) {
                 $merged{$key} = _merge_hash_array( $left_value, $right_value );

@@ -26,7 +26,7 @@ after BUILD => sub {
 };
 
 sub process_value {
-    my ( $self, $input ) = @_;
+    my ( $self ) = @_;
 
     # ignore submitted input
 
