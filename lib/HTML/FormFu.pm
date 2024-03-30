@@ -1184,7 +1184,7 @@ sub _require_output_processor {
 
     if ( $parent && exists $parent->default_args->{output_processor}{$type} ) {
         %$opt
-            = ( %{ $parent->default_args->{output_processer}{$type} }, %$opt );
+            = ( %{ $parent->default_args->{output_processor}{$type} }, %$opt );
     }
 
     $object->populate($opt);
