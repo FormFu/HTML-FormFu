@@ -35,7 +35,7 @@ sub populate {
     # shallow clone the args so we don't stomp on them
     my %args = %$arg_ref;
 
-    # we have to handle element_defaults seperately, as it is no longer a
+    # we have to handle element_defaults separately, as it is no longer a
     # simple hash key
 
     if ( exists $args{element_defaults} ) {

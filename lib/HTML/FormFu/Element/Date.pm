@@ -608,7 +608,7 @@ start of the select menu.
 Each value is localized and then only used as the label for a select item
 - the value for each of these items is always the empty string C<''>.
 
-Use C<prefix_loc> insted of C<prefix>.
+Use C<prefix_loc> instead of C<prefix>.
 
 =head2 month
 
@@ -648,7 +648,7 @@ start of the select menu.
 Each value is localized and then only used as the label for a select item
 - the value for each of these items is always the empty string C<''>.
 
-Use C<prefix_loc> insted of C<prefix>.
+Use C<prefix_loc> instead of C<prefix>.
 
 =head3 names
 
@@ -705,7 +705,7 @@ start of the select menu.
 Each value is localized and then only used as the label for a select item
 - the value for each of these items is always the empty string C<''>.
 
-Use C<prefix_loc> insted of C<prefix>.
+Use C<prefix_loc> instead of C<prefix>.
 
 =head3 list
 

@@ -247,7 +247,7 @@ Now the constraint will be processed only if the value of field "bar" is NOT 1,
 3 or 5.
 
 Note: if you rely on the value of a checkbox for a when-restricted
-contraint, you might want to consider setting C<default_empty_value> for
+constraint, you might want to consider setting C<default_empty_value> for
 that checkbox. Take a look at L<HTML::FormFu::Role::Element::Field> to learn more.
 
 Please read L<HTML::FormFu::Constraint> for further information.

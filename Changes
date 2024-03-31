@@ -73,7 +73,7 @@
     - enable more author/release tests
     - it language fixes
     - Remove link to old website - now unrelated/NSFW
-    - avoid emitting unecessary warnings
+    - avoid emitting unnecessary warnings
     - enable use of Travis CI & coverage tests
     - fixes to ensure we pass all the additional author tests
 
@@ -552,7 +552,7 @@
 
     - New field_order() method for Date elements.
 
-    - New I18N translations for Romanian, Russian, Ukranian.
+    - New I18N translations for Romanian, Russian, Ukrainian.
 
     - New MultiForm system for multi-page forms (not yet documented, file
       upload tests skipped due to test problems on MS Win32).
@@ -626,7 +626,7 @@
 
     - New Element method is_block() which is true for Block elements.
 
-    - Multi no longers sets is_field(0) - it's now true for both is_field() and is_block().
+    - Multi no longer sets is_field(0) - it's now true for both is_field() and is_block().
 
     - prereqs - set minimum version of Exporter.pm that exports import()
 
@@ -723,7 +723,7 @@
     - when() method for Constraints can now accept a callback
 
     - Transformer callbacks now get $params as second argument (as Constraints
-      aready were getting)
+      already were getting)
 
     - Form method add_valid() now expects a full nested-name.
 
@@ -744,7 +744,7 @@
       size(), tempname() and type() methods which delegate to the
       Catalyst::Request::Upload object.
 
-    - The original Catalyst::Request::Upload objects can be retrived with the
+    - The original Catalyst::Request::Upload objects can be retrieved with the
       catalyst_upload() method.
 
     - CGI and CGI::Simple upload objects provide size() and type() methods.
