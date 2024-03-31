@@ -30,7 +30,7 @@ sub filter {
 
     $value = $format->unformat_number($value);
 
-    # restore orginal locale
+    # restore original locale
     setlocale( LC_NUMERIC, $backup_locale );
 
     return $value;

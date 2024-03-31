@@ -33,7 +33,7 @@ SKIP: {
 
     isnt( $formatted_number, '23000222.22', 'format of number has changed' );
 
-    # restore orginal locale
+    # restore original locale
     setlocale( LC_NUMERIC, $backup_locale );
 
     {

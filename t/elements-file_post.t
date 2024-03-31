@@ -79,7 +79,7 @@ $form->process($q);
     is( $m2->headers->content_type,   'text/plain' );
     is( $m2->slurp,                   "One\n" );
 
-    # new Cat-compatable methods
+    # new Cat-compatible methods
     is( $m2->size, 4 );
     is( $m2->type, 'text/plain' );
 

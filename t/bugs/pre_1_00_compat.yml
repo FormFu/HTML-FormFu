@@ -10,7 +10,7 @@ elements:
     constraint:
       - type: Required
 
-# config to attain compatability below
+# config to attain compatibility below
 auto_container_class: '%t'
 auto_container_label_class: 'label'
 auto_container_comment_class: 'comment'

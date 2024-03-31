@@ -573,7 +573,7 @@ won't work within a Repeatable block, as it wouldn't make much sense.
 =head2 Work-arounds
 
 See L<HTML::FormFu::Filter::ForceListValue> to address a problem with
-L<increment_field_names> disabled, and increading the L<repeat> on the
+L<increment_field_names> disabled, and increasing the L<repeat> on the
 server-side.
 
 =head1 SEE ALSO
