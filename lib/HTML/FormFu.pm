@@ -111,6 +111,13 @@ has form_error_message_class => (
     lazy    => 1,
 );
 
+has repeatable_max_counter => (
+    is      => 'rw',
+    default => 100,
+    lazy    => 1,
+    traits  => ['Chained'],
+);
+
 our @MULTIFORM_SHARED = ( qw(
         javascript
         javascript_src
@@ -1484,6 +1491,19 @@ used as the return value for L</submitted>.
 
 If L</indicator> is not set, L</submitted> will return true if a value for
 any known fieldname was submitted.
+
+=head2 repeatable_max_counter
+
+Arguments: $number
+
+Default Value: C<100>
+
+The default L<max_counter|HTML::FormFu::Element::Repeatable/max_counter>
+for all L<Repeatable|HTML::FormFu::Element::Repeatable> elements in this
+form. Individual Repeatable elements can override this by setting their own
+L<max_counter|HTML::FormFu::Element::Repeatable/max_counter>.
+
+Set to C<0> to disable clamping form-wide.
 
 =head2 auto_fieldset
 
