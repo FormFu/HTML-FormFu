@@ -14,6 +14,23 @@ use Carp qw( croak );
 
 has counter_name => ( is => 'rw', traits => ['Chained'] );
 
+has max_counter => (
+    is      => 'rw',
+    default => sub {
+        my $form = $_[0]->form;
+        return $form->repeatable_max_counter if $form;
+        return 100;
+    },
+    lazy    => 1,
+    traits  => ['Chained'],
+);
+
+has counter_clamped => (
+    is      => 'ro',
+    default => 0,
+    writer  => '_set_counter_clamped',
+);
+
 has _original_elements => ( is => 'rw' );
 
 has increment_field_names => (
@@ -261,6 +278,8 @@ sub process {
     my $form         = $self->form;
     my $count        = 1;
 
+    $self->_set_counter_clamped(0);
+
     if ( defined $counter_name && defined $form->query ) {
 
         # are we in a nested-repeatable?
@@ -279,7 +298,15 @@ sub process {
         my $input = $form->query->param($counter_name);
 
         if ( defined $input && $input =~ /^[1-9][0-9]*\z/ ) {
-            $count = $input;
+            my $max = $self->max_counter;
+
+            if ( defined $max && $max > 0 && $input > $max ) {
+                $count = $max;
+                $self->_set_counter_clamped(1);
+            }
+            else {
+                $count = $input;
+            }
         }
     }
 
@@ -425,6 +452,31 @@ elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not
 present on the form during L<HTML::FormFu/process>, no Processors
 (Constraints, etc.) will be run on the fields, and their values will not
 be returned by L<HTML::FormFu/params> or L<HTML::FormFu/param>.
+
+=head2 max_counter
+
+Arguments: $number
+
+Default Value: C<100>
+
+The largest repeat count that will be accepted from the L</counter_name>
+query parameter. A larger client-supplied value is clamped to this number.
+
+The default is inherited from L<HTML::FormFu/repeatable_max_counter>, so
+setting that on the form sets the default for all its Repeatable elements.
+
+Set to C<0> to accept any client-supplied count without clamping. Doing so
+lets a single request drive an unbounded number of element clones.
+
+Calling L</repeat> from application code is not affected by this setting,
+so a form repeated once per database row is unaffected however many rows
+there are.
+
+=head2 counter_clamped
+
+Read-only boolean. True if the most recent L<HTML::FormFu/process> call
+clamped the client-supplied count to L</max_counter>. Reset to false at the
+start of each L<HTML::FormFu/process> call.
 
 =head2 increment_field_names
 
